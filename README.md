@@ -1,1 +1,1 @@
-his repository holds The DataTank core. It's a slimmed down instance of The DataTank and contains functionality to read, filter and return data to an end user.
+This repository holds The DataTank core. It's a slimmed down instance of The DataTank and contains functionality to read, filter and return data to an end user.
