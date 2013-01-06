@@ -28,7 +28,7 @@ class ConfigCheck extends InstallController {
             //names can be duplicated, therefore we will add the category in front of the key                        
             
             // get the TDTCore variables
-            $tests = Config::get("core");            
+            $tests = Config::get("db");            
             $tests = array_merge($tests, Config::get("general"));                        
             $tests = array_merge($tests, Config::get("auth"));
             
@@ -116,11 +116,11 @@ class ConfigCheck extends InstallController {
                             $message = "subdir_wrong";
                         }
                         break;
-                    case "dbsystem":
+                    case "system":
                         break;
-                    case "dbuser":
+                    case "user":
                         break;
-                    case "dbpassword":
+                    case "password":
                         $status = "skipped";
                         break;
                     case "api_user":                       

@@ -3,6 +3,9 @@ custom/*
 !custom/routes.example.ini
 !custom/exceptions.example.ini
 !custom/README.md
+!custom/packages
+!custom/strategies
+!custom/formatters
 Makefile
 .DS_Store
 */.DS_Store

@@ -24,7 +24,7 @@ class TDTInfoExceptions extends AReader {
 
     public function read() {
 
-        $exceptions = parse_ini_file(Config::get("general", "homedir") . Config::get("general", "subdir") . "custom/exceptions.ini", true);        
+        $exceptions = parse_ini_file("custom/exceptions.ini", true);        
         $tmp = array();
 
         foreach ($exceptions as $errorcode => $configarray) {

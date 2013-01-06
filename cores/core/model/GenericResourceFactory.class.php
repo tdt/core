@@ -21,7 +21,7 @@ class GenericResourceFactory extends AResourceFactory {
         AutoInclude::register("GenericResourceUpdater","cores/core/model/resources/update/GenericResourceUpdater.class.php"); 
         AutoInclude::register("AResourceStrategy","cores/core/model/resources/AResourceStrategy.class.php");
         AutoInclude::register("DBQueries","cores/core/model/DBQueries.class.php");       
-        AutoInclude::register("ATabularData","cores/core/custom/strategies/ATabularData.class.php");
+        AutoInclude::register("ATabularData","custom/strategies/ATabularData.class.php");
         AutoInclude::register("AUpdater", "cores/core/model/resources/update/AUpdater.class.php");
         AutoInclude::register("AReader","cores/core/model/resources/read/AReader.class.php");
         AutoInclude::register("ADeleter", "cores/core/model/resources/delete/ADeleter.class.php");
@@ -211,12 +211,12 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     private function getAllStrategies(){
-        $strategies = array();
-        if ($handle = opendir(Config::get("general", "homedir") . Config::get("general","subdir") . 'cores/core/custom/strategies')) {
+        $strategies = array();        
+        if ($handle = opendir('custom/strategies')) {
             while (false !== ($strat = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed strategie          
-                if ($strat != "." && $strat != ".." && $strat != "README.md" && !is_dir(Config::get("general", "homedir") . Config::get("general","subdir")."cores/core/custom/strategies/" . $strat) && file_exists(Config::get("general", "homedir") . Config::get("general","subdir") . "cores/core/custom/strategies/" . $strat)) {
-                    include_once(Config::get("general", "homedir") . Config::get("general","subdir") . "cores/core/custom/strategies/" . $strat);
+                if ($strat != "." && $strat != ".." && $strat != "README.md" && !is_dir("custom/strategies/" . $strat) && file_exists("custom/strategies/" . $strat)) {
+                    include_once("custom/strategies/" . $strat);
                     $fileexplode = explode(".",$strat);
                     $class = new ReflectionClass($fileexplode[0]);
                     if(!$class->isAbstract()){

@@ -28,14 +28,14 @@ class InstalledResourceFactory extends AResourceFactory{
         // location contains the full name of the file, including the .class.php extension
         $location = $this->getLocationOfResource($package,$resource);
         
-        if(file_exists(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/" . $location)){
-            include_once(Config::get("general", "homedir") . Config::get("general","subdir") . "cores/core/custom/packages/" . $location);
+        if(file_exists("custom/packages/" . $location)){
+            include_once("custom/packages/" . $location);
             $classname = $this->getClassnameOfResource($package,$resource);
             $reader = new $classname($package,$resource, $RESTparameters);
             $reader->processParameters($parameters);
             return $reader;
         }else{
-            throw new TDTException(404,array("cores/core/custom/packages/".$location));
+            throw new TDTException(404,array("custom/packages/".$location));
         }
     }
 
@@ -64,10 +64,10 @@ class InstalledResourceFactory extends AResourceFactory{
                 $location = $this->getLocationOfResource($package,$resourcename);
                 
                 // file can always have been removed after adding it as a published resource
-                if(file_exists(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/".$location )){
+                if(file_exists("custom/packages/".$location )){
                     $classname = $this->getClassnameOfResource($package,$resourcename);
                     $doc->$package->$resourcename = new StdClass();
-                    include_once(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/" . $location);
+                    include_once("custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();   
@@ -93,11 +93,11 @@ class InstalledResourceFactory extends AResourceFactory{
                 $location = $this->getLocationOfResource($package,$resourcename);
                 
                 // file can always have been removed after adding it as a published resource
-                if(file_exists(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/".$location )){
+                if(file_exists("custom/packages/".$location )){
                     
                     $classname = $this->getClassnameOfResource($package,$resourcename);
                     $doc->$package->$resourcename = new StdClass();
-                    include_once(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/" . $location);
+                    include_once("custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();   
@@ -115,8 +115,8 @@ class InstalledResourceFactory extends AResourceFactory{
         //if the object read is a directory and the configuration methods file exists, 
         //then add it to the installed packages
         $location = $this->getLocationofResource($package,$resource);
-        if (file_exists(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/" . $location )) {
-            return filemtime(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/" . $location );
+        if (file_exists("custom/packages/" . $location )) {
+            return filemtime("custom/packages/" . $location );
         }
         return 0;
     }

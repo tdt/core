@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This controller will handle the GET request (RController = ReadController)
  * Returning objects of resources, or throwing an exception if something went wrong
@@ -9,41 +10,38 @@
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */
-
 class RController extends AController {
 
     private $formatterfactory;
 
-    
-    public function __construct(){
+    public function __construct() {
         AutoInclude::register("RController", "cores/core/controllers/RController.class.php");
-        AutoInclude::register("ResourcesModel","cores/core/model/ResourcesModel.class.php");
-        AutoInclude::register("FilterFactory","cores/core/model/filters/FilterFactory.class.php");        
-        AutoInclude::register("AFilter","cores/core/model/filters/AFilter.class.php");
-        AutoInclude::register("RESTFilter","cores/core/model/filters/RESTFilter.class.php");
-        AutoInclude::register("SearchFilter","cores/core/model/filters/SearchFilter.class.php");
+        AutoInclude::register("ResourcesModel", "cores/core/model/ResourcesModel.class.php");
+        AutoInclude::register("FilterFactory", "cores/core/model/filters/FilterFactory.class.php");
+        AutoInclude::register("AFilter", "cores/core/model/filters/AFilter.class.php");
+        AutoInclude::register("RESTFilter", "cores/core/model/filters/RESTFilter.class.php");
+        AutoInclude::register("SearchFilter", "cores/core/model/filters/SearchFilter.class.php");        
     }
-    
+
     public function GET($matches) {
-        
+
         //always required: a package and a resource. 
         $packageresourcestring = $matches["packageresourcestring"];
-        $pieces = explode("/",$packageresourcestring);
+        $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
 
         /**
          * GET operations on TDTAdmin need to be authenticated!
          */
-
-        if($package == "TDTAdmin"){
+        if ($package == "TDTAdmin") {
             //we need to be authenticated
             if (!$this->isBasicAuthenticated()) {
-                header('WWW-Authenticate: Basic realm="' . Config::get("general","hostname") . Config::get("general","subdir") . '"');
+                header('WWW-Authenticate: Basic realm="' . Config::get("general", "hostname") . Config::get("general", "subdir") . '"');
                 header('HTTP/1.0 401 Unauthorized');
                 exit();
             }
         }
-        
+
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
 
@@ -54,9 +52,8 @@ class RController extends AController {
 
         /**
          * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
-         */        
-
-        if($resourcename == ""){
+         */
+        if ($resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
             $allPackages = array_keys(get_object_vars($packageDoc));
             $linkObject = new StdClass();
@@ -66,63 +63,62 @@ class RController extends AController {
              * We only want 1 level deeper, so we're gonna count the amount of /'s in the package
              * and the amount of /'s in the packagestring
              */
-            foreach($allPackages as $packagestring){
-                if(strpos($packagestring,$package) == 0 
-                   && strpos($packagestring,$package) !== false && $package != $packagestring
-                   && substr_count($package, "/") +1 == substr_count($packagestring,"/")){
-                    $link = Config::get("general","hostname") . Config::get("general","subdir") . Config::get("core","coreprefix") . $packagestring;
+            foreach ($allPackages as $packagestring) {
+                if (strpos($packagestring, $package) == 0
+                        && strpos($packagestring, $package) !== false && $package != $packagestring
+                        && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $packagestring;
                     $packagelinks[] = $link;
-                    if(!isset($linkObject->subPackages)){
+                    if (!isset($linkObject->subPackages)) {
                         $linkObject->subPackages = new stdClass();
                     }
                     $linkObject->subPackages = $packagelinks;
                 }
-                
             }
 
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
-                foreach($resourcenames as $resourcename => $value){
-                    $link = Config::get("general","hostname") . Config::get("general","subdir") . Config::get("core","coreprefix") . $package . "/".  $resourcename;
+                foreach ($resourcenames as $resourcename => $value) {
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $package . "/" . $resourcename;
                     $links[] = $link;
-                    if(!isset($linkObject->resources)){
+                    if (!isset($linkObject->resources)) {
                         $linkObject->resources = new stdClass();
                     }
                     $linkObject->resources = $links;
                 }
             }
-            
+
             //This will create an instance of a factory depending on which format is set
             $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-            
+
             $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
             $printer->printAll();
-            RequestLogger::logRequest();
+
             exit();
         }
-               
+
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-        $parameters = $_GET;        
+        $parameters = $_GET;
         $requiredParameters = array();
 
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
-                
+
             if (!isset($RESTparameters[0])) {
-                throw new TDTException(452,array("Invalid parameter given: $parameter"));
+                throw new TDTException(452, array("Invalid parameter given: $parameter"));
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
-        
-        
+
+
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-        R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));            
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
 
         // apply RESTFilter
         $subresources = array();
@@ -164,30 +160,25 @@ class RController extends AController {
 
         $o->$RESTresource = $result;
         $result = $o;
-        
+
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter($resourcename, $result);
         $printer->printAll();
-        // dont log requests to visualizations, these visualizations will trigger another request to (mostly) the json 
-        // representation of the resource
-        if(!$this->isVisualization($matches["format"])){
-            RequestLogger::logRequest($package,$resourcename,$parameters);
-        }
     }
 
-    private function getAllSubPackages($package,&$linkObject,&$links){
+    private function getAllSubPackages($package, &$linkObject, &$links) {
         $model = ResourcesModel::getInstance();
         $packageDoc = $model->getAllPackagesDoc();
         $allPackages = array_keys(get_object_vars($packageDoc));
-        
-        foreach($allPackages as $packagestring){
-            if(strpos($packagestring,$package) == 0 
-               && strpos($packagestring,$package) !== false && $package != $packagestring){
+
+        foreach ($allPackages as $packagestring) {
+            if (strpos($packagestring, $package) == 0
+                    && strpos($packagestring, $package) !== false && $package != $packagestring) {
 
                 $foundPackage = TRUE;
-                $link = Config::get("general","hostname") . Config::get("general","subdir") . $packagestring;
+                $link = Config::get("general", "hostname") . Config::get("general", "subdir") . $packagestring;
                 $links[] = $link;
-                if(!isset($linkObject->subPackages)){
+                if (!isset($linkObject->subPackages)) {
                     $linkObject->subPackages = new stdClass();
                 }
                 $linkObject->subPackages->$package = $links;
@@ -195,74 +186,72 @@ class RController extends AController {
         }
     }
 
-    public function HEAD($matches){
+    public function HEAD($matches) {
 
         //always required: a package and a resource. 
         $packageresourcestring = $matches["packageresourcestring"];
-        $pieces = explode("/",$packageresourcestring);
+        $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
-        
+
         /**
          * Even GET operations on TDTAdmin need to be authenticated!
          */
-
-        if($package == "TDTAdmin"){
+        if ($package == "TDTAdmin") {
             //we need to be authenticated
             if (!$this->isBasicAuthenticated()) {
-                header('WWW-Authenticate: Basic realm="' . Config::get("general","hostname") . Config::get("general","subdir") . '"');
+                header('WWW-Authenticate: Basic realm="' . Config::get("general", "hostname") . Config::get("general", "subdir") . '"');
                 header('HTTP/1.0 401 Unauthorized');
                 exit();
             }
         }
-        
+
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
-        
+
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
          * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
          * ResourcesModel class -> funcion isResourceValid()
          */
         $foundPackage = FALSE;
-        $resourcename ="";
-        $reqparamsstring ="";
+        $resourcename = "";
+        $reqparamsstring = "";
 
-        if(!isset($doc->$package)){
-            while(!empty($pieces)){
-                $package .= "/".array_shift($pieces);
-                if(isset($doc->$package)){
+        if (!isset($doc->$package)) {
+            while (!empty($pieces)) {
+                $package .= "/" . array_shift($pieces);
+                if (isset($doc->$package)) {
                     $foundPackage = TRUE;
                     $resourcename = array_shift($pieces);
-                    $reqparamsstring = implode("/",$pieces);
+                    $reqparamsstring = implode("/", $pieces);
                 }
             }
-        }else{
+        } else {
             $foundPackage = TRUE;
             $resourceNotFound = TRUE;
-            while(!empty($pieces) && $resourceNotFound){
+            while (!empty($pieces) && $resourceNotFound) {
                 $resourcename = array_shift($pieces);
-                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
+                if (!isset($doc->$package->$resourcename) && $resourcename != NULL) {
                     $package .= "/" . $resourcename;
                     $resourcename = "";
-                }else{
+                } else {
                     $resourceNotFound = FALSE;
                 }
             }
-            $reqparamsstring = implode("/",$pieces);
+            $reqparamsstring = implode("/", $pieces);
         }
 
         $RESTparameters = array();
-        $RESTparameters = explode("/",$reqparamsstring);
-        if($RESTparameters[0] == ""){
+        $RESTparameters = explode("/", $reqparamsstring);
+        if ($RESTparameters[0] == "") {
             $RESTparameters = array();
         }
 
         /**
          * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
-         */        
-
-        if($foundPackage && $resourcename == ""){
+         */
+        if ($foundPackage && $resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
             $allPackages = array_keys(get_object_vars($packageDoc));
             $linkObject = new StdClass();
@@ -272,81 +261,78 @@ class RController extends AController {
              * We only want 1 level deeper, so we're gonna count the amount of /'s in the package
              * and the amount of /'s in the packagestring
              */
-            foreach($allPackages as $packagestring){
-                if(strpos($packagestring,$package) == 0 
-                   && strpos($packagestring,$package) !== false && $package != $packagestring
-                   && substr_count($package, "/") +1 == substr_count($packagestring,"/")){
+            foreach ($allPackages as $packagestring) {
+                if (strpos($packagestring, $package) == 0
+                        && strpos($packagestring, $package) !== false && $package != $packagestring
+                        && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
 
                     $foundPackage = TRUE;
-                    $link = Config::get("general","hostname") . Config::get("general","subdir") . Config::get("core","coreprefix") . $packagestring;
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $packagestring;
                     $packagelinks[] = $link;
-                    if(!isset($linkObject->subPackages)){
+                    if (!isset($linkObject->subPackages)) {
                         $linkObject->subPackages = new stdClass();
                     }
                     $linkObject->subPackages->$package = $packagelinks;
                 }
-                
             }
 
             if (isset($doc->$package)) {
                 $foundPackage = TRUE;
                 $resourcenames = get_object_vars($doc->$package);
-                foreach($resourcenames as $resourcename => $value){
-                    $link = Config::get("general","hostname") . Config::get("general","subdir") . Config::get("core","coreprefix") . $package . "/".  $resourcename;
+                foreach ($resourcenames as $resourcename => $value) {
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $package . "/" . $resourcename;
                     $links[] = $link;
-                    if(!isset($linkObject->resources)){
+                    if (!isset($linkObject->resources)) {
                         $linkObject->resources = new stdClass();
                     }
                     $linkObject->resources->$package = $links;
                 }
-            }else{
-                if(!$foundPackage){
-                    throw new TDTException(404,array($packageresourcestring));
+            } else {
+                if (!$foundPackage) {
+                    throw new TDTException(404, array($packageresourcestring));
                 }
             }
-            
+
             //This will create an instance of a factory depending on which format is set
             $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-            
+
             $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
             $printer->printHeader();
-            RequestLogger::logRequest();
             exit();
         }
 
 
-        if(!$foundPackage){
-            throw new TDTException(404,array($packageresourcestring));
-        } 
-       
+        if (!$foundPackage) {
+            throw new TDTException(404, array($packageresourcestring));
+        }
+
         /**
          * At this stage a package and a resource have been passed, lets check if they exists, and if so lets call the read()
          * action and return the result.
          */
-        
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-        if(!isset($doc->$package) || !isset($doc->$package->$resourcename)){
-            throw new TDTException(404,array($packageresourcestring));
+        if (!isset($doc->$package) || !isset($doc->$package->$resourcename)) {
+            throw new TDTException(404, array($packageresourcestring));
         }
 
-        $parameters = $_GET;        
+        $parameters = $_GET;
 
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
             if (!isset($RESTparameters[0])) {
-                throw new TDTException(452,array("Invalid parameter:". $parameter));
+                throw new TDTException(452, array("Invalid parameter:" . $parameter));
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
-        
+
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-        R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));            
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
 
         /**
          * Apply filters to the resulting object
@@ -354,7 +340,6 @@ class RController extends AController {
          * 1) RESTfilter
          * 2) OSpec filter
          */
-
         // apply RESTFilter
         $subresources = array();
         $filterfactory = FilterFactory::getInstance();
@@ -398,47 +383,42 @@ class RController extends AController {
         // get the according formatter from the factory
         $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
         $printer->printHeader();
-
-        // dont log requests to visualizations, these visualizations will trigger another request to (mostly) the json 
-        // representation of the resource
-
-        if(!$this->isVisualization($matches["format"])){
-            RequestLogger::logRequest($package,$resourcename,$parameters);
-        }
     }
 
     /**
      * You cannot PUT on a representation
      */
     function PUT($matches) {
-        throw new TDTException(450,array("PUT",$matches["packageresourcestring"]));
+        throw new TDTException(450, array("PUT", $matches["packageresourcestring"]));
     }
 
     /**
      * You cannot delete a representation
      */
     public function DELETE($matches) {
-        throw new TDTException(450,array("DELETE",$matches["packageresourcestring"]));
+        throw new TDTException(450, array("DELETE", $matches["packageresourcestring"]));
     }
 
     /**
      * You cannot use post on a representation
      */
     public function POST($matches) {
-        throw new TDTException(450,array("POST",$matches["packageresourcestring"]));
+        throw new TDTException(450, array("POST", $matches["packageresourcestring"]));
     }
 
     /**
      * You cannot use patch a representation
      */
     public function PATCH($matches) {
-        throw new TDTException(450,array("PATCH",$matches["packageresourcestring"]));
+        throw new TDTException(450, array("PATCH", $matches["packageresourcestring"]));
     }
 
     // visualizations may not be logged
-    private function isVisualization($format){
-        $vis = array("map","grid","bar","chart","column","pie");
-        return in_array($format,$vis);
+    private function isVisualization($format) {
+        $vis = array("map", "grid", "bar", "chart", "column", "pie");
+        return in_array($format, $vis);
     }
+
 }
+
 ?>

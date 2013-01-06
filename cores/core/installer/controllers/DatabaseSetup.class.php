@@ -207,7 +207,7 @@ class DatabaseSetup extends InstallController {
         }
         
         try {
-            //R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));
+            
             
             foreach($queries as $table=>$query) {
                 R::exec($query);

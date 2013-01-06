@@ -31,12 +31,11 @@ class ResourcesModel {
         AutoInclude::register("OntologyUpdater", "cores/core/resources/update/OntologyUpdater.class.php");
         AutoInclude::register("GenericResourceUpdater","GenericResourceUpdater.class.php");
         AutoInclude::register("Doc", "cores/core/model/Doc.class.php");
-        AutoInclude::register("LanguageNegotiator","framework/LanguageNegotiator.class.php");
-        AutoInclude::register("RequestLogger","cores/core/aspects/logging/RequestLogger.class.php");
-        AutoInclude::register("FormatterFactory","cores/core/custom/formatters/FormatterFactory.class.php");        
-        AutoInclude::register("AFormatter","cores/core/custom/formatters/AFormatter.class.php");        
+        AutoInclude::register("LanguageNegotiator","framework/LanguageNegotiator.class.php");       
+        AutoInclude::register("FormatterFactory","custom/formatters/FormatterFactory.class.php");        
+        AutoInclude::register("AFormatter","custom/formatters/AFormatter.class.php");        
         AutoInclude::register("ContentNegotiator", "framework/ContentNegotiator.class.php");
-        AutoInclude::register("RequestURI","cores/core/RequestURI.class.php");
+        AutoInclude::register("RequestURI","cores/core/utility/RequestURI.class.php");
 
         $this->factories = array(); //(ordening does matter here! Put the least expensive on top)
         $this->factories["generic"] = new GenericResourceFactory();
@@ -58,7 +57,7 @@ class ResourcesModel {
     }
 
     public static function getInstance() {
-        R::setup("mysql:host=localhost;dbname=tdt","superuser","superuser");//Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));                    
+       R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         if (!isset(self::$instance)) {
             self::$instance = new ResourcesModel();
         }

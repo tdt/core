@@ -14,14 +14,14 @@ class DatabaseCreate extends InstallController {
             $this->createDatabase($_POST["user"], $_POST["pass"]);
         } else {
             // try installation with config credentials
-            $this->createDatabase(Config::get("core", "dbuser"), Config::get("core", "dbpassword"));
+            $this->createDatabase(Config::get("db", "user"), Config::get("db", "password"));
         }
     }
 
     private function createDatabase($user, $pass) {
 
         try {
-            $db_string = Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname");
+            $db_string = Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name");
             $db_config = explode(";", $db_string);
             $dbname = end($db_config);
             $pieces = explode("=", $dbname);

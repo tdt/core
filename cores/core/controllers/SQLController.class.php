@@ -8,17 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-include_once("custom/formatters/FormatterFactory.class.php");
-include_once("controllers/SQL/SQLParser.class.php");
-include_once("model/ResourcesModel.class.php");
-include_once("model/DBQueries.class.php");
 
-
-//imports for the evaluation of the universalfilter
-include_once("universalfilter/interpreter/UniversalInterpreter.php");
-
-include_once("universalfilter/tablemanager/implementation/UniversalFilterTableManager.class.php");
-include_once("universalfilter/tablemanager/implementation/tools/TableToPhpObjectConverter.class.php");
 
 class SQLController extends AController {
 

@@ -53,8 +53,8 @@ class InstalledResourceCreator extends ACreator{
          */
         // check if the location is legit
         
-        if(file_exists(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/".$this->location )){
-            include_once(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/custom/packages/".$this->location );
+        if(file_exists("custom/packages/".$this->location )){
+            include_once("custom/packages/".$this->location );
             if(class_exists($this->classname)){
                 $package_id  = parent::makePackage($this->package);
                 $resource_id = parent::makeResource($package_id, $this->resource, "installed");

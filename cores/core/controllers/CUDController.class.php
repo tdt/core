@@ -9,12 +9,11 @@
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */
-
 class CUDController extends AController {
-    
-    public function __construct(){
+
+    public function __construct() {
         AutoInclude::register("RController", "cores/core/controllers/RController.class.php");
-        AutoInclude::register("ResourcesModel","cores/core/model/ResourcesModel.class.php");        
+        AutoInclude::register("ResourcesModel", "cores/core/model/ResourcesModel.class.php");
     }
 
     /**
@@ -61,18 +60,18 @@ class CUDController extends AController {
         $RController->HEAD($matches);
     }
 
-    function PUT($matches) {       
+    function PUT($matches) {
 
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/", $packageresourcestring);
 
         //both package and resource set?
         if (count($pieces) < 2) {
-            throw new TDTException(452,array($packageresourcestring));
+            throw new TDTException(452, array($packageresourcestring));
         }
 
         //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {            
+        if (!$this->isBasicAuthenticated()) {
             header('WWW-Authenticate: Basic realm="' . Config::get("general", "hostname") . Config::get("general", "subdir") . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
@@ -92,18 +91,17 @@ class CUDController extends AController {
         $RESTparameters = array();
 
         $model->createResource($packageresourcestring, $_PUT);
-        header("Content-Location: " . Config::get("general","hostname") . Config::get("general","subdir") . $packageresourcestring);
+        header("Content-Location: " . Config::get("general", "hostname") . Config::get("general", "subdir") . $packageresourcestring);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-        R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
 
         //Clear the documentation in our cache for it has changed        
         $c = Cache::getInstance();
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "descriptiondocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "admindocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "packagedocumentation");
-        RequestLogger::logRequest();
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "documentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "descriptiondocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "admindocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "packagedocumentation");      
     }
 
     /**
@@ -155,13 +153,13 @@ class CUDController extends AController {
 
         $packageDoc = $model->getAllPackagesDoc();
         if (!$foundPackage && !isset($packageDoc->$package)) {
-            throw new TDTException(404,array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         //we need to be authenticated
         if (!$this->isBasicAuthenticated()) {
             //throw new AuthenticationTDTException("Cannot DELETE without administration rights. Authentication failed.");
-            header('WWW-Authenticate: Basic realm="' . Config::get("general","hostname") . Config::get("general","subdir") . '"');
+            header('WWW-Authenticate: Basic realm="' . Config::get("general", "hostname") . Config::get("general", "subdir") . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }
@@ -173,15 +171,15 @@ class CUDController extends AController {
             $model->deleteResource($package, $resource, $RESTparameters);
         }
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-        R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
 
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "descriptiondocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "admindocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "packagedocumentation");
-        RequestLogger::logRequest();
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "documentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "descriptiondocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "admindocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "packagedocumentation");
+       
     }
 
     /**
@@ -239,17 +237,17 @@ class CUDController extends AController {
         }
 
         if (!$foundPackage) {
-            throw new TDTException(404,array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         //both package and resource set?
         if ($resourcename == "") {
-            throw new TDTException(404,array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         //we need to be authenticated
         if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . Config::get("general","hostname") . Config::get("general","subdir") . '"');
+            header('WWW-Authenticate: Basic realm="' . Config::get("general", "hostname") . Config::get("general", "subdir") . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }
@@ -262,14 +260,14 @@ class CUDController extends AController {
         $model->updateResource($package, $resourcename, $patch, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-        R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "descriptiondocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "admindocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "packagedocumentation");
-        RequestLogger::logRequest();
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "documentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "descriptiondocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "admindocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "packagedocumentation");
+       
     }
 
     /**
@@ -294,7 +292,7 @@ class CUDController extends AController {
 
         //we need to be authenticated
         if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . Config::get("general","hostname") . Config::get("general","subdir") . '"');
+            header('WWW-Authenticate: Basic realm="' . Config::get("general", "hostname") . Config::get("general", "subdir") . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }
@@ -304,14 +302,14 @@ class CUDController extends AController {
         $model->updateResource($package, $resource, $_POST, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-        R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         //Clear the documentation in our cache for it has changed
         $c = Cache::getInstance();
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "descriptiondocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "admindocumentation");
-        RequestLogger::logRequest();
-    }  
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "documentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "descriptiondocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "admindocumentation");       
+    }
+
 }
 
 ?>

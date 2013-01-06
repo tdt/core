@@ -26,7 +26,7 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     public function createReader($package, $resource, $parameters, $RESTparameters) {
-        include_once(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/model/packages/" . $package . "/" . $resource . ".class.php");
+        include_once("cores//core/model/packages/" . $package . "/" . $resource . ".class.php");
         $classname = $package . $resource;
         $creator = new $classname($package, $resource, $RESTparameters);
         $creator->processParameters($parameters);
@@ -46,7 +46,7 @@ class CoreResourceFactory extends AResourceFactory {
             foreach ($resourcenames as $resourcename) {
                 $classname = $package . $resourcename;
                 $doc->$package->$resourcename = new StdClass();
-                include_once(Config::get("general", "homedir") . Config::get("general","subdir") . "cores/core/model/packages/" . $package . "/" . $resourcename . ".class.php");
+                include_once("cores/core/model/packages/" . $package . "/" . $resourcename . ".class.php");
                 $doc->$package->$resourcename->doc = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                 $doc->$package->$resourcename->parameters = $classname::getParameters();
@@ -61,8 +61,8 @@ class CoreResourceFactory extends AResourceFactory {
     private function getCreationTime($package, $resource) {
         //if the object read is a directory and the configuration methods file exists, 
         //then add it to the installed packages
-        if (is_dir(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/model/packages/" . $package) && file_exists(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/model/packages/" . $package . "/" . $resource . ".class.php")) {
-            return filemtime(Config::get("general", "homedir") . Config::get("general","subdir") ."cores/core/model/packages/" . $package . "/" . $resource . ".class.php");
+        if (is_dir("cores/core/model/packages/" . $package) && file_exists("cores/core/model/packages/" . $package . "/" . $resource . ".class.php")) {
+            return filemtime("cores/core/model/packages/" . $package . "/" . $resource . ".class.php");
         }
         return 0;
     }

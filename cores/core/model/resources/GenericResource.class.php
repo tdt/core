@@ -31,7 +31,7 @@ class GenericResource{
      */
     public function getStrategy(){
         if(is_null($this->strategy)){
-            include_once(Config::get("general","homedir") . Config::get("general","subdir") . "cores/core/custom/strategies/" . $this->strategyname . ".class.php");
+            include_once("custom/strategies/" . $this->strategyname . ".class.php");
             $this->strategy = new $this->strategyname();
         }
         return $this->strategy;

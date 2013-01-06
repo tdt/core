@@ -12,6 +12,7 @@
 class CoreInstaller extends AController {
 
     public function GET($matches) {
+        
         //redirect to the installer
         $url = Config::get("general","hostname").Config::get("general","subdir")."cores/core/installer/index.php";
         header("Location: $url");       

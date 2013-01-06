@@ -18,7 +18,7 @@ class FormatterFactory{
 
     private static $formatterfactory;
 
-    public static function getInstance($urlformat = ""){            
+    public static function getInstance($urlformat = ""){           
 	if(!isset(self::$formatterfactory)){
 	    self::$formatterfactory = new FormatterFactory($urlformat);
 	}
@@ -51,7 +51,7 @@ class FormatterFactory{
                     $format == "Xml";
                 }
             }
-            if(!$this->formatExists($format)){
+            if(!$this->formatExists($format)){                
                 throw new TDTException(451,array($format)); // could not find a suitible format
             }
             $this->format = $format;            
@@ -70,7 +70,7 @@ class FormatterFactory{
             header("Content-Location:" . $contentlocation);
         }else if($this->formatExists($urlformat)){
             $this->format = $urlformat;
-        }else{
+        }else{            
             throw new TDTException(451,array($urlformat));
         }
         
@@ -84,8 +84,8 @@ class FormatterFactory{
         $this->setFormat($urlformat);
     }
 
-    private function formatExists($format){            
-        return file_exists(Config::get("general","homedir").Config::get("general","subdir") . "cores/core/custom/formatters/". $format . "Formatter.class.php") || file_exists("custom/formatters/visualizations/". $format . "Formatter.class.php");
+    private function formatExists($format){           
+        return file_exists("custom/formatters/". $format . "Formatter.class.php") || file_exists("custom/formatters/visualizations/". $format . "Formatter.class.php");
     }
 
     /**
@@ -108,18 +108,18 @@ class FormatterFactory{
 	//this is a fallback for jsonp - if callback is given, just return jsonp anyway
 	if(($this->format == "Json" || $this->format == "Jsonp") && isset($_GET["callback"])){
 	    $callback = $_GET["callback"];
-	    $this->format = "Jsonp";
-	    include_once("custom/formatters/".$this->format . "Formatter.class.php");
+	    $this->format = "Jsonp";            
+	    include_once("custom/formatters/". $this->format . "Formatter.class.php");
             $format=$this->format."Formatter";
 	    return new $format($rootname,$objectToPrint,$callback);
 	}
         $format=$this->format."Formatter";
         // Before this is done, a check on the existence of the format has already been done, so we now we can 
         // automatically include the visualization format if the format isn't found in the formatters folder.
-	if(file_exists(Config::get("general","homedir").Config::get("general","subdir") . "cores/core/custom/formatters/". $this->format . "Formatter.class.php")){
-            include_once(Config::get("general","homedir").Config::get("general","subdir")."cores/core/custom/formatters/". $this->format . "Formatter.class.php");
+	if(file_exists("custom/formatters/". $this->format . "Formatter.class.php")){
+            include_once("custom/formatters/". $this->format . "Formatter.class.php");
         }else{
-            include_once(Config::get("general","homedir").Config::get("general","subdir")."cores/core/custom/formatters/visualizations/". $this->format . "Formatter.class.php");
+            include_once("custom/formatters/visualizations/". $this->format . "Formatter.class.php");
         }
 	return new $format($rootname, $objectToPrint);
     }
@@ -132,14 +132,14 @@ class FormatterFactory{
     public function getFormatterDocumentation(){
         $doc = array();
         //open the custom directory and loop through it
-        if ($handle = opendir(Config::get("general","homedir").Config::get("general","subdir").'cores/core/custom/formatters')) {
+        if ($handle = opendir('custom/formatters')) {
             while (false !== ($formatter = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed formatters
-                if ($formatter != "." && $formatter != ".." && file_exists(Config::get("general","homedir").Config::get("general","subdir")."cores/core/custom/formatters/" . $formatter)) {
+                if ($formatter != "." && $formatter != ".." && file_exists("custom/formatters/" . $formatter)) {
                     $boom = explode(".",$formatter);
                     $formatterclass = $boom[0];
                     if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
-                        include_once(Config::get("general","homedir").Config::get("general","subdir")."cores/core/custom/formatters/" . $formatter);
+                        include_once("custom/formatters/" . $formatter);
                         if(is_subclass_of($formatterclass, "AFormatter")){
                             $doc[$match[1]] = $formatterclass::getDocumentation();
                         }
@@ -158,14 +158,14 @@ class FormatterFactory{
     public function getVisualizationDocumentation(){
         $doc = array();
         //open the custom directory and loop through it
-        if ($handle = opendir(Config::get("general","homedir").Config::get("general","subdir").'cores/core/custom/formatters/visualizations')) {
+        if ($handle = opendir('custom/formatters/visualizations')) {
             while (false !== ($formatter = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed formatters
-                if ($formatter != "." && $formatter != ".." && file_exists(Config::get("general","homedir").Config::get("general","subdir")."cores/core/custom/formatters/visualizations/" . $formatter)) {
+                if ($formatter != "." && $formatter != ".." && file_exists("custom/formatters/visualizations/" . $formatter)) {
                     $boom = explode(".",$formatter);
                     $formatterclass = $boom[0];
                     if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
-                        include_once(Config::get("general","homedir").Config::get("general","subdir")."cores/core/custom/formatters/visualizations/" . $formatter);
+                        include_once("custom/formatters/visualizations/" . $formatter);
                         if(is_subclass_of($formatterclass, "AFormatter")){
                             $doc[$match[1]] = $formatterclass::getDocumentation();
                         }

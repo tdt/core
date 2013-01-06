@@ -6,7 +6,7 @@
  * @author Miel Vander Sande
  */
 
-R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));            
+R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
 
 $doc = ResourcesModel::getInstance()->getAllDoc();
 header("content-type: application/xml");

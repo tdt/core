@@ -7,6 +7,9 @@
  * @license AGPLv3
  * @author Jens Segers
  */
+
+set_include_path( get_include_path() . PATH_SEPARATOR . "../" );
+chdir("../../../");
 include_once(dirname(__DIR__)."/../../includes/rb.php");
 include_once(dirname(__DIR__)."/../../framework/Config.class.php");
 
@@ -116,7 +119,7 @@ class Installer {
     public static function installedVersion() {    
 
         try {                     
-            R::setup(Config::get("core", "dbsystem") . ":host=" . Config::get("core", "dbhost") . ";dbname=" . Config::get("core", "dbname"), Config::get("core", "dbuser"), Config::get("core", "dbpassword"));            
+            R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
             $info = R::getRow("SELECT * FROM info WHERE name = :name LIMIT 0,1", array(":name" => "version"));            
 
             if (isset($info["value"]))

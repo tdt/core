@@ -11,6 +11,7 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
+/*
 include_once("custom/formatters/FormatterFactory.class.php");
 include_once("controllers/spectql/SPECTQLParser.class.php");
 include_once("model/ResourcesModel.class.php");
@@ -20,7 +21,8 @@ include_once("model/DBQueries.class.php");
 include_once("universalfilter/interpreter/UniversalInterpreter.php");
 include_once("universalfilter/tablemanager/implementation/UniversalFilterTableManager.class.php");
 include_once("universalfilter/tablemanager/implementation/tools/TableToPhpObjectConverter.class.php");
-
+ * 
+ */
 class SPECTQLController extends AController {
 
     /**

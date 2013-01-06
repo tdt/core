@@ -11,7 +11,7 @@
 class RedirectController extends AController{
     
     public function __construct() {
-        AutoInclude::register("RequestURI", "cores/core/RequestURI.class.php");        
+        AutoInclude::register("RequestURI", "cores/core/utility/RequestURI.class.php");        
     }
     
     /**
