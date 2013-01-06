@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/old
+END
+crypt.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/util/adodb/session/old/crypt.inc.php
+END
+adodb-session.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/old/adodb-session.php
+END
+adodb-cryptsession.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/old/adodb-cryptsession.php
+END
+adodb-session-clob.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/old/adodb-session-clob.php
+END

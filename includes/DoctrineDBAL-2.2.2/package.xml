@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>DoctrineDBAL</name>
+ <channel>pear.doctrine-project.org</channel>
+ <summary>Doctrine Database Abstraction Layer</summary>
+ <description>The Doctrine DBAL package is the database abstraction layer used to power the ORM package.</description>
+ <lead>
+  <name>Jonathan H. Wage</name>
+  <user>jwage</user>
+  <email>jonwage@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Guilherme Blanco</name>
+  <user>guilhermeblanco</user>
+  <email>guilhermeblanco@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Roman Borschel</name>
+  <user>romanb</user>
+  <email>roman@code-factory.org</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Benjamin Eberlei</name>
+  <user>beberlei</user>
+  <email>kontakt@beberlei.de</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-04-13</date>
+ <time>04:24:04</time>
+ <version>
+  <release>2.2.2</release>
+  <api>2.2.2</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+ <notes>
+-
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="58efad67fa93e5e91fdd6340544ebbb3" name="bin/doctrine-dbal" role="script" />
+   <file baseinstalldir="/" md5sum="a1e8289be9e510ee87d64af03d592434" name="bin/doctrine-dbal.php" role="script" />
+   <file baseinstalldir="/" md5sum="df75317c453b75da21621248fd3d7eb4" name="Doctrine/DBAL/Configuration.php" role="php" />
+   <file baseinstalldir="/" md5sum="24d3ee41943980bea4f676827ec842c0" name="Doctrine/DBAL/Connection.php" role="php" />
+   <file baseinstalldir="/" md5sum="241737a780b006488e28ecaa0d32ba5c" name="Doctrine/DBAL/ConnectionException.php" role="php" />
+   <file baseinstalldir="/" md5sum="c2132ee4090228a45451ffdea4249b32" name="Doctrine/DBAL/DBALException.php" role="php" />
+   <file baseinstalldir="/" md5sum="9bcc10e9061de7b3f81dfae060f425af" name="Doctrine/DBAL/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="719a328330c65891074ddcfa418ff837" name="Doctrine/DBAL/DriverManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="4f9c52e773747bcdc3de1d04dac07d8c" name="Doctrine/DBAL/Events.php" role="php" />
+   <file baseinstalldir="/" md5sum="f05997342439492aa37fbcc6a68b419f" name="Doctrine/DBAL/LockMode.php" role="php" />
+   <file baseinstalldir="/" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="Doctrine/DBAL/README.markdown" role="data" />
+   <file baseinstalldir="/" md5sum="7cc9edb0fb85f6852d50bc7b629cff9e" name="Doctrine/DBAL/SQLParserUtils.php" role="php" />
+   <file baseinstalldir="/" md5sum="4524a2f74c103f3957aabb9a8475cd54" name="Doctrine/DBAL/Statement.php" role="php" />
+   <file baseinstalldir="/" md5sum="3b4b2a05fe83f22a1f4e71288ef89d82" name="Doctrine/DBAL/Version.php" role="php" />
+   <file baseinstalldir="/" md5sum="53d9cd58d680ee0fc3de0c91dd4cb9b1" name="Doctrine/DBAL/Cache/ArrayStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="1736a365c9585087e1e3ffdeb79859ac" name="Doctrine/DBAL/Cache/CacheException.php" role="php" />
+   <file baseinstalldir="/" md5sum="bf4b695257a86a6a65366936aafbbc68" name="Doctrine/DBAL/Cache/QueryCacheProfile.php" role="php" />
+   <file baseinstalldir="/" md5sum="5114460dcdbd0ed9178b7b95573620dd" name="Doctrine/DBAL/Cache/ResultCacheStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="8f20fcaf7f50477cabdb210545a070c6" name="Doctrine/DBAL/Connections/MasterSlaveConnection.php" role="php" />
+   <file baseinstalldir="/" md5sum="fa2468354b69d9accf5635ccde2640ca" name="Doctrine/DBAL/Driver/Connection.php" role="php" />
+   <file baseinstalldir="/" md5sum="06d7c696e63a93b6ff88e8557bb283e1" name="Doctrine/DBAL/Driver/PDOConnection.php" role="php" />
+   <file baseinstalldir="/" md5sum="e1e94228598355f6b15bd6b8b899891a" name="Doctrine/DBAL/Driver/PDOStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="9177e8476de2191b8a91e5e29e665337" name="Doctrine/DBAL/Driver/ResultStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="e73a0564a34ea18c0d1f2116f405d46c" name="Doctrine/DBAL/Driver/Statement.php" role="php" />
+   <file baseinstalldir="/" md5sum="639d2dc8db85039368a73daab9000eae" name="Doctrine/DBAL/Driver/IBMDB2/DB2Connection.php" role="php" />
+   <file baseinstalldir="/" md5sum="b5cdadfb132dc9fee85dbfc9089b037d" name="Doctrine/DBAL/Driver/IBMDB2/DB2Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="d9949c84e38bcc4c4ed1c9102fc985ee" name="Doctrine/DBAL/Driver/IBMDB2/DB2Exception.php" role="php" />
+   <file baseinstalldir="/" md5sum="9f349d437cf403a258e2b9221969e8ba" name="Doctrine/DBAL/Driver/IBMDB2/DB2Statement.php" role="php" />
+   <file baseinstalldir="/" md5sum="f258e03f1ca3a344343693c8d71a5dfe" name="Doctrine/DBAL/Driver/Mysqli/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="0e33b608c8e5a1d5a81d7ce4b545236d" name="Doctrine/DBAL/Driver/Mysqli/MysqliConnection.php" role="php" />
+   <file baseinstalldir="/" md5sum="7000d20d48f7cbb8428cd2ae61b6af0a" name="Doctrine/DBAL/Driver/Mysqli/MysqliException.php" role="php" />
+   <file baseinstalldir="/" md5sum="382295ab0d30057c45787f77e931e5b3" name="Doctrine/DBAL/Driver/Mysqli/MysqliStatement.php" role="php" />
+   <file baseinstalldir="/" md5sum="ca9ac7a8dc86cb7a80389b7bd6b731ae" name="Doctrine/DBAL/Driver/OCI8/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="592bc912baafa4f20342dd4d34dc91af" name="Doctrine/DBAL/Driver/OCI8/OCI8Connection.php" role="php" />
+   <file baseinstalldir="/" md5sum="6c957557c369b225eeb94a2b93854509" name="Doctrine/DBAL/Driver/OCI8/OCI8Exception.php" role="php" />
+   <file baseinstalldir="/" md5sum="402e3e5efbef26a661ca800734870e43" name="Doctrine/DBAL/Driver/OCI8/OCI8Statement.php" role="php" />
+   <file baseinstalldir="/" md5sum="f7297116985c556168a47f6b627e5ef5" name="Doctrine/DBAL/Driver/PDOIbm/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="39f6696184396d94d1a7b6b76545b94e" name="Doctrine/DBAL/Driver/PDOMySql/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="2ecff102cb5042bfbe709f7f10ddbb6f" name="Doctrine/DBAL/Driver/PDOOracle/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="4399891c2ae234ef0f1dfe253d45b1e0" name="Doctrine/DBAL/Driver/PDOPgSql/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="b9f08a9e9f63512579b71ff4310e2fb4" name="Doctrine/DBAL/Driver/PDOSqlite/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d63aa0f2ff1314020726aeb73020e41" name="Doctrine/DBAL/Driver/PDOSqlsrv/Connection.php" role="php" />
+   <file baseinstalldir="/" md5sum="577c7c2b52302975d1b90f49c9954ed3" name="Doctrine/DBAL/Driver/PDOSqlsrv/Driver.php" role="php" />
+   <file baseinstalldir="/" md5sum="3657e03098c2c3aed1806bffe81f73a6" name="Doctrine/DBAL/Event/ConnectionEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="cb48637d75f2fbe3bdecbd0bae46263f" name="Doctrine/DBAL/Event/SchemaAlterTableAddColumnEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="3ecc666cbf25d292d00610e7af65f35d" name="Doctrine/DBAL/Event/SchemaAlterTableChangeColumnEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="40334748a386a447af9e6d533f4fd650" name="Doctrine/DBAL/Event/SchemaAlterTableEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="f710d46f8bed6530a51d0b7833edd740" name="Doctrine/DBAL/Event/SchemaAlterTableRemoveColumnEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="ea555c4a329f4da2e2124148f8662e95" name="Doctrine/DBAL/Event/SchemaAlterTableRenameColumnEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="2132bc6358209f26b321759ac2e06d12" name="Doctrine/DBAL/Event/SchemaColumnDefinitionEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="90f8d57fa350d2a5160f4fa88e1583e5" name="Doctrine/DBAL/Event/SchemaCreateTableColumnEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="7d8842a5f8ca2db4e8cb332b925e6ab1" name="Doctrine/DBAL/Event/SchemaCreateTableEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="cdf84aa6b8b0d1796f909c9d2a257678" name="Doctrine/DBAL/Event/SchemaDropTableEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="497fa5aea84acfd6de67aa210e4c7592" name="Doctrine/DBAL/Event/SchemaEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="b82e5c4418f54794ac2c29db115e6785" name="Doctrine/DBAL/Event/SchemaIndexDefinitionEventArgs.php" role="php" />
+   <file baseinstalldir="/" md5sum="fee71f87e15743f8ec010bf75947628d" name="Doctrine/DBAL/Event/Listeners/MysqlSessionInit.php" role="php" />
+   <file baseinstalldir="/" md5sum="b67f2f87b7133d8c65aa0ce0366cd23e" name="Doctrine/DBAL/Event/Listeners/OracleSessionInit.php" role="php" />
+   <file baseinstalldir="/" md5sum="a93e5c05515b99a5180cdd2c092f6e47" name="Doctrine/DBAL/Event/Listeners/SQLSessionInit.php" role="php" />
+   <file baseinstalldir="/" md5sum="bf24b6ccaf101f49561177664c99df13" name="Doctrine/DBAL/Logging/DebugStack.php" role="php" />
+   <file baseinstalldir="/" md5sum="6e46784e644c614b74c102a8fc1a3985" name="Doctrine/DBAL/Logging/EchoSQLLogger.php" role="php" />
+   <file baseinstalldir="/" md5sum="7ab025d3b927b42ebe60abde54b3a542" name="Doctrine/DBAL/Logging/LoggerChain.php" role="php" />
+   <file baseinstalldir="/" md5sum="f67e6cfa2849505fbb6c8e3dbc1add39" name="Doctrine/DBAL/Logging/SQLLogger.php" role="php" />
+   <file baseinstalldir="/" md5sum="ec3abe553e759badba66c7fcd917729d" name="Doctrine/DBAL/Platforms/AbstractPlatform.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d202444c1510d53587f0db22af05faf" name="Doctrine/DBAL/Platforms/DB2Platform.php" role="php" />
+   <file baseinstalldir="/" md5sum="7e65482b4f22feec160535a9654b3e19" name="Doctrine/DBAL/Platforms/MySqlPlatform.php" role="php" />
+   <file baseinstalldir="/" md5sum="613eefc24f6d21a4dbf66b0e0e03a439" name="Doctrine/DBAL/Platforms/OraclePlatform.php" role="php" />
+   <file baseinstalldir="/" md5sum="d8cb4868791af66b6a2281f9af6c857d" name="Doctrine/DBAL/Platforms/PostgreSqlPlatform.php" role="php" />
+   <file baseinstalldir="/" md5sum="f0d9795afe1a97c9a470156772cf59c9" name="Doctrine/DBAL/Platforms/SqlitePlatform.php" role="php" />
+   <file baseinstalldir="/" md5sum="8c34c1a2f327420e375dd07a492551cf" name="Doctrine/DBAL/Platforms/SQLServer2005Platform.php" role="php" />
+   <file baseinstalldir="/" md5sum="409df624a15fa307d2c5a9dbd86966a7" name="Doctrine/DBAL/Platforms/SQLServer2008Platform.php" role="php" />
+   <file baseinstalldir="/" md5sum="09ad74d9d9825cba40b062fe173c694d" name="Doctrine/DBAL/Platforms/SQLServerPlatform.php" role="php" />
+   <file baseinstalldir="/" md5sum="26c23532afbba2b1ce32fe69a90eca84" name="Doctrine/DBAL/Platforms/Keywords/DB2Keywords.php" role="php" />
+   <file baseinstalldir="/" md5sum="1ae7fcd9f3bb1b57d907e575900e79f5" name="Doctrine/DBAL/Platforms/Keywords/KeywordList.php" role="php" />
+   <file baseinstalldir="/" md5sum="f4aee76232f63c23d4c09c3c3aba98cf" name="Doctrine/DBAL/Platforms/Keywords/MsSQLKeywords.php" role="php" />
+   <file baseinstalldir="/" md5sum="ad4e75706aca5a226bca4a00d05af55c" name="Doctrine/DBAL/Platforms/Keywords/MySQLKeywords.php" role="php" />
+   <file baseinstalldir="/" md5sum="5d8687ba1d013ed337586596aa8b6d0c" name="Doctrine/DBAL/Platforms/Keywords/OracleKeywords.php" role="php" />
+   <file baseinstalldir="/" md5sum="fa2843a7b2665c66eb6f064201b27e4e" name="Doctrine/DBAL/Platforms/Keywords/PostgreSQLKeywords.php" role="php" />
+   <file baseinstalldir="/" md5sum="4be8c4305843509ed69557af0258ecc2" name="Doctrine/DBAL/Platforms/Keywords/ReservedKeywordsValidator.php" role="php" />
+   <file baseinstalldir="/" md5sum="b92f20d7a64cda5a5a8d26ee4769e1be" name="Doctrine/DBAL/Platforms/Keywords/SQLiteKeywords.php" role="php" />
+   <file baseinstalldir="/" md5sum="6369aa32bf5961954e3b58af15a99c58" name="Doctrine/DBAL/Portability/Connection.php" role="php" />
+   <file baseinstalldir="/" md5sum="54ca0f0cf707a34882c729a752674fd3" name="Doctrine/DBAL/Portability/Statement.php" role="php" />
+   <file baseinstalldir="/" md5sum="3f8b942c299a6ba99622f204bd33e89c" name="Doctrine/DBAL/Query/QueryBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="2ccc83ae027be3cc01933aa978269ff5" name="Doctrine/DBAL/Query/QueryException.php" role="php" />
+   <file baseinstalldir="/" md5sum="06b5185c87bf5dd2845005aecaac242d" name="Doctrine/DBAL/Query/Expression/CompositeExpression.php" role="php" />
+   <file baseinstalldir="/" md5sum="ade5f6ca40de1630ce727281b1e1402b" name="Doctrine/DBAL/Query/Expression/ExpressionBuilder.php" role="php" />
+   <file baseinstalldir="/" md5sum="ee049a26707905a7abba6102f3cee3d4" name="Doctrine/DBAL/Schema/AbstractAsset.php" role="php" />
+   <file baseinstalldir="/" md5sum="168245bdadb88f1ba64f933c2f1458dd" name="Doctrine/DBAL/Schema/AbstractSchemaManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="c4452037f9e1d21f2a97036c5b3e8cff" name="Doctrine/DBAL/Schema/Column.php" role="php" />
+   <file baseinstalldir="/" md5sum="df5856980067bd4f995bc5dab668cb27" name="Doctrine/DBAL/Schema/ColumnDiff.php" role="php" />
+   <file baseinstalldir="/" md5sum="e973b8ef16dc7f88c1646776eab58641" name="Doctrine/DBAL/Schema/Comparator.php" role="php" />
+   <file baseinstalldir="/" md5sum="437f29840c5150c7bc990622d52e8c14" name="Doctrine/DBAL/Schema/Constraint.php" role="php" />
+   <file baseinstalldir="/" md5sum="00c46fbdc2022905e4e28dae541f319f" name="Doctrine/DBAL/Schema/DB2SchemaManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="6ad8c60fdc2c655ffc4ea4958f96b88b" name="Doctrine/DBAL/Schema/ForeignKeyConstraint.php" role="php" />
+   <file baseinstalldir="/" md5sum="7ef8516f537d1147379d076e3df2e6d2" name="Doctrine/DBAL/Schema/Index.php" role="php" />
+   <file baseinstalldir="/" md5sum="e5e616c491cc4cd4b7ccb564a5455a25" name="Doctrine/DBAL/Schema/MySqlSchemaManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="d075bd7966b633ef0da0bd0b04596d45" name="Doctrine/DBAL/Schema/OracleSchemaManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="57ed5ee4969d786c0b22cd5abce5c7d7" name="Doctrine/DBAL/Schema/PostgreSqlSchemaManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="6cf1760bd6ea0520ea1702ffea76b093" name="Doctrine/DBAL/Schema/Schema.php" role="php" />
+   <file baseinstalldir="/" md5sum="b9eaf625f556f45bf079cef0601e515b" name="Doctrine/DBAL/Schema/SchemaConfig.php" role="php" />
+   <file baseinstalldir="/" md5sum="162c483cfddbc113239681e9188bdb40" name="Doctrine/DBAL/Schema/SchemaDiff.php" role="php" />
+   <file baseinstalldir="/" md5sum="089820af0a20b7b68b2340ebfc8b05e9" name="Doctrine/DBAL/Schema/SchemaException.php" role="php" />
+   <file baseinstalldir="/" md5sum="3d0898957450684a6840077f0f8d0abf" name="Doctrine/DBAL/Schema/Sequence.php" role="php" />
+   <file baseinstalldir="/" md5sum="e6f37e8b3edbe8ef7d7cda199948e539" name="Doctrine/DBAL/Schema/SqliteSchemaManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="c3ffe4f98cef86a399663804d4b18262" name="Doctrine/DBAL/Schema/SQLServerSchemaManager.php" role="php" />
+   <file baseinstalldir="/" md5sum="d31852963331b9f6de800b5fc3e271e8" name="Doctrine/DBAL/Schema/Table.php" role="php" />
+   <file baseinstalldir="/" md5sum="4e63b28c259ef347f55711d076143c70" name="Doctrine/DBAL/Schema/TableDiff.php" role="php" />
+   <file baseinstalldir="/" md5sum="7666972ff0f2bb3ee1cc202004f3fe98" name="Doctrine/DBAL/Schema/View.php" role="php" />
+   <file baseinstalldir="/" md5sum="059564663ff997e859732b33fb85b3d4" name="Doctrine/DBAL/Schema/Visitor/CreateSchemaSqlCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="6d2875f7b11d37c065b2e28970fb3960" name="Doctrine/DBAL/Schema/Visitor/DropSchemaSqlCollector.php" role="php" />
+   <file baseinstalldir="/" md5sum="df32e28a2153bcf227f31160927c91a2" name="Doctrine/DBAL/Schema/Visitor/Graphviz.php" role="php" />
+   <file baseinstalldir="/" md5sum="d1044b879369498059280f1db5ddca3d" name="Doctrine/DBAL/Schema/Visitor/RemoveNamespacedAssets.php" role="php" />
+   <file baseinstalldir="/" md5sum="7b8755bf5e6aa0057af5aaa983e3599a" name="Doctrine/DBAL/Schema/Visitor/Visitor.php" role="php" />
+   <file baseinstalldir="/" md5sum="7ca12376cb6ef2dec57730fa62bdfecf" name="Doctrine/DBAL/Tools/Console/Command/ImportCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="a1967b0acab2a48368f278db9ba71f62" name="Doctrine/DBAL/Tools/Console/Command/ReservedWordsCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="81eab70c6453d7791cfec9be2e7963aa" name="Doctrine/DBAL/Tools/Console/Command/RunSqlCommand.php" role="php" />
+   <file baseinstalldir="/" md5sum="2de9abddc8e0e58bebff06043f4d2f4d" name="Doctrine/DBAL/Tools/Console/Helper/ConnectionHelper.php" role="php" />
+   <file baseinstalldir="/" md5sum="a8f0f0c9a41f1346d45ed0f0795da0ae" name="Doctrine/DBAL/Types/ArrayType.php" role="php" />
+   <file baseinstalldir="/" md5sum="234d707008929e4c9c42140a166ef7ec" name="Doctrine/DBAL/Types/BigIntType.php" role="php" />
+   <file baseinstalldir="/" md5sum="9f549eb8aa5b9c3f9420eba736cab9e1" name="Doctrine/DBAL/Types/BlobType.php" role="php" />
+   <file baseinstalldir="/" md5sum="152c0f84b1c940927bb026356de8e5e9" name="Doctrine/DBAL/Types/BooleanType.php" role="php" />
+   <file baseinstalldir="/" md5sum="f29726087dd1ba744632258cd8c2a3ad" name="Doctrine/DBAL/Types/ConversionException.php" role="php" />
+   <file baseinstalldir="/" md5sum="6bdb81aa50a4f8723ace1b270afa9bae" name="Doctrine/DBAL/Types/DateTimeType.php" role="php" />
+   <file baseinstalldir="/" md5sum="1b56a36796013e9801eb4c175c5bcdf5" name="Doctrine/DBAL/Types/DateTimeTzType.php" role="php" />
+   <file baseinstalldir="/" md5sum="114eb42fffba04dd9ce2f51ee89557b3" name="Doctrine/DBAL/Types/DateType.php" role="php" />
+   <file baseinstalldir="/" md5sum="8f7b148b96ab5f8b1bcdceb68138f930" name="Doctrine/DBAL/Types/DecimalType.php" role="php" />
+   <file baseinstalldir="/" md5sum="57152636b1ce9a0c20814553e54380a7" name="Doctrine/DBAL/Types/FloatType.php" role="php" />
+   <file baseinstalldir="/" md5sum="47f0205e16a856cc43529d102cb0857f" name="Doctrine/DBAL/Types/IntegerType.php" role="php" />
+   <file baseinstalldir="/" md5sum="10a39db6359bf5bdf52ede87452410fe" name="Doctrine/DBAL/Types/ObjectType.php" role="php" />
+   <file baseinstalldir="/" md5sum="f67427840b808c6635fe5d427dcb1053" name="Doctrine/DBAL/Types/SmallIntType.php" role="php" />
+   <file baseinstalldir="/" md5sum="bffa5f5ba1f0f9b2aa75cedf1d7db24b" name="Doctrine/DBAL/Types/StringType.php" role="php" />
+   <file baseinstalldir="/" md5sum="c7ad444a20314dc32cb10421738131d1" name="Doctrine/DBAL/Types/TextType.php" role="php" />
+   <file baseinstalldir="/" md5sum="845d4b2c686c5767eff155733fde0be8" name="Doctrine/DBAL/Types/TimeType.php" role="php" />
+   <file baseinstalldir="/" md5sum="d1b2767daf3bbb3c822fb8712d81fc7f" name="Doctrine/DBAL/Types/Type.php" role="php" />
+   <file baseinstalldir="/" md5sum="c39902ccdf5d2b66b39fe3556df940a0" name="Doctrine/DBAL/Types/VarDateTimeType.php" role="php" />
+   <file baseinstalldir="/" md5sum="ab0e2a7c09df7fc844fcb1480d01dd2d" name="LICENSE" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.2</min>
+   </php>
+   <pearinstaller>
+    <min>1.6.0</min>
+    <recommended>1.6.1</recommended>
+   </pearinstaller>
+   <package>
+    <name>DoctrineCommon</name>
+    <channel>pear.doctrine-project.org</channel>
+    <min>2.0.1</min>
+   </package>
+   <package>
+    <name>Console</name>
+    <channel>pear.symfony.com</channel>
+    <min>2.0.0</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="doctrine-dbal" name="bin/doctrine-dbal" />
+   <install as="doctrine-dbal.php" name="bin/doctrine-dbal.php" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>2.2.2</release>
+    <api>2.2.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-04-13</date>
+   <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+   <notes>
+-
+   </notes>
+  </release>
+ </changelog>
+</package>

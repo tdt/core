@@ -1,0 +1,72 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix : <http://www.thedatatank.org/tdml/1.0#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://thedatatank.com/tdml/1.0> .
+
+<http://thedatatank.com/tdml/1.0> a owl:Ontology;
+rdfs:comment "This ontology contains The DataTank mapping language for describing data model and resource mapping in The DataTank"^^xsd:string .
+
+
+###  http://www.thedatatank.org/tdml/1.0#has_property
+
+:has_property a owl:ObjectProperty ;
+              rdfs:range :Mappable;
+              rdfs:domain :Mappable .
+
+###  http://www.thedatatank.org/tdml/1.0#is_property_of
+
+:is_property_of a owl:ObjectProperty ;
+                rdfs:domain :Mappable ;
+                rdfs:range :Mappable ;
+                owl:inverseOf :has_property .
+
+###  http://www.thedatatank.org/tdml/1.0#maps
+
+:maps a owl:FunctionalProperty , owl:ObjectProperty ;
+      rdfs:domain :Mappable ;
+      rdfs:range rdfs:Resource .
+
+###  http://www.thedatatank.org/tdml/1.0#preferredProperty
+
+:preferredProperty a owl:FunctionalProperty , owl:ObjectProperty ;
+      rdfs:domain rdf:Property ;
+      rdfs:range rdfs:Resource .
+
+###  http://www.thedatatank.org/tdml/1.0#preferredClass
+
+:preferredClass a owl:FunctionalProperty , owl:ObjectProperty ;
+      rdfs:domain owl:Class ;
+      rdfs:range rdfs:Resource .
+
+
+###  http://www.thedatatank.org/tdml/1.0#name
+
+:name a owl:DatatypeProperty , owl:FunctionalProperty ;
+      rdfs:domain rdfs:Resource ;
+      rdfs:range xsd:string .
+
+###  http://www.thedatatank.org/tdml/1.0#Mappable
+
+:Mappable a owl:Class .
+
+###  http://www.thedatatank.org/tdml/1.0#TDTClass
+
+:TDTClass a owl:Class ;
+          rdfs:subClassOf :Mappable .
+
+###  http://www.thedatatank.org/tdml/1.0#TDTResource
+
+:TDTResource a owl:Class ;
+             rdfs:subClassOf :Mappable ;
+             rdfs:subClassOf [a owl:Restriction;
+                owl:onProperty :has_property;
+                owl:allValuesFrom :TDTClass
+                ].
+
+
+
+
+

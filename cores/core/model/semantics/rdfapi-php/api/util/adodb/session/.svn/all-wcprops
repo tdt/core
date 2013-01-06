@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/session
+END
+adodb-session-clob2.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/session/adodb-session-clob2.php
+END
+adodb-sessions.mysql.sql
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/util/adodb/session/adodb-sessions.mysql.sql
+END
+adodb-sessions.oracle.sql
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/util/adodb/session/adodb-sessions.oracle.sql
+END
+adodb-session.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-session.php
+END
+session_schema2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/session/session_schema2.xml
+END
+adodb-cryptsession2.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/session/adodb-cryptsession2.php
+END
+adodb-encrypt-mcrypt.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-encrypt-mcrypt.php
+END
+adodb-session-clob.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-session-clob.php
+END
+adodb-sessions.oracle.clob.sql
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/util/adodb/session/adodb-sessions.oracle.clob.sql
+END
+crypt.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/crypt.inc.php
+END
+adodb-compress-gzip.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-compress-gzip.php
+END
+session_schema.xml
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/session/session_schema.xml
+END
+adodb-cryptsession.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-cryptsession.php
+END
+adodb-sess.txt
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-sess.txt
+END
+adodb-session2.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/session/adodb-session2.php
+END
+adodb-encrypt-secret.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-encrypt-secret.php
+END
+adodb-encrypt-md5.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-encrypt-md5.php
+END
+adodb-encrypt-sha1.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/session/adodb-encrypt-sha1.php
+END
+adodb-compress-bzip2.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/session/adodb-compress-bzip2.php
+END

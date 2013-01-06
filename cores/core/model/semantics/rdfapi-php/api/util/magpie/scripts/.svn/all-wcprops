@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/scripts
+END
+magpie_simple.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/scripts/magpie_simple.php
+END
+magpie_slashbox.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/scripts/magpie_slashbox.php
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/scripts/README
+END
+magpie_debug.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/scripts/magpie_debug.php
+END
+simple_smarty.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/scripts/simple_smarty.php
+END

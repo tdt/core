@@ -1,0 +1,41 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/api/util/adodb/contrib
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2007-03-12T10:55:13.000000Z
+350
+cweiske
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+toxmlrpc.inc.php
+file
+
+
+
+
+2008-02-29T14:57:54.129391Z
+4c4075cabe540650f9cbcfeaffceaabd
+2007-03-12T10:55:13.000000Z
+350
+cweiske
+has-props
+

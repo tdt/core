@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/554/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultRenderer
+END
+JSON.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/rdfapi-php/!svn/ver/553/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultRenderer/JSON.php
+END
+XML.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/554/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultRenderer/XML.php
+END
+Default.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/rdfapi-php/!svn/ver/466/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultRenderer/Default.php
+END
+HTML.php
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/rdfapi-php/!svn/ver/466/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultRenderer/HTML.php
+END
+PlainText.php
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/rdfapi-php/!svn/ver/466/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultRenderer/PlainText.php
+END
