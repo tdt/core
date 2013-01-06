@@ -7,7 +7,7 @@
  * @author Jens Segers
  */
 
-include_once("../aspects/caching/Cache.class.php");
+include_once(dirname(__DIR__) . "/../../framework/Cache.class.php");
 
 class InstallController {
     
@@ -29,8 +29,7 @@ class InstallController {
     
     public function view($file, $data=array()) {
         // view folder path
-        $file = dirname(__FILE__)."/views/".$file.".php";
-        
+        $file = dirname(__FILE__)."/views/".$file.".php";        
         if(file_exists($file)) {
             extract($data);
             include($file);

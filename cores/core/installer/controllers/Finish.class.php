@@ -10,6 +10,7 @@
 class Finish extends InstallController {
     
     public function index() {
+        include_once(dirname(__DIR__)."/../../../framework/AutoInclude.class.php");
         $this->installer->previousStep(FALSE);
         $c = Cache::getInstance();
         $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");

@@ -57,7 +57,7 @@ class ConfigCheck extends InstallController {
                         break;
                     case "cache_system":
                         $cacheClass = "TDT".$value;
-                        $aspect = __DIR__."/../../aspects/caching/TDT".Config::get("cache","system").".class.php";
+                        $aspect = dirname(__DIR__)."/../../../framework/caching/TDT".Config::get("cache","system").".class.php";                        
                         if(!file_exists($aspect)) {
                             $status = "failed";
                             $message = "cache_not_supported";

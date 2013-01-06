@@ -7,8 +7,8 @@
  * @license AGPLv3
  * @author Jens Segers
  */
-include_once("../../../includes/rb.php");
-include_once("../../../framework/Config.class.php");
+include_once(dirname(__DIR__)."/../../includes/rb.php");
+include_once(dirname(__DIR__)."/../../framework/Config.class.php");
 
 class Installer {
 
@@ -38,7 +38,7 @@ class Installer {
         return $version;
     }
 
-    public function run() {
+    public function run() {        
         if ($this->installedVersion() == $this->version()) {
             $this->previousStep = FALSE;
             $this->nextStep = FALSE;

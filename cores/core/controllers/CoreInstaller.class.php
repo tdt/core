@@ -9,13 +9,14 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-
-class Installer extends AController{   
+class CoreInstaller extends AController {
 
     public function GET($matches) {
         //redirect to the installer
-        header("Location: cores/core/installer/index.php");
+        $url = Config::get("general","hostname").Config::get("general","subdir")."cores/core/installer/index.php";
+        header("Location: $url");       
     }
-  
+
 }
+
 ?>
