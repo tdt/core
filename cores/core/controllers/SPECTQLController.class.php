@@ -11,26 +11,37 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
-/*
-include_once("custom/formatters/FormatterFactory.class.php");
-include_once("controllers/spectql/SPECTQLParser.class.php");
-include_once("model/ResourcesModel.class.php");
-include_once("model/DBQueries.class.php");
+include_once("cores/core/lib/parse_engine.php");
+include_once("cores/core/controllers/spectql/spectql.php");
+include_once("cores/core/controllers/SQL/SQLGrammarFunctions.php");
+include_once("cores/core/universalfilter/CombinedFilterGenerators.class.php");
 
-
-include_once("universalfilter/interpreter/UniversalInterpreter.php");
-include_once("universalfilter/tablemanager/implementation/UniversalFilterTableManager.class.php");
-include_once("universalfilter/tablemanager/implementation/tools/TableToPhpObjectConverter.class.php");
- * 
- */
 class SPECTQLController extends AController {
+
+    public function __construct() {
+
+        AutoInclude::register("FormatterFactory", "custom/formatters/FormatterFactory.class.php");
+        AutoInclude::register("SPECTQLParser", "cores/core/controllers/spectql/SPECTQLParser.class.php");
+        AutoInclude::register("ResourcesModel", "cores/core/model/ResourcesModel.class.php");
+        AutoInclude::register("DBQueries", "cores/core/model/DBQueries.class.php");
+
+        AutoInclude::register("UniversalInterpreter", "cores/core/universalfilter/interpreter/UniversalInterpreter.class.php");
+        AutoInclude::register("UniversalFilterTableManager", "cores/core/universalfilter/tablemanager/implementation/UniversalFilterTableManager.class.php");
+        AutoInclude::register("TableToPhpObjectConverter", "cores/core/universalfilter/tablemanager/implementation/tools/TableToPhpObjectConverter.class.php");
+
+        AutoInclude::register("SPECTQLTokenizer", "cores/core/controllers/spectql/SPECTQLTokenizer.class.php");
+        AutoInclude::register("SPECTQLResource", "cores/core/controllers/spectql/SPECTQLResource.class.php");
+        AutoInclude::register("SPECTQLTools", "cores/core/controllers/spectql/SPECTQLTools.class.php");
+        AutoInclude::register("TreePrinter", "cores/core/universalfilter/interpreter/debugging/TreePrinter.class.php");        
+
+        //include_once("controllers/spectql/parseexceptions.php");   
+    }
 
     /**
      * This implements the GET
      * 
      */
-    function GET($matches) {
-
+    public function GET($matches) {
         $query = "/";
         if (isset($matches["query"])) {
             $query = $matches["query"];
@@ -69,7 +80,7 @@ class SPECTQLController extends AController {
         if (preg_match("/.*TDTAdmin.*/i", $query) == 1) {
             if (!$this->isBasicAuthenticated()) {
                 //we need to be authenticated
-                header('WWW-Authenticate: Basic realm="' . Config::get("general","hostname") . Config::get("general","subdir") . '"');
+                header('WWW-Authenticate: Basic realm="' . Config::get("general", "hostname") . Config::get("general", "subdir") . '"');
                 header('HTTP/1.0 401 Unauthorized');
                 exit();
             }
@@ -87,9 +98,9 @@ class SPECTQLController extends AController {
          */
         $treePrinter = new TreePrinter();
         $tree = $treePrinter->treeToString($universalquery);
-         /*echo "<pre>";
-         echo $tree;
-         echo "</pre>";*/
+        /* echo "<pre>";
+          echo $tree;
+          echo "</pre>"; */
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
@@ -112,10 +123,9 @@ class SPECTQLController extends AController {
         $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
         $printer->printAll();
 
-        $tmpdir = getcwd() . "\\" .  "tmp\\*";
+        $tmpdir = getcwd() . "\\" . "tmp\\*";
         $files = glob($tmpdir); // get all file names
         foreach ($files as $file) { // iterate files
-            
             if (is_file($file))
                 unlink($file); // delete file
         }
@@ -142,29 +152,30 @@ class SPECTQLController extends AController {
      * You cannot PUT on a representation
      */
     function PUT($matches) {
-        throw new TDTException(450,array("PUT",$matches["query"]));
+        throw new TDTException(450, array("PUT", $matches["query"]));
     }
 
     /**
      * You cannot delete a representation
      */
     public function DELETE($matches) {
-        throw new TDTException(450,array("DELETE",$matches["query"]));
+        throw new TDTException(450, array("DELETE", $matches["query"]));
     }
 
     /**
      * You cannot use post on a representation
      */
     public function POST($matches) {
-        throw new TDTException(450,array("POST",$matches["query"]));
+        throw new TDTException(450, array("POST", $matches["query"]));
     }
 
     /**
      * You cannot use patch a representation
      */
     public function PATCH($matches) {
-        throw new TDTException(450,array("PATCH",$matches["query"]));
-    }   
+        throw new TDTException(450, array("PATCH", $matches["query"]));
+    }
+
 }
 
 ?>

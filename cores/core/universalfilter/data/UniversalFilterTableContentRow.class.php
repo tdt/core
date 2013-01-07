@@ -1,6 +1,6 @@
 <?php
 
-include_once("universalfilter/common/HashString.php");
+include_once("cores/core/universalfilter/common/HashString.php");
 
 /**
  * A row in the content of the universal representation of a table
@@ -13,7 +13,7 @@ include_once("universalfilter/common/HashString.php");
 class UniversalFilterTableContentRow {
     private $data;
     
-    public function __construct() {
+    public function __construct() {        
         $this->data=new stdClass();
     }
     

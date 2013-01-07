@@ -9,7 +9,6 @@
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */
-
 class ResourcesModel {
 
     private static $instance;
@@ -17,32 +16,29 @@ class ResourcesModel {
     private $updateActions;
 
     private function __construct() {
-        
+
         /*
          * Register classes
          */
-        
+
         AutoInclude::register("AResourceFactory", "cores/core/model/AResourceFactory.class.php");
         AutoInclude::register("GenericResourceFactory", "cores/core/model/GenericResourceFactory.class.php");
-        AutoInclude::register("InstalledResourceFactory","cores/core/model/InstalledResourceFactory.class.php");
+        AutoInclude::register("InstalledResourceFactory", "cores/core/model/InstalledResourceFactory.class.php");
         AutoInclude::register("RemoteResourceFactory", "cores/core/model/RemoteResourceFactory.class.php");
         AutoInclude::register("CoreResourceFactory", "cores/core/model/CoreResourceFactory.class.php");
-        AutoInclude::register("OntologyFactory", "cores/core/model/OntologyFactory.class.php");
-        AutoInclude::register("OntologyUpdater", "cores/core/resources/update/OntologyUpdater.class.php");
-        AutoInclude::register("GenericResourceUpdater","GenericResourceUpdater.class.php");
+        AutoInclude::register("GenericResourceUpdater", "GenericResourceUpdater.class.php");
         AutoInclude::register("Doc", "cores/core/model/Doc.class.php");
-        AutoInclude::register("LanguageNegotiator","framework/LanguageNegotiator.class.php");       
-        AutoInclude::register("FormatterFactory","custom/formatters/FormatterFactory.class.php");        
-        AutoInclude::register("AFormatter","custom/formatters/AFormatter.class.php");        
+        AutoInclude::register("LanguageNegotiator", "framework/LanguageNegotiator.class.php");
+        AutoInclude::register("FormatterFactory", "custom/formatters/FormatterFactory.class.php");
+        AutoInclude::register("AFormatter", "custom/formatters/AFormatter.class.php");
         AutoInclude::register("ContentNegotiator", "framework/ContentNegotiator.class.php");
-        AutoInclude::register("RequestURI","cores/core/utility/RequestURI.class.php");
+        AutoInclude::register("RequestURI", "cores/core/utility/RequestURI.class.php");
 
         $this->factories = array(); //(ordening does matter here! Put the least expensive on top)
         $this->factories["generic"] = new GenericResourceFactory();
         $this->factories["core"] = new CoreResourceFactory();
         $this->factories["remote"] = new RemoteResourceFactory();
         $this->factories["installed"] = new InstalledResourceFactory();
-        $this->factories["ontology"] = new OntologyFactory();
 
         /*
          * This array maps all the update types to the correct delegation methods
@@ -51,13 +47,12 @@ class ResourcesModel {
          */
         $this->updateActions = array();
 
-        //Added for linking this resource to a class descibed in an onthology
-        $this->updateActions["ontology"] = "OntologyUpdater";
+        //Added for linking this resource to a class descibed in an onthology        
         $this->updateActions["generic"] = "GenericResourceUpdater";
     }
 
     public static function getInstance() {
-       R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         if (!isset(self::$instance)) {
             self::$instance = new ResourcesModel();
         }
@@ -67,8 +62,7 @@ class ResourcesModel {
     /**
      * Checks if a package exists
      */
-
-    public function hasPackage($package){
+    public function hasPackage($package) {
         $doc = $this->getAllPackagesDoc();
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
@@ -100,33 +94,19 @@ class ResourcesModel {
     }
 
     /**
-     * Checks if we are trying to CRUD an Ontology
-     * 
-     * @return boolean
-     */
-    public function checkOntology($package, $resource, $RESTparameters) {
-//Check if it is an ontology
-        
-        //TEMP QUICK FIX --> NEED TO CHANGE THIS. Idea: turn ontologies into resources somehow
-
-        return strpos($_SERVER['REQUEST_URI'],'TDTAdmin/Ontology')>0;
-        //return $package == "TDTAdmin" && $resource == "Ontology" && count($RESTparameters) > 0;
-    }
-
-    /**
      * Creates the given resource
      * @param string $package The package name under which the resource will exist.
      * @param string $resource The resource name under which the resource will be called.
      * @param array $parameters An array with create parameters
      * @param array $RESTparameters An array with additional RESTparameters
      */
-    public function createResource($packageresourcestring, $parameters) {                
-        
+    public function createResource($packageresourcestring, $parameters) {
+
         /**
          * Hierachical package/resource structure
          * check if the package/resource structure is correct
          */
-        $pieces = explode("/",$packageresourcestring);
+        $pieces = explode("/", $packageresourcestring);
         //throws exception when it's not valid, returns packagestring when done
         $package = $this->isResourceValid($pieces);
         $resource = array_pop($pieces);
@@ -136,119 +116,112 @@ class ResourcesModel {
         // the code for now, using a dummy array().
         $RESTparameters = array();
 
-        //If we want to CRUD ontology, handle differently
-        if (!$this->checkOntology($package, $resource, $RESTparameters)) {
-            //if it doesn't, test whether the resource_type has been set            
-            if (!isset($parameters["resource_type"])) {                
-                throw new TDTException(452,array("Parameter resource_type hasn't been set"));
-            }
 
-            /**
-             * adding some semantics to the resource_type parameter
-             * generic/generic_type should be parsed as generic being the resource_type and generic_type as the
-             * generic type, without passing that as a separate parameter
-             * NOTE that passing generic/generic_type has priority over generic_type = ...
-             */
-
-            $resourceTypeParts = explode("/",$parameters["resource_type"]);
-            if($resourceTypeParts[0] != "remote" && $resourceTypeParts[0] != "installed"){    
-                if ( $resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"]) 
-                     && isset($resourceTypeParts[1])) {
-                    $parameters["generic_type"] = $resourceTypeParts[1];
-                    $parameters["resource_type"] = $resourceTypeParts[0];
-                } else if (!isset($parameters["generic_type"])) {
-                    throw new TDTException(452,array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"));
-                }
-            }
-
-
-            $restype = $parameters["resource_type"];
-            $restype = strtolower($restype);
-            //now check if the file exist and include it
-            if (!in_array($restype, array("generic", "remote","installed"))) {
-                throw new TDTException(452,array("Resource type doesn't exist. Choose from generic,remote or installed"));
-            }
-            // get the documentation containing information about the required parameters
-            $doc = $this->getAllAdminDoc();
-
-            /**
-             * get the correct requiredparameters list to check
-             */
-            $resourceCreationDoc;
-            if ($restype == "generic") {
-                /*
-                 * Issue: keys of an array cannot be gotten without an exact match, csv != CSV is an example
-                 * of a result of this matter, this however should be ==
-                 * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace 
-                 * generic_type with the "correct" one
-                 */
-                $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"], $doc->create->generic);
-                $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
-            }elseif($restype == "remote") { 
-                $resourceCreationDoc = $doc->create->remote;
-            }elseif($restype == "installed"){
-                $resourceCreationDoc = $doc->create->installed;
-            }
-            
-
-            /**
-             * Check if all required parameters are being 
-             */
-            foreach ($resourceCreationDoc->requiredparameters as $key) {
-                if (!isset($parameters[$key])) {
-                    throw new TDTException(452,array("Required parameter " . $key . " has not been passed"));
-                }
-            }
-
-            //now check if there are nonexistent parameters given
-            foreach (array_keys($parameters) as $key) {
-                if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
-                    throw new TDTException(452, array("The parameter $key is non existent for the given type of resource."));
-                }
-            }
-
-			
-            // all is well, let's create that resource!
-            $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
-            try {
-                //first check if there resource exists yet
-                if ($this->hasResource($package, $resource)) {
-                    //If it exists, delete it first and continue adding it.
-                    //It could be that because errors occured after the addition, that
-                    //the documentation reset in the CUDController isn't up to date anymore
-                    //This will result in a hasResource() returning true and deleteResource returning false (error)
-                    //This is our queue to reset the documentation.
-                    try {
-                        $this->deleteResource($package, $resource, $RESTparameters);
-                    } catch (Exception $ex) {
-                        //Clear the documentation in our cache for it has changed        
-                        $c = Cache::getInstance();
-                        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");
-                        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "admindocumentation");
-                        throw new TDTException(500,array("Error: " . $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers."));
-                    }
-                }
-            } catch (Exception $ex) {
-                //Clear the documentation in our cache for it has changed        
-                $c = Cache::getInstance();
-                $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");
-                $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "admindocumentation");
-                $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "packagedocumentation");
-                $this->deleteResource($package, $resource,$RESTparameters);
-                throw new Exception($ex->getMessage());
-            }
-            $creator->create();
-        } else {
-            // all is well, let's create that ontology!
-            $creator = $this->factories["ontology"]->createCreator($package, $resource, $parameters, $RESTparameters);
-            $creator->create();
+        //if it doesn't, test whether the resource_type has been set            
+        if (!isset($parameters["resource_type"])) {
+            throw new TDTException(452, array("Parameter resource_type hasn't been set"));
         }
+
+        /**
+         * adding some semantics to the resource_type parameter
+         * generic/generic_type should be parsed as generic being the resource_type and generic_type as the
+         * generic type, without passing that as a separate parameter
+         * NOTE that passing generic/generic_type has priority over generic_type = ...
+         */
+        $resourceTypeParts = explode("/", $parameters["resource_type"]);
+        if ($resourceTypeParts[0] != "remote" && $resourceTypeParts[0] != "installed") {
+            if ($resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"])
+                    && isset($resourceTypeParts[1])) {
+                $parameters["generic_type"] = $resourceTypeParts[1];
+                $parameters["resource_type"] = $resourceTypeParts[0];
+            } else if (!isset($parameters["generic_type"])) {
+                throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"));
+            }
+        }
+
+
+        $restype = $parameters["resource_type"];
+        $restype = strtolower($restype);
+        //now check if the file exist and include it
+        if (!in_array($restype, array("generic", "remote", "installed"))) {
+            throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"));
+        }
+        // get the documentation containing information about the required parameters
+        $doc = $this->getAllAdminDoc();
+
+        /**
+         * get the correct requiredparameters list to check
+         */
+        $resourceCreationDoc;
+        if ($restype == "generic") {
+            /*
+             * Issue: keys of an array cannot be gotten without an exact match, csv != CSV is an example
+             * of a result of this matter, this however should be ==
+             * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace 
+             * generic_type with the "correct" one
+             */
+            $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"], $doc->create->generic);
+            $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
+        } elseif ($restype == "remote") {
+            $resourceCreationDoc = $doc->create->remote;
+        } elseif ($restype == "installed") {
+            $resourceCreationDoc = $doc->create->installed;
+        }
+
+
+        /**
+         * Check if all required parameters are being 
+         */
+        foreach ($resourceCreationDoc->requiredparameters as $key) {
+            if (!isset($parameters[$key])) {
+                throw new TDTException(452, array("Required parameter " . $key . " has not been passed"));
+            }
+        }
+
+        //now check if there are nonexistent parameters given
+        foreach (array_keys($parameters) as $key) {
+            if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
+                throw new TDTException(452, array("The parameter $key is non existent for the given type of resource."));
+            }
+        }
+
+
+        // all is well, let's create that resource!
+        $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
+        try {
+            //first check if there resource exists yet
+            if ($this->hasResource($package, $resource)) {
+                //If it exists, delete it first and continue adding it.
+                //It could be that because errors occured after the addition, that
+                //the documentation reset in the CUDController isn't up to date anymore
+                //This will result in a hasResource() returning true and deleteResource returning false (error)
+                //This is our queue to reset the documentation.
+                try {
+                    $this->deleteResource($package, $resource, $RESTparameters);
+                } catch (Exception $ex) {
+                    //Clear the documentation in our cache for it has changed        
+                    $c = Cache::getInstance();
+                    $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "documentation");
+                    $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "admindocumentation");
+                    throw new TDTException(500, array("Error: " . $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers."));
+                }
+            }
+        } catch (Exception $ex) {
+            //Clear the documentation in our cache for it has changed        
+            $c = Cache::getInstance();
+            $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "documentation");
+            $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "admindocumentation");
+            $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "packagedocumentation");
+            $this->deleteResource($package, $resource, $RESTparameters);
+            throw new Exception($ex->getMessage());
+        }
+        $creator->create();
     }
 
     /**
      * This function doesn't return anything, but throws exceptions when the validation fails
      */
-    private function isResourceValid($pieces){
+    private function isResourceValid($pieces) {
         /**
          * build the package/resource from scratch and check with every step
          * if the condition isn't false, the condition to add the resource is:
@@ -259,33 +232,32 @@ class ResourcesModel {
          *  ((2)) the package so far built (first X, then X/Y, then X/Y/Z in our example) cannot be a resource
          * so we have to built the package first, and check if it's not a resource
          */
-        
         /**
          * If we have only 1 package entry (resource consists of 1 hierarchy of packages i.e. package/resource)
          * then we can return true, because a package/resource may overwrite an existing package/resource
          */
         $resource = array_pop($pieces);
-        if(count($pieces) == 1){
+        if (count($pieces) == 1) {
             return $pieces[0];
         }
         /**
          * check if the packagestring isn't a resource ((2))
          */
         $packagestring = array_shift($pieces);
-        
-        foreach($pieces as $package){
-            if($this->isResource($packagestring,$package)){
-                throw new TDTException(452,array($packagestring. "/".$package ." is already a resource, you cannot overwrite resources with packages!"));
+
+        foreach ($pieces as $package) {
+            if ($this->isResource($packagestring, $package)) {
+                throw new TDTException(452, array($packagestring . "/" . $package . " is already a resource, you cannot overwrite resources with packages!"));
             }
-            $packagestring .= "/".$package;
+            $packagestring .= "/" . $package;
         }
 
         /**
          * check if the resource isn't a package ((1))
          */
-        $resourcestring = $packagestring."/".$resource;
-        if($this->isPackage($resourcestring)){
-            throw new TDTException(452,array($resourcestring . " is already a packagename, you cannot overwrite a package with a resource."));
+        $resourcestring = $packagestring . "/" . $resource;
+        if ($this->isPackage($resourcestring)) {
+            throw new TDTException(452, array($resourcestring . " is already a packagename, you cannot overwrite a package with a resource."));
         }
         return $packagestring;
     }
@@ -299,37 +271,34 @@ class ResourcesModel {
      * It will look for the first valid string that matches a resource and return it,
      * as well with the RESTparameters and packagestring. If no resource is identified, it returns an exception
      */
-    
-    public function fetchPackageAndResource($pieces){
+
+    public function fetchPackageAndResource($pieces) {
         $result = array(); // contains package, resource, RESTparameters
         $RESTparameters = array();
-        
+
         $package = array_shift($pieces);
-        
-        foreach($pieces as $piece){            
-            if($this->isResource($package, $piece)){
+
+        foreach ($pieces as $piece) {
+            if ($this->isResource($package, $piece)) {
                 $result["package"] = $package;
                 $result["resource"] = $piece;
                 array_shift($pieces);
                 $result["RESTparameters"] = $pieces;
                 return $result;
-            }else{
+            } else {
                 $package.= $package . "/" . $piece;
                 array_shift($pieces);
             }
-        }   
-        
-        throw new OntologyAdditionTDTException("The resource to add the ontology to has not been found.");
-        
+        }
     }
-    
-    private function isPackage($needle){
+
+    private function isPackage($needle) {
         $result = DBQueries::getPackageId($needle);
         return $result != NULL;
     }
 
-    private function isResource($package,$subpackage){
-        $result = DBQueries::getResourceType($package,$subpackage);
+    private function isResource($package, $subpackage) {
+        $result = DBQueries::getResourceType($package, $subpackage);
         return $result != NULL;
     }
 
@@ -355,10 +324,10 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
-        
+
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new TDTException(452,array("package/resource pair: $package, $resource was not found."));
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
         }
 
         foreach ($this->factories as $factory) {
@@ -376,11 +345,11 @@ class ResourcesModel {
      * @param array $parameters An array with update parameters
      * @param array $RESTparameters An array with additional RESTparameters
      */
-    public function updateResource($package, $resource, $parameters, $RESTparameters) {               
-        
+    public function updateResource($package, $resource, $parameters, $RESTparameters) {
+
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new TDTException(452,array("package/resource pair: $package, $resource was not found."));
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
         }
 
         /**
@@ -423,8 +392,8 @@ class ResourcesModel {
                 unset($currentParameters->$key);
             }
         }
-        $currentParameters = (array)$currentParameters;
-        $this->createResource($package . '/' . $resource,$currentParameters);
+        $currentParameters = (array) $currentParameters;
+        $this->createResource($package . '/' . $resource, $currentParameters);
     }
 
     /**
@@ -435,39 +404,35 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function deleteResource($package, $resource, $RESTparameters) {
-        //If we want to DELETE ontology, handle differently
-        if (!$this->checkOntology($package, $resource, $RESTparameters)) {
 
-            //first check if the resource exists
-            if (!$this->hasResource($package, $resource)) {
-                throw new TDTException(452,array("package/resource pair: $package, $resource was not found."));
-            }
 
-            /**
-             * We only support the deletion of generic and remote resources and packages by 
-             * an API call.
-             */
-            $factory = "";
-            if ($this->factories["generic"]->hasResource($package, $resource)) {
-                $factory = $this->factories["generic"];
-            } else if ($this->factories["remote"]->hasResource($package, $resource)) {
-                $factory = $this->factories["remote"];
-            } else if ($this->factories["installed"]->hasResource($package, $resource)) {
-                $factory = $this->factories["installed"];
-            }else {
-                throw new TDTException(452,array("package/resource pair: $package, $resource was not found."));
-            }
-            $deleter = $factory->createDeleter($package, $resource, $RESTparameters);
-            $deleter->delete();
-        } else {
-            $deleter = $this->factories["ontology"]->createDeleter($package, $resource, $RESTparameters);
-            $deleter->delete();
+        //first check if the resource exists
+        if (!$this->hasResource($package, $resource)) {
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
         }
+
+        /**
+         * We only support the deletion of generic and remote resources and packages by 
+         * an API call.
+         */
+        $factory = "";
+        if ($this->factories["generic"]->hasResource($package, $resource)) {
+            $factory = $this->factories["generic"];
+        } else if ($this->factories["remote"]->hasResource($package, $resource)) {
+            $factory = $this->factories["remote"];
+        } else if ($this->factories["installed"]->hasResource($package, $resource)) {
+            $factory = $this->factories["installed"];
+        } else {
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
+        }
+        $deleter = $factory->createDeleter($package, $resource, $RESTparameters);
+        $deleter->delete();
+
         //Clear the documentation in our cache for it has changed        
         $c = Cache::getInstance();
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "documentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "admindocumentation");
-        $c->delete(Config::get("general","hostname") . Config::get("general","subdir") . "packagedocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "documentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "admindocumentation");
+        $c->delete(Config::get("general", "hostname") . Config::get("general", "subdir") . "packagedocumentation");
     }
 
     /**
@@ -477,15 +442,15 @@ class ResourcesModel {
     public function deletePackage($package) {
         $resourceDoc = $this->getAllDoc();
         $packageDoc = $this->getAllPackagesDoc();
-        if(isset($packageDoc->$package)){
+        if (isset($packageDoc->$package)) {
             $packageId = DBQueries::getPackageId($package);
             $subpackages = DBQueries::getAllSubpackages($packageId["id"]);
-            
-            foreach($subpackages as $subpackage){
+
+            foreach ($subpackages as $subpackage) {
                 $subpackage = $subpackage["full_package_name"];
-                if (isset($resourceDoc->$subpackage)){
+                if (isset($resourceDoc->$subpackage)) {
                     $resources = $resourceDoc->$subpackage;
-                    foreach ($resourceDoc->$subpackage as $resource => $documentation){
+                    foreach ($resourceDoc->$subpackage as $resource => $documentation) {
                         if ($resource != "creation_date") {
                             $this->deleteResource($subpackage, $resource, array());
                         }
@@ -494,8 +459,8 @@ class ResourcesModel {
                 $this->deletePackage($subpackage);
             }
             DBQueries::deletePackage($package);
-        }else{
-            throw new TDTException(404,array($package));
+        } else {
+            throw new TDTException(404, array($package));
         }
     }
 
@@ -518,11 +483,11 @@ class ResourcesModel {
         $doc = new Doc();
         return $doc->visitAllAdmin($this->factories);
     }
-    
-    public function getAllPackagesDoc(){
+
+    public function getAllPackagesDoc() {
         $doc = new Doc();
         return $doc->visitAllPackages();
-    }     
+    }
 
     /**
      * This function processes a resourcepackage-string 
@@ -532,18 +497,18 @@ class ResourcesModel {
      * the piece after it found the package will be the resourcename ( if any pieces left ofcourse )
      * the pieces after the resourcename are the RESTparameters
      * @return array First entry is the [packagename], second entry is the [resourcename], third is the array with [RESTparameters]
-     If the package hasn't been found FALSE is returned! 
-    */
-    public function processPackageResourceString($packageresourcestring){
+      If the package hasn't been found FALSE is returned!
+     */
+    public function processPackageResourceString($packageresourcestring) {
         $result = array();
 
-        $pieces = explode("/",$packageresourcestring);
-        if(count($pieces) == 0){
-            array_push($pieces,$packageresourcestring);
+        $pieces = explode("/", $packageresourcestring);
+        if (count($pieces) == 0) {
+            array_push($pieces, $packageresourcestring);
         }
-        
+
         $package = array_shift($pieces);
-        
+
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
@@ -554,48 +519,48 @@ class ResourcesModel {
          * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
          * ResourcesModel class -> funcion isResourceValid()
          */
-        $resourcename ="";
-        $reqparamsstring ="";
+        $resourcename = "";
+        $reqparamsstring = "";
 
-        if(!isset($doc->$package)){
-            while(!empty($pieces)){
-                $package .= "/".array_shift($pieces);
-                if(isset($doc->$package)){
+        if (!isset($doc->$package)) {
+            while (!empty($pieces)) {
+                $package .= "/" . array_shift($pieces);
+                if (isset($doc->$package)) {
                     $foundPackage = TRUE;
                     $resourcename = array_shift($pieces);
-                    $reqparamsstring = implode("/",$pieces);
+                    $reqparamsstring = implode("/", $pieces);
                 }
             }
-        }else{
+        } else {
             $foundPackage = TRUE;
             $resourceNotFound = TRUE;
-            while(!empty($pieces) && $resourceNotFound){
+            while (!empty($pieces) && $resourceNotFound) {
                 $resourcename = array_shift($pieces);
-                if(!isset($doc->$package->$resourcename) && $resourcename != NULL){
+                if (!isset($doc->$package->$resourcename) && $resourcename != NULL) {
                     $package .= "/" . $resourcename;
                     $resourcename = "";
-                }else{
+                } else {
                     $resourceNotFound = FALSE;
                 }
             }
-            $reqparamsstring = implode("/",$pieces);
+            $reqparamsstring = implode("/", $pieces);
         }
-        
+
 
         $RESTparameters = array();
-        $RESTparameters = explode("/",$reqparamsstring);
-        if($RESTparameters[0] == ""){
+        $RESTparameters = explode("/", $reqparamsstring);
+        if ($RESTparameters[0] == "") {
             $RESTparameters = array();
         }
 
-        if($resourcename == ""){
+        if ($resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
             $allPackages = array_keys(get_object_vars($packageDoc));
 
-            $foundPackage = in_array($package,$allPackages);
+            $foundPackage = in_array($package, $allPackages);
 
-            if (!$foundPackage){
-                   throw new TDTException(404, array($packageresourcestring));
+            if (!$foundPackage) {
+                throw new TDTException(404, array($packageresourcestring));
             }
         }
 
@@ -610,46 +575,43 @@ class ResourcesModel {
      * return FALSE if not the resource doesn't implement iFitler
      * return the resource if it does
      */
-    public function isResourceIFilter($package,$resource){
+    public function isResourceIFilter($package, $resource) {
         foreach ($this->factories as $factory) {
 
             if ($factory->hasResource($package, $resource)) {
 
                 // remote resource just proxies the url so we don't need to take that into account
-                if(get_class($factory) == "GenericResourceFactory"){
+                if (get_class($factory) == "GenericResourceFactory") {
 
-                    $genericResource = new GenericResource($package,$resource);
+                    $genericResource = new GenericResource($package, $resource);
                     $strategy = $genericResource->getStrategy();
-                    
+
                     $interfaces = class_implements($strategy);
 
-                    if(in_array("iFilter",$interfaces)){
+                    if (in_array("iFilter", $interfaces)) {
                         return $genericResource;
-                    }else{
-                        return FALSE;
-                    }                   
-
-                }elseif(get_class($factory) == "InstalledResourceFactory"){
-
-                    $reader = $factory->createReader($package,$resource,array(),array());
-                    $interfaces = class_implements($reader);
-                    
-                    if(in_array("iFilter",$interfaces)){
-                        return $reader;
-                    }else{
+                    } else {
                         return FALSE;
                     }
+                } elseif (get_class($factory) == "InstalledResourceFactory") {
 
+                    $reader = $factory->createReader($package, $resource, array(), array());
+                    $interfaces = class_implements($reader);
+
+                    if (in_array("iFilter", $interfaces)) {
+                        return $reader;
+                    } else {
+                        return FALSE;
+                    }
                 }
             }
         }
     }
 
-
     /**
      * Read the resource but by calling the readAndProcessQuery function
      */
-    public function readResourceWithFilter(UniversalFilterNode $query,$resource){
+    public function readResourceWithFilter(UniversalFilterNode $query, $resource) {
         $result = $resource->readAndProcessQuery($query);
         return $result;
     }
@@ -657,13 +619,15 @@ class ResourcesModel {
     /**
      * get the columns from a resource
      */
-    public function getColumnsFromResource($package,$resource){
-        $gen_resource_id = DBQueries::getGenericResourceId($package,$resource);
+    public function getColumnsFromResource($package, $resource) {
+        $gen_resource_id = DBQueries::getGenericResourceId($package, $resource);
 
-        if(isset($gen_resource_id["gen_resource_id"]) && $gen_resource_id["gen_resource_id"] != ""){
+        if (isset($gen_resource_id["gen_resource_id"]) && $gen_resource_id["gen_resource_id"] != "") {
             return DBQueries::getPublishedColumns($gen_resource_id["gen_resource_id"]);
         }
         return NULL;
     }
+
 }
+
 ?>

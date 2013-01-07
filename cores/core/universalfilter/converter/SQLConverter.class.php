@@ -12,7 +12,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once("universalfilter/UniversalFilters.php");
+include_once("cores/core/universalfilter/UniversalFilters.php");
 
 class SQLConverter {
 

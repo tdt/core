@@ -9,13 +9,6 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
-include_once("lib/parse_engine.php");
-include_once("controllers/spectql/SPECTQLTokenizer.class.php");
-include_once("controllers/spectql/parseexceptions.php");
-include_once("controllers/spectql/SPECTQLResource.class.php");
-include_once("controllers/spectql/SPECTQLTools.class.php");
-include_once("controllers/spectql/spectql.php");
-include_once("controllers/SQL/SQLGrammarFunctions.php");
 
 class SPECTQLParser {
 

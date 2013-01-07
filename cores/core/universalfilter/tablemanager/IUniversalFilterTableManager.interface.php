@@ -1,14 +1,14 @@
 <?php
 
-include_once("universalfilter/common/BigDataBlockManager.class.php");
-include_once("universalfilter/common/BigList.class.php");
-include_once("universalfilter/common/BigMap.class.php");
+include_once("cores/core/universalfilter/common/BigDataBlockManager.class.php");
+include_once("cores/core/universalfilter/common/BigList.class.php");
+include_once("cores/core/universalfilter/common/BigMap.class.php");
 
-include_once("universalfilter/data/UniversalFilterTableContentRow.class.php");
-include_once("universalfilter/data/UniversalFilterTableHeader.class.php");
-include_once("universalfilter/data/UniversalFilterTableContent.class.php");
-include_once("universalfilter/data/UniversalFilterTable.class.php");
-include_once("universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
+include_once("cores/core/universalfilter/data/UniversalFilterTableContentRow.class.php");
+include_once("cores/core/universalfilter/data/UniversalFilterTableHeader.class.php");
+include_once("cores/core/universalfilter/data/UniversalFilterTableContent.class.php");
+include_once("cores/core/universalfilter/data/UniversalFilterTable.class.php");
+include_once("cores/core/universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
 
 /**
  * The TableManager is an abstraction that sees any data a collection of tables

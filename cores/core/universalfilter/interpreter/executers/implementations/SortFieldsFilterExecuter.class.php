@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-include_once 'universalfilter/common/StableSorting.php';
+include_once("cores/core/universalfilter/common/StableSorting.php");
 
 /* sorting methods... */
 function SortFieldsFilterCompare($obj1, $obj2, $dir=-1) {

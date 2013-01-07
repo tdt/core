@@ -211,7 +211,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     private function getAllStrategies(){
-        $strategies = array();        
+        $strategies = array();             
         if ($handle = opendir('custom/strategies')) {
             while (false !== ($strat = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed strategie          

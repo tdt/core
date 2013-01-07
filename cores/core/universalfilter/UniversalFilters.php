@@ -552,9 +552,3 @@ class CheckInFunction extends NormalFilterNode {
         return $this->constants;
     }
 }
-
-
-/**
- * Extre functions
- */
-include_once("universalfilter/CombinedFilterGenerators.class.php");

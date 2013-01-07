@@ -8,7 +8,7 @@
  * @author Jeroen Penninck
  */
 
-include_once("universalfilter/UniversalFilters.php");
+include_once("cores/core/universalfilter/UniversalFilters.php");
 
 /**
  * This function appends a filter to the list of filters

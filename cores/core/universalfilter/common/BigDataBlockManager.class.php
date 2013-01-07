@@ -1,6 +1,6 @@
 <?php
 
-include_once("universalfilter/common/HashString.php");
+include_once("cores/core/universalfilter/common/HashString.php");
 
 /**
  * Keeps blocks of data in memory if possible, but otherwise, writes them to file
