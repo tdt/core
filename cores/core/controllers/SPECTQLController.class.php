@@ -32,7 +32,7 @@ class SPECTQLController extends AController {
         AutoInclude::register("SPECTQLTokenizer", "cores/core/controllers/spectql/SPECTQLTokenizer.class.php");
         AutoInclude::register("SPECTQLResource", "cores/core/controllers/spectql/SPECTQLResource.class.php");
         AutoInclude::register("SPECTQLTools", "cores/core/controllers/spectql/SPECTQLTools.class.php");
-        AutoInclude::register("TreePrinter", "cores/core/universalfilter/interpreter/debugging/TreePrinter.class.php");        
+        AutoInclude::register("TreePrinter", "cores/core/universalfilter/interpreter/debugging/TreePrinter.class.php");
 
         //include_once("controllers/spectql/parseexceptions.php");   
     }
@@ -42,6 +42,20 @@ class SPECTQLController extends AController {
      * 
      */
     public function GET($matches) {
+
+        /*
+         * Failsafe for when datablock files don't get deleted
+         */
+
+        $tmpdir = "cores/core/tmp/*";
+
+        $files = glob($tmpdir);
+        foreach ($files as $file) {            
+            if (filemtime($file) <= time() - 2) {                
+                unlink($file);
+            }
+        }        
+
         $query = "/";
         if (isset($matches["query"])) {
             $query = $matches["query"];
@@ -122,13 +136,6 @@ class SPECTQLController extends AController {
 
         $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
         $printer->printAll();
-
-        $tmpdir = getcwd() . "\\" . "tmp\\*";
-        $files = glob($tmpdir); // get all file names
-        foreach ($files as $file) { // iterate files
-            if (is_file($file))
-                unlink($file); // delete file
-        }
     }
 
     function HEAD($matches) {

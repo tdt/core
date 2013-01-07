@@ -17,7 +17,11 @@ include_once("cores/core/universalfilter/common/HashString.php");
  */
 class BigDataBlockManager {
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
-    private static $COUNT_KEEP_IN_MEMORY = 200;
+    /*
+     * If errors occur with DataBlockManager, up the COUNT_KEEP_IN_MEMORY
+     * Somewhere along the line it goes wrong, some blocks wont get deleted.
+     */
+    private static $COUNT_KEEP_IN_MEMORY = 10000;
     
     private static $instance;
     
@@ -33,13 +37,12 @@ class BigDataBlockManager {
     public function __construct() {
         $this->memoryblockarray = new stdClass();
         $this->issavedtofile = new stdClass();
-    }
-    
+    }   
     
     
     private function getDirToWriteTo(){
         // is this directory correct?????
-        $tmpdir = getcwd() . "\\" .  "tmp\\";       
+        $tmpdir = "cores/core/tmp/";     
         return $tmpdir."The-DataTank-BigDataBlockManager_block_";
     }
     
@@ -73,7 +76,7 @@ class BigDataBlockManager {
         }
         unset($this->usetimelist[$oldestaccesskey]);
         if(!$this->issavedtofile->$oldestaccesskey){
-            $this->explicitSaveBlock($oldestaccesskey, $this->memoryblockarray->$oldestaccesskey);
+            $this->explicitSaveBlock($oldestaccesskey, $this->memoryblockarray->$oldestaccesskey);            
         }
         unset($this->memoryblockarray->$oldestaccesskey);//remove from memory
         $this->currentcountinmemory--;
@@ -86,7 +89,7 @@ class BigDataBlockManager {
      * @param object $value 
      */
     private function explicitSaveBlock($key, $value){
-        //echo "save ".$key." (".$this->currentcountinmemory.")<br/>";
+        //echo "save ".$key." (".$this->currentcountinmemory.")<br/>";       
         $filename = $this->fileNameFor($key);
         $serializedValue = serialize($value);
         //WRITE FILE
