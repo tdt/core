@@ -30,7 +30,7 @@ class UniversalFilterTableContent {
     public function tryDestroyTable(){
         if($this->needed==0){
             if($this->rows===null){
-                debug_print_backtrace();
+                //debug_print_backtrace();
             }else{
                 $this->rows->destroy();
                 $this->rows=null;

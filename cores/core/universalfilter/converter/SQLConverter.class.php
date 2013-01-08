@@ -14,34 +14,59 @@
  */
 include_once("cores/core/universalfilter/UniversalFilters.php");
 
-class SQLConverter {
-
-    // TODO rewrite this in a following logic:
-    // an array with all the statements in it [SELECT] [FROM] [WHERE] ....
-    // every entry of a statement can then be further filled in by the functions
-    // the converter then returns a concatenation of these entries (which are not empty) in the right SQL order (first select, then from and so on.)
+class SQLConverter {   
 
     private $sql = "";
-    // the SELECT identifiers
+    // the SELECT identifiers of the querynode
     private $identifiers = array();
     private $IN_SELECT_CLAUSE = TRUE;
-    private $selectClausePresent  = FALSE;
+    private $selectClausePresent = FALSE;
     private $headerNames;
-    private $groupby = "";
-    private $orderby ="";
- 
+    private $groupbyclause = array();
+    private $orderbyclause = array();
+    private $selectclause = array();
+    private $whereclause = array();
+    private $limitclause = array();
     
-    public function getOrderBy(){
-        return $this->orderby;
+    /*
+     * Returns an array with [0] => offset and [1] => limit (amount of records)
+     */
+    public function getLimit(){
+        return $this->limitclause;
+    }
+
+    public function getOrderByClause() {
+        return $this->orderbyclause;
+    }
+
+    /*
+     * array of column AS alias entries
+     */
+    public function getSelectClause() {
+        return $this->selectclause;
+    }
+
+    /*
+     * array of identifier names
+     */
+    public function getGroupByClause() {
+        return $this->groupbyclause;
+    }
+
+    /*
+     * this is an array with just one string! i.e. a>b AND z<e
+     * in future development we might use a new return structure.
+     */
+    public function getWhereClause() {
+        return $this->whereclause;
     }
 
     public function __construct($headerNames) {
         $this->headerNames = $headerNames;
     }
 
-    // this function will be deleted if the TODO functionality is implemented
-    public function getGroupBy() {
-        return $this->groupby;
+    public function treeToSQLClauses(UniversalFilterNode $tree) {
+        $this->treeToSQL($tree);
     }
 
     /**
@@ -49,11 +74,11 @@ class SQLConverter {
      * @param UniversalFilterNode $tree
      * @return string A string representation of the tree
      */
-    public function treeToSQL(UniversalFilterNode $tree) {
+    private function treeToSQL(UniversalFilterNode $tree) {
         $method = "print_" . get_class($tree);
         //calls the correct clone method and then returns.
-        $this->$method($tree);
-        
+        return $this->$method($tree);
+
         /*
          * Sometimes only an identifier can be present, without any clauses
          * So we check for the "selectclausepresent" if we have a select clause
@@ -61,29 +86,32 @@ class SQLConverter {
          * is the resource identifier, for there are no columnselectionfilter identifiers, or 
          * filter identifiers ( they need a select clause )
          */
-        if(!$this->selectClausePresent){
-            $identifier = $this->sql;
-            $this->sql = "SELECT * FROM ".$identifier;        
+        if (!$this->selectClausePresent) {
+            
         }
-        return $this->sql;
     }
-
+    
+    private function print_LimitFilter(LimitFilter $filter){                
+        $this->limitclause[0] = $filter->offset;
+        $this->limitclause[1] = $filter->limit;
+         $this->treeToSQL($filter->getSource());
+    }
+    
     private function print_Identifier(Identifier $filter) {
-        // just add it to the string
-        $this->sql.= $filter->getIdentifierString() . " ";
 
-        if ($this->IN_SELECT_CLAUSE) {            
+        if ($this->IN_SELECT_CLAUSE) {
             array_push($this->identifiers, $filter->getIdentifierString());
         }
+        // just add it to the string
+        return $filter->getIdentifierString();
     }
 
     public function getIdentifiers() {
         return $this->identifiers;
     }
 
-    private function print_Constant(Constant $filter) {
-        // just add it to the string
-        $this->sql.= $filter->getConstant() . " ";
+    private function print_Constant(Constant $filter) {      
+        return $filter->getConstant();
     }
 
     private function print_TableAliasFilter(TableAliasFilter $filter) {
@@ -91,31 +119,27 @@ class SQLConverter {
     }
 
     private function print_SortFieldsFilter(SortFieldsFilter $filter) {
-        $this->orderby = " ORDER BY ";
+
         foreach ($filter->getColumnData() as $index => $originalColumn) {
             $name = $originalColumn->getColumn()->getIdentifierString();
-            $this->orderby.= $name;
             $order = ($originalColumn->getSortOrder() == SortFieldsFilterColumn::$SORTORDER_ASCENDING ? "ASC" : "DESC");
-            $this->orderby.= " " . $order . " ";
+            array_push($this->orderbyclause, $name . " " . $order);
         }
-        $this->orderby = rtrim($this->orderby);
+
+        // continue recursion
         $this->treeToSQL($filter->getSource());
     }
 
     private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter) {
-
-        // add a WHERE clause the source is to be added in the FROM
-        $this->sql.= " FROM " . $filter->getSource()->getIdentifierString() . " ";
-        $this->sql.= "WHERE ";
+               
         $this->IN_SELECT_CLAUSE = FALSE;
-        $this->treeToSQL($filter->getExpression());
+        array_push($this->whereclause, $this->treeToSQL($filter->getExpression()));
     }
 
     private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter) {
 
         $this->selectClausePresent = TRUE;
-        $this->sql.= "SELECT ";
-        
+
         foreach ($filter->getColumnData() as $index => $originalColumn) {
 
 
@@ -123,23 +147,19 @@ class SQLConverter {
 
                 array_push($this->identifiers, '*');
                 foreach ($this->headerNames as $headerName) {
-                    $this->sql.= "$headerName AS $headerName, ";
+                    array_push($this->selectclause, "$headerName AS $headerName");
                 }
             } else {
-                $this->treeToSQL($originalColumn->getColumn());
-
+                $identifier = $this->treeToSQL($originalColumn->getColumn());
                 // insert requiredHeaderName !!
                 $headerName = array_shift($this->headerNames);
-                $this->sql.= "AS $headerName";
-                $this->sql.= ", ";
+                array_push($this->selectclause, "$identifier AS $headerName");
             }
         }
 
-        $this->sql = rtrim($this->sql, ", ");        
-        
-        if ($filter->getSource()->getType() == "IDENTIFIER") {
-            $this->sql.= " FROM " . $filter->getSource()->getIdentifierString();
-        } else {            
+
+        if ($filter->getSource()->getType() != "IDENTIFIER") {
+            // continue the recursion
             $this->treeToSQL($filter->getSource());
         }
     }
@@ -148,99 +168,85 @@ class SQLConverter {
         // not supported yet
     }
 
-    private function print_DataGrouper(DataGrouper $filter) {        
-        $this->groupby = "GROUP BY ";
+    private function print_DataGrouper(DataGrouper $filter) {
         foreach ($filter->getColumns() as $column) {
-            $this->groupby.= $column->getIdentifierString() . ", ";
+            array_push($this->groupbyclause, $column->getIdentifierString());
         }
 
-        $this->groupby = rtrim($this->groupby, ", ");
-        //$this->IN_SELECT_CLAUSE = false;
-        $this->sql.= " FROM ";
         $this->treeToSQL($filter->getSource());
     }
 
-    private function print_UnaryFunction(UnaryFunction $filter) {
-        // map the types on the correct functions like FUNCTION_UNARY_UPPERCASE -> uppercase()
-        // maybe the default should be mysql syntax in case different engines support
-        // different unaryfunction grammatics.
-        // NOT SUPPORTED IN THIS SIMPLE CONVERTER
+    private function print_UnaryFunction(UnaryFunction $filter) {       
 
         switch ($filter->getType()) {
             case UnaryFunction::$FUNCTION_UNARY_UPPERCASE:
-                $this->sql.= "UPPER( ";
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " ) ";
-                break;
+                $function = "UPPER( ";
+                $function.=$this->treeToSQL($filter->getSource(0));
+                $function.= " ) ";
+                return $function;
             case UnaryFunction::$FUNCTION_UNARY_LOWERCASE:
-                $this->sql.= "LOWER( ";
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " ) ";
-                break;
+                $function = "LOWER( ";
+                $function.=$this->treeToSQL($filter->getSource(0));
+                $function.= " ) ";
+                return $function;
             case UnaryFunction::$FUNCTION_UNARY_STRINGLENGTH:
-                $this->sql.= "LEN( ";
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " ) ";
-                break;
+                $function = "LEN( ";
+                $function.=$this->treeToSQL($filter->getSource(0));
+                $function.= " ) ";
+                return $function;
             case UnaryFunction::$FUNCTION_UNARY_ROUND:
-                $this->sql.= "ROUND( ";
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " ) ";
-                break;
+                $function = "ROUND( ";
+                $function.=$this->treeToSQL($filter->getSource(0));
+                $function.= " ) ";
+                return $function;
             case UnaryFunction::$FUNCTION_UNARY_ISNULL:
-                $this->sql.= "ISNULL( ";
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " ) ";
-                break;
-            case Un:
-                $this->sql.= "ISNULL( ";
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " ) ";
-                break;
+                $function = "ISNULL( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= " ) ";
+                return $function;
             default:
                 break;
         }
     }
 
     private function print_BinaryFunction(BinaryFunction $filter) {
-        // note: we don't support every function! This is just an example SQLConverter
 
         switch ($filter->getType()) {
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= "=";
-                $this->treeToSQL($filter->getSource(1));
-                break;
+                $function = $this->treeToSQL($filter->getSource(0));
+                $function.= "=";
+                $function.= $this->treeToSQL($filter->getSource(1));
+                return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= "<";
-                $this->treeToSQL($filter->getSource(1));
-                break;
+                $function = $this->treeToSQL($filter->getSource(0));
+                $function.= "<";
+                $function.= $this->treeToSQL($filter->getSource(1));
+                return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= ">";
-                $this->treeToSQL($filter->getSource(1));
-                break;
+                $function = $this->treeToSQL($filter->getSource(0));
+                $function.= ">";
+                $function.= $this->treeToSQL($filter->getSource(1));
+                return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= ">=";
-                $this->treeToSQL($filter->getSource(1));
-                break;
+                $function = $this->treeToSQL($filter->getSource(0));
+                $function.= ">=";
+                $function.= $this->treeToSQL($filter->getSource(1));
+                return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= "<=";
-                $this->treeToSQL($filter->getSource(1));
-                break;
+                $function = $this->treeToSQL($filter->getSource(0));
+                $function.= "<=";
+                $function.= $this->treeToSQL($filter->getSource(1));
+                return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= "!=";
-                $this->treeToSQL($filter->getSource(1));
-                break;
+                $function = $this->treeToSQL($filter->getSource(0));
+                $function.= "!=";
+                $function.= $this->treeToSQL($filter->getSource(1));
+                return $function;
             case BinaryFunction::$FUNCTION_BINARY_AND:
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= " AND ";
-                $this->treeToSQL($filter->getSource(1));
-                break;            
+                $function = $this->treeToSQL($filter->getSource(0));
+                $function.= " AND ";
+                $function.= $this->treeToSQL($filter->getSource(1));
+                return $function;
             default:
                 break;
         }
@@ -251,14 +257,43 @@ class SQLConverter {
     }
 
     private function print_AggregatorFunction(AggregatorFunction $filter) {
-        //TODO the rest of the aggregators
-       
+
         switch ($filter->getType()) {
             case AggregatorFunction::$AGGREGATOR_COUNT:
-                $this->sql.=" count( ";
-                $this->treeToSQL($filter->getSource(0));
-                $this->sql.= ") ";                
-                break;           
+                $function = " count( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= ") ";
+                return $function;
+            case AggregatorFunction::$AGGREGATOR_AVG:
+                $function = " avg( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= ") ";
+                return $function;
+            case AggregatorFunction::$AGGREGATOR_FIRST:
+                $function = " first( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= ") ";
+                return $function;
+            case AggregatorFunction::$AGGREGATOR_LAST:
+                $function = " last( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= ") ";
+                return $function;
+            case AggregatorFunction::$AGGREGATOR_MAX:
+                $function = " max( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= ") ";
+                return $function;
+            case AggregatorFunction::$AGGREGATOR_MIN:
+                $function = " min( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= ") ";
+                return $function;
+            case AggregatorFunction::$AGGREGATOR_SUM:
+                $function = " sum( ";
+                $function.= $this->treeToSQL($filter->getSource(0));
+                $function.= ") ";
+                return $function;
             default:
                 break;
         }
@@ -268,6 +303,72 @@ class SQLConverter {
         // not supported yet
     }
 
+    
+    /*
+     * expects for treeToSQLClauses to be called first.
+     */
+    public function getPresentClauses(){
+        $clauses = array();
+        
+          if($this->whereclause){
+            array_push($clauses,"where");
+        }
+        
+        if($this->groupbyclause){
+            array_push($clauses,"groupby");
+        }
+        
+        if($this->selectclause){
+            array_push($clauses,"select");
+        }
+        
+        if($this->orderbyclause){
+            array_push($clauses,"orderby");
+        }   
+        
+         if($this->limitclause){
+            array_push($clauses,"limit");
+        }   
+        
+        return $clauses;
+    }
+    
+    /*
+     * Returns the clause(s) for a given clause name. array(["clause"] => ... )
+     * The possible clauses are where - groupby - select - order by
+     * If a select clause is asked for , then the groupby and where clause, if applicable 
+     * will be returned also.
+     */
+    public function getClause($clause){        
+        
+        $clauses = array();
+        
+        foreach($this->getPresentClauses() as $clause_name){
+            switch($clause_name){
+                case "where":
+                       array_push($clauses,$this->whereclause);
+                    break;
+                case "groupby":
+                    array_push($clauses,$this->groupbyclause);
+                    break;
+                case "select":
+                    array_push($clauses,$this->selectclause);
+                    break;
+                case "orderby":
+                    array_push($clauses,$this->orderbyclause);
+                    break;
+                 case "limit":
+                    array_push($clauses,$this->orderbyclause);
+                    break;
+            }
+            
+            if($clause == $clause_name)
+                break;
+            
+        }
+        return $clauses;
+        
+    }
 }
 
 ?>

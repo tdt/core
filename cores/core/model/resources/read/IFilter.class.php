@@ -10,10 +10,11 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
+include_once("cores/core/universalfilter/converter/SQLConverter.class.php");
+include_once("cores/core/universalfilter/interpreter/debugging/TreePrinter.class.php");
 
+interface iFilter {
 
-interface iFilter{
- 
     /**
      * This has to return not only the dataset as a phpobject!!
      * Check the documentation in UniversalTableManager, above the function
@@ -28,6 +29,7 @@ interface iFilter{
      * i.e. generic resources need a configObject
      * installed resources only need the query.
      */
-    public function readAndProcessQuery($query,$parameters);
+    public function readAndProcessQuery($query, $parameters);
 }
+
 ?>

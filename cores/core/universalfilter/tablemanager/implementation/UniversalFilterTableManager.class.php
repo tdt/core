@@ -21,12 +21,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private $resourcesmodel;
 
     public function __construct() {
-        
+
         AutoInclude::register("PhpObjectTableConverter", "cores/core/universalfilter/tablemanager/implementation/tools/PhpObjectTableConverter.class.php");
-        AutoInclude::register("ExternallyCalculatedFilterNode","cores/core/universalfilter/sourcefilterbinding/ExternallyCalculatedFilterNode.class.php");
-        AutoInclude::register("UniversalFilterTableHeader","cores/core/universalfilter/data/UniversalFilterTableHeader.class.php");
-        AutoInclude::register("UniversalFilterTableHeaderColumnInfo","cores/core/universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
-        
+        AutoInclude::register("ExternallyCalculatedFilterNode", "cores/core/universalfilter/sourcefilterbinding/ExternallyCalculatedFilterNode.class.php");
+        AutoInclude::register("UniversalFilterTableHeader", "cores/core/universalfilter/data/UniversalFilterTableHeader.class.php");
+        AutoInclude::register("UniversalFilterTableHeaderColumnInfo", "cores/core/universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
+
         $this->resourcesmodel = ResourcesModel::getInstance();
     }
 
@@ -242,8 +242,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
             $resultObject = $model->readResourceWithFilter($query, $result);
 
-            if ($resultObject->phpDataObject == NULL) {
-
+            if (isset($resultObject->phpDataObject) && $resultObject->phpDataObject == NULL) {
                 return $query;
             } elseif ($resultObject->indexInParent == "-1") {
 
@@ -251,13 +250,82 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
                 $table = $converter->getPhpObjectTable($identifierpieces, $resultObject->phpDataObject);
                 return new ExternallyCalculatedFilterNode($table, $query);
             } else {// query has been partially executed
-                $converter = new PhpObjectTableConverter();
-                $table = $converter->getPhpObjectTable($identifierpieces, $resultObject->phpDataObject);
-                $replacementNode = new ExternallyCalculatedFilterNode($table, $resultObject->executedNode);
-                $parentNode = $resultObject->parentNode;
-                $parentNode->setSource($replacementNode, $parentNode->indexInParent);
-                return $query;
+
+                /*
+                 * get the clauses from the resultObject
+                 * then via the names of the clauses replace them in the query
+                 */
+                $query = $resultObject->query;
+
+                /*
+                 * iterate over the query tree
+                 * Note that when the parentNode is null and you replace a node
+                 * it means that you have executed the upper node of the query aka you've already executed the node.   
+                 * 
+                 * The index in the parent node is always 0 because we only execute clauses such as where, group by
+                 * These nodes only have 1 source. We do not replace or partially execute binaryfunctions or joins, which have 2 or more sources.                  
+                 */
+                $parentNode = null;
+                $currentNode = $query;
+                $replaced = FALSE;
+                $clause = $resultObject->clause;
+                $phpObject = $resultObject->partialTreeResultObject;
+
+                while ($currentNode != null && !$replaced) {
+                    $type = $currentNode->getType();
+
+                    switch ($clause) {
+                        case "orderby":
+                            if ($type == "FILTERSORTCOLUMNS") {
+                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                                $replaced = TRUE;
+                            }
+                            break;
+                        case "where":
+                            if ($type == "FILTEREXPRESSION") {
+                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                                $replaced = TRUE;
+                            }
+                            break;
+                        case "groupby":
+                            if ($type == "DATAGROUPER") {
+                                /*
+                                 * replace the query node
+                                 */
+                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                                $replaced = TRUE;
+                            }
+                            break;
+                        case "select":
+                            if ($type == "FILTERCOLUMN") {
+                                /*
+                                 * replace the query node
+                                 */
+                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                                $replaced = TRUE;
+                            }
+                            break;
+                        case "limit":
+                            if ($type == "FILTERLIMIT") {
+                                /*
+                                 * replace the query node
+                                 */
+                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                                $replaced = TRUE;
+                            }
+                            break;
+                    }
+
+                    if (method_exists($currentNode, "getSource")) {
+                        $parentNode = $currentNode;
+                        $currentNode = $currentNode->getSource();
+                    } else {
+                        $currentNode = null;
+                    }
+                }
             }
+         
+            return $query;
         }
     }
 
@@ -273,6 +341,24 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $splited = $this->splitIdentifier($globalTableIdentifier);
         return $splited[0] . "." . $splited[1];
+    }
+
+    /*
+     * Replaces a node in the tree.
+     */
+
+    private function replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode) {
+        /*
+         * replace the query node
+         */
+        if ($phpObject != "") {
+            $converter = new PhpObjectTableConverter();
+            $table = $converter->getPhpObjectTable($identifierpieces, $phpObject);
+            $replacementNode = new ExternallyCalculatedFilterNode($table, $currentNode);
+            if ($parentNode != null) {
+                $parentNode->setSource($replacementNode, 0);
+            }
+        }
     }
 
 }

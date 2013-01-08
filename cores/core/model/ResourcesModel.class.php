@@ -32,7 +32,7 @@ class ResourcesModel {
         AutoInclude::register("FormatterFactory", "custom/formatters/FormatterFactory.class.php");
         AutoInclude::register("AFormatter", "custom/formatters/AFormatter.class.php");
         AutoInclude::register("ContentNegotiator", "framework/ContentNegotiator.class.php");
-        AutoInclude::register("RequestURI", "cores/core/utility/RequestURI.class.php");
+        AutoInclude::register("RequestURI", "cores/core/utility/RequestURI.class.php");        
 
         $this->factories = array(); //(ordening does matter here! Put the least expensive on top)
         $this->factories["generic"] = new GenericResourceFactory();

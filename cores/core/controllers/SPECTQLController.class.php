@@ -33,8 +33,7 @@ class SPECTQLController extends AController {
         AutoInclude::register("SPECTQLResource", "cores/core/controllers/spectql/SPECTQLResource.class.php");
         AutoInclude::register("SPECTQLTools", "cores/core/controllers/spectql/SPECTQLTools.class.php");
         AutoInclude::register("TreePrinter", "cores/core/universalfilter/interpreter/debugging/TreePrinter.class.php");
-
-        //include_once("controllers/spectql/parseexceptions.php");   
+        AutoInclude::register("QueryTreeHandler","cores/core/universalfilter/interpreter/other/QueryTreeHandler.class.php");
     }
 
     /**
@@ -50,11 +49,11 @@ class SPECTQLController extends AController {
         $tmpdir = "cores/core/tmp/*";
 
         $files = glob($tmpdir);
-        foreach ($files as $file) {            
-            if (filemtime($file) <= time() - 2) {                
+        foreach ($files as $file) {
+            if (filemtime($file) <= time() - 2) {
                 unlink($file);
             }
-        }        
+        }
 
         $query = "/";
         if (isset($matches["query"])) {
@@ -90,7 +89,7 @@ class SPECTQLController extends AController {
          * are still hidden from normal users. Using a regex, 
          * we're going to find out if the TDTAdmin has been adressed.
          */
-
+                
         if (preg_match("/.*TDTAdmin.*/i", $query) == 1) {
             if (!$this->isBasicAuthenticated()) {
                 //we need to be authenticated

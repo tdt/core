@@ -67,7 +67,7 @@ class RController extends AController {
                 if (strpos($packagestring, $package) == 0
                         && strpos($packagestring, $package) !== false && $package != $packagestring
                         && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
-                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $packagestring;
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . $packagestring;
                     $packagelinks[] = $link;
                     if (!isset($linkObject->subPackages)) {
                         $linkObject->subPackages = new stdClass();
@@ -79,7 +79,7 @@ class RController extends AController {
             if (isset($doc->$package)) {
                 $resourcenames = get_object_vars($doc->$package);
                 foreach ($resourcenames as $resourcename => $value) {
-                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $package . "/" . $resourcename;
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {
                         $linkObject->resources = new stdClass();
@@ -267,7 +267,7 @@ class RController extends AController {
                         && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
 
                     $foundPackage = TRUE;
-                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $packagestring;
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . $packagestring;
                     $packagelinks[] = $link;
                     if (!isset($linkObject->subPackages)) {
                         $linkObject->subPackages = new stdClass();
@@ -280,7 +280,7 @@ class RController extends AController {
                 $foundPackage = TRUE;
                 $resourcenames = get_object_vars($doc->$package);
                 foreach ($resourcenames as $resourcename => $value) {
-                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . Config::get("core", "coreprefix") . $package . "/" . $resourcename;
+                    $link = Config::get("general", "hostname") . Config::get("general", "subdir") . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {
                         $linkObject->resources = new stdClass();

@@ -101,7 +101,7 @@ class SPECTQLParser {
                 }
             }
             return $this->parser->eat_eof();
-        } catch (parse_error $e) {
+        } catch (Exception $e) {
             throw new TDTException(500,array("SPECTQLParser - $e->getMessage()"));
         }
     }
