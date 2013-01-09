@@ -1,0 +1,198 @@
+%class spectql
+%start stmt
+
+%left ':'
+%left '.'
+%left '?'
+%left LN
+%left '&'
+%left '|'
+%left '+' '-'
+%left '*' '/'
+%left '>' EQ '<' '~'
+
+stmt = flow
+| flow ':' format
+.
+
+flow = expression
+| expression/e '.' LIMIT '(' num/offset ',' num/limit ')' { 
+
+    $limit = new LimitFilter($e,$offset,$limit);
+    $$ = $limit;
+ }
+| expression/e '.' LIMIT '(' num/limit ')' {
+    $limit = new LimitFilter($e,0,$limit);
+    $$ = $limit;
+}
+.
+
+expression = resource {$$ = $1;}
+
+.
+resource = resourceid '{' selector/sel '}' { 
+
+
+// from
+$totalfilter = new Identifier($1);
+	
+// group by
+$groupby = array();
+$aggregate = false; 
+foreach($sel["identifiers"] as $identifier){
+    if(get_class($identifier) == "AggregatorFunction"){
+        $aggregate = true;
+    }else{
+			// identifier could be a unairy or tertiary function like substring or ucase
+			if(get_class($identifier) != "Identifier"){
+				array_push($groupby,$identifier->getSource());				
+			}else{
+			   array_push($groupby,$identifier);
+			}	
+      
+    }					
+}
+							
+if($aggregate){
+    $datagrouper = new DataGrouper($groupby);
+    $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
+}
+	
+// select
+
+$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
+
+
+// order by
+$orderby = new SortFieldsFilter($sel["sorts"]);
+if(!empty($sel["sorts"])){
+    $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+}
+
+$$ = $totalfilter;
+						}
+| resourceid '{' selector/sel '}' '?' filterlist/fl { 
+
+
+$totalfilter = new Identifier($1);
+
+
+// where
+
+$expressionFilter = new FilterByExpressionFilter($fl); 
+$totalfilter = putFilterAfterIfExists($totalfilter,$expressionFilter);
+
+$groupby = array();
+$aggregate = false; 
+foreach($sel["identifiers"] as $identifier){
+    if(get_class($identifier) == "AggregatorFunction"){
+        $aggregate = true;
+    }else{
+        array_push($groupby,$identifier);
+    }					
+}
+
+// group by				
+			
+if($aggregate){
+    $datagrouper = new DataGrouper($groupby);
+    $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
+}
+	
+// functions (binary, unary or tertiary)
+
+$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
+
+// order by
+$orderby = new SortFieldsFilter($sel["sorts"]);
+if(!empty($sel["sorts"])){
+    $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
+}
+
+$$ = $totalfilter;				
+}
+
+| resourceid { $$ = new Identifier($1); }
+| resourceid '?' filterlist { $$ = new FilterByExpressionFilter($3); $$->setSource(new Identifier($1)); }
+.
+
+resourceid = name '/' name  { $$ = $1 . "." . $3; }
+| resourceid '/' name { $$ = $1 . "." . $3; }
+| resourceid '/' num { $$ = $1 . "." . $3; }
+.
+
+num = num '.' num { $$ = new Constant((double) ($1 . "." . $3));  }
+|
+.
+
+filterlist = filter { $$ = $1; }
+| filterlist '&' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,$1,$3); }
+| filterlist '|' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR,$1,$3); }
+| '(' filterlist/list ')' { $$ = $list;}
+.
+
+filter = name/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| name/a EQ string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| name/a '<' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| name/a '>' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
+| name/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| name/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| name/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); }
+| name/a NE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| name/a NE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| name/a GE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| name/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| name/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| name/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| name/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (ternary function)*/ }
+.
+
+
+selector = selectargument/arg { $$ = $1; }
+| selector ',' selectargument/arg { $filters = array_merge($1["filters"],$3["filters"]); 
+                                    $sorts   = array_merge($1["sorts"],$3["sorts"]);
+				    $identifiers = array_merge($1["identifiers"],$3["identifiers"]);
+                                    $$ = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); }
+.
+
+selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); }
+| argument/arg order/order { 
+
+$$ =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), 
+             "sorts" => array(new SortFieldsFilterColumn($arg, $order)), 
+             "identifiers" => array($arg));}
+| name ALIAS argument/arg  {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array(), "identifiers" => array($arg));}
+| name ALIAS argument/arg order {$$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,$1)), "sorts" => array(new SortFieldsFilterColumn($arg, $order)), "identifiers" => array($arg));}
+.
+
+function = name '(' argument ')' { $$ = getUnaryFilterForSQLFunction($1,$3); }
+| name '(' argument/arg1 ',' argument/arg2 ',' argument/arg3 ')' {$$ = getTertairyFunctionForSQLFunction($1,$arg1,$arg2,$arg3);}
+.
+
+order = '+' { /* SORT BY ascending */ $$ = SortFieldsFilterColumn::$SORTORDER_ASCENDING; }
+| '-' { /* SORT BY descending  */ $$ = SortFieldsFilterColumn::$SORTORDER_DESCENDING; }
+.
+
+argument = name/name { $$ = new Identifier($name); }
+| link
+| '*' { $$ = new Identifier('*'); }
+| function { $$ = $1;}
+| num {$$ = new Constant($1);}
+.
+
+link = name LN resourceid '.' name { /* joined resource */ }
+.
+
+format = name { /* do nothing, format isnt used in the AST for it is an abstract filter tree , format is not a filter.*/ }
+.
+
+calc = num { $$ = new Constant($1); }
+| calc '+' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $1, $3);  }
+| calc '-' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $1, $3); }
+| calc '*' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $1, $3); }
+| calc '/' calc { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $1, $3); }
+| num '.' num { $$ = new Constant((double)($1 . "." . $3)); }
+| '(' calc ')' {$$ = $1;} 
+.
