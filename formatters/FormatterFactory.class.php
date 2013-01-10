@@ -119,12 +119,12 @@ class FormatterFactory{
 			$format=$this->format."Formatter";
 			return new $format($rootname,$objectToPrint,$callback);
 		}
-		$format=$this->format."Formatter";
+		$format = $this->format."Formatter";
 		// Before this is done, a check on the existence of the format has already been done, so we now we can
 		// automatically include the visualization format if the format isn't found in the formatters folder.
 
-		$classname =  "tdt\\core\\formatters\\". $format . "Formatter";
-		$classnameval =  "tdt\\core\\formatters\\visualizations\\". $format . "Formatter";
+		$classname =  "tdt\\core\\formatters\\". $format;
+		$classnameval =  "tdt\\core\\formatters\\visualizations\\". $format;
 		if(class_exists($classname)){
 			$format = $classname;
 		}else{
@@ -141,7 +141,7 @@ class FormatterFactory{
 	public function getFormatterDocumentation(){
 		$doc = array();
 		//open the custom directory and loop through it
-		if ($handle = opendir('../formatters')) {
+		if ($handle = opendir(__DIR__ . '/../formatters')) {
 			while (false !== ($formatter = readdir($handle))) {
 				//if the object read is a directory and the configuration methods file exists, then add it to the installed formatters
 				$classname =  "tdt\\core\\formatters\\". $formatter . "Formatter";
@@ -168,7 +168,7 @@ class FormatterFactory{
 	public function getVisualizationDocumentation(){
 		$doc = array();
 		//open the custom directory and loop through it
-		if ($handle = opendir('visualizations')) {
+		if ($handle = opendir(__DIR__ . '/visualizations')) {
 			while (false !== ($formatter = readdir($handle))) {
 				//if the object read is a directory and the configuration methods file exists, then add it to the installed formatters
 				$classnameval =  "tdt\\core\\formatters\\visualizations\\". $format . "Formatter";

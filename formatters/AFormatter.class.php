@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * This class is an abstract formatter class. It will take an object and format it to a certain format.
  * This format and the logic to format it will be implemented in a class that inherits from this class.
  *
@@ -27,15 +27,15 @@ abstract class AFormatter {
      * @param Mixed  $objectToPrint Object that needs printing.
      */
     public function __construct($rootname, &$objectToPrint) {
-        include(Config::get("general","subdir")."core/version.php");
+        include(__DIR__."/../version.php");
         $this->version = $version;
 
         $this->rootname = $rootname;
         $this->objectToPrint = &$objectToPrint;
     }
-     
+
     /**
-     * This function prints the object. uses {@link printHeader()} and {@link printBody()}. 
+     * This function prints the object. uses {@link printHeader()} and {@link printBody()}.
      */
     public function printAll() {
 
@@ -56,6 +56,6 @@ abstract class AFormatter {
      * This function will print the body of the responsemessage.
      */
     abstract public function printBody();
-    
+
 }
 ?>

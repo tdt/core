@@ -8,9 +8,10 @@
  * @author Pieter Colpaert
  */
 
+namespace tdt\core\utility;
+
 use tdt\framework\Config;
 
-namespace tdt\core\utility;
 
 class RequestURI{
     private static $instance;
@@ -31,14 +32,13 @@ class RequestURI{
         //if a SUBDIR has been set in the config, remove this from here
         if(Config::get("general","subdir") != ""){
             $subdir = str_replace("/", "/", Config::get("general","subdir"));
-            $requestURI = preg_replace("/".$subdir."/si","",$requestURI,1);
-        }   
+            $requestURI = preg_replace("/". str_replace('/','\/',$subdir) ."/si","",$requestURI,1);
+        }
 
         //Now for the hard part: parse the REQUEST_URI
         //This can look like this: /package/resource/identi/fiers.json
-        
+
         $path = explode("/",$requestURI);
-        array_shift($path);
 
         $i = 0;
         //shift the path chunks as long as they exist and add them to the right variable
@@ -89,15 +89,15 @@ class RequestURI{
     public function getHostName(){
         return $this->host;
     }
-    
+
     public function getSubDir(){
         return Config::get("general","subdir");
     }
-    
+
     public function getPackage(){
         return $this->package;
     }
-    
+
     public function getResource(){
         return $this->resource;
     }
@@ -108,7 +108,7 @@ class RequestURI{
         }
         return array();
     }
-    
+
     public function getGET(){
         if(!is_null($this->GETParameters)){
             return $this->GETParameters;
@@ -119,30 +119,30 @@ class RequestURI{
     public function getGivenFormat(){
         return $this->format;
     }
-    
+
     public function getRealWorldObjectURI(){
-        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/";        
+        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/";
         $URI .= $this->getResourcePath();
-            
+
         return $URI;
     }
-    
+
     public function getResourcePath(){
-        $URI = $this->resource;        
+        $URI = $this->resource;
         if(isset($this->filters) && !is_null($this->filters)){
             $URI .= "/";
             $URI .= implode("/", $this->filters);
         }
-        
+
         //Remove trailing slash
         if (strripos($URI, '/') == strlen($URI) - 1)
             $URI = substr($URI, 0, strlen($URI) - 1);
-            
+
         return $URI;
     }
 
     public function getURI(){
-        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;        
+        $URI = $this->protocol . "://" . $this->host . $this->getSubDir() . $this->package . "/" . $this->resource;
         if(isset($this->filters) && !is_null($this->filters)){
             $URI .= "/";
             $URI .= implode("/", $this->filters);
@@ -160,5 +160,5 @@ class RequestURI{
         return $URI;
     }
 }
-        
+
 ?>
