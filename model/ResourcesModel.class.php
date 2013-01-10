@@ -19,10 +19,10 @@ use tdt\core\model\RemoteResourceFactory;
 use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
 use tdt\core\universalfilter\UniversalFilterNode;
-use tdt\core\universalfilter\UniversalFilterNode;
 use tdt\framework\Cache\Cache;
 use tdt\framework\Config;
 use tdt\framework\TDTException;
+
 
 namespace tdt\core\model;
 
@@ -38,26 +38,6 @@ class ResourcesModel {
     private $updateActions;
 
     private function __construct() {
-
-        /*
-         * 
-
-
-          AutoInclude::register("AResourceFactory", "cores/core/model/AResourceFactory.class.php");
-          AutoInclude::register("GenericResourceFactory", "cores/core/model/GenericResourceFactory.class.php");
-          AutoInclude::register("InstalledResourceFactory", "cores/core/model/InstalledResourceFactory.class.php");
-          AutoInclude::register("RemoteResourceFactory", "cores/core/model/RemoteResourceFactory.class.php");
-          AutoInclude::register("CoreResourceFactory", "cores/core/model/CoreResourceFactory.class.php");
-          AutoInclude::register("GenericResourceUpdater", "GenericResourceUpdater.class.php");
-          AutoInclude::register("Doc", "cores/core/model/Doc.class.php");
-          AutoInclude::register("LanguageNegotiator", "framework/LanguageNegotiator.class.php");
-          AutoInclude::register("FormatterFactory", "custom/formatters/FormatterFactory.class.php");
-          AutoInclude::register("AFormatter", "custom/formatters/AFormatter.class.php");
-          AutoInclude::register("ContentNegotiator", "framework/ContentNegotiator.class.php");
-          AutoInclude::register("RequestURI", "cores/core/utility/RequestURI.class.php");
-         *
-         */
-
         $this->host = Config::get("general", "hostname");
         $this->subdir = Config::get("general", "subdir");
 
@@ -78,8 +58,8 @@ class ResourcesModel {
         $this->updateActions["generic"] = "GenericResourceUpdater";
     }
 
-    public static function getInstance() {
-        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
+    public static function getInstance() {                  
+        RedBean_Facade::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         if (!isset(self::$instance)) {
             self::$instance = new ResourcesModel();
         }
