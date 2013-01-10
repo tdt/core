@@ -10,9 +10,12 @@
  * @author Pieter Colpaert
  */
 
-namespace create;
+namespace tdt\core\model\resources\create;
 
-class GenericResourceCreator extends createACreator {
+use tdt\core\model\DBQueries;
+use tdt\framework\TDTException;
+
+class GenericResourceCreator extends ACreator {
 
     private $strategy;
 

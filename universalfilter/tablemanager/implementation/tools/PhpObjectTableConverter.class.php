@@ -1,5 +1,11 @@
 <?php
 
+use tdt\core\universalfilter\data\UniversalFilterTable;
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
+
 /**
  * This class can convert a php-object to a table (as used by the interpreter)
  *
@@ -9,7 +15,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tools;
+namespace tdt\core\universalfilter\tablemanager\implementation\tools;
 
 class PhpObjectTableConverter {
     

@@ -8,7 +8,10 @@
  * @author Jan Vansteenlandt
  */
 
-namespace read;
+namespace tdt\core\model\resources\read;
+
+use tdt\framework\LanguageNegotiator;
+use tdt\framework\TDTException;
 
 abstract class AReader {
     

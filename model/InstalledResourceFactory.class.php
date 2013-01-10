@@ -8,13 +8,18 @@
  * @author Jan Vansteenlandt <jan a t iRail.be>
  */
 
-namespace model;
+use tdt\core\model\DBQueries;
+use tdt\core\model\resources\create\InstalledResourceCreator;
+use tdt\core\model\resources\delete\InstalledResourceDeleter;
+use tdt\framework\TDTException;
+
+namespace tdt\core\model;
+
 
 class InstalledResourceFactory extends  AResourceFactory{
     
     public function __construct() {
-        /*AutoInclude::register("InstalledResourceCreator","cores/core/model/resources/create/InstalledResourceCreator.class.php");
-        AutoInclude::register("InstalledResourceDeleter", "cores/core/model/resources/delete/InstalledResourceDeleter.class.php");*/
+        
     }
     
     public function createCreator($package,$resource, $parameters, $RESTparameters){

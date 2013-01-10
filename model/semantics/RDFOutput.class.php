@@ -12,7 +12,10 @@
  * @author Miel Vander Sande
  */
 
-namespace semantics;
+namespace tdt\core\model\semantics;
+
+use tdt\core\model\semantics\OntologyProcessor;
+use tdt\core\utility\RequestURI;
 
 class RDFOutput {
 

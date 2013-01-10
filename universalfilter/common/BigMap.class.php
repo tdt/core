@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace common;
+namespace tdt\core\universalfilter\common;
 
 class BigMap {
     private $id;

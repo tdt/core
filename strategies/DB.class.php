@@ -9,7 +9,12 @@
  * @author Jan Vansteenlandt
  */
 
-namespace strategies;
+namespace tdt\core\strategies;
+
+use tdt\core\model\resources\read\iFilter;
+use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
+use tdt\framework\Log;
+use tdt\framework\TDTException;
 
 class DB extends ATabularData implements iFilter {
 

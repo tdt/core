@@ -1,5 +1,9 @@
 <?php
 
+use tdt\core\universalfilter\converter\SQLConverter;
+use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /*
  * This class can iterate over a query tree and pick out certain nodes.
  *
@@ -10,7 +14,7 @@
  * 
  */
 
-namespace other;
+namespace tdt\core\universalfilter\interpreter\other;
 
 class QueryTreeHandler {
 

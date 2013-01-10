@@ -1,5 +1,9 @@
 <?php
 
+use tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter;
+use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
+
 /**
  * This file contains all evaluators for binary functions
  * 
@@ -11,7 +15,7 @@
  * @author Jeroen Penninck
  */
 
-namespace implementations;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
 /* equality */
 class BinaryFunctionEqualityExecuter extends BinaryFunctionExecuter {
@@ -256,7 +260,7 @@ class BinaryFunctionDateTimeParseExecuter extends BinaryFunctionExecuter {
     public function doBinaryFunction($valueA, $valueB){
         if($valueA===null || $valueB===null) return null;
         $dateTime = DateTime::createFromFormat($valueB, $valueA);
-        if($dateTime===FALSE) {throw new Exception("Unknown format in PARSE_DATE: "".$valueB."". Please use the php-syntax, see http://www.php.net/manual/en/datetime.createfromformat.php .");}
+        if($dateTime===FALSE) {throw new Exception("Unknown format in PARSE_DATE: ".$valueB." Please use the php-syntax, see http://www.php.net/manual/en/datetime.createfromformat.php .");}
         return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }
 }
@@ -289,7 +293,7 @@ class BinaryFunctionDateTimeFormatExecuter extends BinaryFunctionExecuter {
         
         $formatted = $dateTime->format($valueB);
         if($formatted===FALSE){
-            throw new Exception("Unknown format in DATE_FORMAT : "".$valueB."". Please use the php-syntax, see http://www.php.net/manual/en/function.date.php .");
+            throw new Exception("Unknown format in DATE_FORMAT : ".$valueB." Please use the php-syntax, see http://www.php.net/manual/en/function.date.php .");
         }else{
             return $formatted;
         }

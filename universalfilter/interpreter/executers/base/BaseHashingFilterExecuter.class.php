@@ -1,5 +1,16 @@
 <?php
 
+use tdt\core\universalfilter\common\BigMap;
+use tdt\core\universalfilter\common\BigList;
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * Base class for filters that do hashing on records (like distinct or group by) to combine records that look ("hash") the same.
  * 
@@ -9,7 +20,7 @@
  * @author Jeroen Penninck
  */
 
-namespace base;
+namespace tdt\core\universalfilter\interpreter\executers\base;
 
 abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 

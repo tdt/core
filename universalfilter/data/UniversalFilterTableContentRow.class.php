@@ -11,7 +11,9 @@ include_once("cores/core/universalfilter/common/HashString.php");
  * @author Jeroen Penninck
  */
 
-namespace data;
+namespace tdt\core\universalfilter\data;
+
+use tdt\framework\TDTException;
 
 class UniversalFilterTableContentRow {
 
@@ -88,7 +90,7 @@ class UniversalFilterTableContentRow {
                 }
             }
         } else {
-            throw new TDTException(500,array("Requested a unknown value on a row for a columnId "" . $idOfField . """));
+            throw new TDTException(500,array("Requested a unknown value on a row for a columnId: " . $idOfField . ""));
         }
     }
 
@@ -105,7 +107,7 @@ class UniversalFilterTableContentRow {
                 return null;
             }
         } else {
-            throw new TDTException(500,array("Requested a unknown value on a row for a columnId "" . $idOfField . """));
+            throw new TDTException(500,array("Requested a unknown value on a row for a columnId " . $idOfField . ""));
         }
     }
 
@@ -128,7 +130,7 @@ class UniversalFilterTableContentRow {
         if (isset($this->data->$oldField)) {
             $newRow->data->$newField = $this->data->$oldField;
         } else {
-            throw new TDTException(500,array("Requested a unknown value on a row for a columnId "" . $oldField . """));
+            throw new TDTException(500,array("Requested a unknown value on a row for a columnId " . $oldField . ""));
         }
     }
 

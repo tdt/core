@@ -8,7 +8,12 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace resources;
+namespace tdt\core\model\resources;
+
+use tdt\core\model\DBQueries;
+use tdt\core\model\resources\GenericResource;
+use tdt\core\model\ResourcesModel;
+use tdt\framework\TDTException;
 
 abstract class AResourceStrategy{
 

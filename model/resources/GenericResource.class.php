@@ -8,7 +8,9 @@
  * @author Pieter Colpaert
  */
 
-namespace resources;
+namespace tdt\core\model\resources;
+
+use tdt\core\model\DBQueries;
 
 class GenericResource{
     

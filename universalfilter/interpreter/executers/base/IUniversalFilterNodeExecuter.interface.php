@@ -8,6 +8,15 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
+
+namespace tdt\core\universalfilter\interpreter\executers\base;
+
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 interface IUniversalFilterNodeExecuter {
     
     /**

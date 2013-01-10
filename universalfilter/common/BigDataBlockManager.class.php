@@ -16,7 +16,8 @@ include_once("core/universalfilter/common/HashString.php");
  * @author Jeroen Penninck
  */
 
-namespace common;
+namespace tdt\core\universalfilter\common;
+
 
 class BigDataBlockManager {
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
@@ -43,8 +44,7 @@ class BigDataBlockManager {
     }   
     
     
-    private function getDirToWriteTo(){
-        // is this directory correct?????
+    private function getDirToWriteTo(){       
         $tmpdir = "core/tmp/";     
         return $tmpdir."The-DataTank-BigDataBlockManager_block_";
     }

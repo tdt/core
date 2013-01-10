@@ -9,7 +9,21 @@
  * @author Jeroen Penninck
  */
 
-namespace tablemanager;
+namespace tdt\core\universalfilter;
+
+use tdt\core\universalfilter\AggregatorFunction;
+use tdt\core\universalfilter\AggregatorFunction;
+use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\CombinedFilterGenerators;
+use tdt\core\universalfilter\Constant;
+use tdt\core\universalfilter\Constant;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
+use tdt\core\universalfilter\NormalFilterNode;
+use tdt\core\universalfilter\NormalFilterNode;
+use tdt\core\universalfilter\UnaryFunction;
+use tdt\core\universalfilter\UnaryFunction;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class CombinedFilterGenerators {
     

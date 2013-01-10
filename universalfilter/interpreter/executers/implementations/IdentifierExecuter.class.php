@@ -1,5 +1,14 @@
 <?php
 
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * Executes an Identifier
  *
@@ -14,7 +23,7 @@
  * @author Jeroen Penninck
  */
 
-namespace implementations;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
 class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
     
@@ -41,7 +50,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             $this->isColumn = true;
             $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());
             if($this->header===null){
-                throw new Exception("The identifier "".$this->filter->getIdentifierString()."" can not be found. It is not a column.");
+                throw new Exception("The identifier ".$this->filter->getIdentifierString(). "can not be found. It is not a column.");
             }
             if(!$this->isColumn){
                 $this->singlevaluecolumnheader=$this->header->getColumnInformationById($this->header->getColumnId());
@@ -54,7 +63,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             try {
                 $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
             } catch(TDTException $rce){
-                throw new TDTException(500,array("IdentifierExectuer - The identifier "".$tableName."" can not be found. It is not a table."));
+                throw new TDTException(500,array("IdentifierExectuer - The identifier ".$tableName." can not be found. It is not a table."));
             }
         }
     }
@@ -107,7 +116,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 
                 if($columninfo->matchName(explode(".", $fullid))){
                     if($foundheader!=null){
-                        throw new Exception("Ambiguos identifier: "".$fullid."". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
+                        throw new Exception("Ambiguos identifier: ".$fullid.". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
                     }
                     $this->singlevalueindex = $index;
                     $foundheader = new UniversalFilterTableHeader(array($columninfo), true, true);
@@ -119,7 +128,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             //check single values for another match (to give an exception)
             for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
                 if($topenv->getSingleValueHeader($index)->matchName(explode(".", $fullid))){
-                    throw new Exception("Ambiguos identifier: "".$fullid."". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
+                    throw new Exception("Ambiguos identifier: ".$fullid.". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
                 }
             }
             

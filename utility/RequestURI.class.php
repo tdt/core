@@ -8,7 +8,9 @@
  * @author Pieter Colpaert
  */
 
-namespace utility;
+use tdt\framework\Config;
+
+namespace tdt\core\utility;
 
 class RequestURI{
     private static $instance;

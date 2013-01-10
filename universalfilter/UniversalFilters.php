@@ -8,7 +8,12 @@
  * @author Jeroen Penninck
  */
 
-namespace universalfilter;
+namespace tdt\core\universalfilter;
+
+use tdt\core\universalfilter\CheckInFunction;
+use tdt\core\universalfilter\Identifier;
+use tdt\core\universalfilter\NormalFilterNode;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 /**
  * Top class of all filters

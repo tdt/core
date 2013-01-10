@@ -9,7 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace common;
+namespace tdt\core\universalfilter\common;
+
+use tdt\framework\TDTException;
 
 class BigList {
     public static $BLOCKSIZE = 50;

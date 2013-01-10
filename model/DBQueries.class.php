@@ -10,6 +10,9 @@
  * @author Pieter Colpaert
  */
 
+
+namespace tdt\core\model;
+
 class DBQueries {
 
     /**

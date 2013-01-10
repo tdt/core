@@ -10,9 +10,10 @@
  * @author Jan Vansteenlandt
  */
 
-namespace filters;
+namespace tdt\core\filters;
 
-class RESTFilter extends  filtersAFilter{
+
+class RESTFilter extends  AFilter{
 
     public function __construct($params){
 	parent::__construct($params);

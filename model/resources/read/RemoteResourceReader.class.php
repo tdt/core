@@ -9,7 +9,11 @@
  * @author Pieter Colpaert
  */
 
-namespace read;
+namespace tdt\core\model\resources\read;
+
+use tdt\core\model\DBQueries;
+use tdt\framework\Request;
+use tdt\framework\TDTException;
 
 class RemoteResourceReader extends AReader{
 

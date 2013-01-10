@@ -1,4 +1,10 @@
 <?php
+
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
+use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
+use tdt\core\universalfilter\UniversalFilterNode;
 /**
  * Interface of all executers
  *
@@ -10,7 +16,8 @@
  * @see universalfilter/interpreter/executers/base/IUniversalFilterNodeExecuter.interface.php for the documentation of these methods
  */
 
-namespace base;
+namespace tdt\core\universalfilter\interpreter\executers\base;
+
 
 abstract class AbstractUniversalFilterNodeExecuter {
     

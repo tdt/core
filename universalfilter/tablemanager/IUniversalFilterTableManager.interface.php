@@ -1,5 +1,8 @@
 <?php
 
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * The TableManager is an abstraction that sees any data a collection of tables
  * 
@@ -11,7 +14,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tablemanager;
+namespace tdt\core\universalfilter\tablemanager\implementation;
 
 interface IUniversalFilterTableManager {
     /**

@@ -1,5 +1,14 @@
 <?php
 
+use tdt\core\model\ResourcesModel;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
+use tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode;
+use tdt\core\universalfilter\tablemanager\implementation\IUniversalFilterTableManager;
+use tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter;
+use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 include_once("cores/core/universalfilter/tablemanager/IUniversalFilterTableManager.interface.php");
 
 /**
@@ -13,7 +22,7 @@ include_once("cores/core/universalfilter/tablemanager/IUniversalFilterTableManag
  * @author Jeroen Penninck
  */
 
-namespace implementation;
+namespace tdt\core\universalfilter\tablemanager\implementation;
 
 class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
@@ -23,13 +32,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private $requestedTables = array();
     private $resourcesmodel;
 
-    public function __construct() {
-        /*
-        AutoInclude::register("PhpObjectTableConverter", "cores/core/universalfilter/tablemanager/implementation/tools/PhpObjectTableConverter.class.php");
-        AutoInclude::register("ExternallyCalculatedFilterNode", "cores/core/universalfilter/sourcefilterbinding/ExternallyCalculatedFilterNode.class.php");
-        AutoInclude::register("UniversalFilterTableHeader", "cores/core/universalfilter/data/UniversalFilterTableHeader.class.php");
-        AutoInclude::register("UniversalFilterTableHeaderColumnInfo", "cores/core/universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
-        */
+    public function __construct() {       
         $this->resourcesmodel = ResourcesModel::getInstance();
     }
 

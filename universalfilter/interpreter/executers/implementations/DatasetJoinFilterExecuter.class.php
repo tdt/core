@@ -1,5 +1,14 @@
 <?php
 
+use tdt\core\universalfilter\data\UniversalFilterTable;
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\BaseEvaluationEnvironmentFilterExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * Executes the DatasetJoinFilterExecuter filter
  * 
@@ -9,7 +18,7 @@
  * @author Jeroen Penninck
  */
 
-namespace implementations;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
 class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter {
     

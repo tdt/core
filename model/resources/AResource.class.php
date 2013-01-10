@@ -10,7 +10,9 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace resources;
+namespace tdt\core\model\resources;
+
+use tdt\core\model\resources\read\AReader;
 
 abstract class AResource extends AReader{
 

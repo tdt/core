@@ -13,7 +13,21 @@ include_once("core/universalfilter/interpreter/IInterpreterControl.class.php");
 
 include_once("core/universalfilter/interpreter/executers/UniversalFilterExecuters.php");
 
-namespace interpreter;
+namespace tdt\core\universalfilter\interpreter;
+
+use tdt\core\universalfilter\AggregatorFunction;
+use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\CheckInFunction;
+use tdt\core\universalfilter\data\UniversalFilterTable;
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\interpreter\cloning\FilterTreeCloner;
+use tdt\core\universalfilter\interpreter\debugging\TreePrinter;
+use tdt\core\universalfilter\interpreter\other\DummyUniversalFilterNode;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
+use tdt\core\universalfilter\TernaryFunction;
+use tdt\core\universalfilter\UnaryFunction;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class UniversalInterpreter implements IInterpreterControl {
 
@@ -181,7 +195,7 @@ class UniversalInterpreter implements IInterpreterControl {
             // debug
             if (UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION) {
                 $printer = new TreePrinter();
-                echo "<h2>This is given to the source with id "" . $sourceId . "":</h2>";
+                echo "<h2>This is given to the source with id " . $sourceId . ":</h2>";
                 $printer->printString($filterSourceNode);
             }
 

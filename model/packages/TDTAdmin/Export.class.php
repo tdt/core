@@ -8,7 +8,12 @@
  * @author Jan Vansteenlandt
  */
 
-namespace TDTAdmin;
+namespace tdt\core\model\packages\TDTAdmin;
+
+use tdt\core\model\resources\read\AReader;
+use tdt\core\model\ResourcesModel;
+use tdt\framework\Config;
+use tdt\framework\TDTException;
 
 class TDTAdminExport extends AReader{
     

@@ -8,7 +8,10 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace TDTInfo;
+namespace tdt\core\model\packages\TDTInfo;
+
+use tdt\core\model\Doc;
+use tdt\core\model\resources\read\AReader;
 
 class TDTInfoVisualizations extends AReader{
 

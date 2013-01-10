@@ -10,7 +10,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace  filters;
+namespace  tdt\core\filters;
+
+use tdt\framework\TDTException;
 
 class SearchFilter extends  AFilter{
     

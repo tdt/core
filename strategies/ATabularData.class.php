@@ -9,7 +9,12 @@
  * @author Jan Vansteenlandt
  */
 
-namespace strategies;
+namespace tdt\core\strategies;
+
+use tdt\core\model\DBQueries;
+use tdt\core\model\resources\AResourceStrategy;
+use tdt\core\model\resources\GenericResource;
+use tdt\framework\TDTException;
 
 abstract class ATabularData extends  AResourceStrategy{
 

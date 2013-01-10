@@ -1,4 +1,8 @@
 <?php
+
+use tdt\core\universalfilter\DateTimeExtractConstants;
+use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 /**
  * Some methods for datetime functions
  *
@@ -7,6 +11,9 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
+
+namespace tdt\core\universalfilter\interpreter\executers\tools;
+
 class ExecuterDateTimeTools {
     
     /**
@@ -117,7 +124,7 @@ class ExecuterDateTimeTools {
         
         $dateinterval = DateInterval::createFromDateString($diffstring);
         if($dateinterval===FALSE) {
-            throw new Exception("Internal error: unable to convert "".$diffstring."" as "".$constant."" to interval.");
+            throw new Exception("Internal error: unable to convert $diffstring as $constant to interval.");
         }
         return $dateinterval;
     }

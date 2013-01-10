@@ -9,7 +9,10 @@
  * @author Jan Vansteenlandt
  */
 
-namespace read;
+namespace tdt\core\mode\resources\read;
+
+use tdt\core\model\DBQueries;
+use tdt\core\model\resources\GenericResource;
 
 class GenericResourceReader extends AReader {
 

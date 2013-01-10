@@ -1,5 +1,13 @@
 <?php
 
+use tdt\core\universalfilter\data\UniversalFilterTable;
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * Base class for filters that evaluate expressions AND have a source (like select and where)
  * 
@@ -9,7 +17,7 @@
  * @author Jeroen Penninck
  */
 
-namespace base;
+namespace tdt\core\universalfilter\interpreter\executers\base;
 
 abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     //put your code here

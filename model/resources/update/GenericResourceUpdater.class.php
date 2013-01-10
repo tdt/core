@@ -9,7 +9,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace update;
+namespace tdt\core\model\resources\update;
+
+use tdt\framework\TDTException;
 
 class GenericResourceUpdater extends AUpdater {
 

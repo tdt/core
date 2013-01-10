@@ -8,7 +8,10 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace TDTAdmin;
+namespace tdt\core\model\packages\TDTAdmin;
+
+use tdt\core\model\resources\read\AReader;
+use tdt\core\model\ResourcesModel;
 
 class TDTAdminResources extends AReader{
 

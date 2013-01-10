@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace data;
+namespace tdt\core\universalfilter\data;
 
 class UniversalFilterTableHeaderColumnInfo {
     private $completeColumnNameParts; //array(package, package, resource, subtable, ...)
@@ -67,7 +67,7 @@ class UniversalFilterTableHeaderColumnInfo {
             $oldName = array_pop($this->completeColumnNameParts);
             $this->completeColumnNameParts[] = $newColumName;
         }else{
-            throw new TDTException(500,array(""$" is an illegal alias."));
+            throw new TDTException(500,array($newColumnName." is an illegal alias."));
         }
     }
     

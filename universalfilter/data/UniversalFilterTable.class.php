@@ -10,7 +10,10 @@
  * @author Jeroen Penninck
  */
 
-namespace data;
+namespace tdt\core\universalfilter\data;
+
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
 
 class UniversalFilterTable {
     private $header;

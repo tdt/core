@@ -10,7 +10,10 @@
  * @author Jan Vansteenlandt
  */
 
-namespace create;
+namespace tdt\core\model\resources\create;
+
+use tdt\core\model\DBQueries;
+use tdt\framework\TDTException;
 
 class InstalledResourceCreator extends ACreator{
 

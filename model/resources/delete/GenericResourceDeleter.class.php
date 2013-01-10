@@ -8,7 +8,10 @@
  * @author Jan Vansteenlandt
  */
 
-namespace delete;
+namespace tdt\core\model\resources\delete;
+
+use tdt\core\model\DBQueries;
+use tdt\core\model\resources\GenericResource;
 
 class GenericResourceDeleter extends ADeleter{
 

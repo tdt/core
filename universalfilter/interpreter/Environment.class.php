@@ -9,7 +9,11 @@
  * @author Jeroen Penninck
  */
 
-namespace interpreter;
+namespace tdt\core\universalfilter\interpreter;
+
+use tdt\core\universalfilter\data\UniversalFilterTable;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
 
 class Environment {
     

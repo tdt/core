@@ -9,7 +9,10 @@
  * @author Jeroen Penninck
  */
 
-namespace interpreter;
+namespace tdt\core\universalfilter\interpreter;
+
+use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 interface IInterpreterControl {
     

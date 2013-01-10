@@ -9,7 +9,7 @@
  * @author Pieter Colpaert
  */
 
-namespace model;
+namespace tdt\core\model;
 
 class CoreResourceFactory extends AResourceFactory {
 

@@ -9,7 +9,10 @@
  * @author Jan Vansteenlandt
  */
 
-namespace strategies;
+namespace tdt\core\strategies;
+
+use tdt\framework\Log;
+use tdt\framework\TDTException;
 
 class CSV extends ATabularData {
 

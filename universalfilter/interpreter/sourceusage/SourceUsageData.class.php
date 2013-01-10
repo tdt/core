@@ -14,7 +14,9 @@
  * @author Jeroen Penninck
  */
 
-namespace sourceusage;
+namespace tdt\core\universalfilter\interpreter\sourceusage;
+
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class SourceUsageData {
     private $filterSourceNode;

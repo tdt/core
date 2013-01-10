@@ -9,7 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace data;
+use tdt\framework\TDTException;
+
+namespace tdt\core\universalfilter\data;
 
 class UniversalFilterTableHeader {
     private $columns;//array of UniversalFilterTableHeaderColumnInfo
@@ -48,7 +50,7 @@ class UniversalFilterTableHeader {
                     $found=true;
                     $id = $column->getId();
                 }else{
-                    throw new TDTException(500,array("That identifier is not unique "".$columnName."". Please be more specific."));
+                    throw new TDTException(500,array("That identifier is not unique ".$columnName. " Please be more specific."));
                 }
             }
         }
@@ -106,7 +108,7 @@ class UniversalFilterTableHeader {
                 return $column;
             }
         }
-        throw new TDTException(500,array("TableHeader - ColumnInformation not found for id: "".$id."""));
+        throw new TDTException(500,array("TableHeader - ColumnInformation not found for id: ".$id.""));
     }
     
     /**

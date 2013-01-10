@@ -8,7 +8,7 @@
  * @author Pieter Colpaert
  */
 
-namespace model;
+namespace tdt\core\model;
 
 abstract class AResourceFactory{
       

@@ -1,5 +1,11 @@
 <?php
 
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * Executes the LimitFilter filter
  * 
@@ -9,7 +15,7 @@
  * @author Jan Vansteenlandt
  */
 
-namespace implementations;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
 class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 

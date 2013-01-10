@@ -14,6 +14,9 @@
  */
 include_once("tdtml/TDTML.class.php");
 
+
+namespace tdt\core\model\semantics;
+
 class OntologyProcessor {
 
     private static $uniqueinstance;

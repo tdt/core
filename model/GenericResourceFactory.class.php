@@ -9,24 +9,19 @@
  * @author Jan Vansteenlandt
  */
 
-namespace model;
+use tdt\core\model\DBQueries;
+use tdt\core\model\resources\create\GenericResourceCreator;
+use tdt\core\model\resources\delete\GenericResourceDeleter;
+use tdt\core\model\resources\GenericResource;
+use tdt\core\model\resources\read\GenericResourceReader;
+use tdt\core\model\resources\update\GenericResourceUpdater;
+use tdt\framework\TDTException;
+
+namespace tdt\core\model;
 
 class GenericResourceFactory extends AResourceFactory {
     
-    public function __construct(){
-        /*AutoInclude::register("ACreator", "cores/core/model/resources/create/ACreator.class.php");
-        AutoInclude::register("AResource", "cores/core/model/resources/AResource.class.php");
-        AutoInclude::register("GenericResource","cores/core/model/resources/GenericResource.class.php");
-        AutoInclude::register("GenericResourceCreator","cores/core/model/resources/create/GenericResourceCreator.class.php");
-        AutoInclude::register("GenericResourceReader", "cores/core/model/resources/read/GenericResourceReader.class.php");
-        AutoInclude::register("GenericResourceDeleter","cores/core/model/resources/delete/GenericResourceDeleter.class.php");
-        AutoInclude::register("GenericResourceUpdater","cores/core/model/resources/update/GenericResourceUpdater.class.php"); 
-        AutoInclude::register("AResourceStrategy","cores/core/model/resources/AResourceStrategy.class.php");
-        AutoInclude::register("DBQueries","cores/core/model/DBQueries.class.php");       
-        AutoInclude::register("ATabularData","custom/strategies/ATabularData.class.php");
-        AutoInclude::register("AUpdater", "cores/core/model/resources/update/AUpdater.class.php");
-        AutoInclude::register("AReader","cores/core/model/resources/read/AReader.class.php");
-        AutoInclude::register("ADeleter", "cores/core/model/resources/delete/ADeleter.class.php");*/
+    public function __construct(){      
         
     }
 

@@ -9,7 +9,11 @@
  * @author Pieter Colpaert
  */
 
-namespace create;
+namespace tdt\core\model\resources\create;
+
+use tdt\core\model\DBQueries;
+use tdt\framework\Request;
+use tdt\framework\TDTException;
 
 /**
  * When creating a resource, we always expect a PUT method!

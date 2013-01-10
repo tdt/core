@@ -1,5 +1,24 @@
 <?php
 
+use tdt\core\universalfilter\AggregatorFunction;
+use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\CheckInFunction;
+use tdt\core\universalfilter\ColumnSelectionFilter;
+use tdt\core\universalfilter\ColumnSelectionFilterColumn;
+use tdt\core\universalfilter\Constant;
+use tdt\core\universalfilter\DataGrouper;
+use tdt\core\universalfilter\DatasetJoinFilter;
+use tdt\core\universalfilter\DistinctFilter;
+use tdt\core\universalfilter\FilterByExpressionFilter;
+use tdt\core\universalfilter\Identifier;
+use tdt\core\universalfilter\LimitFilter;
+use tdt\core\universalfilter\SortFieldsFilter;
+use tdt\core\universalfilter\SortFieldsFilterColumn;
+use tdt\core\universalfilter\TableAliasFilter;
+use tdt\core\universalfilter\TernaryFunction;
+use tdt\core\universalfilter\UnaryFunction;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * This file contains methods to make a deep copy of the given UniversalFilterTree
  * 
@@ -9,7 +28,7 @@
  * @author Jeroen Penninck
  */
 
-namespace cloning;
+namespace tdt\core\universalfilter\interpreter\cloning;
 
 class FilterTreeCloner {
     /**

@@ -10,7 +10,21 @@
  * @author Jan Vansteenlandt
  */
 
-namespace model;
+use tdt\core\model\CoreResourceFactory;
+use tdt\core\model\DBQueries;
+use tdt\core\model\Doc;
+use tdt\core\model\GenericResourceFactory;
+use tdt\core\model\InstalledResourceFactory;
+use tdt\core\model\RemoteResourceFactory;
+use tdt\core\model\resources\GenericResource;
+use tdt\core\model\ResourcesModel;
+use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\framework\Cache\Cache;
+use tdt\framework\Config;
+use tdt\framework\TDTException;
+
+namespace tdt\core\model;
 
 class ResourcesModel {
     /*

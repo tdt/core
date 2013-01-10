@@ -1,5 +1,13 @@
 <?php
 
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
+use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
+use tdt\core\universalfilter\UniversalFilterNode;
+
 /**
  * Executes a filter that is calculated externally...
  *
@@ -9,7 +17,7 @@
  * @author Jeroen Penninck
  */
 
-namespace implementations;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
 
 class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter {
@@ -71,10 +79,10 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
                     if ($givenColumnsIndex != 0) {
                         $givenColumnsString.=", ";
                     }
-                    $givenColumnsString.=""" . $columnNameGivenTable . """;
+                    $givenColumnsString.="" . $columnNameGivenTable . "";
                 }
 
-                throw new Exception("Illegal external calculation. The returned table should contain a column with name "" . $givenName . "", but no column with that name found. Found columnNames: " . $givenColumnsString . ".");
+                throw new Exception("Illegal external calculation. The returned table should contain a column with name " . $givenName . ", but no column with that name found. Found columnNames: " . $givenColumnsString . ".");
             }
 
             $newHeaderColumn = $columnInfo->cloneColumnWithId($givenColumnId);
