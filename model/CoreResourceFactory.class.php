@@ -28,7 +28,6 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     public function createReader($package, $resource, $parameters, $RESTparameters) {
-        tdt\core\model\packages\TDTInfo;
         $classname = "tdt\\core\\model\\packages\\".$package ."\\". $package. $resource;
         $creator = new $classname($package, $resource, $RESTparameters);
         $creator->processParameters($parameters);
