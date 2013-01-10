@@ -12,7 +12,7 @@
 
 namespace tdt\core\controllers;
 
-class CUDController extends tdt\core\controllers\ACoreController {
+class CUDController extends ACoreController {
     /*
      * installation variables
      */

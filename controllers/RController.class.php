@@ -13,7 +13,7 @@
 
 namespace tdt\core\controllers;
 
-class RController extends tdt\core\controllers\ACoreController {
+class RController extends ACoreController {
 
     private $formatterfactory;
 
