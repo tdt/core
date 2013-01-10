@@ -2,7 +2,7 @@
 
 /**
  * This class generates RDF output for the retrieved data using the stored mapping.
- * 
+ *
  * Includes RDF Api for PHP <http://www4.wiwiss.fu-berlin.de/bizer/rdfapi/>
  * Licensed under LGPL <http://www.gnu.org/licenses/lgpl.html>
  *
@@ -51,11 +51,11 @@ class RDFOutput {
         while (count($arr) > 1) {
             $item = array_shift($arr);
 
-            //numeric means array of stdClass, add stdClass to the classpath, else add the item
+            //numeric means array of \stdClass, add \stdClass to the classpath, else add the item
             if (!is_numeric($item))
                 $beginpath .= $item . '/';
             else
-                $beginpath .= 'stdClass' . '/';
+                $beginpath .= '\stdClass' . '/';
         }
 
         foreach ($object as $property => $value) {
@@ -79,10 +79,10 @@ class RDFOutput {
             return false;
         if (count($arr)==0)
             return false;
-            
+
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
-    
+
     /**
      * Recursive function for analyzing an object and building its instance path and classpath.
      * The uri is used for creating RDF instances, while the classpath is used for retrieving Ontology mapping.
@@ -132,7 +132,7 @@ class RDFOutput {
                 $uri = $temp;
                 $prop = $this->getProperty($key, $path);
 
-                //When it is an assoc array, add the property name now. 
+                //When it is an assoc array, add the property name now.
                 //In case of an object, it is done in the next iteration
                 if (!is_object($value))
                     $path .= '/' . $key;
@@ -171,7 +171,7 @@ class RDFOutput {
 
     /*
      * Creates a rdf:List for the ResModel
-     * 
+     *
      * @param string $uri The instance uri to create a rdf:List for
      * @return ResList Object representing the list
      * @access private
@@ -186,10 +186,10 @@ class RDFOutput {
 
     /*
      * Get a property mapped to an ontology. If no mapping is present, create a non-existing property from name.
-     * 
+     *
      * @param string $name name of the property
      * @param string $path Hierarchical path of data struture
-     * 
+     *
      * @return ResProperty Returns the created,mapped property
      * @access private
      */
@@ -207,10 +207,10 @@ class RDFOutput {
 
     /*
      * Get a resource with mapped class as type. If no mapping is present, no type is given.
-     * 
+     *
      * @param string $uri Instance URI of this resource
      * @param string $path Hierarchical path of data struture
-     * 
+     *
      * @return ResResource Returns the created, mapped resource.
      * @access private
      */

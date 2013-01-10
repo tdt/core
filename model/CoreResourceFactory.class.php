@@ -13,12 +13,12 @@ namespace tdt\core\model;
 
 class CoreResourceFactory extends AResourceFactory {
 
-    
-    public function __construct(){        
+
+    public function __construct(){
     }
-    
+
     protected function getAllResourceNames() {
-        return array("TDTInfo" => array("Resources", "Packages", "Exceptions", "Admin", "Formatters", "Visualizations"),           
+        return array("TDTInfo" => array("Resources", "Packages", "Exceptions", "Admin", "Formatters", "Visualizations"),
             "TDTAdmin" => array("Resources", "Export")
         );
     }
@@ -43,11 +43,11 @@ class CoreResourceFactory extends AResourceFactory {
         //ask every resource we have for documentation
         foreach ($this->getAllResourceNames() as $package => $resourcenames) {
             if (!isset($doc->$package)) {
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
             }
             foreach ($resourcenames as $resourcename) {
                 $classname = $package . $resourcename;
-                $doc->$package->$resourcename = new StdClass();
+                $doc->$package->$resourcename = new \stdClass();
                 include_once("core/model/packages/" . $package . "/" . $resourcename . ".class.php");
                 $doc->$package->$resourcename->doc = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
@@ -61,7 +61,7 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     private function getCreationTime($package, $resource) {
-        //if the object read is a directory and the configuration methods file exists, 
+        //if the object read is a directory and the configuration methods file exists,
         //then add it to the installed packages
         if (is_dir("core/model/packages/" . $package) && file_exists("core/model/packages/" . $package . "/" . $resource . ".class.php")) {
             return filemtime("core/model/packages/" . $package . "/" . $resource . ".class.php");
@@ -70,18 +70,18 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     private function getModificationTime($package, $resource) {
-        // for an existing folder you can only get the last modification date in php, so 
+        // for an existing folder you can only get the last modification date in php, so
         return $this->getCreationTime($package, $resource);
     }
 
     public function makeDeleteDoc($doc) {
         //We cannot delete Core Resources
-        $d = new StdClass();
+        $d = new \stdClass();
         $d->doc = "You cannot delete core resources.";
         if (!isset($doc->delete)) {
-            $doc->delete = new StdClass();
+            $doc->delete = new \stdClass();
         }
-        $doc->delete->core = new StdClass();
+        $doc->delete->core = new \stdClass();
         $doc->delete->core = $d;
     }
 

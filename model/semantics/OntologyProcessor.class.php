@@ -273,7 +273,7 @@ class OntologyProcessor {
         $mapping = array();
 
         foreach ($preferred as $triple) {
-            $temp = new stdClass();
+            $temp = new \stdClass();
             $temp->map = $triple->getObject()->getURI();
 
             $namespace = $triple->getObject()->getNamespace();
@@ -285,7 +285,7 @@ class OntologyProcessor {
 
         foreach ($result as $triple) {
             if (!array_key_exists($triple->getSubject()->getURI(), $mapping)) {
-                $temp = new stdClass();
+                $temp = new \stdClass();
                 $temp->map = $triple->getObject()->getURI();
 
                 $namespace = $triple->getObject()->getNamespace();
@@ -313,11 +313,11 @@ class OntologyProcessor {
         //if so we can autogenerate the ontology from getFields in the strategy
         if (!is_null($fields)) {
             $model->add(new Statement(new Resource($resource), RDF::TYPE(), OWL::OWL_CLASS()));
-            //Add stdClass wrapper, since this is for now always the case
-            $model->add(new Statement(new Resource($resource . '/stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
+            //Add \stdClass wrapper, since this is for now always the case
+            $model->add(new Statement(new Resource($resource . '/\stdClass'), RDF::TYPE(), OWL::OWL_CLASS()));
             //iterate the fields and add them as properties
             foreach ($fields as $field) {
-                $model->add(new Statement(new Resource($resource . '/stdClass/' . $field), RDF::TYPE(), RDF::PROPERTY()));
+                $model->add(new Statement(new Resource($resource . '/\stdClass/' . $field), RDF::TYPE(), RDF::PROPERTY()));
             }
         }
     }

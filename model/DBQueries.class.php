@@ -223,7 +223,7 @@ class DBQueries {
 
         $packages = array();
         foreach($results as $result){
-            $package = new stdClass();
+            $package = new \stdClass();
             $package->package_name = $result["package_name"];
             $package->timestamp = (int)$result["timestamp"];
             array_push($packages,$package);

@@ -86,7 +86,7 @@ class GenericResource{
      * input is an array of parameters
      */
     private function createConfigObject($parameters,$strat){
-        $configObject = new stdClass();
+        $configObject = new \stdClass();
         $columnstring = implode($parameters, ",");
         $resource_table = GenericResource::$TABLE_PREAMBLE . strtolower(get_class($strat));
         $columnstring = $columnstring . ",gen_resource_id";

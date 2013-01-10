@@ -39,7 +39,7 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "documentation");
         if(is_null($doc)){
-            $doc = new \stdClass();
+            $doc = new \\stdClass();
             foreach($factories as $factory){
                 $factory->makeDoc($doc);
             }
@@ -55,18 +55,18 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "packagedocumentation");
         if(is_null($doc)){
-            $doc = new \stdClass();
+            $doc = new \\stdClass();
             $packages = DBQueries::getAllPackages();
             foreach($packages as $package){
                 $packagename = $package->package_name;
-                $doc->$packagename = new StdClass();
+                $doc->$packagename = new \stdClass();
             }
 
             $coreResourceFactory = new CoreResourceFactory();
             $packages = $coreResourceFactory->getAllPackagesDoc();
 
             foreach($packages as $package){
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
             }
 
             $c->set($this->hostname. $this->subdir . "packagedocumentation",$doc,60*60*60); // cache it for 1 hour by default
@@ -83,7 +83,7 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "descriptiondocumentation");
         if(is_null($doc)){
-            $doc = new \stdClass();
+            $doc = new \\stdClass();
             foreach($factories as $factory){
                 $factory->makeDescriptionDoc($doc);
             }
@@ -100,7 +100,7 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir. "admindocumentation");
         if(is_null($doc)){
-            $doc = new \stdClass();
+            $doc = new \\stdClass();
             foreach($factories as $factory){
                 $factory->makeDeleteDoc($doc);
                 $factory->makeCreateDoc($doc);

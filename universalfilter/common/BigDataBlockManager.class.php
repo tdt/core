@@ -39,8 +39,8 @@ class BigDataBlockManager {
 
 
     public function __construct() {
-        $this->memoryblockarray = new stdClass();
-        $this->issavedtofile = new stdClass();
+        $this->memoryblockarray = new \stdClass();
+        $this->issavedtofile = new \stdClass();
     }
 
 

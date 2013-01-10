@@ -180,7 +180,7 @@ class CSV extends ATabularData {
                 }
             } else {
 
-                $rowobject = new stdClass();
+                $rowobject = new \stdClass();
                 $keys = array_keys($fieldhash);
 
                 for ($i = 0; $i < sizeof($keys); $i++) {

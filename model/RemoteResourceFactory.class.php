@@ -68,10 +68,10 @@ class RemoteResourceFactory extends  AResourceFactory{
     public function makeDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
             }
             foreach($resourcenames as $resource){
-                $doc->$package->$resource = new StdClass();
+                $doc->$package->$resource = new \stdClass();
                 $doc->$package->$resource = $this->fetchResourceDocumentation($package, $resource);
             }
         }
@@ -80,10 +80,10 @@ class RemoteResourceFactory extends  AResourceFactory{
     public function makeDescriptionDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
             }
             foreach($resourcenames as $resource){
-                $doc->$package->$resource = new StdClass();
+                $doc->$package->$resource = new \stdClass();
                 /**
                  * Get the metadata properties
                  */
@@ -101,24 +101,24 @@ class RemoteResourceFactory extends  AResourceFactory{
     }
 
     public function makeDeleteDoc($doc){
-        $d = new StdClass();
+        $d = new \stdClass();
         $d->doc = "You can delete every remote resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
         if(!isset($doc->delete)){
-            $doc->delete = new StdClass();
+            $doc->delete = new \stdClass();
         }
-        $doc->delete->remote = new StdClass();
+        $doc->delete->remote = new \stdClass();
         $doc->delete->remote = $d;
     }
 
     public function makeCreateDoc($doc){
         //add stuff to create attribute in doc. No other parameters expected
-        $d = new stdClass();
+        $d = new \stdClass();
         $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::get("general","hostname") . Config::get("general","subdir") . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
         $resource = new  RemoteResourceCreator("","", array());//make an empty object. In the end we only need a remote resource
         $d->parameters = $resource->documentParameters();
         $d->requiredparameters = $resource->documentRequiredParameters();
         if(!isset($doc->create)){
-            $doc->create =new stdClass();
+            $doc->create =new \stdClass();
         }
         $doc->create->remote = $d;
     }
@@ -143,12 +143,12 @@ class RemoteResourceFactory extends  AResourceFactory{
             throw new TDTException(404,array($url));
         }
         $data = unserialize($request->data);
-        $remoteResource = new stdClass();
+        $remoteResource = new \stdClass();
 
         if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
             $remoteResource->doc = $data[$resource]->doc;
         }else{
-            $remoteResource->doc = new stdClass();
+            $remoteResource->doc = new \stdClass();
         }
 
         if(isset($data[$resource]->parameters)){
@@ -185,13 +185,13 @@ class RemoteResourceFactory extends  AResourceFactory{
             throw new TDTException(404,array($url));
         }
         $data = unserialize($request->data);
-        $remoteResource = new stdClass();
+        $remoteResource = new \stdClass();
         $remoteResource->package_name = $package;
         $remoteResource->remote_package = $result["package"];
         if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
             $remoteResource->doc = $data[$resource]->doc;
         }else{
-            $remoteResource->doc = new stdClass();
+            $remoteResource->doc = new \stdClass();
         }
 
         $remoteResource->resource = $resource;

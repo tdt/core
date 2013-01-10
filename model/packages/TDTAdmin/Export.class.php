@@ -16,7 +16,7 @@ use tdt\framework\Config;
 use tdt\framework\TDTException;
 
 class TDTAdminExport extends AReader{
-    
+
 
     private $descriptionDoc;
 
@@ -45,7 +45,7 @@ class TDTAdminExport extends AReader{
         $allDoc = $model->getAllDoc();
         $this->descriptionDoc = $model->getAllDescriptionDoc();
         $creationDoc = $model->getAllAdminDoc();
-        
+
         /**
          * Different scenario's:
          * no package given
@@ -56,7 +56,7 @@ class TDTAdminExport extends AReader{
          *    yes : get the definition, exclude if installed or core
          *    no  : throw exception
          */
-        
+
         if(!isset($this->export_package)){
             /**
              * fetch ALL the packages and ALL the resources (generic and remote ones)
@@ -71,7 +71,7 @@ class TDTAdminExport extends AReader{
                     if($this->isResourceExportable($package,$resourceName)){
                         $resourceObject = $this->createResourceObject($package,$resourceName);
                         array_push($resources[$package],$resourceObject);
-                    }   
+                    }
                 }
             }
         }else if(isset($this->export_package) && !isset($this->export_resource)){
@@ -85,7 +85,7 @@ class TDTAdminExport extends AReader{
                     if($this->isResourceExportable($package,$resourceName)){
                         $resourceObject = $this->createResourceObject($package,$resourceName);
                         array_push($resources[$package],$resourceObject);
-                    }   
+                    }
                 }
             }else{
                 throw new TDTException(452,array($this->export_package ." not found"));
@@ -106,12 +106,12 @@ class TDTAdminExport extends AReader{
         /**
          * For every resource:
          * resourceObjectArray is the array with all of the resourceObjects created in the above if-else structure
-         * resourceDumps has a similar structure like resourceObjectArray, but now with Dumps (string) instead of a 
+         * resourceDumps has a similar structure like resourceObjectArray, but now with Dumps (string) instead of a
          * resourceObject
          */
          $resourceDumps = array();
         foreach($resources as $package => $resourceObjectArray){
-            foreach($resourceObjectArray as $resourceObject){   
+            foreach($resourceObjectArray as $resourceObject){
                 /**
                  * Fetch all of the create parameters of the resource, according to the resource_type ( generic_type )
                  */
@@ -120,14 +120,14 @@ class TDTAdminExport extends AReader{
                 if($resource_type == "generic"){
                     $generic_type = $resourceObject->generic_type;
                 }
-                
+
                 $creationParameters = $creationDoc->create->$resource_type;
                 if($resource_type == "generic"){
                     $creationParameters = $creationParameters[$generic_type];
                 }
-                
+
                 $creationParameters = (array)$creationParameters;
-                
+
                 /**
                  * Fetch the properties of the resource
                  */
@@ -147,7 +147,7 @@ class TDTAdminExport extends AReader{
                 array_push($resourceDumps, $dump);
                 /**
                  * end for
-                 */ 
+                 */
             }
         }
         foreach($resourceDumps as $resourceDump){
@@ -165,8 +165,8 @@ class TDTAdminExport extends AReader{
      * Only remote, generic and installed resources should be exportable
      */
     private function isResourceExportable($package,$resource){
-        return isset($this->descriptionDoc->$package->$resource->resource_type) && 
-            ($this->descriptionDoc->$package->$resource->resource_type == "generic" || 
+        return isset($this->descriptionDoc->$package->$resource->resource_type) &&
+            ($this->descriptionDoc->$package->$resource->resource_type == "generic" ||
              $this->descriptionDoc->$package->$resource->resource_type == "remote"  ||
              $this->descriptionDoc->$package->$resource->resource_type == "installed");
     }
@@ -176,7 +176,7 @@ class TDTAdminExport extends AReader{
      * and entire description
      */
     private function createResourceObject($package,$resource){
-        $resourceObject = new StdClass();
+        $resourceObject = new \stdClass();
         $resourceObject->resourcename = $resource;
         $resourceObject->resource_type = $this->descriptionDoc->$package->$resource->resource_type;
         // also dump the entire body of the resource object description in it
@@ -196,14 +196,14 @@ class TDTAdminExport extends AReader{
         $dump ="";
         $dump.='<?php
     $url = "'. Config::get("general","hostname") . Config::get("general","subdir") . "TDTAdmin/Resources/".$package."/".$resource .'";
-    $ch = curl_init();     
+    $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HEADER, 1);  
-    curl_setopt($ch, CURLOPT_URL, $url);  
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_USERPWD,"'. Config::get("auth","api_user") . ':' . Config::get("auth","api_passwd") .'");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
     $data = array( ';
-         
+
         $count = 0;
         foreach($resourceDefinition as $key => $value){
             $count++;
@@ -226,13 +226,13 @@ class TDTAdminExport extends AReader{
                 $dump.= ",t";
             }
         }
-        
-         
+
+
         $dump.= ');
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    $result = curl_exec($ch);  
+    $result = curl_exec($ch);
     $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	 echo "The addition of the resource definition ". $url . " has ";	
+	 echo "The addition of the resource definition ". $url . " has ";
 	 if(strlen(strstr($responseHeader,"200"))>0){
     	echo "succeeded!n";
     }else{
@@ -240,7 +240,7 @@ class TDTAdminExport extends AReader{
     }
 	 echo $result;
     echo "n ============================================= n";
-    curl_close($ch);  
+    curl_close($ch);
 ?>';
 
         $dump.= "n";

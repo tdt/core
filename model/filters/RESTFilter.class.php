@@ -30,15 +30,15 @@ class RESTFilter extends  AFilter{
 		$result = $result[$resource];
 	    }else{
                 array_push($subresources,$resource);
-		$invalidObject = new stdClass();
+		$invalidObject = new \stdClass();
                 $invalidObject->subresources = $subresources;
-                $invalidObject->result = new stdClass();
+                $invalidObject->result = new \stdClass();
                 return $invalidObject;
 	    }
 	    array_push($subresources,$resource);
 	}
 
-	$resultset = new stdClass();
+	$resultset = new \stdClass();
 	$resultset->result = $result;
 	$resultset->subresources = $subresources;
 

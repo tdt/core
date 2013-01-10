@@ -141,7 +141,7 @@ class SPECTQLController extends ACoreController {
 
         //pack everything in a new object
         $RESTresource = "spectqlquery";
-        $o = new stdClass();
+        $o = new \stdClass();
         $o->$RESTresource = $object;
         $result = $o;
 

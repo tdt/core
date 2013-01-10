@@ -85,7 +85,7 @@ class PhpObjectTableConverter {
                 //NOTE: we do save the indices... it's a object.......
                 $rootarr = array();
                 foreach($root as $i => $ritem){
-                    $obj = new stdClass();
+                    $obj = new \stdClass();
                     $obj->index=$i;
                     $obj->value=$ritem;
                     array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
@@ -101,16 +101,16 @@ class PhpObjectTableConverter {
                     if(is_object($ritem)){//this row is a object = ok
                         //ok!
                     }else if(is_array ($ritem)){//this row is an array = need conversion
-                        $obj = new stdClass();
+                        $obj = new \stdClass();
                         foreach($ritem as $a => $aitem){
-                            $obj = new stdClass();
+                            $obj = new \stdClass();
                             $index="index_".$a;
                             $obj->$index=$aitem;
                             array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
                         }
                         $ritem=$obj;
                     }else{//this row is a value...
-                        $obj = new stdClass();
+                        $obj = new \stdClass();
                         $obj->value=$ritem;
                         $ritem = $obj;
                     }

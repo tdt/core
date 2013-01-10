@@ -60,7 +60,7 @@ class RController extends ACoreController {
         if ($resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
             $allPackages = array_keys(get_object_vars($packageDoc));
-            $linkObject = new StdClass();
+            $linkObject = new \stdClass();
             $links = array();
 
             /**
@@ -74,7 +74,7 @@ class RController extends ACoreController {
                     $link = $this->hostname . $this->subdir . $packagestring;
                     $packagelinks[] = $link;
                     if (!isset($linkObject->subPackages)) {
-                        $linkObject->subPackages = new stdClass();
+                        $linkObject->subPackages = new \stdClass();
                     }
                     $linkObject->subPackages = $packagelinks;
                 }
@@ -86,7 +86,7 @@ class RController extends ACoreController {
                     $link = $this->hostname . $this->subdir . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {
-                        $linkObject->resources = new stdClass();
+                        $linkObject->resources = new \stdClass();
                     }
                     $linkObject->resources = $links;
                 }
@@ -154,7 +154,7 @@ class RController extends ACoreController {
         }
 
         //pack everything in a new object
-        $o = new stdClass();
+        $o = new \stdClass();
         $RESTresource = "";
         if (sizeof($RESTparameters) > 0) {
             $RESTresource = $RESTparameters[sizeof($RESTparameters) - 1];
@@ -183,7 +183,7 @@ class RController extends ACoreController {
                 $link = $this->hostname . $this->subdir . $packagestring;
                 $links[] = $link;
                 if (!isset($linkObject->subPackages)) {
-                    $linkObject->subPackages = new stdClass();
+                    $linkObject->subPackages = new \stdClass();
                 }
                 $linkObject->subPackages->$package = $links;
             }
@@ -258,7 +258,7 @@ class RController extends ACoreController {
         if ($foundPackage && $resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
             $allPackages = array_keys(get_object_vars($packageDoc));
-            $linkObject = new StdClass();
+            $linkObject = new \stdClass();
             $links = array();
 
             /**
@@ -274,7 +274,7 @@ class RController extends ACoreController {
                     $link = $this->hostname . $this->subdir . $packagestring;
                     $packagelinks[] = $link;
                     if (!isset($linkObject->subPackages)) {
-                        $linkObject->subPackages = new stdClass();
+                        $linkObject->subPackages = new \stdClass();
                     }
                     $linkObject->subPackages->$package = $packagelinks;
                 }
@@ -287,7 +287,7 @@ class RController extends ACoreController {
                     $link = $this->hostname . $this->subdir . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {
-                        $linkObject->resources = new stdClass();
+                        $linkObject->resources = new \stdClass();
                     }
                     $linkObject->resources->$package = $links;
                 }
@@ -372,7 +372,7 @@ class RController extends ACoreController {
         }
 
         //pack everything in a new object
-        $o = new stdClass();
+        $o = new \stdClass();
         $RESTresource = "";
         if (sizeof($RESTparameters) > 0) {
             $RESTresource = $RESTparameters[sizeof($RESTparameters) - 1];

@@ -55,7 +55,7 @@ class GenericResourceFactory extends AResourceFactory {
     public function makeDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
             }
 
             foreach($resourcenames as $resourcename){
@@ -67,7 +67,7 @@ class GenericResourceFactory extends AResourceFactory {
                 }
 
 
-                $doc->$package->$resourcename = new StdClass();
+                $doc->$package->$resourcename = new \stdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
                 $doc->$package->$resourcename->example_uri = $example_uri;
                 /**
@@ -86,12 +86,12 @@ class GenericResourceFactory extends AResourceFactory {
     public function makeDescriptionDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
             }
 
             foreach($resourcenames as $resourcename){
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
-                $doc->$package->$resourcename = new StdClass();
+                $doc->$package->$resourcename = new \stdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
                 $doc->$package->$resourcename->generic_type = $documentation["type"];
                 $doc->$package->$resourcename->resource_type = "generic";
@@ -167,12 +167,12 @@ class GenericResourceFactory extends AResourceFactory {
 
     public function makeDeleteDoc($doc){
         //add stuff to the delete attribute in doc. No other parameters expected
-        $d = new StdClass();
+        $d = new \stdClass();
         if(!isset($doc->delete)){
-            $doc->delete = new StdClass();
+            $doc->delete = new \stdClass();
         }
         $d->doc = "You can delete every generic resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
-        $doc->delete->generic = new StdClass();
+        $doc->delete->generic = new \stdClass();
         $doc->delete->generic = $d;
     }
 
@@ -180,15 +180,15 @@ class GenericResourceFactory extends AResourceFactory {
         $d = array();
         foreach($this->getAllStrategies() as $strategy){
             $res = new GenericResourceCreator("","", array(),$strategy);
-            $d[$strategy] = new stdClass();
+            $d[$strategy] = new \stdClass();
             $d[$strategy]->doc = "When your file is structured according to a $strategy -datasource, you can perform a PUT request and load this file in this DataTank";
             $d[$strategy]->parameters = $res->documentParameters();
             $d[$strategy]->requiredparameters = $res->documentRequiredParameters();
         }
         if(!isset($doc->create)){
-            $doc->create = new stdClass();
+            $doc->create = new \stdClass();
         }
-        $doc->create->generic = new stdClass();
+        $doc->create->generic = new \stdClass();
         $doc->create->generic = $d;
     }
 
@@ -196,15 +196,15 @@ class GenericResourceFactory extends AResourceFactory {
         $d = array();
         foreach($this->getAllStrategies() as $strategy){
             $res = new GenericResourceUpdater("","", array(),$strategy);
-            $d[$strategy] = new stdClass();
+            $d[$strategy] = new \stdClass();
             $d[$strategy]->doc = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that not all properties are adjustable.";
             $d[$strategy]->parameters = array();
             $d[$strategy]->requiredparameters = array();
         }
         if(!isset($doc->update)){
-            $doc->update = new stdClass();
+            $doc->update = new \stdClass();
         }
-        $doc->update->generic = new stdClass();
+        $doc->update->generic = new \stdClass();
         $doc->update->generic = $d;
     }
 

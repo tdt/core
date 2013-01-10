@@ -20,7 +20,7 @@ class UniversalFilterTableContentRow {
     private $data;
 
     public function __construct() {
-        $this->data = new stdClass();
+        $this->data = new \stdClass();
     }
 
     /**

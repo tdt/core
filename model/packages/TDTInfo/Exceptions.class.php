@@ -34,7 +34,7 @@ class TDTInfoExceptions extends AReader {
 
         foreach ($exceptions as $errorcode => $configarray) {
 
-            $e = new stdClass();
+            $e = new \stdClass();
             $e->code = $errorcode;
             $e->message = $configarray["message"];
             $e->parameters = $configarray["parameters"];

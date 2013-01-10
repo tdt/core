@@ -103,7 +103,7 @@ class DB extends ATabularData implements iFilter {
 
         foreach ($results as $result) {
 
-            $rowobject = new stdClass();
+            $rowobject = new \stdClass();
 
             // get the data out of the row and create an object out of it
             foreach ($aliases as $table_column => $alias) {
@@ -314,7 +314,7 @@ class DB extends ATabularData implements iFilter {
         // initialize the ORM redbeans to execute some SQL
         R::setup($configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
 
-        $resultObject = new stdClass();
+        $resultObject = new \stdClass();
 
         $sql = $this->convertClausesToSQLString($converter, $configObject);
 
@@ -333,7 +333,7 @@ class DB extends ATabularData implements iFilter {
              */
             foreach ($results as $result) {
 
-                $rowobject = new stdClass();
+                $rowobject = new \stdClass();
 
                 // get the data out of the row and create an object out of it
                 $rowKeys = array_keys($result);

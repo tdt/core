@@ -34,7 +34,7 @@ class BigList {
 
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
         if(is_null($oldList)){
-            $oldList = new stdClass();
+            $oldList = new \stdClass();
         }
         $oldList->$indexInBlock = $data;
         $inst->set("BIGLIST_".$this->id."_".$blockindex, $oldList);//save it again
@@ -51,7 +51,7 @@ class BigList {
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
 
         if(is_null($oldList)){
-            $oldList = new stdClass();
+            $oldList = new \stdClass();
         }
         return $oldList->$indexInBlock;
     }

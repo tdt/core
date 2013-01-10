@@ -62,7 +62,7 @@ class InstalledResourceFactory extends  AResourceFactory{
 
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
             }
 
             foreach($resourcenames as $resourcename){
@@ -73,7 +73,7 @@ class InstalledResourceFactory extends  AResourceFactory{
                 // file can always have been removed after adding it as a published resource
                 if(file_exists("custom/packages/".$location )){
                     $classname = $this->getClassnameOfResource($package,$resourcename);
-                    $doc->$package->$resourcename = new StdClass();
+                    $doc->$package->$resourcename = new \stdClass();
                     include_once("custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
@@ -90,7 +90,7 @@ class InstalledResourceFactory extends  AResourceFactory{
 
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
-                $doc->$package = new StdClass();
+                $doc->$package = new \stdClass();
 
             }
 
@@ -103,7 +103,7 @@ class InstalledResourceFactory extends  AResourceFactory{
                 if(file_exists("custom/packages/".$location )){
 
                     $classname = $this->getClassnameOfResource($package,$resourcename);
-                    $doc->$package->$resourcename = new StdClass();
+                    $doc->$package->$resourcename = new \stdClass();
                     include_once("custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
@@ -161,12 +161,12 @@ class InstalledResourceFactory extends  AResourceFactory{
      * Put together the deletion documentation for installed resources
      */
     public function makeDeleteDoc($doc){
-        $d = new StdClass();
+        $d = new \stdClass();
         $d->doc = "Installed resources can be deleted from its location, yet it's physical classfile will remain in the folderstructure of the custom/packages folder.";
         if(!isset($doc->delete)){
-            $doc->delete = new StdClass();
+            $doc->delete = new \stdClass();
         }
-        $doc->delete->installed = new StdClass();
+        $doc->delete->installed = new \stdClass();
         $doc->delete->installed = $d;
     }
 
@@ -175,16 +175,16 @@ class InstalledResourceFactory extends  AResourceFactory{
      */
     public function makeCreateDoc($doc){
 
-        $d = new StdClass();
+        $d = new \stdClass();
         $installedResource = new  InstalledResourceCreator("","",array());
         $d->doc = "You can PUT an installed resource when you have created a resource-class in the custom/packages folder.";
         $d->parameters = $installedResource->documentParameters();
         $d->requiredparameters = $installedResource->documentRequiredParameters();
 
         if(!isset($doc->create)){
-            $doc->create = new stdClass();
+            $doc->create = new \stdClass();
         }
-        $doc->create->installed = new stdClass();
+        $doc->create->installed = new \stdClass();
         $doc->create->installed = $d;
     }
 }

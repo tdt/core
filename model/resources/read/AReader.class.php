@@ -14,7 +14,7 @@ use tdt\framework\LanguageNegotiator;
 use tdt\framework\TDTException;
 
 abstract class AReader {
-    
+
     public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp");
     // package and resource are always the two minimum parameters
     protected $parameters = array();
@@ -39,7 +39,7 @@ abstract class AReader {
 
     /**
      * Execution method of a reader, which reads a resource
-     * @return StdClass of a datasource
+     * @return \stdClass of a datasource
      */
     public function execute() {
         return $this->read();
@@ -80,7 +80,7 @@ abstract class AReader {
         $ln = new LanguageNegotiator();
         //the language negotiator will always have at least one result, so we can pop the first one without any problem
         $language = $ln->pop();
-        while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){   
+        while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){
             $language = $ln->pop();
         }
         if(sizeof($this->supportedLanguages())!=0 && !in_array($language,$this->supportedLanguages())){
