@@ -804,7 +804,7 @@ $offset =& $tokens[4];
 $limit =& $tokens[6];
  
 
-    $limit = new LimitFilter($e,$offset,$limit);
+    $limit = new tdt\core\universalfilter\LimitFilter($e,$offset,$limit);
     $result = $limit;
  
 }
@@ -817,7 +817,7 @@ $result = reset($tokens);
 $e =& $tokens[0];
 $limit =& $tokens[4];
 
-    $limit = new LimitFilter($e,0,$limit);
+    $limit = new tdt\core\universalfilter\LimitFilter($e,0,$limit);
     $result = $limit;
 
 }
@@ -840,7 +840,7 @@ $sel =& $tokens[2];
 
 
 // from
-$totalfilter = new Identifier($tokens[0]);
+$totalfilter = new tdt\core\universalfilter\Identifier($tokens[0]);
 	
 // group by
 $groupby = array();
@@ -860,18 +860,18 @@ foreach($sel["identifiers"] as $identifier){
 }
 							
 if($aggregate){
-    $datagrouper = new DataGrouper($groupby);
+    $datagrouper = new tdt\core\universalfilter\DataGrouper($groupby);
     $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
 }
 	
 // select
 
-$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$selecttables = new tdt\core\universalfilter\ColumnSelectionFilter($sel["filters"]);
 $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
 
 
 // order by
-$orderby = new SortFieldsFilter($sel["sorts"]);
+$orderby = new tdt\core\universalfilter\SortFieldsFilter($sel["sorts"]);
 if(!empty($sel["sorts"])){
     $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
 }
@@ -890,12 +890,12 @@ $fl =& $tokens[5];
  
 
 
-$totalfilter = new Identifier($tokens[0]);
+$totalfilter = new tdt\core\universalfilter\Identifier($tokens[0]);
 
 
 // where
 
-$expressionFilter = new FilterByExpressionFilter($fl); 
+$expressionFilter = new tdt\core\universalfilter\FilterByExpressionFilter($fl); 
 $totalfilter = putFilterAfterIfExists($totalfilter,$expressionFilter);
 
 $groupby = array();
@@ -911,17 +911,17 @@ foreach($sel["identifiers"] as $identifier){
 // group by				
 			
 if($aggregate){
-    $datagrouper = new DataGrouper($groupby);
+    $datagrouper = new tdt\core\universalfilter\DataGrouper($groupby);
     $totalfilter = putFilterAfterIfExists($totalfilter,$datagrouper);
 }
 	
 // functions (binary, unary or tertiary)
 
-$selecttables = new ColumnSelectionFilter($sel["filters"]);
+$selecttables = new tdt\core\universalfilter\ColumnSelectionFilter($sel["filters"]);
 $totalfilter = putFilterAfterIfExists($totalfilter,$selecttables);
 
 // order by
-$orderby = new SortFieldsFilter($sel["sorts"]);
+$orderby = new tdt\core\universalfilter\SortFieldsFilter($sel["sorts"]);
 if(!empty($sel["sorts"])){
     $totalfilter = putFilterAfterIfExists($totalfilter,$orderby);
 }
@@ -935,7 +935,7 @@ function reduce_8_resource_3($tokens, &$result) {
 # (8) resource :=  resourceid
 #
 $result = reset($tokens);
- $result = new Identifier($tokens[0]); 
+ $result = new tdt\core\universalfilter\Identifier($tokens[0]); 
 }
 
 function reduce_9_resource_4($tokens, &$result) {
@@ -943,7 +943,7 @@ function reduce_9_resource_4($tokens, &$result) {
 # (9) resource :=  resourceid  '?'  filterlist
 #
 $result = reset($tokens);
- $result = new FilterByExpressionFilter($tokens[2]); $result->setSource(new Identifier($tokens[0])); 
+ $result = new tdt\core\universalfilter\FilterByExpressionFilter($tokens[2]); $result->setSource(new tdt\core\universalfilter\Identifier($tokens[0])); 
 }
 
 function reduce_10_resourceid_1($tokens, &$result) {
@@ -975,7 +975,7 @@ function reduce_13_num_1($tokens, &$result) {
 # (13) num :=  num  '.'  num
 #
 $result = reset($tokens);
- $result = new Constant((double) ($tokens[0] . "." . $tokens[2]));  
+ $result = new tdt\core\universalfilter\Constant((double) ($tokens[0] . "." . $tokens[2]));  
 }
 
 function reduce_14_num_2($tokens, &$result) {
@@ -999,7 +999,7 @@ function reduce_16_filterlist_2($tokens, &$result) {
 # (16) filterlist :=  filterlist  '&'  filterlist
 #
 $result = reset($tokens);
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,$tokens[0],$tokens[2]); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_AND,$tokens[0],$tokens[2]); 
 }
 
 function reduce_17_filterlist_3($tokens, &$result) {
@@ -1007,7 +1007,7 @@ function reduce_17_filterlist_3($tokens, &$result) {
 # (17) filterlist :=  filterlist  '|'  filterlist
 #
 $result = reset($tokens);
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR,$tokens[0],$tokens[2]); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_OR,$tokens[0],$tokens[2]); 
 }
 
 function reduce_18_filterlist_4($tokens, &$result) {
@@ -1026,7 +1026,7 @@ function reduce_19_filter_1($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); 
+ $result =  new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_20_filter_2($tokens, &$result) {
@@ -1036,7 +1036,7 @@ function reduce_20_filter_2($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_21_filter_3($tokens, &$result) {
@@ -1046,7 +1046,7 @@ function reduce_21_filter_3($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_22_filter_4($tokens, &$result) {
@@ -1056,7 +1056,7 @@ function reduce_22_filter_4($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_23_filter_5($tokens, &$result) {
@@ -1066,7 +1066,7 @@ function reduce_23_filter_5($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_24_filter_6($tokens, &$result) {
@@ -1076,7 +1076,7 @@ function reduce_24_filter_6($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_25_filter_7($tokens, &$result) {
@@ -1086,7 +1086,7 @@ function reduce_25_filter_7($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant("/.*".preg_quote($b).".*/")); 
 }
 
 function reduce_26_filter_8($tokens, &$result) {
@@ -1096,7 +1096,7 @@ function reduce_26_filter_8($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_27_filter_9($tokens, &$result) {
@@ -1106,7 +1106,7 @@ function reduce_27_filter_9($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_28_filter_10($tokens, &$result) {
@@ -1116,7 +1116,7 @@ function reduce_28_filter_10($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_29_filter_11($tokens, &$result) {
@@ -1126,7 +1126,7 @@ function reduce_29_filter_11($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_30_filter_12($tokens, &$result) {
@@ -1136,7 +1136,7 @@ function reduce_30_filter_12($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_31_filter_13($tokens, &$result) {
@@ -1146,7 +1146,7 @@ function reduce_31_filter_13($tokens, &$result) {
 $result = reset($tokens);
 $a =& $tokens[0];
 $b =& $tokens[2];
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new tdt\core\universalfilter\Identifier($a),new tdt\core\universalfilter\Constant($b)); 
 }
 
 function reduce_32_filter_14($tokens, &$result) {
@@ -1188,7 +1188,7 @@ function reduce_35_selectargument_1($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[0];
- $result = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); 
+ $result = array("filters" => array(new tdt\core\universalfilter\ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array($arg)); 
 }
 
 function reduce_36_selectargument_2($tokens, &$result) {
@@ -1200,8 +1200,8 @@ $arg =& $tokens[0];
 $order =& $tokens[1];
  
 
-$result =  array( "filters" => array(new ColumnSelectionFilterColumn($arg,null)), 
-             "sorts" => array(new SortFieldsFilterColumn($arg, $order)), 
+$result =  array( "filters" => array(new tdt\core\universalfilter\ColumnSelectionFilterColumn($arg,null)), 
+             "sorts" => array(new tdt\core\universalfilter\SortFieldsFilterColumn($arg, $order)), 
              "identifiers" => array($arg));
 }
 
@@ -1211,7 +1211,7 @@ function reduce_37_selectargument_3($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
-$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(), "identifiers" => array($arg));
+$result = array("filters" => array(new tdt\core\universalfilter\ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(), "identifiers" => array($arg));
 }
 
 function reduce_38_selectargument_4($tokens, &$result) {
@@ -1220,7 +1220,7 @@ function reduce_38_selectargument_4($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
-$result = array("filters" => array(new ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(new SortFieldsFilterColumn($arg, $order)), "identifiers" => array($arg));
+$result = array("filters" => array(new tdt\core\universalfilter\ColumnSelectionFilterColumn($arg,$tokens[0])), "sorts" => array(new tdt\core\universalfilter\SortFieldsFilterColumn($arg, $order)), "identifiers" => array($arg));
 }
 
 function reduce_39_function_1($tokens, &$result) {
@@ -1247,7 +1247,7 @@ function reduce_41_order_1($tokens, &$result) {
 # (41) order :=  '+'
 #
 $result = reset($tokens);
- /* SORT BY ascending */ $result = SortFieldsFilterColumn::$SORTORDER_ASCENDING; 
+ /* SORT BY ascending */ $result = tdt\core\universalfilter\SortFieldsFilterColumn::$SORTORDER_ASCENDING; 
 }
 
 function reduce_42_order_2($tokens, &$result) {
@@ -1255,7 +1255,7 @@ function reduce_42_order_2($tokens, &$result) {
 # (42) order :=  '-'
 #
 $result = reset($tokens);
- /* SORT BY descending  */ $result = SortFieldsFilterColumn::$SORTORDER_DESCENDING; 
+ /* SORT BY descending  */ $result = tdt\core\universalfilter\SortFieldsFilterColumn::$SORTORDER_DESCENDING; 
 }
 
 function reduce_43_argument_1($tokens, &$result) {
@@ -1264,7 +1264,7 @@ function reduce_43_argument_1($tokens, &$result) {
 #
 $result = reset($tokens);
 $name =& $tokens[0];
- $result = new Identifier($name); 
+ $result = new tdt\core\universalfilter\Identifier($name); 
 }
 
 function reduce_44_argument_2($tokens, &$result) {
@@ -1280,7 +1280,7 @@ function reduce_45_argument_3($tokens, &$result) {
 # (45) argument :=  '*'
 #
 $result = reset($tokens);
- $result = new Identifier('*'); 
+ $result = new tdt\core\universalfilter\Identifier('*'); 
 }
 
 function reduce_46_argument_4($tokens, &$result) {
@@ -1296,7 +1296,7 @@ function reduce_47_argument_5($tokens, &$result) {
 # (47) argument :=  num
 #
 $result = reset($tokens);
-$result = new Constant($tokens[0]);
+$result = new tdt\core\universalfilter\Constant($tokens[0]);
 }
 
 function reduce_48_link_1($tokens, &$result) {
@@ -1320,7 +1320,7 @@ function reduce_50_calc_1($tokens, &$result) {
 # (50) calc :=  num
 #
 $result = reset($tokens);
- $result = new Constant($tokens[0]); 
+ $result = new tdt\core\universalfilter\Constant($tokens[0]); 
 }
 
 function reduce_51_calc_2($tokens, &$result) {
@@ -1328,7 +1328,7 @@ function reduce_51_calc_2($tokens, &$result) {
 # (51) calc :=  calc  '+'  calc
 #
 $result = reset($tokens);
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $tokens[0], $tokens[2]);  
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_PLUS, $tokens[0], $tokens[2]);  
 }
 
 function reduce_52_calc_3($tokens, &$result) {
@@ -1336,7 +1336,7 @@ function reduce_52_calc_3($tokens, &$result) {
 # (52) calc :=  calc  '-'  calc
 #
 $result = reset($tokens);
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $tokens[0], $tokens[2]); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, $tokens[0], $tokens[2]); 
 }
 
 function reduce_53_calc_4($tokens, &$result) {
@@ -1344,7 +1344,7 @@ function reduce_53_calc_4($tokens, &$result) {
 # (53) calc :=  calc  '*'  calc
 #
 $result = reset($tokens);
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $tokens[0], $tokens[2]); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $tokens[0], $tokens[2]); 
 }
 
 function reduce_54_calc_5($tokens, &$result) {
@@ -1352,7 +1352,7 @@ function reduce_54_calc_5($tokens, &$result) {
 # (54) calc :=  calc  '/'  calc
 #
 $result = reset($tokens);
- $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $tokens[0], $tokens[2]); 
+ $result = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DIVIDE, $tokens[0], $tokens[2]); 
 }
 
 function reduce_55_calc_6($tokens, &$result) {
@@ -1360,7 +1360,7 @@ function reduce_55_calc_6($tokens, &$result) {
 # (55) calc :=  num  '.'  num
 #
 $result = reset($tokens);
- $result = new Constant((double)($tokens[0] . "." . $tokens[2])); 
+ $result = new tdt\core\universalfilter\Constant((double)($tokens[0] . "." . $tokens[2])); 
 }
 
 function reduce_56_calc_7($tokens, &$result) {
