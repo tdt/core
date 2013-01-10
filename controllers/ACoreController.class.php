@@ -10,8 +10,6 @@ namespace tdt\core\controllers;
 use tdt\framework\AController;
 use tdt\framework\Cache\Cache;
 use tdt\framework\Config;
-use tdt\framework\includes\GoogleAnalytics\Config;
-
 
 class ACoreController extends AController {
     /*
