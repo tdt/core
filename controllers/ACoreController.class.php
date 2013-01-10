@@ -7,7 +7,9 @@
 
 namespace tdt\core\controllers;
 
-class ACoreController extends tdt\framework\AController {
+use tdt\framework\AController;
+
+class ACoreController extends AController {
     /*
      * installation variables
      */
