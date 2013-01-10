@@ -10,19 +10,22 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once("core/universalfilter/converter/SQLConverter.class.php");
-include_once("core/universalfilter/interpreter/debugging/TreePrinter.class.php");
+
 
 namespace tdt\core\model\resources\read;
+
+// include_once("core/universalfilter/converter/SQLConverter.class.php");
+// include_once("core/universalfilter/interpreter/debugging/TreePrinter.class.php");
+
 
 interface iFilter {
 
     /**
      * This has to return not only the dataset as a phpobject!!
      * Check the documentation in UniversalTableManager, above the function
-     * runFilterOnSource, which explains what it expects from a resource if it can 
+     * runFilterOnSource, which explains what it expects from a resource if it can
      * execute a query or a part of a query.
-     * it expects a php object of your execution + the parent node and the index in that parent of the node 
+     * it expects a php object of your execution + the parent node and the index in that parent of the node
      * you have executed! Basically what you provide is the information
      * to let us know what piece of the tree you have executed so that we can replace the subtree with a node
      * which let's us know that that particular part has been executed already.

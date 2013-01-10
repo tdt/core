@@ -28,8 +28,8 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     public function createReader($package, $resource, $parameters, $RESTparameters) {
-        include_once("/core/model/packages/" . $package . "/" . $resource . ".class.php");
-        $classname = $package . $resource;
+        tdt\core\model\packages\TDTInfo;
+        $classname = "tdt\\core\\model\\packages\\".$package ."\\". $package. $resource;
         $creator = new $classname($package, $resource, $RESTparameters);
         $creator->processParameters($parameters);
         return $creator;
@@ -46,9 +46,8 @@ class CoreResourceFactory extends AResourceFactory {
                 $doc->$package = new \stdClass();
             }
             foreach ($resourcenames as $resourcename) {
-                $classname = $package . $resourcename;
+                $classname = "tdt\\core\\model\\packages\\".$package ."\\". $package. $resourcename;
                 $doc->$package->$resourcename = new \stdClass();
-                include_once("core/model/packages/" . $package . "/" . $resourcename . ".class.php");
                 $doc->$package->$resourcename->doc = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                 $doc->$package->$resourcename->parameters = $classname::getParameters();

@@ -9,6 +9,8 @@
  * @author Jan Vansteenlandt
  */
 
+namespace tdt\core\model;
+
 use tdt\core\model\DBQueries;
 use tdt\core\model\resources\create\GenericResourceCreator;
 use tdt\core\model\resources\delete\GenericResourceDeleter;
@@ -17,7 +19,6 @@ use tdt\core\model\resources\read\GenericResourceReader;
 use tdt\core\model\resources\update\GenericResourceUpdater;
 use tdt\framework\TDTException;
 
-namespace tdt\core\model;
 
 class GenericResourceFactory extends AResourceFactory {
 

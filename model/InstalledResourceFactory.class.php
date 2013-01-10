@@ -8,12 +8,12 @@
  * @author Jan Vansteenlandt <jan a t iRail.be>
  */
 
+namespace tdt\core\model;
+
 use tdt\core\model\DBQueries;
 use tdt\core\model\resources\create\InstalledResourceCreator;
 use tdt\core\model\resources\delete\InstalledResourceDeleter;
 use tdt\framework\TDTException;
-
-namespace tdt\core\model;
 
 
 class InstalledResourceFactory extends  AResourceFactory{

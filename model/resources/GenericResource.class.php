@@ -36,8 +36,8 @@ class GenericResource{
      */
     public function getStrategy(){
         if(is_null($this->strategy)){
-            include_once("custom/strategies/" . $this->strategyname . ".class.php");
-            $this->strategy = new $this->strategyname();
+            $classname = "tdt\\core\\strategies\\" . trim($this->strategyname);
+            $this->strategy = new $classname();
         }
         return $this->strategy;
     }
