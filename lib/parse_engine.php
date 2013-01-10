@@ -48,7 +48,7 @@ class parse_stack {
 		$this->ss[] = $semantic;
 		$this->qs[] = $this->q;
 		$this->q = $q;
-		# echo "Shift $q -- $semantic<br/>n";
+		# echo "Shift $q -- $semantic<br/>\n";
 	}
 	function top_n($n) {
 		if (!$n) return array();
@@ -192,13 +192,13 @@ class parse_engine {
 	private function state() { return $this->stack->q; }
 	function eat($type, $semantic) {
 		# assert('$type == trim($type)');
-		# if ($this->debug) echo "Trying to eat a ($type)n";
+		# if ($this->debug) echo "Trying to eat a ($type)\n";
 		list($opcode, $operand) = $this->step_for($type);
 		switch ($opcode) {
 			case 's':
-			# if ($this->debug) echo "shift $type to state $n";
+			# if ($this->debug) echo "shift $type to state $operand\n";
 			$this->stack->shift($operand, $semantic);
-			# echo $this->stack->text()." shift $type<br/>n";
+			# echo $this->stack->text()." shift $type<br/>\n";
 			break;
 			
 			case 'r':
@@ -210,7 +210,7 @@ class parse_engine {
 			case 'a':
 			if ($this->stack->occupied()) throw new parse_bug('Accept should happen with empty stack.');
 			$this->accept = true;
-			#if ($this->debug) echo ("n");
+			#if ($this->debug) echo ("Accept\n\n");
 			$this->semantic = $semantic;
 			break;
 			
@@ -218,7 +218,7 @@ class parse_engine {
 			# This is thought to be the uncommon, exceptional path, so
 			# it's OK that this algorithm will cause the stack to
 			# flutter while the parse engine waits for an edible token.
-			# if ($this->debug) echo "($type) causes a problem.n";
+			# if ($this->debug) echo "($type) causes a problem.\n";
 			if ($this->enter_error_tolerant_state()) {
 				$this->eat('error', NULL);
 				if ($this->has_step_for($type)) $this->eat($type, $semantic);
@@ -245,7 +245,7 @@ class parse_engine {
 		# we have this weird calling convention....
 		$result = null;
 		$method = $this->parser->method[$rule_id];
-		#if ($this->debug) echo "rule $id: $n";
+		#if ($this->debug) echo "rule $id: $method\n";
 		$this->parser->$method($slice, $result);
 		return $result;
 	}
