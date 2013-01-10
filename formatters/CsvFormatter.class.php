@@ -10,11 +10,13 @@
 
 namespace tdt\core\formatters;
 
+use tdt\framework\TDTException;
+
 /**
  * This class inherits from the abstract Formatter. It will return our resultobject into a
  * csv datastructure.
  */
-class CsvFormatter extends tdt\core\formatters\AFormatter{
+class CsvFormatter extends AFormatter{
      
      public function __construct($rootname,$objectToPrint){
 	  parent::__construct($rootname,$objectToPrint);
@@ -60,7 +62,7 @@ class CsvFormatter extends tdt\core\formatters\AFormatter{
              }
 
              echo implode(";",$enclosedHeaderrow);
-             echo "\n";
+             echo "n";
 
              foreach($this->objectToPrint as $row){
                  if(is_object($row)){
@@ -90,7 +92,7 @@ class CsvFormatter extends tdt\core\formatters\AFormatter{
                      else{
                          echo $this->enclose($element);
                      }
-                     echo sizeof($row)-1 != $i ? ";" : "\n";   
+                     echo sizeof($row)-1 != $i ? ";" : "n";   
                      $i++;
                  }
              }

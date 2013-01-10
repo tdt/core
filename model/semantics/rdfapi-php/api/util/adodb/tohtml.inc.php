@@ -52,7 +52,7 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 	//else $docnt = true;
 	$typearr = array();
 	$ncols = $rs->FieldCount();
-	$hdr = "<TABLE COLS=$ncols $ztabhtml><tr>\n\n";
+	$hdr = "<TABLE COLS=$ncols $ztabhtml><tr>n";
 	for ($i=0; $i < $ncols; $i++) {	
 		$field = $rs->FetchField($i);
 		if ($field) {
@@ -67,15 +67,15 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 		if (strlen($fname)==0) $fname = '&nbsp;';
 		$hdr .= "<TH>$fname</TH>";
 	}
-	$hdr .= "\n</tr>";
-	if ($echo) print $hdr."\n\n";
+	$hdr .= "n</tr>";
+	if ($echo) print $hdr."n";
 	else $html = $hdr;
 	
 	// smart algorithm - handles ADODB_FETCH_MODE's correctly by probing...
 	$numoffset = isset($rs->fields[0]) ||isset($rs->fields[1]) || isset($rs->fields[2]);
 	while (!$rs->EOF) {
 		
-		$s .= "<TR valign=top>\n";
+		$s .= "<TR valign=top>n";
 		
 		for ($i=0; $i < $ncols; $i++) {
 			if ($i===0) $v=($numoffset) ? $rs->fields[0] : reset($rs->fields);
@@ -84,14 +84,14 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 			$type = $typearr[$i];
 			switch($type) {
 			case 'D':
-				if (empty($v)) $s .= "<TD> &nbsp; </TD>\n";
+				if (empty($v)) $s .= "<TD> &nbsp; </TD>n";
 				else if (!strpos($v,':')) {
-					$s .= "	<TD>".$rs->UserDate($v,"D d, M Y") ."&nbsp;</TD>\n";
+					$s .= "	<TD>".$rs->UserDate($v,"D d, M Y") ."&nbsp;</TD>n";
 				}
 				break;
 			case 'T':
-				if (empty($v)) $s .= "<TD> &nbsp; </TD>\n";
-				else $s .= "	<TD>".$rs->UserTimeStamp($v,"D d, M Y, h:i:s") ."&nbsp;</TD>\n";
+				if (empty($v)) $s .= "<TD> &nbsp; </TD>n";
+				else $s .= "	<TD>".$rs->UserTimeStamp($v,"D d, M Y, h:i:s") ."&nbsp;</TD>n";
 			break;
 			
 			case 'N':
@@ -100,7 +100,7 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 				else
 					$v = round($v,$ADODB_ROUND);
 			case 'I':
-				$s .= "	<TD align=right>".stripslashes((trim($v))) ."&nbsp;</TD>\n";
+				$s .= "	<TD align=right>".stripslashes((trim($v))) ."&nbsp;</TD>n";
 			   	
 			break;
 			/*
@@ -118,8 +118,8 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 				  }
 				}
 				$t = mime_content_type($tmpname);
-				$s .= (substr($t,0,5)=="image") ? " <td><img src='$tmpname' alt='$t'></td>\\n" : " <td><a
-				href='$tmpname'>$t</a></td>\\n";
+				$s .= (substr($t,0,5)=="image") ? " <td><img src='$tmpname' alt='$t'></td>n" : " <td><a
+				href='$tmpname'>$t</a></td>n";
 				break;
 			*/
 
@@ -127,11 +127,11 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 				if ($htmlspecialchars) $v = htmlspecialchars(trim($v));
 				$v = trim($v);
 				if (strlen($v) == 0) $v = '&nbsp;';
-				$s .= "	<TD>". str_replace("\n",'<br>',stripslashes($v)) ."</TD>\n";
+				$s .= "	<TD>". str_replace("n",'<br>',stripslashes($v)) ."</TD>n";
 			  
 			}
 		} // for
-		$s .= "</TR>\n\n";
+		$s .= "</TR>n";
 			  
 		$rows += 1;
 		if ($rows >= $gSQLMaxRows) {
@@ -145,14 +145,14 @@ GLOBAL $gSQLMaxRows,$gSQLBlockRows,$ADODB_ROUND;
 		if (!$rs->EOF && $rows % $gSQLBlockRows == 0) {
 	
 		//if (connection_aborted()) break;// not needed as PHP aborts script, unlike ASP
-			if ($echo) print $s . "</TABLE>\n\n";
-			else $html .= $s ."</TABLE>\n\n";
+			if ($echo) print $s . "</TABLE>n";
+			else $html .= $s ."</TABLE>n";
 			$s = $hdr;
 		}
 	} // while
 
-	if ($echo) print $s."</TABLE>\n\n";
-	else $html .= $s."</TABLE>\n\n";
+	if ($echo) print $s."</TABLE>n";
+	else $html .= $s."</TABLE>n";
 	
 	if ($docnt) if ($echo) print "<H2>".$rows." Rows</H2>";
 	
@@ -169,9 +169,9 @@ function arr2html(&$arr,$ztabhtml='',$zheaderarray='')
 	if ($zheaderarray) {
 		$s .= '<TR>';
 		for ($i=0; $i<sizeof($zheaderarray); $i++) {
-			$s .= "	<TH>{$zheaderarray[$i]}</TH>\n";
+			$s .= "	<TH>{$zheaderarray[$i]}</TH>n";
 		}
-		$s .= "\n</TR>";
+		$s .= "n</TR>";
 	}
 	
 	for ($i=0; $i<sizeof($arr); $i++) {
@@ -181,12 +181,12 @@ function arr2html(&$arr,$ztabhtml='',$zheaderarray='')
 			for ($j=0; $j<sizeof($a); $j++) {
 				$val = $a[$j];
 				if (empty($val)) $val = '&nbsp;';
-				$s .= "	<TD>$val</TD>\n";
+				$s .= "	<TD>$val</TD>n";
 			}
 		else if ($a) {
-			$s .=  '	<TD>'.$a."</TD>\n";
-		} else $s .= "	<TD>&nbsp;</TD>\n";
-		$s .= "\n</TR>\n";
+			$s .=  '	<TD>'.$a."</TD>n";
+		} else $s .= "	<TD>&nbsp;</TD>n";
+		$s .= "n</TR>n";
 	}
 	$s .= '</TABLE>';
 	print $s;

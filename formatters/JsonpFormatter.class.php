@@ -9,11 +9,14 @@
  */
 
 namespace tdt\core\formatters;
+
+use tdt\framework\TDTException;
+
 /**
  * This class inherits from the Json printer. It just needs the json value and it will add
  * some data to make the json into a jsonp message.
  */
-class JsonpFormatter extends tdt\core\formatters\JsonFormatter{
+class JsonpFormatter extends JsonFormatter{
 
      private $callback;
 
@@ -21,7 +24,7 @@ class JsonpFormatter extends tdt\core\formatters\JsonFormatter{
 	  if($callback != ""){
 	       $this->callback = $callback;
 	  }else{
-	       throw new tdt\framework\TDTException(452, array("With Jsonp you should add a callback: &callback=yourfunctionname"));
+	       throw new TDTException(452, array("With Jsonp you should add a callback: &callback=yourfunctionname"));
 	  }
 	  parent::__construct($rootname,$objectToPrint);
      }

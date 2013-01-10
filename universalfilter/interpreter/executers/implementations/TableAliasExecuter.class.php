@@ -11,14 +11,14 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class TableAliasExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter {
 
     private $executer;
     private $header;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
         $this->executer = $interpreter->findExecuterFor($filter->getSource());

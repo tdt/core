@@ -121,18 +121,18 @@ class SparqlClient extends Object {
 
         $replace = $url['path'];
 
-        fputs($fp, "GET " . $replace . "?" . $url['query'] . " HTTP/1.0\n");
-        fputs($fp, "Host:" . $url['host'] . " \r\n");
-        fputs($fp, "Accept: application/sparql-results+xml, application/rdf+xml\r\n");
-        fputs($fp, "Connection: close\n\n");
+        fputs($fp, "GET " . $replace . "?" . $url['query'] . " HTTP/1.0n");
+        fputs($fp, "Host:" . $url['host'] . " n");
+        fputs($fp, "Accept: application/sparql-results+xml, application/rdf+n");
+        fputs($fp, "Connection: n");
 
         $buffer = "";
         while ($tmp = fread($fp, 1024)) {
             $buffer .= $tmp;
         }
 
-        $pos1 = strpos($buffer, "\r\n\r\n");
-        $pos2 = strpos($buffer, "\n\n");
+        $pos1 = strpos($buffer, "n");
+        $pos2 = strpos($buffer, "n");
         if ($pos1 === false) {
             $pos = $pos2;
         } else {

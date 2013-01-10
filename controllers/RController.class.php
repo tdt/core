@@ -13,18 +13,17 @@
 
 namespace tdt\core\controllers;
 
+use tdt\core\controllers\ACoreController;
+use tdt\core\formatters\FormatterFactory;
+use tdt\core\model\filters\FilterFactory;
+use tdt\core\model\ResourcesModel;
+use tdt\framework\TDTException;
+
 class RController extends ACoreController {
 
     private $formatterfactory;
 
-    public function __construct() {
-        /*
-          AutoInclude::register("RController", "cores/core/controllers/RController.class.php");
-          AutoInclude::register("ResourcesModel", "cores/core/model/ResourcesModel.class.php");
-          AutoInclude::register("FilterFactory", "cores/core/model/filters/FilterFactory.class.php");
-          AutoInclude::register("AFilter", "cores/core/model/filters/AFilter.class.php");
-          AutoInclude::register("RESTFilter", "cores/core/model/filters/RESTFilter.class.php");
-          AutoInclude::register("SearchFilter", "cores/core/model/filters/SearchFilter.class.php"); */
+    public function __construct() {    
         parent::__construct();
     }
 
@@ -47,7 +46,7 @@ class RController extends ACoreController {
             }
         }
 
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
 
         $result = $model->processPackageResourceString($matches["packageresourcestring"]);
@@ -94,7 +93,7 @@ class RController extends ACoreController {
             }
 
             //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = tdt\core\formatters\FormatterFactory::getInstance($matches["format"]);
+            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
             $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
             $printer->printAll();
@@ -103,7 +102,7 @@ class RController extends ACoreController {
         }
 
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = tdt\core\formatters\FormatterFactory::getInstance($matches["format"]);
+        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
         $parameters = $_GET;
         $requiredParameters = array();
@@ -112,7 +111,7 @@ class RController extends ACoreController {
             //set the parameter of the method
 
             if (!isset($RESTparameters[0])) {
-                throw new tdt\framework\TDTException(452, array("Invalid parameter given: $parameter"));
+                throw new TDTException(452, array("Invalid parameter given: $parameter"));
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
@@ -127,7 +126,7 @@ class RController extends ACoreController {
 
         // apply RESTFilter
         $subresources = array();
-        $filterfactory = tdt\core\model\filters\FilterFactory::getInstance();
+        $filterfactory = FilterFactory::getInstance();
 
         if (sizeof($RESTparameters) > 0) {
             if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
@@ -172,7 +171,7 @@ class RController extends ACoreController {
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
         $packageDoc = $model->getAllPackagesDoc();
         $allPackages = array_keys(get_object_vars($packageDoc));
 
@@ -211,7 +210,7 @@ class RController extends ACoreController {
         }
 
         //Get an instance of our resourcesmodel
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
 
         /**
@@ -294,12 +293,12 @@ class RController extends ACoreController {
                 }
             } else {
                 if (!$foundPackage) {
-                    throw new tdt\framework\TDTException(404, array($packageresourcestring));
+                    throw new TDTException(404, array($packageresourcestring));
                 }
             }
 
             //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = tdt\core\formatters\FormatterFactory::getInstance($matches["format"]);
+            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
             $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
             $printer->printHeader();
@@ -308,7 +307,7 @@ class RController extends ACoreController {
 
 
         if (!$foundPackage) {
-            throw new tdt\framework\TDTException(404, array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         /**
@@ -316,10 +315,10 @@ class RController extends ACoreController {
          * action and return the result.
          */
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = tdt\core\formatters\FormatterFactory::getInstance($matches["format"]);
+        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
         if (!isset($doc->$package) || !isset($doc->$package->$resourcename)) {
-            throw new tdt\framework\TDTException(404, array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         $parameters = $_GET;
@@ -327,7 +326,7 @@ class RController extends ACoreController {
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
             if (!isset($RESTparameters[0])) {
-                throw new tdt\framework\TDTException(452, array("Invalid parameter:" . $parameter));
+                throw new TDTException(452, array("Invalid parameter:" . $parameter));
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
@@ -346,7 +345,7 @@ class RController extends ACoreController {
          */
         // apply RESTFilter
         $subresources = array();
-        $filterfactory = tdt\core\model\filters\FilterFactory::getInstance();
+        $filterfactory = FilterFactory::getInstance();
 
         if (sizeof($RESTparameters) > 0) {
             if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
@@ -393,28 +392,28 @@ class RController extends ACoreController {
      * You cannot PUT on a representation
      */
     function PUT($matches) {
-        throw new tdt\framework\TDTException(450, array("PUT", $matches["packageresourcestring"]));
+        throw new TDTException(450, array("PUT", $matches["packageresourcestring"]));
     }
 
     /**
      * You cannot delete a representation
      */
     public function DELETE($matches) {
-        throw new tdt\framework\TDTException(450, array("DELETE", $matches["packageresourcestring"]));
+        throw new TDTException(450, array("DELETE", $matches["packageresourcestring"]));
     }
 
     /**
      * You cannot use post on a representation
      */
     public function POST($matches) {
-        throw new tdt\framework\TDTException(450, array("POST", $matches["packageresourcestring"]));
+        throw new TDTException(450, array("POST", $matches["packageresourcestring"]));
     }
 
     /**
      * You cannot use patch a representation
      */
     public function PATCH($matches) {
-        throw new tdt\framework\TDTException(450, array("PATCH", $matches["packageresourcestring"]));
+        throw new TDTException(450, array("PATCH", $matches["packageresourcestring"]));
     }
 
     // visualizations may not be logged

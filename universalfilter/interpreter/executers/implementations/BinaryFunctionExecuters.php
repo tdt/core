@@ -11,10 +11,10 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
 /* equality */
-class BinaryFunctionEqualityExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionEqualityExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_isequal_".$nameB;
@@ -27,7 +27,7 @@ class BinaryFunctionEqualityExecuter extends tdt\core\universalfilter\interprete
 }
 
 /* < */
-class BinaryFunctionSmallerExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionSmallerExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_issmaller_".$nameB;
@@ -40,7 +40,7 @@ class BinaryFunctionSmallerExecuter extends tdt\core\universalfilter\interpreter
 }
 
 /* > */
-class BinaryFunctionLargerExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionLargerExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_islarger_".$nameB;
@@ -53,7 +53,7 @@ class BinaryFunctionLargerExecuter extends tdt\core\universalfilter\interpreter\
 }
 
 /* <= */
-class BinaryFunctionSmallerEqualExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionSmallerEqualExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_issmallerorequal_".$nameB;
@@ -66,7 +66,7 @@ class BinaryFunctionSmallerEqualExecuter extends tdt\core\universalfilter\interp
 }
 
 /* >= */
-class BinaryFunctionLargerEqualExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionLargerEqualExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_islargerorequal_".$nameB;
@@ -79,7 +79,7 @@ class BinaryFunctionLargerEqualExecuter extends tdt\core\universalfilter\interpr
 }
 
 /* != */
-class BinaryFunctionNotEqualExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionNotEqualExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_isnotequal_".$nameB;
@@ -92,7 +92,7 @@ class BinaryFunctionNotEqualExecuter extends tdt\core\universalfilter\interprete
 }
 
 /* or */
-class BinaryFunctionOrExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionOrExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_or_".$nameB;
@@ -108,7 +108,7 @@ class BinaryFunctionOrExecuter extends tdt\core\universalfilter\interpreter\exec
 }
 
 /* and */
-class BinaryFunctionAndExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionAndExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_and_".$nameB;
@@ -126,7 +126,7 @@ class BinaryFunctionAndExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* plus */
-class BinaryFunctionPlusExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionPlusExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_plus_".$nameB;
@@ -139,7 +139,7 @@ class BinaryFunctionPlusExecuter extends tdt\core\universalfilter\interpreter\ex
 }
 
 /* minus */
-class BinaryFunctionMinusExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionMinusExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_minus_".$nameB;
@@ -152,7 +152,7 @@ class BinaryFunctionMinusExecuter extends tdt\core\universalfilter\interpreter\e
 }
 
 /* multiply */
-class BinaryFunctionMultiplyExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionMultiplyExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_multiply_".$nameB;
@@ -165,7 +165,7 @@ class BinaryFunctionMultiplyExecuter extends tdt\core\universalfilter\interprete
 }
 
 /* divide */
-class BinaryFunctionDivideExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionDivideExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_divide_".$nameB;
@@ -178,7 +178,7 @@ class BinaryFunctionDivideExecuter extends tdt\core\universalfilter\interpreter\
 }
 
 /* match regex */
-class BinaryFunctionMatchRegexExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionMatchRegexExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return $nameA."_matches_".$nameB;
@@ -191,7 +191,7 @@ class BinaryFunctionMatchRegexExecuter extends tdt\core\universalfilter\interpre
 }
 
 /* atan2 */
-class BinaryFunctionAtan2Executer extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionAtan2Executer extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_atan2_".$nameA."_".$nameB;
@@ -204,7 +204,7 @@ class BinaryFunctionAtan2Executer extends tdt\core\universalfilter\interpreter\e
 }
 
 /* log */
-class BinaryFunctionLogExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionLogExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_log_".$nameA."_".$nameB;
@@ -217,7 +217,7 @@ class BinaryFunctionLogExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* pow */
-class BinaryFunctionPowExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionPowExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_power_".$nameA."_".$nameB;
@@ -230,7 +230,7 @@ class BinaryFunctionPowExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* concat */
-class BinaryFunctionConcatExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionConcatExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_concat_".$nameA."_".$nameB;
@@ -247,7 +247,7 @@ class BinaryFunctionConcatExecuter extends tdt\core\universalfilter\interpreter\
  */
 
 /* parseDateTime */
-class BinaryFunctionDateTimeParseExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionDateTimeParseExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_parseDate_".$nameA."_in_format_".$nameB;
@@ -256,13 +256,13 @@ class BinaryFunctionDateTimeParseExecuter extends tdt\core\universalfilter\inter
     public function doBinaryFunction($valueA, $valueB){
         if($valueA===null || $valueB===null) return null;
         $dateTime = DateTime::createFromFormat($valueB, $valueA);
-        if($dateTime===FALSE) {throw new Exception("Unknown format in PARSE_DATE: \"".$valueB."\". Please use the php-syntax, see http://www.php.net/manual/en/datetime.createfromformat.php .");}
-        return $dateTime->format(tdt\core\universalfilter\interpreter\UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
+        if($dateTime===FALSE) {throw new Exception("Unknown format in PARSE_DATE: "".$valueB."". Please use the php-syntax, see http://www.php.net/manual/en/datetime.createfromformat.php .");}
+        return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }
 }
 
 /* extract */
-class BinaryFunctionDateTimeExtractExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionDateTimeExtractExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_extract_".$nameB."_from_".$nameA;
@@ -270,14 +270,14 @@ class BinaryFunctionDateTimeExtractExecuter extends tdt\core\universalfilter\int
     
     public function doBinaryFunction($valueA, $valueB){
         if($valueA===null || $valueB===null) return null;
-        $dateTime = tdt\core\universalfilter\interpreter\executer\tools\ExecuterDateTimeTools::getDateTime($valueA, "extract");
+        $dateTime = ExecuterDateTimeTools::getDateTime($valueA, "extract");
         
-        return tdt\core\universalfilter\interpreter\executer\tools\ExecuterDateTimeTools::extract($dateTime, $valueB);
+        return ExecuterDateTimeTools::extract($dateTime, $valueB);
     }
 }
 
 /* format */
-class BinaryFunctionDateTimeFormatExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionDateTimeFormatExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_format_date_".$nameA."_as_".$nameB;
@@ -285,11 +285,11 @@ class BinaryFunctionDateTimeFormatExecuter extends tdt\core\universalfilter\inte
     
     public function doBinaryFunction($valueA, $valueB){
         if($valueA===null || $valueB===null) return null;
-        $dateTime = tdt\core\universalfilter\interpreter\executer\tools\ExecuterDateTimeTools::getDateTime($valueA, "date_format");
+        $dateTime = ExecuterDateTimeTools::getDateTime($valueA, "date_format");
         
         $formatted = $dateTime->format($valueB);
         if($formatted===FALSE){
-            throw new Exception("Unknown format in DATE_FORMAT : \"".$valueB."\". Please use the php-syntax, see http://www.php.net/manual/en/function.date.php .");
+            throw new Exception("Unknown format in DATE_FORMAT : "".$valueB."". Please use the php-syntax, see http://www.php.net/manual/en/function.date.php .");
         }else{
             return $formatted;
         }
@@ -297,7 +297,7 @@ class BinaryFunctionDateTimeFormatExecuter extends tdt\core\universalfilter\inte
 }
 
 /* datediff */
-class BinaryFunctionDateTimeDateDiffExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter {
+class BinaryFunctionDateTimeDateDiffExecuter extends BinaryFunctionExecuter {
     
     public function getName($nameA, $nameB){
         return "_datediff_".$nameA."_and_".$nameB;
@@ -305,8 +305,8 @@ class BinaryFunctionDateTimeDateDiffExecuter extends tdt\core\universalfilter\in
     
     public function doBinaryFunction($valueA, $valueB){
         if($valueA===null || $valueB===null) return null;
-        $dateTimeA = tdt\core\universalfilter\interpreter\executer\tools\ExecuterDateTimeTools::getDateTime($valueA, "datediff");
-        $dateTimeB = tdt\core\universalfilter\interpreter\executer\tools\ExecuterDateTimeTools::getDateTime($valueB, "datediff");
+        $dateTimeA = ExecuterDateTimeTools::getDateTime($valueA, "datediff");
+        $dateTimeB = ExecuterDateTimeTools::getDateTime($valueB, "datediff");
         
         $dateTimeA->setTime(0, 0, 0);
         $dateTimeB->setTime(0, 0, 0);

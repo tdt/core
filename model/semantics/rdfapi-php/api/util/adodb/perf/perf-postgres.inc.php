@@ -22,7 +22,7 @@ if (!defined('ADODB_DIR')) die();
 class perf_postgres extends adodb_perf{
 	
 	var $tablesSQL = 
-	"select a.relname as tablename,(a.relpages+CASE WHEN b.relpages is null THEN 0 ELSE b.relpages END+CASE WHEN c.relpages is null THEN 0 ELSE c.relpages END)*8 as size_in_K,a.relfilenode as \"OID\"  from pg_class a left join pg_class b
+	"select a.relname as tablename,(a.relpages+CASE WHEN b.relpages is null THEN 0 ELSE b.relpages END+CASE WHEN c.relpages is null THEN 0 ELSE c.relpages END)*8 as size_in_K,a.relfilenode as ""  from pg_class a left join pg_class b
 		on b.relname = 'pg_toast_'||trim(a.relfilenode) 
 		left join pg_class c on c.relname = 'pg_toast_'||trim(a.relfilenode)||'_index'
 		where a.relname in (select tablename from pg_tables where tablename not like 'pg_%')";
@@ -42,7 +42,7 @@ class perf_postgres extends adodb_perf{
 			"select case when count(*)=3 then 'TRUE' else 'FALSE' end from pg_settings where (name='stats_block_level' or name='stats_row_level' or name='stats_start_collector') and setting='on' ",
 			'Value must be TRUE to enable hit ratio statistics (<i>stats_start_collector</i>,<i>stats_row_level</i> and <i>stats_block_level</i> must be set to true in postgresql.conf)'),
 		'data cache hit ratio' => array('RATIO',
-			"select case when blks_hit=0 then 0 else round( ((1-blks_read::float/blks_hit)*100)::numeric, 2) end from pg_stat_database where datname='\$DATABASE'",
+			"select case when blks_hit=0 then 0 else round( ((1-blks_read::float/blks_hit)*100)::numeric, 2) end from pg_stat_database where datname='$DATABASE'",
 			'=WarnCacheRatio'),
 	'IO',
 		'data reads' => array('IO',
@@ -113,7 +113,7 @@ class perf_postgres extends adodb_perf{
 		$s .= '<pre>';
 		if ($rs)
 			while (!$rs->EOF) {
-				$s .= reset($rs->fields)."\n";
+				$s .= reset($rs->fields)."n";
 				$rs->MoveNext();
 			}
 		$s .= '</pre>';

@@ -9,14 +9,14 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter;
+namespace interpreter;
 
 interface IInterpreterControl {
     
     /**
      * @return UniversalFilterNodeExecuter
      */
-    public function findExecuterFor(tdt\core\universalfilter\UniversalFilterNode $filternode);
+    public function findExecuterFor(UniversalFilterNode $filternode);
     
     /**
      * @return UniversalFilterTableManager

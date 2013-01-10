@@ -100,7 +100,7 @@ class ADODB_Active_Record {
 			$this->_dbat = sizeof($_ADODB_ACTIVE_DBS)-1;
 		
 		
-		if ($this->_dbat < 0) $this->Error("No database connection set; use ADOdb_Active_Record::SetDatabaseAdapter(\$db)",'ADODB_Active_Record::__constructor');
+		if ($this->_dbat < 0) $this->Error("No database connection set; use ADOdb_Active_Record::SetDatabaseAdapter($db)",'ADODB_Active_Record::__constructor');
 		
 		$this->_table = $table;
 		$this->_tableat = $table; # reserved for setting the assoc value to a non-table name, eg. the sql string in future
@@ -301,7 +301,7 @@ class ADODB_Active_Record {
 	
 		if ($this->_dbat < 0) {
 			$false = false;
-			$this->Error("No database connection set: use ADOdb_Active_Record::SetDatabaseAdaptor(\$db)", "DB");
+			$this->Error("No database connection set: use ADOdb_Active_Record::SetDatabaseAdaptor($db)", "DB");
 			return $false;
 		}
 		$activedb = $_ADODB_ACTIVE_DBS[$this->_dbat];

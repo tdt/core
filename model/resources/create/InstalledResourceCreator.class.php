@@ -10,9 +10,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\create;
+namespace create;
 
-class InstalledResourceCreator extends tdt\core\model\resources\create\ACreator{
+class InstalledResourceCreator extends ACreator{
 
     public function __construct($package, $resource, $RESTparameters){
         parent::__construct($package, $resource, $RESTparameters);
@@ -61,13 +61,13 @@ class InstalledResourceCreator extends tdt\core\model\resources\create\ACreator{
                 $package_id  = parent::makePackage($this->package);
                 $resource_id = parent::makeResource($package_id, $this->resource, "installed");
                 
-                $meta_data_id = tdt\core\model\DBQueries::storeMetaData($resource_id,$this,array_keys(parent::documentMetaDataParameters()));
-                tdt\core\model\DBQueries::storeInstalledResource($resource_id,$this->location,$this->classname);       
+                $meta_data_id = DBQueries::storeMetaData($resource_id,$this,array_keys(parent::documentMetaDataParameters()));
+                DBQueries::storeInstalledResource($resource_id,$this->location,$this->classname);       
             }else{
-                throw new tdt\framework\TDTException(452,array("The classname $this->classname doesn't exist on location cores/core/custom/packages/$this->location"));
+                throw new TDTException(452,array("The classname $this->classname doesn't exist on location cores/core/custom/packages/$this->location"));
             }
         }else{
-             throw new tdt\framework\TDTException(452,array("The classname $this->classname doesn't exist on location cores/core/custom/packages/$this->location"));
+             throw new TDTException(452,array("The classname $this->classname doesn't exist on location cores/core/custom/packages/$this->location"));
         }
     }  
 }

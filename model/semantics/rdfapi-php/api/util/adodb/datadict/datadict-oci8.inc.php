@@ -113,7 +113,7 @@ class ADODB2_oci8 extends ADODB_DataDict {
 		list($lines,$pkey) = $this->_GenFields($flds);
 		$s = "ALTER TABLE $tabname ADD (";
 		foreach($lines as $v) {
-			$f[] = "\n $v";
+			$f[] = "n $v";
 		}
 		
 		$s .= implode(', ',$f).')';
@@ -127,7 +127,7 @@ class ADODB2_oci8 extends ADODB_DataDict {
 		list($lines,$pkey) = $this->_GenFields($flds);
 		$s = "ALTER TABLE $tabname MODIFY(";
 		foreach($lines as $v) {
-			$f[] = "\n $v";
+			$f[] = "n $v";
 		}
 		$s .= implode(', ',$f).')';
 		$sql[] = $s;

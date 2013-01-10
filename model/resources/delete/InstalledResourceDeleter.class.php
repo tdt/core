@@ -8,9 +8,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\delete;
+namespace delete;
 
-class InstalledResourceDeleter extends tdt\core\model\resources\delete\ADeleter{
+class InstalledResourceDeleter extends ADeleter{
 
     /**
      * execution method
@@ -20,9 +20,9 @@ class InstalledResourceDeleter extends tdt\core\model\resources\delete\ADeleter{
         /**
          * delete bottom up
          */
-        tdt\core\model\DBQueries::deleteInstalledResource($this->package,$this->resource);
-        tdt\core\model\DBQueries::deleteResource($this->package,$this->resource);
-        tdt\core\model\DBQueries::deletePackage($this->package);
+        DBQueries::deleteInstalledResource($this->package,$this->resource);
+        DBQueries::deleteResource($this->package,$this->resource);
+        DBQueries::deletePackage($this->package);
     }
 }
 ?>

@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\create;
+namespace create;
 
 abstract class ACreator{
 

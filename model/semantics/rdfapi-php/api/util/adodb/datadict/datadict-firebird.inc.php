@@ -132,13 +132,13 @@ end;
 			$trigname = 'trig_'.$seqname;
 		}
 		if (isset($tableoptions['REPLACE']))
-		{ $sql[] = "DROP GENERATOR \"$seqname\"";
-		  $sql[] = "CREATE GENERATOR \"$seqname\"";
-		  $sql[] = "ALTER TRIGGER \"$trigname\" BEFORE INSERT OR UPDATE AS BEGIN IF ( NEW.$seqField IS NULL OR NEW.$seqField = 0 ) THEN NEW.$seqField = GEN_ID(\"$seqname\", 1); END";
+		{ $sql[] = "DROP GENERATOR "$"";
+		  $sql[] = "CREATE GENERATOR "$"";
+		  $sql[] = "ALTER TRIGGER "$" BEFORE INSERT OR UPDATE AS BEGIN IF ( NEW.$seqField IS NULL OR NEW.$seqField = 0 ) THEN NEW.$seqField = GEN_ID("$", 1); END";
 		}
 		else
-		{ $sql[] = "CREATE GENERATOR \"$seqname\"";
-		  $sql[] = "CREATE TRIGGER \"$trigname\" FOR $tabname BEFORE INSERT OR UPDATE AS BEGIN IF ( NEW.$seqField IS NULL OR NEW.$seqField = 0 ) THEN NEW.$seqField = GEN_ID(\"$seqname\", 1); END";
+		{ $sql[] = "CREATE GENERATOR "$"";
+		  $sql[] = "CREATE TRIGGER "$" FOR $tabname BEFORE INSERT OR UPDATE AS BEGIN IF ( NEW.$seqField IS NULL OR NEW.$seqField = 0 ) THEN NEW.$seqField = GEN_ID("$", 1); END";
 		}
 		
 		$this->seqField = false;

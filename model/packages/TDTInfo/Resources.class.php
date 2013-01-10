@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\packages\TDTInfo;
+namespace TDTInfo;
 
-class TDTInfoResources extends tdt\core\model\resources\read\AReader{
+class TDTInfoResources extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -26,7 +26,7 @@ class TDTInfoResources extends tdt\core\model\resources\read\AReader{
     }
 
     public function read(){
-	$resmod = tdt\core\model\ResourcesModel::getInstance();
+	$resmod = ResourcesModel::getInstance();
 	$o = $resmod->getAllDoc();
 	return $o;
     }

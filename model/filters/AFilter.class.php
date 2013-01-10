@@ -8,7 +8,7 @@
    * @author Jan Vansteenlandt
    */
 
-namespace tdt\core\model\filters;
+namespace filters;
 
 abstract class AFilter{
 

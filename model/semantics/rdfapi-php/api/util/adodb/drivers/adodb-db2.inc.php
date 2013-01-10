@@ -184,7 +184,7 @@ class ADODB_db2 extends ADOConnection {
 				else $s .= "''";
 				break;
 			default:
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}

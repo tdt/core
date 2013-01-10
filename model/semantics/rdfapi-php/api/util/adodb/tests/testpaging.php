@@ -32,19 +32,19 @@ if ($driver == 'access') {
 
 if ($driver == 'ibase') {
 	$db = NewADOConnection('ibase');
-	$db->PConnect("localhost:e:\\firebird\\examples\\employee.gdb", "sysdba", "masterkey", "");
+	$db->PConnect("localhost:e:employee.gdb", "sysdba", "masterkey", "");
 	$sql = 'select distinct firstname, lastname  from adoxyz  order  by  firstname';
 
 }
 if ($driver == 'mssql') {
 	$db = NewADOConnection('mssql');
-	$db->Connect('JAGUAR\vsdotnet','adodb','natsoft','northwind');
+	$db->Connect('vsdotnet','adodb','natsoft','northwind');
 }
 if ($driver == 'oci8') {
 	$db = NewADOConnection('oci8');
 	$db->Connect('','scott','natsoft');
 	
-$sql = "select * from (select  ID, firstname as \"First Name\", lastname as \"Last Name\" from adoxyz 
+$sql = "select * from (select  ID, firstname as "First ", lastname as "Last " from adoxyz 
 	 order  by  1)";
 }
 

@@ -10,7 +10,7 @@
  */
 include_once("core/universalfilter/common/StableSorting.php");
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
 /* sorting methods... */
 
@@ -37,13 +37,13 @@ function SortFieldsFilterCompareDesc($obj1, $obj2) {
 
 /* the executer */
 
-class SortFieldsFilterExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 
     private $header;
     private $executer;
     private $interpreter;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
         $this->interpreter = $interpreter;
 
@@ -85,8 +85,8 @@ class SortFieldsFilterExecuter extends tdt\core\universalfilter\interpreter\exec
             $exprexec = $this->interpreter->findExecuterFor($filterColumn);
 
             //environment
-            $env = new tdt\core\universalfilter\interpreter\Environment();
-            $env->setTable(new tdt\core\universalfilter\data\UniversalFilterTable($this->header, $sortedcontent));
+            $env = new Environment();
+            $env->setTable(new UniversalFilterTable($this->header, $sortedcontent));
 
             //init expression
             $exprexec->initExpression($filterColumn, $env, $this->interpreter, true);
@@ -104,14 +104,14 @@ class SortFieldsFilterExecuter extends tdt\core\universalfilter\interpreter\exec
             $arr = $this->toArray($columnheader->getColumnId(), $columncontent);
 
             //order
-            $order = ($column->getSortOrder() == tdt\core\universalfilter\SortFieldsFilterColumn::$SORTORDER_ASCENDING ? "SortFieldsFilterCompareAsc" : "SortFieldsFilterCompareDesc");
+            $order = ($column->getSortOrder() == SortFieldsFilterColumn::$SORTORDER_ASCENDING ? "SortFieldsFilterCompareAsc" : "SortFieldsFilterCompareDesc");
 
             //do assiocative sort
             //asort($arr);   // --- !!!!!! The version in php is NOT stable!
             mergesort($arr, $order);
 
             //create new content
-            $newsortedcontent = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+            $newsortedcontent = new UniversalFilterTableContent();
 
             foreach ($arr as $key => $value) {
                 $index = $value["origindex"];
@@ -141,7 +141,7 @@ class SortFieldsFilterExecuter extends tdt\core\universalfilter\interpreter\exec
         $this->executer->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\data\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }

@@ -402,15 +402,15 @@ $db = NewADOConnection($dsn);
 </pre>
 <h4>Interbase/Firebird</h4>
 You define the database in the $host parameter:
-<pre>	$conn = &amp;ADONewConnection('ibase'); <br>	$conn-&gt;PConnect('localhost:c:\ibase\employee.gdb','sysdba','masterkey');<br></pre>
+<pre>	$conn = &amp;ADONewConnection('ibase'); <br>	$conn-&gt;PConnect('localhost:c:employee.gdb','sysdba','masterkey');<br></pre>
 <p>Or dsn:
 </p><pre>	$dsn = 'firebird://user:pwd@localhost/mydb?persist&amp;dialect=3';  # persist is optional<br>	$conn = ADONewConnection($dsn);  # no need for Connect/PConnect<br></pre>
 <h4>SQLite</h4>
 Sqlite will create the database file if it does not exist.
 <pre>	$conn = &amp;ADONewConnection('sqlite');
-	$conn-&gt;PConnect('c:\path\to\sqlite.db'); # sqlite will create if does not exist<br></pre>
+	$conn-&gt;PConnect('c:sqlite.db'); # sqlite will create if does not exist<br></pre>
 <p>Or dsn:
-</p><pre>	$path = urlencode('c:\path\to\sqlite.db');
+</p><pre>	$path = urlencode('c:sqlite.db');
 	$dsn = "sqlite://$path/?persist";  # persist is optional
 	$conn = ADONewConnection($dsn);  # no need for Connect/PConnect<br></pre>
 <h4>Oracle (oci8)</h4>
@@ -440,7 +440,7 @@ newer versions of the Oracle, eg. 9i and 10g.</p>
   connection.To use DSN-less connections with ODBC you need PHP 4.3 or later. 
 </p>
 <p>For Microsoft Access:</p>
-<pre>	$db =&amp; ADONewConnection('access');<br>	$dsn = <strong>"Driver={Microsoft Access Driver (*.mdb)};Dbq=d:\\northwind.mdb;Uid=Admin;Pwd=;";</strong>
+<pre>	$db =&amp; ADONewConnection('access');<br>	$dsn = <strong>"Driver={Microsoft Access Driver (*.mdb)};Dbq=d:northwind.mdb;Uid=Admin;Pwd=;";</strong>
 	$db-&gt;Connect($dsn);
 </pre>
 For Microsoft SQL Server: 
@@ -1788,7 +1788,7 @@ only with SELECT statements.
 	# are more than 7 days old. <br>
 	#------------------------------------------------------ <br>
 	AGED=7 <br>
-	find ${TMPPATH} -mtime +$AGED | grep "\.cache" | xargs rm -f <br>
+	find ${TMPPATH} -mtime +$AGED | grep ".cache" | xargs rm -f <br>
 	</font> </font></p>
 <p><font><b>MetaError<a name="metaerror"></a>($errno=false)</b></font></p>
 <p><font>Returns a virtualized error number, based on PEAR DB's error number system. You might
@@ -2652,12 +2652,12 @@ $dateFormat, which supports: </font>
   W: week in year (0..53 for MySQL, 1..53 for PostgreSQL and Oracle)
   </font></pre>
 <p><font>All other characters are treated as strings. You can
-    also use \ to escape characters. Available on selected databases, including
+    also use  to escape characters. Available on selected databases, including
 mysql, postgresql, mssql, oci8 and DB2. </font></p>
 <p><font>This is useful in writing portable sql statements that
     GROUP BY on dates. For example to display total cost of goods sold broken
 by quarter (dates are stored in a field called postdate): </font></p>
-<pre><font> $sqlfn = $db-&gt;SQLDate('Y-\QQ','postdate'); # get sql that formats postdate to output 2002-Q1<br> $sql = "SELECT $sqlfn,SUM(cogs) FROM table GROUP BY $sqlfn ORDER BY 1 desc";<br> </font></pre>
+<pre><font> $sqlfn = $db-&gt;SQLDate('Y-QQ','postdate'); # get sql that formats postdate to output 2002-Q1<br> $sql = "SELECT $sqlfn,SUM(cogs) FROM table GROUP BY $sqlfn ORDER BY 1 desc";<br> </font></pre>
 <p><font><b>MoveNext<a name="movenext"></a>( )</b></font></p>
 <p><font>Move the internal cursor to the next row. The <i>$this-&gt;fields</i> array
     is automatically updated. Returns false if unable to do so (normally because
@@ -3071,7 +3071,7 @@ See http://sourceforge.net/tracker/index.php?func=detail&aid=1451245&group_id=42
 <p>The oci8 datetime flag not correctly implemented in ADORecordSet_array. Fixed.
 <p>Added BlobDelete() to postgres, as a counterpoint to UpdateBlobFile().
 <p>Fixed GetInsertSQL() to support oci8po.
-<p>Fixed qstr() issue with postgresql with \0 in strings.
+<p>Fixed qstr() issue with postgresql with 0 in strings.
 <p>Fixed some datadict driver loading issues in _adodb_getdriver(). 
 <p>Added register shutdown function session_write_close in adodb-session.inc.php for PHP 5 compat. See http://phplens.com/lens/lensforum/msgs.php?id=14200.
 <p><a name="4.70"></a><b>4.70 6 Jan 2006</b>
@@ -3174,7 +3174,7 @@ fbird: X->VARCHAR(4000) XL->VARCHAR(32000)
 <p>Added LDAP_* constant definitions to ldap.
 <p>Added support for boolean bind variables. We use $conn->false and $conn->true to hold values to set false/true to.
 <p>We now do not close the session connection in adodb-session.inc.php as other objects could be using this connection.
-<p>We now strip off \0 at end of Ixora SQL strings in $perf->tohtml() for oci8.
+<p>We now strip off 0 at end of Ixora SQL strings in $perf->tohtml() for oci8.
 <p><a name="4.61"></a><b>4.61 23 Feb 2005</b>
 <p>MySQLi added support for mysqli_connect_errno() and mysqli_connect_error().
 <p>Massive improvements to alpha PDO driver.
@@ -3198,7 +3198,7 @@ for LONGs.
 <p>Added SetDateLocale() support for netherlands (Nl).
 <p>Spelling error in pivot code ($iff should be $iif).
 </p><p>mysql insert_id() did not work with mysql 3.x. Fixed.
-</p><p>"\r\n" not converted to spaces correctly in exporting data. Fixed.
+</p><p>"n" not converted to spaces correctly in exporting data. Fixed.
 </p><p>_nconnect() in mysqli did not return value correctly. Fixed.
 </p><p>Arne Eckmann contributed danish language file.
 </p><p>Added clone() support to FetchObject() for PHP5.<br>

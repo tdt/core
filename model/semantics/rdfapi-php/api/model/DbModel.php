@@ -922,7 +922,7 @@ class DbModel extends Model {
 
         if ($uri != NULL) {
             $c = substr($uri, strlen($uri) - 1, 1);
-            if (!($c == '#' || $c == ':' || $c == '/' || $c == "\\"))
+            if (!($c == '#' || $c == ':' || $c == '/' || $c == ""))
                 $uri .= '#';
         }
         return $uri;

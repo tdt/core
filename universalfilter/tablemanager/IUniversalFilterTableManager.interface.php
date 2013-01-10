@@ -11,7 +11,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\tablemanager;
+namespace tablemanager;
 
 interface IUniversalFilterTableManager {
     /**
@@ -31,7 +31,7 @@ interface IUniversalFilterTableManager {
      * @param UniversalFilterTableHeader $header The header you created using the above method.
      * @return UniversalTableContent 
      */
-    public function getTableContent($globalTableIdentifier, tdt\core\universalfilter\data\UniversalFilterTableHeader $header);
+    public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header);
     
     
     /**
@@ -56,7 +56,7 @@ interface IUniversalFilterTableManager {
      * @param string $sourceId
      * @return UniversalFilterNode 
      */
-    function runFilterOnSource(tdt\core\universalfilter\UniversalFilterNode $query, $sourceId);
+    function runFilterOnSource(UniversalFilterNode $query, $sourceId);
     
     /**
      * This method is used in combination with runFilterOnSource. 

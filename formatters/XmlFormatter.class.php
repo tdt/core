@@ -11,7 +11,7 @@ namespace tdt\core\formatters;
 /**
  * This class inherits from the abstract Formatter. It will our resultobject into an XML datastructure.
  */
-class XmlFormatter extends tdt\core\formatters\AFormatter{
+class XmlFormatter extends AFormatter{
     //make a stack of array information, always work on the last one
     //for nested array support
     private $stack = array();

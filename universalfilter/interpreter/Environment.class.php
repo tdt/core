@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter;
+namespace interpreter;
 
 class Environment {
     
@@ -24,7 +24,7 @@ class Environment {
      * @param UniversalFilterTableHeaderColumnInfo $column
      * @param UniversalFilterTableContentRow $datarow 
      */
-    public function addSingleValue(tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo $column, tdt\core\universalfilter\data\UniversalFilterTableContentRow $datarow) {
+    public function addSingleValue(UniversalFilterTableHeaderColumnInfo $column, UniversalFilterTableContentRow $datarow) {
         array_push($this->singlevaluecolumns, $column);
         array_push($this->singlevaluerows, $datarow);
     }
@@ -52,7 +52,7 @@ class Environment {
      * @param int $index
      * @param UniversalFilterTableContentRow $datarow 
      */
-    public function setSingleValue($index, tdt\core\universalfilter\data\UniversalFilterTableContentRow $datarow) {
+    public function setSingleValue($index, UniversalFilterTableContentRow $datarow) {
         $this->singlevaluerows[$index] = $datarow;
     }
     
@@ -73,7 +73,7 @@ class Environment {
     /**
      * set the current table
      */
-    public function setTable(tdt\core\universalfilter\data\UniversalFilterTable $table) {
+    public function setTable(UniversalFilterTable $table) {
         $this->table=$table;
     }
     
@@ -89,7 +89,7 @@ class Environment {
      * Clone Environment
      */
     public function newModifiableEnvironment(){
-        $newEnv=new tdt\core\universalfilter\interpreter\Environment();
+        $newEnv=new Environment();
         $newEnv->setTable($this->getTable());
         $newEnv->singlevaluerows=$this->singlevaluerows;
         $newEnv->singlevaluecolumns=$this->singlevaluecolumns;

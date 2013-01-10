@@ -67,8 +67,8 @@ class ADODB_postgres7 extends ADODB_postgres64 {
 		t.tgenabled AND
 		t.tgrelid = c.oid AND
 		t.tgfoid = p.oid AND
-		p.proname = \'RI_FKey_check_ins\' AND
-		c.relname = \''.strtolower($table).'\'
+		p.proname = '' AND
+		c.relname = ''.strtolower($table).''
 		ORDER BY
 			t.tgrelid';
 		

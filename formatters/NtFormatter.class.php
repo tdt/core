@@ -1,4 +1,6 @@
 <?php
+
+use semantics\RDFOutput;
 /**
  * This file contains the RDF/NTriple formatter.
  * 
@@ -10,9 +12,9 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-namespace tdt\core\formatters;
+namespace formatters;
 
-class NtFormatter extends tdt\core\formatters\AFormatter {
+class NtFormatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

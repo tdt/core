@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-abstract class BinaryFunctionExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
 
     private $header;
     private $executer1;
@@ -19,7 +19,7 @@ abstract class BinaryFunctionExecuter extends tdt\core\universalfilter\interpret
     private $header1;
     private $header2;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
@@ -37,13 +37,13 @@ abstract class BinaryFunctionExecuter extends tdt\core\universalfilter\interpret
                 $this->header1->getColumnNameById($this->header1->getColumnId()), $this->header2->getColumnNameById($this->header2->getColumnId()));
 
         //column
-        $cominedHeaderColumn = new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo(array($combinedName));
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
 
         //single row?
         $isSingleRowByConstruction = $this->header1->isSingleRowByConstruction() && $this->header2->isSingleRowByConstruction();
 
         //new Header
-        $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
+        $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
     public function getExpressionHeader() {
@@ -65,13 +65,13 @@ abstract class BinaryFunctionExecuter extends tdt\core\universalfilter\interpret
             throw new Exception("Columns differ in size"); //Can that happen??????????
         }
 
-        $rows = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $rows = new UniversalFilterTableContent();
 
         $size = max(array($table1content->getRowCount(), $table2content->getRowCount()));
 
         //loop through all rows and evaluate the expression
         for ($i = 0; $i < $size; $i++) {
-            $row = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+            $row = new UniversalFilterTableContentRow();
 
             //get the value for index i for both tables
             $valueA = null;

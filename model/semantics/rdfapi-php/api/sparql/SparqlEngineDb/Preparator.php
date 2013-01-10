@@ -81,7 +81,7 @@ class SparqlEngineDb_Preparator
         $this->arTmpVariablePositions = array();
         $this->arTmpPlaceholders      = $arPlaceholders;
         $strQuery = preg_replace_callback(
-            '/@\\$%_PLACEHOLDER_[0-9]+_%\\$@/',
+            '/@$%_PLACEHOLDER_[0-9]+_%$@/',
             array($this, 'replacePlaceholdersCb'),
             $strQuery
         );
@@ -182,7 +182,7 @@ class SparqlEngineDb_Preparator
         $this->arTmpVariableValues = $arVariableValues;
 
         $strQuery = preg_replace_callback(
-            '/@\\$%_PLACEHOLDER_[0-9]+_%\\$@/',
+            '/@$%_PLACEHOLDER_[0-9]+_%$@/',
             array($this, 'replacePlaceholdersWithVariablesCb'),
             $strQuery
         );

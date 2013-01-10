@@ -77,7 +77,7 @@ TS            T      DEFTIMESTAMP";
 	
 	printsqla($dbType,$sqla);
 	
-	if (file_exists('d:\inetpub\wwwroot\php\phplens\adodb\adodb.inc.php'))
+	if (file_exists('d:adodb.inc.php'))
 	if ($dbType == 'mysqlt') {
 		$db->Connect('localhost', "root", "", "test");
 		$dict->SetSchema('');
@@ -113,8 +113,8 @@ function printsqla($dbType,$sqla)
 	//print_r($dict->MetaTables());
 	foreach($sqla as $s) {
 		$s = htmlspecialchars($s);
-		print "$s;\n";
-		if ($dbType == 'oci8') print "/\n";
+		print "$s;n";
+		if ($dbType == 'oci8') print "/n";
 	}
 	print "</pre><hr />";
 }

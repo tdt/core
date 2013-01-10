@@ -10,9 +10,9 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\resources;
+namespace resources;
 
-abstract class AResource extends tdt\core\model\resources\read\AReader{
+abstract class AResource extends AReader{
 
     public function read(){
         return $this->call();

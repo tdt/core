@@ -69,7 +69,7 @@ $conn->Execute($insertSQL); // Insert the record into the database
 if (strpos($conn->databaseType,'mysql')===false) $record['id'] = 752;
 // Set the values for the fields in the record
 $record["firstname"] = 'anull';
-$record["lastname"] = "Smith\$@//";
+$record["lastname"] = "$@//";
 $record["created"] = time();
 
 if (isset($_GET['f'])) $ADODB_FORCE_TYPE = $_GET['f'];

@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\tablemanager\implementation\tools;
+namespace tools;
 
 class PhpObjectTableConverter {
     
@@ -162,7 +162,7 @@ class PhpObjectTableConverter {
                         $linkedTableKey=PhpObjectTableConverter::$ID_KEY.$columnName;//todo: check first if field does not exists...
                     }*/
                     
-                    array_push($columns, new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo(array($columnName), $isLinked, $linkedTable, $linkedTableKey));
+                    array_push($columns, new UniversalFilterTableHeaderColumnInfo(array($columnName), $isLinked, $linkedTable, $linkedTableKey));
                 }
             }
         }
@@ -173,13 +173,13 @@ class PhpObjectTableConverter {
         // add key_parent field
         //array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_KEY.$nameOfTable), false, null, null));
         
-        $header = new tdt\core\universalfilter\data\UniversalFilterTableHeader($columns, false, false);
+        $header = new UniversalFilterTableHeader($columns, false, false);
         
         return $header;
     }
     
     public function getPhpObjectTableContent($header, $nameOfTable, $objects){
-        $rows=new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $rows=new UniversalFilterTableContent();
         
         $subObjectIndex = array();
         
@@ -197,7 +197,7 @@ class PhpObjectTableConverter {
             $obj = $data["object"];
 
             $arr_obj = get_object_vars($obj);
-            $currentrow=new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+            $currentrow=new UniversalFilterTableContentRow();
             $found=array();
             
             
@@ -268,7 +268,7 @@ class PhpObjectTableConverter {
         //echo "<br><br>";
         //var_dump($body);
         
-        return new tdt\core\universalfilter\data\UniversalFilterTable($header, $body);
+        return new UniversalFilterTable($header, $body);
     }
 
     public function getPhpObjectTableWithHeader($splitedId,$objects,$header){
@@ -281,7 +281,7 @@ class PhpObjectTableConverter {
         
         $body = $this->getPhpObjectTableContent($header, $nameOfTable, $objects);
         
-        return new tdt\core\universalfilter\data\UniversalFilterTable($header, $body);
+        return new UniversalFilterTable($header, $body);
     }
 
     public function getNameOfTable($splitedId){

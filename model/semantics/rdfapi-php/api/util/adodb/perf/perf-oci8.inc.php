@@ -17,7 +17,7 @@ if (!defined('ADODB_DIR')) die();
 
 class perf_oci8 extends ADODB_perf{
 	
-	var $tablesSQL = "select segment_name as \"tablename\", sum(bytes)/1024 as \"size_in_k\",tablespace_name as \"tablespace\",count(*) \"extents\" from sys.user_extents 
+	var $tablesSQL = "select segment_name as "", sum(bytes)/1024 as "",tablespace_name as "",count(*) "" from sys.user_extents 
 	   group by segment_name,tablespace_name";
 	 
 	var $version;
@@ -34,7 +34,7 @@ class perf_oci8 extends ADODB_perf{
 	'Ratios',
 		'data cache hit ratio' => array('RATIOH',
 			"select round((1-(phy.value / (cur.value + con.value)))*100,2) 
-			from v\$sysstat cur, v\$sysstat con, v\$sysstat phy
+			from $sysstat cur, $sysstat con, $sysstat phy
 			where cur.name = 'db block gets' and
 			      con.name = 'consistent gets' and
 			      phy.name = 'physical reads'",
@@ -48,49 +48,49 @@ class perf_oci8 extends ADODB_perf{
 		"select      
            round((1 - (sum(getmisses) / (sum(gets) +          
    		 sum(getmisses))))*100,2)
-		from  v\$rowcache",
+		from  $rowcache",
 		'increase <i>shared_pool_size</i> if too ratio low'),
 		
 		'memory sort ratio' => array('RATIOH',
 		"SELECT ROUND((100 * b.VALUE) /DECODE ((a.VALUE + b.VALUE), 
        0,1,(a.VALUE + b.VALUE)),2)
-FROM   v\$sysstat a, 
-       v\$sysstat b
+FROM   $sysstat a, 
+       $sysstat b
 WHERE  a.name = 'sorts (disk)'
 AND    b.name = 'sorts (memory)'",
 	"% of memory sorts compared to disk sorts - should be over 95%"),
 
 	'IO',
 		'data reads' => array('IO',
-		"select value from v\$sysstat where name='physical reads'"),
+		"select value from $sysstat where name='physical reads'"),
 	
 	'data writes' => array('IO',
-		"select value from v\$sysstat where name='physical writes'"),
+		"select value from $sysstat where name='physical writes'"),
 	
 	'Data Cache',
 		'data cache buffers' => array( 'DATAC',
-		"select a.value/b.value  from v\$parameter a, v\$parameter b 
+		"select a.value/b.value  from $parameter a, $parameter b 
 			where a.name = 'db_cache_size' and b.name= 'db_block_size'",
 			'Number of cache buffers. Tune <i>db_cache_size</i> if the <i>data cache hit ratio</i> is too low.'),
 		'data cache blocksize' => array('DATAC',
-			"select value from v\$parameter where name='db_block_size'",
+			"select value from $parameter where name='db_block_size'",
 			'' ),			
 	'Memory Pools',
 		'data cache size' => array('DATAC',
-			"select value from v\$parameter where name = 'db_cache_size'",
+			"select value from $parameter where name = 'db_cache_size'",
 			'db_cache_size' ),
 		'shared pool size' => array('DATAC',
-			"select value from v\$parameter where name = 'shared_pool_size'",
+			"select value from $parameter where name = 'shared_pool_size'",
 			'shared_pool_size, which holds shared sql, stored procedures, dict cache and similar shared structs' ),
 		'java pool size' => array('DATAJ',
-			"select value from v\$parameter where name = 'java_pool_size'",
+			"select value from $parameter where name = 'java_pool_size'",
 			'java_pool_size' ),
 		'large pool buffer size' => array('CACHE',
-			"select value from v\$parameter where name='large_pool_size'",
+			"select value from $parameter where name='large_pool_size'",
 			'this pool is for large mem allocations (not because it is larger than shared pool), for MTS sessions, parallel queries, io buffers (large_pool_size) ' ),
 
 		'pga buffer size' => array('CACHE',			
-			"select value from v\$parameter where name='pga_aggregate_target'",
+			"select value from $parameter where name='pga_aggregate_target'",
 			'program global area is private memory for sorting, and hash and bitmap merges - since oracle 9i (pga_aggregate_target)' ),
 
 		
@@ -99,50 +99,50 @@ AND    b.name = 'sorts (memory)'",
 			'select count(*) from sys.v_$session where username is not null',
 			''),
 		'max connections' => array( 'SESS',
-			"select value from v\$parameter where name='sessions'",
+			"select value from $parameter where name='sessions'",
 			''),
 
 	'Memory Utilization',		
 		'data cache utilization ratio' => array('RATIOU',
 			"select round((1-bytes/sgasize)*100, 2)
-			from (select sum(bytes) sgasize from sys.v_\$sgastat) s, sys.v_\$sgastat f
+			from (select sum(bytes) sgasize from sys.$sgastat) s, sys.$sgastat f
 			where name = 'free memory' and pool = 'shared pool'",
 		'Percentage of data cache actually in use - should be over 85%'),
 		
 		'shared pool utilization ratio' => array('RATIOU',
 		'select round((sga.bytes/p.value)*100,2)
 		from v$sgastat sga, v$parameter p
-		where sga.name = \'free memory\' and sga.pool = \'shared pool\'
-		and p.name = \'shared_pool_size\'',
+		where sga.name = 'free ' and sga.pool = 'shared '
+		and p.name = ''',
 		'Percentage of shared pool actually used - too low is bad, too high is worse'),
 		
 		'large pool utilization ratio' => array('RATIOU',
 			"select round((1-bytes/sgasize)*100, 2)
-			from (select sum(bytes) sgasize from sys.v_\$sgastat) s, sys.v_\$sgastat f
+			from (select sum(bytes) sgasize from sys.$sgastat) s, sys.$sgastat f
 			where name = 'free memory' and pool = 'large pool'",
 		'Percentage of large_pool actually in use - too low is bad, too high is worse'),
 		'sort buffer size' => array('CACHE',
-			"select value from v\$parameter where name='sort_area_size'",
+			"select value from $parameter where name='sort_area_size'",
 			'max in-mem sort_area_size (per query), uses memory in pga' ),
 
 		'pga usage at peak' => array('RATIOU',
 		'=PGA','Mb utilization at peak transactions (requires Oracle 9i+)'),
 	'Transactions',
 		'rollback segments' => array('ROLLBACK',
-			"select count(*) from sys.v_\$rollstat",
+			"select count(*) from sys.$rollstat",
 			''),
 	
 		'peak transactions' => array('ROLLBACK',
 			"select max_utilization  tx_hwm
-    		from sys.v_\$resource_limit
+    		from sys.$resource_limit
     		where resource_name = 'transactions'",
 			'Taken from high-water-mark'),
 		'max transactions' => array('ROLLBACK',
-			"select value from v\$parameter where name = 'transactions'",
+			"select value from $parameter where name = 'transactions'",
 			'max transactions / rollback segments < 3.5 (or transactions_per_rollback_segment)'),
 	'Parameters',	
 		'cursor sharing' => array('CURSOR',
-			"select value from v\$parameter where name = 'cursor_sharing'",
+			"select value from $parameter where name = 'cursor_sharing'",
 			'Cursor reuse strategy. Recommended is FORCE (8i+) or SIMILAR (9i+). See <a href=http://www.praetoriate.com/oracle_tips_cursor_sharing.htm>cursor_sharing</a>.'),
 		/*
 		'cursor reuse' => array('CURSOR',
@@ -151,10 +151,10 @@ AND    b.name = 'sorts (memory)'",
  group by sql_text_wo_constants
 having count(*) > 100)",'These are sql statements that should be using bind variables'),*/
 		'index cache cost' => array('COST',
-			"select value from v\$parameter where name = 'optimizer_index_caching'",
+			"select value from $parameter where name = 'optimizer_index_caching'",
 			'=WarnIndexCost'),
 		'random page cost' => array('COST',
-			"select value from v\$parameter where name = 'optimizer_index_cost_adj'",
+			"select value from $parameter where name = 'optimizer_index_cost_adj'",
 			'=WarnPageCost'),
 		
 		false
@@ -195,10 +195,10 @@ having count(*) > 100)",'These are sql statements that should be using bind vari
 		$rs = $this->conn->Execute("select a.mb,a.targ as pga_size_pct,a.pct from 
 	   (select round(pga_target_for_estimate/1024.0/1024.0,0) Mb,
 	   	   pga_target_factor targ,estd_pga_cache_hit_percentage pct,rownum as r 
-	   	   from v\$pga_target_advice) a left join
+	   	   from $pga_target_advice) a left join
 	   (select round(pga_target_for_estimate/1024.0/1024.0,0) Mb,
 	   	   pga_target_factor targ,estd_pga_cache_hit_percentage pct,rownum as r 
-	   	   from v\$pga_target_advice) b on 
+	   	   from $pga_target_advice) b on 
 	  a.r = b.r+1 where 
   		b.pct < 100");
 		if (!$rs) return "Only in 9i or later";
@@ -300,8 +300,8 @@ select  a.size_for_estimate as cache_mb_estimate,
 		'- BETTER - '
 	else ' ' end as currsize, 
    a.estd_physical_read_factor-b.estd_physical_read_factor as best_when_0
-   from (select size_for_estimate,size_factor,estd_physical_read_factor,rownum  r from v\$db_cache_advice) a , 
-   (select size_for_estimate,size_factor,estd_physical_read_factor,rownum r from v\$db_cache_advice) b where a.r = b.r-1");
+   from (select size_for_estimate,size_factor,estd_physical_read_factor,rownum  r from $db_cache_advice) a , 
+   (select size_for_estimate,size_factor,estd_physical_read_factor,rownum r from $db_cache_advice) b where a.r = b.r-1");
 		if (!$rs) return false;
 		
 		/*
@@ -311,7 +311,7 @@ select  a.size_for_estimate as cache_mb_estimate,
 		if ($rs->EOF) {
 			$s .= "<p>Cache that is 50% of current size is still too big</p>";
 		} else {
-			$s .= "Ideal size of Data Cache is when \"best_when_0\" changes from a positive number and becomes zero.";
+			$s .= "Ideal size of Data Cache is when "best_when_0" changes from a positive number and becomes zero.";
 			$s .= rs2html($rs,false,false,false,false);
 		}
 		return $s;
@@ -328,39 +328,39 @@ select  a.size_for_estimate as cache_mb_estimate,
 		if ($rs->EOF) return '<p>None found</p>';
 		$check = '';
 		$sql = '';
-		$s = "\n\n<table border=1 bgcolor=white><tr><td><b>".$o1->name.'</b></td><td><b>'.$o2->name.'</b></td><td><b>'.$o3->name.'</b></td></tr>';
+		$s = "n<table border=1 bgcolor=white><tr><td><b>".$o1->name.'</b></td><td><b>'.$o2->name.'</b></td><td><b>'.$o3->name.'</b></td></tr>';
 		while (!$rs->EOF) {
 			if ($check != $rs->fields[0].'::'.$rs->fields[1]) {
 				if ($check) {
 					$carr = explode('::',$check);
-					$prefix = "<a href=\"?$type=1&sql=".rawurlencode($sql).'&x#explain">';
+					$prefix = "<a href="?$type=1&sql=".rawurlencode($sql).'&x#explain">';
 					$suffix = '</a>';
 					if (strlen($prefix)>2000) {
 						$prefix = '';
 						$suffix = '';
 					}
 					
-					$s .=  "\n<tr><td align=right>".$carr[0].'</td><td align=right>'.$carr[1].'</td><td>'.$prefix.$sql.$suffix.'</td></tr>';
+					$s .=  "n<tr><td align=right>".$carr[0].'</td><td align=right>'.$carr[1].'</td><td>'.$prefix.$sql.$suffix.'</td></tr>';
 				}
 				$sql = $rs->fields[2];
 				$check = $rs->fields[0].'::'.$rs->fields[1];			
 			} else
 				$sql .= $rs->fields[2];
-			if (substr($sql,strlen($sql)-1) == "\0") $sql = substr($sql,0,strlen($sql)-1);
+			if (substr($sql,strlen($sql)-1) == "0") $sql = substr($sql,0,strlen($sql)-1);
 			$rs->MoveNext();
 		}
 		$rs->Close();
 		
 		$carr = explode('::',$check);
-		$prefix = "<a target=".rand()." href=\"?&hidem=1&$type=1&sql=".rawurlencode($sql).'&x#explain">';
+		$prefix = "<a target=".rand()." href="?&hidem=1&$type=1&sql=".rawurlencode($sql).'&x#explain">';
 		$suffix = '</a>';
 		if (strlen($prefix)>2000) {
 			$prefix = '';
 			$suffix = '';
 		}
-		$s .=  "\n<tr><td align=right>".$carr[0].'</td><td align=right>'.$carr[1].'</td><td>'.$prefix.$sql.$suffix.'</td></tr>';
+		$s .=  "n<tr><td align=right>".$carr[0].'</td><td align=right>'.$carr[1].'</td><td>'.$prefix.$sql.$suffix.'</td></tr>';
 					
-		return $s."</table>\n\n";
+		return $s."</table>n";
 	}
 	
 	// code thanks to Ixora. 
@@ -389,14 +389,14 @@ from
 	  executions,
 	  100 * ratio_to_report(buffer_gets) over ()  pct
 	from
-	  sys.v_\$sql
+	  sys.$sql
 	where
 	  command_type != 47 and module != 'T.O.A.D.'
       )
     where
       buffer_gets > 50 * executions
   )  s,
-  sys.v_\$sqltext  p
+  sys.$sqltext  p
 where
   s.ranking <= $numsql and
   p.address = s.address
@@ -406,7 +406,7 @@ order by
   		global $ADODB_CACHE_MODE;
   		if (isset($_GET['expsixora']) && isset($_GET['sql'])) {
 				$partial = empty($_GET['part']);
-				echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."\n";
+				echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."n";
 		}
 
 		if (isset($_GET['sql'])) return $this->_SuspiciousSQL($numsql);
@@ -426,7 +426,7 @@ order by
 		if (isset($savem)) $this->conn->SetFetchMode($savem);
 		$ADODB_CACHE_MODE = $save;
 		if ($rs) {
-			$s .= "\n<h3>Ixora Suspicious SQL</h3>";
+			$s .= "n<h3>Ixora Suspicious SQL</h3>";
 			$s .= $this->tohtml($rs,'expsixora');
 		}
 		
@@ -459,14 +459,14 @@ from
 	  executions,
 	  100 * ratio_to_report(disk_reads) over ()  pct
 	from
-	  sys.v_\$sql
+	  sys.$sql
 	where
 	  command_type != 47 and module != 'T.O.A.D.'
       )
     where
       disk_reads > 50 * executions
   )  s,
-  sys.v_\$sqltext  p
+  sys.$sqltext  p
 where
   s.ranking <= $numsql and
   p.address = s.address
@@ -476,7 +476,7 @@ order by
 		global $ADODB_CACHE_MODE;
   		if (isset($_GET['expeixora']) && isset($_GET['sql'])) {
 			$partial = empty($_GET['part']);	
-			echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."\n";
+			echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."n";
 		}
 		if (isset($_GET['sql'])) {
 			 $var = $this->_ExpensiveSQL($numsql);
@@ -498,7 +498,7 @@ order by
 		$ADODB_CACHE_MODE = $save;
 		
 		if ($rs) {
-			$s .= "\n<h3>Ixora Expensive SQL</h3>";
+			$s .= "n<h3>Ixora Expensive SQL</h3>";
 			$s .= $this->tohtml($rs,'expeixora');
 		}
 	

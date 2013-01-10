@@ -296,7 +296,7 @@ $conn->Connect($dsn);
 <p>ADODB_ASSOC_CASE now defaults to 2, use native defaults. This is because we 
   would break backward compat for too many applications otherwise. 
 <p>Patched encrypted sessions to use replace() 
-<p>The qstr function supports quoting of nulls when escape character is \ 
+<p>The qstr function supports quoting of nulls when escape character is  
 <p>Rewrote bits and pieces of session code to check for time synch and improve 
   reliability. 
 <p>Added property ADOConnection::hasTransactions = true/false; 
@@ -700,7 +700,7 @@ this is more flexible and powerful.</p>
 in the array recordset. From Reinhard Balling.</p>
 <p><b>0.96 27 Mar 2001</b></p>
 <p>ADOConnection Close() did not return a value correctly. Thanks to akul#otamedia.com.</p>
-<p>When the horrible magic_quotes is enabled, back-slash () is changed to double-backslash (\).
+<p>When the horrible magic_quotes is enabled, back-slash () is changed to double-backslash ().
 This doesn't make sense for Microsoft/Sybase databases. We fix this in qstr().</p>
 <p>Fixed Sybase date problem in UnixDate() thanks to Toni Tunkkari. Also fixed MSSQL problem
 in UnixDate() - thanks to milhouse31#hotmail.com.</p>

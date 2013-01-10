@@ -103,7 +103,7 @@ class ADODB_SAPDB extends ADODB_odbc {
 		$table = $this->Quote(strtoupper($table));
 		
 		$retarr = array();
-		foreach($this->GetAll("SELECT COLUMNNAME,DATATYPE,LEN,DEC,NULLABLE,MODE,\"DEFAULT\",CASE WHEN \"DEFAULT\" IS NULL THEN 0 ELSE 1 END AS HAS_DEFAULT FROM COLUMNS WHERE tablename=$table ORDER BY pos") as $column)
+		foreach($this->GetAll("SELECT COLUMNNAME,DATATYPE,LEN,DEC,NULLABLE,MODE,"",CASE WHEN "" IS NULL THEN 0 ELSE 1 END AS HAS_DEFAULT FROM COLUMNS WHERE tablename=$table ORDER BY pos") as $column)
 		{
 			$fld = new ADOFieldObject();
 			$fld->name = $column[0];

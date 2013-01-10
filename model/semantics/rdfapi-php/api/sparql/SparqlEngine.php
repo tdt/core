@@ -677,14 +677,14 @@ Class SparqlEngine extends Object{
                     if($constr != null){
                         // extract Vars and function calls
                         $evalString = $constr->getExpression();
-                        preg_match_all("/\?.[^\s\)\,]*/",$evalString,$vars);
-                        preg_match_all("/bound\((.[^\)]*)\)/i",$evalString,$boundcalls);
-                        preg_match_all("/isuri\((.[^\)]*)\)/i",$evalString,$isUricalls);
-                        preg_match_all("/isblank\((.[^\)]*)\)/i",$evalString,$isBlankcalls);
-                        preg_match_all("/isLiteral\((.[^\)]*)\)/i",$evalString,$isLiteralcalls);
-                        preg_match_all("/lang\((.[^\)]*)\)/i",$evalString,$langcalls);
-                        preg_match_all("/datatype\((.[^\)]*)\)/i",$evalString,$datatypecalls);
-                        preg_match_all("/str\((.[^\)]*)\)/i",$evalString,$stringcalls);
+                        preg_match_all("/?.),]*/",$evalString,$vars);
+                        preg_match_all("/((.)]*))/i",$evalString,$boundcalls);
+                        preg_match_all("/((.)]*))/i",$evalString,$isUricalls);
+                        preg_match_all("/((.)]*))/i",$evalString,$isBlankcalls);
+                        preg_match_all("/((.)]*))/i",$evalString,$isLiteralcalls);
+                        preg_match_all("/((.)]*))/i",$evalString,$langcalls);
+                        preg_match_all("/((.)]*))/i",$evalString,$datatypecalls);
+                        preg_match_all("/((.)]*))/i",$evalString,$stringcalls);
 
                         // is Bound
                         if(count($boundcalls[1])>0)
@@ -764,16 +764,16 @@ Class SparqlEngine extends Object{
         $evalString = $constraint->getExpression();
 
         // extract Literals
-        $pattern1 = "/\".[^\"]*\"[^\^\@]/";
-        $pattern2 = "/\'.[^\']*\'[^\^\@]/";
+        $pattern1 = "/"."]*"@]/";
+        $pattern2 = "/'.']*'@]/";
         preg_match_all($pattern1,$evalString,$hits1);
         preg_match_all($pattern2,$evalString,$hits2);
 
         foreach($hits1[0] as $k => $val){
-            $evalString = preg_replace('/\".[^\"]*\"[^\^]/','_REPLACED1_'.$k++,$evalString,1);
+            $evalString = preg_replace('/"."]*"^]/','_REPLACED1_'.$k++,$evalString,1);
         }
         foreach($hits2[0] as $k => $val){
-            $evalString = preg_replace('/\".[^\"]*\"[^\^]/','_REPLACED2_'.$k++,$evalString,1);
+            $evalString = preg_replace('/"."]*"^]/','_REPLACED2_'.$k++,$evalString,1);
         }
 
         // replace namespaces
@@ -781,12 +781,12 @@ Class SparqlEngine extends Object{
         foreach($prefs as $key => $val){
             if($key == '')
             $key = ' ';
-            $evalString = preg_replace("/^(".$key."\:)(.[^\s]*)|([\s\(]?[^\^])(".$key."\:)(.[^\s\)]*)([\s\)]?)/","$3'<".$val."$2$5>'$6",$evalString);
+            $evalString = preg_replace("/^(".$key.":)(.s]*)|((]?^])(".$key.":)(.)]*)()]?)/","$3'<".$val."$2$5>'$6",$evalString);
 
-            $evalString = preg_replace("/(\^)(".$key."\:)(.[^\s]*)/","$1<".$val."$3>",$evalString);
+            $evalString = preg_replace("/(^)(".$key.":)(.s]*)/","$1<".$val."$3>",$evalString);
         }
 
-        $xsd = "http\:\/\/www.w3.org\/2001\/XMLSchema\#";
+        $xsd = "://www.w3./2001/#";
 
         // evaluate bound calls
         if($function['bound']){
@@ -796,7 +796,7 @@ Class SparqlEngine extends Object{
                 $replacement = 'true';
                 else
                 $replacement = 'false';
-                $evalString = preg_replace("/bound\(\\".$var."\)/i",$replacement,$evalString);
+                $evalString = preg_replace("/(".$var.")/i",$replacement,$evalString);
             }
 
         }
@@ -807,7 +807,7 @@ Class SparqlEngine extends Object{
                 $replacement = 'true';
                 else
                 $replacement = 'false';
-                $evalString = preg_replace("/isBlank\(\\".$var."\)/i",$replacement,$evalString);
+                $evalString = preg_replace("/(".$var.")/i",$replacement,$evalString);
             }
 
         }
@@ -818,7 +818,7 @@ Class SparqlEngine extends Object{
                 $replacement = 'true';
                 else
                 $replacement = 'false';
-                $evalString = preg_replace("/isLiteral\(\\".$var."\)/i",$replacement,$evalString);
+                $evalString = preg_replace("/(".$var.")/i",$replacement,$evalString);
             }
 
         }
@@ -829,7 +829,7 @@ Class SparqlEngine extends Object{
                 $replacement = 'true';
                 else
                 $replacement = 'false';
-                $evalString = preg_replace("/isUri\(\\".$var."\)/i",$replacement,$evalString);
+                $evalString = preg_replace("/(".$var.")/i",$replacement,$evalString);
             }
         }
         // evaluate lang calls
@@ -839,17 +839,17 @@ Class SparqlEngine extends Object{
                 $replacement = '"'.$res[$var]->getLanguage().'"';
                 else
                 $replacement = 'null';
-                $evalString = preg_replace("/lang\(\\".$var."\)/i",$replacement,$evalString);
+                $evalString = preg_replace("/(".$var.")/i",$replacement,$evalString);
             }
         }
         // evaluate datatype calls
         if($function['datatype']){
             foreach($function['datatype'] as $var){
                 if(isset($res[$var]) && $res[$var]!=="" && $res[$var] instanceof Literal && $res[$var]->getDatatype() )
-                $replacement = '\'<'.$res[$var]->getDatatype().'>\'';
+                $replacement = ''<'.$res[$var]->getDatatype().'>'';
                 else
                 $replacement = 'false';
-                $evalString = preg_replace("/datatype\(\\".$var."\)/i",$replacement,$evalString);
+                $evalString = preg_replace("/(".$var.")/i",$replacement,$evalString);
             }
         }
         // evaluate string calls
@@ -863,13 +863,13 @@ Class SparqlEngine extends Object{
                     }else{
                         $replacement = 'false';
                     }
-                    $evalString = preg_replace("/str\(\\".$var."\)/i",$replacement,$evalString);
+                    $evalString = preg_replace("/(".$var.")/i",$replacement,$evalString);
                 }else{
                     if($var{0}=='<'){
-                        $evalString = preg_replace("/str\(\s*\<(.[^\>]*)\>\s*\)/i","'str_$1'",$evalString);
+                        $evalString = preg_replace("/(s*<(.>]*)>s*)/i","'str_$1'",$evalString);
                     }
                     if($var{0}=='"'){
-                        $evalString = preg_replace("/str\(\s*\"(.[^\>]*)\"\@[a-z]*\s*\)/i","'str_$1'",$evalString);
+                        $evalString = preg_replace("/(s*"(.>]*)"@[a-z]*s*)/i","'str_$1'",$evalString);
                     }
                 }
 
@@ -901,25 +901,25 @@ Class SparqlEngine extends Object{
                         $replacement = "'<".$res[$var]->getLabel().">'";
                     }
                 }
-                $evalString = preg_replace("/\\".$var."/",$replacement,$evalString);
+                $evalString = preg_replace("/".$var."/",$replacement,$evalString);
             }
 
             // problem with PHP: false < 13 is true
             if(isset($res[$var])){
                 if($res[$var] === ""){
                     if($boundExpr)
-                    $evalString = preg_replace("/\\".$var."/","false",$evalString);
+                    $evalString = preg_replace("/".$var."/","false",$evalString);
                     else
                     $evalString = 'false';
                 }
             }else{
-                $evalString = preg_replace("/\\".$var."/","false",$evalString);
+                $evalString = preg_replace("/".$var."/","false",$evalString);
             }
 
         }
 
         // replace '=' with '=='
-        $evalString = preg_replace("/(.[^\=])(\=)(.[^\=])/","$1==$3",$evalString);
+        $evalString = preg_replace("/(.=])(=)(.=])/","$1==$3",$evalString);
 
 
         // rewrite Literals
@@ -934,26 +934,26 @@ Class SparqlEngine extends Object{
         }
 
         // replace xsd:boolean expressions
-        $pattern = $pattern = '/\"\s?true\s?\"\^\^\<'.$xsd.'boolean\>|\'\s?true\s?\'\^\^xsd:boolean/';
+        $pattern = $pattern = '/"s?s?"<'.$xsd.'>|'s?s?'^xsd:boolean/';
         $evalString = preg_replace($pattern,"true",$evalString);
 
-        $pattern = $pattern = '/\"\s?false\s?\"\^\^\<'.$xsd.'boolean\>|\'\s?false\s?\'\^\^xsd:boolean/';
+        $pattern = $pattern = '/"s?s?"<'.$xsd.'>|'s?s?'^xsd:boolean/';
         $evalString = preg_replace($pattern,"false",$evalString);
 
         // replace xsd:date expressions
-        $pattern = "/\"(.[^\"]*)\"\^\^".$xsd."dateTime/";
+        $pattern = "/"(."]*)"^".$xsd."dateTime/";
         preg_match_all($pattern,$evalString,$hits);
 
         foreach($hits[1] as $dummy)
-        $evalString = preg_replace("/\".[^\"]*\"\^\^".$xsd."dateTime/",strtotime($dummy),$evalString,1);
+        $evalString = preg_replace("/"."]*"^".$xsd."dateTime/",strtotime($dummy),$evalString,1);
 
 
-        $evalString = preg_replace("/(\'\<".$xsd."dateTime\()(.[^\)]*\))\>\'/","dateTime($2",$evalString);
+        $evalString = preg_replace("/('<".$xsd."()(.)]*))>'/","dateTime($2",$evalString);
 
-        $evalString = preg_replace("/(\'\<".$xsd."integer\()(.[^\)]*\))\>\'/","integer($2",$evalString);
+        $evalString = preg_replace("/('<".$xsd."()(.)]*))>'/","integer($2",$evalString);
 
         // tag plain literals
-        $evalString = preg_replace("/\"(.[^\"]*)\"([^\^])|\"(.[^\"]*)\"$/","'str_$1$3'$2",$evalString);
+        $evalString = preg_replace("/"(."]*)"(^])|"(."]*)"$/","'str_$1$3'$2",$evalString);
 
         return $evalString;
     }

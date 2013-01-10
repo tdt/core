@@ -13,9 +13,9 @@ include_once("cores/core/universalfilter/tablemanager/IUniversalFilterTableManag
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\tablemanager\implementation;
+namespace implementation;
 
-class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanager\IUniversalFilterTableManager {
+class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
     private static $IDENTIFIERSEPARATOR = ".";
     private static $HIERARCHICALDATESEPARATOR = ":";
@@ -30,7 +30,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
         AutoInclude::register("UniversalFilterTableHeader", "cores/core/universalfilter/data/UniversalFilterTableHeader.class.php");
         AutoInclude::register("UniversalFilterTableHeaderColumnInfo", "cores/core/universalfilter/data/UniversalFilterTableHeaderColumnInfo.class.php");
         */
-        $this->resourcesmodel = tdt\core\model\ResourcesModel::getInstance();
+        $this->resourcesmodel = ResourcesModel::getInstance();
     }
 
     /**
@@ -41,7 +41,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
      */
     private function getFullResourcePhpObject($package, $resource, $RESTparameters = array()) {
 
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
 
         $doc = $model->getAllDoc();
         $parameters = array();
@@ -50,7 +50,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
             //set the parameter of the method
 
             if (!isset($RESTparameters[0])) {
-                throw new tdt\framework\TDTException(452, "Invalid parameter given: " . $parameter);
+                throw new TDTException(452, "Invalid parameter given: " . $parameter);
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
@@ -89,7 +89,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
         $result = $this->resourcesmodel->processPackageResourceString($packageresourcestring);
 
         if ($result["resourcename"] == "") {
-            throw new tdt\framework\TDTException(452, array("Illegal identifier. Package does not contain a resourcename: "
+            throw new TDTException(452, array("Illegal identifier. Package does not contain a resourcename: "
                 . $globalTableIdentifier));
         }
 
@@ -100,7 +100,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
 
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
 
-        $converter = new tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter();
+        $converter = new PhpObjectTableConverter();
 
         $resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1], $splitedId[2]);
 
@@ -115,7 +115,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
 
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
 
-        $converter = new tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter();
+        $converter = new PhpObjectTableConverter();
 
         $resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1], $splitedId[2]);
 
@@ -135,7 +135,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
      */
     public function getTableHeader($globalTableIdentifier) {
 
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
         $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
 
         $column = NULL;
@@ -150,14 +150,14 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
             foreach ($columns as $column) {
                 $nameParts = array(); //explode(".",$globalTableIdentifier);
                 array_push($nameParts, $column["column_name"]);
-                $headerColumn = new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo($nameParts);
+                $headerColumn = new UniversalFilterTableHeaderColumnInfo($nameParts);
                 array_push($headerColumns, $headerColumn);
             }
 
-            $converter = new tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter();
+            $converter = new PhpObjectTableConverter();
             $nameOfTable = $converter->getNameOfTable($identifierpieces);
 
-            $tableHeader = new tdt\core\universalfilter\data\UniversalFilterTableHeader($headerColumns, false, false);
+            $tableHeader = new UniversalFilterTableHeader($headerColumns, false, false);
 
             $this->requestedTableHeaders[$globalTableIdentifier] = $tableHeader;
             return $tableHeader;
@@ -181,7 +181,7 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
      * @param UniversalFilterTableHeader $header The header you created using the above method.
      * @return UniversalTableContent 
      */
-    public function getTableContent($globalTableIdentifier, tdt\core\universalfilter\data\UniversalFilterTableHeader $header) {
+    public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header) {
         if (!isset($this->requestedTables[$globalTableIdentifier])) {
             $this->loadTableWithHeader($globalTableIdentifier, $header);
         }
@@ -197,11 +197,11 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
      * @param string $sourceId
      * @return UniversalFilterNode 
      */
-    function runFilterOnSource(tdt\core\universalfilter\UniversalFilterNode $query, $sourceId) {
+    function runFilterOnSource(UniversalFilterNode $query, $sourceId) {
         /*
          * Check if resource (source) is queryable
          */
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
 
         $globalTableIdentifier = str_replace("/", ".", $sourceId);
 
@@ -249,9 +249,9 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
                 return $query;
             } elseif ($resultObject->indexInParent == "-1") {
 
-                $converter = new tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter();
+                $converter = new PhpObjectTableConverter();
                 $table = $converter->getPhpObjectTable($identifierpieces, $resultObject->phpDataObject);
-                return new tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode($table, $query);
+                return new ExternallyCalculatedFilterNode($table, $query);
             } else {// query has been partially executed
 
                 /*
@@ -355,9 +355,9 @@ class UniversalFilterTableManager implements tdt\core\universalfilter\tablemanag
          * replace the query node
          */
         if ($phpObject != "") {
-            $converter = new tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter();
+            $converter = new PhpObjectTableConverter();
             $table = $converter->getPhpObjectTable($identifierpieces, $phpObject);
-            $replacementNode = new tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode($table, $currentNode);
+            $replacementNode = new ExternallyCalculatedFilterNode($table, $currentNode);
             if ($parentNode != null) {
                 $parentNode->setSource($replacementNode, 0);
             }

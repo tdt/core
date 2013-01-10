@@ -9,15 +9,15 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class UnaryFunctionExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
 
     private $header;
     private $executer1;
     private $header1;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource());
@@ -32,13 +32,13 @@ class UnaryFunctionExecuter extends tdt\core\universalfilter\interpreter\execute
                 $this->header1->getColumnNameById($this->header1->getColumnId()));
 
         //column
-        $cominedHeaderColumn = new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo(array($combinedName));
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
 
         //single row?
         $isSingleRowByConstruction = $this->header1->isSingleRowByConstruction();
 
         //new Header
-        $this->header = new tdt\core\universalfilter\UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
+        $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
     public function getExpressionHeader() {
@@ -51,13 +51,13 @@ class UnaryFunctionExecuter extends tdt\core\universalfilter\interpreter\execute
         $idA = $this->header1->getColumnId();
         $finalid = $this->header->getColumnId();
 
-        $rows = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $rows = new UniversalFilterTableContent();
 
         $size = $table1content->getRowCount();
 
         //loop through all rows and evaluate the expression
         for ($i = 0; $i < $size; $i++) {
-            $row = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+            $row = new UniversalFilterTableContentRow();
 
             //get the value for index i
             $valueA = $table1content->getValue($idA, $i, true);
@@ -97,7 +97,7 @@ class UnaryFunctionExecuter extends tdt\core\universalfilter\interpreter\execute
         $this->executer1->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = $this->executer1->filterSingleSourceUsages($this->filter, 1);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);

@@ -13,9 +13,9 @@ include_once("core/universalfilter/interpreter/IInterpreterControl.class.php");
 
 include_once("core/universalfilter/interpreter/executers/UniversalFilterExecuters.php");
 
-namespace tdt\core\universalfilter\interpreter;
+namespace interpreter;
 
-class UniversalInterpreter implements tdt\core\universalfilter\interpreter\IInterpreterControl {
+class UniversalInterpreter implements IInterpreterControl {
 
     private $executers;
     private $tablemanager;
@@ -70,63 +70,63 @@ class UniversalInterpreter implements tdt\core\universalfilter\interpreter\IInte
             "FILTERDISTINCT" => "DistinctFilterExecuter",
             "FILTERLIMIT" => "LimitFilterExecuter",
             "EXTERNALLY_CALCULATED_NODE" => "ExternallyCalculatedFilterNodeExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_ROUND => "UnaryFunctionRoundExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_ISNULL => "UnaryFunctionIsNullExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_NOT => "UnaryFunctionNotExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SIN => "UnaryFunctionSinExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_COS => "UnaryFunctionCosExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_TAN => "UnaryFunctionTanExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_ASIN => "UnaryFunctionAsinExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_ACOS => "UnaryFunctionAcosExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_ATAN => "UnaryFunctionAtanExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SQRT => "UnaryFunctionSqrtExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_ABS => "UnaryFunctionAbsExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_FLOOR => "UnaryFunctionFloorExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_CEIL => "UnaryFunctionCeilExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_EXP => "UnaryFunctionExpExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_LOG => "UnaryFunctionLogExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART => "UnaryFunctionDatePartExecuter",
-            tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE => "UnaryFunctionParseDateTimeExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_PLUS => "BinaryFunctionPlusExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS => "BinaryFunctionMinusExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY => "BinaryFunctionMultiplyExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DIVIDE => "BinaryFunctionDivideExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL => "BinaryFunctionEqualityExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN => "BinaryFunctionSmallerExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN => "BinaryFunctionLargerExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN => "BinaryFunctionSmallerEqualExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN => "BinaryFunctionLargerEqualExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL => "BinaryFunctionNotEqualExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_OR => "BinaryFunctionOrExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_AND => "BinaryFunctionAndExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_ATAN2 => "BinaryFunctionAtan2Executer",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_LOG => "BinaryFunctionLogExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_POW => "BinaryFunctionPowExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX => "BinaryFunctionMatchRegexExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_CONCAT => "BinaryFunctionConcatExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE => "BinaryFunctionDateTimeParseExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DATETIME_EXTRACT => "BinaryFunctionDateTimeExtractExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT => "BinaryFunctionDateTimeFormatExecuter",
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DATETIME_DATEDIFF => "BinaryFunctionDateTimeDateDiffExecuter",
-            tdt\core\universalfilter\TernaryFunction::$FUNCTION_TERNARY_SUBSTRING => "TernaryFunctionSubstringExecuter",
-            tdt\core\universalfilter\TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE => "TernaryFunctionRegexReplacementExecuter",
-            tdt\core\universalfilter\TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATEADD => "TernaryFunctionDateTimeDateAddExecuter",
-            tdt\core\universalfilter\TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATESUB => "TernaryFunctionDateTimeDateSubExecuter",
-            tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_AVG => "AverageAggregatorExecuter",
-            tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_COUNT => "CountAggregatorExecuter",
-            tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_FIRST => "FirstAggregatorExecuter",
-            tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_LAST => "LastAggregatorExecuter",
-            tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_MAX => "MaxAggregatorExecuter",
-            tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_MIN => "MinAggregatorExecuter",
-            tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_SUM => "SumAggregatorExecuter",
-            tdt\core\universalfilter\CheckInFunction::$FUNCTION_IN_LIST => "CheckInFunctionExecuter"
+            UnaryFunction::$FUNCTION_UNARY_UPPERCASE => "UnaryFunctionUppercaseExecuter",
+            UnaryFunction::$FUNCTION_UNARY_LOWERCASE => "UnaryFunctionLowercaseExecuter",
+            UnaryFunction::$FUNCTION_UNARY_STRINGLENGTH => "UnaryFunctionStringLengthExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ROUND => "UnaryFunctionRoundExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ISNULL => "UnaryFunctionIsNullExecuter",
+            UnaryFunction::$FUNCTION_UNARY_NOT => "UnaryFunctionNotExecuter",
+            UnaryFunction::$FUNCTION_UNARY_SIN => "UnaryFunctionSinExecuter",
+            UnaryFunction::$FUNCTION_UNARY_COS => "UnaryFunctionCosExecuter",
+            UnaryFunction::$FUNCTION_UNARY_TAN => "UnaryFunctionTanExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ASIN => "UnaryFunctionAsinExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ACOS => "UnaryFunctionAcosExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ATAN => "UnaryFunctionAtanExecuter",
+            UnaryFunction::$FUNCTION_UNARY_SQRT => "UnaryFunctionSqrtExecuter",
+            UnaryFunction::$FUNCTION_UNARY_ABS => "UnaryFunctionAbsExecuter",
+            UnaryFunction::$FUNCTION_UNARY_FLOOR => "UnaryFunctionFloorExecuter",
+            UnaryFunction::$FUNCTION_UNARY_CEIL => "UnaryFunctionCeilExecuter",
+            UnaryFunction::$FUNCTION_UNARY_EXP => "UnaryFunctionExpExecuter",
+            UnaryFunction::$FUNCTION_UNARY_LOG => "UnaryFunctionLogExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART => "UnaryFunctionDatePartExecuter",
+            UnaryFunction::$FUNCTION_UNARY_DATETIME_PARSE => "UnaryFunctionParseDateTimeExecuter",
+            BinaryFunction::$FUNCTION_BINARY_PLUS => "BinaryFunctionPlusExecuter",
+            BinaryFunction::$FUNCTION_BINARY_MINUS => "BinaryFunctionMinusExecuter",
+            BinaryFunction::$FUNCTION_BINARY_MULTIPLY => "BinaryFunctionMultiplyExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DIVIDE => "BinaryFunctionDivideExecuter",
+            BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL => "BinaryFunctionEqualityExecuter",
+            BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN => "BinaryFunctionSmallerExecuter",
+            BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN => "BinaryFunctionLargerExecuter",
+            BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN => "BinaryFunctionSmallerEqualExecuter",
+            BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN => "BinaryFunctionLargerEqualExecuter",
+            BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL => "BinaryFunctionNotEqualExecuter",
+            BinaryFunction::$FUNCTION_BINARY_OR => "BinaryFunctionOrExecuter",
+            BinaryFunction::$FUNCTION_BINARY_AND => "BinaryFunctionAndExecuter",
+            BinaryFunction::$FUNCTION_BINARY_ATAN2 => "BinaryFunctionAtan2Executer",
+            BinaryFunction::$FUNCTION_BINARY_LOG => "BinaryFunctionLogExecuter",
+            BinaryFunction::$FUNCTION_BINARY_POW => "BinaryFunctionPowExecuter",
+            BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX => "BinaryFunctionMatchRegexExecuter",
+            BinaryFunction::$FUNCTION_BINARY_CONCAT => "BinaryFunctionConcatExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DATETIME_PARSE => "BinaryFunctionDateTimeParseExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DATETIME_EXTRACT => "BinaryFunctionDateTimeExtractExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT => "BinaryFunctionDateTimeFormatExecuter",
+            BinaryFunction::$FUNCTION_BINARY_DATETIME_DATEDIFF => "BinaryFunctionDateTimeDateDiffExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_SUBSTRING => "TernaryFunctionSubstringExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_REGEX_REPLACE => "TernaryFunctionRegexReplacementExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATEADD => "TernaryFunctionDateTimeDateAddExecuter",
+            TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATESUB => "TernaryFunctionDateTimeDateSubExecuter",
+            AggregatorFunction::$AGGREGATOR_AVG => "AverageAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_COUNT => "CountAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_FIRST => "FirstAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_LAST => "LastAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_MAX => "MaxAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_MIN => "MinAggregatorExecuter",
+            AggregatorFunction::$AGGREGATOR_SUM => "SumAggregatorExecuter",
+            CheckInFunction::$FUNCTION_IN_LIST => "CheckInFunctionExecuter"
         );
     }
 
-    public function findExecuterFor(tdt\core\universalfilter\UniversalFilterNode $filternode) {
+    public function findExecuterFor(UniversalFilterNode $filternode) {
         return new $this->executers[$filternode->getType()]();
     }
 
@@ -134,16 +134,16 @@ class UniversalInterpreter implements tdt\core\universalfilter\interpreter\IInte
         return $this->tablemanager;
     }
 
-    public function interpret(tdt\core\universalfilter\UniversalFilterNode $originaltree) {
+    public function interpret(UniversalFilterNode $originaltree) {
         //var_dump($originaltree);
-        if (tdt\core\universalfilter\interpreter\UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION) {
-            $printer = new tdt\core\universalfilter\interpreter\debugging\TreePrinter();
+        if (UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION) {
+            $printer = new TreePrinter();
             echo "<h2>Original Query:</h2>";
             $printer->printString($originaltree);
         }
 
         //CLONE QUERY (because we will modify it... and the caller might want to keep the original query)
-        $cloner = new tdt\core\universalfilter\interpreter\cloning\FilterTreeCloner();
+        $cloner = new FilterTreeCloner();
         $clonedtree = $cloner->deepCopyTree($originaltree);
 
        
@@ -151,8 +151,8 @@ class UniversalInterpreter implements tdt\core\universalfilter\interpreter\IInte
 
 
         //INITIAL ENVIRONMENT... is empty
-        $emptyEnv = new tdt\core\universalfilter\interpreter\Environment();
-        $emptyEnv->setTable(new tdt\core\universalfilter\data\UniversalFilterTable(new tdt\core\universalfilter\UniversalFilterTableHeader(array(), true, false), new tdt\core\universalfilter\data\UniversalFilterTableContent()));
+        $emptyEnv = new Environment();
+        $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
 
 
         //CALCULATE HEADER FIRST TIME + QUERY SYNTAX DETECTION
@@ -167,7 +167,7 @@ class UniversalInterpreter implements tdt\core\universalfilter\interpreter\IInte
         $executer->modififyFiltersWithHeaderInformation();
 
         // - calculate single source usages
-        $rootDummyFilter = new tdt\core\universalfilter\interpreter\other\DummyUniversalFilterNode($tree);
+        $rootDummyFilter = new DummyUniversalFilterNode($tree);
         $singleSourceUsages = $executer->filterSingleSourceUsages($rootDummyFilter, 0);
 
         // - calculated... now execute them on the sources... AND BUILD A NEW QUERY
@@ -179,9 +179,9 @@ class UniversalInterpreter implements tdt\core\universalfilter\interpreter\IInte
             $sourceId = $singleSource->getSourceId();
 
             // debug
-            if (tdt\core\universalfilter\interpreter\UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION) {
-                $printer = new tdt\core\universalfilter\interpreter\debugging\TreePrinter();
-                echo "<h2>This is given to the source with id \"" . $sourceId . "\":</h2>";
+            if (UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION) {
+                $printer = new TreePrinter();
+                echo "<h2>This is given to the source with id "" . $sourceId . "":</h2>";
                 $printer->printString($filterSourceNode);
             }
 

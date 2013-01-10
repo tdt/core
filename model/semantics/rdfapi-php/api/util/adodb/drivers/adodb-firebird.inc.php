@@ -52,7 +52,7 @@ class ADODB_firebird extends ADODB_ibase {
 		if ($nrows >= 0) $str .= "FIRST $nrows "; 
 		$str .=($offset>=0) ? "SKIP $offset " : '';
 		
-		$sql = preg_replace('/^[ \t]*select/i',$str,$sql); 
+		$sql = preg_replace('/^[ t]*select/i',$str,$sql); 
 		if ($secs)
 			$rs =& $this->CacheExecute($secs,$sql,$inputarr);
 		else

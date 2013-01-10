@@ -79,9 +79,9 @@ class SparqlEngine_ResultRenderer_HTML implements SparqlEngine_ResultRenderer
         }
 
         return
-            '<div class="SparqlEngine_ResultRenderer_HTML_result">' . "\n"
-            . $strCode . "\n"
-            . "</div>\n";
+            '<div class="SparqlEngine_ResultRenderer_HTML_result">' . "n"
+            . $strCode . "n"
+            . "</div>n";
     }//protected function wrapCode($strCode)
 
 
@@ -103,14 +103,14 @@ class SparqlEngine_ResultRenderer_HTML implements SparqlEngine_ResultRenderer
 
         //I always wanted to to this :)
         return
-            "<table border='1'>\n"
-            . " <caption>SPARQL result with " . count($arResult) . " rows</caption>\n"
+            "<table border='1'>n"
+            . " <caption>SPARQL result with " . count($arResult) . " rows</caption>n"
             . " <thead><th>"
                 . implode('</th><th>', array_keys(reset($arResult)))
-            . "</th></thead>\n"
-            . " <tbody>\n  <tr>"
+            . "</th></thead>n"
+            . " <tbody>n  <tr>"
             . implode(
-                "</tr>\n  <tr>",
+                "</tr>n  <tr>",
                 array_map(
                     create_function(
                         '$ar',
@@ -119,8 +119,8 @@ class SparqlEngine_ResultRenderer_HTML implements SparqlEngine_ResultRenderer
                     $arResult
                 )
               )
-            . "</tr>\n </tbody>\n"
-            . "</table>\n";
+            . "</tr>n </tbody>n"
+            . "</table>n";
     }//protected function createTableFromRecords($arRecordSets)
 
 

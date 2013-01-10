@@ -205,7 +205,7 @@ Each database parameter element in the array is itself an array consisting of:
 
 0: category code, used to group related db parameters
 1: either
-	a. sql string to retrieve value, eg. "select value from v\$parameter where name='db_block_size'", 
+	a. sql string to retrieve value, eg. "select value from $parameter where name='db_block_size'", 
 	b. array holding sql string and field to look for, e.g. array('show variables','table_cache'),
 	c. a string prefixed by =, then a PHP method of the class is invoked, 
 		e.g. to invoke $this->GetIndexValue(), set this array element to '=GetIndexValue',
@@ -219,7 +219,7 @@ class adodb_perf {
 	var $titles = '<tr><td><b>Parameter</b></td><td><b>Value</b></td><td><b>Description</b></td></tr>';
 	var $warnRatio = 90;
 	var $tablesSQL = false;
-	var $cliFormat = "%32s => %s \r\n";
+	var $cliFormat = "%32s => %s n";
 	var $sql1 = 'sql1';  // used for casting sql1 to text for mssql
 	var $explain = true;
 	var $helpurl = "<a href=http://phplens.com/adodb/reference.functions.fnexecute.and.fncacheexecute.properties.html#logsql>LogSQL help</a>";
@@ -280,7 +280,7 @@ processes 69293
 		$fd = fopen($statfile,"r");
 		if (!$fd) return false;
 		
-		$statinfo = explode("\n",fgets($fd, 1024));
+		$statinfo = explode("n",fgets($fd, 1024));
 		fclose($fd);
 		foreach($statinfo as $line) {
 			$info = explode(" ",$line);
@@ -432,7 +432,7 @@ Committed_AS:   348732 kB
 			
 			if (isset($_GET['exps']) && isset($_GET['sql'])) {
 				$partial = !empty($_GET['part']);
-				echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."\n";
+				echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."n";
 			}
 			
 			if (isset($_GET['sql'])) return;
@@ -456,7 +456,7 @@ Committed_AS:   348732 kB
 			if (!$rs) return "<p>$this->helpurl. ".$this->conn->ErrorMsg()."</p>";
 			$s = "<h3>Suspicious SQL</h3>
 <font size=1>The following SQL have high average execution times</font><br>
-<table border=1 bgcolor=white><tr><td><b>Avg Time</b><td><b>Count</b><td><b>SQL</b><td><b>Max</b><td><b>Min</b></tr>\n";
+<table border=1 bgcolor=white><tr><td><b>Avg Time</b><td><b>Count</b><td><b>SQL</b><td><b>Max</b><td><b>Min</b></tr>n";
 			$max = $this->maxLength;
 			while (!$rs->EOF) {
 				$sql = $rs->fields[1];
@@ -465,7 +465,7 @@ Committed_AS:   348732 kB
 					$sql2 = substr($sql,0,$max-500);
 					$raw = urlencode($sql2).'&part='.crc32($sql);
 				}
-				$prefix = "<a target=sql".rand()." href=\"?hidem=1&exps=1&sql=".$raw."&x#explain\">";
+				$prefix = "<a target=sql".rand()." href="?hidem=1&exps=1&sql=".$raw."&x#">";
 				$suffix = "</a>";
 				if ($this->explain == false || strlen($prefix)>$max) {
 					$suffix = ' ... <i>String too long for GET parameter: '.strlen($prefix).'</i>';
@@ -511,7 +511,7 @@ Committed_AS:   348732 kB
 			
 			if (isset($_GET['expe']) && isset($_GET['sql'])) {
 				$partial = !empty($_GET['part']);
-				echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."\n";
+				echo "<a name=explain></a>".$this->Explain($_GET['sql'],$partial)."n";
 			}
 			
 			if (isset($_GET['sql'])) return;
@@ -535,7 +535,7 @@ Committed_AS:   348732 kB
 			if (!$rs) return "<p>$this->helpurl. ".$this->conn->ErrorMsg()."</p>";
 			$s = "<h3>Expensive SQL</h3>
 <font size=1>Tuning the following SQL could reduce the server load substantially</font><br>
-<table border=1 bgcolor=white><tr><td><b>Load</b><td><b>Count</b><td><b>SQL</b><td><b>Max</b><td><b>Min</b></tr>\n";
+<table border=1 bgcolor=white><tr><td><b>Load</b><td><b>Count</b><td><b>SQL</b><td><b>Max</b><td><b>Min</b></tr>n";
 			$max = $this->maxLength;
 			while (!$rs->EOF) {
 				$sql = $rs->fields[1];
@@ -544,7 +544,7 @@ Committed_AS:   348732 kB
 					$sql2 = substr($sql,0,$max-500);
 					$raw = urlencode($sql2).'&part='.crc32($sql);
 				}
-				$prefix = "<a target=sqle".rand()." href=\"?hidem=1&expe=1&sql=".$raw."&x#explain\">";
+				$prefix = "<a target=sqle".rand()." href="?hidem=1&expe=1&sql=".$raw."&x#">";
 				$suffix = "</a>";
 				if($this->explain == false || strlen($prefix>$max)) {
 					$prefix = '';
@@ -666,7 +666,7 @@ Committed_AS:   348732 kB
 	// magic quotes
 	
 	if (isset($_GET['sql']) && get_magic_quotes_gpc()) {
-		$_GET['sql'] = $_GET['sql'] = str_replace(array("\\'",'\"'),array("'",'"'),$_GET['sql']);
+		$_GET['sql'] = $_GET['sql'] = str_replace(array("'",'"'),array("'",'"'),$_GET['sql']);
 	}
 	
 	if (!isset($_SESSION['ADODB_PERF_SQL'])) $nsql = $_SESSION['ADODB_PERF_SQL'] = 10;
@@ -708,7 +708,7 @@ Committed_AS:   348732 kB
 			break;
 		case 'poll':
 			echo "<iframe width=720 height=80% 
-				src=\"{$_SERVER['PHP_SELF']}?do=poll2&hidem=1\"></iframe>";
+				src="{$_SERVER['PHP_SELF']}?do=poll2&hidem=1"></iframe>";
 			break;
 		case 'poll2':
 			echo "<pre>";
@@ -722,7 +722,7 @@ Committed_AS:   348732 kB
 			break;
 		case 'viewsql':
 			if (empty($_GET['hidem']))
-				echo "&nbsp; <a href=\"?do=viewsql&clearsql=1\">Clear SQL Log</a><br>";
+				echo "&nbsp; <a href="?do=viewsql&clearsql=1">Clear SQL Log</a><br>";
 			echo($this->SuspiciousSQL($nsql));
 			echo($this->ExpensiveSQL($nsql));
 			echo($this->InvalidSQL($nsql));
@@ -742,7 +742,7 @@ Committed_AS:   348732 kB
 		$this->conn->fnExecute = false;
 		//$this->conn->debug=1;
 		if ($secs <= 1) $secs = 1;
-		echo "Accumulating statistics, every $secs seconds...\n";flush();
+		echo "Accumulating statistics, every $secs seconds...n";flush();
 		$arro =& $this->PollParameters();
 		$cnt = 0;
 		set_time_limit(0);
@@ -764,9 +764,9 @@ Committed_AS:   348732 kB
 				$oslabel = '';
 				$osval = '';
 			}
-			if ($cnt % 10 == 0) echo " Time   ".$oslabel."   Hit%   Sess           Reads/s          Writes/s\n"; 
+			if ($cnt % 10 == 0) echo " Time   ".$oslabel."   Hit%   Sess           Reads/s          Writes/n"; 
 			$cnt += 1;
-			echo date('H:i:s').'  '.$osval."$hits  $sess $reads $writes\n";
+			echo date('H:i:s').'  '.$osval."$hits  $sess $reads $n";
 			flush();
 			
 			if (connection_aborted()) return;
@@ -801,7 +801,7 @@ Committed_AS:   348732 kB
 			if ($arr === false) break;
 			
 			if (!is_string($name)) {
-				if ($cli) $html .= " -- $arr -- \n";
+				if ($cli) $html .= " -- $arr -- n";
 				else $html .= "<tr bgcolor=$this->color><td colspan=3><i>$arr</i> &nbsp;</td></tr>";
 				continue;
 			}
@@ -847,11 +847,11 @@ Committed_AS:   348732 kB
 				$html  .= str_replace('&nbsp;','',sprintf($this->cliFormat,strip_tags($name),strip_tags($val),strip_tags($desc)));
 				
 			}else {
-				$html .= "<tr$bgc><td>".$name.'</td><td>'.$val.'</td><td>'.$desc."</td></tr>\n";
+				$html .= "<tr$bgc><td>".$name.'</td><td>'.$val.'</td><td>'.$desc."</td></tr>n";
 			}
 		}
 		
-		if (!$cli) $html .= "</table>\n";
+		if (!$cli) $html .= "</table>n";
 		$this->conn->fnExecute = $saveE;
 			
 		return $html;	
@@ -968,9 +968,9 @@ Committed_AS:   348732 kB
 	{
 	if (get_magic_quotes_gpc()) {
 		// undo the damage
-		$m = str_replace('\\\\','\\',$m);
-		$m = str_replace('\"','"',$m);
-		$m = str_replace('\\\'','\'',$m);
+		$m = str_replace('','',$m);
+		$m = str_replace('"','"',$m);
+		$m = str_replace(''',''',$m);
 	}
 	return $m;
 }

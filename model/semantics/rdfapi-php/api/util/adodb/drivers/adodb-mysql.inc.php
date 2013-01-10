@@ -138,14 +138,14 @@ class ADODB_mysql extends ADOConnection {
 				if (is_resource($this->_connectionID))
 					return "'".mysql_real_escape_string($s,$this->_connectionID)."'";
 			}
-			if ($this->replaceQuote[0] == '\\'){
-				$s = adodb_str_replace(array('\\',"\0"),array('\\\\',"\\\0"),$s);
+			if ($this->replaceQuote[0] == ''){
+				$s = adodb_str_replace(array('',"0"),array('',"0"),$s);
 			}
 			return  "'".str_replace("'",$this->replaceQuote,$s)."'"; 
 		}
 		
 		// undo magic quotes for "
-		$s = str_replace('\\"','"',$s);
+		$s = str_replace('"','"',$s);
 		return "'$s'";
 	}
 	
@@ -250,7 +250,7 @@ class ADODB_mysql extends ADOConnection {
 			switch($ch) {
 				
 			default:
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}
@@ -421,14 +421,14 @@ class ADODB_mysql extends ADOConnection {
 			
 			// split type into type(length):
 			$fld->scale = null;
-			if (preg_match("/^(.+)\((\d+),(\d+)/", $type, $query_array)) {
+			if (preg_match("/^(.+)((d+),(d+)/", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$fld->max_length = is_numeric($query_array[2]) ? $query_array[2] : -1;
 				$fld->scale = is_numeric($query_array[3]) ? $query_array[3] : -1;
-			} elseif (preg_match("/^(.+)\((\d+)/", $type, $query_array)) {
+			} elseif (preg_match("/^(.+)((d+)/", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$fld->max_length = is_numeric($query_array[2]) ? $query_array[2] : -1;
-			} elseif (preg_match("/^(enum)\((.*)\)$/i", $type, $query_array)) {
+			} elseif (preg_match("/^(enum)((.*))$/i", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$arr = explode(",",$query_array[2]);
 				$fld->enums = $arr;
@@ -557,7 +557,7 @@ class ADODB_mysql extends ADOConnection {
 
          $matches = array();
 
-         if (!preg_match_all("/FOREIGN KEY \(`(.*?)`\) REFERENCES `(.*?)` \(`(.*?)`\)/", $create_sql, $matches)) return false;
+         if (!preg_match_all("/FOREIGN KEY (`(.*?)) REFERENCES `(.*?)` (`(.*?))/", $create_sql, $matches)) return false;
 	     $foreign_keys = array();	 	 
          $num_keys = count($matches[0]);
          for ( $i = 0;  $i < $num_keys;  $i ++ ) {

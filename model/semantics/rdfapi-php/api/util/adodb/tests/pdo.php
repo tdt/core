@@ -4,7 +4,7 @@ include('../adodb.inc.php');
 
 echo "<pre>";
 try {
-	echo "New Connection\n";
+	echo "New n";
 	
 	
 	$dsn = 'pdo_mysql://root:@localhost/northwind?persist';
@@ -16,7 +16,7 @@ try {
 	
 		$DB = NewADOConnection('pdo');
 		
-		echo "Connect\n";
+		echo "n";
 		
 		$u = ''; $p = '';
 		/*
@@ -27,7 +27,7 @@ try {
 		$p = 'natsoft';
 		
 		
-		$connstr ="sqlite:d:\inetpub\adodb\sqlite.db";
+		$connstr ="sqlite:d:sqlite.db";
 		*/
 		
 		$connstr = "mysql:dbname=northwind";
@@ -41,24 +41,24 @@ try {
 	
 	}
 	
-	echo "connection string=$connstr\n Execute\n";
+	echo "connection string=$n n";
 	
 	//$ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 	$rs = $DB->Execute("select * from ADOXYZ where id<3");
-	if  ($DB->ErrorNo()) echo "*** errno=".$DB->ErrorNo() . " ".($DB->ErrorMsg())."\n";
+	if  ($DB->ErrorNo()) echo "*** errno=".$DB->ErrorNo() . " ".($DB->ErrorMsg())."n";
 	
 	
 	//print_r(get_class_methods($DB->_stmt));
 	
 	if (!$rs) die("NO RS");
 	
-	echo "Meta\n";
+	echo "n";
 	for ($i=0; $i < $rs->NumCols(); $i++) {
 		var_dump($rs->FetchField($i));
 		echo "<br>";
 	}
 	
-	echo "FETCH\n";
+	echo "n";
 	$cnt = 0;
 	while (!$rs->EOF) {
 		adodb_pr($rs->fields); 
@@ -66,7 +66,7 @@ try {
 		if ($cnt++ > 1000) break;
 	}
 	
-	echo "<br>--------------------------------------------------------<br>\n\n\n";
+	echo "<br>--------------------------------------------------------<br>n";
 	
 	$stmt = $DB->PrepareStmt("select * from ADOXYZ");
 	
@@ -79,11 +79,11 @@ try {
 		var_dump($v);
 	}
 	
-	echo "e=".$stmt->ErrorNo() . " ".($stmt->ErrorMsg())."\n";
+	echo "e=".$stmt->ErrorNo() . " ".($stmt->ErrorMsg())."n";
 	while ($arr = $rs->FetchRow()) {
 		adodb_pr($arr);
 	}
-	die("DONE\n");
+	die("n");
 
 } catch (exception $e) {
 	echo "<pre>";

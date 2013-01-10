@@ -9,12 +9,12 @@
  * @author Pieter Colpaert
  */
 
-namespace tdt\core\model\resources\create;
+namespace create;
 
 /**
  * When creating a resource, we always expect a PUT method!
  */
-class RemoteResourceCreator extends tdt\core\model\resources\create\ACreator{
+class RemoteResourceCreator extends ACreator{
 
     /**
      * Overrides previously defined method for getting the right parameters.
@@ -68,13 +68,13 @@ class RemoteResourceCreator extends tdt\core\model\resources\create\ACreator{
         // 1. First check if it really exists on the remote server
         $url = $base_url."TDTInfo/Resources/" . $this->package_name . "/". $this->resource_name .".php";
         $options = array("cache-time" => 1); //cache for 1 second
-        $request = tdt\framework\Request::http($url, $options);
+        $request = Request::http($url, $options);
         if(isset($request->error)){
-            throw new tdt\framework\TDTException(404,array($url));
+            throw new TDTException(404,array($url));
         }
         $object = unserialize($request->data);
         if(!isset($object[$this->resource_name])){
-            throw new tdt\framework\TDTException(500,array("Resource does not exist on the remote server"));
+            throw new TDTException(500,array("Resource does not exist on the remote server"));
         }
 
         // 2. Check if the resource on the server contains an "orginal" resource URI and take that URI instead if exists and reload everything
@@ -86,7 +86,7 @@ class RemoteResourceCreator extends tdt\core\model\resources\create\ACreator{
         // 3. store it
         $package_id = parent::makePackage($this->package);
         $resource_id = parent::makeResource($package_id, $this->resource, "remote");
-        tdt\core\model\DBQueries::storeRemoteResource($resource_id, $this->package_name, $this->resource_name, $base_url);
+        DBQueries::storeRemoteResource($resource_id, $this->package_name, $this->resource_name, $base_url);
     }    
 }
 ?>

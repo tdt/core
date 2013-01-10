@@ -13,7 +13,7 @@ V4.94 23 Jan 2007  (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights rese
 @define('HORDE_BASE', dirname(dirname(dirname(__FILE__))) . '/horde');
 
 if (!is_dir(HORDE_BASE)) {
-	trigger_error(sprintf('Directory not found: \'%s\'', HORDE_BASE), E_USER_ERROR);
+	trigger_error(sprintf('Directory not found: '%'', HORDE_BASE), E_USER_ERROR);
 	return 0;
 }
 

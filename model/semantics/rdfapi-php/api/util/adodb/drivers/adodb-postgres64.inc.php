@@ -61,11 +61,11 @@ class ADODB_postgres64 extends ADOConnection{
 	var $_resultid = false;
   	var $concat_operator='||';
 	var $metaDatabasesSQL = "select datname from pg_database where datname not in ('template0','template1') order by 1";
-    var $metaTablesSQL = "select tablename,'T' from pg_tables where tablename not like 'pg\_%'
+    var $metaTablesSQL = "select tablename,'T' from pg_tables where tablename not like '_%'
 	and tablename not in ('sql_features', 'sql_implementation_info', 'sql_languages',
 	 'sql_packages', 'sql_sizing', 'sql_sizing_profiles') 
 	union 
-        select viewname,'V' from pg_views where viewname not like 'pg\_%'";
+        select viewname,'V' from pg_views where viewname not like '_%'";
 	//"select tablename from pg_tables where tablename not like 'pg_%' order by 1";
 	var $isoDates = true; // accepts dates in ISO format
 	var $sysDate = "CURRENT_DATE";
@@ -205,10 +205,10 @@ a different OID if a database must be reloaded. */
 	{
 		$info = $this->ServerInfo();
 		if ($info['version'] >= 7.3) {
-	    	$this->metaTablesSQL = "select tablename,'T' from pg_tables where tablename not like 'pg\_%'
+	    	$this->metaTablesSQL = "select tablename,'T' from pg_tables where tablename not like '_%'
 			  and schemaname  not in ( 'pg_catalog','information_schema')
 	union 
-        select viewname,'V' from pg_views where viewname not like 'pg\_%'  and schemaname  not in ( 'pg_catalog','information_schema') ";
+        select viewname,'V' from pg_views where viewname not like '_%'  and schemaname  not in ( 'pg_catalog','information_schema') ";
 		}
 		if ($mask) {
 			$save = $this->metaTablesSQL;
@@ -243,14 +243,14 @@ select viewname,'V' from pg_views where viewname like $mask";
 			if (ADODB_PHPVER >= 0x4200) {
 				return  "'".pg_escape_string($s)."'";
 			}
-			if ($this->replaceQuote[0] == '\\'){
-				$s = adodb_str_replace(array('\\',"\0"),array('\\\\',"\\\\000"),$s);
+			if ($this->replaceQuote[0] == ''){
+				$s = adodb_str_replace(array('',"0"),array('',"000"),$s);
 			}
 			return  "'".str_replace("'",$this->replaceQuote,$s)."'"; 
 		}
 		
 		// undo magic quotes for "
-		$s = str_replace('\\"','"',$s);
+		$s = str_replace('"','"',$s);
 		return "'$s'";
 	}
 	
@@ -322,7 +322,7 @@ select viewname,'V' from pg_views where viewname like $mask";
 
 			default:
 			// handle escape characters...
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}
@@ -431,8 +431,8 @@ select viewname,'V' from pg_views where viewname like $mask";
 		if (ADODB_PHPVER >= 0x4200) return pg_escape_bytea($blob);
 		
 		/*92=backslash, 0=null, 39=single-quote*/
-		$badch = array(chr(92),chr(0),chr(39)); # \  null  '
-		$fixch = array('\\\\134','\\\\000','\\\\047');
+		$badch = array(chr(92),chr(0),chr(39)); #   null  '
+		$fixch = array('134','000','047');
 		return adodb_str_replace($badch,$fixch,$blob);
 		
 		// note that there is a pg_escape_bytea function only for php 4.2.0 or later
@@ -592,14 +592,14 @@ FROM pg_catalog.pg_class c
 JOIN pg_catalog.pg_index i ON i.indexrelid=c.oid 
 JOIN pg_catalog.pg_class c2 ON c2.oid=i.indrelid
 	,pg_namespace n 
-WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\')) and c.relnamespace=c2.relnamespace and c.relnamespace=n.oid and n.nspname=\'%s\'';
+WHERE (c2.relname='%' or c2.relname=lower('%')) and c.relnamespace=c2.relnamespace and c.relnamespace=n.oid and n.nspname='%'';
 				} else {
 	                $sql = '
 SELECT c.relname as "Name", i.indisunique as "Unique", i.indkey as "Columns"
 FROM pg_catalog.pg_class c
 JOIN pg_catalog.pg_index i ON i.indexrelid=c.oid
 JOIN pg_catalog.pg_class c2 ON c2.oid=i.indrelid
-WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
+WHERE (c2.relname='%' or c2.relname=lower('%'))';
     			}
 				            
                 if ($primary == FALSE) {
@@ -943,7 +943,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 	
 	function _decode($blob)
 	{
-		eval('$realblob="'.adodb_str_replace(array('"','$'),array('\"','\$'),$blob).'";');
+		eval('$realblob="'.adodb_str_replace(array('"','$'),array('"','$'),$blob).'";');
 		return $realblob;	
 	}
 	

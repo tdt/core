@@ -11,10 +11,12 @@
 
 namespace tdt\core\formatters\visualizations;
 
+use tdt\core\formatters\AFormatter;
+
 /**
  * This class inherits from the abstract Formatter. It will generate a bar chart
  */
-class BarFormatter extends tdt\core\formatters\AFormatter {
+class BarFormatter extends AFormatter {
 
 	private $data;
 	private $category = "category";

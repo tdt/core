@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class ColumnSelectionFilterExecuter extends tdt\core\universalfilter\interpreter\executers\base\BaseEvaluationEnvironmentFilterExecuter {
+class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter {
 
     private $returnsSingleRow;
     private $returnsSingleColumn;
@@ -22,7 +22,7 @@ class ColumnSelectionFilterExecuter extends tdt\core\universalfilter\interpreter
     private $childEnvironmentData;
     private $giveToColumnsEnvironment;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
 //get source environment header
@@ -96,7 +96,7 @@ class ColumnSelectionFilterExecuter extends tdt\core\universalfilter\interpreter
         }
 
 //create the new header
-        $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader($columns, $this->returnsSingleRow, count($this->columnInterpreters) == 1 && $this->returnsSingleColumn);
+        $this->header = new UniversalFilterTableHeader($columns, $this->returnsSingleRow, count($this->columnInterpreters) == 1 && $this->returnsSingleColumn);
     }
 
     public function getExpressionHeader() {
@@ -108,16 +108,16 @@ class ColumnSelectionFilterExecuter extends tdt\core\universalfilter\interpreter
         $sourcecontent = $this->executer->evaluateAsExpression();
 
         $this->finishChildEnvironment($this->childEnvironmentData);
-        $this->giveToColumnsEnvironment->setTable(new tdt\core\universalfilter\data\UniversalFilterTable($sourceheader, $sourcecontent));
+        $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
 
 //create a new empty output table
-        $newRows = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $newRows = new UniversalFilterTableContent();
         if (!$this->returnsSingleRow) {
             for ($index = 0; $index < $sourcecontent->getRowCount(); $index++) {
-                $newRows->addRow(new  tdt\core\universalfilter\data\UniversalFilterTableContentRow());
+                $newRows->addRow(new  UniversalFilterTableContentRow());
             }
         } else {
-            $newRows->addRow(new  tdt\core\universalfilter\data\UniversalFilterTableContentRow());
+            $newRows->addRow(new  UniversalFilterTableContentRow());
         }
 
 //loop all columnInterpreters
@@ -187,7 +187,7 @@ class ColumnSelectionFilterExecuter extends tdt\core\universalfilter\interpreter
         }
     }
 
-    public function filterSingleSourceUsages( tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages( UniversalFilterNode $parentNode, $parentIndex) {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         foreach ($this->columnInterpreters as $columnIndex => $column) {

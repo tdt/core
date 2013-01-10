@@ -82,7 +82,7 @@ class ADODB_odbtp extends ADOConnection{
 			$path = @odbtp_get_attr( ODB_ATTR_DATABASENAME, $this->_connectionID );
 			//if using vfp dbc file
 			if( !strcasecmp(strrchr($path, '.'), '.dbc') )
-                $path = substr($path,0,strrpos($path,'\/'));
+                $path = substr($path,0,strrpos($path,'/'));
            	$seqtab = $path . '/' . $seqtab;
         }
 		if($num == false) {
@@ -110,7 +110,7 @@ class ADODB_odbtp extends ADOConnection{
 			$path = @odbtp_get_attr( ODB_ATTR_DATABASENAME, $this->_connectionID );
 			//if using vfp dbc file
 			if( !strcasecmp(strrchr($path, '.'), '.dbc') )
-                $path = substr($path,0,strrpos($path,'\/'));
+                $path = substr($path,0,strrpos($path,'/'));
            	$seqtab = $path . '/' . $seqtab;
         }
 		$MAXLOOPS = 100;
@@ -142,9 +142,9 @@ class ADODB_odbtp extends ADOConnection{
 	}
 
 	//example for $UserOrDSN
-	//for visual fox : DRIVER={Microsoft Visual FoxPro Driver};SOURCETYPE=DBF;SOURCEDB=c:\YourDbfFileDir;EXCLUSIVE=NO;
-	//for visual fox dbc: DRIVER={Microsoft Visual FoxPro Driver};SOURCETYPE=DBC;SOURCEDB=c:\YourDbcFileDir\mydb.dbc;EXCLUSIVE=NO;
-	//for access : DRIVER={Microsoft Access Driver (*.mdb)};DBQ=c:\path_to_access_db\base_test.mdb;UID=root;PWD=;
+	//for visual fox : DRIVER={Microsoft Visual FoxPro Driver};SOURCETYPE=DBF;SOURCEDB=c:YourDbfFileDir;EXCLUSIVE=NO;
+	//for visual fox dbc: DRIVER={Microsoft Visual FoxPro Driver};SOURCETYPE=DBC;SOURCEDB=c:mydb.dbc;EXCLUSIVE=NO;
+	//for access : DRIVER={Microsoft Access Driver (*.mdb)};DBQ=c:base_test.mdb;UID=root;PWD=;
 	//for mssql : DRIVER={SQL Server};SERVER=myserver;UID=myuid;PWD=mypwd;DATABASE=OdbtpTest;
 	//if uid & pwd can be separate
     function _connect($HostOrInterface, $UserOrDSN='', $argPassword='', $argDatabase='')
@@ -428,7 +428,7 @@ class ADODB_odbtp extends ADOConnection{
 	{
 		// TOP requires ORDER BY for Visual FoxPro
 		if( $this->odbc_driver == ODB_DRIVER_FOXPRO ) {
-			if (!preg_match('/ORDER[ \t\r\n]+BY/is',$sql)) $sql .= ' ORDER BY 1';
+			if (!preg_match('/ORDER[ n]+BY/is',$sql)) $sql .= ' ORDER BY 1';
 		}
 		$ret =& ADOConnection::SelectLimit($sql,$nrows,$offset,$inputarr,$secs2cache);
 		return $ret;

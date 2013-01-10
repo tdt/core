@@ -69,46 +69,46 @@ class N3Parser extends Object {
      * */
     public function N3Parser() {
         //Regular expressions:
-        //Original (bugged): $Name = '[A-Za-z0-9_@\.]+[^\.,;\[\]\s\.) ]*';        
-        $Name = '[A-Za-z0-9_@]+[^\.,;\[\]\s) ]*';
+        //Original (bugged): $Name = '[A-Za-z0-9_@.]+.,;.) ]*';        
+        $Name = '[A-Za-z0-9_@]+.,;s) ]*';
         $URI = '<[^> ]*>';
         $bNode = '_:' . $Name;
-        $Univar = '\?' . $Name;
-        $QName = '(?:[A-Za-z][A-Za-z0-9_@\.]*)?:' . $Name;
+        $Univar = '?' . $Name;
+        $QName = '(?:[A-Za-z][A-Za-z0-9_@.]*)?:' . $Name;
         $Literal = '(?:'
-                . '"(\\\"|[^"])*"'
+                . '"("|[^"])*"'
                 . '|'
-                . "'(\\\'|[^'])*'"
+                . "'('|[^'])*'"
                 . ')';
-        # '"(?:\\"|[^"])*"'
-        $Number = '[-+]?[0-9]+(\\.[0-9]+)?([eE][-+]?[0-9]+)?';
+        # '"(?:"|[^"])*"'
+        $Number = '[-+]?[0-9]+(.[0-9]+)?([eE][-+]?[0-9]+)?';
         $Boolean = '@(?:true|false)';
-//   $Literal  = '"[^"\\\\]*(?:\\.\\[^"\\]*)*"'; # '"(?:\\"|[^"])*"'
-        $LangTag = '@[A-Za-z\-]*[^ \^\.\;\,]';
-        $Datatype = '(\^\^)[^ ,\.;)]+';
-        $Datatype_URI = '(\^\^)' . $URI;
-        //     $LLiteral = '"""[^"\\\\]*(?:(?:.|"(?!""))[^"\\\\]*)*"""';
+//   $Literal  = '"[^"]*(?:.[^"]*)*"'; # '"(?:"|[^"])*"'
+        $LangTag = '@[A-Za--]*[^ .;,]';
+        $Datatype = '(^)[^ ,.;)]+';
+        $Datatype_URI = '(^)' . $URI;
+        //     $LLiteral = '"""[^"]*(?:(?:.|"(?!""))[^"]*)*"""';
         $LLiteral = '(?:'
-                . '"""[^"\\\\]*(?:(?:\\\\.|"(?!""))[^"\\\\]*)*"""'
+                . '"""[^"]*(?:(?:.|"(?!""))[^"]*)*"""'
                 . '|'
-                . "'''[^'\\\\]*(?:(?:\\\\.|'(?!''))[^\"\\\\]*)*'''"
+                . "'''[^']*(?:(?:.|'(?!''))"]*)*'''"
                 . ')';
-        //          '"""[^"\\]*(?:(?:\\.|"(?!""))[^"\\]*)*"""'
+        //          '"""[^"]*(?:(?:.|"(?!""))[^"]*)*"""'
         $Comment = '#.*$';
         $Prefix = '(?:[A-Za-z][A-Za-z0-9_]*)?:';
         $PrefixDecl = '@prefix';
-        $WS = '[ \t]';
+        $WS = '[ t]';
         $this->RDF_NS = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'; # for 'a' keyword
         $this->DAML_NS = 'http://www.daml.org/2001/03/daml+oil#'; # for '=' keyword
         $this->OWL_NS = 'http://www.w3.org/2002/07/owl#';
 
         //     $t = array( $LLiteral, $URI); //, $Literal, $PrefixDecl, $QName, $bNode, $Prefix,
-        //	    $Univar, 'a', '{', '}', '\(', '\)', '\[', '\]', ',', ';', '\.', $WS, $Comment);
+        //	    $Univar, 'a', '{', '}', '(', ')', '[', ']', ',', ';', '.', $WS, $Comment);
         $t = array(
             $Datatype_URI, $Datatype, $LLiteral, $URI, $Literal,
             $PrefixDecl, $QName, $Number, $Boolean, $bNode,
             $Prefix, $Univar, 'a', '=',
-            '{', '}', '\(', '\)', '\[', '\]', ',', ';', '\.',
+            '{', '}', '(', ')', '[', ']', ',', ';', '.',
             $WS, $Comment, $LangTag
         );
         $this->Tokens = "/(" . join($t, "|") . ")/m";
@@ -155,7 +155,7 @@ class N3Parser extends Object {
                 $object = $t[2];
             };
 
-            print '(' . $t[0] . ', ' . $t[1] . ', ' . $object . ")\n";
+            print '(' . $t[0] . ', ' . $t[1] . ', ' . $object . ")n";
         }
         //   return [[eep.Article(t[0]), eep.Article(t[1]), eep.Article(t[2])]
         //              for t in n3tolist(s)]
@@ -261,7 +261,7 @@ class N3Parser extends Object {
      * @param string $s
      * */
     private function isWS($s) {
-        return!preg_match('/^(#.*|\s*)$/', $s);
+        return!preg_match('/^(#.*|s*)$/', $s);
     }
 
     /**
@@ -273,7 +273,7 @@ class N3Parser extends Object {
     private function notComment($s) {
         if ($s == "")
             return false;
-        $N3Comment = '^[ \t]*\#';
+        $N3Comment = '^[ t]*#';
 
         if (ereg($N3Comment, $s))
             return false;
@@ -292,7 +292,7 @@ class N3Parser extends Object {
     }
 
     /**
-     * converts a string to its unicode NFC form (e.g. \uHHHH or \UHHHHHHHH).
+     * converts a string to its unicode NFC form (e.g. uHHHH or UHHHHHHHH).
      *
      * @param String $str
      * @return String
@@ -328,31 +328,31 @@ class N3Parser extends Object {
             }
             /* result (see http://www.w3.org/TR/rdf-testcases/#ntrip_strings) */
             if ($nr < 9) {/* #x0-#x8 (0-8) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr == 9) {/* #x9 (9) */
-                $result.='\t';
+                $result.='t';
             } elseif ($nr == 10) {/* #xA (10) */
-                $result.='\n';
+                $result.='n';
             } elseif ($nr < 13) {/* #xB-#xC (11-12) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr == 13) {/* #xD (13) */
-                $result.='\t';
+                $result.='t';
             } elseif ($nr < 32) {/* #xE-#x1F (14-31) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr < 34) {/* #x20-#x21 (32-33) */
                 $result.=$char;
             } elseif ($nr == 34) {/* #x22 (34) */
-                $result.='\"';
+                $result.='"';
             } elseif ($nr < 92) {/* #x23-#x5B (35-91) */
                 $result.=$char;
             } elseif ($nr == 92) {/* #x5C (92) */
-                $result.='\\';
+                $result.='';
             } elseif ($nr < 127) {/* #x5D-#x7E (93-126) */
                 $result.=$char;
             } elseif ($nr < 65536) {/* #x7F-#xFFFF (128-65535) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr < 1114112) {/* #x10000-#x10FFFF (65536-1114111) */
-                $result.="\\U" . sprintf("%08X", $nr);
+                $result.="U" . sprintf("%08X", $nr);
             } else {
                 /* other chars are not defined => ignore */
             }
@@ -419,19 +419,19 @@ class N3Parser extends Object {
      * */
     private function toke($s) {
 
-        //    print "$s\n";
+        //    print "$n";
         //   """Notation3 tokenizer. Takes in a string, returns a raw token list."""
         if (strlen($s) == 0)
             die('Document has no content!');
 
-        $s = str_replace("\r\n", "\n", $s);
+        $s = str_replace("n", "n", $s);
         
-        $s = str_replace("\r", "\n", $s);
+        $s = str_replace("r", "n", $s);
 
         
-        //$lines=explode("\n",$s);
+        //$lines=explode("n",$s);
         //$reallines=array_filter($lines, array($this, "notComment"));
-        //    print "LINES: ".join($reallines, " ")." :LINES\n";
+        //    print "LINES: ".join($reallines, " ")." :n";
         //array_walk($reallines, array($this, "trimLine"));
         //$res=array();
         //    foreach ($reallines as $l) {
@@ -444,7 +444,7 @@ class N3Parser extends Object {
         $res = $this->array_concat($res, array_map('trim', $newres[0]));
         
         
-        preg_match_all("/([a-zA-Z|]*|\.)/m", $s, $test);
+        preg_match_all("/([a-zA-Z|]*|.)/m", $s, $test);
         
         return $res;
     }
@@ -469,7 +469,7 @@ class N3Parser extends Object {
         $m = array_slice($list, $start, $l);
         $e = array_slice($list, $end);
 
-        //  array_push($s,"\"".join($m," ")."\"");
+        //  array_push($s,""".join($m," ").""");
         array_push($s, $m);
 
         return $this->array_concat($s, $e);
@@ -584,7 +584,7 @@ class N3Parser extends Object {
                 //float or decimal
                 // After conversion we cannot distinguish between both
                 $list[$i] = floatval($list[$i]);
-            } else if ((!strstr('<_"\'?.;,{}[]()@', $list[$i]{0}))
+            } else if ((!strstr('<_"'?.;,{}[]()@', $list[$i]{0}))
                     && (substr($list[$i], 0, 3) != '^^<')
             ) {
                 //prefix or unknown
@@ -606,9 +606,9 @@ class N3Parser extends Object {
                 if ($list[$i]{0} == '"') {
                     $bLiteral = true;
                     $chBase = '"';
-                } else if ($list[$i]{0} == '\'') {
+                } else if ($list[$i]{0} == ''') {
                     $bLiteral = true;
-                    $chBase = '\'';
+                    $chBase = ''';
                 } else {
                     $bLiteral = false;
                 }
@@ -620,9 +620,9 @@ class N3Parser extends Object {
                             // A big literal...
                             $lit = substr($list[$i], 3, -3);
                             //	      print "++$lit++";
-                            $lit = str_replace('\n', '\\n', $lit);
+                            $lit = str_replace('n', 'n', $lit);
 
-                            //$lit=ereg_replace("[^\\]" . $chBase, "\\" . $chBase, $lit);
+                            //$lit=ereg_replace("]" . $chBase, "" . $chBase, $lit);
                             $lit = stripslashes($lit);
 
                             $list[$i] = $chBase . $lit . $chBase;
@@ -630,7 +630,7 @@ class N3Parser extends Object {
                             die('Incorrect string formatting: ' . substr($list[$i], -3, 3));
                         }
                     } else {
-                        if (strstr($list[$i], "\n")) {
+                        if (strstr($list[$i], "n")) {
                             die('Newline in literal: ' . $list[$i]);
                         }
                         $list[$i] = stripslashes($list[$i]);
@@ -763,7 +763,7 @@ class N3Parser extends Object {
         
         if (count($list) == 1 && preg_match("/_" . BNODE_PREFIX . "[0-9]+_/", $list[0])) {
             if ($this->debug)
-                print "Ignored bNode exists statement. $list\n";
+                print "Ignored bNode exists statement. $n";
             return array();
         }
         
@@ -775,8 +775,8 @@ class N3Parser extends Object {
             
             throw new Exception(
                     'N3 statement too short,'
-                    . ' only ' . count($list) . ' elements instead of 3:' . "\n"
-                    . implode("\n", $list)
+                    . ' only ' . count($list) . ' elements instead of 3:' . "n"
+                    . implode("n", $list)
             );
         }
 
@@ -1015,7 +1015,7 @@ class N3Parser extends Object {
         $t = $this->filterWs($this->toke($s)); # tokenize the stream, and filter whitespace tokens
 
         if ($this->debug) {
-            print "Filter WS:\n";
+            print "Filter WS:n";
 
         }
         $r = $this->getPrefixes($t); # get the prefix directives, and add to a dict
@@ -1023,26 +1023,26 @@ class N3Parser extends Object {
         $t = $r[1];
         
         if ($this->debug) {
-            print "Prefixes:\n";
-            print "***\n";
+            print "Prefixes:n";
+            print "***n";
         }
         $t = $this->applyStuff($prefixes, $t); #apply prefixes, keywords, and string formatting
         if ($this->debug) {
-            print "Stuff applied:\n";
+            print "Stuff applied:n";
         }
         
         $t = $this->fixAnon($t); # fix _:a anons
         if ($this->debug) {
-            print "Fix anon:\n";
+            print "Fix anon:n";
         }
 
         $t = $this->listStuff($t); # apply list stuff: todo
         if ($this->debug) {
-            print "Lists done:\n";
+            print "Lists done:n";
         }
         $t = $this->expandLists($t);
         if ($this->debug) {
-            print "Lists applied:\n";
+            print "Lists applied:n";
         }
         
         $t = $this->getStatements($t); # get all of the "statements" from the stream
@@ -1067,7 +1067,7 @@ class N3Parser extends Object {
      * */
     private function toRDFNode($s, $state) {
         $ins = substr($s, 1, -1);
-        if ($s{0} == '"' || $s{0} == '\'') {
+        if ($s{0} == '"' || $s{0} == ''') {
             $lang = NULL;
 
             if (count($state) > 3) {

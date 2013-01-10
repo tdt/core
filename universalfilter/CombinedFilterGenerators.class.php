@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\tablemanager;
+namespace tablemanager;
 
 class CombinedFilterGenerators {
     
@@ -18,7 +18,7 @@ class CombinedFilterGenerators {
      * @param NormalFilterNode $for
      * @param UniversalFilterNode $sourceToSet 
      */
-    public static function setCombinedFilterSource(tdt\core\universalfilter\NormalFilterNode $for, tdt\core\universalfilter\UniversalFilterNode $sourceToSet){
+    public static function setCombinedFilterSource(NormalFilterNode $for, UniversalFilterNode $sourceToSet){
         if($for->getSource()===null){
             $for->setSource($filter);
         }else{
@@ -34,10 +34,10 @@ class CombinedFilterGenerators {
      * @param UniversalFilterNode $c right bound
      * @return NormalFilterNode the filter
      */
-    public static function makeBetweenFilter(tdt\core\universalfilter\UniversalFilterNode $a, tdt\core\universalfilter\UniversalFilterNode $b, tdt\core\universalfilter\UniversalFilterNode $c){
-        return new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_AND, 
-            new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $b, $a), 
-            new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $c));
+    public static function makeBetweenFilter(UniversalFilterNode $a, UniversalFilterNode $b, UniversalFilterNode $c){
+        return new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, 
+            new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $b, $a), 
+            new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $c));
     }
     
     /**
@@ -49,10 +49,10 @@ class CombinedFilterGenerators {
      * @param boolean $isAllFilter ALL or ANY ?
      * @return NormalFilterNode the filter
      */
-    public static function makeSmallerThanAllOrAnyFilter(tdt\core\universalfilter\UniversalFilterNode $a, tdt\core\universalfilter\UniversalFilterNode $b, $strictSmaller=true,  $isAllFilter=true){
-        $aggr = ($isAllFilter?tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_MIN:tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_MAX);
-        $function = ($strictSmaller?tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN:tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN);
-        return new tdt\core\universalfilter\BinaryFunction($function, $a, new tdt\core\universalfilter\AggregatorFunction($aggr, $b));
+    public static function makeSmallerThanAllOrAnyFilter(UniversalFilterNode $a, UniversalFilterNode $b, $strictSmaller=true,  $isAllFilter=true){
+        $aggr = ($isAllFilter?AggregatorFunction::$AGGREGATOR_MIN:AggregatorFunction::$AGGREGATOR_MAX);
+        $function = ($strictSmaller?BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN:BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN);
+        return new BinaryFunction($function, $a, new AggregatorFunction($aggr, $b));
     }
     
     /**
@@ -64,10 +64,10 @@ class CombinedFilterGenerators {
      * @param boolean $isAllFilter ALL or ANY ?
      * @return NormalFilterNode the filter
      */
-    public static function makeLargerThanAllOrAnyFilter(tdt\core\universalfilter\UniversalFilterNode $a, tdt\core\universalfilter\UniversalFilterNode $b, $strictLarger=true,  $isAllFilter=true){
-        $aggr = ($isAllFilter?tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_MAX:tdt\core\universalfilter\tdt\core\universalfilter\AggregatorFunction::$AGGREGATOR_MIN);
-        $function = ($strictLarger?tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN:tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN);
-        return new tdt\core\universalfilter\BinaryFunction($function, $a, new tdt\core\universalfilter\AggregatorFunction($aggr, $b));
+    public static function makeLargerThanAllOrAnyFilter(UniversalFilterNode $a, UniversalFilterNode $b, $strictLarger=true,  $isAllFilter=true){
+        $aggr = ($isAllFilter?AggregatorFunction::$AGGREGATOR_MAX:AggregatorFunction::$AGGREGATOR_MIN);
+        $function = ($strictLarger?BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN:BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN);
+        return new BinaryFunction($function, $a, new AggregatorFunction($aggr, $b));
     }
     
     /**
@@ -76,8 +76,8 @@ class CombinedFilterGenerators {
      * @param UniversalFilterNode $a the argument
      * @return NormalFilterNode the filter
      */
-    public static function makeDegreeToRadiansFilter(tdt\core\universalfilter\UniversalFilterNode $a){
-        return new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $a, new tdt\core\universalfilter\Constant(pi()/180));
+    public static function makeDegreeToRadiansFilter(UniversalFilterNode $a){
+        return new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $a, new Constant(pi()/180));
     }
     
     /**
@@ -91,7 +91,7 @@ class CombinedFilterGenerators {
      * @param UniversalFilterNode $latB latitude B (in degrees)
      * @return NormalFilterNode the filter
      */
-    public static function makeGeoDistanceFilter(tdt\core\universalfilter\UniversalFilterNode $latA, tdt\core\universalfilter\UniversalFilterNode $longA, tdt\core\universalfilter\UniversalFilterNode $latB, tdt\core\universalfilter\UniversalFilterNode $longB){
+    public static function makeGeoDistanceFilter(UniversalFilterNode $latA, UniversalFilterNode $longA, UniversalFilterNode $latB, UniversalFilterNode $longB){
         /*
          * Based upon code:
          * 
@@ -113,43 +113,43 @@ class CombinedFilterGenerators {
         
         $olat = $latA;
         $olon = $longA;
-        $R = new tdt\core\universalfilter\Constant(6371); // earth's radius in km
-        $dLat = CombinedFilterGenerators::makeDegreeToRadiansFilter(new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, $thislat, $olat));
-        $dLon = CombinedFilterGenerators::makeDegreeToRadiansFilter(new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, $thislong, $olon));
+        $R = new Constant(6371); // earth's radius in km
+        $dLat = CombinedFilterGenerators::makeDegreeToRadiansFilter(new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $thislat, $olat));
+        $dLon = CombinedFilterGenerators::makeDegreeToRadiansFilter(new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, $thislong, $olon));
         $rolat = CombinedFilterGenerators::makeDegreeToRadiansFilter($olat);
         $rlat = CombinedFilterGenerators::makeDegreeToRadiansFilter($thislat);
         
-        $a = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_PLUS, 
-                new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
-                        new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SIN, 
-                                new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLat, new tdt\core\universalfilter\Constant(2))
+        $a = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, 
+                new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
+                        new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_SIN, 
+                                new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLat, new Constant(2))
                                 ),
-                        new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SIN, 
-                                new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLat, new tdt\core\universalfilter\Constant(2))
+                        new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_SIN, 
+                                new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLat, new Constant(2))
                                 )
                         ), 
-                new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
-                        new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
-                                new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SIN, 
-                                        new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLon, new tdt\core\universalfilter\Constant(2))
+                new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
+                        new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
+                                new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_SIN, 
+                                        new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLon, new Constant(2))
                                         ),
-                                new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SIN, 
-                                        new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLon, new tdt\core\universalfilter\Constant(2))
+                                new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_SIN, 
+                                        new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DIVIDE, $dLon, new Constant(2))
                                         )
                                 ),
-                        new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
-                                new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_COS, $rolat),
-                                new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_COS, $rlat)
+                        new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
+                                new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_COS, $rolat),
+                                new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_COS, $rlat)
                                 )
                         )
                 );
-        $c = new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, new tdt\core\universalfilter\Constant(2), 
-                    new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_ATAN2, 
-                            new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SQRT, $a), 
-                            new tdt\core\universalfilter\UnaryFunction(tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_SQRT, 
-                                    new tdt\core\universalfilter\BinaryFunction(tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, new tdt\core\universalfilter\Constant(1), $a))));
-        $distance = new tdt\core\universalfilter\BinaryFunction(
-                    tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
+        $c = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, new Constant(2), 
+                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_ATAN2, 
+                            new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_SQRT, $a), 
+                            new UnaryFunction(UnaryFunction::$FUNCTION_UNARY_SQRT, 
+                                    new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MINUS, new Constant(1), $a))));
+        $distance = new BinaryFunction(
+                    BinaryFunction::$FUNCTION_BINARY_MULTIPLY, 
                     $R,
                     $c);
         return $distance;
@@ -158,21 +158,21 @@ class CombinedFilterGenerators {
     /** makes a constant with the current date and time */
     public static function makeDateTimeNow(){
         $dateTime = new DateTime();
-        return new tdt\core\universalfilter\Constant($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
+        return new Constant($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
     }
     
     /** makes a constant with the current date */
     public static function makeDateTimeCurrentDate(){
         $dateTime = new DateTime();
         $dateOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYDATE));
-        return new tdt\core\universalfilter\Constant($dateOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
+        return new Constant($dateOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
     }
     
     /** makes a constant with the current time */
     public static function makeDateTimeCurrentTime(){
         $dateTime = new DateTime();
         $timeOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYTIME));
-        return new tdt\core\universalfilter\Constant($timeOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
+        return new Constant($timeOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
     }
     
     /**
@@ -182,48 +182,48 @@ class CombinedFilterGenerators {
      * 
      * (Only tested for positive values...)
      */
-    public static function makeWrapInRangeFilter(tdt\core\universalfilter\UniversalFilterNode $funct, tdt\core\universalfilter\UniversalFilterNode $min, tdt\core\universalfilter\UniversalFilterNode $max) {
+    public static function makeWrapInRangeFilter(UniversalFilterNode $funct, UniversalFilterNode $min, UniversalFilterNode $max) {
         // the logic:
         //   a = (a-min)%(max-min+1)+min
         // the logic (without modulo): 
         //   a = ((a-min)-floor((a-min)/(max-min+1))*(max-min+1))+min
         
         $r= 
-        new tdt\core\universalfilter\BinaryFunction(
-            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_PLUS, 
-            new tdt\core\universalfilter\BinaryFunction(
-                tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, 
-                new tdt\core\universalfilter\BinaryFunction(
-                    tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, 
+        new BinaryFunction(
+            BinaryFunction::$FUNCTION_BINARY_PLUS, 
+            new BinaryFunction(
+                BinaryFunction::$FUNCTION_BINARY_MINUS, 
+                new BinaryFunction(
+                    BinaryFunction::$FUNCTION_BINARY_MINUS, 
                     $funct, 
                     $min),
-                new tdt\core\universalfilter\BinaryFunction(
-                    tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MULTIPLY,
-                    new tdt\core\universalfilter\UnaryFunction(
-                        tdt\core\universalfilter\UnaryFunction::$FUNCTION_UNARY_FLOOR, 
-                        new tdt\core\universalfilter\BinaryFunction(
-                            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_DIVIDE, 
-                            new tdt\core\universalfilter\BinaryFunction(
-                                tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS,
+                new BinaryFunction(
+                    BinaryFunction::$FUNCTION_BINARY_MULTIPLY,
+                    new UnaryFunction(
+                        UnaryFunction::$FUNCTION_UNARY_FLOOR, 
+                        new BinaryFunction(
+                            BinaryFunction::$FUNCTION_BINARY_DIVIDE, 
+                            new BinaryFunction(
+                                BinaryFunction::$FUNCTION_BINARY_MINUS,
                                 $funct,
                                 $min), 
-                            new tdt\core\universalfilter\BinaryFunction(
-                                tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_PLUS,
-                                new tdt\core\universalfilter\BinaryFunction(
-                                    tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, 
+                            new BinaryFunction(
+                                BinaryFunction::$FUNCTION_BINARY_PLUS,
+                                new BinaryFunction(
+                                    BinaryFunction::$FUNCTION_BINARY_MINUS, 
                                     $max, 
                                     $min),
-                                new tdt\core\universalfilter\Constant(1)
+                                new Constant(1)
                                 )
                             )
                         ),
-                    new tdt\core\universalfilter\BinaryFunction(
-                        tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_PLUS,
-                        new tdt\core\universalfilter\BinaryFunction(
-                            tdt\core\universalfilter\BinaryFunction::$FUNCTION_BINARY_MINUS, 
+                    new BinaryFunction(
+                        BinaryFunction::$FUNCTION_BINARY_PLUS,
+                        new BinaryFunction(
+                            BinaryFunction::$FUNCTION_BINARY_MINUS, 
                             $max, 
                             $min),
-                        new tdt\core\universalfilter\Constant(1)
+                        new Constant(1)
                         )
                     )
                 ),

@@ -166,7 +166,7 @@ class N3Serializer extends Object {
 
         foreach ($count as $k => $v) {
             $this->doResource($resources[$k]);
-            //      $this->res.=" .\n";
+            //      $this->res.=" .n";
         }
 
         //make all replacements
@@ -206,7 +206,7 @@ class N3Serializer extends Object {
         //       if ( $c>$max) { $maxkey=$k; $max=$c; }
         //     }
         //     if ($this->debug) {
-        //       print "$maxkey is subject of most triples! ($max) \n";
+        //       print "$maxkey is subject of most triples! ($max) n";
         //     }
 
         return $this->res;
@@ -373,7 +373,7 @@ class N3Serializer extends Object {
             } else {
                 if ($lastp != '') {
                     if ($this->stylePretty) {
-                        $out .= ";\n" . $strIndent;
+                        $out .= ";n" . $strIndent;
                     } else {
                         $out .= ";";
                     }
@@ -395,12 +395,12 @@ class N3Serializer extends Object {
                 }
 
                 //try to be intelligent
-                $quoteSingle = strpos($l, '\'') !== false;
+                $quoteSingle = strpos($l, ''') !== false;
                 $quoteDouble = strpos($l, '"') !== false;
                 if ($quoteSingle && !$quoteDouble) {
                     $quoteChar = $long ? '"""' : '"';
                 } else if ($quoteDouble && !$quoteSingle) {
-                    $quoteChar = $long ? '\'\'\'' : '\'';
+                    $quoteChar = $long ? ''''' : ''';
                 } else if ($quoteDouble && $quoteSingle) {
                     //both quotation chars inside
                     $quoteChar = $long ? '"""' : '"';
@@ -501,7 +501,7 @@ class N3Serializer extends Object {
      * @return void
      * */
     private function fixAnon($t, $a) {
-        $t = preg_replace("/( \] $|^\[ )/", '', $t);
+        $t = preg_replace("/( ] $|[ )/", '', $t);
         return $a . $t;
     }
 

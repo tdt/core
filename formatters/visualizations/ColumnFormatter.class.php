@@ -14,7 +14,7 @@ namespace tdt\core\formatters\visualizations;
 /**
  * This class inherits from the abstract Formatter. It will generate a column chart
  */
-class ColumnFormatter extends tdt\core\formatters\AFormatter {
+class ColumnFormatter extends AFormatter {
 
 	private $data;
 	private $category = "category";

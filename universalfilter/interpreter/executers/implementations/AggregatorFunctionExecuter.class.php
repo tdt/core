@@ -11,9 +11,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
 
     protected $header;
     protected $header1;
@@ -24,7 +24,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
     private $topenv;
     private $typeInlineSelect;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource());
@@ -41,10 +41,10 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
         $evaluatorHeader = $topenv->getTable()->getHeader()->cloneHeader();
         $evaluatorHeader->setIsSingleRowByConstruction(true);
         //single row content
-        $evaluatorContent = new tdt\core\universalfilter\data\UniversalFilterTableContent();
-        $evaluatorContent->addRow(new tdt\core\universalfilter\data\UniversalFilterTableContentRow());
+        $evaluatorContent = new UniversalFilterTableContent();
+        $evaluatorContent->addRow(new UniversalFilterTableContentRow());
         //single row table
-        $this->evaluatorTable = new tdt\core\universalfilter\data\UniversalFilterTable($evaluatorHeader, $evaluatorContent);
+        $this->evaluatorTable = new UniversalFilterTable($evaluatorHeader, $evaluatorContent);
         //single row environment
         $evaluatorEnvironment->setTable($this->evaluatorTable);
 
@@ -55,7 +55,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
         $evaluatedHeader = $this->executer1->getExpressionHeader();
         $this->typeInlineSelect = !$evaluatedHeader->isSingleRowByConstruction();
         if ($this->typeInlineSelect) {
-            if (!tdt\core\universalfilter\universalinterpreter\UniversalInterpreter::$ALLOW_NESTED_QUERYS) {
+            if (!UniversalInterpreter::$ALLOW_NESTED_QUERYS) {
                 throw new Exception("Nested Query's are disabled because of performance issues.");
             }
             if (!$evaluatedHeader->isSingleColumnByConstruction()) {
@@ -79,7 +79,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
 
                 array_push($newColumns, $groupedHeaderColumn);
             }
-            $globalHeader = new tdt\core\universalfilter\data\UniversalFilterTableHeader($newColumns, $singleRow, true);
+            $globalHeader = new UniversalFilterTableHeader($newColumns, $singleRow, true);
         }
 
         //set the seen header
@@ -115,7 +115,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
             $newColumns = array($cominedHeaderColumn);
 
 
-            $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader($newColumns, $singleRow, true);
+            $this->header = new UniversalFilterTableHeader($newColumns, $singleRow, true);
             $this->singleColumnSingleRow = $singleRow;
         } else {
             //multiple columns -> grouping not allowed!
@@ -142,10 +142,10 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
                     array_push($newColumns, $cominedHeaderColumn);
                 }
             } else {
-                $newColumns = array(new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo(array($this->getName("_multiple_columns_"))));
+                $newColumns = array(new UniversalFilterTableHeaderColumnInfo(array($this->getName("_multiple_columns_"))));
             }
 
-            $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader($newColumns, true, $this->combinesMultipleColumns());
+            $this->header = new UniversalFilterTableHeader($newColumns, true, $this->combinesMultipleColumns());
         }
     }
 
@@ -158,7 +158,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
         $context = $this->topenv->getTable()->getContent();
         $evaluatedHeader = $this->executer1->getExpressionHeader();
 
-        $newContent = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $newContent = new UniversalFilterTableContent();
 
         for ($index = 0; $index < $context->getRowCount(); $index++) {
 
@@ -171,14 +171,14 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
             if (!$this->typeInlineSelect) {
                 $newContent->addRow($executedContent->getRow(0));
             } else {
-                $newRow = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+                $newRow = new UniversalFilterTableContentRow();
                 for ($columnIndex = 0; $columnIndex < $this->header1->getColumnCount(); $columnIndex++) {
                     $newColumnId = $this->header1->getColumnIdByIndex($columnIndex);
                     $oldColumnId = $evaluatedHeader->getColumnIdByIndex($columnIndex);
 
-                    $groupedContent = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+                    $groupedContent = new UniversalFilterTableContent();
                     for ($execContentIndex = 0; $execContentIndex < $executedContent->getRowCount(); $execContentIndex++) {
-                        $groupRow = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+                        $groupRow = new UniversalFilterTableContentRow();
                         $groupRow->defineValue("data", $executedContent->getRow($execContentIndex)->getCellValue($oldColumnId, true)); //crashes if grouped...
                     }
 
@@ -199,7 +199,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
 
     public function evaluateAsExpression() {
         $oldContent = $this->evaluateSubExpression();
-        $newContent = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $newContent = new UniversalFilterTableContent();
 
         if ($this->header1->isSingleColumnByConstruction()) {
             $sourceColumnId = $this->header1->getColumnId();
@@ -207,7 +207,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
 
             if ($this->singleColumnSingleRow) {
                 //single column - not grouped
-                $row = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+                $row = new UniversalFilterTableContentRow();
                 $row->defineValue($finalid, $this->doCalculate($oldContent, $sourceColumnId));
 
                 $newContent->addRow($row);
@@ -217,7 +217,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
                     //row
                     $row = $oldContent->getRow($index);
 
-                    $newRow = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+                    $newRow = new UniversalFilterTableContentRow();
                     $newRow->defineValue($finalid, $this->doCalculate($row->getGroupedValue($sourceColumnId), "data"));
 
                     $newContent->addRow($newRow);
@@ -225,7 +225,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
             }
         } else {
             //multiple columns - not grouped
-            $newRow = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+            $newRow = new UniversalFilterTableContentRow();
             if (!$this->combinesMultipleColumns()) {
                 //do each one on its own
                 for ($index = 0; $index < $this->header1->getColumnCount(); $index++) {
@@ -241,7 +241,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
                 //combine all (count)
                 $finalid = $this->header->getColumnId();
 
-                $newRow = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+                $newRow = new UniversalFilterTableContentRow();
                 $newRow->defineValue($finalid, $this->calculateValue($oldContent, null));
 
                 $newContent->addRow($newRow);
@@ -253,7 +253,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
         return $newContent;
     }
 
-    private function doCalculate(tdt\core\universalfilter\data\UniversalFilterTableContent $content, $columnId) {
+    private function doCalculate(UniversalFilterTableContent $content, $columnId) {
         if ($this->errorIfNoItems()) {
             if ($content->getRowCount() == 0) {
                 throw new Exception("This aggregator can not be applied to an empty column.");
@@ -277,7 +277,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
         $this->executer1->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\data\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = $this->executer1->filterSingleSourceUsages($this->filter, 0);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
@@ -293,7 +293,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
      * @param type $columnId
      * @return array 
      */
-    public function convertColumnToArray(tdt\core\universalfilter\data\UniversalFilterTableContent $content, $columnId) {
+    public function convertColumnToArray(UniversalFilterTableContent $content, $columnId) {
         $arr = array();
         for ($index = 0; $index < $content->getRowCount(); $index++) {
             array_push($arr, $content->getRow($index)->getCellValue($columnId, true));
@@ -309,7 +309,7 @@ abstract class AggregatorFunctionExecuter extends tdt\core\universalfilter\inter
         return $name;
     }
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $content, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $content, $columnId) {
         return 0;
     }
 

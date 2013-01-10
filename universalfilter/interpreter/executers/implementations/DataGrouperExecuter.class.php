@@ -9,11 +9,11 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class DataGrouperExecuter extends tdt\core\universalfilter\interpreter\executers\base\BaseHashingFilterExecuter {
+class DataGrouperExecuter extends BaseHashingFilterExecuter {
     
-    public function hashColumn(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo $oldColumnInfo){        
+    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo){        
         //get the columns to group
         $columnIdentifiers = $filter->getColumns();
         

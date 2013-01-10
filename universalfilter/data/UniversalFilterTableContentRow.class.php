@@ -11,7 +11,7 @@ include_once("cores/core/universalfilter/common/HashString.php");
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\data;
+namespace data;
 
 class UniversalFilterTableContentRow {
 
@@ -29,7 +29,7 @@ class UniversalFilterTableContentRow {
      */
     public function defineValue($idOfField, $value) {
         if ($idOfField == "")
-            throw new tdt\framework\TDTException(500, array("Not a valid fieldname...")); // Can happen?
+            throw new TDTException(500, array("Not a valid fieldname...")); // Can happen?
         $this->data->$idOfField = array("value" => $value);
     }
 
@@ -42,7 +42,7 @@ class UniversalFilterTableContentRow {
      */
     public function defineValueId($idOfField, $value) {
         if ($idOfField == "")
-            throw new tdt\framework\TDTException(500, array("Not a valid fieldname...")); // Can happen?
+            throw new TDTException(500, array("Not a valid fieldname...")); // Can happen?
         $this->data->$idOfField = array("id" => $value);
     }
 
@@ -54,7 +54,7 @@ class UniversalFilterTableContentRow {
      */
     public function defineGroupedValue($idOfField, $groupedColumnValues) {
         if ($idOfField == "")
-            throw new tdt\framework\TDTException(500, array("Not a valid fieldname...")); // Can happen?
+            throw new TDTException(500, array("Not a valid fieldname...")); // Can happen?
         $this->data->$idOfField = array("grouped" => $groupedColumnValues);
     }
 
@@ -76,7 +76,7 @@ class UniversalFilterTableContentRow {
                 } else {
                     if (isset($obj["grouped"])) {
                         debug_print_backtrace();
-                        throw new tdt\framework\TDTException(500,array("Error: Can not execute this operation on a grouped field!"));
+                        throw new TDTException(500,array("Error: Can not execute this operation on a grouped field!"));
                     } else {
                         // The value or id is null
                         if ($allowNull) {
@@ -88,7 +88,7 @@ class UniversalFilterTableContentRow {
                 }
             }
         } else {
-            throw new tdt\framework\TDTException(500,array("Requested a unknown value on a row for a columnId \"" . $idOfField . "\""));
+            throw new TDTException(500,array("Requested a unknown value on a row for a columnId "" . $idOfField . """));
         }
     }
 
@@ -105,7 +105,7 @@ class UniversalFilterTableContentRow {
                 return null;
             }
         } else {
-            throw new tdt\framework\TDTException(500,array("Requested a unknown value on a row for a columnId \"" . $idOfField . "\""));
+            throw new TDTException(500,array("Requested a unknown value on a row for a columnId "" . $idOfField . """));
         }
     }
 
@@ -128,7 +128,7 @@ class UniversalFilterTableContentRow {
         if (isset($this->data->$oldField)) {
             $newRow->data->$newField = $this->data->$oldField;
         } else {
-            throw new tdt\framework\TDTException(500,array("Requested a unknown value on a row for a columnId \"" . $oldField . "\""));
+            throw new TDTException(500,array("Requested a unknown value on a row for a columnId "" . $oldField . """));
         }
     }
 

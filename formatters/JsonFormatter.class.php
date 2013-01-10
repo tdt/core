@@ -8,11 +8,12 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 namespace tdt\core\formatters;
+
 /**
  * This class inherits from the abstract Formatter. It will return our resultobject into a
  * json datastructure.
  */
-class JsonFormatter extends tdt\core\formatters\AFormatter{
+class JsonFormatter extends AFormatter{
      
      public function __construct($rootname,$objectToPrint){
 	  parent::__construct($rootname,$objectToPrint);

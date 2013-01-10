@@ -12,6 +12,11 @@
 
 namespace tdt\core\controllers;
 
+use tdt\core\controllers\ACoreController;
+use tdt\core\controllers\RController;
+use tdt\core\model\ResourcesModel;
+use tdt\framework\TDTException;
+
 class CUDController extends ACoreController {
     /*
      * installation variables
@@ -29,10 +34,7 @@ class CUDController extends ACoreController {
     private $dbuser;
     private $dbpassword;
 
-    public function __construct() {
-        /*
-          AutoInclude::register("RController", "cores/core/controllers/RController.class.php");
-          AutoInclude::register("ResourcesModel", "cores/core/model/ResourcesModel.class.php"); */
+    public function __construct() {        
         parent::__construct();
     }
 
@@ -55,7 +57,7 @@ class CUDController extends ACoreController {
 
         $matches["packageresourcestring"] = ltrim($packageresourcestring, "/");
         $matches["format"] = $format;
-        $RController = new tdt\core\controllers\RController();
+        $RController = new RController();
         $RController->GET($matches);
     }
 
@@ -76,7 +78,7 @@ class CUDController extends ACoreController {
         // fill in the matches array
         $matches["packageresourcestring"] = ltrim($packageresourcestring, "/");
         $matches["format"] = $format;
-        $RController = new tdt\core\controllers\RController();
+        $RController = new RController();
         $RController->HEAD($matches);
     }
 
@@ -87,7 +89,7 @@ class CUDController extends ACoreController {
 
         //both package and resource set?
         if (count($pieces) < 2) {
-            throw new tdt\framework\TDTException(452, array($packageresourcestring));
+            throw new TDTException(452, array($packageresourcestring));
         }
 
         //we need to be authenticated
@@ -169,7 +171,7 @@ class CUDController extends ACoreController {
 
         $packageDoc = $model->getAllPackagesDoc();
         if (!$foundPackage && !isset($packageDoc->$package)) {
-            throw new tdt\framework\TDTException(404, array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         //we need to be authenticated
@@ -249,12 +251,12 @@ class CUDController extends ACoreController {
         }
 
         if (!$foundPackage) {
-            throw new tdt\framework\TDTException(404, array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         //both package and resource set?
         if ($resourcename == "") {
-            throw new tdt\framework\TDTException(404, array($packageresourcestring));
+            throw new TDTException(404, array($packageresourcestring));
         }
 
         //we need to be authenticated
@@ -281,7 +283,7 @@ class CUDController extends ACoreController {
      * POST is currently not used
      */
     public function POST($matches) {
-            throw new tdt\framework\TDTException(450,array());
+            throw new TDTException(450,array());
     }
 
 }

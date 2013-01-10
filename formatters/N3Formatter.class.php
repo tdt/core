@@ -11,9 +11,13 @@
  * @author Miel Vander Sande
  */
 
-namespace tdt\core\formatters;
+namespace formatters;
 
-class N3Formatter extends tdt\core\formatters\AFormatter {
+use N3Serializer;
+use semantics\RDFOutput;
+
+
+class N3Formatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
@@ -30,7 +34,7 @@ class N3Formatter extends tdt\core\formatters\AFormatter {
         //When the objectToPrint has a MemModel, it is already an RDF model and is ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
         if (!is_a($this->objectToPrint,"MemModel")) {
-            $outputter = new tdt\core\model\semantics\RDFOutput();
+            $outputter = new RDFOutput();
             $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
         }
         

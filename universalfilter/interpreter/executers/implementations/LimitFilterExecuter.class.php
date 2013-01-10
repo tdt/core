@@ -9,11 +9,11 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class LimitFilterExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
         //get source environment header
@@ -36,7 +36,7 @@ class LimitFilterExecuter extends tdt\core\universalfilter\interpreter\executers
 
         //create a new empty output table
 
-        $newRows = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $newRows = new UniversalFilterTableContent();
 
         $offset = $this->filter->getOffset();
         $limit = $this->filter->getLimit();
@@ -65,7 +65,7 @@ class LimitFilterExecuter extends tdt\core\universalfilter\interpreter\executers
         }
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);

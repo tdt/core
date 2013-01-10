@@ -224,7 +224,7 @@ order by constraint_name, referenced_table_name, keyno";
 	{
 		if ($nrows > 0 && $offset <= 0) {
 			$sql = preg_replace(
-				'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 '.$this->hasTop." $nrows ",$sql);
+				'/(s*s+(distinctrow|distinct)?)/i','1 '.$this->hasTop." $nrows ",$sql);
 			$rs =& $this->Execute($sql,$inputarr);
 		} else
 			$rs =& ADOConnection::SelectLimit($sql,$nrows,$offset,$inputarr,$secs2cache);
@@ -281,7 +281,7 @@ order by constraint_name, referenced_table_name, keyno";
 				break;
 				
 			default:
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}

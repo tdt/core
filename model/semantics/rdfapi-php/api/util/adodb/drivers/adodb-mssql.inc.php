@@ -28,7 +28,7 @@ if (!defined('ADODB_DIR')) die();
 // MORE LOCALIZATION INFO
 // ----------------------
 // To configure datetime, look for and modify sqlcommn.loc, 
-//  	typically found in c:\mssql\install
+//  	typically found in c:install
 // Also read :
 //	 http://support.microsoft.com/default.aspx?scid=kb;EN-US;q220918
 // Alternatively use:
@@ -204,7 +204,7 @@ class ADODB_mssql extends ADOConnection {
 	{
 		if ($nrows > 0 && $offset <= 0) {
 			$sql = preg_replace(
-				'/(^\s*select\s+(distinctrow|distinct)?)/i','\\1 '.$this->hasTop." $nrows ",$sql);
+				'/(s*s+(distinctrow|distinct)?)/i','1 '.$this->hasTop." $nrows ",$sql);
 			$rs =& $this->Execute($sql,$inputarr);
 		} else
 			$rs =& ADOConnection::SelectLimit($sql,$nrows,$offset,$inputarr,$secs2cache);
@@ -262,7 +262,7 @@ class ADODB_mssql extends ADOConnection {
 				break;
 				
 			default:
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}
@@ -615,7 +615,7 @@ order by constraint_name, referenced_table_name, keyno";
 		if  ($this->debug) {
 			$prefix = ($isOutput) ? 'Out' : 'In';
 			$ztype = (empty($type)) ? 'false' : $type;
-			ADOConnection::outp( "{$prefix}Parameter(\$stmt, \$php_var='$var', \$name='$name', \$maxLen=$maxLen, \$type=$ztype);");
+			ADOConnection::outp( "{$prefix}Parameter($stmt, $php_var='$var', $name='$name', $maxLen=$maxLen, $type=$ztype);");
 		}
 		/*
 			See http://phplens.com/lens/lensforum/msgs.php?id=7231
@@ -946,7 +946,7 @@ class ADORecordSet_array_mssql extends ADORecordSet_array {
 	
 		//Dec 30 2000 12:00AM 
 		if ($ADODB_mssql_date_order == 'dmy') {
-			if (!preg_match( "|^([0-9]{1,2})[-/\. ]+([A-Za-z]{3})[-/\. ]+([0-9]{4})|" ,$v, $rr)) {
+			if (!preg_match( "|^([0-9]{1,2})[-/. ]+([A-Za-z]{3})[-/. ]+([0-9]{4})|" ,$v, $rr)) {
 				return parent::UnixDate($v);
 			}
 			if ($rr[3] <= TIMESTAMP_FIRST_YEAR) return 0;
@@ -954,7 +954,7 @@ class ADORecordSet_array_mssql extends ADORecordSet_array {
 			$theday = $rr[1];
 			$themth =  substr(strtoupper($rr[2]),0,3);
 		} else {
-			if (!preg_match( "|^([A-Za-z]{3})[-/\. ]+([0-9]{1,2})[-/\. ]+([0-9]{4})|" ,$v, $rr)) {
+			if (!preg_match( "|^([A-Za-z]{3})[-/. ]+([0-9]{1,2})[-/. ]+([0-9]{4})|" ,$v, $rr)) {
 				return parent::UnixDate($v);
 			}
 			if ($rr[3] <= TIMESTAMP_FIRST_YEAR) return 0;
@@ -977,14 +977,14 @@ class ADORecordSet_array_mssql extends ADORecordSet_array {
 	
 		//Dec 30 2000 12:00AM
 		 if ($ADODB_mssql_date_order == 'dmy') {
-			 if (!preg_match( "|^([0-9]{1,2})[-/\. ]+([A-Za-z]{3})[-/\. ]+([0-9]{4}) +([0-9]{1,2}):([0-9]{1,2}) *([apAP]{0,1})|"
+			 if (!preg_match( "|^([0-9]{1,2})[-/. ]+([A-Za-z]{3})[-/. ]+([0-9]{4}) +([0-9]{1,2}):([0-9]{1,2}) *([apAP]{0,1})|"
 			,$v, $rr)) return parent::UnixTimeStamp($v);
 			if ($rr[3] <= TIMESTAMP_FIRST_YEAR) return 0;
 		
 			$theday = $rr[1];
 			$themth =  substr(strtoupper($rr[2]),0,3);
 		} else {
-			if (!preg_match( "|^([A-Za-z]{3})[-/\. ]+([0-9]{1,2})[-/\. ]+([0-9]{4}) +([0-9]{1,2}):([0-9]{1,2}) *([apAP]{0,1})|"
+			if (!preg_match( "|^([A-Za-z]{3})[-/. ]+([0-9]{1,2})[-/. ]+([0-9]{4}) +([0-9]{1,2}):([0-9]{1,2}) *([apAP]{0,1})|"
 			,$v, $rr)) return parent::UnixTimeStamp($v);
 			if ($rr[3] <= TIMESTAMP_FIRST_YEAR) return 0;
 		

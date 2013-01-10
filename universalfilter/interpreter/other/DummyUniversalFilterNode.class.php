@@ -13,10 +13,10 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\other;
+namespace other;
 
-class DummyUniversalFilterNode extends tdt\core\universalfilter\NormalFilterNode {
-    public function __construct(tdt\core\universalfilter\UniversalFilterNode $source=null) {
+class DummyUniversalFilterNode extends NormalFilterNode {
+    public function __construct(UniversalFilterNode $source=null) {
         parent::__construct("DUMMY");
         if($source!=null) $this->setSource ($source);
     }

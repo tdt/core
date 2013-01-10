@@ -32,7 +32,7 @@ class ADODB_oci805 extends ADODB_oci8 {
 		if (strpos($sql,'/*+') !== false)
 			$sql = str_replace('/*+ ','/*+FIRST_ROWS ',$sql);
 		else
-			$sql = preg_replace('/^[ \t\n]*select/i','SELECT /*+FIRST_ROWS*/',$sql);
+			$sql = preg_replace('/^[ n]*select/i','SELECT /*+FIRST_ROWS*/',$sql);
 		
 		/* 
 			The following is only available from 8.1.5 because order by in inline views not 

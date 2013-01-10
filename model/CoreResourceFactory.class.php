@@ -9,9 +9,9 @@
  * @author Pieter Colpaert
  */
 
-namespace tdt\core\model;
+namespace model;
 
-class CoreResourceFactory extends tdt\core\model\AResourceFactory {
+class CoreResourceFactory extends AResourceFactory {
 
     
     public function __construct(){        

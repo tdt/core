@@ -22,7 +22,7 @@ if (!defined('ADODB_DIR')) die();
 
 function Lens_ParseTest()
 {
-$str = "`zcol ACOL` NUMBER(32,2) DEFAULT 'The \"cow\" (and Jim''s dog) jumps over the moon' PRIMARY, INTI INT AUTO DEFAULT 0, zcol2\"afs ds";
+$str = "`zcol ACOL` NUMBER(32,2) DEFAULT 'The "" (and Jim''s dog) jumps over the moon' PRIMARY, INTI INT AUTO DEFAULT 0, zcol2"afs ds";
 print "<p>$str</p>";
 $a= Lens_ParseArgs($str);
 print "<pre>";
@@ -67,9 +67,9 @@ function Lens_ParseArgs($args,$endstmtchar=',',$tokenchars='_.-')
 		$ch = substr($args,$pos,1);
 		switch($ch) {
 		case ' ':
-		case "\t":
-		case "\n":
-		case "\r":
+		case "t":
+		case "n":
+		case "r":
 			if (!$quoted) {
 				if ($intoken) {
 					$intoken = false;
@@ -171,8 +171,8 @@ class ADODB_DataDict {
 	var $alterCol = ' ALTER COLUMN';
 	var $dropCol = ' DROP COLUMN';
 	var $renameColumn = 'ALTER TABLE %s RENAME COLUMN %s TO %s';	// table, old-column, new-column, column-definitions (not used by default)
-	var $nameRegex = '\w';
-	var $nameRegexBrackets = 'a-zA-Z0-9_\(\)';
+	var $nameRegex = 'w';
+	var $nameRegexBrackets = 'a-zA-Z0-9()';
 	var $schema = false;
 	var $serverInfo = array();
 	var $autoIncrement = false;
@@ -410,7 +410,7 @@ class ADODB_DataDict {
 			// genfields can return FALSE at times
 			if ($lines == null) $lines = array();
 			list(,$first) = each($lines);
-			list(,$column_def) = split("[\t ]+",$first,2);
+			list(,$column_def) = split("t ]+",$first,2);
 		}
 		return array(sprintf($this->renameColumn,$tabname,$this->NameQuote($oldcolumn),$this->NameQuote($newcolumn),$column_def));
 	}
@@ -762,19 +762,19 @@ class ADODB_DataDict {
 				return $sql;
 			}
 		}
-		$s = "CREATE TABLE $tabname (\n";
-		$s .= implode(",\n", $lines);
+		$s = "CREATE TABLE $tabname (n";
+		$s .= implode(",n", $lines);
 		if (sizeof($pkey)>0) {
-			$s .= ",\n                 PRIMARY KEY (";
+			$s .= ",n                 PRIMARY KEY (";
 			$s .= implode(", ",$pkey).")";
 		}
 		if (isset($tableoptions['CONSTRAINTS'])) 
-			$s .= "\n".$tableoptions['CONSTRAINTS'];
+			$s .= "n".$tableoptions['CONSTRAINTS'];
 		
 		if (isset($tableoptions[$this->upperName.'_CONSTRAINTS'])) 
-			$s .= "\n".$tableoptions[$this->upperName.'_CONSTRAINTS'];
+			$s .= "n".$tableoptions[$this->upperName.'_CONSTRAINTS'];
 		
-		$s .= "\n)";
+		$s .= "n)";
 		if (isset($tableoptions[$this->upperName])) $s .= $tableoptions[$this->upperName];
 		$sql[] = $s;
 		

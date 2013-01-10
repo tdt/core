@@ -21,7 +21,7 @@
 	session_register('AVAR');
 	$_SESSION['AVAR'] += 1;
 	print "
--- \$_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
+-- $_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
 	
 To force non-persistent connections, call adodb_session_open first before session_start():
 
@@ -32,7 +32,7 @@ To force non-persistent connections, call adodb_session_open first before sessio
 	session_register('AVAR');
 	$_SESSION['AVAR'] += 1;
 	print "
--- \$_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
+-- $_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
 
  
  Installation
@@ -97,9 +97,9 @@ if (!defined('ADODB_SESSION')) {
  /* if database time and system time is difference is greater than this, then give warning */
  define('ADODB_SESSION_SYNCH_SECS',60); 
 
-/****************************************************************************************\
+/****************************************************************************************
 	Global definitions
-\****************************************************************************************/
+****************************************************************************************/
 GLOBAL 	$ADODB_SESSION_CONNECT, 
 	$ADODB_SESSION_DRIVER,
 	$ADODB_SESSION_USER,
@@ -163,11 +163,11 @@ GLOBAL 	$ADODB_SESSION_CONNECT,
 	$ADODB_SESS['table'] = $ADODB_SESS_TBL;
 	*/
 	
-/****************************************************************************************\
+/****************************************************************************************
 	Create the connection to the database. 
 	
 	If $ADODB_SESS_CONN already exists, reuse that connection
-\****************************************************************************************/
+****************************************************************************************/
 function adodb_sess_open($save_path, $session_name,$persist=true) 
 {
 GLOBAL $ADODB_SESS_CONN;
@@ -195,9 +195,9 @@ GLOBAL 	$ADODB_SESSION_CONNECT,
 -- Session: connection failed</p>",false);
 }
 
-/****************************************************************************************\
+/****************************************************************************************
 	Close the connection
-\****************************************************************************************/
+****************************************************************************************/
 function adodb_sess_close() 
 {
 global $ADODB_SESS_CONN;
@@ -206,9 +206,9 @@ global $ADODB_SESS_CONN;
 	return true;
 }
 
-/****************************************************************************************\
+/****************************************************************************************
 	Slurp in the session variables and return the serialized string
-\****************************************************************************************/
+****************************************************************************************/
 function adodb_sess_read($key) 
 {
 global $ADODB_SESS_CONN,$ADODB_SESSION_TBL,$ADODB_SESSION_CRC;
@@ -231,11 +231,11 @@ global $ADODB_SESS_CONN,$ADODB_SESSION_TBL,$ADODB_SESSION_CRC;
 	return ''; // thx to Jorma Tuomainen, webmaster#wizactive.com
 }
 
-/****************************************************************************************\
+/****************************************************************************************
 	Write the serialized data to a database.
 	
 	If the data has not been modified since adodb_sess_read(), we do not write.
-\****************************************************************************************/
+****************************************************************************************/
 function adodb_sess_write($key, $val) 
 {
 	global
@@ -303,11 +303,11 @@ function adodb_sess_write($key, $val)
 		$err = "";
 		$rs1 = $ADODB_SESS_CONN->Execute($qry);
 		if (!$rs1) {
-			$err .= $ADODB_SESS_CONN->ErrorMsg()."\n";
+			$err .= $ADODB_SESS_CONN->ErrorMsg()."n";
 		}
 		$rs2 = $ADODB_SESS_CONN->UpdateBlob($ADODB_SESSION_TBL, 'data', $val, "sesskey='$key'", strtoupper($ADODB_SESSION_USE_LOBS));
 		if (!$rs2) {
-			$err .= $ADODB_SESS_CONN->ErrorMsg()."\n";
+			$err .= $ADODB_SESS_CONN->ErrorMsg()."n";
 		}
 		$rs = ($rs1 && $rs2) ? true : false;
 	}
@@ -402,7 +402,7 @@ function adodb_sess_gc($maxlifetime)
 			$ADODB_SESS_CONN->Execute($opt_qry);
 		}
 	}
-	if ($ADODB_SESS_CONN->dataProvider === 'oci8') $sql = 'select  TO_CHAR('.($ADODB_SESS_CONN->sysTimeStamp).', \'RRRR-MM-DD HH24:MI:SS\') from '. $ADODB_SESSION_TBL;
+	if ($ADODB_SESS_CONN->dataProvider === 'oci8') $sql = 'select  TO_CHAR('.($ADODB_SESS_CONN->sysTimeStamp).', 'RRRR-MM-DD HH24:MI:') from '. $ADODB_SESSION_TBL;
 	else $sql = 'select '.$ADODB_SESS_CONN->sysTimeStamp.' from '. $ADODB_SESSION_TBL;
 	
 	$rs =& $ADODB_SESS_CONN->SelectLimit($sql,1);
@@ -442,7 +442,7 @@ if (0) {
 	session_register('AVAR');
 	$_SESSION['AVAR'] += 1;
 	ADOConnection::outp( "
--- \$_SESSION['AVAR']={$_SESSION['AVAR']}</p>",false);
+-- $_SESSION['AVAR']={$_SESSION['AVAR']}</p>",false);
 }
 
 ?>

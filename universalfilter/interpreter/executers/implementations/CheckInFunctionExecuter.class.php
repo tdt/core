@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class CheckInFunctionExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class CheckInFunctionExecuter extends UnaryFunctionExecuter {
     
     private function constantsToString(){
         $arr = $this->filter->getConstants();

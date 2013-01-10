@@ -61,7 +61,7 @@ require_once( MAGPIE_EXTLIB . 'Snoopy.class.inc');
 */
 
 
-/*=======================================================================*\
+/*=======================================================================*
     Function: fetch_rss: 
     Purpose:  return RSS object for the give url
               maintain the cache
@@ -79,7 +79,7 @@ require_once( MAGPIE_EXTLIB . 'Snoopy.class.inc');
     NOTES ON FAILED REQUESTS:
     If there is an HTTP error while fetching an RSS object, the cached
     version will be return, if it exists (and if MAGPIE_CACHE_FRESH_ONLY is off)
-\*=======================================================================*/
+*=======================================================================*/
 
 define('MAGPIE_VERSION', '0.72');
 
@@ -189,7 +189,7 @@ function fetch_rss ($url) {
                 }
                 elseif ( $resp->error ) {
                     # compensate for Snoopy's annoying habbit to tacking
-                    # on '\n'
+                    # on 'n'
                     $http_error = substr($resp->error, 0, -2); 
                     $errormsg .= "(HTTP Error: $http_error)";
                 }
@@ -220,10 +220,10 @@ function fetch_rss ($url) {
     } // end if ( !MAGPIE_CACHE_ON ) {
 } // end fetch_rss()
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   error
     Purpose:    set MAGPIE_ERROR, and trigger error
-\*=======================================================================*/
+*=======================================================================*/
 
 function error ($errormsg, $lvl=E_USER_WARNING) {
         global $MAGPIE_ERROR;
@@ -243,10 +243,10 @@ function debug ($debugmsg, $lvl=E_USER_NOTICE) {
     trigger_error("MagpieRSS [debug] $debugmsg", $lvl);
 }
             
-/*=======================================================================*\
+/*=======================================================================*
     Function:   magpie_error
     Purpose:    accessor for the magpie error variable
-\*=======================================================================*/
+*=======================================================================*/
 function magpie_error ($errormsg="") {
     global $MAGPIE_ERROR;
     
@@ -257,13 +257,13 @@ function magpie_error ($errormsg="") {
     return $MAGPIE_ERROR;   
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   _fetch_remote_file
     Purpose:    retrieve an arbitrary remote file
     Input:      url of the remote file
                 headers to send along with the request (optional)
     Output:     an HTTP response object (see Snoopy.class.inc)  
-\*=======================================================================*/
+*=======================================================================*/
 function _fetch_remote_file ($url, $headers = "" ) {
     // Snoopy is an HTTP client in PHP
     $client = new Snoopy();
@@ -279,12 +279,12 @@ function _fetch_remote_file ($url, $headers = "" ) {
 
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   _response_to_rss
     Purpose:    parse an HTTP response object into an RSS object
     Input:      an HTTP response object (see Snoopy)
     Output:     parsed RSS object (see rss_parse)
-\*=======================================================================*/
+*=======================================================================*/
 function _response_to_rss ($resp) {
     $rss = new MagpieRSS( $resp->results, MAGPIE_OUTPUT_ENCODING, MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
     
@@ -325,11 +325,11 @@ function _response_to_rss ($resp) {
     } // end if ($rss and !$rss->error)
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   init
     Purpose:    setup constants with default values
                 check for user overrides
-\*=======================================================================*/
+*=======================================================================*/
 function init () {
     if ( defined('MAGPIE_INITALIZED') ) {
         return;
@@ -396,7 +396,7 @@ function init () {
 // NOTE: the following code should really be in Snoopy, or at least
 // somewhere other then rss_fetch!
 
-/*=======================================================================*\
+/*=======================================================================*
     HTTP STATUS CODE PREDICATES
     These functions attempt to classify an HTTP status code
     based on RFC 2616 and RFC 2518.
@@ -404,53 +404,53 @@ function init () {
     All of them take an HTTP status code as input, and return true or false
 
     All this code is adapted from LWP's HTTP::Status.
-\*=======================================================================*/
+*=======================================================================*/
 
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   is_info
     Purpose:    return true if Informational status code
-\*=======================================================================*/
+*=======================================================================*/
 function is_info ($sc) { 
     return $sc >= 100 && $sc < 200; 
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   is_success
     Purpose:    return true if Successful status code
-\*=======================================================================*/
+*=======================================================================*/
 function is_success ($sc) { 
     return $sc >= 200 && $sc < 300; 
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   is_redirect
     Purpose:    return true if Redirection status code
-\*=======================================================================*/
+*=======================================================================*/
 function is_redirect ($sc) { 
     return $sc >= 300 && $sc < 400; 
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   is_error
     Purpose:    return true if Error status code
-\*=======================================================================*/
+*=======================================================================*/
 function is_error ($sc) { 
     return $sc >= 400 && $sc < 600; 
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   is_client_error
     Purpose:    return true if Error status code, and its a client error
-\*=======================================================================*/
+*=======================================================================*/
 function is_client_error ($sc) { 
     return $sc >= 400 && $sc < 500; 
 }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   is_client_error
     Purpose:    return true if Error status code, and its a server error
-\*=======================================================================*/
+*=======================================================================*/
 function is_server_error ($sc) { 
     return $sc >= 500 && $sc < 600; 
 }

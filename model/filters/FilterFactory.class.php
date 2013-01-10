@@ -8,7 +8,7 @@
    * @author Jan Vansteenlandt
    */
 
-namespace tdt\core\model\filters;
+namespace filters;
 
 class FilterFactory{
     
@@ -20,7 +20,7 @@ class FilterFactory{
     
     public static function getInstance(){
 	if(!isset(self::$factory)){
-	    self::$factory = new tdt\core\model\filters\FilterFactory();
+	    self::$factory = new FilterFactory();
 	}
 	return self::$factory;
     }

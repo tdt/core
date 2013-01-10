@@ -223,7 +223,7 @@ class OntologyProcessor {
      * @access public
      */
     public function readPath($package, $path) {
-        $param = str_replace('/', '\/', $path) . '%';
+        $param = str_replace('/', '/', $path) . '%';
         $model = $this->getModel($package)->findWildcarded($param, null, null);
 
         $base_resource = new Resource($model->getBaseURI() . $path);

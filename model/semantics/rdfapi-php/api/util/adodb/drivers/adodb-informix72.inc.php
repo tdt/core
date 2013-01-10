@@ -141,7 +141,7 @@ class ADODB_informix72 extends ADOConnection {
 
 	function ErrorNo()
 	{
-		preg_match("/.*SQLCODE=([^\]]*)/",ifx_error(),$parse);
+		preg_match("/.*SQLCODE=(]]*)/",ifx_error(),$parse);
 		if (is_array($parse) && isset($parse[1])) return (int)$parse[1]; 
 		return 0;
 	}
@@ -302,7 +302,7 @@ class ADODB_informix72 extends ADOConnection {
 
 	  // In case of select statement, we use a scroll cursor in order
 	  // to be able to call "move", or "movefirst" statements
-	  if (!$ADODB_COUNTRECS && preg_match("/^\s*select/is", $sql)) {
+	  if (!$ADODB_COUNTRECS && preg_match("/s*select/is", $sql)) {
 		 if ($inputarr) {
 			$this->lastQuery = ifx_query($sql,$this->_connectionID, $this->cursorType, $tab);
 		 }

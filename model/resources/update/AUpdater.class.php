@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\update;
+namespace update;
 
 abstract class AUpdater {
 
@@ -30,7 +30,7 @@ abstract class AUpdater {
         foreach ($parameters as $key => $value) {
             //check whether this parameter is in the documented parameters
             if (!in_array($key,array_keys($this->getParameters()))) {
-                throw new tdt\framework\TDTException(452, array("Parameter: $key doesn't exist."));
+                throw new TDTException(452, array("Parameter: $key doesn't exist."));
             }
             $this->setParameter($key, $value);
         }

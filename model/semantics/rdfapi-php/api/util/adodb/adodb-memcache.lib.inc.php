@@ -30,13 +30,13 @@ $ADODB_INCLUDED_MEMCACHE = 1;
 
 		$memcache = new Memcache;
 		if (!@$memcache->pconnect($host, $port)) {
-			$err = 'Can\'t connect to memcache server on: '.$host.':'.$port;
+			$err = ''t connect to memcache server on: '.$host.':'.$port;
 			return $false;
 		}
 
 		$rs = $memcache->get($key);
 		if (!$rs) {
-			$err = 'Item with such key doesn\'t exists on the memcached server.';
+			$err = 'Item with such key 't exists on the memcached server.';
 			return $false;
 		}
 
@@ -69,19 +69,19 @@ $ADODB_INCLUDED_MEMCACHE = 1;
 		$true = true;
 
 		if (!function_exists('memcache_pconnect')) {
-			if ($debug) ADOConnection::outp(" Memcache module PECL extension not found!<br>\n");
+			if ($debug) ADOConnection::outp(" Memcache module PECL extension not found!<br>n");
 			return $false;
 		}
 
 		$memcache = new Memcache;
 		if (!@$memcache->pconnect($host, $port)) {
-			if ($debug) ADOConnection::outp(" Can't connect to memcache server on: $host:$port<br>\n");
+			if ($debug) ADOConnection::outp(" Can't connect to memcache server on: $host:$port<br>n");
 			return $false;
 		}
 
 		$rs->timeCreated = time();
 		if (!$memcache->set($key, $rs, $compress, 0)) {
-			if ($debug) ADOConnection::outp(" Failed to save data at the memcached server!<br>\n");
+			if ($debug) ADOConnection::outp(" Failed to save data at the memcached server!<br>n");
 			return $false;
 		}
 		return $true;
@@ -90,27 +90,27 @@ $ADODB_INCLUDED_MEMCACHE = 1;
 	function flushmemcache($key=false, $host, $port, $debug=false)
 	{
 		if (!function_exists('memcache_pconnect')) {
-			if ($debug) ADOConnection::outp(" Memcache module PECL extension not found!<br>\n");
+			if ($debug) ADOConnection::outp(" Memcache module PECL extension not found!<br>n");
 			return;
 		}
 
 		$memcache = new Memcache;
 		if (!@$memcache->pconnect($host, $port)) {
-			if ($debug) ADOConnection::outp(" Can't connect to memcache server on: $host:$port<br>\n");
+			if ($debug) ADOConnection::outp(" Can't connect to memcache server on: $host:$port<br>n");
 			return;
 		}
 
 		if ($key) {
 			if (!$memcache->delete($key)) {
-				if ($debug) ADOConnection::outp("CacheFlush: $key entery doesn't exist on memcached server!<br>\n");
+				if ($debug) ADOConnection::outp("CacheFlush: $key entery doesn't exist on memcached server!<br>n");
 			} else {
-				if ($debug) ADOConnection::outp("CacheFlush: $key entery flushed from memcached server!<br>\n");
+				if ($debug) ADOConnection::outp("CacheFlush: $key entery flushed from memcached server!<br>n");
 			}
 		} else {
 			if (!$memcache->flush()) {
-				if ($debug) ADOConnection::outp("CacheFlush: Failure flushing all enteries from memcached server!<br>\n");
+				if ($debug) ADOConnection::outp("CacheFlush: Failure flushing all enteries from memcached server!<br>n");
 			} else {
-				if ($debug) ADOConnection::outp("CacheFlush: All enteries flushed from memcached server!<br>\n");
+				if ($debug) ADOConnection::outp("CacheFlush: All enteries flushed from memcached server!<br>n");
 			}
 		}
 		return;

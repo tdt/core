@@ -9,10 +9,10 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
 /* upercase */
-class UnaryFunctionUppercaseExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionUppercaseExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "uppercase_".$name;
@@ -25,7 +25,7 @@ class UnaryFunctionUppercaseExecuter extends tdt\core\universalfilter\interprete
 }
 
 /* lowercase */
-class UnaryFunctionLowercaseExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionLowercaseExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "lowercase_".$name;
@@ -38,7 +38,7 @@ class UnaryFunctionLowercaseExecuter extends tdt\core\universalfilter\interprete
 }
 
 /* stringlength */
-class UnaryFunctionStringLengthExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionStringLengthExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "length_".$name;
@@ -51,7 +51,7 @@ class UnaryFunctionStringLengthExecuter extends tdt\core\universalfilter\interpr
 }
 
 /* round */
-class UnaryFunctionRoundExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionRoundExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "round_".$name;
@@ -64,7 +64,7 @@ class UnaryFunctionRoundExecuter extends tdt\core\universalfilter\interpreter\ex
 }
 
 /* isnull */
-class UnaryFunctionIsNullExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionIsNullExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "isnull_".$name;
@@ -76,7 +76,7 @@ class UnaryFunctionIsNullExecuter extends tdt\core\universalfilter\interpreter\e
 }
 
 /* not */
-class UnaryFunctionNotExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionNotExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "not_".$name;
@@ -89,7 +89,7 @@ class UnaryFunctionNotExecuter extends tdt\core\universalfilter\interpreter\exec
 }
 
 /* sin */
-class UnaryFunctionSinExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionSinExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "sin_".$name;
@@ -102,7 +102,7 @@ class UnaryFunctionSinExecuter extends tdt\core\universalfilter\interpreter\exec
 }
 
 /* cos */
-class UnaryFunctionCosExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionCosExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "cos_".$name;
@@ -115,7 +115,7 @@ class UnaryFunctionCosExecuter extends tdt\core\universalfilter\interpreter\exec
 }
 
 /* tan */
-class UnaryFunctionTanExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionTanExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "tan_".$name;
@@ -128,7 +128,7 @@ class UnaryFunctionTanExecuter extends tdt\core\universalfilter\interpreter\exec
 }
 
 /* asin */
-class UnaryFunctionAsinExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionAsinExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "asin_".$name;
@@ -141,7 +141,7 @@ class UnaryFunctionAsinExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* acos */
-class UnaryFunctionAcosExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionAcosExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "acos_".$name;
@@ -154,7 +154,7 @@ class UnaryFunctionAcosExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* atan */
-class UnaryFunctionAtanExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionAtanExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "atan_".$name;
@@ -167,7 +167,7 @@ class UnaryFunctionAtanExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* sqrt */
-class UnaryFunctionSqrtExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionSqrtExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "sqrt_".$name;
@@ -180,7 +180,7 @@ class UnaryFunctionSqrtExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* abs */
-class UnaryFunctionAbsExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionAbsExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "abs_".$name;
@@ -193,7 +193,7 @@ class UnaryFunctionAbsExecuter extends tdt\core\universalfilter\interpreter\exec
 }
 
 /* floor */
-class UnaryFunctionFloorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionFloorExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "floor_".$name;
@@ -206,7 +206,7 @@ class UnaryFunctionFloorExecuter extends tdt\core\universalfilter\interpreter\ex
 }
 
 /* ceil */
-class UnaryFunctionCeilExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionCeilExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "ceil_".$name;
@@ -219,7 +219,7 @@ class UnaryFunctionCeilExecuter extends tdt\core\universalfilter\interpreter\exe
 }
 
 /* exp */
-class UnaryFunctionExpExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionExpExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "exp_".$name;
@@ -232,7 +232,7 @@ class UnaryFunctionExpExecuter extends tdt\core\universalfilter\interpreter\exec
 }
 
 /* log */
-class UnaryFunctionLogExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionLogExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "log_".$name;
@@ -249,7 +249,7 @@ class UnaryFunctionLogExecuter extends tdt\core\universalfilter\interpreter\exec
  */
 
 /* datepart */
-class UnaryFunctionDatePartExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionDatePartExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "datepart_".$name;
@@ -257,14 +257,14 @@ class UnaryFunctionDatePartExecuter extends tdt\core\universalfilter\interpreter
     
     public function doUnaryFunction($value){
         if($value===null) return null;
-        $dateTime = tdt\core\universalfilter\interpreter\tools\ExecuterDateTimeTools::getDateTime($value, "datepart");
+        $dateTime = ExecuterDateTimeTools::getDateTime($value, "datepart");
         $dateOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYDATE));
-        return $dateOnlyDateTime->format(tdt\core\universalfilter\interpreter\UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
+        return $dateOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }
 }
 
 /* parse_datetime */
-class UnaryFunctionParseDateTimeExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter {
+class UnaryFunctionParseDateTimeExecuter extends UnaryFunctionExecuter {
     
     public function getName($name){
         return "parse_datetime_".$name;
@@ -273,7 +273,7 @@ class UnaryFunctionParseDateTimeExecuter extends tdt\core\universalfilter\interp
     public function doUnaryFunction($value){
         if($value===null) return null;
         $dateTime = new DateTime($value);
-        return $dateTime->format(tdt\core\universalfilter\interpreter\UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
+        return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }
 }
 ?>

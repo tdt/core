@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\strategies;
+namespace strategies;
 
-class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
+class DB extends ATabularData implements iFilter {
 
     //lowercase engine names
     private static $supportedEngines = array("mysql");
@@ -113,10 +113,10 @@ class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                 } elseif (isset($arrayOfRowObjects[$rowobject->$PK])) {
                     // this means the primary key wasn't unique !
-                    tdt\framework\Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " isn't unique.");
+                    Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " isn't unique.");
                 } else {
                     // this means the primary key field was empty, log the problem and continue 
-                    tdt\framework\Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " is empty.");
+                    Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " is empty.");
                 }
             }
         }
@@ -130,7 +130,7 @@ class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
          * existing ones in the database, if not get the columns from the datatable 
          */
         if (!isset($this->username)) {
-            throw new tdt\framework\TDTException(452, array("You have to pass along a username for your database resource configuration."));
+            throw new TDTException(452, array("You have to pass along a username for your database resource configuration."));
         }
 
         if (!isset($this->password)) {
@@ -138,7 +138,7 @@ class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
         }
 
         if (!isset($this->location)) {
-            throw new tdt\framework\TDTException(452, array("You have to pass along the location of the database of which you want to open up a table."));
+            throw new TDTException(452, array("You have to pass along the location of the database of which you want to open up a table."));
         }
 
         if (!isset($this->column_aliases)) {
@@ -149,19 +149,19 @@ class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
          * Check if there is a ";" passed in the table parameter, if so give back an error
          */
         if (strpos($this->db_table, ";") != FALSE) {
-            throw new tdt\framework\TDTException(452, array("Your database table has a semi-colon in it, this is not allowed!"));
+            throw new TDTException(452, array("Your database table has a semi-colon in it, this is not allowed!"));
         }
 
         /**
          * validate according to the db engine
          */
         if (!isset($this->db_type)) {
-            throw new tdt\framework\TDTException(452, array("The database engine i.e. MySQL."));
+            throw new TDTException(452, array("The database engine i.e. MySQL."));
         } else {
             // check if the db_type is supported
             $this->db_type = strtolower($this->db_type);
             if (!in_array($this->db_type, DB::$supportedEngines)) {
-                throw new tdt\framework\TDTException(452, array("Your database engine, $this->db_type, is not supported."));
+                throw new TDTException(452, array("Your database engine, $this->db_type, is not supported."));
             }
         }
 
@@ -169,7 +169,7 @@ class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
          * Check if a database name is given
          */
         if (!isset($this->db_name)) {
-            throw new tdt\framework\TDTException(452, array("Passing a database name, parameter db_name, is required!"));
+            throw new TDTException(452, array("Passing a database name, parameter db_name, is required!"));
         }
 
         /**
@@ -209,14 +209,14 @@ class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
             foreach ($this->columns as $column_key => $column_value) {
                 if (!in_array($column_value, $table_columns)) {
                     //throw error
-                    throw new tdt\framework\TDTException(452, array("The supplied column, $column_value, does not exist."));
+                    throw new TDTException(452, array("The supplied column, $column_value, does not exist."));
                 }
             }
             // make the columns as columnname => columnname
             // then in the second foreach put the aliases in the columns array (which technically is a hash)
             foreach ($table_columns as $index => $column) {
                 if (!is_numeric($index)) {
-                    throw new tdt\framework\TDTException(452, array("The index $index is not numeric in the columns array!"));
+                    throw new TDTException(452, array("The index $index is not numeric in the columns array!"));
                 }
             }
         }
@@ -260,7 +260,7 @@ class DB extends ATabularData implements tdt\core\mode\resources\read\iFilter {
          * Thus we ask for the QueryTreeHandler for the clauses up untill select.
          */
 
-        $queryHandler = new tdt\core\universalfilter\interpreter\other\QueryTreeHandler($query);
+        $queryHandler = new QueryTreeHandler($query);
         $converter = $queryHandler->getSqlConverter();
 
         $queryNode = $queryHandler->getNodeForClause("select");

@@ -345,7 +345,7 @@ FROM `nuke_stories` `t1`, `nuke_authors` `t2`, `nuke_stories_cat` `t3`, `nuke_to
 	case 'postgres64':
 	case 'postgres':
 	case 'ibase':
-		print "<p>Encode=".$db->BlobEncode("abc\0d\"'
+		print "<p>Encode=".$db->BlobEncode("0"'
 ef")."</p>";//'
 
 		print "<p>Testing Foreign Keys</p>";
@@ -1302,25 +1302,25 @@ END Adodb;
 		if (ADORecordSet::UnixDate(date('Y-m-d')) != $rs->UnixDate($rs->fields[0])) {
 			print "<p><b>Invalid date {$rs->fields[0]}</b></p>";
 		} else
-			print "<p>Passed \$sysDate test ({$rs->fields[0]})</p>";
+			print "<p>Passed $sysDate test ({$rs->fields[0]})</p>";
 		
 		print_r($rs->FetchField(0));
 		print time();
 		$db->debug=$saved;
 	} else {
-		print "<p><b>\$db->sysDate not defined</b></p>";
+		print "<p><b>$db->sysDate not defined</b></p>";
 	}
 
 	print "<p>Test CSV</p>";
 	include_once('../toexport.inc.php');
 	//$ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
-	$rs = $db->SelectLimit('select id,firstname,lastname,created,\'He, he\' he,\'"\' q  from ADOXYZ',10);	
+	$rs = $db->SelectLimit('select id,firstname,lastname,created,'He, ' he,'"' q  from ADOXYZ',10);	
 	
 	print "<pre>";
 	print rs2csv($rs);
 	print "</pre>";
 	
-	$rs = $db->SelectLimit('select id,firstname,lastname,created,\'The	"young man", he said\' from ADOXYZ',10);	
+	$rs = $db->SelectLimit('select id,firstname,lastname,created,'The	"young man", he ' from ADOXYZ',10);	
 	
 	if (PHP_VERSION < 5) {
 		print "<pre>";
@@ -1330,7 +1330,7 @@ END Adodb;
 	print " CacheFlush ";
 	$db->CacheFlush();
 	
-	$date = $db->SQLDate('d-m-M-Y-\QQ h:i:s A');
+	$date = $db->SQLDate('d-m-M-Y-QQ h:i:s A');
 	$sql = "SELECT $date from ADOXYZ";
 	print "<p>Test SQLDate: ".htmlspecialchars($sql)."</p>";
 	$rs = $db->SelectLimit($sql,1);
@@ -1338,7 +1338,7 @@ END Adodb;
 	if (!$rs) Err("SQLDate query returned no recordset");
 	else if ($d != $rs->fields[0]) Err("SQLDate 1 failed expected: <br>act:$d <br>sql:".$rs->fields[0]);
 	
-	$date = $db->SQLDate('d-m-M-Y-\QQ h:i:s A',$db->DBDate("1974-02-25"));
+	$date = $db->SQLDate('d-m-M-Y-QQ h:i:s A',$db->DBDate("1974-02-25"));
 	$sql = "SELECT $date from ADOXYZ";
 	print "<p>Test SQLDate: ".htmlspecialchars($sql)."</p>";
 	$db->debug=1;
@@ -1508,13 +1508,13 @@ END Adodb;
 	$date = $rs->fields[0];
 	if (!$date) Err("Bad sysTimeStamp");
 	else {
-		$ds = $db->UserTimeStamp($date,"H \\h\\r\\s-d m Y");
-		if ($ds != date("H \\h\\r\\s-d m Y")) Err("Bad UserTimeStamp: ".$ds.", correct is ".date("H \\h\\r\\s-d m Y"));
+		$ds = $db->UserTimeStamp($date,"H s-d m Y");
+		if ($ds != date("H s-d m Y")) Err("Bad UserTimeStamp: ".$ds.", correct is ".date("H s-d m Y"));
 		else echo "Passed UserTimeStamp: $ds<p>";
 		
 		$date = 100;
-		$ds = $db->UserTimeStamp($date,"H \\h\\r\\s-d m Y");
-		$ds2 = date("H \\h\\r\\s-d m Y",$date);
+		$ds = $db->UserTimeStamp($date,"H s-d m Y");
+		$ds2 = date("H s-d m Y",$date);
 		if ($ds != $ds2) Err("Bad UserTimeStamp 2: $ds: $ds2");
 		else echo "Passed UserTimeStamp 2: $ds<p>";
 	}
@@ -1630,8 +1630,8 @@ END Adodb;
 	
 	global $nocountrecs;
 	
-	if (isset($nocountrecs) && $ADODB_COUNTRECS) err("Error: \$ADODB_COUNTRECS is set");
-	if (empty($nocountrecs) && $ADODB_COUNTRECS==false) err("Error: \$ADODB_COUNTRECS is not set");
+	if (isset($nocountrecs) && $ADODB_COUNTRECS) err("Error: $ADODB_COUNTRECS is set");
+	if (empty($nocountrecs) && $ADODB_COUNTRECS==false) err("Error: $ADODB_COUNTRECS is not set");
 
 	flush();
 ?>

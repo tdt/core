@@ -39,7 +39,7 @@
 	
 	//$hidecnt = false;
 	
- 	if ($where) $where = "\nWHERE $where";
+ 	if ($where) $where = "nWHERE $where";
 	if (!is_array($colfield)) $colarr = $db->GetCol("select distinct $colfield from $tables $where order by 1");
 	if (!$aggfield) $hidecnt = false;
 	
@@ -49,15 +49,15 @@
 			$k = trim($k);
 			if (!$hidecnt) {
 				$sel .= $iif ? 
-					"\n\t$aggfn(IIF($v,1,0)) AS \"$k\", "
+					"t$aggfn(IIF($v,1,0)) AS "$", "
 					:
-					"\n\t$aggfn(CASE WHEN $v THEN 1 ELSE 0 END) AS \"$k\", ";
+					"t$aggfn(CASE WHEN $v THEN 1 ELSE 0 END) AS "$", ";
 			}
 			if ($aggfield) {
 				$sel .= $iif ?
-					"\n\t$aggfn(IIF($v,$aggfield,0)) AS \"$sumlabel$k\", "
+					"t$aggfn(IIF($v,$aggfield,0)) AS "$sumlabel$", "
 					:
-					"\n\t$aggfn(CASE WHEN $v THEN $aggfield ELSE 0 END) AS \"$sumlabel$k\", ";
+					"t$aggfn(CASE WHEN $v THEN $aggfield ELSE 0 END) AS "$sumlabel$", ";
 			}
 		} 
 	} else {
@@ -68,35 +68,35 @@
 			if (strlen($v) == 0	) $v = 'null';
 			if (!$hidecnt) {
 				$sel .= $iif ?
-					"\n\t$aggfn(IIF($colfield=$vq,1,0)) AS \"$v\", "
+					"t$aggfn(IIF($colfield=$vq,1,0)) AS "$", "
 					:
-					"\n\t$aggfn(CASE WHEN $colfield=$vq THEN 1 ELSE 0 END) AS \"$v\", ";
+					"t$aggfn(CASE WHEN $colfield=$vq THEN 1 ELSE 0 END) AS "$", ";
 			}
 			if ($aggfield) {
 				if ($hidecnt) $label = $v;
 				else $label = "{$v}_$aggfield";
 				$sel .= $iif ?
-					"\n\t$aggfn(IIF($colfield=$vq,$aggfield,0)) AS \"$label\", "
+					"t$aggfn(IIF($colfield=$vq,$aggfield,0)) AS "$", "
 					:
-					"\n\t$aggfn(CASE WHEN $colfield=$vq THEN $aggfield ELSE 0 END) AS \"$label\", ";
+					"t$aggfn(CASE WHEN $colfield=$vq THEN $aggfield ELSE 0 END) AS "$", ";
 			}
 		}
 	}
 	if ($aggfield && $aggfield != '1'){
 		$agg = "$aggfn($aggfield)";
-		$sel .= "\n\t$agg as \"$sumlabel$aggfield\", ";		
+		$sel .= "t$agg as "$sumlabel$", ";		
 	}
 	
 	if ($showcount)
-		$sel .= "\n\tSUM(1) as Total";
+		$sel .= "tSUM(1) as Total";
 	else
 		$sel = substr($sel,0,strlen($sel)-2);
 	
 	
 	// Strip aliases
-	$rowfields = preg_replace('/ AS (\w+)/i', '', $rowfields);
+	$rowfields = preg_replace('/ AS (w+)/i', '', $rowfields);
 	
-	$sql = "SELECT $sel \nFROM $tables $where \nGROUP BY $rowfields";
+	$sql = "SELECT $sel nFROM $tables $where nGROUP BY $rowfields";
 	
 	return $sql;
  }

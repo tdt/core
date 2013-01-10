@@ -104,17 +104,17 @@ class SparqlEngineDb_ResultRenderer_XML implements SparqlEngineDb_ResultRenderer
 <sparql xmlns="http://www.w3.org/2005/sparql-results#">
 
 EOT
-            . $strCode . "\n"
-            . "</sparql>\n";
+            . $strCode . "n"
+            . "</sparql>n";
     }//protected function wrapCode($strCode)
 
 
 
     protected function getHead($strXml = '')
     {
-        return "  <head>\n"
+        return "  <head>n"
             . $strXml
-            . "  </head>\n";
+            . "  </head>n";
     }//protected function getHead($strXml = '')
 
 
@@ -129,7 +129,7 @@ EOT
 		
         $strVarXML = '';
         foreach ($arResultVars as $var) {
-        	$strVarXML .= "    <variable name=\"" . substr((string)$var,1) . "\"/>\n";
+        	$strVarXML .= "    <variable name="" . substr((string)$var,1) . ""/>n";
         }
         
         $strHeadXml = $this->getHead($strVarXML);
@@ -146,9 +146,9 @@ EOT
                 	. self::getSpokenBoolean($arSM['order by'] !== null)
 					. '" distinct="'
                 	. self::getSpokenBoolean($strResultForm == 'select distinct')
-                	. '">' . "\n"
+                	. '">' . "n"
             		. '    <!-- empty result -->' . PHP_EOL 
-            		. "  </results>\n";
+            		. "  </results>n";
             }
 
             foreach ($dbRecordSet as $row) {
@@ -177,9 +177,9 @@ EOT
                 . self::getSpokenBoolean($arSM['order by'] !== null)
                 . '" distinct="'
                 . self::getSpokenBoolean($strResultForm == 'select distinct')
-                . '">' . "\n"
+                . '">' . "n"
             . $this->getResultXml($arResult)
-            . "  </results>\n";
+            . "  </results>n";
     }//protected function createFromRecords($arRecordSets)
 
 
@@ -188,15 +188,15 @@ EOT
     {
         $strCode = '';
         foreach ($arResult as $arSet) {
-            $strCode .= "    <result>\n";
+            $strCode .= "    <result>n";
             foreach ($arSet as $strVarName => $strValue) {
                 if ($strValue !== null) {
                     $strCode .= '      <binding name="' . substr($strVarName,1) . '">'
                         . $strValue
-                        . "</binding>\n";
+                        . "</binding>n";
                 }
             }
-            $strCode .= "    </result>\n";
+            $strCode .= "    </result>n";
         }
         return $strCode;
     }//protected function getResultXml($arResult)

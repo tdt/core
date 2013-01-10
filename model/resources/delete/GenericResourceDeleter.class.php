@@ -8,30 +8,30 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\delete;
+namespace delete;
 
-class GenericResourceDeleter extends tdt\core\model\resources\delete\ADeleter{
+class GenericResourceDeleter extends ADeleter{
 
     /**
      * execution method
      */
     public function delete(){
 
-        $resource = new tdt\core\model\resources\GenericResource($this->package,$this->resource);
+        $resource = new GenericResource($this->package,$this->resource);
         $strategy = $resource->getStrategy();
         $strategy->onDelete($this->package,$this->resource);
             
         // delete any published columns entry
-        tdt\core\model\DBQueries::deletePublishedColumns($this->package,$this->resource);
+        DBQueries::deletePublishedColumns($this->package,$this->resource);
         
         // delete metadata about the resource
-        tdt\core\model\DBQueries::deleteMetaData($this->package,$this->resource);
+        DBQueries::deleteMetaData($this->package,$this->resource);
 
         //now the only thing left to delete is the main row
-       tdt\core\model\DBQueries::deleteGenericResource($this->package, $this->resource);
+       DBQueries::deleteGenericResource($this->package, $this->resource);
 
         // also delete the resource entry
-        tdt\core\model\DBQueries::deleteResource($this->package,$this->resource);
+        DBQueries::deleteResource($this->package,$this->resource);
 
     }
 }

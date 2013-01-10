@@ -9,7 +9,7 @@
 // ADOdb  - Database Abstraction Library for PHP                         //
 //          http://adodb.sourceforge.net/                                //
 //                                                                       //
-// Copyright (C) 2000-2007 John Lim (jlim\@natsoft.com.my)               //
+// Copyright (C) 2000-2007 John Lim (@natsoft.com.my)               //
 //          All rights reserved.                                         //
 //          Released under both BSD license and LGPL library license.    //
 //          Whenever there is any discrepancy between the two licenses,  //
@@ -93,7 +93,7 @@ class ADODB_mssql_n extends ADODB_mssql {
 
     /// Check we haven't any backslash + single quote combination. It should mean wrong
     /// backslashes use (bad magic_quotes_sybase?). Exit with debug info.
-        $regexp = '/(\\\\' . SINGLEQUOTE . '[^' . SINGLEQUOTE . '])/';
+        $regexp = '/(' . SINGLEQUOTE . '[^' . SINGLEQUOTE . '])/';
         if (preg_match($regexp, $sql)) {
             if ($this->debug) {
                 ADOConnection::outp("{$this->databaseType} internal transformation: not converted. Found bad use of backslash + single quote");

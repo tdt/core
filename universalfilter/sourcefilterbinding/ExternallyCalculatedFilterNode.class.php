@@ -9,12 +9,12 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\sourcefilterbinding;
+namespace sourcefilterbinding;
 
-class ExternallyCalculatedFilterNode extends tdt\core\universalfilter\NormalFilterNode {
+class ExternallyCalculatedFilterNode extends NormalFilterNode {
     private $table;
     
-    public function __construct(tdt\core\universalfilter\data\UniversalFilterTable $table, tdt\core\universalfilter\data\UniversalFilterNode $implementedFilter) {
+    public function __construct(UniversalFilterTable $table, UniversalFilterNode $implementedFilter) {
         parent::__construct("EXTERNALLY_CALCULATED_NODE");
         $this->table=$table;
         if($implementedFilter!=null) $this->setSource ($implementedFilter);

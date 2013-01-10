@@ -8,9 +8,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\packages\TDTAdmin;
+namespace TDTAdmin;
 
-class TDTAdminExport extends tdt\core\model\resources\read\AReader{
+class TDTAdminExport extends AReader{
     
 
     private $descriptionDoc;
@@ -30,7 +30,7 @@ class TDTAdminExport extends tdt\core\model\resources\read\AReader{
     }
 
     public function read(){
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
 
 
         /**
@@ -83,7 +83,7 @@ class TDTAdminExport extends tdt\core\model\resources\read\AReader{
                     }   
                 }
             }else{
-                throw new tdt\framework\TDTException(452,array($this->export_package ." not found"));
+                throw new TDTException(452,array($this->export_package ." not found"));
             }
         }else{
             if($model->hasResource($this->export_package, $this->export_resource)){
@@ -93,7 +93,7 @@ class TDTAdminExport extends tdt\core\model\resources\read\AReader{
                     array_push($resources[$this->export_package],$resourceObject);
                 }
             }else{
-                throw new tdt\framework\TDTException(452,array($this->export_package . "/" . $this->export_resource . " not found."));
+                throw new TDTException(452,array($this->export_package . "/" . $this->export_resource . " not found."));
             }
         }
 
@@ -136,7 +136,7 @@ class TDTAdminExport extends tdt\core\model\resources\read\AReader{
                         unset($resourceDefinition[$key]);
                     }
                 }
-                // make sure the string comes out well in the response strings contain \t's and \n's
+                // make sure the string comes out well in the response strings contain t's and n's
                 header("Content-Type: text/plain");
                 $dump = $this->createDump($package,$resourceObject->resourcename,$resourceDefinition);
                 array_push($resourceDumps, $dump);
@@ -218,7 +218,7 @@ class TDTAdminExport extends tdt\core\model\resources\read\AReader{
                 $dump.= ')';
             }
             if($count != count($resourceDefinition)){
-                $dump.= ",\n\t\t";
+                $dump.= ",t";
             }
         }
         
@@ -229,16 +229,16 @@ class TDTAdminExport extends tdt\core\model\resources\read\AReader{
     $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	 echo "The addition of the resource definition ". $url . " has ";	
 	 if(strlen(strstr($responseHeader,"200"))>0){
-    	echo "succeeded!\n";
+    	echo "succeeded!n";
     }else{
-    	echo "failed!\n";
+    	echo "failed!n";
     }
 	 echo $result;
-    echo "\n ============================================= \n";
+    echo "n ============================================= n";
     curl_close($ch);  
 ?>';
 
-        $dump.= "\n\n";
+        $dump.= "n";
         return $dump;
     }
 }

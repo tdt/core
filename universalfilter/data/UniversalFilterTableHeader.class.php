@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\data;
+namespace data;
 
 class UniversalFilterTableHeader {
     private $columns;//array of UniversalFilterTableHeaderColumnInfo
@@ -48,7 +48,7 @@ class UniversalFilterTableHeader {
                     $found=true;
                     $id = $column->getId();
                 }else{
-                    throw new tdt\framework\TDTException(500,array("That identifier is not unique \"".$columnName."\". Please be more specific."));
+                    throw new TDTException(500,array("That identifier is not unique "".$columnName."". Please be more specific."));
                 }
             }
         }
@@ -106,7 +106,7 @@ class UniversalFilterTableHeader {
                 return $column;
             }
         }
-        throw new tdt\framework\TDTException(500,array("TableHeader - ColumnInformation not found for id: \"".$id."\""));
+        throw new TDTException(500,array("TableHeader - ColumnInformation not found for id: "".$id."""));
     }
     
     /**
@@ -150,7 +150,7 @@ class UniversalFilterTableHeader {
      */
     public function getColumnId(){
         if(!$this->isSingleColumnByConstruction()){
-            throw new tdt\framework\TDTException(500,array("TableHeader - Not a single column."));
+            throw new TDTException(500,array("TableHeader - Not a single column."));
         }
         return $this->getColumnIdByIndex(0);
     }
@@ -160,7 +160,7 @@ class UniversalFilterTableHeader {
      */
     public function checkCell(){
         if(!$this->isSingleCellByConstruction()){
-            throw new tdt\framework\TDTException(500,array("TableHeader - Not a single value"));
+            throw new TDTException(500,array("TableHeader - Not a single value"));
         }
     }
     

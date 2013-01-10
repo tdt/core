@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\delete;
+namespace delete;
 
 abstract class ADeleter{
     

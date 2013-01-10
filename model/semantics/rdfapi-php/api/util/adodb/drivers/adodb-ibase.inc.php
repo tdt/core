@@ -37,9 +37,9 @@ class ADODB_ibase extends ADOConnection {
 	var $fmtTimeStamp = "'Y-m-d, H:i:s'";
 	var $concat_operator='||';
 	var $_transactionID;
-	var $metaTablesSQL = "select rdb\$relation_name from rdb\$relations where rdb\$relation_name not like 'RDB\$%'";
+	var $metaTablesSQL = "select $relation_name from $relations where $relation_name not like '$%'";
 	//OPN STUFF start
-	var $metaColumnsSQL = "select a.rdb\$field_name, a.rdb\$null_flag, a.rdb\$default_source, b.rdb\$field_length, b.rdb\$field_scale, b.rdb\$field_sub_type, b.rdb\$field_precision, b.rdb\$field_type from rdb\$relation_fields a, rdb\$fields b where a.rdb\$field_source = b.rdb\$field_name and a.rdb\$relation_name = '%s' order by a.rdb\$field_position asc";
+	var $metaColumnsSQL = "select a.$field_name, a.$null_flag, a.$default_source, b.$field_length, b.$field_scale, b.$field_sub_type, b.$field_precision, b.$field_type from $relation_fields a, $fields b where a.$field_source = b.$field_name and a.$relation_name = '%s' order by a.$field_position asc";
 	//OPN STUFF end
 	var $ibasetrans;
 	var $hasGenID = true;
@@ -110,7 +110,7 @@ class ADODB_ibase extends ADOConnection {
 		
 		$sql = 'SELECT S.RDB$FIELD_NAME AFIELDNAME
 	FROM RDB$INDICES I JOIN RDB$INDEX_SEGMENTS S ON I.RDB$INDEX_NAME=S.RDB$INDEX_NAME  
-	WHERE I.RDB$RELATION_NAME=\''.$table.'\' and I.RDB$INDEX_NAME like \'RDB$PRIMARY%\'
+	WHERE I.RDB$RELATION_NAME=''.$table.'' and I.RDB$INDEX_NAME like 'RDB$PRIMARY%'
 	ORDER BY I.RDB$INDEX_NAME,S.RDB$FIELD_POSITION';
 
 		$a = $this->GetCol($sql,false,true);
@@ -198,11 +198,11 @@ class ADODB_ibase extends ADOConnection {
                $savem = $this->SetFetchMode(FALSE);
         }
         $table = strtoupper($table);
-        $sql = "SELECT * FROM RDB\$INDICES WHERE RDB\$RELATION_NAME = '".$table."'";
+        $sql = "SELECT * FROM $INDICES WHERE $RELATION_NAME = '".$table."'";
         if (!$primary) {
-        	$sql .= " AND RDB\$INDEX_NAME NOT LIKE 'RDB\$%'";
+        	$sql .= " AND $INDEX_NAME NOT LIKE '$%'";
         } else {
-        	$sql .= " AND RDB\$INDEX_NAME NOT LIKE 'RDB\$FOREIGN%'";
+        	$sql .= " AND $INDEX_NAME NOT LIKE '$FOREIGN%'";
         }
         // get index details
         $rs = $this->Execute($sql);
@@ -225,7 +225,7 @@ class ADODB_ibase extends ADOConnection {
                              'columns' => array()
                      );
              }
-			$sql = "SELECT * FROM RDB\$INDEX_SEGMENTS WHERE RDB\$INDEX_NAME = '".$index."' ORDER BY RDB\$FIELD_POSITION ASC";
+			$sql = "SELECT * FROM $INDEX_SEGMENTS WHERE $INDEX_NAME = '".$index."' ORDER BY $FIELD_POSITION ASC";
 			$rs1 = $this->Execute($sql);
             while ($row1 = $rs1->FetchRow()) {
              	$indexes[$index]['columns'][$row1[2]] = $row1[1];
@@ -252,7 +252,7 @@ class ADODB_ibase extends ADOConnection {
 	
 	function CreateSequence($seqname,$startID=1)
 	{
-		$ok = $this->Execute(("INSERT INTO RDB\$GENERATORS (RDB\$GENERATOR_NAME) VALUES (UPPER('$seqname'))" ));
+		$ok = $this->Execute(("INSERT INTO $GENERATORS ($GENERATOR_NAME) VALUES (UPPER('$seqname'))" ));
 		if (!$ok) return false;
 		return $this->Execute("SET GENERATOR $seqname TO ".($startID-1).';');
 	}
@@ -260,15 +260,15 @@ class ADODB_ibase extends ADOConnection {
 	function DropSequence($seqname)
 	{
 		$seqname = strtoupper($seqname);
-		$this->Execute("delete from RDB\$GENERATORS where RDB\$GENERATOR_NAME='$seqname'");
+		$this->Execute("delete from $GENERATORS where $GENERATOR_NAME='$seqname'");
 	}
 	
 	function GenID($seqname='adodbseq',$startID=1)
 	{
-		$getnext = ("SELECT Gen_ID($seqname,1) FROM RDB\$DATABASE");
+		$getnext = ("SELECT Gen_ID($seqname,1) FROM $DATABASE");
 		$rs = @$this->Execute($getnext);
 		if (!$rs) {
-			$this->Execute(("INSERT INTO RDB\$GENERATORS (RDB\$GENERATOR_NAME) VALUES (UPPER('$seqname'))" ));
+			$this->Execute(("INSERT INTO $GENERATORS ($GENERATOR_NAME) VALUES (UPPER('$seqname'))" ));
 			$this->Execute("SET GENERATOR $seqname TO ".($startID-1).';');
 			$rs = $this->Execute($getnext);
 		}
@@ -292,7 +292,7 @@ class ADODB_ibase extends ADOConnection {
 
 	function ErrorNo() 
 	{
-		if (preg_match('/error code = ([\-0-9]*)/i', $this->_errorMsg,$arr)) return (integer) $arr[1];
+		if (preg_match('/error code = (-0-9]*)/i', $this->_errorMsg,$arr)) return (integer) $arr[1];
 		else return 0;
 	}
 
@@ -707,7 +707,7 @@ class ADODB_ibase extends ADOConnection {
 			  break;        
 
 			default:
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}

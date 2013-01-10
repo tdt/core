@@ -10,7 +10,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\data;
+namespace data;
 
 class UniversalFilterTable {
     private $header;
@@ -46,7 +46,7 @@ class UniversalFilterTable {
      * sets the header of this table
      * @param UniversalFilterTableHeader $header 
      */
-    public function setHeader(tdt\core\universalfilter\data\UniversalFilterTableHeader $header){
+    public function setHeader(UniversalFilterTableHeader $header){
         $this->header = $header;
     }
     
@@ -54,7 +54,7 @@ class UniversalFilterTable {
      * sets the content of this table
      * @param UniversalFilterTableContent $content 
      */
-    public function setContent(tdt\core\universalfilter\data\UniversalFilterTableContent $content){
+    public function setContent(UniversalFilterTableContent $content){
         $this->content = $content;
     }
 }

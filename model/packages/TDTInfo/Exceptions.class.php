@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\packages\TDTInfo;
+namespace TDTInfo;
 
-class TDTInfoExceptions extends tdt\core\model\resources\read\AReader {
+class TDTInfoExceptions extends AReader {
 
     public static function getParameters() {
         return array();

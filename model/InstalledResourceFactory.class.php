@@ -8,9 +8,9 @@
  * @author Jan Vansteenlandt <jan a t iRail.be>
  */
 
-namespace tdt\core\model;
+namespace model;
 
-class InstalledResourceFactory extends  tdt\core\model\AResourceFactory{
+class InstalledResourceFactory extends  AResourceFactory{
     
     public function __construct() {
         /*AutoInclude::register("InstalledResourceCreator","cores/core/model/resources/create/InstalledResourceCreator.class.php");
@@ -18,7 +18,7 @@ class InstalledResourceFactory extends  tdt\core\model\AResourceFactory{
     }
     
     public function createCreator($package,$resource, $parameters, $RESTparameters){
-        $creator = new  tdt\core\model\resources\create\InstalledResourceCreator($package,$resource, $RESTparameters);
+        $creator = new  InstalledResourceCreator($package,$resource, $RESTparameters);
         foreach($parameters as $key => $value){
             $creator->setParameter($key,$value);
         }
@@ -37,18 +37,18 @@ class InstalledResourceFactory extends  tdt\core\model\AResourceFactory{
             $reader->processParameters($parameters);
             return $reader;
         }else{
-            throw new tdt\framework\TDTException(404,array("custom/packages/".$location));
+            throw new TDTException(404,array("custom/packages/".$location));
         }
     }
 
     public function hasResource($package,$resource){
-        $resource = tdt\core\model\DBQueries::hasInstalledResource($package, $resource);
+        $resource = DBQueries::hasInstalledResource($package, $resource);
         return isset($resource["present"]) && $resource["present"] >= 1;   
     }
     
 
     public function createDeleter($package,$resource, $RESTparameters){        
-        $deleter = new  tdt\core\model\resources\delete\InstalledResourceDeleter($package,$resource, $RESTparameters);
+        $deleter = new  InstalledResourceDeleter($package,$resource, $RESTparameters);
         return $deleter;
     }
 
@@ -62,7 +62,7 @@ class InstalledResourceFactory extends  tdt\core\model\AResourceFactory{
 
             foreach($resourcenames as $resourcename){
                 
-                $example_uri = tdt\core\model\DBQueries::getExampleUri($package,$resourcename);
+                $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 $location = $this->getLocationOfResource($package,$resourcename);
                 
                 // file can always have been removed after adding it as a published resource
@@ -91,7 +91,7 @@ class InstalledResourceFactory extends  tdt\core\model\AResourceFactory{
 
             foreach($resourcenames as $resourcename){
                 
-                $example_uri = tdt\core\model\DBQueries::getExampleUri($package,$resourcename);
+                $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 $location = $this->getLocationOfResource($package,$resourcename);
                 
                 // file can always have been removed after adding it as a published resource
@@ -133,7 +133,7 @@ class InstalledResourceFactory extends  tdt\core\model\AResourceFactory{
          * Get all the physical locations of published installed resources
          */
         $resources = array();
-        $installedResources = tdt\core\model\DBQueries::getAllInstalledResources();
+        $installedResources = DBQueries::getAllInstalledResources();
         foreach($installedResources as $installedResource){
             if(!array_key_exists($installedResource["package"],$resources)){
                 $resources[$installedResource["package"]] = array();
@@ -171,7 +171,7 @@ class InstalledResourceFactory extends  tdt\core\model\AResourceFactory{
     public function makeCreateDoc($doc){
 
         $d = new StdClass();
-        $installedResource = new  tdt\core\model\resources\create\InstalledResourceCreator("","",array());
+        $installedResource = new  InstalledResourceCreator("","",array());
         $d->doc = "You can PUT an installed resource when you have created a resource-class in the custom/packages folder.";
         $d->parameters = $installedResource->documentParameters();
         $d->requiredparameters = $installedResource->documentRequiredParameters();

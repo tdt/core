@@ -8,12 +8,13 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-namespace tdt\core\formatters;
+namespace formatters;
+
 
 /**
  * This class inherits from the abstract Formatter. It will return our object in a php datastrucutre.
  */
-class PhpFormatter extends tdt\core\formatters\AFormatter{
+class PhpFormatter extends AFormatter{
      
      public function __construct($rootname,$objectToPrint){
 	  parent::__construct($rootname,$objectToPrint);

@@ -11,10 +11,11 @@
  * @author Miel Vander Sande 
  */
 namespace tdt\core\formatters;
+
 /**
  * This class inherits from the abstract Formatter. It will generate a html table
  */
-class HtmlFormatter extends tdt\core\formatters\AFormatter {
+class HtmlFormatter extends AFormatter {
 
 	private $thead;
 	private $tbody;
@@ -64,7 +65,7 @@ private function getUrl($type) {
 }
 
 private function displayTree($var) {
-     $newline = "\n";
+     $newline = "n";
      $output ="";
      foreach($var as $key => $value) {
          if (is_array($value) || is_object($value)) {

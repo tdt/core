@@ -116,7 +116,7 @@ class SparqlEngineDb
     public function queryModel($dataset, Query $query, $resultform = false)
     {
         if (isset($GLOBALS['debugSparql']) && $GLOBALS['debugSparql']) {
-            echo "\n" . 'SPARQL query: ' . $query->getQueryString() . "\n";
+            echo "n" . 'SPARQL query: ' . $query->getQueryString() . "n";
         }
 
         $this->query   = $query;
@@ -320,7 +320,7 @@ class SparqlEngineDb
         $oldmode = $this->dbConn->SetFetchMode(ADODB_FETCH_ASSOC);
 
         if (isset($GLOBALS['debugSparql']) && $GLOBALS['debugSparql']) {
-            echo 'SQL query: ' . $strSql . "\n";
+            echo 'SQL query: ' . $strSql . "n";
         }
 
         if ($nLimit === null && $nOffset == 0) {
@@ -337,7 +337,7 @@ class SparqlEngineDb
         if (!$ret) {
             //Error occured
             throw new Exception(
-                'ADOdb error: ' . $this->dbConn->ErrorMsg() . "\n"
+                'ADOdb error: ' . $this->dbConn->ErrorMsg() . "n"
                 . $strSql
             );
         }

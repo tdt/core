@@ -17,7 +17,7 @@ interface IUniversalFilterNodeExecuter {
      * @param IInterpreterControl $interpreter The interpreter that evaluates this tree.
      * @param bool $preferColumn Does the parent expression would like me to give back a column?
      */
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn);
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn);
 
     /**
      * Returns the header of the returned table
@@ -51,7 +51,7 @@ interface IUniversalFilterNodeExecuter {
      * @param int $parentIndex The index in the parent.
      * @return array of SourceUsageData
      */
-    public function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex);
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex);
 }
 
 ?>

@@ -13,7 +13,7 @@
 include_once("core/universalfilter/converter/SQLConverter.class.php");
 include_once("core/universalfilter/interpreter/debugging/TreePrinter.class.php");
 
-namespace tdt\core\model\resources\read;
+namespace read;
 
 interface iFilter {
 

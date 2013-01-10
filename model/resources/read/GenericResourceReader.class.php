@@ -9,15 +9,15 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\read;
+namespace read;
 
-class GenericResourceReader extends tdt\core\model\resources\read\AReader {
+class GenericResourceReader extends AReader {
 
     private $genres;
 
     public function __construct($package, $resource, $RESTparameters) {
         parent::__construct($package, $resource, $RESTparameters);
-        $this->genres = new tdt\core\model\resources\GenericResource($this->package, $this->resource);
+        $this->genres = new GenericResource($this->package, $this->resource);
         $strategy = $this->genres->getStrategy();
         $this->parameters = array_merge($this->parameters, $strategy->documentReadParameters());
     }
@@ -33,7 +33,7 @@ class GenericResourceReader extends tdt\core\model\resources\read\AReader {
      * get the documentation about getting of a resource
      */
     public function getReadDocumentation() {
-        $result = tdt\core\model\DBQueries::getGenericResourceDoc($this->package, $this->resource);
+        $result = DBQueries::getGenericResourceDoc($this->package, $this->resource);
         return isset($result["doc"]) ? $result["doc"] : "";
     }
 

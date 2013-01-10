@@ -49,7 +49,7 @@ global $ADODB_Last_PEAR_Error;
 		$sql = $p1;
 		$inputparams = $p2;
 		
-		$s = "$dbms error: [$errno: $errmsg] in $fn(\"$sql\")";
+		$s = "$dbms error: [$errno: $errmsg] in $fn("$")";
 		break;
 		
 	case 'PCONNECT':

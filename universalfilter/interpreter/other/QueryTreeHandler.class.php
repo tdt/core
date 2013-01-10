@@ -10,18 +10,18 @@
  * 
  */
 
-namespace tdt\core\universalfilter\other;
+namespace other;
 
 class QueryTreeHandler {
 
     private $sqlConverter;
     private $query;
 
-    public function __construct(tdt\core\universalfilter\UniversalFilterNode $query) {
+    public function __construct(UniversalFilterNode $query) {
         $this->query = $query;
-        $requiredColumnNames = $query->getAttachment(tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment::$ATTACHMENTID);
+        $requiredColumnNames = $query->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);
         $headerNames = $requiredColumnNames->getExpectedHeaderNames();
-        $this->sqlConverter = new tdt\core\universalfilter\converter\SQLConverter($headerNames);
+        $this->sqlConverter = new SQLConverter($headerNames);
         $this->sqlConverter->treeToSQLClauses($query);
     }
     

@@ -342,11 +342,11 @@ require_once 'rss_fetch.inc';
 $url = 'http://magpie.sf.net/samples/imc.1-0.rdf';
 $rss = fetch_rss($url);
 
-echo "Site: ", $rss->channel['title'], "&lt;br&gt;\n";
+echo "Site: ", $rss->channel['title'], "&lt;br&gt;n";
 foreach ($rss->items as $item ) {
 	$title = $item[title];
 	$url   = $item[link];
-	echo "&lt;a href=$url&gt;$title&lt;/a&gt;&lt;/li&gt;&lt;br&gt;\n";
+	echo "&lt;a href=$url&gt;$title&lt;/a&gt;&lt;/li&gt;&lt;br&gt;n";
 }
 </pre>
 More soon....in the meantime you can check out a 

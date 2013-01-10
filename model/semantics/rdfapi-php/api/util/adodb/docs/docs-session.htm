@@ -89,7 +89,7 @@ ADOdb_Session::config($driver, $host, $user, $password, $database,$options=false
 session_start();
 
 <font
- color="#004040">#<br># Test session vars, the following should increment on refresh<br>#<br>$_SESSION['AVAR'] += 1;<br>print "&lt;p&gt;\$_SESSION['AVAR']={$_SESSION['AVAR']}&lt;/p&gt;";</font>
+ color="#004040">#<br># Test session vars, the following should increment on refresh<br>#<br>$_SESSION['AVAR'] += 1;<br>print "&lt;p&gt;$_SESSION['AVAR']={$_SESSION['AVAR']}&lt;/p&gt;";</font>
 </pre>
 
 <p>When the session is created in session_start( ), the global variable $<b>ADODB_SESS_CONN</b> holds

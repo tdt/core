@@ -10,9 +10,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace  tdt\core\model\filters;
+namespace  filters;
 
-class SearchFilter extends  tdt\core\model\filters\AFilter{
+class SearchFilter extends  AFilter{
     
     public function __construct($params){
 	parent::__construct($params);
@@ -60,7 +60,7 @@ class SearchFilter extends  tdt\core\model\filters\AFilter{
 			array_push($matches,$possiblematch);
 		    }
 		}else{
-		    throw new tdt\framework\TDTException(452,array("The value ".$this->params["filterOp"]." is not a valid value for the filterOp-parameter"));
+		    throw new TDTException(452,array("The value ".$this->params["filterOp"]." is not a valid value for the filterOp-parameter"));
 		}
 	    }elseif($currentfield == $this->params["filterValue"]){
 		array_push($matches,$possiblematch);

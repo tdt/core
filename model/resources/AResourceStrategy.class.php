@@ -8,7 +8,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\resources;
+namespace resources;
 
 abstract class AResourceStrategy{
 
@@ -24,7 +24,7 @@ abstract class AResourceStrategy{
     public function onDelete($package,$resource){
         // get the name of the class (=strategy)
         $strat = strtolower(get_class($this));
-        $resource_table = (string)tdt\core\model\resources\GenericResource::$TABLE_PREAMBLE . $strat;
+        $resource_table = (string)GenericResource::$TABLE_PREAMBLE . $strat;
         return R::exec(
             "DELETE FROM $resource_table
                     WHERE gen_resource_id IN 
@@ -133,11 +133,11 @@ abstract class AResourceStrategy{
      * Throws an exception with a message, and prohibits the resource to be added
      */
     protected function throwException($package_id, $gen_resource_id,$message){
-        $resource_id = tdt\core\model\DBQueries::getAssociatedResourceId($gen_resource_id);
-        $package = tdt\core\model\DBQueries::getPackageById($package_id);
-        $resource = tdt\core\model\DBQueries::getResourceById($resource_id);
-        tdt\core\model\ResourcesModel::getInstance()->deleteResource($package, $resource, array());
-        throw new tdt\framework\TDTException(452,array("$message"));
+        $resource_id = DBQueries::getAssociatedResourceId($gen_resource_id);
+        $package = DBQueries::getPackageById($package_id);
+        $resource = DBQueries::getResourceById($resource_id);
+        ResourcesModel::getInstance()->deleteResource($package, $resource, array());
+        throw new TDTException(452,array("$message"));
     }
 }
 ?>

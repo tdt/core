@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\common;
+namespace common;
 
 class BigList {
     public static $BLOCKSIZE = 50;
@@ -24,9 +24,9 @@ class BigList {
     
     public function setIndex($index, $data) {
         if($index>=$this->size){
-            throw new tdt\framework\TDTException("BigList: Index out of bounds: ".$index);
+            throw new TDTException("BigList: Index out of bounds: ".$index);
         }
-        $inst = tdt\core\universalfilter\common\BigDataBlockManager::getInstance();
+        $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index/(BigList::$BLOCKSIZE));
         $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
         
@@ -40,9 +40,9 @@ class BigList {
     
     public function getIndex($index) {
         if($index>=$this->size){
-            throw new tdt\framework\TDTException("BigList: Index out of bounds ".$index);
+            throw new TDTException("BigList: Index out of bounds ".$index);
         }
-        $inst = tdt\core\universalfilter\common\BigDataBlockManager::getInstance();
+        $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index/(BigList::$BLOCKSIZE));
         $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
         
@@ -68,7 +68,7 @@ class BigList {
     
     public function destroy(){
         //echo "biglist destroyed... ".$this->id;
-        $inst = tdt\core\universalfilter\common\BigDataBlockManager::getInstance();
+        $inst = BigDataBlockManager::getInstance();
         for($i=0;$i<=floor(($this->size-1)/BigList::$BLOCKSIZE);$i++){
             $inst->delete("BIGLIST_".$this->id."_".$i);
         }

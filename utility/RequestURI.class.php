@@ -8,7 +8,7 @@
  * @author Pieter Colpaert
  */
 
-namespace tdt\core\utility;
+namespace utility;
 
 class RequestURI{
     private static $instance;
@@ -28,7 +28,7 @@ class RequestURI{
         $requestURI = $_SERVER["REQUEST_URI"];
         //if a SUBDIR has been set in the config, remove this from here
         if(Config::get("general","subdir") != ""){
-            $subdir = str_replace("/", "\/", Config::get("general","subdir"));
+            $subdir = str_replace("/", "/", Config::get("general","subdir"));
             $requestURI = preg_replace("/".$subdir."/si","",$requestURI,1);
         }   
 
@@ -75,7 +75,7 @@ class RequestURI{
 
     public static function getInstance(){
         if(!isset(self::$instance)){
-            self::$instance = new tdt\core\utility\RequestURI();
+            self::$instance = new RequestURI();
         }
         return self::$instance;
     }
@@ -89,7 +89,7 @@ class RequestURI{
     }
     
     public function getSubDir(){
-        return tdt\framework\Config::get("general","subdir");
+        return Config::get("general","subdir");
     }
     
     public function getPackage(){

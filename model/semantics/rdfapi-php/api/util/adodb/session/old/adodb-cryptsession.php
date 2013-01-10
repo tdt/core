@@ -26,7 +26,7 @@ wrapper library.
 	session_register('AVAR');
 	$_SESSION['AVAR'] += 1;
 	print "
--- \$_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
+-- $_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
 
  
  Installation
@@ -278,7 +278,7 @@ function adodb_sess_gc($maxlifetime) {
 		}
 	}
 	
-	if ($ADODB_SESS_CONN->dataProvider === 'oci8') $sql = 'select  TO_CHAR('.($ADODB_SESS_CONN->sysTimeStamp).', \'RRRR-MM-DD HH24:MI:SS\') from '. $ADODB_SESSION_TBL;
+	if ($ADODB_SESS_CONN->dataProvider === 'oci8') $sql = 'select  TO_CHAR('.($ADODB_SESS_CONN->sysTimeStamp).', 'RRRR-MM-DD HH24:MI:') from '. $ADODB_SESSION_TBL;
 	else $sql = 'select '.$ADODB_SESS_CONN->sysTimeStamp.' from '. $ADODB_SESSION_TBL;
 	
 	$rs =& $ADODB_SESS_CONN->SelectLimit($sql,1);
@@ -318,7 +318,7 @@ if (0) {
 	session_register('AVAR');
 	$_SESSION['AVAR'] += 1;
 	print "
--- \$_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
+-- $_SESSION['AVAR']={$_SESSION['AVAR']}</p>";
 }
 */
 ?>

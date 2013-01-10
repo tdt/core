@@ -1238,12 +1238,12 @@ class dbQuerySet extends dbObject {
 					
 					// Process object prefix.
 					// Evaluate SQL statements to prepend prefix to objects
-					$query = $this->prefixQuery( '/^\s*((?is)INSERT\s+(INTO\s+)?)((\w+\s*,?\s*)+)(\s.*$)/', $query, $xmls->objectPrefix );
-					$query = $this->prefixQuery( '/^\s*((?is)UPDATE\s+(FROM\s+)?)((\w+\s*,?\s*)+)(\s.*$)/', $query, $xmls->objectPrefix );
-					$query = $this->prefixQuery( '/^\s*((?is)DELETE\s+(FROM\s+)?)((\w+\s*,?\s*)+)(\s.*$)/', $query, $xmls->objectPrefix );
+					$query = $this->prefixQuery( '/s*((?is)s+(s+)?)((w+s*,?s*)+)(s.*$)/', $query, $xmls->objectPrefix );
+					$query = $this->prefixQuery( '/s*((?is)s+(s+)?)((w+s*,?s*)+)(s.*$)/', $query, $xmls->objectPrefix );
+					$query = $this->prefixQuery( '/s*((?is)s+(s+)?)((w+s*,?s*)+)(s.*$)/', $query, $xmls->objectPrefix );
 					
 					// SELECT statements aren't working yet
-					#$data = preg_replace( '/(?ias)(^\s*SELECT\s+.*\s+FROM)\s+(\W\s*,?\s*)+((?i)\s+WHERE.*$)/', "\1 $prefix\2 \3", $data );
+					#$data = preg_replace( '/(?ias)(s*s+.*s+FROM)s+(s*,?s*)+((?i)s+WHERE.*$)/', "1 $2 3", $data );
 					
 				case 'MANUAL':
 					// If prefixKey is set and has a value then we use it to override the default constant XMLS_PREFIX.
@@ -1602,7 +1602,7 @@ class adoSchema {
 		if( $returnSchema ) {
 			$xmlstring = '';
 			while( $data = fread( $fp, 4096 ) ) {
-				$xmlstring .= $data . "\n";
+				$xmlstring .= $data . "n";
 			}
 			return $xmlstring;
 		}
@@ -1773,7 +1773,7 @@ class adoSchema {
 		$fp = fopen( $filename, "w" );
 		
 		foreach( $sqlArray as $key => $query ) {
-			fwrite( $fp, $query . ";\n" );
+			fwrite( $fp, $query . ";n" );
 		}
 		fclose( $fp );
 	}
@@ -2025,11 +2025,11 @@ class adoSchema {
 			);
 		}
 		
-		$error_details = $msg['Message Type'] . ' in XSLT Transformation' . "\n"
-					   . '<table>' . "\n";
+		$error_details = $msg['Message Type'] . ' in XSLT Transformation' . "n"
+					   . '<table>' . "n";
 		
 		foreach( $msg as $label => $details ) {
-			$error_details .= '<tr><td><b>' . $label . ': </b></td><td>' . htmlentities( $details ) . '</td></tr>' . "\n";
+			$error_details .= '<tr><td><b>' . $label . ': </b></td><td>' . htmlentities( $details ) . '</td></tr>' . "n";
 		}
 		
 		$error_details .= '</table>';
@@ -2100,13 +2100,13 @@ class adoSchema {
 	function ExtractSchema( $data = FALSE, $indent = '  ', $prefix = '' , $stripprefix=false) {
 		$old_mode = $this->db->SetFetchMode( ADODB_FETCH_NUM );
 		
-		$schema = '<?xml version="1.0"?>' . "\n"
-				. '<schema version="' . $this->schemaVersion . '">' . "\n";
+		$schema = '<?xml version="1.0"?>' . "n"
+				. '<schema version="' . $this->schemaVersion . '">' . "n";
 		
 		if( is_array( $tables = $this->db->MetaTables( 'TABLES' , ($prefix) ? $prefix.'%' : '') ) ) {
 			foreach( $tables as $table ) {
-				if ($stripprefix) $table = str_replace(str_replace('\\_', '_', $pfx ), '', $table);
-				$schema .= $indent . '<table name="' . htmlentities( $table ) . '">' . "\n";
+				if ($stripprefix) $table = str_replace(str_replace('_', '_', $pfx ), '', $table);
+				$schema .= $indent . '<table name="' . htmlentities( $table ) . '">' . "n";
 				
 				// grab details from database
 				$rs = $this->db->Execute( 'SELECT * FROM ' . $table . ' WHERE -1' );
@@ -2148,28 +2148,28 @@ class adoSchema {
 						$schema .= str_repeat( $indent, 2 ) . '<field name="' . htmlentities( $details->name ) . '" type="' . $type . '"' . $extra;
 						
 						if( !empty( $content ) ) {
-							$schema .= ">\n" . str_repeat( $indent, 3 )
-									 . implode( "\n" . str_repeat( $indent, 3 ), $content ) . "\n"
-									 . str_repeat( $indent, 2 ) . '</field>' . "\n";
+							$schema .= ">n" . str_repeat( $indent, 3 )
+									 . implode( "n" . str_repeat( $indent, 3 ), $content ) . "n"
+									 . str_repeat( $indent, 2 ) . '</field>' . "n";
 						} else {
-							$schema .= "/>\n";
+							$schema .= "/>n";
 						}
 					}
 				}
 				
 				if( is_array( $indexes ) ) {
 					foreach( $indexes as $index => $details ) {
-						$schema .= str_repeat( $indent, 2 ) . '<index name="' . $index . '">' . "\n";
+						$schema .= str_repeat( $indent, 2 ) . '<index name="' . $index . '">' . "n";
 						
 						if( $details['unique'] ) {
-							$schema .= str_repeat( $indent, 3 ) . '<UNIQUE/>' . "\n";
+							$schema .= str_repeat( $indent, 3 ) . '<UNIQUE/>' . "n";
 						}
 						
 						foreach( $details['columns'] as $column ) {
-							$schema .= str_repeat( $indent, 3 ) . '<col>' . htmlentities( $column ) . '</col>' . "\n";
+							$schema .= str_repeat( $indent, 3 ) . '<col>' . htmlentities( $column ) . '</col>' . "n";
 						}
 						
-						$schema .= str_repeat( $indent, 2 ) . '</index>' . "\n";
+						$schema .= str_repeat( $indent, 2 ) . '</index>' . "n";
 					}
 				}
 				
@@ -2177,7 +2177,7 @@ class adoSchema {
 					$rs = $this->db->Execute( 'SELECT * FROM ' . $table );
 					
 					if( is_object( $rs ) && !$rs->EOF ) {
-						$schema .= str_repeat( $indent, 2 ) . "<data>\n";
+						$schema .= str_repeat( $indent, 2 ) . "<data>n";
 						
 						while( $row = $rs->FetchRow() ) {
 							foreach( $row as $key => $val ) {
@@ -2186,14 +2186,14 @@ class adoSchema {
 								}
 							}
 							
-							$schema .= str_repeat( $indent, 3 ) . '<row><f>' . implode( '</f><f>', $row ) . "</f></row>\n";
+							$schema .= str_repeat( $indent, 3 ) . '<row><f>' . implode( '</f><f>', $row ) . "</f></row>n";
 						}
 						
-						$schema .= str_repeat( $indent, 2 ) . "</data>\n";
+						$schema .= str_repeat( $indent, 2 ) . "</data>n";
 					}
 				}
 				
-				$schema .= $indent . "</table>\n";
+				$schema .= $indent . "</table>n";
 			}
 		}
 		
@@ -2268,7 +2268,7 @@ class adoSchema {
 	*/
 	function supportedPlatform( $platform = NULL ) {
 		if( !empty( $platform ) ) {
-			$regex = '/(^|\|)' . $this->db->databaseType . '(\||$)/i';
+			$regex = '/(^||)' . $this->db->databaseType . '(||$)/i';
 		
 			if( preg_match( '/^- /', $platform ) ) {
 				if (preg_match ( $regex, substr( $platform, 2 ) ) ) {
@@ -2358,9 +2358,9 @@ class adoSchema {
 		switch( strtolower( $format ) ) {
 			case 'string':
 			case 'text':
-				return !empty( $sqlArray ) ? implode( ";\n\n", $sqlArray ) . ';' : '';
+				return !empty( $sqlArray ) ? implode( ";n", $sqlArray ) . ';' : '';
 			case'html':
-				return !empty( $sqlArray ) ? nl2br( htmlentities( implode( ";\n\n", $sqlArray ) . ';' ) ) : '';
+				return !empty( $sqlArray ) ? nl2br( htmlentities( implode( ";n", $sqlArray ) . ';' ) ) : '';
 		}
 		
 		return $this->sqlArray;

@@ -16,7 +16,7 @@ include_once("core/universalfilter/common/HashString.php");
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\common;
+namespace common;
 
 class BigDataBlockManager {
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
@@ -248,8 +248,8 @@ class BigDataBlockManager {
      * @return BigDataBlockManager
      */
     public static function getInstance(){
-        if(!isset(tdt\core\universalfilter\common\BigDataBlockManager::$instance)){
-            BigDataBlockManager::$instance = new tdt\core\universalfilter\common\BigDataBlockManager();
+        if(!isset(BigDataBlockManager::$instance)){
+            BigDataBlockManager::$instance = new BigDataBlockManager();
         }
         return BigDataBlockManager::$instance;
     }

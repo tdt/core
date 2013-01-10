@@ -387,13 +387,13 @@ class RDFUtil extends Object {
                     if ($short_prefix == TRUE && RDFUtil::guessPrefix($subject, $model) != FALSE) {
                         $prefix = RDFUtil::guessPrefix($subject, $model);
                         $subject_label = $prefix . ":" . RDFUtil::guessName($subject);
-                        $attrib[$subject] = "label=\"" . $subject_label . "\" ";
+                        $attrib[$subject] = "label="" . $subject_label . "" ";
                         if (!isset($prefix_array[$prefix])) {
                             $prefix_array[$prefix] = RDFUtil::guessNamespace($subject);
                         }
                     }
                     if (GRAPHVIZ_URI == TRUE) {
-                        $attrib[$subject] .= "URL=\"" . $subject . "\"";
+                        $attrib[$subject] .= "URL="" . $subject . """;
                     }
                 }
             }
@@ -401,19 +401,19 @@ class RDFUtil extends Object {
             // format predicate
             if ($short_prefix == TRUE && RDFUtil::guessPrefix($predicate, $model) != FALSE) {
                 $prefix = RDFUtil::guessPrefix($predicate, $model);
-                $predicate_label = "label=\"" . $prefix . ":" . RDFUtil::guessName($predicate) . "\"";
+                $predicate_label = "label="" . $prefix . ":" . RDFUtil::guessName($predicate) . """;
                 if (!isset($prefix_array[$prefix])) {
                     $prefix_array[$prefix] = RDFUtil::guessNamespace($predicate);
                 }
             } else {
-                $predicate_label = "label=\"" . $predicate . "\"";
+                $predicate_label = "label="" . $predicate . """;
             }
 
             if (is_a($statement, 'InfStatement')) {
                 $predicate_label .= " " . $graphviz_param['INFERRED_STYLE'];
             } else {
                 if (GRAPHVIZ_URI == TRUE) {
-                    $predicate_label .= "URL=\"" . $predicate . "\"";
+                    $predicate_label .= "URL="" . $predicate . """;
                 }
             }
 
@@ -425,37 +425,37 @@ class RDFUtil extends Object {
                     $object_label = $object;
                     $object = "literal" . $i;
                     $i++;
-                    $attrib[$object] = "label=\"$object_label\" " . $graphviz_param['LITERAL_STYLE'];
+                    $attrib[$object] = "label="$" " . $graphviz_param['LITERAL_STYLE'];
                 } else {
                     if ($short_prefix == TRUE && RDFUtil::guessPrefix($object, $model) != FALSE) {
                         $prefix = RDFUtil::guessPrefix($object, $model);
                         $object_label = $prefix . ":" . RDFUtil::guessName($object);
-                        $attrib[$object] = "label=\"" . $object_label . "\" ";
+                        $attrib[$object] = "label="" . $object_label . "" ";
                         if (!isset($prefix_array[$prefix])) {
                             $prefix_array[$prefix] = RDFUtil::guessNamespace($object);
                         }
                     }
                     if (GRAPHVIZ_URI == TRUE) {
-                        $attrib[$object] .= "URL=\"" . $object . "\"";
+                        $attrib[$object] .= "URL="" . $object . """;
                     }
                 }
             }
 
             // fill graph array
-            $graph[] = "\"" . $subject . "\" -> \"" . $object . "\" [" . $predicate_label . "];";
+            $graph[] = """ . $subject . "" -> "" . $object . "" [" . $predicate_label . "];";
         }
 
         //generate DOT-file
-        $dot = "digraph G { " . $graphviz_param['GRAPH_STYLE'] . "\n edge [" . $graphviz_param['PREDICATE_STYLE'] . "]\n node [" . $graphviz_param['RESOURCE_STYLE'] . "]\n";
+        $dot = "digraph G { " . $graphviz_param['GRAPH_STYLE'] . "n edge [" . $graphviz_param['PREDICATE_STYLE'] . "n node [" . $graphviz_param['RESOURCE_STYLE'] . "n";
         if (isset($attrib)) {
             foreach ($attrib AS $key => $value) {
-                $dot .= "\"$key\" [$value];\n";
+                $dot .= ""$" [$value];n";
             }
         }
         if (!isset($graph)) {
-            $dot .= "error [shape=box,label=\"No Statements found!\"]";
+            $dot .= "error [shape=box,label="No Statements found!"]";
         } else {
-            $dot .= implode("\n", $graph);
+            $dot .= implode("n", $graph);
         }
 
 
@@ -476,8 +476,8 @@ class RDFUtil extends Object {
             $struct_label = "{ { Base URI: " . $model->getBaseURI() . "$sep1 " . $stat_label . " } }";
         }
 
-        $dot .= "\n struct [shape=Mrecord,label=\"$struct_label\"," . $graphviz_param['BOX_STYLE'] . "];\n";
-        $dot .= " vocabulary [style=invis];\n struct -> vocabulary [style=invis];\n}";
+        $dot .= "n struct [shape=Mrecord,label="$"," . $graphviz_param['BOX_STYLE'] . "];n";
+        $dot .= " vocabulary [style=invis];n struct -> vocabulary [style=invis];n}";
 
         // if needed call dot.exe
         if (($format != "input_dot") && (defined('GRAPHVIZ_PATH')) && (strstr(GRAPHVIZ_FORMAT, $format) !== FALSE)) {

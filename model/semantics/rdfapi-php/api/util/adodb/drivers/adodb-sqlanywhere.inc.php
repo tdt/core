@@ -28,7 +28,7 @@ Set tabs to 4 for best viewing.
 
 		$recordSet = $dbconn->Execute('INSERT INTO tabname (idcol, blobcol) '
 		.
-	   'VALUES (\'test\', ' . $blobVarName . ')');
+	   'VALUES ('', ' . $blobVarName . ')');
 
 	 instead of loading blob from a file, you can also load from 
 	  an unformatted (raw) blob variable:
@@ -93,7 +93,7 @@ if (!defined('ADODB_SYBASE_SQLANYWHERE')){
 	$hexstring = '';
 
 	for($loop2=0;$loop2<strlen($contents);$loop2+=2){
-	 $hexstring .= '\x' . substr($contents,$loop2,2);
+	 $hexstring .= 'x' . substr($contents,$loop2,2);
 	 }
 
 	$hexstring = $this->qstr($hexstring);
@@ -121,7 +121,7 @@ if (!defined('ADODB_SYBASE_SQLANYWHERE')){
 	$hexstring = '';
 
 	for($loop2=0;$loop2<strlen($contents);$loop2+=2){
-	 $hexstring .= '\x' . substr($contents,$loop2,2);
+	 $hexstring .= 'x' . substr($contents,$loop2,2);
 	 }
 
 	$hexstring = $this->qstr($hexstring);

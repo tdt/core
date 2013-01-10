@@ -12,7 +12,7 @@
  * @author Miel Vander Sande
  */
 
-namespace tdt\core\model\semantics;
+namespace semantics;
 
 class RDFOutput {
 
@@ -27,7 +27,7 @@ class RDFOutput {
     public function __construct() {
         //create a memory model to serialise
         $this->model = ModelFactory::getResModel(MEMMODEL);
-        $this->package = tdt\core\utility\RequestURI::getInstance()->getPackage();
+        $this->package = RequestURI::getInstance()->getPackage();
 
         $this->mapping = OntologyProcessor::getInstance()->getMapping($this->package);
     }
@@ -41,7 +41,7 @@ class RDFOutput {
      */
     public function buildRdfOutput($object) {
         //Get the different parts of the requested path
-        $arr = explode('/', tdt\core\utility\RequestURI::getInstance()->getResourcePath());
+        $arr = explode('/', RequestURI::getInstance()->getResourcePath());
 
 
         $beginpath = '';
@@ -58,11 +58,11 @@ class RDFOutput {
         foreach ($object as $property => $value) {
             //if the property is the same as the resource, we request the whole resource.
             //In this case we need to add it seperatly to the classpath, else it is left out.
-            if ($property == tdt\core\utility\RequestURI::getInstance()->getResource())
+            if ($property == RequestURI::getInstance()->getResource())
                 $beginpath .=$property . '/';
 
             //start analyzing the data
-            $this->analyzeVariable($object->$property, tdt\core\utility\RequestURI::getInstance()->getRealWorldObjectURI(), $beginpath);
+            $this->analyzeVariable($object->$property, RequestURI::getInstance()->getRealWorldObjectURI(), $beginpath);
         }
 
         return $this->model->getModel();

@@ -6,7 +6,7 @@
 
 	$db = &ADONewConnection("ado_access");
 	$db->debug=1;
-	$access = 'd:\inetpub\wwwroot\php\NWIND.MDB';
+	$access = 'd:NWIND.MDB';
 	$myDSN =  'PROVIDER=Microsoft.Jet.OLEDB.4.0;'
 		. 'DATA SOURCE=' . $access . ';';
 		

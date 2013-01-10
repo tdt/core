@@ -480,7 +480,7 @@ function adodb_date_test()
 	
 	// Test string formating
 	print "<p>Testing date formating</p>";
-	$fmt = '\d\a\t\e T Y-m-d H:i:s a A d D F g G h H i j l L m M n O \R\F\C2822 r s t U w y Y z Z 2003';
+	$fmt = 'e T Y-m-d H:i:s a A d D F g G h H i j l L m M n O C2822 r s t U w y Y z Z 2003';
 	$s1 = date($fmt,0);
 	$s2 = adodb_date($fmt,0);
 	if ($s1 != $s2) {
@@ -503,8 +503,8 @@ function adodb_date_test()
 				}
 			}
 			print "<b>Error date(): $ts<br><pre> 
-&nbsp; \"$s1\" (date len=".strlen($s1).")
-&nbsp; \"$s2\" (adodb_date len=".strlen($s2).")</b></pre><br>";
+&nbsp; "$s1" (date len=".strlen($s1).")
+&nbsp; "$s2" (adodb_date len=".strlen($s2).")</b></pre><br>";
 			$fail = true;
 		}
 		
@@ -938,7 +938,7 @@ function adodb_date2($fmt, $d=false, $is_gmt=false)
 {
 	if ($d !== false) {
 		if (!preg_match( 
-			"|^([0-9]{4})[-/\.]?([0-9]{1,2})[-/\.]?([0-9]{1,2})[ -]?(([0-9]{1,2}):?([0-9]{1,2}):?([0-9\.]{1,4}))?|", 
+			"|^([0-9]{4})[-/.]?([0-9]{1,2})[-/.]?([0-9]{1,2})[ -]?(([0-9]{1,2}):?([0-9]{1,2}):?([0-9.]{1,4}))?|", 
 			($d), $rr)) return adodb_date($fmt,false,$is_gmt);
 
 		if ($rr[1] <= 100 && $rr[2]<= 1) return adodb_date($fmt,false,$is_gmt);
@@ -1096,7 +1096,7 @@ static $daylight;
 		default:
 			$dates .= $fmt[$i]; break;
 		// ESCAPE
-		case "\\": 
+		case "": 
 			$i++;
 			if ($i < $max) $dates .= $fmt[$i];
 			break;
@@ -1294,23 +1294,23 @@ global $ADODB_DATE_LOCALE;
 			case 'b': $fmtdate .= 'M'; break;
 			case 'B': $fmtdate .= 'F'; break;
 			case 'c': $fmtdate .= $ADODB_DATE_LOCALE[0].$ADODB_DATE_LOCALE[1]; break;
-			case 'C': $fmtdate .= '\C?'; break; // century
+			case 'C': $fmtdate .= 'C?'; break; // century
 			case 'd': $fmtdate .= 'd'; break;
 			case 'D': $fmtdate .= 'm/d/y'; break;
 			case 'e': $fmtdate .= 'j'; break;
-			case 'g': $fmtdate .= '\g?'; break; //?
-			case 'G': $fmtdate .= '\G?'; break; //?
+			case 'g': $fmtdate .= 'g?'; break; //?
+			case 'G': $fmtdate .= 'G?'; break; //?
 			case 'H': $fmtdate .= 'H'; break;
 			case 'I': $fmtdate .= 'h'; break;
 			case 'j': $fmtdate .= '?z'; $parsej = true; break; // wrong as j=1-based, z=0-basd
 			case 'm': $fmtdate .= 'm'; break;
 			case 'M': $fmtdate .= 'i'; break;
-			case 'n': $fmtdate .= "\n"; break;
+			case 'n': $fmtdate .= "n"; break;
 			case 'p': $fmtdate .= 'a'; break;
 			case 'r': $fmtdate .= 'h:i:s a'; break;
 			case 'R': $fmtdate .= 'H:i:s'; break;
 			case 'S': $fmtdate .= 's'; break;
-			case 't': $fmtdate .= "\t"; break;
+			case 't': $fmtdate .= "t"; break;
 			case 'T': $fmtdate .= 'H:i:s'; break;
 			case 'u': $fmtdate .= '?u'; $parseu = true; break; // wrong strftime=1-based, date=0-based
 			case 'U': $fmtdate .= '?U'; $parseU = true; break;// wrong strftime=1-based, date=0-based
@@ -1323,7 +1323,7 @@ global $ADODB_DATE_LOCALE;
 			case 'Z': $fmtdate .= 'T'; break;
 			}
 		} else if (('A' <= ($ch) && ($ch) <= 'Z' ) || ('a' <= ($ch) && ($ch) <= 'z' ))
-			$fmtdate .= "\\".$ch;
+			$fmtdate .= "".$ch;
 		else
 			$fmtdate .= $ch;
 	}

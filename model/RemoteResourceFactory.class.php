@@ -9,9 +9,9 @@
  * @author Pieter Colpaert
  */
 
-namespace tdt\core\model;
+namespace model;
 
-class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
+class RemoteResourceFactory extends  AResourceFactory{
 
     public function __construct() {
         /*AutoInclude::register("RemoteResourceCreator","cores/core/model/resources/create/RemoteResourceCreator.class.php");
@@ -26,7 +26,7 @@ class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
     }
 
     protected function getAllResourceNames(){
-        $resultset =  tdt\core\model\DBQueries::getAllRemoteResourceNames();        
+        $resultset =  DBQueries::getAllRemoteResourceNames();        
         $resources = array();
         foreach($resultset as $result){
             if(!isset($resources[$result["package_name"]])){
@@ -38,7 +38,7 @@ class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
     }
 
     public function createCreator($package,$resource, $parameters, $RESTparameters){        
-        $creator = new  tdt\core\model\resources\create\RemoteResourceCreator($package,$resource, $RESTparameters);
+        $creator = new  RemoteResourceCreator($package,$resource, $RESTparameters);
         foreach($parameters as $key => $value){
             $creator->setParameter($key,$value);
         }
@@ -46,14 +46,14 @@ class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
     }
     
     public function createReader($package,$resource, $parameters, $RESTparameters){        
-        $reader = new  tdt\core\model\resources\read\RemoteResourceReader($package, $resource, $RESTparameters, $this->fetchResourceDocumentation($package,$resource));
+        $reader = new  RemoteResourceReader($package, $resource, $RESTparameters, $this->fetchResourceDocumentation($package,$resource));
         $reader->processParameters($parameters);
         return $reader;
     }
     
     
     public function createDeleter($package,$resource, $RESTparameters){        
-        return new  tdt\core\model\resources\delete\RemoteResourceDeleter($package,$resource, $RESTparameters);
+        return new  RemoteResourceDeleter($package,$resource, $RESTparameters);
     }
     
     public function makeDoc($doc){
@@ -78,7 +78,7 @@ class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
                 /**
                  * Get the metadata properties
                  */
-                $metadata = tdt\core\model\DBQueries::getMetaData($package,$resource);
+                $metadata = DBQueries::getMetaData($package,$resource);
                 if(!empty($metadata)){
                     foreach($metadata as $name => $value){
                         if($name != "id" && $name != "resource_id"){
@@ -104,8 +104,8 @@ class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
     public function makeCreateDoc($doc){
         //add stuff to create attribute in doc. No other parameters expected
         $d = new stdClass();
-        $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . tdt\framework\Config::get("general","hostname") . tdt\framework\Config::get("general","subdir") . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";        
-        $resource = new  tdt\core\model\resources\create\RemoteResourceCreator("","", array());//make an empty object. In the end we only need a remote resource
+        $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::get("general","hostname") . Config::get("general","subdir") . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";        
+        $resource = new  RemoteResourceCreator("","", array());//make an empty object. In the end we only need a remote resource
         $d->parameters = $resource->documentParameters();
         $d->requiredparameters = $resource->documentRequiredParameters();
         if(!isset($doc->create)){
@@ -122,16 +122,16 @@ class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
      * for another resource, we replace it by the newly asked factory.
      */
     private function fetchResourceDocumentation($package,$resource){
-        $result = tdt\core\model\DBQueries::getRemoteResource($package, $resource);
+        $result = DBQueries::getRemoteResource($package, $resource);
         if(sizeof($result) == 0){
-            throw new tdt\framework\TDTException(404,array($package."/".$resource));
+            throw new TDTException(404,array($package."/".$resource));
         }
         $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
         $options = array("cache-time" => 5); //cache for 5 seconds
         $request = Request::http($url, $options);
 
         if(isset($request->error)){
-            throw new tdt\framework\TDTException(404,array($url));
+            throw new TDTException(404,array($url));
         }
         $data = unserialize($request->data);
         $remoteResource = new stdClass();
@@ -164,16 +164,16 @@ class RemoteResourceFactory extends  tdt\core\model\AResourceFactory{
      * for another resource, we replace it by the newly asked factory.
      */
     private function fetchResourceDescription($package,$resource){
-        $result = tdt\core\model\DBQueries::getRemoteResource($package, $resource);
+        $result = DBQueries::getRemoteResource($package, $resource);
         if(sizeof($result) == 0){
-            throw new tdt\framework\TDTException(404,array($package."/".$resource));
+            throw new TDTException(404,array($package."/".$resource));
         }
         $url = $result["url"]."TDTInfo/Resources/".$result["package"]."/".$result["resource"].".php";
         $options = array("cache-time" => 5); //cache for 5 seconds
-        $request = tdt\framework\Request::http($url, $options);
+        $request = Request::http($url, $options);
 
         if(isset($request->error)){
-            throw new tdt\framework\TDTException(404,array($url));
+            throw new TDTException(404,array($url));
         }
         $data = unserialize($request->data);
         $remoteResource = new stdClass();

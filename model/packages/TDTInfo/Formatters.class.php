@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\packages\TDTInfo;
+namespace TDTInfo;
 
-class TDTInfoFormatters extends tdt\core\model\resources\read\AReader{
+class TDTInfoFormatters extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -26,7 +26,7 @@ class TDTInfoFormatters extends tdt\core\model\resources\read\AReader{
     }
 
     public function read(){
-        $d = new tdt\core\model\Doc();
+        $d = new Doc();
         return $d->visitAllFormatters();
     }
 

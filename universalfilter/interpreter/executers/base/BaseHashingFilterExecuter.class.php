@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\base;
+namespace base;
 
-abstract class BaseHashingFilterExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 
     /**
      * Need to be overriden by subclasses. Which columns need to be hashed???
@@ -19,7 +19,7 @@ abstract class BaseHashingFilterExecuter extends tdt\core\universalfilter\interp
      * @param UniversalFilterNode $filter
      * @param UniversalFilterTableHeaderColumnInfo $oldColumnInfo 
      */
-    public abstract function hashColumn(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo $oldColumnInfo);
+    public abstract function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo);
 
 
 
@@ -32,7 +32,7 @@ abstract class BaseHashingFilterExecuter extends tdt\core\universalfilter\interp
     private $executer;
     private $newColumns;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
         //get source environment
@@ -77,8 +77,8 @@ abstract class BaseHashingFilterExecuter extends tdt\core\universalfilter\interp
         // now Group!
         //
         
-        $bigListOfGroups = new tdt\core\universalfilter\common\BigList();
-        $bigGroupMap = new tdt\core\universalfilter\common\BigMap(); //of hashkey => array of indices in the rows of the source table that match the description
+        $bigListOfGroups = new BigList();
+        $bigGroupMap = new BigMap(); //of hashkey => array of indices in the rows of the source table that match the description
         //loop through all rows and check if they are in the map
         for ($index = 0; $index < $sourcetablecontent->getRowCount(); $index++) {
             $oldRow = $sourcetablecontent->getRow($index);
@@ -109,13 +109,13 @@ abstract class BaseHashingFilterExecuter extends tdt\core\universalfilter\interp
         //
         // grouping done, now create the content
         //
-        $newRows = new tdt\core\universalfilter\common\UniversalFilterTableContent();
+        $newRows = new UniversalFilterTableContent();
 
         for ($index = 0; $index < $bigListOfGroups->getSize(); $index++) {// FOR ALL GROUPS
             $hash = $bigListOfGroups->getIndex($index);
             $group = $bigGroupMap->getMapValue($hash);
 
-            $newRow = new tdt\core\universalfilter\common\UniversalFilterTableContentRow();
+            $newRow = new UniversalFilterTableContentRow();
             $groupedColumnValues = array();
 
             foreach ($group as $groupIndex => $value) {// A ROW IN THE GROUP
@@ -130,12 +130,12 @@ abstract class BaseHashingFilterExecuter extends tdt\core\universalfilter\interp
                     $value = $oldRow->getCellValue($oldId, true);
 
                     if ($isGrouped) {
-                        $data = new tdt\core\universalfilter\common\UniversalFilterTableContent();
+                        $data = new UniversalFilterTableContent();
 
                         if (isset($groupedColumnValues[$newId])) {
                             $data = $groupedColumnValues[$newId];
                         }
-                        $row = new tdt\core\universalfilter\common\UniversalFilterTableContentRow();
+                        $row = new UniversalFilterTableContentRow();
                         $row->defineValue("data", $value);
 
                         $data->addRow($row);
@@ -181,7 +181,7 @@ abstract class BaseHashingFilterExecuter extends tdt\core\universalfilter\interp
         $this->executer->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);

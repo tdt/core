@@ -114,7 +114,7 @@ class ADODB2_mssql extends ADODB_DataDict {
 		list($lines,$pkey) = $this->_GenFields($flds);
 		$s = "ALTER TABLE $tabname $this->addCol";
 		foreach($lines as $v) {
-			$f[] = "\n $v";
+			$f[] = "n $v";
 		}
 		$s .= implode(', ',$f);
 		$sql[] = $s;
@@ -143,7 +143,7 @@ class ADODB2_mssql extends ADODB_DataDict {
 		$f = array();
 		$s = 'ALTER TABLE ' . $tabname;
 		foreach($flds as $v) {
-			$f[] = "\n$this->dropCol ".$this->NameQuote($v);
+			$f[] = "n$this->dropCol ".$this->NameQuote($v);
 		}
 		$s .= implode(', ',$f);
 		$sql[] = $s;

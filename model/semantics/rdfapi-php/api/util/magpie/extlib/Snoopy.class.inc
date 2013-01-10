@@ -113,19 +113,19 @@ class Snoopy
 	var $_isproxy		=	false;				// set if using a proxy server
 	var $_fp_timeout	=	30;					// timeout for socket connection
 
-/*======================================================================*\
+/*======================================================================*
 	Function:	fetch
 	Purpose:	fetch the contents of a web page
 				(and possibly other protocols in the
 				future like ftp, nntp, gopher, etc.)
 	Input:		$URI	the location of the page to fetch
 	Output:		$this->results	the output text from the fetch
-\*======================================================================*/
+*======================================================================*/
 
 	function fetch($URI)
 	{
 	
-		//preg_match("|^([^:]+)://([^:/]+)(:[\d]+)*(.*)|",$URI,$URI_PARTS);
+		//preg_match("|^([^:]+)://([^:/]+)(:d]+)*(.*)|",$URI,$URI_PARTS);
 		$URI_PARTS = parse_url($URI);
 		if (!empty($URI_PARTS["user"]))
 			$this->user = $URI_PARTS["user"];
@@ -195,7 +195,7 @@ class Snoopy
 				break;
 			case "https":
 				if(!$this->curl_path || (!is_executable($this->curl_path))) {
-					$this->error = "Bad curl ($this->curl_path), can't fetch HTTPS \n";
+					$this->error = "Bad curl ($this->curl_path), can't fetch HTTPS n";
 					return false;
 				}
 				$this->host = $URI_PARTS["host"];
@@ -249,7 +249,7 @@ class Snoopy
 				break;
 			default:
 				// not a valid protocol
-				$this->error	=	'Invalid protocol "'.$URI_PARTS["scheme"].'"\n';
+				$this->error	=	'Invalid protocol "'.$URI_PARTS["scheme"].'"n';
 				return false;
 				break;
 		}		
@@ -258,23 +258,23 @@ class Snoopy
 
 
 
-/*======================================================================*\
+/*======================================================================*
 	Private functions
-\*======================================================================*/
+*======================================================================*/
 	
 	
-/*======================================================================*\
+/*======================================================================*
 	Function:	_striplinks
 	Purpose:	strip the hyperlinks from an html document
 	Input:		$document	document to strip.
 	Output:		$match		an array of the links
-\*======================================================================*/
+*======================================================================*/
 
 	function _striplinks($document)
 	{	
-		preg_match_all("'<\s*a\s+.*href\s*=\s*			# find <a href=
-						([\"\'])?					# find single or double quote
-						(?(1) (.*?)\\1 | ([^\s\>]+))		# if quote found, match up to next matching
+		preg_match_all("'<s*s+.*s*=s*			# find <a href=
+						("'])?					# find single or double quote
+						(?(1) (.*?)1 | (>]+))		# if quote found, match up to next matching
 													# quote, otherwise match up to next space
 						'isx",$document,$links);
 						
@@ -297,19 +297,19 @@ class Snoopy
 		return $match;
 	}
 
-/*======================================================================*\
+/*======================================================================*
 	Function:	_stripform
 	Purpose:	strip the form elements from an html document
 	Input:		$document	document to strip.
 	Output:		$match		an array of the links
-\*======================================================================*/
+*======================================================================*/
 
 	function _stripform($document)
 	{	
-		preg_match_all("'<\/?(FORM|INPUT|SELECT|TEXTAREA|(OPTION))[^<>]*>(?(2)(.*(?=<\/?(option|select)[^<>]*>[\r\n]*)|(?=[\r\n]*))|(?=[\r\n]*))'Usi",$document,$elements);
+		preg_match_all("'</?(FORM|INPUT|SELECT|TEXTAREA|(OPTION))[^<>]*>(?(2)(.*(?=</?(option|select)[^<>]*>n]*)|(?=n]*))|(?=n]*))'Usi",$document,$elements);
 		
 		// catenate the matches
-		$match = implode("\r\n",$elements[0]);
+		$match = implode("n",$elements[0]);
 				
 		// return the links
 		return $match;
@@ -317,12 +317,12 @@ class Snoopy
 
 	
 	
-/*======================================================================*\
+/*======================================================================*
 	Function:	_striptext
 	Purpose:	strip the text from an html document
 	Input:		$document	document to strip.
 	Output:		$text		the resulting text
-\*======================================================================*/
+*======================================================================*/
 
 	function _striptext($document)
 	{
@@ -332,8 +332,8 @@ class Snoopy
 		// more common ones.
 								
 		$search = array("'<script[^>]*?>.*?</script>'si",	// strip out javascript
-						"'<[\/\!]*?[^<>]*?>'si",			// strip out html tags
-						"'([\r\n])[\s]+'",					// strip out white space
+						"'</!]*?[^<>]*?>'si",			// strip out html tags
+						"'(n])s]+'",					// strip out white space
 						"'&(quote|#34);'i",					// replace html entities
 						"'&(amp|#38);'i",
 						"'&(lt|#60);'i",
@@ -346,8 +346,8 @@ class Snoopy
 						);				
 		$replace = array(	"",
 							"",
-							"\\1",
-							"\"",
+							"1",
+							""",
 							"&",
 							"<",
 							">",
@@ -362,25 +362,25 @@ class Snoopy
 		return $text;
 	}
 
-/*======================================================================*\
+/*======================================================================*
 	Function:	_expandlinks
 	Purpose:	expand each link into a fully qualified URL
 	Input:		$links			the links to qualify
 				$URI			the full URI to get the base from
 	Output:		$expandedLinks	the expanded links
-\*======================================================================*/
+*======================================================================*/
 
 	function _expandlinks($links,$URI)
 	{
 		
-		preg_match("/^[^\?]+/",$URI,$match);
+		preg_match("/?]+/",$URI,$match);
 
-		$match = preg_replace("|/[^\/\.]+\.[^\/\.]+$|","",$match[0]);
+		$match = preg_replace("|//.]+./.]+$|","",$match[0]);
 				
 		$search = array( 	"|^http://".preg_quote($this->host)."|i",
-							"|^(?!http://)(\/)?(?!mailto:)|i",
-							"|/\./|",
-							"|/[^\/]+/\.\./|"
+							"|^(?!http://)(/)?(?!mailto:)|i",
+							"|/./|",
+							"|//]+/../|"
 						);
 						
 		$replace = array(	"",
@@ -394,7 +394,7 @@ class Snoopy
 		return $expandedLinks;
 	}
 
-/*======================================================================*\
+/*======================================================================*
 	Function:	_httprequest
 	Purpose:	go get the http data from the server
 	Input:		$url		the url to fetch
@@ -402,7 +402,7 @@ class Snoopy
 				$URI		the full URI
 				$body		body contents to send if any (POST)
 	Output:		
-\*======================================================================*/
+*======================================================================*/
 	
 	function _httprequest($url,$fp,$URI,$http_method,$content_type="",$body="")
 	{
@@ -412,19 +412,19 @@ class Snoopy
 		$URI_PARTS = parse_url($URI);
 		if(empty($url))
 			$url = "/";
-		$headers = $http_method." ".$url." ".$this->_httpversion."\r\n";		
+		$headers = $http_method." ".$url." ".$this->_httpversion."n";		
 		if(!empty($this->agent))
-			$headers .= "User-Agent: ".$this->agent."\r\n";
+			$headers .= "User-Agent: ".$this->agent."n";
 		if(!empty($this->host) && !isset($this->rawheaders['Host']))
-			$headers .= "Host: ".$this->host."\r\n";
+			$headers .= "Host: ".$this->host."n";
 		if(!empty($this->accept))
-			$headers .= "Accept: ".$this->accept."\r\n";
+			$headers .= "Accept: ".$this->accept."n";
 		
 		if($this->use_gzip) {
 			// make sure PHP was built with --with-zlib
 			// and we can handle gzipp'ed data
 			if ( function_exists(gzinflate) ) {
-			   $headers .= "Accept-encoding: gzip\r\n";
+			   $headers .= "Accept-encoding: n";
 			}
 			else {
 			   trigger_error(
@@ -435,7 +435,7 @@ class Snoopy
 		}
 		
 		if(!empty($this->referer))
-			$headers .= "Referer: ".$this->referer."\r\n";
+			$headers .= "Referer: ".$this->referer."n";
 		if(!empty($this->cookies))
 		{			
 			if(!is_array($this->cookies))
@@ -447,7 +447,7 @@ class Snoopy
 				foreach ( $this->cookies as $cookieKey => $cookieVal ) {
 				$cookie_headers .= $cookieKey."=".urlencode($cookieVal)."; ";
 				}
-				$headers .= substr($cookie_headers,0,-2) . "\r\n";
+				$headers .= substr($cookie_headers,0,-2) . "n";
 			} 
 		}
 		if(!empty($this->rawheaders))
@@ -455,20 +455,20 @@ class Snoopy
 			if(!is_array($this->rawheaders))
 				$this->rawheaders = (array)$this->rawheaders;
 			while(list($headerKey,$headerVal) = each($this->rawheaders))
-				$headers .= $headerKey.": ".$headerVal."\r\n";
+				$headers .= $headerKey.": ".$headerVal."n";
 		}
 		if(!empty($content_type)) {
 			$headers .= "Content-type: $content_type";
 			if ($content_type == "multipart/form-data")
 				$headers .= "; boundary=".$this->_mime_boundary;
-			$headers .= "\r\n";
+			$headers .= "n";
 		}
 		if(!empty($body))	
-			$headers .= "Content-length: ".strlen($body)."\r\n";
+			$headers .= "Content-length: ".strlen($body)."n";
 		if(!empty($this->user) || !empty($this->pass))	
-			$headers .= "Authorization: BASIC ".base64_encode($this->user.":".$this->pass)."\r\n";
+			$headers .= "Authorization: BASIC ".base64_encode($this->user.":".$this->pass)."n";
 
-		$headers .= "\r\n";
+		$headers .= "n";
 		
 		// set the read timeout if needed
 		if ($this->read_timeout > 0)
@@ -491,17 +491,17 @@ class Snoopy
 				return false;
 			}
 				
-		//	if($currentHeader == "\r\n")
-			if(preg_match("/^\r?\n$/", $currentHeader) )
+		//	if($currentHeader == "n")
+			if(preg_match("/r?n$/", $currentHeader) )
 			      break;
 						
 			// if a header begins with Location: or URI:, set the redirect
 			if(preg_match("/^(Location:|URI:)/i",$currentHeader))
 			{
 				// get URL portion of the redirect
-				preg_match("/^(Location:|URI:)\s+(.*)/",chop($currentHeader),$matches);
+				preg_match("/^(Location:|URI:)s+(.*)/",chop($currentHeader),$matches);
 				// look for :// in the Location header to see if hostname is included
-				if(!preg_match("|\:\/\/|",$matches[2]))
+				if(!preg_match("|://|",$matches[2]))
 				{
 					// no host in the path, so prepend
 					$this->_redirectaddr = $URI_PARTS["scheme"]."://".$this->host.":".$this->port;
@@ -517,7 +517,7 @@ class Snoopy
 		
 			if(preg_match("|^HTTP/|",$currentHeader))
 			{
-                if(preg_match("|^HTTP/[^\s]*\s(.*?)\s|",$currentHeader, $status))
+                if(preg_match("|^HTTP/s]*s(.*?)s|",$currentHeader, $status))
 				{
 					$this->status= $status[1];
                 }				
@@ -556,13 +556,13 @@ class Snoopy
 		
 		// check if there is a a redirect meta tag
 		
-		if(preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]+URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match))
+		if(preg_match("'<s]*http-equiv[^>]*?s]*=s]*"']?d+;s]+s]*=s]*("']*?)"']?>'i",$results,$match))
 		{
 			$this->_redirectaddr = $this->_expandlinks($match[1],$URI);	
 		}
 
 		// have we hit our frame depth and is there frame src to fetch?
-		if(($this->_framedepth < $this->maxframes) && preg_match_all("'<frame\s+.*src[\s]*=[\'\"]?([^\'\"\>]+)'i",$results,$match))
+		if(($this->_framedepth < $this->maxframes) && preg_match_all("'<s+.*s]*='"]?('">]+)'i",$results,$match))
 		{
 			$this->results[] = $results;
 			for($x=0; $x<count($match[1]); $x++)
@@ -578,14 +578,14 @@ class Snoopy
 		return true;
 	}
 
-/*======================================================================*\
+/*======================================================================*
 	Function:	_httpsrequest
 	Purpose:	go get the https data from the server using curl
 	Input:		$url		the url to fetch
 				$URI		the full URI
 				$body		body contents to send if any (POST)
 	Output:		
-\*======================================================================*/
+*======================================================================*/
 	
 	function _httpsrequest($url,$URI,$http_method,$content_type="",$body="")
 	{
@@ -640,11 +640,11 @@ class Snoopy
 			$headers[] = "Authorization: BASIC ".base64_encode($this->user.":".$this->pass);
 			
 		for($curr_header = 0; $curr_header < count($headers); $curr_header++) {
-			$cmdline_params .= " -H \"".$headers[$curr_header]."\"";
+			$cmdline_params .= " -H "".$headers[$curr_header].""";
 		}
 			  	                         
 		if(!empty($body))
-			$cmdline_params .= " -d \"$body\"";
+			$cmdline_params .= " -d "$"";
 		
 		if($this->read_timeout > 0)
 			$cmdline_params .= " -m ".$this->read_timeout;
@@ -653,7 +653,7 @@ class Snoopy
 		
 		# accept self-signed certs
 		$cmdline_params .= " -k"; 
-		exec($this->curl_path." -D \"/tmp/$headerfile\"".escapeshellcmd($cmdline_params)." ".escapeshellcmd($URI),$results,$return);
+		exec($this->curl_path." -D "/tmp/$"".escapeshellcmd($cmdline_params)." ".escapeshellcmd($URI),$results,$return);
 		
 		if($return)
 		{
@@ -662,7 +662,7 @@ class Snoopy
 		}
 			
 			
-		$results = implode("\r\n",$results);
+		$results = implode("n",$results);
 		
 		$result_headers = file("/tmp/$headerfile");
 						
@@ -678,7 +678,7 @@ class Snoopy
 				// get URL portion of the redirect
 				preg_match("/^(Location: |URI:)(.*)/",chop($result_headers[$currentHeader]),$matches);
 				// look for :// in the Location header to see if hostname is included
-				if(!preg_match("|\:\/\/|",$matches[2]))
+				if(!preg_match("|://|",$matches[2]))
 				{
 					// no host in the path, so prepend
 					$this->_redirectaddr = $URI_PARTS["scheme"]."://".$this->host.":".$this->port;
@@ -695,7 +695,7 @@ class Snoopy
 			if(preg_match("|^HTTP/|",$result_headers[$currentHeader]))
 			{
 			    $this->response_code = $result_headers[$currentHeader];
-			    if(preg_match("|^HTTP/[^\s]*\s(.*?)\s|",$this->response_code, $match))
+			    if(preg_match("|^HTTP/s]*s(.*?)s|",$this->response_code, $match))
 			    {
 				$this->status= $match[1];
                 	    }
@@ -705,13 +705,13 @@ class Snoopy
 
 		// check if there is a a redirect meta tag
 		
-		if(preg_match("'<meta[\s]*http-equiv[^>]*?content[\s]*=[\s]*[\"\']?\d+;[\s]+URL[\s]*=[\s]*([^\"\']*?)[\"\']?>'i",$results,$match))
+		if(preg_match("'<s]*http-equiv[^>]*?s]*=s]*"']?d+;s]+s]*=s]*("']*?)"']?>'i",$results,$match))
 		{
 			$this->_redirectaddr = $this->_expandlinks($match[1],$URI);	
 		}
 
 		// have we hit our frame depth and is there frame src to fetch?
-		if(($this->_framedepth < $this->maxframes) && preg_match_all("'<frame\s+.*src[\s]*=[\'\"]?([^\'\"\>]+)'i",$results,$match))
+		if(($this->_framedepth < $this->maxframes) && preg_match_all("'<s+.*s]*='"]?('">]+)'i",$results,$match))
 		{
 			$this->results[] = $results;
 			for($x=0; $x<count($match[1]); $x++)
@@ -729,26 +729,26 @@ class Snoopy
 		return true;
 	}
 
-/*======================================================================*\
+/*======================================================================*
 	Function:	setcookies()
 	Purpose:	set cookies for a redirection
-\*======================================================================*/
+*======================================================================*/
 	
 	function setcookies()
 	{
 		for($x=0; $x<count($this->headers); $x++)
 		{
-		if(preg_match("/^set-cookie:[\s]+([^=]+)=([^;]+)/i", $this->headers[$x],$match))
+		if(preg_match("/^set-cookie:s]+([^=]+)=([^;]+)/i", $this->headers[$x],$match))
 			$this->cookies[$match[1]] = $match[2];
 		}
 	}
 
 	
-/*======================================================================*\
+/*======================================================================*
 	Function:	_check_timeout
 	Purpose:	checks whether timeout has occurred
 	Input:		$fp	file pointer
-\*======================================================================*/
+*======================================================================*/
 
 	function _check_timeout($fp)
 	{
@@ -762,11 +762,11 @@ class Snoopy
 		return false;
 	}
 
-/*======================================================================*\
+/*======================================================================*
 	Function:	_connect
 	Purpose:	make a socket connection
 	Input:		$fp	file pointer
-\*======================================================================*/
+*======================================================================*/
 	
 	function _connect(&$fp)
 	{
@@ -814,11 +814,11 @@ class Snoopy
 			return false;
 		}
 	}
-/*======================================================================*\
+/*======================================================================*
 	Function:	_disconnect
 	Purpose:	disconnect a socket connection
 	Input:		$fp	file pointer
-\*======================================================================*/
+*======================================================================*/
 	
 	function _disconnect($fp)
 	{
@@ -826,13 +826,13 @@ class Snoopy
 	}
 
 	
-/*======================================================================*\
+/*======================================================================*
 	Function:	_prepare_post_body
 	Purpose:	Prepare post body according to encoding type
 	Input:		$formvars  - form variables
 				$formfiles - form upload files
 	Output:		post body
-\*======================================================================*/
+*======================================================================*/
 	
 	function _prepare_post_body($formvars, $formfiles)
 	{
@@ -862,14 +862,14 @@ class Snoopy
 				while(list($key,$val) = each($formvars)) {
 					if (is_array($val) || is_object($val)) {
 						while (list($cur_key, $cur_val) = each($val)) {
-							$postdata .= "--".$this->_mime_boundary."\r\n";
-							$postdata .= "Content-Disposition: form-data; name=\"$key\[\]\"\r\n\r\n";
-							$postdata .= "$cur_val\r\n";
+							$postdata .= "--".$this->_mime_boundary."n";
+							$postdata .= "Content-Disposition: form-data; name="$"n";
+							$postdata .= "$n";
 						}
 					} else {
-						$postdata .= "--".$this->_mime_boundary."\r\n";
-						$postdata .= "Content-Disposition: form-data; name=\"$key\"\r\n\r\n";
-						$postdata .= "$val\r\n";
+						$postdata .= "--".$this->_mime_boundary."n";
+						$postdata .= "Content-Disposition: form-data; name="$"n";
+						$postdata .= "$n";
 					}
 				}
 				
@@ -884,12 +884,12 @@ class Snoopy
 						fclose($fp);
 						$base_name = basename($file_name);
 
-						$postdata .= "--".$this->_mime_boundary."\r\n";
-						$postdata .= "Content-Disposition: form-data; name=\"$field_name\"; filename=\"$base_name\"\r\n\r\n";
-						$postdata .= "$file_content\r\n";
+						$postdata .= "--".$this->_mime_boundary."n";
+						$postdata .= "Content-Disposition: form-data; name="$"; filename="$"n";
+						$postdata .= "$n";
 					}
 				}
-				$postdata .= "--".$this->_mime_boundary."--\r\n";
+				$postdata .= "--".$this->_mime_boundary."--n";
 				break;
 		}
 

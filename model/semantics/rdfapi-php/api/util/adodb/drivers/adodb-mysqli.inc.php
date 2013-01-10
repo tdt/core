@@ -216,12 +216,12 @@ class ADODB_mysqli extends ADOConnection {
 	    	if (PHP_VERSION >= 5)
 	      		return "'" . mysqli_real_escape_string($this->_connectionID, $s) . "'";
 
-		if ($this->replaceQuote[0] == '\\')
-			$s = adodb_str_replace(array('\\',"\0"),array('\\\\',"\\\0"),$s);
+		if ($this->replaceQuote[0] == '')
+			$s = adodb_str_replace(array('',"0"),array('',"0"),$s);
 	    return  "'".str_replace("'",$this->replaceQuote,$s)."'";
 	  }
 	  // undo magic quotes for "
-	  $s = str_replace('\\"','"',$s);
+	  $s = str_replace('"','"',$s);
 	  return "'$s'";
 	}
 
@@ -418,7 +418,7 @@ class ADODB_mysqli extends ADOConnection {
 
 			default:
 
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}
@@ -488,7 +488,7 @@ class ADODB_mysqli extends ADOConnection {
 
 	    $matches = array();
 
-	    if (!preg_match_all("/FOREIGN KEY \(`(.*?)`\) REFERENCES `(.*?)` \(`(.*?)`\)/", $create_sql, $matches)) return false;
+	    if (!preg_match_all("/FOREIGN KEY (`(.*?)) REFERENCES `(.*?)` (`(.*?))/", $create_sql, $matches)) return false;
 	 	$foreign_keys = array();
 	    $num_keys = count($matches[0]);
 	    for ( $i = 0;  $i < $num_keys;  $i ++ ) {
@@ -539,14 +539,14 @@ class ADODB_mysqli extends ADOConnection {
 
 			// split type into type(length):
 			$fld->scale = null;
-			if (preg_match("/^(.+)\((\d+),(\d+)/", $type, $query_array)) {
+			if (preg_match("/^(.+)((d+),(d+)/", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$fld->max_length = is_numeric($query_array[2]) ? $query_array[2] : -1;
 				$fld->scale = is_numeric($query_array[3]) ? $query_array[3] : -1;
-			} elseif (preg_match("/^(.+)\((\d+)/", $type, $query_array)) {
+			} elseif (preg_match("/^(.+)((d+)/", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$fld->max_length = is_numeric($query_array[2]) ? $query_array[2] : -1;
-			} elseif (preg_match("/^(enum)\((.*)\)$/i", $type, $query_array)) {
+			} elseif (preg_match("/^(enum)((.*))$/i", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$fld->max_length = max(array_map("strlen",explode(",",$query_array[2]))) - 2; // PHP >= 4.0.6
 				$fld->max_length = ($fld->max_length == 0 ? 1 : $fld->max_length);

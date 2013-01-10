@@ -9,10 +9,13 @@
 
 namespace tdt\core\controllers;
 
-class RedirectController extends tdt\core\controllers\ACoreController{
+use tdt\core\controllers\ACoreController;
+use tdt\core\utility\RequestURI;
+use tdt\framework\TDTException;
+
+class RedirectController extends ACoreController{
     
-    public function __construct() {
-        //AutoInclude::register("RequestURI", "cores/core/utility/RequestURI.class.php");        
+    public function __construct() {          
         parent::__construct();
     }
     
@@ -22,7 +25,7 @@ class RedirectController extends tdt\core\controllers\ACoreController{
     function GET($matches){
 
         //get the current URL
-        $ru = tdt\core\utility\RequestURI::getInstance();
+        $ru = RequestURI::getInstance();
         $pageURL = $ru->getURI();
         $pageURL = rtrim($pageURL, "/");
         //add .about before the ?
@@ -43,23 +46,23 @@ class RedirectController extends tdt\core\controllers\ACoreController{
 
     function POST($matches){
         //get the current URL
-        $ru = tdt\core\utility\RequestURI::getInstance();
+        $ru = RequestURI::getInstance();
         $pageURL = $ru->getURI();
-        throw new tdt\framework\TDTException(450, array("POST",$pageURL));
+        throw new TDTException(450, array("POST",$pageURL));
     }
     
     function PUT($matches){
         //get the current URL
-        $ru = tdt\core\utility\RequestURI::getInstance();
+        $ru = RequestURI::getInstance();
         $pageURL = $ru->getURI();
-        throw new tdt\framework\TDTException(450, array("PUT",$pageURL));
+        throw new TDTException(450, array("PUT",$pageURL));
     }
     
     function DELETE($matches){
         //get the current URL
-        $ru = tdt\core\utility\RequestURI::getInstance();
+        $ru = RequestURI::getInstance();
         $pageURL = $ru->getURI();
-        throw new tdt\framework\TDTException(450, array("DELETE",$pageURL));
+        throw new TDTException(450, array("DELETE",$pageURL));
     }
 
     /**
@@ -67,9 +70,9 @@ class RedirectController extends tdt\core\controllers\ACoreController{
      */
     public function PATCH($matches) {
         //get the current URL
-        $ru = tdt\core\utility\RequestURI::getInstance();
+        $ru = RequestURI::getInstance();
         $pageURL = $ru->getURI();
-        throw new tdt\framework\TDTException(450, array("PATCH",$pageURL));
+        throw new TDTException(450, array("PATCH",$pageURL));
     }
 
 }

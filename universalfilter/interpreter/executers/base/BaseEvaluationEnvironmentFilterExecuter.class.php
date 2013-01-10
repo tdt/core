@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\executers\base;
+namespace base;
 
-abstract class BaseEvaluationEnvironmentFilterExecuter extends tdt\core\universalfilter\executers\base\AbstractUniversalFilterNodeExecuter {
+abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     //put your code here
     
     /**
@@ -22,7 +22,7 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends tdt\core\universa
      * @param Environment $topenv
      * @return array Intern data
      */
-    protected function initChildEnvironment(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    protected function initChildEnvironment(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         //
         // BUILD ENVIRONMENT TO GIVE TO EXPRESSIONS
         //
@@ -38,7 +38,7 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends tdt\core\universa
         
         //build new environment
         if(!$oldtable->getHeader()->isSingleRowByConstruction()){
-            throw new tdt\framework\TDTException(500,array("Illegal location for ColumnSelectionFilter or FilterByExpressionFilter"));
+            throw new TDTException(500,array("Illegal location for ColumnSelectionFilter or FilterByExpressionFilter"));
         }
         
         for ($oldtablecolumn = 0; $oldtablecolumn < $oldtable->getHeader()->getColumnCount(); $oldtablecolumn++) {
@@ -50,7 +50,7 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends tdt\core\universa
             $giveToColumnsEnvironment->addSingleValue($column, $oldTableRow);
         }
         
-        $giveToColumnsEnvironment->setTable(new tdt\core\universalfilter\UniversalFilterTable($header, new tdt\core\universalfilter\UniversalFilterTableContent()));
+        $giveToColumnsEnvironment->setTable(new UniversalFilterTable($header, new UniversalFilterTableContent()));
         return array("env" => $giveToColumnsEnvironment, "row" => $oldTableRow, "table" => $oldtable);
     }
     

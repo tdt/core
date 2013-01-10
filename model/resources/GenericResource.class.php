@@ -8,7 +8,7 @@
  * @author Pieter Colpaert
  */
 
-namespace tdt\core\model\resources;
+namespace resources;
 
 class GenericResource{
     
@@ -22,7 +22,7 @@ class GenericResource{
     public function __construct($package,$resource){
         $this->package = $package;
         $this->resource = $resource;
-        $result = tdt\core\model\DBQueries::getGenericResourceType($package, $resource);
+        $result = DBQueries::getGenericResourceType($package, $resource);
         $this->strategyname = $result["type"];
     }
 
@@ -84,7 +84,7 @@ class GenericResource{
     private function createConfigObject($parameters,$strat){
         $configObject = new stdClass();
         $columnstring = implode($parameters, ",");
-        $resource_table = tdt\core\model\resources\GenericResource::$TABLE_PREAMBLE . strtolower(get_class($strat));
+        $resource_table = GenericResource::$TABLE_PREAMBLE . strtolower(get_class($strat));
         $columnstring = $columnstring . ",gen_resource_id";
         $query = R::getRow(
             "SELECT *

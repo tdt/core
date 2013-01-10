@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\sourcefilterbinding;
+namespace sourcefilterbinding;
 
 class ExpectedHeaderNamesAttachment {
     public static $ATTACHMENTID="ExpectedHeaderNamesInfoAttachmentId";

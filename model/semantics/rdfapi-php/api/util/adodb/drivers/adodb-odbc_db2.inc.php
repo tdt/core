@@ -267,7 +267,7 @@ class ADODB_ODBC_DB2 extends ADODB_odbc {
 				else $s .= "''";
 				break;
 			default:
-				if ($ch == '\\') {
+				if ($ch == '') {
 					$i++;
 					$ch = substr($fmt,$i,1);
 				}

@@ -12,9 +12,9 @@
  * @author Miel Vander Sande
  */
 
-namespace tdt\core\formatters;
+namespace formatters;
 
-class RhtmlFormatter extends tdt\core\formatters\AFormatter {
+class RhtmlFormatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

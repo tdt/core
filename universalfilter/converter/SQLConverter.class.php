@@ -14,7 +14,7 @@
  */
 include_once("core/universalfilter/UniversalFilters.php");
 
-namespace tdt\core\universalfilter\converter;
+namespace converter;
 
 class SQLConverter {   
 
@@ -76,7 +76,7 @@ class SQLConverter {
      * @param UniversalFilterNode $tree
      * @return string A string representation of the tree
      */
-    private function treeToSQL(tdt\core\universalfilter\UniversalFilterNode $tree) {
+    private function treeToSQL(UniversalFilterNode $tree) {
         $method = "print_" . get_class($tree);
         //calls the correct clone method and then returns.
         return $this->$method($tree);

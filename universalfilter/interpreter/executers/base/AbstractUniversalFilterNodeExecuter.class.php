@@ -10,13 +10,13 @@
  * @see universalfilter/interpreter/executers/base/IUniversalFilterNodeExecuter.interface.php for the documentation of these methods
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\base;
+namespace base;
 
 abstract class AbstractUniversalFilterNodeExecuter {
     
     protected $filter;//Need to be set in initExpression
     
-    public abstract function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn);
+    public abstract function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn);
 
     public abstract function getExpressionHeader();
     
@@ -41,7 +41,7 @@ abstract class AbstractUniversalFilterNodeExecuter {
         $expectedheadernames = $this->getTableNames();
         
         //sets the data on the filter
-        $filter->attach(tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment::$ATTACHMENTID, new tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment($expectedheadernames));
+        $filter->attach(ExpectedHeaderNamesAttachment::$ATTACHMENTID, new ExpectedHeaderNamesAttachment($expectedheadernames));
     }
     
     
@@ -73,7 +73,7 @@ abstract class AbstractUniversalFilterNodeExecuter {
         }
     }
     
-    public abstract function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex);
+    public abstract function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex);
     
     
 }

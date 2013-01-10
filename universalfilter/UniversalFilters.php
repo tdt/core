@@ -8,7 +8,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter;
+namespace universalfilter;
 
 /**
  * Top class of all filters
@@ -51,7 +51,7 @@ abstract class UniversalFilterNode {
  * 
  * 
  */
-class Identifier extends tdt\core\universalfilter\UniversalFilterNode {
+class Identifier extends UniversalFilterNode {
     private $value;//type:String
     
     public function __construct($value) {
@@ -68,7 +68,7 @@ class Identifier extends tdt\core\universalfilter\UniversalFilterNode {
  * Represents a constant
  * Can be a string, a boolean, or a number.
  */
-class Constant extends tdt\core\universalfilter\UniversalFilterNode {
+class Constant extends UniversalFilterNode {
     private $constant;//type:String
     
     public function __construct($constant) {
@@ -87,8 +87,8 @@ class Constant extends tdt\core\universalfilter\UniversalFilterNode {
  * 
  * Some filters like joins or binary functions have more than one source.
  */
-abstract class NormalFilterNode extends tdt\core\universalfilter\UniversalFilterNode {
-    private $source=array();//of tdt\core\universalfilter\UniversalFilterNode
+abstract class NormalFilterNode extends UniversalFilterNode {
+    private $source=array();//of UniversalFilterNode
     
     /**
      * Is this index a correct index of a source?
@@ -138,10 +138,10 @@ abstract class NormalFilterNode extends tdt\core\universalfilter\UniversalFilter
  * Represents a table alias
  * Has a source and a alias string
  */
-class TableAliasFilter extends tdt\core\universalfilter\NormallFilterNode {
+class TableAliasFilter extends NormallFilterNode {
     private $alias;//type:String
     
-    public function __construct($alias, tdt\core\universalfilter\UniversalFilterNode $source=null) {
+    public function __construct($alias, UniversalFilterNode $source=null) {
         parent::__construct("TABLEALIAS");
         $this->alias=$alias;
         if($source!=null) $this->setSource($source);
@@ -161,10 +161,10 @@ class TableAliasFilter extends tdt\core\universalfilter\NormallFilterNode {
  *
  * aka "WHERE" or "HAVING"
  */
-class FilterByExpressionFilter extends tdt\core\universalfilter\NormallFilterNode{
-    private $expression;//type:tdt\core\universalfilter\UniversalFilterNode
+class FilterByExpressionFilter extends NormallFilterNode{
+    private $expression;//type:UniversalFilterNode
     
-    public function __construct(tdt\core\universalfilter\UniversalFilterNode $expression, tdt\core\universalfilter\UniversalFilterNode $source=null) {
+    public function __construct(UniversalFilterNode $expression, UniversalFilterNode $source=null) {
         parent::__construct("FILTEREXPRESSION");
         $this->expression=$expression;
         if($source!=null) $this->setSource($source);
@@ -187,10 +187,10 @@ class FilterByExpressionFilter extends tdt\core\universalfilter\NormallFilterNod
  *
  * aka "SELECT"
  */
-class ColumnSelectionFilter extends tdt\core\universalfilter\NormallFilterNode {
+class ColumnSelectionFilter extends NormallFilterNode {
     private $columndata;//type:Array[ColumnSelectionFilterColumn]
 
-    public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata, tdt\core\universalfilter\UniversalFilterNode $source=null) {
+    public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata, UniversalFilterNode $source=null) {
         parent::__construct("FILTERCOLUMN");
         $this->columndata=$columndata;
         if($source!=null) $this->setSource($source);
@@ -203,10 +203,10 @@ class ColumnSelectionFilter extends tdt\core\universalfilter\NormallFilterNode {
 
 /** Represents a column used in the ColumnSelectionFilter */
 class ColumnSelectionFilterColumn {
-    private $column;//type:tdt\core\universalfilter\UniversalFilterNode
+    private $column;//type:UniversalFilterNode
     private $alias;//type:String (can be null)
 
-    public function __construct(tdt\core\universalfilter\UniversalFilterNode $column, $alias=null) {
+    public function __construct(UniversalFilterNode $column, $alias=null) {
         $this->column=$column;
         $this->alias=$alias;
     }
@@ -228,10 +228,10 @@ class ColumnSelectionFilterColumn {
  *
  * aka "ORDER BY"
  */
-class SortFieldsFilter extends tdt\core\universalfilter\NormallFilterNode {
+class SortFieldsFilter extends NormallFilterNode {
     private $columndata;//type:Array[SortFieldsFilterColumn]
 
-    public function __construct(array /* of SortFieldsFilterColumn */ $columndata, tdt\core\universalfilter\UniversalFilterNode $source=null) {
+    public function __construct(array /* of SortFieldsFilterColumn */ $columndata, UniversalFilterNode $source=null) {
         parent::__construct("FILTERSORTCOLUMNS");
         $this->columndata=$columndata;
         if($source!=null) $this->setSource($source);
@@ -272,8 +272,8 @@ class SortFieldsFilterColumn {
  *
  * aka "DISTINCT"
  */
-class DistinctFilter extends tdt\core\universalfilter\NormallFilterNode{
-    public function __construct(tdt\core\universalfilter\UniversalFilterNode $source=null) {
+class DistinctFilter extends NormallFilterNode{
+    public function __construct(UniversalFilterNode $source=null) {
         parent::__construct("FILTERDISTINCT");
         if($source!=null) $this->setSource($source);
     }
@@ -287,8 +287,8 @@ class DistinctFilter extends tdt\core\universalfilter\NormallFilterNode{
  *
  * aka "LIMIT"
  */
-class LimitFilter extends tdt\core\universalfilter\NormallFilterNode{
-    public function __construct(tdt\core\universalfilter\UniversalFilterNode $source=null, $offset,$limit) {
+class LimitFilter extends NormallFilterNode{
+    public function __construct(UniversalFilterNode $source=null, $offset,$limit) {
         parent::__construct("FILTERLIMIT");
         if($source!=null) $this->setSource($source);
         $this->offset = $offset;
@@ -326,10 +326,10 @@ class LimitFilter extends tdt\core\universalfilter\NormallFilterNode{
  *
  * aka "GROUP BY"
  */
-class DataGrouper extends tdt\core\universalfilter\NormallFilterNode {
+class DataGrouper extends NormallFilterNode {
     private $columns;
     
-    public function __construct(array $columns, tdt\core\universalfilter\UniversalFilterNode $source=null) {
+    public function __construct(array $columns, UniversalFilterNode $source=null) {
         parent::__construct("DATAGROUPER");
         $this->columns=$columns;
         if($source!=null) $this->setSource($source);
@@ -351,12 +351,12 @@ class DataGrouper extends tdt\core\universalfilter\NormallFilterNode {
  * aka "FULL OUTER JOIN"
  * aka "CROSS JOIN"
  */
-class DatasetJoinFilter extends tdt\core\universalfilter\NormallFilterNode{
-    private $expression;//type:tdt\core\universalfilter\UniversalFilterNode
+class DatasetJoinFilter extends NormallFilterNode{
+    private $expression;//type:UniversalFilterNode
     private $keepleft;//type:boolean
     private $keepright;//type:boolean
     
-    public function __construct($keepleft=false, $keepright=false, tdt\core\universalfilter\UniversalFilterNode $sourceA=null, tdt\core\universalfilter\UniversalFilterNode $sourceB=null, tdt\core\universalfilter\UniversalFilterNode $expression=null) {
+    public function __construct($keepleft=false, $keepright=false, UniversalFilterNode $sourceA=null, UniversalFilterNode $sourceB=null, UniversalFilterNode $expression=null) {
         parent::__construct("JOIN");
         $this->expression=$expression;
         $this->keepleft=$keepleft;
@@ -394,7 +394,7 @@ class DatasetJoinFilter extends tdt\core\universalfilter\NormallFilterNode{
  * type: Column -> Column
  * type: Cell -> Cell
  */
-class UnaryFunction extends tdt\core\universalfilter\NormallFilterNode {
+class UnaryFunction extends NormallFilterNode {
     
     public static $FUNCTION_UNARY_UPPERCASE="FUNCTION_UNARY_UPPERCASE";
     public static $FUNCTION_UNARY_LOWERCASE="FUNCTION_UNARY_LOWERCASE";
@@ -417,7 +417,7 @@ class UnaryFunction extends tdt\core\universalfilter\NormallFilterNode {
     public static $FUNCTION_UNARY_DATETIME_PARSE="FUNCTION_UNARY_DATETIME_PARSE";
     public static $FUNCTION_UNARY_DATETIME_DATEPART="FUNCTION_UNARY_DATETIME_DATEPART";
     
-    public function __construct($kind, tdt\core\universalfilter\UniversalFilterNode $column=null) {
+    public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
         if($column!=null) $this->setSource($column, 0);
     }
@@ -447,7 +447,7 @@ class DateTimeExtractConstants {
  * type: (Column,Column) -> Column
  * type: (Cell, Cell) -> Cell
  */
-class BinaryFunction extends tdt\core\universalfilter\NormallFilterNode {
+class BinaryFunction extends NormallFilterNode {
     
     public static $FUNCTION_BINARY_PLUS="FUNCTION_BINARY_PLUS";
     public static $FUNCTION_BINARY_MINUS="FUNCTION_BINARY_MINUS";
@@ -471,7 +471,7 @@ class BinaryFunction extends tdt\core\universalfilter\NormallFilterNode {
     public static $FUNCTION_BINARY_DATETIME_FORMAT="FUNCTION_BINARY_DATETIME_FORMAT";/*time, php format*/
     public static $FUNCTION_BINARY_DATETIME_DATEDIFF="FUNCTION_BINARY_DATETIME_DATEDIFF";
     
-    public function __construct($kind, tdt\core\universalfilter\UniversalFilterNode $columnA=null, tdt\core\universalfilter\UniversalFilterNode $columnB=null) {
+    public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null) {
         parent::__construct($kind);
         if($columnA!=null) $this->setSource($columnA, 0);
         if($columnB!=null) $this->setSource($columnB, 1);
@@ -488,14 +488,14 @@ class BinaryFunction extends tdt\core\universalfilter\NormallFilterNode {
  * type: (Column,Column,Column) -> Column
  * type: (Cell, Cell, Cell) -> Cell
  */
-class TernaryFunction extends tdt\core\universalfilter\NormallFilterNode {
+class TernaryFunction extends NormallFilterNode {
     
     public static $FUNCTION_TERNARY_SUBSTRING="FUNCTION_TERNARY_SUBSTRING";//get part of $1 from index $2 with length $3
     public static $FUNCTION_TERNARY_REGEX_REPLACE="FUNCTION_TERNARY_REGEX_REPLACE";//replace $1 by $2 in $3
     public static $FUNCTION_TERNARY_DATETIME_DATEADD="FUNCTION_TERNARY_DATETIME_DATEADD";// (date, string, constant:DateTimeExtractConstant)  (DATE_ADD(date INTERVAL string constant))
     public static $FUNCTION_TERNARY_DATETIME_DATESUB="FUNCTION_TERNARY_DATETIME_DATESUB";// (date, string, constant:DateTimeExtractConstant)  (DATE_SUB(date INTERVAL string constant))
     
-    public function __construct($kind, tdt\core\universalfilter\UniversalFilterNode $columnA=null, tdt\core\universalfilter\UniversalFilterNode $columnB=null, tdt\core\universalfilter\UniversalFilterNode $columnC=null) {
+    public function __construct($kind, UniversalFilterNode $columnA=null, UniversalFilterNode $columnB=null, UniversalFilterNode $columnC=null) {
         parent::__construct($kind);
         if($columnA!=null) $this->setSource($columnA, 0);
         if($columnB!=null) $this->setSource($columnB, 1);
@@ -512,7 +512,7 @@ class TernaryFunction extends tdt\core\universalfilter\NormallFilterNode {
  * 
  * type: Column -> Cell
  */
-class AggregatorFunction extends tdt\core\universalfilter\NormallFilterNode {
+class AggregatorFunction extends NormallFilterNode {
     
     public static $AGGREGATOR_AVG="AGGREGATOR_AVG";
     public static $AGGREGATOR_COUNT="AGGREGATOR_COUNT";
@@ -522,7 +522,7 @@ class AggregatorFunction extends tdt\core\universalfilter\NormallFilterNode {
     public static $AGGREGATOR_MIN="AGGREGATOR_MIN";
     public static $AGGREGATOR_SUM="AGGREGATOR_SUM";
     
-    public function __construct($kind, tdt\core\universalfilter\UniversalFilterNode $column=null) {
+    public function __construct($kind, UniversalFilterNode $column=null) {
         parent::__construct($kind);
         if($column!=null) $this->setSource($column);
     }
@@ -539,12 +539,12 @@ class AggregatorFunction extends tdt\core\universalfilter\NormallFilterNode {
  * type: [Cell, [Constant, ...]] -> Cell
  * type: [Column, [Constant, ...]] -> Column
  */
-class CheckInFunction extends tdt\core\universalfilter\NormallFilterNode {
+class CheckInFunction extends NormallFilterNode {
     private $constants;
     
     public static $FUNCTION_IN_LIST="FUNCTION_IN_LIST";// is a varargs function
     
-    public function __construct(array /* of Constant */ $constants, tdt\core\universalfilter\UniversalFilterNode $source = null) {
+    public function __construct(array /* of Constant */ $constants, UniversalFilterNode $source = null) {
         parent::__construct(CheckInFunction::$FUNCTION_IN_LIST);
         $this->constants=$constants;
         if($column!=null) $this->setSource($source);

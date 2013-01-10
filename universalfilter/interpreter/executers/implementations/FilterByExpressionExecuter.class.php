@@ -10,9 +10,9 @@
  */
 
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class FilterByExpressionExecuter extends tdt\core\universalfilter\interpreter\executers\base\BaseEvaluationEnvironmentFilterExecuter {
+class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter {
 
     private $interpreter;
     private $header;
@@ -21,7 +21,7 @@ class FilterByExpressionExecuter extends tdt\core\universalfilter\interpreter\ex
     private $childEnvironmentData;
     private $giveToColumnsEnvironment;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
         $this->interpreter = $interpreter;
 
@@ -64,13 +64,13 @@ class FilterByExpressionExecuter extends tdt\core\universalfilter\interpreter\ex
         $sourcecontent = $this->executer->evaluateAsExpression();
 
         $this->finishChildEnvironment($this->childEnvironmentData);
-        $this->giveToColumnsEnvironment->setTable(new tdt\core\universalfilter\data\UniversalFilterTable($sourceheader, $sourcecontent));
+        $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
 
         //get expression header
         $exprheader = $this->exprexec->getExpressionHeader();
 
         // filter the content
-        $filteredRows = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $filteredRows = new UniversalFilterTableContent();
 
         // calcultate the table with true and false
         $inResultTable = $this->exprexec->evaluateAsExpression();
@@ -115,7 +115,7 @@ class FilterByExpressionExecuter extends tdt\core\universalfilter\interpreter\ex
         $this->exprexec->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = array_merge(
                 $this->executer->filterSingleSourceUsages($this->filter, 0), $this->exprexec->filterSingleSourceUsages($this->filter, -1)); //TODO: give a correct source number -> only a problem when allowing independent select in where (!) (see also readme for optimizer) (not a problem when nested selects are not allowed)
 

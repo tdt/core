@@ -49,7 +49,7 @@ class ADODB_vfp extends ADODB_odbc {
 	// quote string to be sent back to database
 	function qstr($s,$nofixquotes=false)
 	{
-		if (!$nofixquotes) return  "'".str_replace("\r\n","'+chr(13)+'",str_replace("'",$this->replaceQuote,$s))."'";
+		if (!$nofixquotes) return  "'".str_replace("n","'+chr(13)+'",str_replace("'",$this->replaceQuote,$s))."'";
 		return "'".$s."'";
 	}
 
@@ -57,7 +57,7 @@ class ADODB_vfp extends ADODB_odbc {
 	// TOP requires ORDER BY for VFP
 	function &SelectLimit($sql,$nrows=-1,$offset=-1, $inputarr=false,$secs2cache=0)
 	{
-		$this->hasTop = preg_match('/ORDER[ \t\r\n]+BY/is',$sql) ? 'top' : false;
+		$this->hasTop = preg_match('/ORDER[ n]+BY/is',$sql) ? 'top' : false;
 		$ret = ADOConnection::SelectLimit($sql,$nrows,$offset,$inputarr,$secs2cache);
 		return $ret;
 	}

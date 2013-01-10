@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\data;
+namespace data;
 
 class UniversalFilterTableContent {
 
@@ -57,7 +57,7 @@ class UniversalFilterTableContent {
         if ($index < $this->size) {
             return $this->rows->getIndex($index);
         } else {
-            throw new tdt\framework\TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"));
+            throw new TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"));
         }//should not happen
     }
 
@@ -70,7 +70,7 @@ class UniversalFilterTableContent {
         if ($index < $this->size) {
             $this->rows->setIndex($index, $row);
         } else {
-            throw new tdt\framework\TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"));
+            throw new TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"));
         }//should not happen
     }
 

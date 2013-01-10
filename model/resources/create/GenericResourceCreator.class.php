@@ -10,9 +10,9 @@
  * @author Pieter Colpaert
  */
 
-namespace tdt\core\resources\create;
+namespace create;
 
-class GenericResourceCreator extends tdt\core\resources\createACreator {
+class GenericResourceCreator extends createACreator {
 
     private $strategy;
 
@@ -21,7 +21,7 @@ class GenericResourceCreator extends tdt\core\resources\createACreator {
         // Add the parameters of the strategy!
         $this->generic_type = $generic_type;
         if (!file_exists("custom/strategies/" . $this->generic_type . ".class.php")) {
-            throw new tdt\framework\TDTException(452,array("Generic type does not exist: " . $this->generic_type . "."));
+            throw new TDTException(452,array("Generic type does not exist: " . $this->generic_type . "."));
         }
         include_once("custom/strategies/" . $this->generic_type . ".class.php");
         // add all the parameters to the $parameters
@@ -76,23 +76,23 @@ class GenericResourceCreator extends tdt\core\resources\createACreator {
         
         $resource_id = parent::makeResource($package_id, $this->resource, "generic");
 
-        $meta_data_id = tdt\core\model\DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));
+        $meta_data_id = DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));
 
-        $generic_id =  tdt\core\model\DBQueries::storeGenericResource($resource_id, $this->generic_type, $this->documentation);
+        $generic_id =  DBQueries::storeGenericResource($resource_id, $this->generic_type, $this->documentation);
         try {
             $this->strategy->onAdd($package_id, $generic_id);
         } catch (Exception $ex) {
 
             // delete metadata about the resource
-             tdt\core\model\DBQueries::deleteMetaData($this->package, $this->resource);
+             DBQueries::deleteMetaData($this->package, $this->resource);
 
             //now the only thing left to delete is the main row
-             tdt\core\model\DBQueries::deleteGenericResource($this->package, $this->resource);
+             DBQueries::deleteGenericResource($this->package, $this->resource);
 
             // also delete the resource entry
-             tdt\core\model\DBQueries::deleteResource($this->package, $this->resource);
+             DBQueries::deleteResource($this->package, $this->resource);
             
-            throw new tdt\framework\Exception($ex->getMessage());
+            throw new Exception($ex->getMessage());
         }
     }
 

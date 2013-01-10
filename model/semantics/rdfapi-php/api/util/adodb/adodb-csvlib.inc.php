@@ -45,13 +45,13 @@ $ADODB_INCLUDED_CSV = 1;
 			} else
 				$sql .= ',,';
 			
-			$text = "====-1,0,$sql\n";
+			$text = "====-1,0,$n";
 			return $text;
 		}
 		$tt = ($rs->timeCreated) ? $rs->timeCreated : time();
 		
 		## changed format from ====0 to ====1
-		$line = "====1,$tt,$sql\n";
+		$line = "====1,$tt,$n";
 		
 		if ($rs->databaseType == 'array') {
 			$rows =& $rs->_array;
@@ -303,7 +303,7 @@ $ADODB_INCLUDED_CSV = 1;
 			chmod($filename,0644);
 		}else {
 			fclose($fd);
-			if ($debug)ADOConnection::outp( " Failed acquiring lock for $filename<br>\n");
+			if ($debug)ADOConnection::outp( " Failed acquiring lock for $filename<br>n");
 			$ok = false;
 		}
 	

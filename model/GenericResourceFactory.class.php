@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model;
+namespace model;
 
-class GenericResourceFactory extends tdt\core\model\AResourceFactory {
+class GenericResourceFactory extends AResourceFactory {
     
     public function __construct(){
         /*AutoInclude::register("ACreator", "cores/core/model/resources/create/ACreator.class.php");
@@ -31,15 +31,15 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
     }
 
     public function hasResource($package,$resource){
-        $resource = tdt\core\model\DBQueries::hasGenericResource($package, $resource);
+        $resource = DBQueries::hasGenericResource($package, $resource);
         return isset($resource["present"]) && $resource["present"] >= 1;   
     }
 
     public function createCreator($package,$resource, $parameters, $RESTparameters){        
         if(!isset($parameters["generic_type"])){
-            throw new tdt\framework\TDTException(452,array("The generic type has not been set"));
+            throw new TDTException(452,array("The generic type has not been set"));
         }
-        $creator = new tdt\core\model\resources\create\GenericResourceCreator($package,$resource, $RESTparameters, $parameters["generic_type"]);
+        $creator = new GenericResourceCreator($package,$resource, $RESTparameters, $parameters["generic_type"]);
         foreach($parameters as $key => $value){
             $creator->setParameter($key,$value);
         }
@@ -47,13 +47,13 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
     }
     
     public function createReader($package,$resource, $parameters, $RESTparameters){        
-        $reader = new tdt\core\model\resources\read\GenericResourceReader($package, $resource, $RESTparameters);
+        $reader = new GenericResourceReader($package, $resource, $RESTparameters);
         $reader->processParameters($parameters);
         return $reader;
     }
         
     public function createDeleter($package,$resource, $RESTparameters){        
-        $deleter = new tdt\core\model\resources\delete\GenericResourceDeleter($package,$resource, $RESTparameters);
+        $deleter = new GenericResourceDeleter($package,$resource, $RESTparameters);
         return $deleter;
     }
 
@@ -64,8 +64,8 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
             }
            
             foreach($resourcenames as $resourcename){
-                $documentation = tdt\core\model\DBQueries::getGenericResourceDoc($package,$resourcename);
-                $example_uri = tdt\core\model\DBQueries::getExampleUri($package,$resourcename);
+                $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
+                $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 
                 if($example_uri == FALSE){
                     $example_uri = "";
@@ -80,7 +80,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
                  * the read parameters of the strategy.
                  * NOTE: We don't ask for generic resource parameters, because there are none !
                  */
-                $genres = new tdt\core\model\resources\GenericResource($package,$resourcename);
+                $genres = new GenericResource($package,$resourcename);
                 $strategy = $genres->getStrategy();
                 $doc->$package->$resourcename->parameters = $strategy->documentReadParameters();
                 $doc->$package->$resourcename->requiredparameters = array();
@@ -95,7 +95,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
             }
            
             foreach($resourcenames as $resourcename){
-                $documentation = tdt\core\model\DBQueries::getGenericResourceDoc($package,$resourcename);
+                $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
                 $doc->$package->$resourcename->generic_type = $documentation["type"];
@@ -106,7 +106,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
                 $genericId = $documentation["id"];
                 $strategyTable = "generic_resource_". strtolower($documentation["type"]);
                 
-                $result = tdt\core\model\DBQueries::getStrategyProperties($genericId,$strategyTable);
+                $result = DBQueries::getStrategyProperties($genericId,$strategyTable);
                 if(isset($result[0])){
                     foreach($result[0] as $column => $value){
                         if($column != "id" && $column != "gen_resource_id"){
@@ -118,7 +118,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
                 /**
                  * Get the metadata properties
                  */
-                $metadata = tdt\core\model\DBQueries::getMetaData($package,$resourcename);
+                $metadata = DBQueries::getMetaData($package,$resourcename);
                 if(!empty($metadata)){
                     foreach($metadata as $name => $value){
                         if($name != "id" && $name != "resource_id"){
@@ -130,7 +130,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
                 /**
                  * Get the published columns
                  */
-                $columns = tdt\core\model\DBQueries::getPublishedColumns($genericId);
+                $columns = DBQueries::getPublishedColumns($genericId);
                 // pretty formatted columns 
                 $prettyColumns = array();
                 if(!empty($columns)){
@@ -158,7 +158,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
     }
 
     protected function getAllResourceNames(){
-        $results = tdt\core\model\DBQueries::getAllGenericResourceNames();
+        $results = DBQueries::getAllGenericResourceNames();
         $resources = array();
         foreach($results as $result){
             if(!array_key_exists($result["package_name"],$resources)){
@@ -184,7 +184,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
     public function makeCreateDoc($doc){
         $d = array();
         foreach($this->getAllStrategies() as $strategy){            
-            $res = new tdt\core\model\resources\create\GenericResourceCreator("","", array(),$strategy);
+            $res = new GenericResourceCreator("","", array(),$strategy);
             $d[$strategy] = new stdClass();
             $d[$strategy]->doc = "When your file is structured according to a $strategy -datasource, you can perform a PUT request and load this file in this DataTank";
             $d[$strategy]->parameters = $res->documentParameters();
@@ -200,7 +200,7 @@ class GenericResourceFactory extends tdt\core\model\AResourceFactory {
     public function makeUpdateDoc($doc){
         $d = array();
         foreach($this->getAllStrategies() as $strategy){            
-            $res = new tdt\core\model\resources\update\GenericResourceUpdater("","", array(),$strategy);
+            $res = new GenericResourceUpdater("","", array(),$strategy);
             $d[$strategy] = new stdClass();
             $d[$strategy]->doc = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that not all properties are adjustable.";
             $d[$strategy]->parameters = array();

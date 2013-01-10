@@ -14,9 +14,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $interpreter;
     private $topenv;
@@ -29,7 +29,7 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
     private $isColumn;
     private $isNewTable;
     
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         
         $this->filter = $filter;
         $this->interpreter = $interpreter;
@@ -41,11 +41,11 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
             $this->isColumn = true;
             $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());
             if($this->header===null){
-                throw new Exception("The identifier \"".$this->filter->getIdentifierString()."\" can not be found. It is not a column.");
+                throw new Exception("The identifier "".$this->filter->getIdentifierString()."" can not be found. It is not a column.");
             }
             if(!$this->isColumn){
                 $this->singlevaluecolumnheader=$this->header->getColumnInformationById($this->header->getColumnId());
-                $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader(array($this->singlevaluecolumnheader->cloneColumnNewId()), true, true);
+                $this->header = new UniversalFilterTableHeader(array($this->singlevaluecolumnheader->cloneColumnNewId()), true, true);
             }
         }else{           
             $this->isNewTable = true;
@@ -53,8 +53,8 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
             $tableName = $filter->getIdentifierString();             
             try {
                 $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
-            } catch(tdt\framework\TDTException $rce){
-                throw new tdt\framework\TDTException(500,array("IdentifierExectuer - The identifier \"".$tableName."\" can not be found. It is not a table."));
+            } catch(TDTException $rce){
+                throw new TDTException(500,array("IdentifierExectuer - The identifier "".$tableName."" can not be found. It is not a table."));
             }
         }
     }
@@ -69,9 +69,9 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
             return $this->interpreter->getTableManager()->getTableContent($tableName, $this->header);
         }else{
             if(!$this->isColumn){
-                $newRow = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+                $newRow = new UniversalFilterTableContentRow();
                 $value = $this->topenv->getSingleValue($this->singlevalueindex)->copyValueTo($newRow, $this->singlevaluecolumnheader->getId(), $this->header->getColumnId());
-                $content = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+                $content = new UniversalFilterTableContent();
                 $content->addRow($newRow);
                 return $content;
             }else{
@@ -88,7 +88,7 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
      * Get a single column from the data (header)
      * @return UniversalFilterTableHeader
      */
-    private function getColumnDataHeader(tdt\core\universalfilter\interpreter\Environment $topenv, $fullid){
+    private function getColumnDataHeader(Environment $topenv, $fullid){
         if($fullid=="*"){
             //special case => current table
             return $topenv->getTable()->getHeader()->cloneHeader();
@@ -107,10 +107,10 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
                 
                 if($columninfo->matchName(explode(".", $fullid))){
                     if($foundheader!=null){
-                        throw new Exception("Ambiguos identifier: \"".$fullid."\". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
+                        throw new Exception("Ambiguos identifier: "".$fullid."". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
                     }
                     $this->singlevalueindex = $index;
-                    $foundheader = new tdt\core\universalfilter\data\UniversalFilterTableHeader(array($columninfo), true, true);
+                    $foundheader = new UniversalFilterTableHeader(array($columninfo), true, true);
                 }
                 
             }
@@ -119,14 +119,14 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
             //check single values for another match (to give an exception)
             for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
                 if($topenv->getSingleValueHeader($index)->matchName(explode(".", $fullid))){
-                    throw new Exception("Ambiguos identifier: \"".$fullid."\". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
+                    throw new Exception("Ambiguos identifier: "".$fullid."". Please use aliases to remove the ambiguity.");//can only occured in nested querys or joins
                 }
             }
             
             //return
             $newHeaderColumn=$originalheader->getColumnInformationById($columnid)->cloneColumnNewId();
 
-            $columnHeader = new tdt\core\universalfilter\data\UniversalFilterTableHeader(array($newHeaderColumn), $originalheader->isSingleRowByConstruction(), true);
+            $columnHeader = new UniversalFilterTableHeader(array($newHeaderColumn), $originalheader->isSingleRowByConstruction(), true);
 
             return $columnHeader;
         }
@@ -145,7 +145,7 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
             
             //have to copy because of ->tryDestroyTable on this one would otherwise also affect the full table...
             //TODO: while we are copying anyway, we could also change the id's!!! (only matters in one case: select *, * from ...)
-            $contentCopy = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+            $contentCopy = new UniversalFilterTableContent();
             
             for ($rowindex = 0; $rowindex < $content->getRowCount(); $rowindex++) {
                 $contentCopy->addRow($content->getRow($rowindex));
@@ -162,11 +162,11 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
         //copyFields
         //$oldcolumnid -> $newcolumnid
         
-        $newContent= new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $newContent= new UniversalFilterTableContent();
         $rows=array();
         for ($index = 0; $index < $content->getRowCount(); $index++) {
             $oldRow = $content->getRow($index);
-            $newRow = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+            $newRow = new UniversalFilterTableContentRow();
             $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
             
             $newContent->addRow($newRow);
@@ -175,12 +175,12 @@ class IdentifierExecuter extends tdt\core\universalfilter\interpreter\executers\
         return $newContent;
     }
     
-    public function filterSingleSourceUsages(tdt\core\universalfilter\data\UniversalFilterNode $parentNode, $parentIndex){
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex){
         if(!$this->isNewTable){
             return array();
         }else{
             $sourceId=$this->interpreter->getTableManager()->getSourceIdFromIdentifier($this->filter->getIdentifierString());
-            return array(new tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData($this->filter, $parentNode, $parentIndex, $sourceId));
+            return array(new SourceUsageData($this->filter, $parentNode, $parentIndex, $sourceId));
         }
     }
 }

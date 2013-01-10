@@ -503,7 +503,7 @@ class MagpieRSS {
         }
         
         if (!$in_enc) {
-            if (preg_match('/<?xml.*encoding=[\'"](.*?)[\'"].*?>/m', $source, $m)) {
+            if (preg_match('/<?xml.*encoding='"](.*?)'"].*?>/m', $source, $m)) {
                 $in_enc = strtoupper($m[1]);
                 $this->source_encoding = $in_enc;
             }
@@ -580,7 +580,7 @@ class MagpieRSS {
 } // end class RSS
 
 function map_attrs($k, $v) {
-    return "$k=\"$v\"";
+    return "$k="$"";
 }
 
 // patch to support medieval versions of PHP4.1.x, 

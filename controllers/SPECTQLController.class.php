@@ -16,9 +16,18 @@ include_once("core/controllers/spectql/spectql.php");
 include_once("core/controllers/SQL/SQLGrammarFunctions.php");
 include_once("core/universalfilter/CombinedFilterGenerators.class.php");
 
-namespace tdt\core\controllers;
+namespace controllers;
 
-class SPECTQLController extends tdt\core\controllers\ACoreController {
+use tdt\core\controllers\ACoreController;
+use tdt\core\controllers\spectql\SPECTQLParser;
+use tdt\core\formatters\FormatterFactory;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
+use tdt\core\universalfilter\tablemanager\implementation\tools\TableToPhpObjectConverter;
+use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
+use tdt\core\utility\RequestURI;
+use tdt\framework\TDTException;
+
+class SPECTQLController extends ACoreController {
 
     public function __construct() {
         /*
@@ -75,7 +84,7 @@ class SPECTQLController extends tdt\core\controllers\ACoreController {
 
         if ($format == "") {
             //get the current URL
-            $ru = tdt\core\utility\RequestURI::getInstance();
+            $ru = RequestURI::getInstance();
             $pageURL = $ru->getURI();
             $pageURL = rtrim($pageURL, "/");
 
@@ -106,7 +115,7 @@ class SPECTQLController extends tdt\core\controllers\ACoreController {
             }
         }
 
-        $parser = new tdt\core\controllers\spectql\SPECTQLParser($query);
+        $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
 
         $universalquery = $parser->interpret($context);
@@ -123,10 +132,10 @@ class SPECTQLController extends tdt\core\controllers\ACoreController {
           echo "</pre>";
          */
 
-        $interpreter = new tdt\core\interpreter\UniversalInterpreter(new tdt\core\tablemanager\implementation\UniversalFilterTableManager());
+        $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
 
-        $converter = new tdt\core\tablemanager\implementation\tools\TableToPhpObjectConverter();
+        $converter = new TableToPhpObjectConverter();
 
         $object = $converter->getPhpObjectForTable($result);
 
@@ -136,7 +145,7 @@ class SPECTQLController extends tdt\core\controllers\ACoreController {
         $o->$RESTresource = $object;
         $result = $o;
 
-        $formatterfactory = tdt\core\formatters\FormatterFactory::getInstance($format); //start content negotiation if the formatter factory doesn't exist
+        $formatterfactory = FormatterFactory::getInstance($format); //start content negotiation if the formatter factory doesn't exist
         $formatterfactory->setFormat($format);
         $rootname = "spectqlquery";
 
@@ -150,11 +159,11 @@ class SPECTQLController extends tdt\core\controllers\ACoreController {
         if (isset($matches["query"])) {
             $query = $matches["query"];
         }
-        $parser = new  tdt\core\controllers\spectql\SPECTQLParser($query);
+        $parser = new  SPECTQLParser($query);
         $context = array(); // array of context variables
 
         $result = $parser->interpret($context);
-        $formatterfactory = tdt\core\formatters\FormatterFactory::getInstance("about"); //start content negotiation if the formatter factory doesn't exist
+        $formatterfactory = FormatterFactory::getInstance("about"); //start content negotiation if the formatter factory doesn't exist
         $rootname = "spectql";
 
 
@@ -166,28 +175,28 @@ class SPECTQLController extends tdt\core\controllers\ACoreController {
      * You cannot PUT on a representation
      */
     function PUT($matches) {
-        throw new tdt\framework\TDTException(450, array("PUT", $matches["query"]));
+        throw new TDTException(450, array("PUT", $matches["query"]));
     }
 
     /**
      * You cannot delete a representation
      */
     public function DELETE($matches) {
-        throw new tdt\framework\TDTException(450, array("DELETE", $matches["query"]));
+        throw new TDTException(450, array("DELETE", $matches["query"]));
     }
 
     /**
      * You cannot use post on a representation
      */
     public function POST($matches) {
-        throw new tdt\framework\TDTException(450, array("POST", $matches["query"]));
+        throw new TDTException(450, array("POST", $matches["query"]));
     }
 
     /**
      * You cannot use patch a representation
      */
     public function PATCH($matches) {
-        throw new tdt\framework\TDTException(450, array("PATCH", $matches["query"]));
+        throw new TDTException(450, array("PATCH", $matches["query"]));
     }
 
 }

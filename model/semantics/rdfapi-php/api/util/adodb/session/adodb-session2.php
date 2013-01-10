@@ -76,7 +76,7 @@ define('ADODB_SESSION2', ADODB_SESSION);
 function adodb_unserialize( $serialized_string ) 
 {
 	$variables = array( );
-	$a = preg_split( "/(\w+)\|/", $serialized_string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
+	$a = preg_split( "/(w+)|/", $serialized_string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
 	for( $i = 0; $i < count( $a ); $i = $i+2 ) {
 		$variables[$a[$i]] = unserialize( $a[$i+1] );
 	}
@@ -135,7 +135,7 @@ function adodb_session_create_table($schemaFile=null,$conn = null)
 }
 
 /*!
-	\static
+	static
 */
 class ADODB_Session {
 	/////////////////////
@@ -497,11 +497,11 @@ class ADODB_Session {
 		}
 
 		if (!$rs) {
-			echo "<br />\$rs is null or false<br />\n";
+			echo "<br />$rs is null or false<br />n";
 			return;
 		}
 
-		//echo "<br />\nAffected_Rows=",$conn->Affected_Rows(),"<br />\n";
+		//echo "<br />nAffected_Rows=",$conn->Affected_Rows(),"<br />n";
 
 		if (!is_object($rs)) {
 			return;

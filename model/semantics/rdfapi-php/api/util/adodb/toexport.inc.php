@@ -43,20 +43,20 @@ function rs2csvout(&$rs,$addtitles=true)
 
 function rs2tab(&$rs,$addtitles=true)
 {
-	return _adodb_export($rs,"\t",',',false,$addtitles);
+	return _adodb_export($rs,"t",',',false,$addtitles);
 }
 
 // to file pointer
 function rs2tabfile(&$rs,$fp,$addtitles=true)
 {
-	_adodb_export($rs,"\t",',',$fp,$addtitles);
+	_adodb_export($rs,"t",',',$fp,$addtitles);
 }
 
 // to stdout
 function rs2tabout(&$rs,$addtitles=true)
 {
 	$fp = fopen('php://stdout','wb');
-	_adodb_export($rs,"\t",' ',true,$addtitles);
+	_adodb_export($rs,"t",' ',true,$addtitles);
 	if ($fp) fclose($fp);
 }
 
@@ -65,7 +65,7 @@ function _adodb_export(&$rs,$sep,$sepreplace,$fp=false,$addtitles=true,$quote = 
 	if (!$rs) return '';
 	//----------
 	// CONSTANTS
-	$NEWLINE = "\r\n";
+	$NEWLINE = "n";
 	$BUFLINES = 100;
 	$escquotequote = $escquote.$quote;
 	$s = '';
@@ -77,7 +77,7 @@ function _adodb_export(&$rs,$sep,$sepreplace,$fp=false,$addtitles=true,$quote = 
 			
 			$v = $o->name;
 			if ($escquote) $v = str_replace($quote,$escquotequote,$v);
-			$v = strip_tags(str_replace("\n", $replaceNewLine, str_replace("\r\n",$replaceNewLine,str_replace($sep,$sepreplace,$v))));
+			$v = strip_tags(str_replace("n", $replaceNewLine, str_replace("n",$replaceNewLine,str_replace($sep,$sepreplace,$v))));
 			$elements[] = $v;
 			
 		}
@@ -98,7 +98,7 @@ function _adodb_export(&$rs,$sep,$sepreplace,$fp=false,$addtitles=true,$quote = 
 				if (!is_object($v)) $v = trim($v);
 				else $v = 'Object';
 				if ($escquote) $v = str_replace($quote,$escquotequote,$v);
-				$v = strip_tags(str_replace("\n", $replaceNewLine, str_replace("\r\n",$replaceNewLine,str_replace($sep,$sepreplace,$v))));
+				$v = strip_tags(str_replace("n", $replaceNewLine, str_replace("n",$replaceNewLine,str_replace($sep,$sepreplace,$v))));
 				
 				if (strpos($v,$sep) !== false || strpos($v,$quote) !== false) $elements[] = "$quote$v$quote";
 				else $elements[] = $v;
@@ -106,7 +106,7 @@ function _adodb_export(&$rs,$sep,$sepreplace,$fp=false,$addtitles=true,$quote = 
 		} else { // ASSOCIATIVE ARRAY
 			foreach($rs->fields as $v) {
 				if ($escquote) $v = str_replace($quote,$escquotequote,trim($v));
-				$v = strip_tags(str_replace("\n", $replaceNewLine, str_replace("\r\n",$replaceNewLine,str_replace($sep,$sepreplace,$v))));
+				$v = strip_tags(str_replace("n", $replaceNewLine, str_replace("n",$replaceNewLine,str_replace($sep,$sepreplace,$v))));
 				
 				if (strpos($v,$sep) !== false || strpos($v,$quote) !== false) $elements[] = "$quote$v$quote";
 				else $elements[] = $v;

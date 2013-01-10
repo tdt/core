@@ -14,7 +14,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\sourceusage;
+namespace sourceusage;
 
 class SourceUsageData {
     private $filterSourceNode;
@@ -30,7 +30,7 @@ class SourceUsageData {
      * @param int $filterParentSourceIndex
      * @param string $sourceId 
      */
-    public function __construct(tdt\core\universalfilter\UniversalFilterNode $filterSourceNode, tdt\core\universalfilter\UniversalFilterNode $filterParentNode, $filterParentSourceIndex, $sourceId) {
+    public function __construct(UniversalFilterNode $filterSourceNode, UniversalFilterNode $filterParentNode, $filterParentSourceIndex, $sourceId) {
         $this->filterSourceNode=$filterSourceNode;
         $this->filterParentNode=$filterParentNode;
         $this->filterParentSourceIndex=$filterParentSourceIndex;

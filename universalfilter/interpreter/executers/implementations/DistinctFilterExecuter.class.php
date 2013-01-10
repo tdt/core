@@ -9,11 +9,11 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class DistinctFilterExecuter extends tdt\core\universalfilter\interpreter\executers\base\BaseHashingFilterExecuter {
+class DistinctFilterExecuter extends BaseHashingFilterExecuter {
     
-    public function hashColumn(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo $oldColumnInfo){
+    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo){
         return true;
     }
 }

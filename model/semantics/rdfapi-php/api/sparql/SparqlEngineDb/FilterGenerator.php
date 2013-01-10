@@ -421,7 +421,7 @@ var_dump($tree);
     {
         if (!$this->isObject($tree['parameter'][0])) {
             throw new SparqlEngineDb_SqlGeneratorException(
-                'datatype\'s first parameter needs to be an object'
+                ''s first parameter needs to be an object'
             );
         }
 
@@ -440,7 +440,7 @@ var_dump($tree);
     {
         if (!$this->isObjectOrSubject($tree['parameter'][0])) {
             throw new SparqlEngineDb_SqlGeneratorException(
-                'isBlank\'s first parameter needs to be an object or subject'
+                ''s first parameter needs to be an object or subject'
             );
         }
 
@@ -499,7 +499,7 @@ var_dump($tree);
     {
         if (!$this->isObject($tree['parameter'][0])) {
             throw new SparqlEngineDb_SqlGeneratorException(
-                'lang\'s first parameter needs to be an object'
+                ''s first parameter needs to be an object'
             );
         }
         return self::mkVal(
@@ -522,13 +522,13 @@ var_dump($tree);
          || $tree['parameter'][0]['name'] != 'lang'
         ) {
             throw new SparqlEngineDb_SqlGeneratorException(
-                'langMatches\' first parameter needs to be a lang() function'
+                '' first parameter needs to be a lang() function'
             );
         }
 
         if (!$this->isPlainString($tree['parameter'][1])) {
             throw new SparqlEngineDb_SqlGeneratorException(
-                'langMatches\' second parameter needs to be a string'
+                '' second parameter needs to be a string'
             );
         }
 

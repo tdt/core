@@ -8,6 +8,10 @@
 namespace tdt\core\controllers;
 
 use tdt\framework\AController;
+use tdt\framework\Cache\Cache;
+use tdt\framework\Config;
+use tdt\framework\includes\GoogleAnalytics\Config;
+
 
 class ACoreController extends AController {
     /*
@@ -27,14 +31,14 @@ class ACoreController extends AController {
     protected $dbpassword;
 
     public function __construct() {
-        $this->hostname = tdt\framework\Config::get("general", "hostname");
-        $this->subdir = tdt\framework\Config::get("general", "subdir");
+        $this->hostname = Config::get("general", "hostname");
+        $this->subdir = Config::get("general", "subdir");
 
-        $this->dbhost = tdt\framework\Config::get("db", "host");
-        $this->dbname = tdt\framework\Config::get("db", "name");
-        $this->dbsystem = tdt\framework\Config::get("db", "system");
-        $this->dbuser = tdt\framework\Config::get("db", "user");
-        $this->dbpassword = tdt\framework\Config::get("db", "password");
+        $this->dbhost = Config::get("db", "host");
+        $this->dbname = Config::get("db", "name");
+        $this->dbsystem = Config::get("db", "system");
+        $this->dbuser = Config::get("db", "user");
+        $this->dbpassword = Config::get("db", "password");
     }
     
     protected function initializeDatabaseConnection(){
@@ -43,7 +47,7 @@ class ACoreController extends AController {
     
 
     protected function clearCachedDocumentation(){
-        $c = tdt\framework\Cache\Cache::getInstance();
+        $c =Cache::getInstance();
         $c->delete($this->hostname . $this->subdir . "documentation");
         $c->delete($this->hostname . $this->subdir . "descriptiondocumentation");
         $c->delete($this->hostname . $this->subdir . "admindocumentation");

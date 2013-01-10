@@ -9,16 +9,16 @@
  * @author Pieter Colpaert
  */
 
-namespace tdt\core\model\resources\read;
+namespace read;
 
-class RemoteResourceReader extends tdt\core\model\resources\read\AReader{
+class RemoteResourceReader extends AReader{
 
     private $remoteResource;
 
     public function __construct($package,$resource, $RESTparameters, $remoteResourceDocumentation){
         parent::__construct($package,$resource, $RESTparameters);  
         $this->remoteResource = $remoteResourceDocumentation;
-        $remoteRes = tdt\core\model\DBQueries::getRemoteResource($package,$resource);
+        $remoteRes = DBQueries::getRemoteResource($package,$resource);
         $this->base_url = $remoteRes["url"];
         $this->remote_package = $remoteRes["package"];
         $this->resource_name = $remoteRes["resource"];
@@ -54,9 +54,9 @@ class RemoteResourceReader extends tdt\core\model\resources\read\AReader{
 
 	//Request the remote server and check for errors. If no error, unserialize the data
 	$options = array("cache-time" => 0, "headers" => array("User-Agent" => isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:""));
-	$request = tdt\framework\Request::http($url, $options);
+	$request = Request::http($url, $options);
 	if(isset($request->error)){
-	    throw new tdt\framework\TDTException(500,array("Something went wrong on the remote server: $request->data ."));
+	    throw new TDTException(500,array("Something went wrong on the remote server: $request->data ."));
 	}
 
 	//unserialize the data of the request and return it!

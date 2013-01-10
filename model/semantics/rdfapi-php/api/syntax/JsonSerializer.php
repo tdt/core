@@ -135,27 +135,27 @@ class JsonSerializer extends Object {
 	/*
 	 * Escapes the following chars as specified at json.org:
 	 * 
-	 * " -> \"
-	 * \ -> \\
-	 * / -> \/
-	 * \b -> \\b
-	 * \f -> \\f
-	 * \n -> \\n
-	 * \r -> \\r
-	 * \t -> \\t
-	 * \uXXXX -> \\uXXXX
+	 * " -> "
+	 *  -> 
+	 * / -> /
+	 * b -> b
+	 * f -> f
+	 * n -> n
+	 * r -> r
+	 * t -> t
+	 * uXXXX -> uXXXX
 	 */
 	protected function _escapeValue($value) {
 		
 		
-		$value = str_replace("\\", '\\\\', $value);
-		#$value = str_replace("/", '\/', $value);
-		$value = str_replace("\n", '\\n', $value);
-		$value = str_replace("\t", '\\t', $value);
-		$value = str_replace("\r", '\\r', $value);
-		$value = str_replace("\b", '\\b', $value);
-		$value = str_replace("\f", '\\f', $value);
-		$value = str_replace('"', '\"', $value);
+		$value = str_replace("", '', $value);
+		#$value = str_replace("/", '/', $value);
+		$value = str_replace("n", 'n', $value);
+		$value = str_replace("t", 't', $value);
+		$value = str_replace("r", 'r', $value);
+		$value = str_replace("b", 'b', $value);
+		$value = str_replace("f", 'f', $value);
+		$value = str_replace('"', '"', $value);
 		
 		return $value;
 	}

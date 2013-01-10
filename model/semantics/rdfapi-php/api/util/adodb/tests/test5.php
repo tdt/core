@@ -34,7 +34,7 @@ if (0) {
 if (0) {
 	$conn = &ADONewConnection("ibase");  // create a connection
 	$conn->debug=1;
-	$conn->Connect("localhost:c:\\Interbase\\Examples\\Database\\employee.gdb", "sysdba", "masterkey", ""); // connect to MySQL, testdb
+	$conn->Connect("localhost:c:employee.gdb", "sysdba", "masterkey", ""); // connect to MySQL, testdb
 	print $conn->databaseType.':'.$conn->GenID().'<br>';
 }
 

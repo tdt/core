@@ -31,7 +31,7 @@ class RdfParser extends Object {
     /* Private Methods */
 
     /**
-     * converts a string to its unicode NFC form (e.g. \uHHHH or \UHHHHHHHH).
+     * converts a string to its unicode NFC form (e.g. uHHHH or UHHHHHHHH).
      *
      * @param String $str
      * @return String
@@ -67,31 +67,31 @@ class RdfParser extends Object {
             }
             /* result (see http://www.w3.org/TR/rdf-testcases/#ntrip_strings) */
             if ($nr < 9) {/* #x0-#x8 (0-8) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr == 9) {/* #x9 (9) */
-                $result.='\t';
+                $result.='t';
             } elseif ($nr == 10) {/* #xA (10) */
-                $result.='\n';
+                $result.='n';
             } elseif ($nr < 13) {/* #xB-#xC (11-12) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr == 13) {/* #xD (13) */
-                $result.='\t';
+                $result.='t';
             } elseif ($nr < 32) {/* #xE-#x1F (14-31) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr < 34) {/* #x20-#x21 (32-33) */
                 $result.=$char;
             } elseif ($nr == 34) {/* #x22 (34) */
-                $result.='\"';
+                $result.='"';
             } elseif ($nr < 92) {/* #x23-#x5B (35-91) */
                 $result.=$char;
             } elseif ($nr == 92) {/* #x5C (92) */
-                $result.='\\';
+                $result.='';
             } elseif ($nr < 127) {/* #x5D-#x7E (93-126) */
                 $result.=$char;
             } elseif ($nr < 65536) {/* #x7F-#xFFFF (128-65535) */
-                $result.="\\u" . sprintf("%04X", $nr);
+                $result.="u" . sprintf("%04X", $nr);
             } elseif ($nr < 1114112) {/* #x10000-#x10FFFF (65536-1114111) */
-                $result.="\\U" . sprintf("%08X", $nr);
+                $result.="U" . sprintf("%08X", $nr);
             } else {
                 /* other chars are not defined => ignore */
             }
@@ -460,7 +460,7 @@ class RdfParser extends Object {
      */
     private function _resolve_uri_reference($base_uri, $reference_uri, &$buffer) {
         if ($reference_uri == '')
-            return ($buffer = preg_replace("/\#[^\/\\\]*$/", '', $base_uri));
+            return ($buffer = preg_replace("/#/]*$/", '', $base_uri));
 
         $base_buffer = '';
         $reference_buffer = '';
@@ -479,15 +479,15 @@ class RdfParser extends Object {
             $buffer = $base_uri;
 
             if ($reference_fragment != '') {
-                if ($base_path == '' || $base_path == '/' || $base_path == "\\") {
+                if ($base_path == '' || $base_path == '/' || $base_path == "") {
                     $buffer = $this->rdf_parser['document_base_uri'];
                 } else {
-                    $buffer = preg_replace("/\#[^\/\\\]*$/", '', $base_uri);
+                    $buffer = preg_replace("/#/]*$/", '', $base_uri);
                 }
 
                 // CB: Changed for base URI
                 $c = substr($buffer, strlen($buffer) - 1, 1);
-                if (!($c == '#' || $c == ':' || $c == '/' || $c == "\\"))
+                if (!($c == '#' || $c == ':' || $c == '/' || $c == ""))
                     $buffer.= '#';
                 $buffer.=$reference_fragment;
             }
@@ -504,8 +504,8 @@ class RdfParser extends Object {
                 $result_authority = $base_authority;
 
                 if ($reference_path != '') {
-                    if ($reference_path{0} == '/' || $reference_path{0} == "\\") {
-                        if ($reference_path{1} == '/' || $reference_path{1} == "\\") {
+                    if ($reference_path{0} == '/' || $reference_path{0} == "") {
+                        if ($reference_path{1} == '/' || $reference_path{1} == "") {
                             $result_authority = '';
                             $result_path = $reference_path;
                         }
@@ -513,13 +513,13 @@ class RdfParser extends Object {
                             $result_path = $reference_path;
                     }
                     elseif (substr($reference_path, 0, 3) == '../' ||
-                            substr($reference_path, 0, 3) == '..\\') {
+                            substr($reference_path, 0, 3) == '..') {
                         $slash = $reference_path{2};
                         while ($base_path != '' && ( substr($reference_path, 0, 3) == '../'
-                        || substr($reference_path, 0, 3) == '..\\')) {
-                            $base_path = preg_replace("/((\/)|(\\\))[^\/\\\]*$/", '', $base_path);
+                        || substr($reference_path, 0, 3) == '..')) {
+                            $base_path = preg_replace("/((/)|())/]*$/", '', $base_path);
                             if ($base_path != '') {
-                                $base_path = preg_replace("/((\/)|(\\\))[^\/\\\]*$/", '', $base_path);
+                                $base_path = preg_replace("/((/)|())/]*$/", '', $base_path);
                                 $reference_path = substr($reference_path, 3);
                             }
                         }
@@ -527,7 +527,7 @@ class RdfParser extends Object {
                         $result_path = $base_path . $slash . $reference_path;
                     } else {
                         if ($base_path)
-                            $result_path = preg_replace("/[^\/\\\]*$/", $reference_path, $base_path, 1);
+                            $result_path = preg_replace("//]*$/", $reference_path, $base_path, 1);
                         else
                             $result_path = '/' . $reference_path;
                     }
@@ -1278,7 +1278,7 @@ class RdfParser extends Object {
             $attribute_value = $attributes[$i + 1];
 
             $element .= ' ' . $this->_join_name_and_declare_prefix($attribute_namespace_uri, $attribute_local_name);
-            $element .= '=\"' . $attribute_value . '\"';
+            $element .= '="' . $attribute_value . '"';
         }
         $element .= '>';
 
@@ -1332,7 +1332,7 @@ class RdfParser extends Object {
 
                 if (!isset($this->rdf_parser['xml_literal']['declared_ns']['_DEFAULT_'])
                         && $namespace_uri != XML_NAMESPACE_URI) {
-                    $name .= ' xmlns=' . '\"' . $namespace_uri . '\"';
+                    $name .= ' xmlns=' . '"' . $namespace_uri . '"';
 
                     $this->rdf_parser['xml_literal']['declared_ns']['_DEFAULT_']
                             = $this->rdf_parser['xml_literal']['depth'];
@@ -1343,7 +1343,7 @@ class RdfParser extends Object {
 
                 if (!isset($this->rdf_parser['xml_literal']['declared_ns'][$ns_prefix])
                         && $namespace_uri != XML_NAMESPACE_URI) {
-                    $name .= " xmlns:$ns_prefix=" . '\"' . $namespace_uri . '\"';
+                    $name .= " xmlns:$ns_prefix=" . '"' . $namespace_uri . '"';
 
                     $this->rdf_parser['xml_literal']['declared_ns'][$ns_prefix]
                             = $this->rdf_parser['xml_literal']['depth'];
@@ -1414,7 +1414,7 @@ class RdfParser extends Object {
                         $this->rdf_parser['document_base_uri'] = $value;
 
                         $c = substr($value, strlen($value) - 1, 1);
-                        if (!($c == '#' || $c == ':' || $c == '/' || $c == "\\"))
+                        if (!($c == '#' || $c == ':' || $c == '/' || $c == ""))
                             $this->rdf_parser['normalized_base_uri'] = $value . '#';
                         else
                             $this->rdf_parser['normalized_base_uri'] = $value;
@@ -1531,7 +1531,7 @@ class RdfParser extends Object {
                 break;
             case IN_PROPERTY_PARSE_TYPE_LITERAL:
 //		$search =  array((0) => chr(10), (1) => chr(13), (2) => chr(9));
-//		$replace = array((0) => '\n'   , (1) => '\r'   , (2) => '\t');
+//		$replace = array((0) => 'n'   , (1) => 'r'   , (2) => 't');
 //		$this->rdf_parser["xml_literal"]["buffer"]
 //			= str_replace($search, $replace, $this->rdf_parser["xml_literal"]["buffer"]);
 
@@ -1573,7 +1573,7 @@ class RdfParser extends Object {
 
                 if ($this->rdf_parser['top']['state'] == IN_PROPERTY_UNKNOWN_OBJECT) {
                     /* look for non-whitespace */
-                    for ($i = 0; (( $i < $len ) && ( ereg(" |\n|\t", $s{ $i }) )); $i++)
+                    for ($i = 0; (( $i < $len ) && ( ereg(" |n|t", $s{ $i }) )); $i++)
                         ;
                     /* if we found non-whitespace, this is a literal */
                     if ($i < $len) {
@@ -1799,7 +1799,7 @@ class RdfParser extends Object {
         $this->rdf_parser['base_uri'] = $base;
 
         $c = substr($base, strlen($base) - 1, 1);
-        if (!($c == '#' || $c == ':' || $c == '/' || $c == "\\"))
+        if (!($c == '#' || $c == ':' || $c == '/' || $c == ""))
             $this->rdf_parser['normalized_base_uri'] = $base . '#';
         else
             $this->rdf_parser['normalized_base_uri'] = $base;

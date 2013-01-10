@@ -258,8 +258,8 @@ class Auth_Container_ADOdb extends Auth_Container
             $this->activeUser = '';
             return false;
         }
-        if ($this->verifyPassword(trim($password, "\r\n"),
-                                  trim($res[$this->options['passwordcol']], "\r\n"),
+        if ($this->verifyPassword(trim($password, "n"),
+                                  trim($res[$this->options['passwordcol']], "n"),
                                   $this->options['cryptType'])) {
             // Store additional field values in the session
             foreach ($res as $key => $value) {

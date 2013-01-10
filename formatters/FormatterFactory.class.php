@@ -9,6 +9,10 @@
  */
 namespace tdt\core\formatters;
 
+use tdt\core\formatters\FormatterFactory;
+use tdt\framework\ContentNegotiator;
+use tdt\framework\TDTException;
+
 /**
  * This class will provide the correct printers (Xml,Kml,php,...)
  */
@@ -20,7 +24,7 @@ class FormatterFactory{
 
     public static function getInstance($urlformat = ""){           
 	if(!isset(self::$formatterfactory)){
-	    self::$formatterfactory = new tdt\core\formatters\FormatterFactory($urlformat);
+	    self::$formatterfactory = new FormatterFactory($urlformat);
 	}
 	return self::$formatterfactory;
     }    
@@ -43,7 +47,7 @@ class FormatterFactory{
        
         if(strtolower($urlformat) == "about" || $urlformat == "" ){ //urlformat can be empty on SPECTQL query
             
-            $cn = new tdt\framework\ContentNegotiator();
+            $cn = new ContentNegotiator();
             $format = $cn->pop();
             while(!$this->formatExists($format) && $cn->hasNext()){
                 $format = $cn->pop();
@@ -52,7 +56,7 @@ class FormatterFactory{
                 }
             }
             if(!$this->formatExists($format)){                
-                throw new tdt\framework\TDTException(451,array($format)); // could not find a suitible format
+                throw new TDTException(451,array($format)); // could not find a suitible format
             }
             $this->format = $format;            
             //We've found our format through about, so let's set the header for content-location to the right one
@@ -71,7 +75,7 @@ class FormatterFactory{
         }else if($this->formatExists($urlformat)){
             $this->format = $urlformat;
         }else{            
-            throw new tdt\framework\TDTException(451,array($urlformat));
+            throw new TDTException(451,array($urlformat));
         }
         
     }
@@ -138,7 +142,7 @@ class FormatterFactory{
                 if ($formatter != "." && $formatter != ".." && file_exists("custom/formatters/" . $formatter)) {
                     $boom = explode(".",$formatter);
                     $formatterclass = $boom[0];
-                    if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
+                    if(preg_match("/(.*)..php/si",$formatter,$match)){
                         include_once("custom/formatters/" . $formatter);
                         if(is_subclass_of($formatterclass, "AFormatter")){
                             $doc[$match[1]] = $formatterclass::getDocumentation();
@@ -164,7 +168,7 @@ class FormatterFactory{
                 if ($formatter != "." && $formatter != ".." && file_exists("custom/formatters/visualizations/" . $formatter)) {
                     $boom = explode(".",$formatter);
                     $formatterclass = $boom[0];
-                    if(preg_match("/(.*)Formatter\.class\.php/si",$formatter,$match)){
+                    if(preg_match("/(.*)..php/si",$formatter,$match)){
                         include_once("custom/formatters/visualizations/" . $formatter);
                         if(is_subclass_of($formatterclass, "AFormatter")){
                             $doc[$match[1]] = $formatterclass::getDocumentation();

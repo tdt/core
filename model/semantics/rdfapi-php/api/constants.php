@@ -386,11 +386,11 @@ define('INF_RES_RULE_RDFS13',false);
 // ----------------------------------------------------------------------------------
 
 // path to the dot binary
-define('GRAPHVIZ_PATH', 'C:\/Program Files\/Graphviz 2.28\/bin');
+define('GRAPHVIZ_PATH', 'C:/Program /Graphviz 2.28/bin');
 
 // directory for temporary files
 // Attention: must be write-/readable by the webserver
-define('GRAPHVIZ_TEMP', 'C:\/');
+define('GRAPHVIZ_TEMP', 'C:/');
 
 // display statistical data in generated images
 // currently only number of statements drawn

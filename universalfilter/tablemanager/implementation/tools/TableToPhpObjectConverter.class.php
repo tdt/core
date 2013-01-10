@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\tablemanager\implementation\tools;
+namespace tools;
 
 class TableToPhpObjectConverter {
     
@@ -20,7 +20,7 @@ class TableToPhpObjectConverter {
      * @param boolean $removeAdditionalField Remove the _id and _key_... fields?
      * @return array The Php-version of the table 
      */
-    public function getPhpObjectForTable(tdt\core\universalfilter\data\UniversalFilterTable $table, $removeAdditionalField=true){
+    public function getPhpObjectForTable(UniversalFilterTable $table, $removeAdditionalField=true){
         $newRows = array();
         
         //initialize rows

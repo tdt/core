@@ -12,11 +12,11 @@
  */
 /* average */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class AverageAggregatorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter {
+class AverageAggregatorExecuter extends AggregatorFunctionExecuter {
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
         $data = $this->convertColumnToArray($column, $columnId);
         $sum = array_sum($data);
         $count = count($data);
@@ -42,9 +42,9 @@ class AverageAggregatorExecuter extends tdt\core\universalfilter\interpreter\exe
 
 /* max */
 
-class MaxAggregatorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter {
+class MaxAggregatorExecuter extends AggregatorFunctionExecuter {
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
         $data = $this->convertColumnToArray($column, $columnId);
         return max($data);
     }
@@ -65,9 +65,9 @@ class MaxAggregatorExecuter extends tdt\core\universalfilter\interpreter\execute
 
 /* min */
 
-class MinAggregatorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter {
+class MinAggregatorExecuter extends AggregatorFunctionExecuter {
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
         $data = $this->convertColumnToArray($column, $columnId);
         return min($data);
     }
@@ -88,9 +88,9 @@ class MinAggregatorExecuter extends tdt\core\universalfilter\interpreter\execute
 
 /* sum */
 
-class SumAggregatorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter {
+class SumAggregatorExecuter extends AggregatorFunctionExecuter {
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
         $data = $this->convertColumnToArray($column, $columnId);
         return array_sum($data);
     }
@@ -111,9 +111,9 @@ class SumAggregatorExecuter extends tdt\core\universalfilter\interpreter\execute
 
 /* first */
 
-class FirstAggregatorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter {
+class FirstAggregatorExecuter extends AggregatorFunctionExecuter {
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
         $data = $this->convertColumnToArray($column, $columnId);
         return $data[0];
     }
@@ -126,9 +126,9 @@ class FirstAggregatorExecuter extends tdt\core\universalfilter\interpreter\execu
 
 /* last */
 
-class LastAggregatorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter {
+class LastAggregatorExecuter extends AggregatorFunctionExecuter {
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
         $data = $this->convertColumnToArray($column, $columnId);
         return $data[count($data) - 1];
     }
@@ -141,13 +141,13 @@ class LastAggregatorExecuter extends tdt\core\universalfilter\interpreter\execut
 
 /* count */
 
-class CountAggregatorExecuter extends tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter {
+class CountAggregatorExecuter extends AggregatorFunctionExecuter {
 
     public function getName($name) {
         return "count_" . $name;
     }
 
-    public function calculateValue(tdt\core\universalfilter\data\UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
         return $column->getRowCount();
     }
 

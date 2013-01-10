@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace  tdt\core\universalfilter\interpreter\executers\implementations;
+namespace  implementations;
 
-class ConstantExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+class ConstantExecuter extends AbstractUniversalFilterNodeExecuter {
     
     private $header;
     
@@ -26,17 +26,17 @@ class ConstantExecuter extends tdt\core\universalfilter\interpreter\executers\ba
         }
     }
     
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn){
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn){
         $this->filter = $filter;
         
         $this->const=$filter->getConstant();
         $this->nameOfField=$this->getFieldName($this->const);
         
         //column
-        $cominedHeaderColumn = new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo(array($this->nameOfField));
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($this->nameOfField));
         
         //new Header
-        $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader(array($cominedHeaderColumn), true, true);
+        $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), true, true);
     }
     
     public function getExpressionHeader(){
@@ -46,16 +46,16 @@ class ConstantExecuter extends tdt\core\universalfilter\interpreter\executers\ba
     public function evaluateAsExpression() {
         $id = $this->header->getColumnId();
         
-        $row=new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+        $row=new UniversalFilterTableContentRow();
         $row->defineValue($id, $this->const);
         
-        $content = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $content = new UniversalFilterTableContent();
         $content->addRow($row);
         
         return $content;
     }
     
-    public function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         return array();
     }
 }

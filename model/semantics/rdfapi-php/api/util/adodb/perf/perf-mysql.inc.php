@@ -261,7 +261,7 @@ class perf_mysql extends adodb_perf{
 		$rs->Close();
 		$at = strpos($stat,'Buffer pool hit rate');
 		$stat = substr($stat,$at,200);
-		if (preg_match('!Buffer pool hit rate\s*([0-9]*) / ([0-9]*)!',$stat,$arr)) {
+		if (preg_match('!Buffer pool hit s*([0-9]*) / ([0-9]*)!',$stat,$arr)) {
 			$val = 100*$arr[1]/$arr[2];
 			$_SESSION['INNODB_HIT_PCT'] = $val;
 			return round($val,2);

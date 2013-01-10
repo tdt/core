@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\strategies;
+namespace strategies;
 
-class CSV extends tdt\core\strategies\ATabularData {
+class CSV extends ATabularData {
 
     // amount of chars in one row that can be read
     private static $MAX_LINE_LENGTH = 15000;
@@ -83,7 +83,7 @@ class CSV extends tdt\core\strategies\ATabularData {
         if (isset($configObject->uri)) {
             $filename = $configObject->uri;
         } else {
-            throw new tdt\framework\TDTException(452,array("Can't find URI of the CSV"));
+            throw new TDTException(452,array("Can't find URI of the CSV"));
         }
       
         $columns = $configObject->columns;
@@ -106,7 +106,7 @@ class CSV extends tdt\core\strategies\ATabularData {
             }
             fclose($handle);
         }else{
-            throw new tdt\framework\TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."));
+            throw new TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."));
         }
         
 
@@ -138,7 +138,7 @@ class CSV extends tdt\core\strategies\ATabularData {
                 
             // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
             if(count($data)<=1 && $row == ""){
-                throw new tdt\framework\TDTException(452,array("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter."));
+                throw new TDTException(452,array("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter."));
             }
             
             /**
@@ -157,7 +157,7 @@ class CSV extends tdt\core\strategies\ATabularData {
                     $line+= $start_row;
                     $amountOfElements = count($data);
                     $amountOfColumns = count($columns);
-                    throw new tdt\framework\TDTException(452,array("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used. Line number of the error: $line. amount of columns - elements : $amountOfColumns - $amountOfElements."));
+                    throw new TDTException(452,array("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (". $delimiter .") has been passed, or a corrupt datafile has been used. Line number of the error: $line. amount of columns - elements : $amountOfColumns - $amountOfElements."));
                 }
             }
 
@@ -202,11 +202,11 @@ class CSV extends tdt\core\strategies\ATabularData {
                         $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                     }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
                         // this means the primary key wasn't unique !
-                        tdt\framework\Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key ". $rowobject->$PK . " isn't unique on line " . $line.".",
+                        Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key ". $rowobject->$PK . " isn't unique on line " . $line.".",
                                               "NOTICE");
                     }else{
                         // this means the primary key was empty, log the problem and continue 
-                        tdt\framework\Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key is empty on line " . $line.".",
+                        Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key is empty on line " . $line.".",
                                               "NOTICE");
                     }
                 }
@@ -295,7 +295,7 @@ class CSV extends tdt\core\strategies\ATabularData {
                     $index++;
                     
                     if(count($line) <= 1){
-                        throw new tdt\framework\TDTException(452,array("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter. On line $index."));
+                        throw new TDTException(452,array("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter. On line $index."));
                     }
                     
                     if(empty($this->columns)){                        

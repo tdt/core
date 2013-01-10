@@ -99,7 +99,7 @@ class ADODB_Encrypt_MCrypt {
 		$iv_size = mcrypt_get_iv_size($this->_cipher, $this->_mode);
 		$iv = mcrypt_create_iv($iv_size, $this->_source);
 		$rv = mcrypt_decrypt($this->_cipher, $key, $data, $this->_mode, $iv);
-		return rtrim($rv, "\0");
+		return rtrim($rv, "0");
 	}
 
 }

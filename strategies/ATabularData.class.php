@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\strategies;
+namespace strategies;
 
-abstract class ATabularData extends  tdt\core\strategies\AResourceStrategy{
+abstract class ATabularData extends  AResourceStrategy{
 
     protected $parameters = array(); // create parameters
     protected $updateParameters = array(); // update parameters
@@ -45,24 +45,24 @@ abstract class ATabularData extends  tdt\core\strategies\AResourceStrategy{
             }
 
             $column = trim($column);
-            $formatted_column = preg_replace('/\s+/','_',$column);
+            $formatted_column = preg_replace('/s+/','_',$column);
 
             if(!isset($column_aliases[$formatted_column])){
                 $column_aliases[$formatted_column] = $formatted_column;
             }else{
                 $column_aliases[$formatted_column] = trim($column_aliases[$formatted_column]);
-                $formatted_column_alias = preg_replace('/\s+/','_',$column_aliases[$formatted_column]);
+                $formatted_column_alias = preg_replace('/s+/','_',$column_aliases[$formatted_column]);
                 $column_aliases[$formatted_column] = $formatted_column_alias;
             }
 			
-            tdt\core\model\DBQueries::storePublishedColumn($generic_resource_id, $index,$formatted_column,$column_aliases[$formatted_column],
+            DBQueries::storePublishedColumn($generic_resource_id, $index,$formatted_column,$column_aliases[$formatted_column],
                                            ($PK != "" && $PK == $formatted_column?1:0));
         }
     }
 
     // fill in the configuration object that the strategy will receive
     public function read(&$configObject,$package,$resource){
-         $published_columns = tdt\core\model\DBQueries::getPublishedColumns($configObject->gen_resource_id);
+         $published_columns = DBQueries::getPublishedColumns($configObject->gen_resource_id);
          $PK ="";
          $columns = array();
          $column_aliases = array();
@@ -119,7 +119,7 @@ abstract class ATabularData extends  tdt\core\strategies\AResourceStrategy{
              * We cannot know what caused the invalidation of the resource, when a resource is invalid, the creator of
              * the strategy is expected to throw an exception of its own.
              */
-            throw new tdt\framework\TDTException(452,array("Something went wrong during the validation of the generic resource."));
+            throw new TDTException(452,array("Something went wrong during the validation of the generic resource."));
         }
     }
 
@@ -131,13 +131,13 @@ abstract class ATabularData extends  tdt\core\strategies\AResourceStrategy{
      */
     public function getFields($package, $resource) {
         
-        $result = tdt\core\model\DBQueries::getGenericResourceId($package, $resource);
+        $result = DBQueries::getGenericResourceId($package, $resource);
         $gen_res_id = $result["gen_resource_id"];
 
         $columns = array();
 
         // get the columns from the columns table
-        $allowed_columns = tdt\core\model\DBQueries::getPublishedColumns($gen_res_id);
+        $allowed_columns = DBQueries::getPublishedColumns($gen_res_id);
 
         /**
          * columns can have an alias, if not their alias is their own name

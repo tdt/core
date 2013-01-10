@@ -105,14 +105,14 @@ class ADODB_pdo_mysql extends ADODB_pdo {
 			
 			// split type into type(length):
 			$fld->scale = null;
-			if (preg_match("/^(.+)\((\d+),(\d+)/", $type, $query_array)) {
+			if (preg_match("/^(.+)((d+),(d+)/", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$fld->max_length = is_numeric($query_array[2]) ? $query_array[2] : -1;
 				$fld->scale = is_numeric($query_array[3]) ? $query_array[3] : -1;
-			} elseif (preg_match("/^(.+)\((\d+)/", $type, $query_array)) {
+			} elseif (preg_match("/^(.+)((d+)/", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$fld->max_length = is_numeric($query_array[2]) ? $query_array[2] : -1;
-			} elseif (preg_match("/^(enum)\((.*)\)$/i", $type, $query_array)) {
+			} elseif (preg_match("/^(enum)((.*))$/i", $type, $query_array)) {
 				$fld->type = $query_array[1];
 				$arr = explode(",",$query_array[2]);
 				$fld->enums = $arr;

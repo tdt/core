@@ -8,9 +8,9 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\packages\TDTAdmin;
+namespace TDTAdmin;
 
-class TDTAdminResources extends tdt\core\model\resources\read\AReader{
+class TDTAdminResources extends AReader{
 
     public static function getParameters(){
 	return array();
@@ -25,7 +25,7 @@ class TDTAdminResources extends tdt\core\model\resources\read\AReader{
     }
 
     public function read(){
-	$resmod = tdt\core\model\ResourcesModel::getInstance();
+	$resmod = ResourcesModel::getInstance();
 	$o = $resmod->getAllDescriptionDoc();
 	return $o;
     }

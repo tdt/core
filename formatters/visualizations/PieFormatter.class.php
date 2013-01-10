@@ -9,10 +9,13 @@
  * @author Lieven Janssen <lieven.janssen@okfn.org>
  */
 namespace tdt\core\formatters\visualizations;
+
+use tdt\core\formatters\AFormatter;
+
 /**
  * This class inherits from the abstract Formatter. It will generate a pie chart
  */
-class PieFormatter extends tdt\core\formatters\AFormatter {
+class PieFormatter extends AFormatter {
 
 	private $data;
 	private $category = "category";

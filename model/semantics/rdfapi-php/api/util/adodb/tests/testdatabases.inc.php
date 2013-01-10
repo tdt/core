@@ -93,7 +93,7 @@ if (!empty($testibase)) {
 	//$_GET['nolog'] = true;
 	$db = &ADONewConnection('firebird');
 	print "<h1>Connecting $db->databaseType...</h1>";
-	if ($db->PConnect("localhost:d:\\firebird\\151\\examples\\EMPLOYEE.fdb", "sysdba", "masterkey", ""))
+	if ($db->PConnect("localhost:d:151EMPLOYEE.fdb", "sysdba", "masterkey", ""))
 		testdb($db,"create table ADOXYZ (id integer, firstname char(24), lastname char(24),price numeric(12,2),created date)");
 	 else print "ERROR: Interbase test requires a database called employee.gdb".'<BR>'.$db->ErrorMsg();
 	
@@ -101,7 +101,7 @@ if (!empty($testibase)) {
 
 
 if (!empty($testsqlite)) {
-	$path =urlencode('d:\inetpub\adodb\sqlite.db');
+	$path =urlencode('d:sqlite.db');
 	$dsn = "sqlite://$path/";
 	$db = ADONewConnection($dsn);
 	//echo $dsn;
@@ -109,7 +109,7 @@ if (!empty($testsqlite)) {
 	//$db = &ADONewConnection('sqlite');
 	
 
-	if ($db && $db->PConnect("d:\\inetpub\\adodb\\sqlite.db", "", "", "")) {
+	if ($db && $db->PConnect("d:sqlite.db", "", "", "")) {
 		print "<h1>Connecting $db->databaseType...</h1>";
 		testdb($db,"create table ADOXYZ (id int, firstname char(24), lastname char(24),created datetime)");
 	} else 
@@ -186,7 +186,7 @@ if (!empty($testpdoora)) {
 if (!empty($testaccess)) {
 	$db = &ADONewConnection('access');
 	print "<h1>Connecting $db->databaseType...</h1>";
-	$access = 'd:\inetpub\wwwroot\php\NWIND.MDB';
+	$access = 'd:NWIND.MDB';
 	$dsn = "nwind";
 	$dsn = "Driver={Microsoft Access Driver (*.mdb)};Dbq=$access;Uid=Admin;Pwd=;";
 	
@@ -202,7 +202,7 @@ if (!empty($testaccess) && !empty($testado)) { // ADO ACCESS
 	$db = &ADONewConnection("ado_access");
 	print "<h1>Connecting $db->databaseType...</h1>";
 	
-	$access = 'd:\inetpub\wwwroot\php\NWIND.MDB';
+	$access = 'd:NWIND.MDB';
 	$myDSN =  'PROVIDER=Microsoft.Jet.OLEDB.4.0;'
 		. 'DATA SOURCE=' . $access . ';';
 		//. 'USER ID=;PASSWORD=;';
@@ -219,15 +219,15 @@ if (!empty($testvfp)) { // ODBC
 	print "<h1>Connecting $db->databaseType...</h1>";flush();
 
 	if ( $db->PConnect("vfp-adoxyz")) {
-		testdb($db,"create table d:\\inetpub\\adodb\\ADOXYZ (id int, firstname char(24), lastname char(24),created date)");
+		testdb($db,"create table d:ADOXYZ (id int, firstname char(24), lastname char(24),created date)");
 	 } else print "ERROR: Visual FoxPro test requires a Windows ODBC DSN=vfp-adoxyz, VFP driver";
 	
 	echo "<hr />";
 	$db = &ADONewConnection('odbtp');
 	
-	if ( $db->PConnect('localhost','DRIVER={Microsoft Visual FoxPro Driver};SOURCETYPE=DBF;SOURCEDB=d:\inetpub\adodb;EXCLUSIVE=NO;')) {
+	if ( $db->PConnect('localhost','DRIVER={Microsoft Visual FoxPro Driver};SOURCETYPE=DBF;SOURCEDB=d:adodb;EXCLUSIVE=NO;')) {
 	print "<h1>Connecting $db->databaseType...</h1>";flush();
-	testdb($db,"create table d:\\inetpub\\adodb\\ADOXYZ (id int, firstname char(24), lastname char(24),created date)");
+	testdb($db,"create table d:ADOXYZ (id int, firstname char(24), lastname char(24),created date)");
 	 } else print "ERROR: Visual FoxPro odbtp requires a Windows ODBC DSN=vfp-adoxyz, VFP driver";
 	
 }

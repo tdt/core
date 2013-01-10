@@ -55,7 +55,7 @@ if ($result === false) die(&quot;failed&quot;);</font></code>
  <b>for</b> ($i=0, $max=sizeof($fields); $i &lt; $max; $i++) &#123;
 		<b>print</b> $fields[$i].' ';
  &#125;
- <b>print</b> &quot;&lt;br&gt;\n&quot;;
+ <b>print</b> &quot;&lt;br&gt;n&quot;;
 &#125;</font> 
 </pre>
 <p>The above code has been color-coded by section. The first section is the connection 
@@ -72,7 +72,7 @@ if ($result === false) die(&quot;failed&quot;);</font></code>
 	<b>for</b> ($i=0, $max=$result-&gt;<b>FieldCount</b>(); $i &lt; $max; $i++)
 		   <b>print</b> $result-&gt;fields[$i].' ';
 	$result-&gt;<b>MoveNext</b>();
-	<b>print</b> &quot;&lt;br&gt;\n&quot;;
+	<b>print</b> &quot;&lt;br&gt;n&quot;;
  &#125;</font> </pre>
 <p></p>
 <p>Now porting to Oracle is as simple as changing the second line to <code>NewADOConnection('oracle')</code>. 
@@ -118,7 +118,7 @@ $db-&gt;<b>Connect</b>(&quot;localhost&quot;, &quot;root&quot;, &quot;password&q
    <b>for</b> ($i=0, $max=$result-&gt;<b>FieldCount</b>(); $i &lt; $max; $i++)
 	   <b>print</b> $result-&gt;fields[$i].' ';
    $result-&gt;<b>MoveNext</b>();
-   <b>print</b> &quot;&lt;br&gt;\n&quot;;
+   <b>print</b> &quot;&lt;br&gt;n&quot;;
 &#125;</font></pre>
 <p>The paradigm for getting the data is that it's like reading a file. For every 
   line, we check first whether we have reached the end-of-file (EOF). While not 
@@ -173,7 +173,7 @@ based on the $ADODB_FETCH_MODE setting when the recordset was created by Execute
   ADODB has a function called DBDate() that addresses this issue by converting 
   converting the date to the correct format.</p>
 <p>The next problem is that the <b>don't</b> in the Note needs to be quoted. In 
-  MySQL, we use <b>don\'t</b> but in some other databases (Sybase, Access, Microsoft 
+  MySQL, we use <b>'t</b> but in some other databases (Sybase, Access, Microsoft 
   SQL Server) we use <b>don''t. </b>The qstr() function addresses this issue.</p>
 <p>So how do we use the functions? Like this:</p>
 <pre>$sql = &quot;INSERT INTO table (id, thedate,note) values (&quot; 

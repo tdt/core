@@ -18,12 +18,12 @@ $schema = new adoSchema( $db );
 // uncomment the following line:
 #$schema->upgradeSchema();
 
-print "<b>SQL to build xmlschema.xml</b>:\n<pre>";
+print "<b>SQL to build xmlschema.xml</b>:n<pre>";
 // Build the SQL array
 $sql = $schema->ParseSchema( "xmlschema.xml" );
 
 var_dump( $sql );
-print "</pre>\n";
+print "</pre>n";
 
 // Execute the SQL on the database
 //$result = $schema->ExecuteSchema( $sql );
@@ -34,7 +34,7 @@ print "</pre>\n";
 
 
 
-print "<b>SQL to build xmlschema-mssql.xml</b>:\n<pre>";
+print "<b>SQL to build xmlschema-mssql.xml</b>:n<pre>";
 
 $db2 = ADONewConnection('mssql');
 $db2->Connect('','adodb','natsoft','northwind') || die("Fail 2");
@@ -45,7 +45,7 @@ $schema = new adoSchema( $db2 );
 $sql = $schema->ParseSchema( "xmlschema-mssql.xml" );
 
 print_r( $sql );
-print "</pre>\n";
+print "</pre>n";
 
 $db2->debug=1;
 

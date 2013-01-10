@@ -5,7 +5,7 @@ ini_set('mssql.datetimeconvert',0);
 function tmssql()
 {
 	print "<h3>mssql</h3>";
-	$db = mssql_connect('JAGUAR\vsdotnet','adodb','natsoft') or die('No Connection');
+	$db = mssql_connect('vsdotnet','adodb','natsoft') or die('No Connection');
 	mssql_select_db('northwind',$db);
 	
 	$rs = mssql_query('select getdate() as date',$db);
@@ -27,7 +27,7 @@ include_once('DB.php');
 	print "<h3>PEAR</h3>";
 	$username = 'adodb';
 	$password = 'natsoft';
-	$hostname = 'JAGUAR\vsdotnet';
+	$hostname = 'vsdotnet';
 	$databasename = 'northwind';
 	
 	$dsn = "mssql://$username:$password@$hostname/$databasename";
@@ -45,7 +45,7 @@ include_once('../adodb.inc.php');
 
 	print "<h3>ADOdb</h3>";
 	$conn = NewADOConnection('mssql');
-	$conn->Connect('JAGUAR\vsdotnet','adodb','natsoft','northwind');
+	$conn->Connect('vsdotnet','adodb','natsoft','northwind');
 //	$conn->debug=1;
 	print "date=".$conn->GetOne('select getdate()')."<br>";
 	$conn->Execute('create table tester (id integer)');

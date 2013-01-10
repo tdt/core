@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\data;
+namespace data;
 
 class UniversalFilterTableHeaderColumnInfo {
     private $completeColumnNameParts; //array(package, package, resource, subtable, ...)
@@ -67,7 +67,7 @@ class UniversalFilterTableHeaderColumnInfo {
             $oldName = array_pop($this->completeColumnNameParts);
             $this->completeColumnNameParts[] = $newColumName;
         }else{
-            throw new tdt\framework\TDTException(500,array("\"$newColumName\" is an illegal alias."));
+            throw new TDTException(500,array(""$" is an illegal alias."));
         }
     }
     
@@ -110,7 +110,7 @@ class UniversalFilterTableHeaderColumnInfo {
      * @return UniversalFilterTableHeaderColumnInfo 
      */
     public function cloneColumnInfo(){
-        $a = new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo($this->completeColumnNameParts);
+        $a = new UniversalFilterTableHeaderColumnInfo($this->completeColumnNameParts);
         $a->isLinked=$this->isLinked;
         $a->isGrouped=$this->isGrouped;
         $a->linkedTable=$this->linkedTable;
@@ -136,7 +136,7 @@ class UniversalFilterTableHeaderColumnInfo {
      * @return UniversalFilterTableHeaderColumnInfo 
      */
     public function cloneBaseUpon($newFieldName){
-        $a = new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo(array($newFieldName));
+        $a = new UniversalFilterTableHeaderColumnInfo(array($newFieldName));
         return $a;
     }
     

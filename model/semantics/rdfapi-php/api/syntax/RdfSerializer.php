@@ -621,9 +621,9 @@ class RdfSerializer extends Object {
                 return USE_CDATA;
             if ($c == LINEFEED)
                 $hasBreaks = TRUE;
-            if ($c == '"' || $c == "\'") {
+            if ($c == '"' || $c == "'") {
                 if ($quote == USE_ANY_QUOTE)
-                    $quote = ($c == '"') ? "\'" : "\"";
+                    $quote = ($c == '"') ? "'" : """;
                 elseif ($c == $quote)
                     return USE_CDATA;
             }
@@ -644,7 +644,7 @@ class RdfSerializer extends Object {
             $value = $node->getLabel();
             if (strlen($value) < MAX_ALLOWED_ABBREVIATED_LENGTH) {
                 $c = $this->getValueQuoteType($value);
-                return $c == '"' || $c == '\'';
+                return $c == '"' || $c == ''';
             }
         }
         return FALSE;

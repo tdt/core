@@ -108,7 +108,7 @@ class ADODB_ado extends ADOConnection {
 		if ($argUsername) $argHostname .= ";$u=$argUsername";
 		if ($argPassword)$argHostname .= ";$p=$argPassword";
 		
-		if ($this->debug) ADOConnection::outp( "Host=".$argHostname."<BR>\n version=$dbc->version");
+		if ($this->debug) ADOConnection::outp( "Host=".$argHostname."<BR>n version=$dbc->version");
 		// @ added below for php 4.0.1 and earlier
 		@$dbc->Open((string) $argHostname);
 		

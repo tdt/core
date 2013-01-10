@@ -158,7 +158,7 @@ class SparqlParser extends Object
     public static function tokenize($queryString)
     {
         $queryString  = trim($queryString);
-        $specialChars = array(' ', "\t", "\r", "\n", ',', '\\', '(', ')','{','}','"',"'",';','[',']');
+        $specialChars = array(' ', "t", "r", "n", ',', '', '(', ')','{','}','"',"'",';','[',']');
         $len          = strlen($queryString);
         $tokens       = array('');
         $n            = 0;
@@ -191,7 +191,7 @@ class SparqlParser extends Object
                     unset($tokens[$n]);
                     --$n;
                     continue;
-                } else if ($queryString{$i} == '\\') {
+                } else if ($queryString{$i} == '') {
                     $tokens[$n] .= substr($queryString, $i, 2);
                     ++$i;
                     continue;
@@ -215,8 +215,8 @@ class SparqlParser extends Object
     */
     protected function uncomment($queryString)
     {
-        $regex ="/((\"[^\"]*\")|(\'[^\']*\')|(\<[^\>]*\>))|(#.*)/";
-        return preg_replace($regex,'\1',$queryString);
+        $regex ="/((""]*")|('']*')|(<>]*>))|(#.*)/";
+        return preg_replace($regex,'1',$queryString);
     }//protected function uncomment($queryString)
 
 
@@ -528,7 +528,7 @@ class SparqlParser extends Object
     * @return boolean TRUE if the token is an IRI false if not
     */
     protected function iriCheck($token){
-        $pattern="/^<[^>]*>\.?$/";
+        $pattern="/^<[^>]*>.?$/";
         if(preg_match($pattern,$token)>0)
         return true;
         return false;
@@ -558,7 +558,7 @@ class SparqlParser extends Object
     */
     protected function qnameCheck($token)
     {
-        $pattern="/^([^:^\<]*):([^:]*)$/";
+        $pattern="/^([^:<]*):([^:]*)$/";
         if (preg_match($pattern,$token,$hits)>0) {
             $prefs = $this->query->getPrefixes();
             if (isset($prefs{$hits{1}})) {
@@ -584,7 +584,7 @@ class SparqlParser extends Object
     */
     protected function literalCheck($token)
     {
-        $pattern = "/^[\"\'].*$/";
+        $pattern = "/"'].*$/";
         if (preg_match($pattern,$token) > 0) {
             return true;
         }
@@ -726,7 +726,7 @@ class SparqlParser extends Object
         $tmpPred  = "";
         $obj      = "";
         do {
-//echo strtolower(current($this->tokens)) . "\n";
+//echo strtolower(current($this->tokens)) . "n";
             switch (strtolower(current($this->tokens))) {
                 case false:
                     $cont          = false;
@@ -923,7 +923,7 @@ class SparqlParser extends Object
 
             switch ($tok) {
                 case '"':
-                case '\'':
+                case ''':
                     if ($chQuotes === null) {
                         $chQuotes  = $tok;
                         $strQuoted = '';
@@ -979,7 +979,7 @@ class SparqlParser extends Object
                     break;
 
                 case ' ':
-                case "\t":
+                case "t":
                     continue 2;
 
                 case '=':

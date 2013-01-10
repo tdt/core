@@ -11,9 +11,9 @@
  * @author Miel Vander Sande
  */
 
-namespace tdt\core\formatters;
+namespace formatters;
 
-class TtlFormatter extends tdt\core\formatters\AFormatter {
+class TtlFormatter extends AFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);

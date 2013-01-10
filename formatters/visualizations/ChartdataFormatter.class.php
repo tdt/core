@@ -11,11 +11,13 @@
 
 namespace tdt\core\formatters\visualizations;
 
+use tdt\core\formatters\AFormatter;
+
 /**
  * This class inherits from the abstract Formatter. It will generate chart data
  */
-class ChartdataFormatter extends tdt\core\formatters\AFormatter {
-
+class ChartdataFormatter extends AFormatter {
+    
     private $data;
     private $category = "category";
     private $value = array();

@@ -64,7 +64,7 @@ default:
 	
 ### START DISPLAY
 	print "<h3>PHP ".PHP_VERSION."</h3>";
-	print "<p><b>\$_SESSION['AVAR']={$_SESSION['AVAR']}</b></p>";
+	print "<p><b>$_SESSION['AVAR']={$_SESSION['AVAR']}</b></p>";
 	
 	print "<hr /> <b>Cookies</b>: ";
 	print_r($_COOKIE);

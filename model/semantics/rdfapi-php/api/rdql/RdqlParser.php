@@ -59,7 +59,7 @@ Class RdqlParser extends Object{
 
 /**
  * Query string divided into a sequence of tokens.
- * A token is either: ' ' or "\n" or "\r" or "\t" or ',' or '(' or ')'
+ * A token is either: ' ' or "n" or "r" or "t" or ',' or '(' or ')'
  * or a string containing any characters except from the above.
  *
  * @var     array
@@ -117,15 +117,15 @@ Class RdqlParser extends Object{
              if ($query{$i+1} == '^' && $query{$i+2} == '^')
                 break;
              $clean .= $query{++$i};
-           }while ($i < $last && $query{$i} != ' '  && $query{$i} != "\t"
-                              && $query{$i} != "\n" && $query{$i} != "\r");
+           }while ($i < $last && $query{$i} != ' '  && $query{$i} != "t"
+                              && $query{$i} != "n" && $query{$i} != "r");
         }
         // datatype
         if ($query{$i+1} == '^' && $query{$i+2} == '^') {
             do
               $clean .= $query{++$i};
-            while ($i < $last && $query{$i} != ' '  && $query{$i} != "\t"
-                             && $query{$i} != "\n" && $query{$i} != "\r" );
+            while ($i < $last && $query{$i} != ' '  && $query{$i} != "t"
+                             && $query{$i} != "n" && $query{$i} != "r" );
         }
      // don't search for comments inside an <URI> either
      }elseif ($query{$i} == '<') {
@@ -136,7 +136,7 @@ Class RdqlParser extends Object{
      }elseif ($query{$i} == '/') {
         // clear: // comment
         if ($i < $last && $query{$i+1} == '/') {
-            while($i < $last && $query{$i} != "\n" && $query{$i} != "\r")
+            while($i < $last && $query{$i} != "n" && $query{$i} != "r")
               ++$i;
             $clean .= ' ';
         // clear: /*comment*/
@@ -158,7 +158,7 @@ Class RdqlParser extends Object{
 
 /**
  * Divide the query string into tokens.
- * A token is either: ' ' or "\n" or "\r" or '\t' or ',' or '(' or ')'
+ * A token is either: ' ' or "n" or "r" or 't' or ',' or '(' or ')'
  * or a string containing any character except from the above.
  *
  * @param   string  $queryString
@@ -166,8 +166,8 @@ Class RdqlParser extends Object{
  */
  function tokenize($queryString) {
 
-   $queryString = trim($queryString, " \r\n\t");
-   $specialChars = array (" ", "\t", "\r", "\n", ",", "(", ")");
+   $queryString = trim($queryString, " t");
+   $specialChars = array (" ", "t", "r", "n", ",", "(", ")");
    $len = strlen($queryString);
    $this->tokens[0]='';
    $n = 0;
@@ -507,7 +507,7 @@ Class RdqlParser extends Object{
    $parsedFilter['numExprVars'] = array();
 
    // parse regex string equality expressions, e.g. ?x ~~ !//foo.com/r!i
-   $reg_ex  = "/(\?[a-zA-Z0-9_]+)\s+([~!=]~)\s+(['|\"])?([^\s'\"]+)(['|\"])?/";
+   $reg_ex  = "/(?[a-zA-Z0-9_]+)s+([~!=]~)s+(['|"])?(s'"]+)(['|"])?/";
    preg_match_all($reg_ex, $filterStr, $eqExprs);
    foreach ($eqExprs[0] as $i => $eqExpr) {
      $this->_checkRegExQuotation($filterStr, $eqExprs[3][$i], $eqExprs[5][$i]);
@@ -519,13 +519,13 @@ Class RdqlParser extends Object{
    }
 
    // parse ?var  [eq | ne] "literal"@lang^^dtype
-   $reg_ex  = "/(\?[a-zA-Z0-9_]+)\s+(eq|ne)\s+(\'[^\']*\'|\"[^\"]*\")";
-   $reg_ex .= "(@[a-zA-Z]+)?(\^{2}\S+:?\S+)?/i";
+   $reg_ex  = "/(?[a-zA-Z0-9_]+)s+(eq|ne)s+('']*'|""]*")";
+   $reg_ex .= "(@[a-zA-Z]+)?(^{2}S+:?S+)?/i";
    preg_match_all($reg_ex, $filterStr, $eqExprs);
    foreach ($eqExprs[0] as $i => $eqExpr) {
      $parsedFilter['strEqExprs'][$i]['var'] = $this->_isDefined($eqExprs[1][$i]);#
      $parsedFilter['strEqExprs'][$i]['operator'] = strtolower($eqExprs[2][$i]);
-     $parsedFilter['strEqExprs'][$i]['value'] = trim($eqExprs[3][$i],"'\"");
+     $parsedFilter['strEqExprs'][$i]['value'] = trim($eqExprs[3][$i],"'"");
      $parsedFilter['strEqExprs'][$i]['value_type'] = 'Literal';
      $parsedFilter['strEqExprs'][$i]['value_lang'] = substr($eqExprs[4][$i], 1);     
      $dtype = substr($eqExprs[5][$i], 2);
@@ -541,7 +541,7 @@ Class RdqlParser extends Object{
    
    // parse ?var [eq | ne] ?var
    $ii = count($parsedFilter['strEqExprs']);
-   $reg_ex  = "/(\?[a-zA-Z0-9_]+)\s+(eq|ne)\s+(\?[a-zA-Z0-9_]+)/i";
+   $reg_ex  = "/(?[a-zA-Z0-9_]+)s+(eq|ne)s+(?[a-zA-Z0-9_]+)/i";
    preg_match_all($reg_ex, $filterStr, $eqExprs);
    foreach ($eqExprs[0] as $i => $eqExpr) {
      $parsedFilter['strEqExprs'][$ii]['var'] = $this->_isDefined($eqExprs[1][$i]);
@@ -554,7 +554,7 @@ Class RdqlParser extends Object{
    }
 
    // parse ?var [eq | ne] <URI> or ?var [eq | ne] prefix:local_name
-   $reg_ex  = "/(\?[a-zA-Z0-9_]+)\s+(eq|ne)\s+((<\S+>)|(\S+:\S*))/i";
+   $reg_ex  = "/(?[a-zA-Z0-9_]+)s+(eq|ne)s+((<S+>)|(S+:S*))/i";
    preg_match_all($reg_ex, $filterStr, $eqExprs);
    foreach ($eqExprs[0] as $i => $eqExpr) {
      $parsedFilter['strEqExprs'][$ii]['var'] = $this->_isDefined($eqExprs[1][$i]);
@@ -575,7 +575,7 @@ Class RdqlParser extends Object{
    $parsedFilter['evalFilterStr'] = $filterStr;
 
    // all that is left are numerical expressions and place holders for the above expressions
-   preg_match_all("/\?[a-zA-Z0-9_]+/", $filterStr, $vars);
+   preg_match_all("/?[a-zA-Z0-9_]+/", $filterStr, $vars);
    foreach ($vars[0] as $var) {
      $parsedFilter['numExprVars'][] = $this->_isDefined($var);
    }
@@ -714,9 +714,9 @@ Class RdqlParser extends Object{
  function _clearWhiteSpaces() {
 
    while (current($this->tokens) == ' '  ||
-          current($this->tokens) == "\n" ||
-          current($this->tokens) == "\t" ||
-          current($this->tokens) == "\r")
+          current($this->tokens) == "n" ||
+          current($this->tokens) == "t" ||
+          current($this->tokens) == "r")
 
       unset($this->tokens[key($this->tokens)]);
  }
@@ -794,7 +794,7 @@ Class RdqlParser extends Object{
    	  $statement_object['value'] = $this->_validateUri($token, RDQL_WHR_ERR);
    	  $statement_object['is_qname'] = TRUE;
    }else
-   	  trigger_error(RDQL_WHR_ERR ." '$token' - ?Variable, &lt;URI&gt;, QName, or \"LITERAL\" expected", E_USER_ERROR);   
+   	  trigger_error(RDQL_WHR_ERR ." '$token' - ?Variable, &lt;URI&gt;, QName, or "" expected", E_USER_ERROR);   
    return $statement_object;      
  }
  
@@ -810,7 +810,7 @@ Class RdqlParser extends Object{
  */
  function _validateVar($token, $clause_error) {
 
-   preg_match("/\?[a-zA-Z0-9_]+/", $token, $match);
+   preg_match("/?[a-zA-Z0-9_]+/", $token, $match);
    if (!isset($match[0]) || $match[0] != $token)
       trigger_error($clause_error ."'" .htmlspecialchars($token)
                     ."' - variable name contains illegal characters", E_USER_ERROR);
@@ -835,7 +835,7 @@ Class RdqlParser extends Object{
       	unset($this->tokens[key($this->tokens)]);
       	return rtrim($token, ':');
       }
-      $errmsg = $clause_error .'\'' .htmlspecialchars($token) .'\' ';
+      $errmsg = $clause_error .''' .htmlspecialchars($token) .'' ';
       if ($clause_error == RDQL_WHR_ERR)
          $errmsg .= "- ?Variable or &lt;URI&gt; or QName expected";
       else
@@ -845,8 +845,8 @@ Class RdqlParser extends Object{
       $token_res = $token;
       while($token{strlen($token)-1} != '>' && $token != NULL) {
         if ($token == '(' || $token == ')' || $token == ',' ||
-            $token == ' ' || $token == "\n" || $token == "\r") {
-           trigger_error($clause_error .'\'' .htmlspecialchars($token_res)
+            $token == ' ' || $token == "n" || $token == "r") {
+           trigger_error($clause_error .''' .htmlspecialchars($token_res)
                           ."' - illegal input: '$token' - '>' missing", E_USER_ERROR);
         }
         unset($this->tokens[key($this->tokens)]);
@@ -854,7 +854,7 @@ Class RdqlParser extends Object{
         $token_res .= $token;
       }
       if ($token == NULL)
-         trigger_error($clause_error .'\'' .htmlspecialchars($token_res) ."' - '>' missing", E_USER_ERROR);
+         trigger_error($clause_error .''' .htmlspecialchars($token_res) ."' - '>' missing", E_USER_ERROR);
       unset($this->tokens[key($this->tokens)]);
       return trim($token_res, '<>');
    }
@@ -968,7 +968,7 @@ function _validateQName($token, $clause_error) {
  */ 
 function _validateNCName($token) {
 	
-  preg_match("/[a-zA-Z_]+[a-zA-Z_0-9.\-]*/", $token, $match);
+  preg_match("/[a-zA-Z_]+[a-zA-Z_0-9.-]*/", $token, $match);
   if (isset($match[0]) && $match[0] == $token)
   	return TRUE;
   return FALSE;	
@@ -1005,7 +1005,7 @@ function _validateNCName($token) {
 
    $qName_parts = explode(':', $qName);
    if (!array_key_exists($qName_parts[0], $this->parsedQuery['ns']))
-      trigger_error($clause_error .'undefined prefix: \'' .$qName_parts[0] .'\' in: \'' .$qName .'\'', E_USER_ERROR);
+      trigger_error($clause_error .'undefined prefix: '' .$qName_parts[0] .'' in: '' .$qName .''', E_USER_ERROR);
    return $this->parsedQuery['ns'][$qName_parts[0]] .$qName_parts[1];
  } 
           	 	

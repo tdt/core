@@ -73,7 +73,7 @@ function langMatches($lang_range, $lang_tag) {
 
     if (strtolower($lang_range) == strtolower($lang_tag))
         return true;
-    $tags = preg_match_all("/[^\-\s].[^\-\s]*/", $lang_range, $hits);
+    $tags = preg_match_all("/-s].-s]*/", $lang_range, $hits);
     if ($tags) {
         if ($lang_tag == '*')
             return true;
@@ -95,7 +95,7 @@ function langMatches($lang_range, $lang_tag) {
  * @return boolean
  */
 function str($string) {
-    $str = preg_match("/\".[^\"]*\"|\'.[^\']*\'/", $string, $hits);
+    $str = preg_match("/"."]*"|'.']*'/", $string, $hits);
     if ($str != 0) {
         return "str_" . $hits[0];
     } else {
@@ -118,7 +118,7 @@ function str($string) {
  * @return String the lang tag or false if there is no language tag.
  */
 function lang($string) {
-    $str = preg_match("/\".[^\"]*\"@(.[^\s]*)|\'.[^\']*\'@(.[^\s]*)/", $string, $hits);
+    $str = preg_match("/"."]*"@(.s]*)|'.']*'@(.s]*)/", $string, $hits);
     if ($str) {
         if ($hits[1] != null)
             return $hits[1];

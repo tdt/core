@@ -9,15 +9,15 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
 
-class ExternallyCalculatedFilterNodeExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter {
 
     private $header;
     private $executer;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         // save the filter
         $this->filter = $filter;
 
@@ -39,7 +39,7 @@ class ExternallyCalculatedFilterNodeExecuter extends tdt\core\universalfilter\in
          */
         $expectedheadernames = array();
 
-        $attachment = $source->getAttachment(tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment::$ATTACHMENTID);
+        $attachment = $source->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);
         if (!is_null($attachment)) {
             $expectedheadernames = $attachment->getExpectedHeaderNames();
         } else {
@@ -71,10 +71,10 @@ class ExternallyCalculatedFilterNodeExecuter extends tdt\core\universalfilter\in
                     if ($givenColumnsIndex != 0) {
                         $givenColumnsString.=", ";
                     }
-                    $givenColumnsString.="\"" . $columnNameGivenTable . "\"";
+                    $givenColumnsString.=""" . $columnNameGivenTable . """;
                 }
 
-                throw new Exception("Illegal external calculation. The returned table should contain a column with name \"" . $givenName . "\", but no column with that name found. Found columnNames: " . $givenColumnsString . ".");
+                throw new Exception("Illegal external calculation. The returned table should contain a column with name "" . $givenName . "", but no column with that name found. Found columnNames: " . $givenColumnsString . ".");
             }
 
             $newHeaderColumn = $columnInfo->cloneColumnWithId($givenColumnId);
@@ -91,7 +91,7 @@ class ExternallyCalculatedFilterNodeExecuter extends tdt\core\universalfilter\in
         }
 
         //new Header
-        $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader($newColumns, $isSingleRowByConstruction, $isSingleColumnByConstruction);
+        $this->header = new UniversalFilterTableHeader($newColumns, $isSingleRowByConstruction, $isSingleColumnByConstruction);
 
 
 
@@ -118,8 +118,8 @@ class ExternallyCalculatedFilterNodeExecuter extends tdt\core\universalfilter\in
         //do nothing
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\UniversalFilterNode $parentNode, $parentIndex) {
-        return array(new tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData($this->filter, $this->filter, NULL, "CAN_NOT_BE_EXECUTED_EXTERNALLY"));
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+        return array(new SourceUsageData($this->filter, $this->filter, NULL, "CAN_NOT_BE_EXECUTED_EXTERNALLY"));
     }
 
 }

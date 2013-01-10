@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-abstract class TernaryFunctionExecuter extends tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter {
+abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
 
     private $header;
     private $executer1;
@@ -21,7 +21,7 @@ abstract class TernaryFunctionExecuter extends tdt\core\universalfilter\interpre
     private $header2;
     private $header3;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
@@ -42,7 +42,7 @@ abstract class TernaryFunctionExecuter extends tdt\core\universalfilter\interpre
                 $this->header1->getColumnNameById($this->header1->getColumnId()), $this->header2->getColumnNameById($this->header2->getColumnId()), $this->header3->getColumnNameById($this->header3->getColumnId()));
 
         //column
-        $cominedHeaderColumn = new tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo(array($combinedName));
+        $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
 
         //single row?
         $isSingleRowByConstruction =
@@ -51,7 +51,7 @@ abstract class TernaryFunctionExecuter extends tdt\core\universalfilter\interpre
                 $this->header3->isSingleRowByConstruction();
 
         //new Header
-        $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
+        $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
     public function getExpressionHeader() {
@@ -79,7 +79,7 @@ abstract class TernaryFunctionExecuter extends tdt\core\universalfilter\interpre
             throw new Exception("Columns differ in size"); //Can that happen??????????
         }
 
-        $rows = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $rows = new UniversalFilterTableContent();
 
         $size = max(array(
             $table1content->getRowCount(),
@@ -88,7 +88,7 @@ abstract class TernaryFunctionExecuter extends tdt\core\universalfilter\interpre
 
         //loop through all rows and evaluate the expression
         for ($i = 0; $i < $size; $i++) {
-            $row = new tdt\core\universalfilter\data\UniversalFilterTableContentRow();
+            $row = new UniversalFilterTableContentRow();
 
             //get the value for index i for both tables
             $valueA = null;
@@ -143,7 +143,7 @@ abstract class TernaryFunctionExecuter extends tdt\core\universalfilter\interpre
         $this->executer3->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(tdt\core\universalfilter\data\UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = array_merge(
                 $this->executer1->filterSingleSourceUsages($this->filter, 0), $this->executer2->filterSingleSourceUsages($this->filter, 1), $this->executer3->filterSingleSourceUsages($this->filter, 2));
 

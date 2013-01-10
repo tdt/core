@@ -117,7 +117,7 @@ class ExecuterDateTimeTools {
         
         $dateinterval = DateInterval::createFromDateString($diffstring);
         if($dateinterval===FALSE) {
-            throw new Exception("Internal error: unable to convert \"".$diffstring."\" as \"".$constant."\" to interval.");
+            throw new Exception("Internal error: unable to convert "".$diffstring."" as "".$constant."" to interval.");
         }
         return $dateinterval;
     }

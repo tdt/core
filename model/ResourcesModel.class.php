@@ -10,7 +10,7 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model;
+namespace model;
 
 class ResourcesModel {
     /*
@@ -44,14 +44,14 @@ class ResourcesModel {
          *
          */
 
-        $this->host = tdt\framework\Config::get("general", "hostname");
-        $this->subdir = tdt\framework\Config::get("general", "subdir");
+        $this->host = Config::get("general", "hostname");
+        $this->subdir = Config::get("general", "subdir");
 
         $this->factories = array(); //(ordening does matter here! Put the least expensive on top)
-        $this->factories["generic"] = new tdt\core\model\GenericResourceFactory();
-        $this->factories["core"] = new tdt\core\model\CoreResourceFactory();
-        $this->factories["remote"] = new tdt\core\model\RemoteResourceFactory();
-        $this->factories["installed"] = new tdt\core\model\InstalledResourceFactory();
+        $this->factories["generic"] = new GenericResourceFactory();
+        $this->factories["core"] = new CoreResourceFactory();
+        $this->factories["remote"] = new RemoteResourceFactory();
+        $this->factories["installed"] = new InstalledResourceFactory();
 
         /*
          * This array maps all the update types to the correct delegation methods
@@ -65,9 +65,9 @@ class ResourcesModel {
     }
 
     public static function getInstance() {
-        R::setup(tdt\framework\Config::get("db", "system") . ":host=" . tdt\framework\Config::get("db", "host") . ";dbname=" . tdt\framework\Config::get("db", "name"), tdt\framework\Config::get("db", "user"), Config::get("db", "password"));
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         if (!isset(self::$instance)) {
-            self::$instance = new tdt\core\model\ResourcesModel();
+            self::$instance = new ResourcesModel();
         }
         return self::$instance;
     }
@@ -132,7 +132,7 @@ class ResourcesModel {
 
         //if it doesn't, test whether the resource_type has been set            
         if (!isset($parameters["resource_type"])) {
-            throw new tdt\framework\TDTException(452, array("Parameter resource_type hasn't been set"));
+            throw new TDTException(452, array("Parameter resource_type hasn't been set"));
         }
 
         /**
@@ -148,7 +148,7 @@ class ResourcesModel {
                 $parameters["generic_type"] = $resourceTypeParts[1];
                 $parameters["resource_type"] = $resourceTypeParts[0];
             } else if (!isset($parameters["generic_type"])) {
-                throw new tdt\framework\TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"));
+                throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"));
             }
         }
 
@@ -157,7 +157,7 @@ class ResourcesModel {
         $restype = strtolower($restype);
         //now check if the file exist and include it
         if (!in_array($restype, array("generic", "remote", "installed"))) {
-            throw new tdt\framework\TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"));
+            throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"));
         }
         // get the documentation containing information about the required parameters
         $doc = $this->getAllAdminDoc();
@@ -187,14 +187,14 @@ class ResourcesModel {
          */
         foreach ($resourceCreationDoc->requiredparameters as $key) {
             if (!isset($parameters[$key])) {
-                throw new tdt\framework\TDTException(452, array("Required parameter " . $key . " has not been passed"));
+                throw new TDTException(452, array("Required parameter " . $key . " has not been passed"));
             }
         }
 
         //now check if there are nonexistent parameters given
         foreach (array_keys($parameters) as $key) {
             if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
-                throw new tdt\framework\TDTException(452, array("The parameter $key is non existent for the given type of resource."));
+                throw new TDTException(452, array("The parameter $key is non existent for the given type of resource."));
             }
         }
 
@@ -214,7 +214,7 @@ class ResourcesModel {
                 } catch (Exception $ex) {
                     //Clear the documentation in our cache for it has changed        
                     $this->clearCachedDocumentation();
-                    throw new tdt\framework\TDTException(500, array("Error: " . $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers."));
+                    throw new TDTException(500, array("Error: " . $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers."));
                 }
             }
         } catch (Exception $ex) {
@@ -226,7 +226,7 @@ class ResourcesModel {
     }
 
     private function clearCachedDocumentation() {
-        $c = tdt\framework\Cache\Cache::getInstance();
+        $c = Cache::getInstance();
         $c->delete($this->host . $this->subdir . "documentation");
         $c->delete($this->host . $this->subdir . "admindocumentation");
         $c->delete($this->host . $this->subdir . "packagedocumentation");
@@ -261,7 +261,7 @@ class ResourcesModel {
 
         foreach ($pieces as $package) {
             if ($this->isResource($packagestring, $package)) {
-                throw new tdt\framework\TDTException(452, array($packagestring . "/" . $package . " is already a resource, you cannot overwrite resources with packages!"));
+                throw new TDTException(452, array($packagestring . "/" . $package . " is already a resource, you cannot overwrite resources with packages!"));
             }
             $packagestring .= "/" . $package;
         }
@@ -271,7 +271,7 @@ class ResourcesModel {
          */
         $resourcestring = $packagestring . "/" . $resource;
         if ($this->isPackage($resourcestring)) {
-            throw new tdt\framework\TDTException(452, array($resourcestring . " is already a packagename, you cannot overwrite a package with a resource."));
+            throw new TDTException(452, array($resourcestring . " is already a packagename, you cannot overwrite a package with a resource."));
         }
         return $packagestring;
     }
@@ -307,12 +307,12 @@ class ResourcesModel {
     }
 
     private function isPackage($needle) {
-        $result = tdt\core\model\DBQueries::getPackageId($needle);
+        $result = DBQueries::getPackageId($needle);
         return $result != NULL;
     }
 
     private function isResource($package, $subpackage) {
-        $result = tdt\core\model\DBQueries::getResourceType($package, $subpackage);
+        $result = DBQueries::getResourceType($package, $subpackage);
         return $result != NULL;
     }
 
@@ -327,7 +327,7 @@ class ResourcesModel {
                 return $type;
             }
         }
-        throw new tdt\framework\TDTException(452, array($genType . " was not found as a generic_type."));
+        throw new TDTException(452, array($genType . " was not found as a generic_type."));
     }
 
     /**
@@ -341,7 +341,7 @@ class ResourcesModel {
 
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new tdt\framework\TDTException(452, array("package/resource pair: $package, $resource was not found."));
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
         }
 
         foreach ($this->factories as $factory) {
@@ -363,7 +363,7 @@ class ResourcesModel {
 
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new tdt\framework\TDTException(452, array("package/resource pair: $package, $resource was not found."));
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
         }
 
         /**
@@ -422,7 +422,7 @@ class ResourcesModel {
 
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new tdt\framework\TDTException(452, array("package/resource pair: $package, $resource was not found."));
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
         }
 
         /**
@@ -454,8 +454,8 @@ class ResourcesModel {
         $resourceDoc = $this->getAllDoc();
         $packageDoc = $this->getAllPackagesDoc();
         if (isset($packageDoc->$package)) {
-            $packageId = tdt\core\model\DBQueries::getPackageId($package);
-            $subpackages = tdt\core\model\DBQueries::getAllSubpackages($packageId["id"]);
+            $packageId = DBQueries::getPackageId($package);
+            $subpackages = DBQueries::getAllSubpackages($packageId["id"]);
 
             foreach ($subpackages as $subpackage) {
                 $subpackage = $subpackage["full_package_name"];
@@ -469,9 +469,9 @@ class ResourcesModel {
                 }
                 $this->deletePackage($subpackage);
             }
-            tdt\core\model\DBQueries::deletePackage($package);
+            DBQueries::deletePackage($package);
         } else {
-            throw new tdt\framework\TDTException(404, array($package));
+            throw new TDTException(404, array($package));
         }
     }
 
@@ -481,22 +481,22 @@ class ResourcesModel {
      * @return a doc object containing all the packages, resources and further documentation
      */
     public function getAllDoc() {
-        $doc = new tdt\core\model\Doc();
+        $doc = new Doc();
         return $doc->visitAll($this->factories);
     }
 
     public function getAllDescriptionDoc() {
-        $doc = new tdt\core\model\Doc();
+        $doc = new Doc();
         return $doc->visitAllDescriptions($this->factories);
     }
 
     public function getAllAdminDoc() {
-        $doc = new tdt\core\model\Doc();
+        $doc = new Doc();
         return $doc->visitAllAdmin($this->factories);
     }
 
     public function getAllPackagesDoc() {
-        $doc = new tdt\core\model\Doc();
+        $doc = new Doc();
         return $doc->visitAllPackages();
     }
 
@@ -521,7 +521,7 @@ class ResourcesModel {
         $package = array_shift($pieces);
 
         //Get an instance of our resourcesmodel
-        $model = tdt\core\model\ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
         $foundPackage = FALSE;
 
@@ -571,7 +571,7 @@ class ResourcesModel {
             $foundPackage = in_array($package, $allPackages);
 
             if (!$foundPackage) {
-                throw new tdt\framework\TDTException(404, array($packageresourcestring));
+                throw new TDTException(404, array($packageresourcestring));
             }
         }
 
@@ -594,7 +594,7 @@ class ResourcesModel {
                 // remote resource just proxies the url so we don't need to take that into account
                 if (get_class($factory) == "GenericResourceFactory") {
 
-                    $genericResource = new tdt\core\model\resources\GenericResource($package, $resource);
+                    $genericResource = new GenericResource($package, $resource);
                     $strategy = $genericResource->getStrategy();
 
                     $interfaces = class_implements($strategy);
@@ -631,10 +631,10 @@ class ResourcesModel {
      * get the columns from a resource
      */
     public function getColumnsFromResource($package, $resource) {
-        $gen_resource_id = tdt\core\model\DBQueries::getGenericResourceId($package, $resource);
+        $gen_resource_id = DBQueries::getGenericResourceId($package, $resource);
 
         if (isset($gen_resource_id["gen_resource_id"]) && $gen_resource_id["gen_resource_id"] != "") {
-            return tdt\core\model\DBQueries::getPublishedColumns($gen_resource_id["gen_resource_id"]);
+            return DBQueries::getPublishedColumns($gen_resource_id["gen_resource_id"]);
         }
         return NULL;
     }

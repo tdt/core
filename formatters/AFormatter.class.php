@@ -11,6 +11,8 @@
  */
 namespace tdt\core\formatters;
 
+use tdt\framework\Config;
+
 abstract class AFormatter {
     protected $rootname;
     protected $objectToPrint;
@@ -25,7 +27,7 @@ abstract class AFormatter {
      * @param Mixed  $objectToPrint Object that needs printing.
      */
     public function __construct($rootname, &$objectToPrint) {
-        include(tdt\framework\Config::get("general","subdir")."core/version.php");
+        include(Config::get("general","subdir")."core/version.php");
         $this->version = $version;
 
         $this->rootname = $rootname;

@@ -9,9 +9,9 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\interpreter\executers\implementations;
+namespace implementations;
 
-class DatasetJoinFilterExecuter extends tdt\core\universalfilter\interpreter\executers\base\BaseEvaluationEnvironmentFilterExecuter {
+class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter {
     
     private $interpreter;
     
@@ -23,7 +23,7 @@ class DatasetJoinFilterExecuter extends tdt\core\universalfilter\interpreter\exe
     private $executerB;
     private $exprexec;
 
-    public function initExpression(tdt\core\universalfilter\UniversalFilterNode $filter, tdt\core\universalfilter\interpreter\Environment $topenv, tdt\core\universalfilter\interpreter\IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
         $this->filter = $filter;
         $this->interpreter = $interpreter;
         
@@ -56,16 +56,16 @@ class DatasetJoinFilterExecuter extends tdt\core\universalfilter\interpreter\exe
             array_push($columns, $headerB->getColumnInformationByIndex($i)->cloneColumnNewId());
         }
         
-        $this->header = new tdt\core\universalfilter\data\UniversalFilterTableHeader($columns, FALSE, FALSE);
+        $this->header = new UniversalFilterTableHeader($columns, FALSE, FALSE);
         
         
         //
         // EXPRESSION
         //
         if($this->filter->getExpression()!==NULL) {
-            $this->totaltable = new tdt\core\universalfilter\data\UniversalFilterTable($this->header, null);
+            $this->totaltable = new UniversalFilterTable($this->header, null);
 
-            $env = new tdt\core\universalfilter\interpreter\Environment();
+            $env = new Environment();
             $env->setTable($this->totaltable);
 
             // get executer for expression
@@ -89,11 +89,11 @@ class DatasetJoinFilterExecuter extends tdt\core\universalfilter\interpreter\exe
         
         
         // niet zo efficiënt... bereken eerst volledig cartesiaans product... Maar beter dan rij per rij...
-        $totalcontent = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+        $totalcontent = new UniversalFilterTableContent();
         $size = $sourcecontentA->getRowCount()*$sourcecontentB->getRowCount();
         for($a=0;$a<$acount;$a++){
             for($b=0;$b<$bcount;$b++){
-                $row = new dt\core\universalfilter\data\UniversalFilterTableContentRow();
+                $row = new UniversalFilterTableContentRow();
                 
                 $rowA = $sourcecontentA->getRow($a);
                 $rowB = $sourcecontentA->getRow($b);
@@ -131,7 +131,7 @@ class DatasetJoinFilterExecuter extends tdt\core\universalfilter\interpreter\exe
             $exprheader = $this->exprexec->getExpressionHeader();
 
             // filter the content
-            $filteredRows = new tdt\core\universalfilter\data\UniversalFilterTableContent();
+            $filteredRows = new UniversalFilterTableContent();
 
             // calcultate the table with true and false
             $inResultTable = $this->exprexec->evaluateAsExpression();

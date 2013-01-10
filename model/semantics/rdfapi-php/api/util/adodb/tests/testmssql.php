@@ -64,7 +64,7 @@ $conn->Execute('insert into blobtest (id) values(1)');
 $conn->UpdateBlobFile('blobtest','b1','../cute_icons_for_site/adodb.gif','id=1');
 $rs = $conn->Execute('select b1 from blobtest where id=1');
 
-$output = "c:\\temp\\test_out-".date('H-i-s').".gif"; 
+$output = "c:test_out-".date('H-i-s').".gif"; 
 print "Saving file <b>$output</b>, size=".strlen($rs->fields[0])."<p>";
 $fd = fopen($output, "wb"); 
 fwrite($fd, $rs->fields[0]); 

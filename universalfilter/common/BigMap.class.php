@@ -9,7 +9,7 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\common;
+namespace common;
 
 class BigMap {
     private $id;
@@ -22,7 +22,7 @@ class BigMap {
     
     public function setMapValue($name, $value){
 //        $this->map[$name]=$value;
-        $inst = tdt\core\universalfilter\common\BigDataBlockManager::getInstance();
+        $inst = BigDataBlockManager::getInstance();
         $inst->set("BIGMAP_".$this->id."_INFO_".$name, $value);
     }
     
@@ -32,7 +32,7 @@ class BigMap {
 //        }else{
 //            return $default;
 //        }
-        $inst = tdt\core\universalfilter\common\BigDataBlockManager::getInstance();
+        $inst = BigDataBlockManager::getInstance();
         $info = $inst->get("BIGMAP_".$this->id."_INFO_".$name);
         if(is_null($info)){
             return $default;

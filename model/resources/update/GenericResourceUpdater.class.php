@@ -9,9 +9,9 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\resources\update;
+namespace update;
 
-class GenericResourceUpdater extends tdt\core\model\resources\update\AUpdater {
+class GenericResourceUpdater extends AUpdater {
 
     private $strategy;
     private $generic_type;
@@ -20,7 +20,7 @@ class GenericResourceUpdater extends tdt\core\model\resources\update\AUpdater {
         parent::__construct($package, $resource, $RESTparameters);
         $this->generic_type = $generic_type;
         if(!file_exists("custom/strategies/" . $this->generic_type . ".class.php")){
-            throw new tdt\framework\TDTException(452,array("Generic type does not exist: " . $this->generic_type).".");
+            throw new TDTException(452,array("Generic type does not exist: " . $this->generic_type).".");
         }
         include_once("custom/strategies/" . $this->generic_type . ".class.php");
         // add all the parameters to the $parameters

@@ -95,7 +95,7 @@ class ADODB_fbsql extends ADOConnection {
 				$fld->type = $rs->fields[1];
 					
 				// split type into type(length):
-				if (preg_match("/^(.+)\((\d+)\)$/", $fld->type, $query_array)) {
+				if (preg_match("/^(.+)((d+))$/", $fld->type, $query_array)) {
 					$fld->type = $query_array[1];
 					$fld->max_length = $query_array[2];
 				} else {

@@ -30,7 +30,7 @@ foreach($rs as $k => $v) {
 	flush();
 }
 
-if ($i != $cnt) die("actual cnt is $i, cnt should be $cnt\n");
+if ($i != $cnt) die("actual cnt is $i, cnt should be $n");
 
 
 

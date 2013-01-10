@@ -81,7 +81,7 @@ class Model extends Object {
 
         if ($uri != NULL) {
             $c = substr($uri, strlen($uri) - 1, 1);
-            if (!($c == '#' || $c == ':' || $c == '/' || $c == "\\"))
+            if (!($c == '#' || $c == ':' || $c == '/' || $c == ""))
                 $uri .= '#';
         }
         $this->baseURI = $uri;
@@ -118,7 +118,7 @@ class Model extends Object {
         } else {
             // create a parser according to the suffix of the filename
             // if there is no suffix assume the file to be XML/RDF
-            preg_match("/\.([a-zA-Z0-9_]+)$/", $filename, $suffix);
+            preg_match("/.([a-zA-Z0-9_]+)$/", $filename, $suffix);
             if (isset($suffix[1]) && (strtolower($suffix[1]) == 'n3' OR strtolower($suffix[1]) == 'nt')) {
                 // Import Package Syntax
                 include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_N3);

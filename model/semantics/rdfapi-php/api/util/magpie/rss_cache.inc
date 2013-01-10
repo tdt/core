@@ -42,12 +42,12 @@ class RSSCache {
         }
     }
     
-/*=======================================================================*\
+/*=======================================================================*
     Function:   set
     Purpose:    add an item to the cache, keyed on url
     Input:      url from wich the rss file was fetched
     Output:     true on sucess  
-\*=======================================================================*/
+*=======================================================================*/
     function set ($url, $rss) {
         $this->ERROR = "";
         $cache_file = $this->file_name( $url );
@@ -68,12 +68,12 @@ class RSSCache {
         return $cache_file;
     }
     
-/*=======================================================================*\
+/*=======================================================================*
     Function:   get
     Purpose:    fetch an item from the cache
     Input:      url from wich the rss file was fetched
     Output:     cached object on HIT, false on MISS 
-\*=======================================================================*/ 
+*=======================================================================*/ 
     function get ($url) {
         $this->ERROR = "";
         $cache_file = $this->file_name( $url );
@@ -103,13 +103,13 @@ class RSSCache {
     	return 0;
     }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   check_cache
     Purpose:    check a url for membership in the cache
                 and whether the object is older then MAX_AGE (ie. STALE)
     Input:      url from wich the rss file was fetched
     Output:     cached object on HIT, false on MISS 
-\*=======================================================================*/     
+*=======================================================================*/     
     function check_cache ( $url ) {
         $this->ERROR = "";
         $filename = $this->file_name( $url );
@@ -146,35 +146,35 @@ class RSSCache {
 		}
 	}
 	
-/*=======================================================================*\
+/*=======================================================================*
     Function:   serialize
-\*=======================================================================*/     
+*=======================================================================*/     
     function serialize ( $rss ) {
         return serialize( $rss );
     }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   unserialize
-\*=======================================================================*/     
+*=======================================================================*/     
     function unserialize ( $data ) {
         return unserialize( $data );
     }
     
-/*=======================================================================*\
+/*=======================================================================*
     Function:   file_name
     Purpose:    map url to location in cache
     Input:      url from wich the rss file was fetched
     Output:     a file name
-\*=======================================================================*/     
+*=======================================================================*/     
     function file_name ($url) {
         $filename = md5( $url );
         return join( DIRECTORY_SEPARATOR, array( $this->BASE_CACHE, $filename ) );
     }
 
-/*=======================================================================*\
+/*=======================================================================*
     Function:   error
     Purpose:    register error
-\*=======================================================================*/         
+*=======================================================================*/         
     function error ($errormsg, $lvl=E_USER_WARNING) {
         // append PHP's error message if track_errors enabled
         if ( isset($php_errormsg) ) { 
