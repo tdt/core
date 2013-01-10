@@ -1,0 +1,10 @@
+{
+    "name": "tdt/core",
+    "require": {
+        "php": ">=5.3.0",       
+	"gabordemooij/redbean": ">=3.2"
+    },
+    "autoload": {
+        "classmap": [""]
+    }
+}
