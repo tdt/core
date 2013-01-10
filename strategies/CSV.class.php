@@ -59,11 +59,11 @@ class CSV extends ATabularData {
     public function documentReadParameters() {
         return array();
     }
-    
+
     /**
      * Read a resource
      * @param $configObject The configuration object containing all of the parameters necessary to read the resource.
-     * @param $package The package name of the resource 
+     * @param $package The package name of the resource
      * @param $resource The resource name of the resource
      * @return $mixed An object created with fields of a CSV file.
      */
@@ -73,7 +73,7 @@ class CSV extends ATabularData {
          * This is the uri to the file, and a parameter which states if the CSV file
          * has a header row or not.
          */
-		 
+
         parent::read($configObject,$package,$resource);
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;
@@ -81,14 +81,14 @@ class CSV extends ATabularData {
 
         /**
          * check if the uri is valid ( not empty )
-         */        
-        
+         */
+
         if (isset($configObject->uri)) {
             $filename = $configObject->uri;
         } else {
             throw new TDTException(452,array("Can't find URI of the CSV"));
         }
-      
+
         $columns = $configObject->columns;
         $column_aliases = $configObject->column_aliases;
         $PK = $configObject->PK;
@@ -96,7 +96,7 @@ class CSV extends ATabularData {
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
-		
+
         $rows = array();
         if (($handle = fopen($filename, "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
@@ -111,14 +111,14 @@ class CSV extends ATabularData {
         }else{
             throw new TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."));
         }
-        
+
 
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
         }
-        
-        
+
+
         $fieldhash = array();
         /**
          * loop through each row, and fill the fieldhash with the column names
@@ -134,28 +134,28 @@ class CSV extends ATabularData {
         }
 
         $line = 0;
-        
+
         foreach ($rows as $row => $fields) {
             $line++;
             $data = str_getcsv($fields, $delimiter,'"');
-                
+
             // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
             if(count($data)<=1 && $row == ""){
                 throw new TDTException(452,array("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter."));
             }
-            
+
             /**
-             * We support sparse trailing (empty) cells 
+             * We support sparse trailing (empty) cells
              */
-            if(count($data) != count($columns)){ 
-                if(count($data) < count($columns)){ 
+            if(count($data) != count($columns)){
+                if(count($data) < count($columns)){
                     /**
                      * trailing empty cells
                      */
                     $missing = count($columns) - count($data);
                     for ($i = 0; $i < $missing; $i++){
                         $data[] = "";
-                    }                    
+                    }
                 }else if(count($data) > count($columns)){
                     $line+= $start_row;
                     $amountOfElements = count($data);
@@ -208,7 +208,7 @@ class CSV extends ATabularData {
                         Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key ". $rowobject->$PK . " isn't unique on line " . $line.".",
                                               "NOTICE");
                     }else{
-                        // this means the primary key was empty, log the problem and continue 
+                        // this means the primary key was empty, log the problem and continue
                         Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key is empty on line " . $line.".",
                                               "NOTICE");
                     }
@@ -249,29 +249,29 @@ class CSV extends ATabularData {
         if(!isset($this->delimiter)){
             $this->delimiter = ",";
         }
-       
+
         if (!isset($this->start_row)) {
             $this->start_row = 1;
         }
-        
+
         // has_header_row should be either 1 or 0
         if($this->has_header_row != 0 && $this->has_header_row != 1){
             $this->throwException($package_id,$generic_resource_id, "Header row should be either 1 or 0.");
         }
 
         /**
-         * if no header row is given, then the columns that are being passed should be 
+         * if no header row is given, then the columns that are being passed should be
          * int => something, int => something
-         * if a header row is given however in the csv file, then we're going to extract those 
+         * if a header row is given however in the csv file, then we're going to extract those
          * header fields and put them in our back-end as well.
          */
-        
+
         if ($this->has_header_row == "0") {
             // no header row ? then columns must be passed
             if(empty($this->columns)){
                 $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
             }
-            
+
             foreach ($this->columns as $index => $value) {
                 if (!is_numeric($index)) {
                     $this->throwException($package_id,$generic_resource_id,"Your array of columns must be an index => string hash array.");
@@ -294,14 +294,14 @@ class CSV extends ATabularData {
                 $index = 0;
 
                 if(($line = fgetcsv($handle, CSV::$MAX_LINE_LENGTH,  $this->delimiter,'"')) !== FALSE) {
-                    // if no column aliases have been passed, then fill the columns variable 
+                    // if no column aliases have been passed, then fill the columns variable
                     $index++;
-                    
+
                     if(count($line) <= 1){
                         throw new TDTException(452,array("The delimiter ( ".$this->delimiter. " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter. On line $index."));
                     }
-                    
-                    if(empty($this->columns)){                        
+
+                    if(empty($this->columns)){
                         for ($i = 0; $i < sizeof($line); $i++){
                             $fieldhash[trim($line[$i])] = $i;
                             $this->columns[$i] = trim($line[$i]);

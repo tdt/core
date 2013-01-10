@@ -50,7 +50,7 @@ class SPECTQLController extends ACoreController {
 
     /**
      * This implements the GET
-     * 
+     *
      */
     public function GET($matches) {
 
@@ -68,7 +68,7 @@ class SPECTQLController extends ACoreController {
         }
 
         /*
-         * Parse the query 
+         * Parse the query
          */
         $query = "/";
         if (isset($matches["query"])) {
@@ -102,7 +102,7 @@ class SPECTQLController extends ACoreController {
 
         /*
          * We have to make sure the TDTAdmin resources
-         * are still hidden from normal users. Using a regex, 
+         * are still hidden from normal users. Using a regex,
          * we're going to find out if the TDTAdmin has been adressed.
          */
 

@@ -8,6 +8,10 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
+
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
+
 class RbStore extends DbStore {
 
     //Constructor has to be here to disable parent constructor
@@ -99,11 +103,11 @@ class RbStore extends DbStore {
         if (!$this->modelExists($modelURI))
             return FALSE;
         else {
-            
+
             $param = Array(':modelURI' => $modelURI);
             $modelVars = R::getRow("SELECT modelURI, modelID, baseURI
                                             FROM models WHERE modelURI=:modelURI", $param);
-             
+
             return new RbModel($modelVars['modelURI'], $modelVars['modelID'], $modelVars['baseURI']);
         }
     }
@@ -123,7 +127,7 @@ class RbStore extends DbStore {
         }
     }
 
- 
+
     public function listModels() {
         $recordSet = R::getAll("SELECT modelURI, baseURI FROM models");
         if (!$recordSet)

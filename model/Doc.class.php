@@ -9,14 +9,14 @@
  * @author Jan Vansteenlandt
  */
 
+
+namespace tdt\core\model;
+
 use tdt\core\formatters\FormatterFactory;
 use tdt\core\model\CoreResourceFactory;
 use tdt\core\model\DBQueries;
 use tdt\framework\Cache\Cache;
 use tdt\framework\Config;
-
-namespace tdt\core\model;
-
 
 class Doc{
 
@@ -25,12 +25,12 @@ class Doc{
      */
     private $hostname;
     private $subdir;
-    
+
     public function __construct() {
         $this->hostname = Config::get("general","hostname");
         $this->subdir = Config::get("general","subdir");
     }
-    
+
     /**
      * This function will visit any given factory and ask for the documentation of the resources they're responsible for.
      * @return Will return the entire documentation array which can be used by TDTInfo/Resources. It can also serve as an internal checker for availability of packages/resources
@@ -39,8 +39,8 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "documentation");
         if(is_null($doc)){
-            $doc = new stdClass();
-            foreach($factories as $factory){ 
+            $doc = new \stdClass();
+            foreach($factories as $factory){
                 $factory->makeDoc($doc);
             }
             $c->set($this->hostname. $this->subdir . "documentation",$doc,60*60*60); // cache it for 1 hour by default
@@ -55,7 +55,7 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "packagedocumentation");
         if(is_null($doc)){
-            $doc = new stdClass();
+            $doc = new \stdClass();
             $packages = DBQueries::getAllPackages();
             foreach($packages as $package){
                 $packagename = $package->package_name;
@@ -64,7 +64,7 @@ class Doc{
 
             $coreResourceFactory = new CoreResourceFactory();
             $packages = $coreResourceFactory->getAllPackagesDoc();
-            
+
             foreach($packages as $package){
                 $doc->$package = new StdClass();
             }
@@ -77,14 +77,14 @@ class Doc{
 
     /**
      * This function will visit any given factory and ask for the description of the resources they're responsible for.
-     * @return Will return the entire description array which can be used by TDTAdmin/Resources. 
+     * @return Will return the entire description array which can be used by TDTAdmin/Resources.
      */
     public function visitAllDescriptions($factories){
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "descriptiondocumentation");
         if(is_null($doc)){
-            $doc = new stdClass();
-            foreach($factories as $factory){ 
+            $doc = new \stdClass();
+            foreach($factories as $factory){
                 $factory->makeDescriptionDoc($doc);
             }
             $c->set($this->hostname. $this->subdir . "descriptiondocumentation",$doc,60*60*60); // cache it for 1 hour by default
@@ -100,8 +100,8 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir. "admindocumentation");
         if(is_null($doc)){
-            $doc = new stdClass();
-            foreach($factories as $factory){ 
+            $doc = new \stdClass();
+            foreach($factories as $factory){
                 $factory->makeDeleteDoc($doc);
                 $factory->makeCreateDoc($doc);
                 $factory->makeUpdateDoc($doc);
@@ -110,7 +110,7 @@ class Doc{
         }
         return $doc;
     }
-    
+
     /**
      * Gets the documentation on the formatters
      * @return $mixed An object which holds the documentation about all the formatters.

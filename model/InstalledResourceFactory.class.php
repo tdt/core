@@ -17,11 +17,11 @@ namespace tdt\core\model;
 
 
 class InstalledResourceFactory extends  AResourceFactory{
-    
+
     public function __construct() {
-        
+
     }
-    
+
     public function createCreator($package,$resource, $parameters, $RESTparameters){
         $creator = new  InstalledResourceCreator($package,$resource, $RESTparameters);
         foreach($parameters as $key => $value){
@@ -29,12 +29,12 @@ class InstalledResourceFactory extends  AResourceFactory{
         }
         return $creator;
     }
-    
+
     public function createReader($package,$resource, $parameters, $RESTparameters){
-        
+
         // location contains the full name of the file, including the .class.php extension
         $location = $this->getLocationOfResource($package,$resource);
-        
+
         if(file_exists("custom/packages/" . $location)){
             include_once("custom/packages/" . $location);
             $classname = $this->getClassnameOfResource($package,$resource);
@@ -48,11 +48,11 @@ class InstalledResourceFactory extends  AResourceFactory{
 
     public function hasResource($package,$resource){
         $resource = DBQueries::hasInstalledResource($package, $resource);
-        return isset($resource["present"]) && $resource["present"] >= 1;   
+        return isset($resource["present"]) && $resource["present"] >= 1;
     }
-    
 
-    public function createDeleter($package,$resource, $RESTparameters){        
+
+    public function createDeleter($package,$resource, $RESTparameters){
         $deleter = new  InstalledResourceDeleter($package,$resource, $RESTparameters);
         return $deleter;
     }
@@ -66,10 +66,10 @@ class InstalledResourceFactory extends  AResourceFactory{
             }
 
             foreach($resourcenames as $resourcename){
-                
+
                 $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 $location = $this->getLocationOfResource($package,$resourcename);
-                
+
                 // file can always have been removed after adding it as a published resource
                 if(file_exists("custom/packages/".$location )){
                     $classname = $this->getClassnameOfResource($package,$resourcename);
@@ -77,7 +77,7 @@ class InstalledResourceFactory extends  AResourceFactory{
                     include_once("custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
-                    $doc->$package->$resourcename->parameters = $classname::getParameters();   
+                    $doc->$package->$resourcename->parameters = $classname::getParameters();
                     $doc->$package->$resourcename->example_uri = $example_uri;
                 }
             }
@@ -87,27 +87,27 @@ class InstalledResourceFactory extends  AResourceFactory{
 
     public function makeDescriptionDoc($doc){
         //ask every resource we have for documentation
-        
+
         foreach($this->getAllResourceNames() as $package => $resourcenames){
-            if(!isset($doc->$package)){                
+            if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
-                
+
             }
 
             foreach($resourcenames as $resourcename){
-                
+
                 $example_uri = DBQueries::getExampleUri($package,$resourcename);
                 $location = $this->getLocationOfResource($package,$resourcename);
-                
+
                 // file can always have been removed after adding it as a published resource
                 if(file_exists("custom/packages/".$location )){
-                    
+
                     $classname = $this->getClassnameOfResource($package,$resourcename);
                     $doc->$package->$resourcename = new StdClass();
                     include_once("custom/packages/" . $location);
                     $doc->$package->$resourcename->doc = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
-                    $doc->$package->$resourcename->parameters = $classname::getParameters();   
+                    $doc->$package->$resourcename->parameters = $classname::getParameters();
                     $doc->$package->$resourcename->example_uri = $example_uri;
                     $doc->$package->$resourcename->resource_type = "installed";
                     $doc->$package->$resourcename->location = $location;
@@ -119,7 +119,7 @@ class InstalledResourceFactory extends  AResourceFactory{
     }
 
     private function getCreationTime($package, $resource) {
-        //if the object read is a directory and the configuration methods file exists, 
+        //if the object read is a directory and the configuration methods file exists,
         //then add it to the installed packages
         $location = $this->getLocationofResource($package,$resource);
         if (file_exists("custom/packages/" . $location )) {
@@ -127,9 +127,9 @@ class InstalledResourceFactory extends  AResourceFactory{
         }
         return 0;
     }
-    
+
     private function getModificationTime($package, $resource) {
-        // for an existing folder you can only get the last modification date in php, so 
+        // for an existing folder you can only get the last modification date in php, so
         return $this->getCreationTime($package, $resource);
     }
 
@@ -155,7 +155,7 @@ class InstalledResourceFactory extends  AResourceFactory{
     private function getClassnameOfResource($package,$resource){
         return DBQueries::getClassnameOfResource($package,$resource);
     }
-    
+
 
     /**
      * Put together the deletion documentation for installed resources

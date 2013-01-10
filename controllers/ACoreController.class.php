@@ -10,6 +10,8 @@ namespace tdt\core\controllers;
 use tdt\framework\AController;
 use tdt\framework\Cache\Cache;
 use tdt\framework\Config;
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
 
 class ACoreController extends AController {
     /*
@@ -38,11 +40,11 @@ class ACoreController extends AController {
         $this->dbuser = Config::get("db", "user");
         $this->dbpassword = Config::get("db", "password");
     }
-    
+
     protected function initializeDatabaseConnection(){
         R::setup($this->dbsystem . ":host=" . $this->dbhost . ";dbname=" . $this->dbname, $this->dbuser, $this->dbpassword);
     }
-    
+
 
     protected function clearCachedDocumentation(){
         $c =Cache::getInstance();
@@ -51,7 +53,7 @@ class ACoreController extends AController {
         $c->delete($this->hostname . $this->subdir . "admindocumentation");
         $c->delete($this->hostname . $this->subdir . "packagedocumentation");
     }
-    
+
 }
 
 ?>

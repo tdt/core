@@ -10,13 +10,16 @@
 
 namespace tdt\core\model\resources\create;
 
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
+
 abstract class ACreator{
 
     public function __construct($package, $resource){
         $this->package = $package;
         $this->resource = $resource;
     }
-  
+
     /**
      * set parameters, we leave this to the subclassx
      */
@@ -37,8 +40,8 @@ abstract class ACreator{
     }
 
     public function documentMetaDataParameters(){
-        return array( 
-                     "package_title" => "An alias for the package name, used for presentation and visualization purposes.", 
+        return array(
+                     "package_title" => "An alias for the package name, used for presentation and visualization purposes.",
                      "resource_title" => "An alias for the resource name, used for presentation and visualization purposes.",
                      "tags" => "A serie of descriptive tags, separated with a semi-colon.",
                      "audience" => "A class of entity for whom the resource is intended or useful.",
@@ -53,7 +56,7 @@ abstract class ACreator{
 							"example_uri" => "An example of how a call to the resource may look like."
                );
     }
-    
+
     /**
      * get the required parameters
      * @return array with all of the required parameters
@@ -66,7 +69,7 @@ abstract class ACreator{
      * make package id
      * @return id of the package
      */
-    protected function makePackage($package){      
+    protected function makePackage($package){
         /**
          * split the package string in its package and subpackage components
          * check for every package and subpackage if they exist, if not create them
@@ -74,7 +77,7 @@ abstract class ACreator{
 
         $packagepieces = explode("/",$package);
         $package = array_shift($packagepieces);
-        
+
         // the top level package id
         $parentId = "";
 
@@ -82,8 +85,8 @@ abstract class ACreator{
          * Create main package (top level package)
          */
         $result = R::getAll(
-            "SELECT package.id as id 
-             FROM package 
+            "SELECT package.id as id
+             FROM package
              WHERE package_name=:package_name",
             array(":package_name"=>$package)
         );
@@ -91,22 +94,22 @@ abstract class ACreator{
         if(sizeof($result) == 0){
             $newpackage = R::dispense("package");
             $newpackage->package_name = $package;
-            $newpackage->timestamp = time();  
-            $newpackage->package_title = $package;  
+            $newpackage->timestamp = time();
+            $newpackage->package_title = $package;
             $newpackage->full_package_name = $package;
             $parentId = R::store($newpackage);
         }else{
             $parentId = $result[0]["id"];
         }
         $fullPackageName = $package;
-        
+
         /**
          * create package entries for every subpackage
          */
         foreach($packagepieces as $subpackage){
             $result = R::getAll(
-                "SELECT package.id as id 
-                 FROM package 
+                "SELECT package.id as id
+                 FROM package
                  WHERE package_name=:package_name AND parent_package = :parent_package",
                 array(":package_name"=>$subpackage, ":parent_package" => $parentId)
             );
@@ -118,24 +121,24 @@ abstract class ACreator{
                 $newpackage->package_name = $subpackage;
                 $newpackage->timestamp = time();
                 // NOTE & TODO package_title is now obsolete! At least as it's been meant/implemented in the develop branch
-                $newpackage->package_title = $subpackage;   
+                $newpackage->package_title = $subpackage;
                 $newpackage->parent_package = $parentId;
                 $newpackage->full_package_name = $fullPackageName;
                 $parentId = R::store($newpackage);
             }else{
                 $parentId = $result[0]["id"];
             }
-            
+
         }
         return $parentId;
     }
-    
+
     /**
      * make resource id
      * @return id of the resource
      */
     protected function makeResource($package_id, $resource, $resource_type){
-        
+
         // TODO put this in DBQueries.
         $checkExistence = R::getAll(
             "SELECT resource.id
@@ -156,7 +159,7 @@ abstract class ACreator{
             }else{
                 $newResource->resource_title = $resource;
             }
-            
+
             if(isset($this->tags)){
                 $newResource->tags = $this->tags;
             }

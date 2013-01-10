@@ -2,12 +2,16 @@
 
 /**
  * Extension of the DbModel Class from RAP API to support Redbean
- * 
+ *
  * @package The-Datatank/model/semantics
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande
  */
+
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
+
 class RbModel extends DbModel {
 
     public function RbModel($modelURI, $modelID, $baseURI = NULL) {

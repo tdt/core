@@ -28,21 +28,21 @@ class XmlFormatter extends AFormatter{
     }
 
     public function printBody(){
-        echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";	  
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
         $rootname = $this->rootname;
-        
-        if(!isset($this->objectToPrint->$rootname)){            
+
+        if(!isset($this->objectToPrint->$rootname)){
             $rootname = ucfirst($this->rootname);
             $this->rootname = $rootname;
         }
 
-        
+
         if(!is_object($this->objectToPrint->$rootname)){
-            $wrapper = new stdClass();            
+            $wrapper = new stdClass();
             $wrapper->$rootname = $this->objectToPrint->$rootname;
             $this->objectToPrint->$rootname = $wrapper;
         }
-        
+
         $this->printObject($this->rootname . " version=\"1.0\" timestamp=\"" . time() . "\"",$this->objectToPrint->$rootname);
         echo "</$this->rootname>";
     }
@@ -60,7 +60,7 @@ class XmlFormatter extends AFormatter{
         if(is_object($object)){
             $hash = get_object_vars($object);
             $tag_close = FALSE;
-            
+
             foreach($hash as $key => $value){
                 if(is_object($value)){
                     if($tag_close == FALSE){
@@ -68,37 +68,37 @@ class XmlFormatter extends AFormatter{
                     }
 
                     $tag_close = TRUE;
-                    $this->printObject($key,$value);                    
+                    $this->printObject($key,$value);
                 }elseif(is_array($value)){
                     if($tag_close == FALSE){
                         echo ">";
                     }
                     $tag_close = TRUE;
-                    $this->printArray($key,$value);                                     
+                    $this->printArray($key,$value);
                 }else{
-                    
-                    if($key == $name){                       
+
+                    if($key == $name){
                         echo ">" . htmlspecialchars($value, ENT_QUOTES);
                         $tag_close = TRUE;
-                    }else{                        
+                    }else{
                         $key = htmlspecialchars(str_replace(" ","",$key));
                         $key = utf8_encode($key);
-                        
-                        $value = htmlspecialchars($value, ENT_QUOTES);                         
+
+                        $value = htmlspecialchars($value, ENT_QUOTES);
                         $value = utf8_encode($value);
-                        
-                        if($this->isNotAnAttribute($key)){  
+
+                        if($this->isNotAnAttribute($key)){
                             if(!$tag_close){
                                 echo ">";
                                 $tag_close = TRUE;
                             }
-                            
+
                             echo "<$key>" . $value . "</$key>";
                         }else{
                             // To be discussed: strip the _ or not to strip the _
                             //$key = substr($key, 1);
                             echo " $key=" .'"' .$value.'"';
-                        }                                                 
+                        }
                     }
                 }
             }
@@ -106,8 +106,8 @@ class XmlFormatter extends AFormatter{
             if($tag_close == FALSE){
                 echo ">";
             }
-            
-            
+
+
             if($name != $nameobject){
                 $boom = explode(" ",$name);
                 if(count($boom) == 1){
@@ -123,7 +123,7 @@ class XmlFormatter extends AFormatter{
         //echo strpos($key,"_");
         return $key[0] != "_";
     }
-    
+
     private function printArray($name,$array){
         //check on first character
         if(preg_match("/^[0-9]+.*/", $name)){
@@ -136,7 +136,7 @@ class XmlFormatter extends AFormatter{
             echo "<$name></$name>";
         }
 
-        foreach($array as $key => $value){            
+        foreach($array as $key => $value){
             $nametag = $name;
             if(is_object($value)){
                 $this->printObject($nametag,$value,$name);
@@ -155,16 +155,16 @@ class XmlFormatter extends AFormatter{
                 $name = utf8_encode($name);
                 echo "</".$name.">";
             }else{// no array in arrays are allowed!!
-                $name = htmlspecialchars(str_replace(" ","",$name));  
+                $name = htmlspecialchars(str_replace(" ","",$name));
                 $name = utf8_encode($name);
-                
+
                 $value = htmlspecialchars($value);
                 $value = utf8_encode($value);
-                
+
                 $key = htmlspecialchars(str_replace(" ","",$key));
                 $key = utf8_encode($key);
-                
-                if($this->isHash($array)){ 
+
+                if($this->isHash($array)){
                     //if this is an associative array, don't print it by name of the parent
                     //check on first character
                     if(preg_match("/^[0-9]+.*/", $key)){
@@ -174,8 +174,8 @@ class XmlFormatter extends AFormatter{
                 }else{
                     echo "<".$name. ">".$value."</".$name.">";
                 }
-                    
-            }  
+
+            }
             $index++;
         }
     }

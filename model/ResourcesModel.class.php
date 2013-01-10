@@ -10,6 +10,8 @@
  * @author Jan Vansteenlandt
  */
 
+namespace tdt\core\model;
+
 use tdt\core\model\CoreResourceFactory;
 use tdt\core\model\DBQueries;
 use tdt\core\model\Doc;
@@ -22,9 +24,9 @@ use tdt\core\universalfilter\UniversalFilterNode;
 use tdt\framework\Cache\Cache;
 use tdt\framework\Config;
 use tdt\framework\TDTException;
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
 
-
-namespace tdt\core\model;
 
 class ResourcesModel {
     /*
@@ -54,12 +56,12 @@ class ResourcesModel {
          */
         $this->updateActions = array();
 
-        //Added for linking this resource to a class descibed in an onthology        
+        //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["generic"] = "GenericResourceUpdater";
     }
 
-    public static function getInstance() {                  
-        RedBean_Facade::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
+    public static function getInstance() {
+        R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         if (!isset(self::$instance)) {
             self::$instance = new ResourcesModel();
         }
@@ -83,7 +85,7 @@ class ResourcesModel {
      * Checks the doc whether a certain resource exists in our system.
      * We will look for a definition in the documentation. Of course,
      * the result of the documentation visitor class will be cached
-     * 
+     *
      * @return a boolean
      */
     public function hasResource($package, $resource) {
@@ -124,7 +126,7 @@ class ResourcesModel {
         $RESTparameters = array();
 
 
-        //if it doesn't, test whether the resource_type has been set            
+        //if it doesn't, test whether the resource_type has been set
         if (!isset($parameters["resource_type"])) {
             throw new TDTException(452, array("Parameter resource_type hasn't been set"));
         }
@@ -164,7 +166,7 @@ class ResourcesModel {
             /*
              * Issue: keys of an array cannot be gotten without an exact match, csv != CSV is an example
              * of a result of this matter, this however should be ==
-             * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace 
+             * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace
              * generic_type with the "correct" one
              */
             $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"], $doc->create->generic);
@@ -177,7 +179,7 @@ class ResourcesModel {
 
 
         /**
-         * Check if all required parameters are being 
+         * Check if all required parameters are being
          */
         foreach ($resourceCreationDoc->requiredparameters as $key) {
             if (!isset($parameters[$key])) {
@@ -206,13 +208,13 @@ class ResourcesModel {
                 try {
                     $this->deleteResource($package, $resource, $RESTparameters);
                 } catch (Exception $ex) {
-                    //Clear the documentation in our cache for it has changed        
+                    //Clear the documentation in our cache for it has changed
                     $this->clearCachedDocumentation();
                     throw new TDTException(500, array("Error: " . $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers."));
                 }
             }
         } catch (Exception $ex) {
-            //Clear the documentation in our cache for it has changed                 
+            //Clear the documentation in our cache for it has changed
             $this->deleteResource($package, $resource, $RESTparameters);
             throw new TDTException($ex->getMessage());
         }
@@ -236,7 +238,7 @@ class ResourcesModel {
          *  ((1)) a package/resource cannot replace a package, example:
          * we have a package called X/Y/Z and our new package/resource is also called X/Y/Z
          * this cannot be tolerated as we would then delete an entire package (and all of its resources) to add a new resource
-         * you can thus only replace/renew resource with resources. 
+         * you can thus only replace/renew resource with resources.
          *  ((2)) the package so far built (first X, then X/Y, then X/Y/Z in our example) cannot be a resource
          * so we have to built the package first, and check if it's not a resource
          */
@@ -271,11 +273,11 @@ class ResourcesModel {
     }
 
     /*
-     * Analyses a URI, and returns package, resource and RESTparameters, 
+     * Analyses a URI, and returns package, resource and RESTparameters,
      * in contrast with "isResourceValid" this will not return exceptions
      * because it doesn't assume that the package/resource is the only thing
      * in the URI. This function copes with RESTparameters as well.
-     * 
+     *
      * It will look for the first valid string that matches a resource and return it,
      * as well with the RESTparameters and packagestring. If no resource is identified, it returns an exception
      */
@@ -311,7 +313,7 @@ class ResourcesModel {
     }
 
     /**
-     * Searches for a generic entry in the generic- create part of the documentation, independent of 
+     * Searches for a generic entry in the generic- create part of the documentation, independent of
      * how it is passed (i.e. csv == CSV )
      * @return The correct entry in the generic table ( csv would be changed with CSV )
      */
@@ -369,7 +371,7 @@ class ResourcesModel {
 
         /** issue with updates:
          * not all things you see are primary put parameters, some are derived and can't be update
-         * i.e. doc property of a remote resource, that property hasn't been put but has been derived from 
+         * i.e. doc property of a remote resource, that property hasn't been put but has been derived from
          * the other properties of a remote resource.
          * currently hard coded because there are no extensive units of abstract descriptions (generic, remote) yet...
          */
@@ -420,7 +422,7 @@ class ResourcesModel {
         }
 
         /**
-         * We only support the deletion of generic and remote resources and packages by 
+         * We only support the deletion of generic and remote resources and packages by
          * an API call.
          */
         $factory = "";
@@ -436,7 +438,7 @@ class ResourcesModel {
         $deleter = $factory->createDeleter($package, $resource, $RESTparameters);
         $deleter->delete();
 
-        //Clear the documentation in our cache for it has changed        
+        //Clear the documentation in our cache for it has changed
         $this->clearCachedDocumentation();
     }
 
@@ -495,7 +497,7 @@ class ResourcesModel {
     }
 
     /**
-     * This function processes a resourcepackage-string 
+     * This function processes a resourcepackage-string
      * It will analyze it trying to do the following:
      * Find the first package-name hit, it will continue to eat pieces
      * of the resourcepackage string, untill it finds that the eaten string matches a package name
@@ -521,7 +523,7 @@ class ResourcesModel {
 
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
          * ResourcesModel class -> funcion isResourceValid()
          */
         $resourcename = "";

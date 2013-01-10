@@ -23,13 +23,13 @@ class RController extends ACoreController {
 
     private $formatterfactory;
 
-    public function __construct() {    
+    public function __construct() {
         parent::__construct();
     }
 
     public function GET($matches) {
 
-        //always required: a package and a resource. 
+        //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
@@ -136,7 +136,7 @@ class RController extends ACoreController {
                 $result = $resultset->result;
             }
         }
-        // Apply Lookup filter if asked, this has been implemented according to the 
+        // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 
         if (isset($_GET["filterBy"]) && isset($_GET["filterValue"])) {
@@ -192,7 +192,7 @@ class RController extends ACoreController {
 
     public function HEAD($matches) {
 
-        //always required: a package and a resource. 
+        //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
@@ -215,7 +215,7 @@ class RController extends ACoreController {
 
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
          * ResourcesModel class -> funcion isResourceValid()
          */
         $foundPackage = FALSE;
@@ -339,7 +339,7 @@ class RController extends ACoreController {
         $this->initializeDatabaseConnection();
 
         /**
-         * Apply filters to the resulting object        
+         * Apply filters to the resulting object
          * 1) RESTfilter
          * 2) OSpec filter
          */
@@ -355,7 +355,7 @@ class RController extends ACoreController {
                 $result = $resultset->result;
             }
         }
-        // Apply Lookup filter if asked, this has been implemented according to the 
+        // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 
         if (isset($_GET["filterBy"]) && isset($_GET["filterValue"])) {

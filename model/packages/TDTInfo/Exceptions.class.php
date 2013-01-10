@@ -2,7 +2,7 @@
 
 /**
  * This is a class which will return all the packages in The DataTank
- * 
+ *
  * @package The-Datatank/packages/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -24,12 +24,12 @@ class TDTInfoExceptions extends AReader {
     }
 
     public function setParameter($key, $val) {
-        
+
     }
 
     public function read() {
 
-        $exceptions = parse_ini_file("custom/exceptions.ini", true);        
+        $exceptions = parse_ini_file("custom/exceptions.ini", true);
         $tmp = array();
 
         foreach ($exceptions as $errorcode => $configarray) {

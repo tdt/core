@@ -11,16 +11,18 @@
 namespace tdt\core\model\resources;
 
 use tdt\core\model\DBQueries;
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
 
 class GenericResource{
-    
+
     public static $TABLE_PREAMBLE = "generic_resource_";
-    
+
     private $package;
     private $resource;
     private $strategyname;
     private $strategy;
-    
+
     public function __construct($package,$resource){
         $this->package = $package;
         $this->resource = $resource;
@@ -38,7 +40,7 @@ class GenericResource{
             $this->strategy = new $this->strategyname();
         }
         return $this->strategy;
-    }    
+    }
 
     /**
      * Read a generic resource, by calling its strategy's read function
@@ -77,7 +79,7 @@ class GenericResource{
 
         return $strat->readAndProcessQuery($query,$filterParameters);
     }
-    
+
 
     /**
      * Get the generic resource info of the strategy.
@@ -92,7 +94,7 @@ class GenericResource{
             "SELECT *
              FROM  package,resource, generic_resource, $resource_table
              WHERE package.full_package_name=:package and resource.resource_name=:resource
-                   and package.id=resource.package_id 
+                   and package.id=resource.package_id
                    and resource.id = generic_resource.resource_id
                    and generic_resource.id= $resource_table.gen_resource_id",
             array(':package' => $this->package, ':resource' => $this->resource)
@@ -101,7 +103,7 @@ class GenericResource{
         // attach every parameter to the config object
         foreach($parameters as $param){
             if(isset($query[$param])){
-                $configObject->$param = $query[$param];    
+                $configObject->$param = $query[$param];
             }
         }
 

@@ -13,6 +13,9 @@
 
 namespace tdt\core\model;
 
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
+
 class DBQueries {
 
     /**
@@ -20,15 +23,15 @@ class DBQueries {
      */
     static function getAssociatedResourceId($generic_resource_id){
         return R::getCell(
-            "SELECT resource_id 
+            "SELECT resource_id
              FROM generic_resource
              WHERE id = :gen_res_id",
             array(":gen_res_id" => $generic_resource_id)
         );
     }
-    
+
     /**
-     * Retrieve the amount of requests done for 
+     * Retrieve the amount of requests done for
      * a certain package
      */
     static function getRequestsForPackage($package,$start,$end){
@@ -38,20 +41,20 @@ class DBQueries {
         $arguments = array();
         $arguments[":package"] = $package;
         $clause = "package=:package";
-        
+
         if($start != ""){
             $arguments[":start"] = $start;
             $clause  =$clause. " and time >= :start";
         }
-        
+
         if($end != ""){
             $arguments[":end"] = $end;
             $clause = $clause . " and time <= :end";
         }
-        
+
         return R::getAll(
-            "SELECT count(1) as amount, time 
-             FROM requests 
+            "SELECT count(1) as amount, time
+             FROM requests
              WHERE $clause
              GROUP BY from_unixtime(time,'%D %M %Y')",
             $arguments
@@ -59,7 +62,7 @@ class DBQueries {
     }
 
     /**
-     * Retrieve the amount of requests done for 
+     * Retrieve the amount of requests done for
      * a certain resource
      */
     static function getRequestsForResource($package,$resource,$start,$end){
@@ -70,28 +73,28 @@ class DBQueries {
         $arguments[":package"] = $package;
         $arguments[":resource"] = $resource;
         $clause = "package=:package and resource =:resource";
-        
+
         if($start != ""){
             $arguments[":start"] = $start;
             $clause = $clause." and time >= :start";
         }
-        
+
         if($end != ""){
             $arguments[":end"] = $end;
             $clause = $clause. " and time <= :end";
         }
-        
+
         return R::getAll(
-            "SELECT count(1) as amount, time 
-             FROM  requests 
+            "SELECT count(1) as amount, time
+             FROM  requests
              WHERE $clause
              GROUP BY from_unixtime(time,'%D %M %Y')",
             $arguments
         );
-    }    
+    }
 
     /**
-     * Retrieve the amount of errors done for 
+     * Retrieve the amount of errors done for
      * a certain package
      * NOTE: because it's an error table, we can't just store package, resource and what not
      * because those parameters might just be the cause of the error. So in the errors case
@@ -99,21 +102,21 @@ class DBQueries {
      */
     static function getErrors($url,$start,$end){
         $arguments = array();
-        
+
         $clause = "url_requests regexp :url";
         $arguments[":url"] = $url;
         if($start != ""){
             $arguments[":start"] = $start;
             $clause = $clause ." and time >= :start";
         }
-        
+
         if($end != ""){
             $arguments[":end"] = $end;
             $clause = $clause. " and time <= :end";
         }
-        
+
         return R::getAll(
-            "SELECT count(1) as amount,time 
+            "SELECT count(1) as amount,time
              FROM  errors
              WHERE $clause
              GROUP BY from_unixtime(time,'%D %M %Y')",
@@ -144,7 +147,7 @@ class DBQueries {
             array(":package_id" => $package_id)
         );
     }
-    
+
     /**
      * Retrieve a resource by its id
      */
@@ -164,20 +167,20 @@ class DBQueries {
     static function getGenericResourceDoc($package,$resource) {
         return R::getRow(
             "SELECT generic_resource.documentation as doc, creation_timestamp as creation_timestamp,
-                        last_update_timestamp as last_update_timestamp, generic_resource.type as type, generic_resource.id as id 
-                 FROM package,generic_resource,resource 
+                        last_update_timestamp as last_update_timestamp, generic_resource.type as type, generic_resource.id as id
+                 FROM package,generic_resource,resource
                  WHERE package.full_package_name=:package and resource.resource_name =:resource
                        and package.id=resource.package_id and resource.id = generic_resource.resource_id",
             array(':package' => $package, ':resource' => $resource)
         );
     }
-    
+
     /**
      * Get a specific generic resource's type
      */
     static function getGenericResourceType($package, $resource) {
         return R::getRow(
-            "SELECT generic_resource.type as type 
+            "SELECT generic_resource.type as type
              FROM   package,generic_resource,resource
              WHERE package.full_package_name=:package and resource.resource_name=:resource
                    and resource_id = resource.id
@@ -185,14 +188,14 @@ class DBQueries {
             array(':package' => $package, ':resource' => $resource)
         );
     }
-    
+
     /**
      * Retrieve all generic resources names and their package name
      */
     static function getAllGenericResourceNames() {
         return R::getAll(
             "SELECT parent_package as parent, resource.resource_name as res_name, package.full_package_name as package_name
-             FROM   package,generic_resource,resource 
+             FROM   package,generic_resource,resource
              WHERE  resource.package_id=package.id and generic_resource.resource_id=resource.id"
         );
     }
@@ -216,8 +219,8 @@ class DBQueries {
         $results =  R::getAll(
             "SELECT full_package_name as package_name, timestamp
              FROM package"
-        ); 
-        
+        );
+
         $packages = array();
         foreach($results as $result){
             $package = new stdClass();
@@ -228,48 +231,48 @@ class DBQueries {
 
         return $packages;
     }
-    
-    
+
+
     /**
      * Check if a specific package has a specific resource
      */
     static function hasGenericResource($package,$resource) {
         return R::getRow(
-    	    "SELECT count(1) as present 
-             FROM package,generic_resource,resource 
+    	    "SELECT count(1) as present
+             FROM package,generic_resource,resource
              WHERE package.full_package_name=:package and resource.resource_name=:resource
              and resource.package_id=package.id and generic_resource.resource_id=resource.id",
     	    array(':package' => $package, ':resource' => $resource)
     	);
-    } 
-    
+    }
+
     /**
      * Store a generic resource
      */
-    static function storeGenericResource($resource_id, $type, $documentation) {        
-        $genres = R::dispense("generic_resource");        
+    static function storeGenericResource($resource_id, $type, $documentation) {
+        $genres = R::dispense("generic_resource");
         $genres->resource_id = $resource_id;
         $genres->type = $type;
         $genres->documentation = $documentation;
         $genres->timestamp = time();
         return R::store($genres);
     }
-    
+
     /**
      * Delete a specific generic resource
      */
     static function deleteGenericResource($package,$resource) {
         return R::exec(
             "DELETE FROM generic_resource
-                      WHERE resource_id IN 
-                        (SELECT resource.id 
+                      WHERE resource_id IN
+                        (SELECT resource.id
                          FROM package,resource
                          WHERE package.full_package_name=:package and resource.id = generic_resource.resource_id
                          and resource.resource_name =:resource and resource.package_id = package.id)",
             array(":package" => $package, ":resource" => $resource)
         );
     }
-    
+
     /**
      * Retrieve a specific remote resource
      */
@@ -283,19 +286,19 @@ class DBQueries {
             array(':package' => $package, ':resource' => $resource)
         );
     }
-    
+
     /**
      * Get all remote resource names with their package name
      */
     static function getAllRemoteResourceNames() {
         return R::getAll(
             "SELECT resource.resource_name as res_name, package.full_package_name as package_name
-              FROM package,remote_resource,resource 
-              WHERE resource.package_id=package.id 
+              FROM package,remote_resource,resource
+              WHERE resource.package_id=package.id
                     and remote_resource.resource_id=resource.id"
         );
     }
-    
+
     /**
      * Store a remote resource
      */
@@ -307,50 +310,50 @@ class DBQueries {
         $remres->base_url = $base_url;
         return R::store($remres);
     }
-    
+
     /**
      * Deletes all remote resources from a specific package
      */
     static function deleteRemotePackage($package) {
         return R::exec(
             "DELETE FROM remote_resource
-                    WHERE package_id IN 
-                                    (SELECT package.id 
-                                     FROM package,resource 
-                                     WHERE package.full_package_name=:package 
+                    WHERE package_id IN
+                                    (SELECT package.id
+                                     FROM package,resource
+                                     WHERE package.full_package_name=:package
                                      and resource_id = resource.id
                                      and package_id = package.id)",
             array(":package" => $package)
         );
     }
-    
+
     /**
      * Deletes a specific remote resource
      */
     static function deleteRemoteResource($package, $resource) {
         return R::exec(
             "DELETE FROM remote_resource
-                    WHERE resource_id IN (SELECT resource.id 
-                                   FROM package,resource 
+                    WHERE resource_id IN (SELECT resource.id
+                                   FROM package,resource
                                    WHERE package.full_package_name=:package and package_id = package.id
                                    and resource_id = resource.id and resource.resource_name =:resource
                                    )",
             array(":package" => $package, ":resource" => $resource)
         );
     }
-    
+
     /**
      * Retrieve a specific package's is
      */
     static function getPackageId($package) {
         return R::getRow(
-            "SELECT package.id as id 
-             FROM package 
+            "SELECT package.id as id
+             FROM package
              WHERE full_package_name=:package_name",
             array(":package_name"=>$package)
         );
     }
-    
+
     /**
      * Store a package
      * @Deprecated
@@ -361,19 +364,19 @@ class DBQueries {
         $newpackage->timestamp = time();
         return R::store($newpackage);
     }
-    
+
     /**
      * Delete all resources from a package
      */
     static function deletePackageResources($package) {
         return R::exec(
-            "DELETE FROM resource 
+            "DELETE FROM resource
                     WHERE package_id IN
                     (SELECT id FROM package WHERE full_package_name=:package)",
             array(":package" => $package)
         );
     }
-    
+
     /**
      * Delete a specific package
      */
@@ -383,7 +386,7 @@ class DBQueries {
             array(":package" => $package)
         );
     }
-    
+
     /**
      * Retrieve a specific resource's id
      */
@@ -440,7 +443,7 @@ class DBQueries {
         }
         return (int)$timestamp;
     }
-    
+
 
     /**
      * Get the modification timestamp from a resource
@@ -458,7 +461,7 @@ class DBQueries {
         }
         return (int)$timestamp;
     }
-    
+
 
     /**
      * Store a resource
@@ -478,25 +481,25 @@ class DBQueries {
      */
     static function deleteResource($package, $resource) {
         return R::exec(
-            "DELETE FROM resource 
+            "DELETE FROM resource
              WHERE resource.resource_name=:resource and package_id IN
                    (SELECT id FROM package WHERE full_package_name=:package)",
             array(":package" => $package, ":resource" => $resource)
         );
     }
-    
+
     /**
      * Get all published columns of a generic resource
      */
     static function getPublishedColumns($generic_resource_id) {
         return R::getAll(
-            "SELECT column_name, is_primary_key,column_name_alias,published_columns.index 
+            "SELECT column_name, is_primary_key,column_name_alias,published_columns.index
              FROM  published_columns
              WHERE generic_resource_id=:id",
             array(":id" => $generic_resource_id)
         );
     }
-   
+
     /**
      * Store a published column
      */
@@ -517,19 +520,19 @@ class DBQueries {
         return R::exec(
             "DELETE FROM published_columns
                     WHERE generic_resource_id IN
-                    ( 
-                      SELECT generic_resource.id 
+                    (
+                      SELECT generic_resource.id
                       FROM   generic_resource,resource,package
-                      WHERE  full_package_name = :package 
+                      WHERE  full_package_name = :package
                              and package_id = package.id
-                             and resource_name = :resource 
+                             and resource_name = :resource
                              and resource_id = resource.id
                     )",
             array(":package" => $package, ":resource" => $resource)
-            
+
         );
     }
-   
+
     /**
      * Get the type of the resource
      */
@@ -547,7 +550,7 @@ class DBQueries {
      */
     static function getStrategyProperties($generic_resource_id,$strategy_table){
         return R::getAll(
-            "SELECT * 
+            "SELECT *
              FROM $strategy_table
              WHERE gen_resource_id=:gen_res_id",
             array(":gen_res_id" => $generic_resource_id)
@@ -571,7 +574,7 @@ class DBQueries {
         }
         $metadata->resource_id = $resource_id;
         if($add){
-            return R::store($metadata);   
+            return R::store($metadata);
         }
     }
 
@@ -583,7 +586,7 @@ class DBQueries {
             "SELECT *
              FROM metadata
              WHERE resource_id IN (
-                       SELECT resource.id 
+                       SELECT resource.id
                        FROM resource,package
                        WHERE resource.resource_name = :resource AND package.full_package_name = :package
              )",
@@ -596,12 +599,12 @@ class DBQueries {
      */
     static function deleteMetaData($package,$resource){
         return R::exec(
-            "DELETE 
+            "DELETE
              FROM metadata
-             WHERE resource_id IN ( 
-                       SELECT resource.id 
+             WHERE resource_id IN (
+                       SELECT resource.id
                        FROM resource,package
-                       WHERE resource.resource_name = :resource AND package.full_package_name = :package 
+                       WHERE resource.resource_name = :resource AND package.full_package_name = :package
              )",
             array(":package" => $package, ":resource" => $resource)
         );
@@ -636,8 +639,8 @@ class DBQueries {
     static function deleteInstalledResource($package,$resource){
         return R::exec(
             "DELETE FROM installed_resource
-                    WHERE resource_id IN (SELECT resource.id 
-                                   FROM package,resource 
+                    WHERE resource_id IN (SELECT resource.id
+                                   FROM package,resource
                                    WHERE package.full_package_name=:package and package_id = package.id
                                    and resource_id = resource.id and resource.resource_name =:resource
                                    )",
@@ -646,13 +649,13 @@ class DBQueries {
     }
 
     /**
-     * Get all of the installed resources 
+     * Get all of the installed resources
      */
     static function getAllInstalledResources(){
         return R::getAll(
             "SELECT full_package_name as package,resource_name as resource
              FROM package,resource,installed_resource
-             WHERE resource.package_id=package.id 
+             WHERE resource.package_id=package.id
                     and installed_resource.resource_id=resource.id"
         );
     }
@@ -669,7 +672,7 @@ class DBQueries {
             array(":package" => $package, ":resource" => $resource)
         );
     }
-    
+
     /**
      * Get the classname of the installed resource
      */
@@ -688,13 +691,13 @@ class DBQueries {
      */
     static function hasInstalledResource($package,$resource) {
         return R::getRow(
-    	    "SELECT count(1) as present 
-             FROM package,installed_resource,resource 
+    	    "SELECT count(1) as present
+             FROM package,installed_resource,resource
              WHERE package.full_package_name=:package and resource.resource_name=:resource
              and resource.package_id=package.id",
     	    array(':package' => $package, ':resource' => $resource)
     	);
-    } 
+    }
 
     /**
      * Get the example uri of resource

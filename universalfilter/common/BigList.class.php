@@ -15,15 +15,15 @@ use tdt\framework\TDTException;
 
 class BigList {
     public static $BLOCKSIZE = 50;
-    
+
     private $id;
     private $size;
-    
+
     public function __construct() {
         $this->id = uniqid();
         $size = 0;
     }
-    
+
     public function setIndex($index, $data) {
         if($index>=$this->size){
             throw new TDTException("BigList: Index out of bounds: ".$index);
@@ -31,7 +31,7 @@ class BigList {
         $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index/(BigList::$BLOCKSIZE));
         $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
-        
+
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
         if(is_null($oldList)){
             $oldList = new stdClass();
@@ -39,7 +39,7 @@ class BigList {
         $oldList->$indexInBlock = $data;
         $inst->set("BIGLIST_".$this->id."_".$blockindex, $oldList);//save it again
     }
-    
+
     public function getIndex($index) {
         if($index>=$this->size){
             throw new TDTException("BigList: Index out of bounds ".$index);
@@ -47,15 +47,15 @@ class BigList {
         $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index/(BigList::$BLOCKSIZE));
         $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
-        
+
         $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
-        
+
         if(is_null($oldList)){
             $oldList = new stdClass();
         }
         return $oldList->$indexInBlock;
     }
-    
+
     public function addItem($data){
         $this->size++;
         $this->setIndex($this->size-1, $data);
@@ -63,11 +63,11 @@ class BigList {
             //echo "biglist expand... ".$this->id;
         }
     }
-    
+
     public function getSize(){
         return $this->size;
     }
-    
+
     public function destroy(){
         //echo "biglist destroyed... ".$this->id;
         $inst = BigDataBlockManager::getInstance();

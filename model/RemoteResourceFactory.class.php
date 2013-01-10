@@ -28,43 +28,43 @@ class RemoteResourceFactory extends  AResourceFactory{
         AutoInclude::register("RemoteResourceDeleter","cores/core/model/resources/delete/RemoteResourceDeleter.class.php");
         AutoInclude::register("Request","cores/framework/Request.class.php");*/
     }
-    
+
     public function hasResource($package,$resource){
 	$rn = $this->getAllResourceNames();
         return isset($rn[$package]) && in_array($resource, $rn[$package]);
     }
 
     protected function getAllResourceNames(){
-        $resultset =  DBQueries::getAllRemoteResourceNames();        
+        $resultset =  DBQueries::getAllRemoteResourceNames();
         $resources = array();
         foreach($resultset as $result){
             if(!isset($resources[$result["package_name"]])){
                 $resources[$result["package_name"]] = array();
             }
             $resources[$result["package_name"]][] = $result["res_name"];
-        }        
+        }
         return $resources;
     }
 
-    public function createCreator($package,$resource, $parameters, $RESTparameters){        
+    public function createCreator($package,$resource, $parameters, $RESTparameters){
         $creator = new  RemoteResourceCreator($package,$resource, $RESTparameters);
         foreach($parameters as $key => $value){
             $creator->setParameter($key,$value);
         }
         return $creator;
     }
-    
-    public function createReader($package,$resource, $parameters, $RESTparameters){        
+
+    public function createReader($package,$resource, $parameters, $RESTparameters){
         $reader = new  RemoteResourceReader($package, $resource, $RESTparameters, $this->fetchResourceDocumentation($package,$resource));
         $reader->processParameters($parameters);
         return $reader;
     }
-    
-    
-    public function createDeleter($package,$resource, $RESTparameters){        
+
+
+    public function createDeleter($package,$resource, $RESTparameters){
         return new  RemoteResourceDeleter($package,$resource, $RESTparameters);
     }
-    
+
     public function makeDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
@@ -76,7 +76,7 @@ class RemoteResourceFactory extends  AResourceFactory{
             }
         }
     }
-    
+
     public function makeDescriptionDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
@@ -109,11 +109,11 @@ class RemoteResourceFactory extends  AResourceFactory{
         $doc->delete->remote = new StdClass();
         $doc->delete->remote = $d;
     }
-    
+
     public function makeCreateDoc($doc){
         //add stuff to create attribute in doc. No other parameters expected
         $d = new stdClass();
-        $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::get("general","hostname") . Config::get("general","subdir") . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";        
+        $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::get("general","hostname") . Config::get("general","subdir") . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
         $resource = new  RemoteResourceCreator("","", array());//make an empty object. In the end we only need a remote resource
         $d->parameters = $resource->documentParameters();
         $d->requiredparameters = $resource->documentRequiredParameters();
@@ -124,7 +124,7 @@ class RemoteResourceFactory extends  AResourceFactory{
     }
 
     /*
-     * This object contains all the information 
+     * This object contains all the information
      * FROM the last used
      * requested object. This way we wont have to call the remote resource
      * every single call to this factory. If we receive a call
@@ -144,7 +144,7 @@ class RemoteResourceFactory extends  AResourceFactory{
         }
         $data = unserialize($request->data);
         $remoteResource = new stdClass();
-        
+
         if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
             $remoteResource->doc = $data[$resource]->doc;
         }else{
@@ -156,7 +156,7 @@ class RemoteResourceFactory extends  AResourceFactory{
         }else{
             $remoteResource->parameters = array();
         }
-        
+
         if(isset($data[$resource]->requiredparameters)){
             $remoteResource->requiredparameters = $data[$resource]->requiredparameters;
         }else{
@@ -166,7 +166,7 @@ class RemoteResourceFactory extends  AResourceFactory{
     }
 
     /*
-     * This object contains all the information 
+     * This object contains all the information
      * FROM the last used
      * requested object. This way we wont have to call the remote resource
      * every single call to this factory. If we receive a call
@@ -193,7 +193,7 @@ class RemoteResourceFactory extends  AResourceFactory{
         }else{
             $remoteResource->doc = new stdClass();
         }
-        
+
         $remoteResource->resource = $resource;
         $remoteResource->base_url = $result["url"];
         $remoteResource->resource_type = "remote";
@@ -202,7 +202,7 @@ class RemoteResourceFactory extends  AResourceFactory{
         }else{
             $remoteResource->parameters = array();
         }
-        
+
         if(isset($data[$resource]->requiredparameters)){
             $remoteResource->requiredparameters = $data[$resource]->requiredparameters;
         }else{

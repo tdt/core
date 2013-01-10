@@ -14,6 +14,8 @@ namespace tdt\core\model\resources\create;
 
 use tdt\core\model\DBQueries;
 use tdt\framework\TDTException;
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
 
 class GenericResourceCreator extends ACreator {
 
@@ -66,7 +68,7 @@ class GenericResourceCreator extends ACreator {
 
     /**
      * execution method
-     * Preconditions: 
+     * Preconditions:
      * parameters have already been set.
      */
     public function create() {
@@ -76,7 +78,7 @@ class GenericResourceCreator extends ACreator {
          * Then pick the correct strategy, and pass along the parameters!
          */
         $package_id = parent::makePackage($this->package);
-        
+
         $resource_id = parent::makeResource($package_id, $this->resource, "generic");
 
         $meta_data_id = DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));
@@ -94,7 +96,7 @@ class GenericResourceCreator extends ACreator {
 
             // also delete the resource entry
              DBQueries::deleteResource($this->package, $this->resource);
-            
+
             throw new Exception($ex->getMessage());
         }
     }

@@ -15,6 +15,8 @@ use tdt\core\model\resources\read\iFilter;
 use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
 use tdt\framework\Log;
 use tdt\framework\TDTException;
+use gabordemooij\redbean\RedBean_Facade;
+use RedBean_Facade as R;
 
 class DB extends ATabularData implements iFilter {
 
@@ -61,7 +63,7 @@ class DB extends ATabularData implements iFilter {
     /**
      * Read a resource
      * @param $configObject The configuration object containing all of the parameters necessary to read the resource.
-     * @param $package The package name of the resource 
+     * @param $package The package name of the resource
      * @param $resource The resource name of the resource
      * @return $mixed An object created with fields and values of the database table
      */
@@ -120,7 +122,7 @@ class DB extends ATabularData implements iFilter {
                     // this means the primary key wasn't unique !
                     Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " isn't unique.");
                 } else {
-                    // this means the primary key field was empty, log the problem and continue 
+                    // this means the primary key field was empty, log the problem and continue
                     Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " is empty.");
                 }
             }
@@ -132,7 +134,7 @@ class DB extends ATabularData implements iFilter {
         /**
          * Check if parameters for non sqlite engines are all passed, create the connection string
          * check if a connection can be made, check if the columns (if any are passed) are
-         * existing ones in the database, if not get the columns from the datatable 
+         * existing ones in the database, if not get the columns from the datatable
          */
         if (!isset($this->username)) {
             throw new TDTException(452, array("You have to pass along a username for your database resource configuration."));
@@ -196,7 +198,7 @@ class DB extends ATabularData implements iFilter {
     }
 
     /**
-     * Check if the columns passed are in the table 
+     * Check if the columns passed are in the table
      * if no columns are passed, then fill up the $this->columns with the columns gotten from the table
      */
     private function validateColumns($table_columns) {
@@ -278,13 +280,13 @@ class DB extends ATabularData implements iFilter {
         /*
          * get the configuration object to read a DB resource
          * and get the extra information such as columns and primary key from the parent of the DB resource.
-         * 
+         *
          * Apply logic to assess whether or not you can execute a clause of the converted querytree
-         * 
-         * THERE ARE 3 POSSIBLE ROUTES AN IMPLEMENTATION OF A IFILTER CAN WALK 
-         * 
+         *
+         * THERE ARE 3 POSSIBLE ROUTES AN IMPLEMENTATION OF A IFILTER CAN WALK
+         *
          * example query: select ... from ... where group by sort by
-         * 
+         *
          * 1) Don't execute anything of the query, you cannot do anything with the given clauses
          *      This is a failsafe, when something goes wrong along the way, let the universalInterpreter handle the entire query tree
          * 2) Execute the entire query tree and update the tree with an externally calculated node
@@ -294,9 +296,9 @@ class DB extends ATabularData implements iFilter {
          *      Get the query node you want to execute, execute it on w/e data source you want to, in this case a database.
          *      Create an array of resulting objects, and apply the conventional parameters to the resulting object.
          *      So that the universalInterpreter knows you have partially executed a clause of the query tree.
-         * 
+         *
          * Note that we currently support the replacement of a where, group by, select and order by clause of the query tree.
-         * 
+         *
          */
 
         /*
@@ -319,7 +321,7 @@ class DB extends ATabularData implements iFilter {
         try {
             /*
              * Execute the query
-             * We know that we don't execute the order by statement, thus after putting together the object 
+             * We know that we don't execute the order by statement, thus after putting together the object
              * we put together an array with the clauses used, and the phpObject retrieved from the database query.
              * We also put an empty entry for the order by clause (if given) so that the interpreter knows we didn't execute it.
              */
@@ -396,7 +398,7 @@ class DB extends ATabularData implements iFilter {
 
     private function convertClausesToSQLString($converter, $configObject) {
         /*
-         * put together an sql query based on the clauses.         
+         * put together an sql query based on the clauses.
          */
 
         // select clause
@@ -416,7 +418,7 @@ class DB extends ATabularData implements iFilter {
             }
         }
 
-        //group by 
+        //group by
         if ($converter->getGroupByClause()) {
             $sql.= " GROUP BY ";
             foreach ($converter->getGroupByClause() as $groupbyidentifier) {

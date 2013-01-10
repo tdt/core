@@ -20,17 +20,17 @@ use tdt\framework\TDTException;
 namespace tdt\core\model;
 
 class GenericResourceFactory extends AResourceFactory {
-    
-    public function __construct(){      
-        
+
+    public function __construct(){
+
     }
 
     public function hasResource($package,$resource){
         $resource = DBQueries::hasGenericResource($package, $resource);
-        return isset($resource["present"]) && $resource["present"] >= 1;   
+        return isset($resource["present"]) && $resource["present"] >= 1;
     }
 
-    public function createCreator($package,$resource, $parameters, $RESTparameters){        
+    public function createCreator($package,$resource, $parameters, $RESTparameters){
         if(!isset($parameters["generic_type"])){
             throw new TDTException(452,array("The generic type has not been set"));
         }
@@ -40,38 +40,38 @@ class GenericResourceFactory extends AResourceFactory {
         }
         return $creator;
     }
-    
-    public function createReader($package,$resource, $parameters, $RESTparameters){        
+
+    public function createReader($package,$resource, $parameters, $RESTparameters){
         $reader = new GenericResourceReader($package, $resource, $RESTparameters);
         $reader->processParameters($parameters);
         return $reader;
     }
-        
-    public function createDeleter($package,$resource, $RESTparameters){        
+
+    public function createDeleter($package,$resource, $RESTparameters){
         $deleter = new GenericResourceDeleter($package,$resource, $RESTparameters);
         return $deleter;
     }
 
-    public function makeDoc($doc){        
+    public function makeDoc($doc){
         foreach($this->getAllResourceNames() as $package => $resourcenames){
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
             }
-           
+
             foreach($resourcenames as $resourcename){
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $example_uri = DBQueries::getExampleUri($package,$resourcename);
-                
+
                 if($example_uri == FALSE){
                     $example_uri = "";
                 }
-                
-                
+
+
                 $doc->$package->$resourcename = new StdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
                 $doc->$package->$resourcename->example_uri = $example_uri;
                 /**
-                 * Create a generic resource, get the strategy and ask for 
+                 * Create a generic resource, get the strategy and ask for
                  * the read parameters of the strategy.
                  * NOTE: We don't ask for generic resource parameters, because there are none !
                  */
@@ -88,7 +88,7 @@ class GenericResourceFactory extends AResourceFactory {
             if(!isset($doc->$package)){
                 $doc->$package = new StdClass();
             }
-           
+
             foreach($resourcenames as $resourcename){
                 $documentation = DBQueries::getGenericResourceDoc($package,$resourcename);
                 $doc->$package->$resourcename = new StdClass();
@@ -100,7 +100,7 @@ class GenericResourceFactory extends AResourceFactory {
                  */
                 $genericId = $documentation["id"];
                 $strategyTable = "generic_resource_". strtolower($documentation["type"]);
-                
+
                 $result = DBQueries::getStrategyProperties($genericId,$strategyTable);
                 if(isset($result[0])){
                     foreach($result[0] as $column => $value){
@@ -121,12 +121,12 @@ class GenericResourceFactory extends AResourceFactory {
                         }
                     }
                 }
-                
+
                 /**
                  * Get the published columns
                  */
                 $columns = DBQueries::getPublishedColumns($genericId);
-                // pretty formatted columns 
+                // pretty formatted columns
                 $prettyColumns = array();
                 if(!empty($columns)){
                     foreach($columns as $columnentry){
@@ -145,7 +145,7 @@ class GenericResourceFactory extends AResourceFactory {
                     }
                     $doc->$package->$resourcename->column_aliases = $columnAliases;
                 }
-                
+
                 $doc->$package->$resourcename->parameters = array();
                 $doc->$package->$resourcename->requiredparameters = array();
             }
@@ -170,15 +170,15 @@ class GenericResourceFactory extends AResourceFactory {
         $d = new StdClass();
         if(!isset($doc->delete)){
             $doc->delete = new StdClass();
-        }        
+        }
         $d->doc = "You can delete every generic resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
         $doc->delete->generic = new StdClass();
         $doc->delete->generic = $d;
     }
-    
+
     public function makeCreateDoc($doc){
         $d = array();
-        foreach($this->getAllStrategies() as $strategy){            
+        foreach($this->getAllStrategies() as $strategy){
             $res = new GenericResourceCreator("","", array(),$strategy);
             $d[$strategy] = new stdClass();
             $d[$strategy]->doc = "When your file is structured according to a $strategy -datasource, you can perform a PUT request and load this file in this DataTank";
@@ -194,7 +194,7 @@ class GenericResourceFactory extends AResourceFactory {
 
     public function makeUpdateDoc($doc){
         $d = array();
-        foreach($this->getAllStrategies() as $strategy){            
+        foreach($this->getAllStrategies() as $strategy){
             $res = new GenericResourceUpdater("","", array(),$strategy);
             $d[$strategy] = new stdClass();
             $d[$strategy]->doc = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that not all properties are adjustable.";
@@ -209,10 +209,10 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     private function getAllStrategies(){
-        $strategies = array();             
+        $strategies = array();
         if ($handle = opendir('custom/strategies')) {
             while (false !== ($strat = readdir($handle))) {
-                //if the object read is a directory and the configuration methods file exists, then add it to the installed strategie          
+                //if the object read is a directory and the configuration methods file exists, then add it to the installed strategie
                 if ($strat != "." && $strat != ".." && $strat != "README.md" && !is_dir("custom/strategies/" . $strat) && file_exists("custom/strategies/" . $strat)) {
                     include_once("custom/strategies/" . $strat);
                     $fileexplode = explode(".",$strat);

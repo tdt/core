@@ -25,7 +25,7 @@ class UniversalFilterTableContentRow {
 
     /**
      * Defines a value on this row
-     * 
+     *
      * @param string $idOfField Which column?
      * @param ? $value What value?
      */
@@ -38,9 +38,9 @@ class UniversalFilterTableContentRow {
     /**
      * Defines a value which represents a id
      * For the moment this is handled exactly the same as a value
-     * 
+     *
      * @param string $idOfField
-     * @param ? $value 
+     * @param ? $value
      */
     public function defineValueId($idOfField, $value) {
         if ($idOfField == "")
@@ -50,7 +50,7 @@ class UniversalFilterTableContentRow {
 
     /**
      * Defines a grouped value on this row
-     * 
+     *
      * @param string $idOfField
      * @param UniversalTableContent $groupedColumnValues where each row has only one field "data" and is not grouped itself
      */
@@ -62,8 +62,8 @@ class UniversalFilterTableContentRow {
 
     /**
      * returns the value of a field in the table
-     * 
-     * Note: the value can be null. BUT you have to explicitlly allow null-values. 
+     *
+     * Note: the value can be null. BUT you have to explicitlly allow null-values.
      * (To be sure you know you can get back null)
      */
     public function getCellValue($idOfField, $allowNull = false) {
@@ -95,7 +95,7 @@ class UniversalFilterTableContentRow {
     }
 
     /**
-     * returns the grouped value of a field in the table 
+     * returns the grouped value of a field in the table
      * @return array
      */
     public function getGroupedValue($idOfField) {
@@ -114,7 +114,7 @@ class UniversalFilterTableContentRow {
     /**
      * returns a hash for the field. The hash is unique for the value!!! But does not contain special characters.
      * @param type $nameOfField
-     * @return type 
+     * @return type
      */
     public function getHashForField($idOfField) {
         return hashWithNoSpecialChars($this->getCellValue($idOfField, false));
@@ -124,7 +124,7 @@ class UniversalFilterTableContentRow {
      * Copy the value of a column from one row to another row
      * @param UniversalFilterTableContentRow $newRow
      * @param string $oldField
-     * @param string $newField 
+     * @param string $newField
      */
     public function copyValueTo(UniversalFilterTableContentRow $newRow, $oldField, $newField) {
         if (isset($this->data->$oldField)) {
