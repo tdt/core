@@ -16,7 +16,7 @@ include_once("core/controllers/spectql/spectql.php");
 include_once("core/controllers/SQL/SQLGrammarFunctions.php");
 include_once("core/universalfilter/CombinedFilterGenerators.class.php");
 
-namespace controllers;
+namespace tdt\core\controllers;
 
 use tdt\core\controllers\ACoreController;
 use tdt\core\controllers\spectql\SPECTQLParser;
