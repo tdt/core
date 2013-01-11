@@ -30,23 +30,11 @@ use tdt\framework\TDTException;
 
 class SPECTQLController extends ACoreController {
 
-    public function __construct() {
-        /*
-          AutoInclude::register("FormatterFactory", "custom/formatters/FormatterFactory.class.php");
-          AutoInclude::register("SPECTQLParser", "cores/core/controllers/spectql/SPECTQLParser.class.php");
-          AutoInclude::register("ResourcesModel", "cores/core/model/ResourcesModel.class.php");
-          AutoInclude::register("DBQueries", "cores/core/model/DBQueries.class.php");
-
-          AutoInclude::register("UniversalInterpreter", "cores/core/universalfilter/interpreter/UniversalInterpreter.class.php");
-          AutoInclude::register("UniversalFilterTableManager", "cores/core/universalfilter/tablemanager/implementation/UniversalFilterTableManager.class.php");
-          AutoInclude::register("TableToPhpObjectConverter", "cores/core/universalfilter/tablemanager/implementation/tools/TableToPhpObjectConverter.class.php");
-
-          AutoInclude::register("SPECTQLTokenizer", "cores/core/controllers/spectql/SPECTQLTokenizer.class.php");
-          AutoInclude::register("SPECTQLResource", "cores/core/controllers/spectql/SPECTQLResource.class.php");
-          AutoInclude::register("SPECTQLTools", "cores/core/controllers/spectql/SPECTQLTools.class.php");
-          AutoInclude::register("TreePrinter", "cores/core/universalfilter/interpreter/debugging/TreePrinter.class.php");
-          AutoInclude::register("QueryTreeHandler","cores/core/universalfilter/interpreter/other/QueryTreeHandler.class.php"); */
+    public static $TMP_DIR ="";
+    
+    public function __construct() {       
         parent::__construct();
+        SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
     }
 
     /**
@@ -57,9 +45,10 @@ class SPECTQLController extends ACoreController {
 
         /*
          * Failsafe for when datablock files don't get deleted
+         * by the BigDataBlockManager.
          */
 
-        $tmpdir = "core/tmp/*";
+        $tmpdir = SPECTQLController::$TMP_DIR . "*";
 
         $files = glob($tmpdir);
         foreach ($files as $file) {

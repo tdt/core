@@ -16,6 +16,8 @@ use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\framework\TDTException;
+use tdt\framework\Log;
 
 class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -49,11 +51,13 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 
         for ($index = $offset; $index < $offset + $limit; $index++) {
             try {
-                $newRows->addRow($sourcecontent->getRow($index));
-            } catch (Exception $ex) {
+                $newRow = $sourcecontent->getRow($index);
+                $newRows->addRow($newRow);
+            } catch (TDTException $ex) {
                 // this exception will occur when we go out of bounds in our source
                 // do nothing, the row just doesn't get added, and ofcourse subsequent rows won't be added as well 
                 // for they do not exist.
+                Log::getInstance()->logInfo("SPECTQL - A request for a row has been made in TableContent, but no more rows exist beyond $index");
                 break;
             }
         }

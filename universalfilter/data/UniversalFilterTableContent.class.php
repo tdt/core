@@ -60,6 +60,8 @@ class UniversalFilterTableContent {
         if ($index < $this->size) {
             return $this->rows->getIndex($index);
         } else {
+            // This can happen when limit(10) asks for 10 rows, but the table only contains 5            
+           // no worries, the exception is caught !
             throw new TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"));
         }//should not happen
     }

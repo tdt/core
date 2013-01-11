@@ -15,6 +15,7 @@
 
 namespace tdt\core\universalfilter\common;
 
+use tdt\core\controllers\SPECTQLController;
 
 class BigDataBlockManager {
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
@@ -22,7 +23,7 @@ class BigDataBlockManager {
      * If errors occur with DataBlockManager, up the COUNT_KEEP_IN_MEMORY
      * Somewhere along the line it goes wrong, some blocks wont get deleted.
      */
-    private static $COUNT_KEEP_IN_MEMORY = 10000;
+    private static $COUNT_KEEP_IN_MEMORY =  100000;
 
     private static $instance;
 
@@ -42,7 +43,7 @@ class BigDataBlockManager {
 
 
     private function getDirToWriteTo(){
-        $tmpdir = "core/tmp/";
+        $tmpdir = SPECTQLController::$TMP_DIR;
         return $tmpdir."The-DataTank-BigDataBlockManager_block_";
     }
 

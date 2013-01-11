@@ -19,6 +19,14 @@ use RedBean_Facade as R;
 
 class DB extends ATabularData implements iFilter {
 
+    /*
+     * If no limit is defined, get a default maximum of rows
+     * This way reading a database with a large set of records will not cause 
+     * the PHP execution to crash of memory allocation.
+     */
+    private static $READ_MAX_AMOUNT_OF_ROWS = 150;
+    
+    
     //lowercase engine names
     private static $supportedEngines = array("mysql");
 
@@ -83,7 +91,7 @@ class DB extends ATabularData implements iFilter {
         if ($configObject->limit != "") {
             $sql_limit = "LIMIT 0,$configObject->limit";
         } else {
-            $sql_limit = "LIMIT 0, 50";
+            $sql_limit = "LIMIT 0, ".DB::$READ_MAX_AMOUNT_OF_ROWS;
         }
         $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";
 
