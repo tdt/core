@@ -209,22 +209,22 @@ class GenericResourceFactory extends AResourceFactory {
         $doc->update->generic = $d;
     }
 
-    private function getAllStrategies(){
+    private function getAllStrategies(){       
         $strategies = array();
-        if ($handle = opendir('custom/strategies')) {
+        if ($handle = opendir(__DIR__.'/../strategies')) {
             while (false !== ($strat = readdir($handle))) {
                 //if the object read is a directory and the configuration methods file exists, then add it to the installed strategie
-                if ($strat != "." && $strat != ".." && $strat != "README.md" && !is_dir("custom/strategies/" . $strat) && file_exists("custom/strategies/" . $strat)) {
-                    include_once("custom/strategies/" . $strat);
+                if ($strat != "." && $strat != ".." && $strat != "README.md" && !is_dir(__DIR__."/../strategies/" . $strat) && file_exists(__DIR__."/../strategies/" . $strat)) {                                        
                     $fileexplode = explode(".",$strat);
-                    $class = new ReflectionClass($fileexplode[0]);
+                    $classname = "tdt\\core\\strategies\\".$fileexplode[0];
+                    $class = new \ReflectionClass($classname);
                     if(!$class->isAbstract()){
                         $strategies[] = $fileexplode[0];
                     }
                 }
             }
             closedir($handle);
-        }
+        }        
         return $strategies;
     }
 }

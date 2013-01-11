@@ -21,13 +21,14 @@ class GenericResourceUpdater extends AUpdater {
     public function __construct($package, $resource, $RESTparameters,$generic_type) {
         parent::__construct($package, $resource, $RESTparameters);
         $this->generic_type = $generic_type;
-        if(!file_exists("custom/strategies/" . $this->generic_type . ".class.php")){
+        if(!class_exists("tdt\\core\\strategies\\" . $this->generic_type)){
             throw new TDTException(452,array("Generic type does not exist: " . $this->generic_type).".");
         }
-        include_once("custom/strategies/" . $this->generic_type . ".class.php");
+       
+       $classname = "tdt\\core\\strategies\\" . $this->generic_type;
         // add all the parameters to the $parameters
         // and all of the requiredParameters to the $requiredParameters
-        $this->strategy = new $this->generic_type();
+        $this->strategy = new $classname();
         $this->strategy->package = $package;
         $this->strategy->resource = $resource;
     }
