@@ -38,7 +38,7 @@ class Doc{
     public function visitAll($factories){
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "documentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new \stdClass();
             foreach($factories as $factory){
                 $factory->makeDoc($doc);
@@ -54,7 +54,7 @@ class Doc{
     public function visitAllPackages(){
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "packagedocumentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new \stdClass();
             $packages = DBQueries::getAllPackages();
             foreach($packages as $package){
@@ -82,7 +82,7 @@ class Doc{
     public function visitAllDescriptions($factories){
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "descriptiondocumentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new \stdClass();
             foreach($factories as $factory){
                 $factory->makeDescriptionDoc($doc);
@@ -99,7 +99,7 @@ class Doc{
     public function visitAllAdmin($factories){
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir. "admindocumentation");
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = new \stdClass();
             foreach($factories as $factory){
                 $factory->makeDeleteDoc($doc);
@@ -119,7 +119,7 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "formatterdocs");
         $ff = FormatterFactory::getInstance();
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = $ff->getFormatterDocumentation();
             $c->set($this->hostname. $this->subdir . "formatterdocs",$doc,60*60*60);
         }
@@ -134,7 +134,7 @@ class Doc{
         $c = Cache::getInstance();
         $doc = $c->get($this->hostname. $this->subdir . "visualizationdocs");
         $ff = FormatterFactory::getInstance();
-        if(true){//is_null($doc)){
+        if(is_null($doc)){
             $doc = $ff->getVisualizationDocumentation();
             $c->set($this->hostname. $this->subdir . "visualizationdocs",$doc,60*60*60);
         }

@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\mode\resources\read;
+namespace tdt\core\model\resources\read;
 
 use tdt\core\model\DBQueries;
 use tdt\core\model\resources\GenericResource;

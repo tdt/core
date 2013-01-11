@@ -10,7 +10,7 @@
 
 namespace tdt\core\model\resources\create;
 
-use gabordemooij\redbean\RedBean_Facade;
+use tdt\core\model\DBQueries;
 use RedBean_Facade as R;
 
 abstract class ACreator{
@@ -75,6 +75,7 @@ abstract class ACreator{
          * check for every package and subpackage if they exist, if not create them
          */
 
+        $full_package_name =$package;
         $packagepieces = explode("/",$package);
         $package = array_shift($packagepieces);
 
@@ -84,47 +85,29 @@ abstract class ACreator{
         /**
          * Create main package (top level package)
          */
-        $result = R::getAll(
-            "SELECT package.id as id
-             FROM package
-             WHERE package_name=:package_name",
-            array(":package_name"=>$package)
-        );
+        $result = DBQueries::getPackageId($full_package_name);
 
-        if(sizeof($result) == 0){
-            $newpackage = R::dispense("package");
-            $newpackage->package_name = $package;
-            $newpackage->timestamp = time();
-            $newpackage->package_title = $package;
-            $newpackage->full_package_name = $package;
-            $parentId = R::store($newpackage);
+        if(sizeof($result) == 0){     
+            $parentId = DBQueries::storePackage($package, $package, NULL);
         }else{
-            $parentId = $result[0]["id"];
+            $parentId = $result["id"];
         }
+        
+        /*
+         * build up the full_package_name from square while adding the subpackages
+         */
         $fullPackageName = $package;
 
         /**
          * create package entries for every subpackage
          */
         foreach($packagepieces as $subpackage){
-            $result = R::getAll(
-                "SELECT package.id as id
-                 FROM package
-                 WHERE package_name=:package_name AND parent_package = :parent_package",
-                array(":package_name"=>$subpackage, ":parent_package" => $parentId)
-            );
+            $result = DBQueries::getPackageIdByParentId($subpackage, $parentId);
 
             $fullPackageName = $fullPackageName . "/" . $subpackage;
 
-            if(sizeof($result) == 0){
-                $newpackage = R::dispense("package");
-                $newpackage->package_name = $subpackage;
-                $newpackage->timestamp = time();
-                // NOTE & TODO package_title is now obsolete! At least as it's been meant/implemented in the develop branch
-                $newpackage->package_title = $subpackage;
-                $newpackage->parent_package = $parentId;
-                $newpackage->full_package_name = $fullPackageName;
-                $parentId = R::store($newpackage);
+            if(sizeof($result) == 0){               
+                $parentId = DBQueries::storePackage($subpackage, $fullPackageName, $parentId);
             }else{
                 $parentId = $result[0]["id"];
             }
@@ -138,32 +121,11 @@ abstract class ACreator{
      * @return id of the resource
      */
     protected function makeResource($package_id, $resource, $resource_type){
+      
+        $checkExistence = DBQueries::getResourceIdByPackageId($resource, $package_id);
 
-        // TODO put this in DBQueries.
-        $checkExistence = R::getAll(
-            "SELECT resource.id
-             FROM resource, package
-             WHERE :package_id = package.id and resource.resource_name =:resource and resource.package_id = package.id",
-            array(":package_id" => $package_id, ":resource" => $resource)
-        );
-
-        if(sizeof($checkExistence) == 0){
-            $newResource = R::dispense("resource");
-            $newResource->package_id = $package_id;
-            $newResource->resource_name =  $resource;
-            $newResource->creation_timestamp = time();
-            $newResource->last_update_timestamp = time();
-            $newResource->type =  $resource_type;
-            if(isset($this->resource_title)){
-                $newResource->resource_title = $this->resource_title;
-            }else{
-                $newResource->resource_title = $resource;
-            }
-
-            if(isset($this->tags)){
-                $newResource->tags = $this->tags;
-            }
-            return R::store($newResource);
+        if(sizeof($checkExistence) == 0){          
+            return DBQueries::storeResource($package_id, $resource, $resource_type);
         }
         return $checkExistence[0]["id"];
     }

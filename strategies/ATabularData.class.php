@@ -50,14 +50,13 @@ abstract class ATabularData extends AResourceStrategy {
                 $this->throwException($package_id, $generic_resource_id, "$index is not numeric!");
             }
 
-            $column = trim($column);
-            $formatted_column = preg_replace('/s+/', '_', $column);
-
+            $column = trim($column);            
+            $formatted_column = preg_replace('/\s+/', '_', $column);           
             if (!isset($column_aliases[$formatted_column])) {
                 $column_aliases[$formatted_column] = $formatted_column;
             } else {
                 $column_aliases[$formatted_column] = trim($column_aliases[$formatted_column]);
-                $formatted_column_alias = preg_replace('/s+/', '_', $column_aliases[$formatted_column]);
+                $formatted_column_alias = preg_replace('/\s+/', '_', $column_aliases[$formatted_column]);
                 $column_aliases[$formatted_column] = $formatted_column_alias;
             }
 
