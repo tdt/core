@@ -28,7 +28,7 @@ class GenericResourceReader extends AReader {
     /**
      * read method
      */
-    public function read(){
+    public function read(){        
         return $this->genres->read();
     }
 

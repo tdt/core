@@ -84,11 +84,13 @@ class GenericResource{
      * Get the generic resource info of the strategy.
      * input is an array of parameters
      */
-    private function createConfigObject($parameters,$strat){
+    private function createConfigObject($parameters,$strat){        
         $configObject = new \stdClass();
         $columnstring = implode($parameters, ",");
-        $resource_table = GenericResource::$TABLE_PREAMBLE . strtolower(get_class($strat));
-        $columnstring = $columnstring . ",gen_resource_id";
+        $class = explode('\\', get_class($strat));
+        $strat = end($class);
+        $resource_table = GenericResource::$TABLE_PREAMBLE . strtolower($strat);       
+        $columnstring = $columnstring . ",gen_resource_id";        
         $query = R::getRow(
             "SELECT *
              FROM  package,resource, generic_resource, $resource_table
