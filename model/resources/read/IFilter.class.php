@@ -14,10 +14,6 @@
 
 namespace tdt\core\model\resources\read;
 
-// include_once("core/universalfilter/converter/SQLConverter.class.php");
-// include_once("core/universalfilter/interpreter/debugging/TreePrinter.class.php");
-
-
 interface iFilter {
 
     /**
