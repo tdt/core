@@ -1,8 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\data\UniversalFilterTableContent;
-use tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter;
-
 /**
  * This file contains all evaluators for aggregators
  * 
@@ -16,6 +12,9 @@ use tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFun
 /* average */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter;
 
 class AverageAggregatorExecuter extends AggregatorFunctionExecuter {
 

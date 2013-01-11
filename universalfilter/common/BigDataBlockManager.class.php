@@ -1,7 +1,4 @@
 <?php
-
-include_once("core/universalfilter/common/HashString.php");
-
 /**
  * Keeps blocks of data in memory if possible, but otherwise, writes them to file
  *

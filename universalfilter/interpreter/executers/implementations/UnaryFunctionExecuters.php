@@ -1,9 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter;
-use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
-use tdt\core\universalfilter\interpreter\UniversalInterpreter;
-
 /**
  * This file contains all evaluators for unary functions
  * 
@@ -14,6 +9,10 @@ use tdt\core\universalfilter\interpreter\UniversalInterpreter;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
+use tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter;
+use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 
 /* upercase */
 class UnaryFunctionUppercaseExecuter extends UnaryFunctionExecuter {

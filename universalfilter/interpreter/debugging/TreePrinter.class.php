@@ -1,4 +1,14 @@
 <?php
+/**
+ * Print the tree...
+ * 
+ * @package The-Datatank/universalfilter/interpreter/executers
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
+ */
+
+namespace tdt\core\universalfilter\interpreter\debugging;
 
 use tdt\core\universalfilter\AggregatorFunction;
 use tdt\core\universalfilter\BinaryFunction;
@@ -18,17 +28,6 @@ use tdt\core\universalfilter\TableAliasFilter;
 use tdt\core\universalfilter\TernaryFunction;
 use tdt\core\universalfilter\UnaryFunction;
 use tdt\core\universalfilter\UniversalFilterNode;
-
-/**
- * Print the tree...
- * 
- * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
- * @license AGPLv3
- * @author Jeroen Penninck
- */
-
-namespace tdt\core\universalfilter\interpreter\debugging;
 
 class TreePrinter {
     

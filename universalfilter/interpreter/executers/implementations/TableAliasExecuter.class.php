@@ -1,10 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\interpreter\Environment;
-use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
-use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
-
 /**
  * This file contains the abstact top class for all aggregators
  * 
@@ -17,6 +11,11 @@ use tdt\core\universalfilter\UniversalFilterNode;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter {
 

@@ -1,13 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\data\UniversalFilterTable;
-use tdt\core\universalfilter\data\UniversalFilterTableContent;
-use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
-use tdt\core\universalfilter\interpreter\Environment;
-use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
-use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
-
 /**
  * Base class for filters that evaluate expressions AND have a source (like select and where)
  * 
@@ -18,6 +9,14 @@ use tdt\core\universalfilter\UniversalFilterNode;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\base;
+
+use tdt\core\universalfilter\data\UniversalFilterTable;
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     //put your code here
@@ -30,7 +29,7 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
      * @param Environment $topenv
      * @return array Intern data
      */
-    protected function initChildEnvironment(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    protected function initChildEnvironment(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $executer, $preferColumn) {
         //
         // BUILD ENVIRONMENT TO GIVE TO EXPRESSIONS
         //

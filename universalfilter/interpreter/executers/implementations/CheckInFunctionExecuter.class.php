@@ -1,7 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter;
-
 /**
  * Executes the Check In List filter
  * 
@@ -12,6 +9,8 @@ use tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunction
  */
 
 namespace implementations;
+
+use tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter;
 
 class CheckInFunctionExecuter extends UnaryFunctionExecuter {
     

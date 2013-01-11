@@ -10,7 +10,7 @@
  */
 
 // basic filters
-
+/*
 include_once("cores/core/universalfilter/interpreter/executers/base/IUniversalFilterNodeExecuter.interface.php");
 /*include_once("cores/core/universalfilter/interpreter/executers/base/AbstractUniversalFilterNodeExecuter.class.php");
 include_once("cores/core/universalfilter/interpreter/executers/implementations/IdentifierExecuter.class.php");

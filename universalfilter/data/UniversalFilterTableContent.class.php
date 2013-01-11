@@ -9,12 +9,10 @@
  * @author Jeroen Penninck
  */
 
-use tdt\core\universalfilter\common\BigList;
-use tdt\framework\TDTException;
-
 namespace tdt\core\universalfilter\data;
 
-
+use tdt\core\universalfilter\common\BigList;
+use tdt\framework\TDTException;
 
 class UniversalFilterTableContent {
 

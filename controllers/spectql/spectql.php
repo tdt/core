@@ -1,5 +1,16 @@
 <?php
 
+use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\ColumnSelectionFilter;
+use tdt\core\universalfilter\ColumnSelectionFilterColumn;
+use tdt\core\universalfilter\Constant;
+use tdt\core\universalfilter\DataGrouper;
+use tdt\core\universalfilter\FilterByExpressionFilter;
+use tdt\core\universalfilter\Identifier;
+use tdt\core\universalfilter\LimitFilter;
+use tdt\core\universalfilter\SortFieldsFilter;
+use tdt\core\universalfilter\SortFieldsFilterColumn;
+
 
 /*
 
@@ -846,11 +857,11 @@ $totalfilter = new Identifier($tokens[0]);
 $groupby = array();
 $aggregate = false; 
 foreach($sel["identifiers"] as $identifier){
-    if(get_class($identifier) == "AggregatorFunction"){
+    if(end(explode('\\', get_class($identifier))) == "AggregatorFunction"){
         $aggregate = true;
     }else{
 			// identifier could be a unairy or tertiary function like substring or ucase
-			if(get_class($identifier) != "Identifier"){
+			if(end(explode('\\', get_class($identifier))) != "Identifier"){
 				array_push($groupby,$identifier->getSource());				
 			}else{
 			   array_push($groupby,$identifier);
@@ -901,7 +912,7 @@ $totalfilter = putFilterAfterIfExists($totalfilter,$expressionFilter);
 $groupby = array();
 $aggregate = false; 
 foreach($sel["identifiers"] as $identifier){
-    if(get_class($identifier) == "AggregatorFunction"){
+    if(end(explode('\\', get_class($identifier))) == "AggregatorFunction"){
         $aggregate = true;
     }else{
         array_push($groupby,$identifier);

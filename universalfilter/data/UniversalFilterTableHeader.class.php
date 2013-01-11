@@ -9,9 +9,11 @@
  * @author Jeroen Penninck
  */
 
-use tdt\framework\TDTException;
+
 
 namespace tdt\core\universalfilter\data;
+
+use tdt\framework\TDTException;
 
 class UniversalFilterTableHeader {
     private $columns;//array of UniversalFilterTableHeaderColumnInfo

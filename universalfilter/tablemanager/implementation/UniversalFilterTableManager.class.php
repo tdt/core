@@ -1,16 +1,4 @@
 <?php
-
-use tdt\core\model\ResourcesModel;
-use tdt\core\universalfilter\data\UniversalFilterTableHeader;
-use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
-use tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode;
-use tdt\core\universalfilter\tablemanager\implementation\IUniversalFilterTableManager;
-use tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter;
-use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
-use tdt\core\universalfilter\UniversalFilterNode;
-
-include_once("cores/core/universalfilter/tablemanager/IUniversalFilterTableManager.interface.php");
-
 /**
  * This it the implementation of the TableManager for The-DataTank
  * 
@@ -23,6 +11,18 @@ include_once("cores/core/universalfilter/tablemanager/IUniversalFilterTableManag
  */
 
 namespace tdt\core\universalfilter\tablemanager\implementation;
+
+
+
+use tdt\core\model\ResourcesModel;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
+use tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode;
+use tdt\core\universalfilter\tablemanager\implementation\IUniversalFilterTableManager;
+use tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter;
+use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
+use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\framework\TDTException;
 
 class UniversalFilterTableManager implements IUniversalFilterTableManager {
 

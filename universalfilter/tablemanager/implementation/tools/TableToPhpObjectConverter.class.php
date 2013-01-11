@@ -1,7 +1,5 @@
 <?php
 
-use tdt\core\universalfilter\data\UniversalFilterTable;
-
 /**
  * This class can convert a table (as used by the interpreter) to a php-object
  *
@@ -12,6 +10,8 @@ use tdt\core\universalfilter\data\UniversalFilterTable;
  */
 
 namespace tdt\core\universalfilter\tablemanager\implementation\tools;
+
+use tdt\core\universalfilter\data\UniversalFilterTable;
 
 class TableToPhpObjectConverter {
     

@@ -8,7 +8,7 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-include_once("core/universalfilter/common/StableSorting.php");
+
 
 use tdt\core\universalfilter\data\UniversalFilterTable;
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
@@ -17,6 +17,8 @@ use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterN
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\SortFieldsFilterColumn;
 use tdt\core\universalfilter\UniversalFilterNode;
+
+include_once(__DIR__ . "/../../../common/StableSorting.php");
 
 /* sorting methods... */
 

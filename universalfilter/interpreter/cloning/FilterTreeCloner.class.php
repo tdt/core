@@ -1,4 +1,14 @@
 <?php
+/**
+ * This file contains methods to make a deep copy of the given UniversalFilterTree
+ * 
+ * @package The-Datatank/universalfilter/interpreter/cloning
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
+ */
+
+namespace tdt\core\universalfilter\interpreter\cloning;
 
 use tdt\core\universalfilter\AggregatorFunction;
 use tdt\core\universalfilter\BinaryFunction;
@@ -19,17 +29,6 @@ use tdt\core\universalfilter\TernaryFunction;
 use tdt\core\universalfilter\UnaryFunction;
 use tdt\core\universalfilter\UniversalFilterNode;
 
-/**
- * This file contains methods to make a deep copy of the given UniversalFilterTree
- * 
- * @package The-Datatank/universalfilter/interpreter/cloning
- * @copyright (C) 2012 by iRail vzw/asbl
- * @license AGPLv3
- * @author Jeroen Penninck
- */
-
-namespace tdt\core\universalfilter\interpreter\cloning;
-
 class FilterTreeCloner {
     /**
      * Main method... (And only public method)
@@ -37,7 +36,7 @@ class FilterTreeCloner {
      * @return UniversalFilterNode a deep copy of the tree
      */
     public function deepCopyTree(UniversalFilterNode $tree){
-        $method = "clone_".get_class($tree);
+        $method = "clone_". end(explode('\\', get_class($tree)));
         //calls the correct clone method and then returns.
         return $this->$method($tree);
     }

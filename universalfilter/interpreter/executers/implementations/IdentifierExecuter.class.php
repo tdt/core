@@ -1,14 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\data\UniversalFilterTableContent;
-use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
-use tdt\core\universalfilter\data\UniversalFilterTableHeader;
-use tdt\core\universalfilter\interpreter\Environment;
-use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
-use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
-use tdt\core\universalfilter\UniversalFilterNode;
-
 /**
  * Executes an Identifier
  *
@@ -24,6 +14,15 @@ use tdt\core\universalfilter\UniversalFilterNode;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
+use tdt\core\universalfilter\data\UniversalFilterTableContent;
+use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
     

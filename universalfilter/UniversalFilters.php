@@ -143,7 +143,7 @@ abstract class NormalFilterNode extends UniversalFilterNode {
  * Represents a table alias
  * Has a source and a alias string
  */
-class TableAliasFilter extends NormallFilterNode {
+class TableAliasFilter extends NormalFilterNode {
     private $alias;//type:String
     
     public function __construct($alias, UniversalFilterNode $source=null) {
@@ -166,7 +166,7 @@ class TableAliasFilter extends NormallFilterNode {
  *
  * aka "WHERE" or "HAVING"
  */
-class FilterByExpressionFilter extends NormallFilterNode{
+class FilterByExpressionFilter extends NormalFilterNode{
     private $expression;//type:UniversalFilterNode
     
     public function __construct(UniversalFilterNode $expression, UniversalFilterNode $source=null) {
@@ -192,7 +192,7 @@ class FilterByExpressionFilter extends NormallFilterNode{
  *
  * aka "SELECT"
  */
-class ColumnSelectionFilter extends NormallFilterNode {
+class ColumnSelectionFilter extends NormalFilterNode {
     private $columndata;//type:Array[ColumnSelectionFilterColumn]
 
     public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata, UniversalFilterNode $source=null) {
@@ -233,7 +233,7 @@ class ColumnSelectionFilterColumn {
  *
  * aka "ORDER BY"
  */
-class SortFieldsFilter extends NormallFilterNode {
+class SortFieldsFilter extends NormalFilterNode {
     private $columndata;//type:Array[SortFieldsFilterColumn]
 
     public function __construct(array /* of SortFieldsFilterColumn */ $columndata, UniversalFilterNode $source=null) {
@@ -277,7 +277,7 @@ class SortFieldsFilterColumn {
  *
  * aka "DISTINCT"
  */
-class DistinctFilter extends NormallFilterNode{
+class DistinctFilter extends NormalFilterNode{
     public function __construct(UniversalFilterNode $source=null) {
         parent::__construct("FILTERDISTINCT");
         if($source!=null) $this->setSource($source);
@@ -292,7 +292,7 @@ class DistinctFilter extends NormallFilterNode{
  *
  * aka "LIMIT"
  */
-class LimitFilter extends NormallFilterNode{
+class LimitFilter extends NormalFilterNode{
     public function __construct(UniversalFilterNode $source=null, $offset,$limit) {
         parent::__construct("FILTERLIMIT");
         if($source!=null) $this->setSource($source);
@@ -331,7 +331,7 @@ class LimitFilter extends NormallFilterNode{
  *
  * aka "GROUP BY"
  */
-class DataGrouper extends NormallFilterNode {
+class DataGrouper extends NormalFilterNode {
     private $columns;
     
     public function __construct(array $columns, UniversalFilterNode $source=null) {
@@ -356,7 +356,7 @@ class DataGrouper extends NormallFilterNode {
  * aka "FULL OUTER JOIN"
  * aka "CROSS JOIN"
  */
-class DatasetJoinFilter extends NormallFilterNode{
+class DatasetJoinFilter extends NormalFilterNode{
     private $expression;//type:UniversalFilterNode
     private $keepleft;//type:boolean
     private $keepright;//type:boolean
@@ -399,7 +399,7 @@ class DatasetJoinFilter extends NormallFilterNode{
  * type: Column -> Column
  * type: Cell -> Cell
  */
-class UnaryFunction extends NormallFilterNode {
+class UnaryFunction extends NormalFilterNode {
     
     public static $FUNCTION_UNARY_UPPERCASE="FUNCTION_UNARY_UPPERCASE";
     public static $FUNCTION_UNARY_LOWERCASE="FUNCTION_UNARY_LOWERCASE";
@@ -452,7 +452,7 @@ class DateTimeExtractConstants {
  * type: (Column,Column) -> Column
  * type: (Cell, Cell) -> Cell
  */
-class BinaryFunction extends NormallFilterNode {
+class BinaryFunction extends NormalFilterNode {
     
     public static $FUNCTION_BINARY_PLUS="FUNCTION_BINARY_PLUS";
     public static $FUNCTION_BINARY_MINUS="FUNCTION_BINARY_MINUS";
@@ -493,7 +493,7 @@ class BinaryFunction extends NormallFilterNode {
  * type: (Column,Column,Column) -> Column
  * type: (Cell, Cell, Cell) -> Cell
  */
-class TernaryFunction extends NormallFilterNode {
+class TernaryFunction extends NormalFilterNode {
     
     public static $FUNCTION_TERNARY_SUBSTRING="FUNCTION_TERNARY_SUBSTRING";//get part of $1 from index $2 with length $3
     public static $FUNCTION_TERNARY_REGEX_REPLACE="FUNCTION_TERNARY_REGEX_REPLACE";//replace $1 by $2 in $3
@@ -517,7 +517,7 @@ class TernaryFunction extends NormallFilterNode {
  * 
  * type: Column -> Cell
  */
-class AggregatorFunction extends NormallFilterNode {
+class AggregatorFunction extends NormalFilterNode {
     
     public static $AGGREGATOR_AVG="AGGREGATOR_AVG";
     public static $AGGREGATOR_COUNT="AGGREGATOR_COUNT";
@@ -544,7 +544,7 @@ class AggregatorFunction extends NormallFilterNode {
  * type: [Cell, [Constant, ...]] -> Cell
  * type: [Column, [Constant, ...]] -> Column
  */
-class CheckInFunction extends NormallFilterNode {
+class CheckInFunction extends NormalFilterNode {
     private $constants;
     
     public static $FUNCTION_IN_LIST="FUNCTION_IN_LIST";// is a varargs function

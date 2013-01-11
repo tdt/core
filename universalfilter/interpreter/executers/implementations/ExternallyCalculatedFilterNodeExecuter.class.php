@@ -1,13 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\data\UniversalFilterTableHeader;
-use tdt\core\universalfilter\interpreter\Environment;
-use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
-use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
-use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
-use tdt\core\universalfilter\UniversalFilterNode;
-
 /**
  * Executes a filter that is calculated externally...
  *
@@ -19,6 +10,13 @@ use tdt\core\universalfilter\UniversalFilterNode;
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
+use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
+use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
+use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter {
 

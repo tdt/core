@@ -1,9 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\data\UniversalFilterTable;
-use tdt\core\universalfilter\NormalFilterNode;
-use tdt\core\universalfilter\UniversalFilterNode;
-
 /**
  * This file represents a part of the UniversalFilterTree that is calculated externally.
  *
@@ -14,6 +9,11 @@ use tdt\core\universalfilter\UniversalFilterNode;
  */
 
 namespace tdt\core\universalfilter\sourcefilterbinding;
+
+
+use tdt\core\universalfilter\data\UniversalFilterTable;
+use tdt\core\universalfilter\NormalFilterNode;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class ExternallyCalculatedFilterNode extends NormalFilterNode {
     private $table;

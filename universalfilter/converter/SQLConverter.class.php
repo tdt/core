@@ -12,7 +12,6 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt
  */
-include_once("core/universalfilter/UniversalFilters.php");
 
 namespace tdt\core\universalfilter\converter;
 

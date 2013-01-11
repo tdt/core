@@ -9,9 +9,6 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-include_once("core/universalfilter/interpreter/IInterpreterControl.class.php");
-
-include_once("core/universalfilter/interpreter/executers/UniversalFilterExecuters.php");
 
 namespace tdt\core\universalfilter\interpreter;
 
@@ -23,11 +20,14 @@ use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\data\UniversalFilterTableHeader;
 use tdt\core\universalfilter\interpreter\cloning\FilterTreeCloner;
 use tdt\core\universalfilter\interpreter\debugging\TreePrinter;
+use tdt\core\universalfilter\interpreter\Environment;
+use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\other\DummyUniversalFilterNode;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 use tdt\core\universalfilter\TernaryFunction;
 use tdt\core\universalfilter\UnaryFunction;
 use tdt\core\universalfilter\UniversalFilterNode;
+use \SortFieldsFilterExecuter;
 
 class UniversalInterpreter implements IInterpreterControl {
 
@@ -60,16 +60,7 @@ class UniversalInterpreter implements IInterpreterControl {
     /**
      * Constructor, fill the executer-class map.
      */
-    public function __construct($tablemanager) {
-        /*
-          AutoInclude::register("Environment","cores/core/universalfilter/interpreter/Environment.class.php");
-          AutoInclude::register("DummyUniversalFilterNode","cores/core/universalfilter/interpreter/other/DummyUniversalFilterNode.class.php");
-          AutoInclude::register("SourceUsageData","cores/core/universalfilter/interpreter/sourceusage/SourceUsageData.class.php");
-          AutoInclude::register("ExpectedHeaderNamesAttachment","cores/core/universalfilter/sourcefilterbinding/ExpectedHeaderNamesAttachment.class.php");
-          AutoInclude::register("FilterTreeCloner","cores/core/universalfilter/interpreter/cloning/FilterTreeCloner.class.php");
-          AutoInclude::register("UniversalOptimizer","cores/core/universalfilter/interpreter/optimizer/UniversalOptimizer.class.php");
-          AutoInclude::register("TreePrinter","cores/core/universalfilter/interpreter/debugging/TreePrinter.class.php");
-         */
+    public function __construct($tablemanager) {    
         $this->tablemanager = $tablemanager;
 
         $this->executers = array(
@@ -141,7 +132,21 @@ class UniversalInterpreter implements IInterpreterControl {
     }
 
     public function findExecuterFor(UniversalFilterNode $filternode) {
-        return new $this->executers[$filternode->getType()]();
+        
+        /*
+         * First look for the class in the default namespace
+         * This is because some classes are defined in php files where loose functions are also placed
+         * and no namespace has been declared.
+         */
+        $classname = "\\".$this->executers[$filternode->getType()];
+        if(class_exists($classname)){
+            return new $classname();
+        }else{
+            $classname = "tdt\core\\universalfilter\\interpreter\\executers\\implementations\\" .$this->executers[$filternode->getType()];
+            return new $classname();
+        }
+        
+        
     }
 
     public function getTableManager() {

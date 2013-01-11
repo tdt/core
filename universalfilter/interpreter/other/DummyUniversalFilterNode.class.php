@@ -1,8 +1,5 @@
 <?php
 
-use tdt\core\universalfilter\NormalFilterNode;
-use tdt\core\universalfilter\UniversalFilterNode;
-
 /**
  * This is a filternode that does nothing. 
  * It is not a valid filter. You can not execute it.
@@ -17,6 +14,9 @@ use tdt\core\universalfilter\UniversalFilterNode;
  */
 
 namespace tdt\core\universalfilter\interpreter\other;
+
+use tdt\core\universalfilter\NormalFilterNode;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class DummyUniversalFilterNode extends NormalFilterNode {
     public function __construct(UniversalFilterNode $source=null) {

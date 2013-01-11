@@ -1,6 +1,5 @@
 <?php
 
-include_once("cores/core/universalfilter/common/HashString.php");
 
 /**
  * A row in the content of the universal representation of a table
@@ -13,6 +12,7 @@ include_once("cores/core/universalfilter/common/HashString.php");
 
 namespace tdt\core\universalfilter\data;
 
+include_once(__DIR__ . "/../common/HashString.php");
 use tdt\framework\TDTException;
 
 class UniversalFilterTableContentRow {

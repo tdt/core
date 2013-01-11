@@ -1,9 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
-use tdt\core\universalfilter\interpreter\executers\base\BaseHashingFilterExecuter;
-use tdt\core\universalfilter\UniversalFilterNode;
-
 /**
  * Executes the DistinctFilter filter
  * 
@@ -14,6 +9,10 @@ use tdt\core\universalfilter\UniversalFilterNode;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
+use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
+use tdt\core\universalfilter\interpreter\executers\base\BaseHashingFilterExecuter;
+use tdt\core\universalfilter\UniversalFilterNode;
 
 class DataGrouperExecuter extends BaseHashingFilterExecuter {
     

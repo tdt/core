@@ -1,8 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\DateTimeExtractConstants;
-use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
-use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 /**
  * Some methods for datetime functions
  *
@@ -13,6 +9,10 @@ use tdt\core\universalfilter\interpreter\UniversalInterpreter;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\tools;
+
+use tdt\core\universalfilter\DateTimeExtractConstants;
+use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 
 class ExecuterDateTimeTools {
     

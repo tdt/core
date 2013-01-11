@@ -1,9 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\interpreter\executers\implementations\TernaryFunctionExecuter;
-use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
-use tdt\core\universalfilter\interpreter\UniversalInterpreter;
-
 /**
  * This file contains all evaluators for ternary functions
  * 
@@ -14,6 +9,10 @@ use tdt\core\universalfilter\interpreter\UniversalInterpreter;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
+use tdt\core\universalfilter\interpreter\executers\implementations\TernaryFunctionExecuter;
+use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 
 /* substring / MID */
 class TernaryFunctionSubstringExecuter extends TernaryFunctionExecuter {

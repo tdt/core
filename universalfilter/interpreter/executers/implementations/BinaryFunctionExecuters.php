@@ -1,9 +1,4 @@
 <?php
-
-use tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter;
-use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
-use tdt\core\universalfilter\interpreter\UniversalInterpreter;
-
 /**
  * This file contains all evaluators for binary functions
  * 
@@ -16,6 +11,10 @@ use tdt\core\universalfilter\interpreter\UniversalInterpreter;
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
+use tdt\core\universalfilter\interpreter\executers\implementations\BinaryFunctionExecuter;
+use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
+use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 
 /* equality */
 class BinaryFunctionEqualityExecuter extends BinaryFunctionExecuter {

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Base class for filters that do hashing on records (like distinct or group by) to combine records that look ("hash") the same.
+ * 
+ * @package The-Datatank/universalfilter/interpreter/executers
+ * @copyright (C) 2012 by iRail vzw/asbl
+ * @license AGPLv3
+ * @author Jeroen Penninck
+ */
+
+namespace tdt\core\universalfilter\interpreter\executers\base;
 
 use tdt\core\universalfilter\common\BigMap;
 use tdt\core\universalfilter\common\BigList;
@@ -10,17 +20,6 @@ use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\UniversalFilterNode;
-
-/**
- * Base class for filters that do hashing on records (like distinct or group by) to combine records that look ("hash") the same.
- * 
- * @package The-Datatank/universalfilter/interpreter/executers
- * @copyright (C) 2012 by iRail vzw/asbl
- * @license AGPLv3
- * @author Jeroen Penninck
- */
-
-namespace tdt\core\universalfilter\interpreter\executers\base;
 
 abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 

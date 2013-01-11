@@ -12,6 +12,9 @@
 
 namespace tdt\core\controllers\spectql;
 
+use \parse_engine;
+use \spectql;
+
 class SPECTQLParser {
 
     private $querystring;
