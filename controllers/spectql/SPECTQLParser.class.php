@@ -10,6 +10,8 @@
  * @organisation Hogent
  */
 
+namespace tdt\core\controllers\spectql;
+
 class SPECTQLParser {
 
     private $querystring;

@@ -8,6 +8,9 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
+
+namespace tdt\core\controllers\spectql;
+
 class SPECTQLTokenizer{
     private $tokens;
     private $index = 0;

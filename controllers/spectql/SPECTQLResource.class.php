@@ -8,6 +8,11 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
+
+namespace tdt\core\controllers\spectql;
+
+use tdt\core\model\ResourcesModel;
+
 class SPECTQLResource {
 
     private $packagename, $resourcename, $RESTparameters;

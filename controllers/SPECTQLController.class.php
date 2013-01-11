@@ -11,12 +11,13 @@
  * @author Pieter Colpaert
  * @organisation Hogent
  */
-include_once("core/lib/parse_engine.php");
-include_once("core/controllers/spectql/spectql.php");
-include_once("core/controllers/SQL/SQLGrammarFunctions.php");
-include_once("core/universalfilter/CombinedFilterGenerators.class.php");
+
 
 namespace tdt\core\controllers;
+
+include_once(__DIR__ . "/../lib/parse_engine.php");
+include_once(__DIR__ . "/../controllers/spectql/spectql.php");
+include_once(__DIR__ . "/../controllers/SQL/SQLGrammarFunctions.php");
 
 use tdt\core\controllers\ACoreController;
 use tdt\core\controllers\spectql\SPECTQLParser;

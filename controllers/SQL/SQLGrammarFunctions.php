@@ -1,4 +1,11 @@
 <?php
+
+use tdt\core\universalfilter\AggregatorFunction;
+use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\CombinedFilterGenerators;
+use tdt\core\universalfilter\Constant;
+use tdt\core\universalfilter\TernaryFunction;
+use tdt\core\universalfilter\UnaryFunction;
 /**
  * This file is used by the grammar to create the tree
  *
@@ -8,7 +15,7 @@
  * @author Jeroen Penninck
  */
 
-include_once("core/universalfilter/UniversalFilters.php");
+
 
 /**
  * This function appends a filter to the list of filters
@@ -181,9 +188,9 @@ function getTernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3){
     
     $tertarymap = array(
 
-        "MID" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING,
-		"SUBSTRING" => TertairyFunction::$FUNCTION_TERTIARY_SUBSTRING, // TODO: remove this comment: Jeroen, I've also added SUBSTRING to this bunch of ternary functions!
-        "REGEX_REPLACE" => TertairyFunction::$FUNCTION_TERTIARY_REGEX_REPLACE
+        "MID" => TernaryFunction::$FUNCTION_TERNARY_SUBSTRING,
+		"SUBSTRING" => TernaryFunction::$FUNCTION_TERTNARY_SUBSTRING, // TODO: remove this comment: Jeroen, I've also added SUBSTRING to this bunch of ternary functions!
+        "REGEX_REPLACE" => TernaryFunction::$FUNCTION_TERTNARY_REGEX_REPLACE
     );
     
     if(isset($tertarymap[$SQLname])){
