@@ -15,7 +15,6 @@ use tdt\core\model\resources\read\iFilter;
 use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
 use tdt\framework\Log;
 use tdt\framework\TDTException;
-use gabordemooij\redbean\RedBean_Facade;
 use RedBean_Facade as R;
 
 class DB extends ATabularData implements iFilter {
@@ -188,7 +187,7 @@ class DB extends ATabularData implements iFilter {
          * 4) If the columns are all A-OK! then return true.
          * All this functionality has been put into functions.
          */
-        // prepare the connection
+        // prepare the connection        
         R::setup($this->db_type . ":host=" . $this->location . ";dbname=" . $this->db_name, $this->username, $this->password);
 
         // get the table columns

@@ -11,6 +11,8 @@
 
 namespace tdt\core\formatters\visualizations;
 
+use tdt\core\formatters\AFormatter;
+
 /**
  * This class inherits from the abstract Formatter. It will generate a column chart
  */

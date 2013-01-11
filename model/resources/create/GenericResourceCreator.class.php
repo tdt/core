@@ -14,7 +14,6 @@ namespace tdt\core\model\resources\create;
 
 use tdt\core\model\DBQueries;
 use tdt\framework\TDTException;
-use gabordemooij\redbean\RedBean_Facade;
 use RedBean_Facade as R;
 
 class GenericResourceCreator extends ACreator {
@@ -22,18 +21,18 @@ class GenericResourceCreator extends ACreator {
     private $strategy;
 
     public function __construct($package, $resource, $RESTparameters, $generic_type) {
-        parent::__construct($package, $resource, $RESTparameters);
+        parent::__construct($package, $resource, $RESTparameters);        
         // Add the parameters of the strategy!
         $this->generic_type = $generic_type;
-        if (!file_exists("custom/strategies/" . $this->generic_type . ".class.php")) {
+        if (!class_exists("tdt\\core\\strategies\\" . $this->generic_type)) {
             throw new TDTException(452,array("Generic type does not exist: " . $this->generic_type . "."));
         }
-        include_once("custom/strategies/" . $this->generic_type . ".class.php");
+        $classname = "tdt\\core\\strategies\\" . $this->generic_type;
         // add all the parameters to the $parameters
         // and all of the requiredParameters to the $requiredParameters
-        $this->strategy = new $this->generic_type();
+        $this->strategy = new $classname();
         $this->strategy->package = $package;
-        $this->strategy->resource = $resource;
+        $this->strategy->resource = $resource;                
     }
 
     /**
@@ -72,17 +71,17 @@ class GenericResourceCreator extends ACreator {
      * parameters have already been set.
      */
     public function create() {
-        R::setStrictTyping( false );
+        R::setStrictTyping( false );       
         /*
          * Create the package and resource entities and create a generic resource entry.
          * Then pick the correct strategy, and pass along the parameters!
          */
         $package_id = parent::makePackage($this->package);
-
+                
         $resource_id = parent::makeResource($package_id, $this->resource, "generic");
 
-        $meta_data_id = DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));
-
+        $meta_data_id = DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));     
+        
         $generic_id =  DBQueries::storeGenericResource($resource_id, $this->generic_type, $this->documentation);
         try {
             $this->strategy->onAdd($package_id, $generic_id);

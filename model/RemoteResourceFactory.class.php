@@ -9,6 +9,7 @@
  * @author Pieter Colpaert
  */
 
+namespace tdt\core\model;
 
 use tdt\core\model\DBQueries;
 use tdt\core\model\resources\create\RemoteResourceCreator;
@@ -17,8 +18,6 @@ use tdt\core\model\resources\read\RemoteResourceReader;
 use tdt\framework\Config;
 use tdt\framework\Request;
 use tdt\framework\TDTException;
-
-namespace tdt\core\model;
 
 class RemoteResourceFactory extends  AResourceFactory{
 

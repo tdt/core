@@ -18,23 +18,8 @@ use tdt\core\model\ResourcesModel;
 use tdt\framework\TDTException;
 
 class CUDController extends ACoreController {
-    /*
-     * installation variables
-     */
 
-    private $hostname;
-    private $subdir;
-
-    /*
-     * back-end variables
-     */
-    private $dbhost;
-    private $dbname;
-    private $dbsystem;
-    private $dbuser;
-    private $dbpassword;
-
-    public function __construct() {        
+    public function __construct() {
         parent::__construct();
     }
 
@@ -116,7 +101,7 @@ class CUDController extends ACoreController {
         header("Content-Location: " . $this->hostname . $this->subdir . $packageresourcestring);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
-       $this->initializeDatabaseConnection();
+        $this->initializeDatabaseConnection();
 
         //Clear the documentation in our cache for it has changed        
         $this->clearCachedDocumentation();
@@ -175,7 +160,7 @@ class CUDController extends ACoreController {
         }
 
         //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {           
+        if (!$this->isBasicAuthenticated()) {
             header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
@@ -187,14 +172,13 @@ class CUDController extends ACoreController {
         } else {
             $model->deleteResource($package, $resource, $RESTparameters);
         }
-        
+
         // make sure we connect to the correct database.
         $this->initializeDatabaseConnection();
 
         //Clear the documentation in our cache for it has changed
         $this->clearCachedDocumentation();
     }
-       
 
     /**
      * PATCH is a 'new' request HTTP HEADER which allows to update a piece of a definition of a resource in our context
@@ -276,14 +260,14 @@ class CUDController extends ACoreController {
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         $this->initializeDatabaseConnection();
         //Clear the documentation in our cache for it has changed
-       $this->clearCachedDocumentation();
+        $this->clearCachedDocumentation();
     }
 
     /**
      * POST is currently not used
      */
     public function POST($matches) {
-            throw new TDTException(450,array());
+        throw new TDTException(450, array());
     }
 
 }

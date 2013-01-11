@@ -24,7 +24,6 @@ use tdt\core\universalfilter\UniversalFilterNode;
 use tdt\framework\Cache\Cache;
 use tdt\framework\Config;
 use tdt\framework\TDTException;
-use gabordemooij\redbean\RedBean_Facade;
 use RedBean_Facade as R;
 
 
@@ -89,11 +88,11 @@ class ResourcesModel {
      * @return a boolean
      */
     public function hasResource($package, $resource) {
-        $doc = $this->getAllDoc();
+        $doc = $this->getAllDoc();              
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
                 foreach ($resourcenames as $resourcename => $var) {
-                    if ($resourcename == $resource) {
+                    if ($resourcename == $resource) {                        
                         return true;
                     }
                 }
@@ -110,7 +109,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($packageresourcestring, $parameters) {
-
+        
         /**
          * Hierachical package/resource structure
          * check if the package/resource structure is correct
@@ -169,6 +168,7 @@ class ResourcesModel {
              * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace
              * generic_type with the "correct" one
              */
+            
             $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"], $doc->create->generic);
             $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
         } elseif ($restype == "remote") {
@@ -179,7 +179,7 @@ class ResourcesModel {
 
 
         /**
-         * Check if all required parameters are being
+         * Check if all required parameters are being passed
          */
         foreach ($resourceCreationDoc->requiredparameters as $key) {
             if (!isset($parameters[$key])) {
@@ -195,11 +195,11 @@ class ResourcesModel {
         }
 
 
-        // all is well, let's create that resource!
+        // all is well, let's create that resource!        
         $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
         try {
             //first check if there resource exists yet
-            if ($this->hasResource($package, $resource)) {
+            if ($this->hasResource($package, $resource)) {                  
                 //If it exists, delete it first and continue adding it.
                 //It could be that because errors occured after the addition, that
                 //the documentation reset in the CUDController isn't up to date anymore
@@ -414,7 +414,6 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function deleteResource($package, $resource, $RESTparameters) {
-
 
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {

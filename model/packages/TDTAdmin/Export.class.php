@@ -205,7 +205,7 @@ class TDTAdminExport extends AReader{
     $data = array( ';
 
         $count = 0;
-        foreach($resourceDefinition as $key => $value){
+        foreach($resourceDefinition as $key => $value){            
             $count++;
             if(!is_array($value)){
                 $dump.= '"'.$key.'"' . ' => "' . $value .'"';
@@ -223,7 +223,7 @@ class TDTAdminExport extends AReader{
                 $dump.= ')';
             }
             if($count != count($resourceDefinition)){
-                $dump.= ",t";
+                $dump.= ", ";
             }
         }
 
@@ -234,12 +234,12 @@ class TDTAdminExport extends AReader{
     $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	 echo "The addition of the resource definition ". $url . " has ";
 	 if(strlen(strstr($responseHeader,"200"))>0){
-    	echo "succeeded!n";
+    	echo "succeeded!\n";
     }else{
-    	echo "failed!n";
+    	echo "failed!\n";
     }
 	 echo $result;
-    echo "n ============================================= n";
+    echo "\n ============================================= \n";
     curl_close($ch);
 ?>';
 

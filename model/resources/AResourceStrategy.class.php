@@ -14,7 +14,6 @@ use tdt\core\model\DBQueries;
 use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
 use tdt\framework\TDTException;
-use gabordemooij\redbean\RedBean_Facade;
 use RedBean_Facade as R;
 
 abstract class AResourceStrategy{
@@ -30,7 +29,7 @@ abstract class AResourceStrategy{
      */
     public function onDelete($package,$resource){
         // get the name of the class (=strategy)
-        $strat = strtolower(get_class($this));
+        $strat = $this->getClassName();
         $resource_table = (string)GenericResource::$TABLE_PREAMBLE . $strat;
         return R::exec(
             "DELETE FROM $resource_table
@@ -44,6 +43,19 @@ abstract class AResourceStrategy{
         );
     }
 
+    
+    /*
+     * Returns the class name without the namespace
+     */
+
+    protected function getClassName() {
+        // get the name of the class ( = strategyname)
+        // but without the namespace!!
+        $class = explode('\\', get_class($this));
+        $classname = end($class);
+        return strtolower($classname);
+        
+    }
 
     /**
      * When a strategy is added, execute this piece of code.
@@ -51,7 +63,7 @@ abstract class AResourceStrategy{
     public function onAdd($package_id, $gen_resource_id){
         if($this->isValid($package_id,$gen_resource_id)){
             // get the name of the class ( = strategyname)
-            $strat = strtolower(get_class($this));
+            $strat = $this->getClassName();
             $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);
             $resource->gen_resource_id = $gen_resource_id;
 

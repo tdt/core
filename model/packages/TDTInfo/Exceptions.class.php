@@ -29,7 +29,7 @@ class TDTInfoExceptions extends AReader {
 
     public function read() {
 
-        $exceptions = parse_ini_file("custom/exceptions.ini", true);
+        $exceptions = parse_ini_file("/../../../tdt/framework/exceptions.ini", true);
         $tmp = array();
 
         foreach ($exceptions as $errorcode => $configarray) {

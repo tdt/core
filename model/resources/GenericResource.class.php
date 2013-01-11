@@ -11,7 +11,6 @@
 namespace tdt\core\model\resources;
 
 use tdt\core\model\DBQueries;
-use gabordemooij\redbean\RedBean_Facade;
 use RedBean_Facade as R;
 
 class GenericResource{

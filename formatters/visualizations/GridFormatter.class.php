@@ -11,13 +11,14 @@
  * @author Miel Vander Sande 
  */
 
-include_once("custom/formatters/HtmltableFormatter.class.php");
 namespace tdt\core\formatters\visualizations;
+
+use tdt\core\formatters\HtmltableFormatter;
 
  /**
  * This class inherits from the HtmlFormatter. It will generate a extjs grid
  */
-class GridFormatter extends HtmlTableFormatter {
+class GridFormatter extends HtmltableFormatter {
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
