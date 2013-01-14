@@ -1,10 +1,10 @@
 # model
 
-This folder represents the entire resource model that is being used throughout the framework. In the following sections every important class will be explained.
+This folder represents the entire resource definition model that is being used throughout the core. In the following sections every important class will be explained.
 
 ## ResourcesModel
 
-This is one of the most important classes in the entire framework. It's mainly being used by the Controllers who access this class in order to complete requests (PUT, PATCH, DELETE, GET). The ResourcesModel class represents the entire resourcesmodel, meaning it provides functionality to ask, alter, create and delete resources. It mainly uses factories (Core, Installed, GenericResource -factory ) to handle all of its requests. To alter the back-end it uses DBQueries.class.php, which contains all of the SQL statements done to the back-end. A third major interest of the ResourcesModel is the Doc.class.php. The Doc class contains the documentation of EVERYTHING IN THE UNIVERSE..... The DataTank universe that is ofcourse. Everytime something changes in the back-end through the ResourcesModel, it will notify the Doc class to update its documentation, keeping our documentation up to date 24/7.
+This is one of the most important classes in the entire framework. It's mainly being used by the Controllers who access this class in order to complete requests (PUT, PATCH, DELETE, GET). The ResourcesModel class represents the entire resourcesmodel, meaning it provides functionality to ask, alter, create and delete resources. It mainly uses factories (Core, Installed, GenericResource -factory ) to handle all of its requests. To alter the back-end it uses DBQueries.class.php, which contains all of the SQL statements done to the back-end. A third major interest of the ResourcesModel is the Doc.class.php. The Doc class contains the documentation of everything happening and existing in the core. Everytime something changes in the back-end through the ResourcesModel, it will notify the Doc class to update its documentation, keeping our documentation up to date 24/7.
 
 ## AResourceFactory
 

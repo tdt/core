@@ -3,7 +3,7 @@
 To install the datatank core, the best practice is to install tdt/start. This repository is located at http://www.github.com/tdt/start and contains an installer that load the necessary
 components to make the datatank structure work. Currently it will install tdt/framework and tdt/core.
 
-This can be done by using [composer][http://getcomposer.org/] and performing <b>composer install</b> in the directory of the tdt/start location. You can recognize this location
+This can be done by using [composer](http://getcomposer.org/) and performing <b>composer install</b> in the directory of the tdt/start location. You can recognize this location
 by the presence of a composer.json file.
 
 # tdt/core's purpose
@@ -21,24 +21,24 @@ to a controller, according to a certain regular expression.
 example:
 "GET | (?P<packageresourcestring>.*)\\.(?P<format>[^?]+).*" : "controllers\\RController"
 
-This will lead a URL, existing out of any given string ending with a dot followed by a string representing a format, to our RController. This controller will then apply further logic to provide
+This will lead a URL passed by a HTTP GET request, existing out of any given string ending with a dot followed by a string representing a format, to our RController. This controller will then apply further logic to provide
 this request of an answer. 
 
 ### formatters
 
-This folder contains classes that transform PHP data objects into formatted objects such as json. In the next few weeks this functionality will be put into tdt/formatters. This repository 
+This folder contains classes that transform PHP data objects into formatted data structures such as json. In the next few weeks this functionality will be put into tdt/formatters. This repository 
 will then be included in this projects by forseeing an entry of tdt/formatters in the composer.json file. This will allow for 3rd parties to use tdt/formatters as package to transform PHP objects
 and hopefully contribute to this package.
 
 ### lib
 
-The lib folder is currently contains a dependency that is currently not available through autoloading with composer. It holds the parse engine that allows  us to build our own query language 
+The lib folder holds libraries that are not avaible through composer, packagist or any other autoload program. Currently it contains a dependency that holds the parse engine that allows us to build our own query language 
 called spectql.
 
 ### model
 
-The model folder is one of the largest in the entire structure. It allows in functionality to adjust, create and delete and get definitions of resources. So it basically puts a layer on top of 
-the functionality and provides an interface on it, ready for other classes to use. What will happen most of the time is that a controller performs its logic given a certain URL, then call upon 
+The model folder is one of the largest in the entire structure. It allows in functionality to adjust, create and delete and get definitions of resources. It basically puts a layer on top of 
+the functionality of CRUD operations and provides an interface on it, ready for other classes to use. What will happen most of the time is that a controller performs its logic given a certain URL, then call upon 
 the functionality of the model/ResourcesModel for further handling.
 
 #### filters

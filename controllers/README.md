@@ -2,21 +2,22 @@
 
 There is a certain problem concerning representations and actual entities on the internet, which is explained further below. It's called the HTTP range 14 problem.
 
-To implement a solution to the HTTP range 14 problem we used glue.php and router.hp (both files can be found in our main folder), we did this:
+To implement a solution to the HTTP range 14 problem we used glue.php and router.hp (both files can be found in tdt/start/app/core), and did this:
 
-## AController.class.php
+## ACoreController.class.php
 
-The abstract Controller contains 4 functions: GET(), DELETE(), POST() (not used atm), PUT(), PATCH() and HEAD(). Every controller extends from this class.
+This abstract Controller contains several utility functions for other controllers to use it. It can check for basic authentication, access database back-end configuration and clear documentation caches.
 
 ## RController.class.php
 
-The R is for Read (cRud). It will handle all calls to a specific representation. It returns exceptions on calls to DELETE, UPDATE or POST.
+The R is for Read (cRud). It will handle all calls to a specific representation. It returns exceptions on calls to DELETE, UPDATE or POST. Note that the HEAD request is also implemented and will return
+header information for a certain given URL.
 
-If the format .about is given, the FormatterFactory is going to do content negotiation. This means: check the Accept header and choose the best one. If no format is found, return a default one.
+If the format .about is given, the FormatterFactory is going to do content negotiation. This means: check the Accept header and choose the best one. If no fitting format is found, return a default one.
 
 ## CUDController.class.php
 
-CUD is for Create, Update and Delete (CrUD). It performs the right model functions to make the call happen. When GET is used, it seems like they have done a GET request to a real-world object. We're going to redirect them (HTTP 303 See Other) to the .about URI.
+CUD is for Create, Update and Delete (CrUD). It calls upon the resourcesmodel to make sure resource definitions are valid and are stored in the back-end. When GET is used, it seems like they have done a GET request to a real-world object. We're going to redirect them (HTTP 303 See Other) to the .about URI.
 
 ## RedirectController.class.php
 
@@ -24,11 +25,8 @@ The redirectcontroller will redirect requests that don't directly specify a cert
 
 ## SPECTQLController and SPECTQIndex
 
-These controllers handle SPECTQL requests.
+These controllers handle SPECTQL requests. SPECTQL is our own query language that can be used on resources. For more documentation take a look at controllers/spectql/README.md.
 
-## SQLController
-
-This controller handles SQL endpoint requests.
 
 # The HTTP Range 14 problem
 

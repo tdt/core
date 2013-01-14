@@ -26,8 +26,6 @@ This will sort descending on name.
 
 * Limiting
 
-NOTE: Hasn't been ported to our AST just yet, but it's coming!
-
 http://data.iRail.be/spectql/NMBS/Stations{id,name-,longitude,latitude}.limit(10):json
 This will only give the 10 first elements
 

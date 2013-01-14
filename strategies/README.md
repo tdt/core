@@ -88,175 +88,11 @@ The validation function will check if the number of header columns equals the nu
 
 PK is something unique in each row, every row will be mapped onto this unique key. If there are however multiple row with the same unique key, only the first will be used, the rest will be thrown away. ( From now on every PK parameter is defined in this way, unless declared otherwise.)
 
-## JSON
-
-This class represents a strategy that handles JSON datasources.
-
-### required create parameters:
-
-* uri : The uri to the json document.
-
-### additional create parameters
-
-none !
-
-### validation
-
-The validation exists of a json_decode of the json file, if it succeeds, the validation succeeds.
-
-## KML (inherits from ATabularData)
-
-This class represents a strategy that handles KML datasources.
-
-### required create parameters:
-
-* uri : The uri to the KML file
-
-### additional create parameters
-
-* columns : The columns that are to be published from the KML.
-* PK : The primary key of each row.
-
-### validation
-
-The validation checks if all the KML specific entities are present, if so, the validation will succeed.
-
-### read parameters ( parameters you pass along in the GET request )
-
-* long : longitude
-* lat : latitude
-* radius : radius (km metric)
-
-Adding these parameters will filter the data returned to entries that are within the area specified with long, lat and radius.
-
-## GeoJSON (inherits from ATabularData)
-
-This class represents a strategy that handles JSON files that have a specific geo-structure.
-
-### required create parameters
-
-* uri : The uri to the geo-JSON file.
-
-### additional create parameters
-
-* columns : The columns that are to be published from the JSON file.
-* PK : The primary key of each row.
-
-### validation
-
-The validation consists of checking if it's a valid geo-JSON file.
-
-### read parameters ( parameters you pass along in the GET request )
-
-* long : longitude
-* lat : latitude
-* radius : radius (km metric)
-
-Adding these parameters will filter the data returned to entries that are within the area specified with long, lat and radius.
-
-## SHP (inherits from ATabularData)
-
-This class represents a strategy that handles Shape files.
-
-### required create parameters
-
-* uri : The path to the shape file.
-
-### additional create parameters
-
-* EPSG : EPSG coordinate system code.
-* columns : The columns that are to be published.
-* PK : The primary key for each row.
-
-### validation
-
-Checks if all necessary files (next to .shp) are present in the zip file, just like the zipped shape structure describes. 
-
-### remarks
-
-For zipped shape files, use the ZippedSHP resource, both ZippedSHP and SHP use the temp folder to temporarily store the SHP files.
-
-## ZippedSHP (inherits from SHP)
-
-This class represents a strategy that handles zipped shape files.
-
-### required create parameters
-
-* uri : The path to the zipped shape file.
-* shppath : The path to the shape file within the zip.
-
-### additional create parameters
-
-* EPSG : EPSG coordinate system code.
-* columns : The columns that are to be published.
-* PK : The primary key for each row.
-
-### validation
-
-Same as in SHP.
-
-### remarks
-
-Also uses the temp folder to temporarily store the shp files, just like SHP strategy does.
-
-## XLS (inherits from ATabularData)
-
-This class represents a strategy that handles XLS files.
-
-### required create parameters
-
-* uri : The path to the excel sheet (can be a url as well).
-* sheet : The sheet name of the excel of which you want to extract data.
-
-### additional create parameters
-
-* named_range : The named range of the excel.
-* cell_range : Range of cells (i.e. A1:B10).
-* PK : The primary key for each row.
-* has_header_row : If the XLS file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.
-* start_row : The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.
-
-### validation
-
-Somewhat similar to the CSV file, will check if the XLS file exists, and if necessary form the columns parameter during the validation.
-
-### remarks
-
-The XLS files will be locally stored because they cannot be streamed. Therefore we use the tmp file in the The DataTank framework folder structure.
-
-## XML
-
-This class represents a strategy that handles XML files. Note that currently there is no support for namespaced XML files (yet).
-
-### required create parameters
-
-* uri : The uri to the XML file.
-
-### additional create parameters
-
-none
-
 ## DB
 
-This class represents a strategy that handles database datasources.
+This class represents a strategy that handles SQL database datasources.
 
 ### required create parameters:
-
-We use the doctrine 2 DBAL to access the database resources, so our support for databases is dependent on the support of the doctrine 2 DBAL which are:
-
-* mysql
-* sqlite
-* pgsql
-* sqlsrv
-* oci8 ( An Oracle driver that uses the oci8 PHP extension.) 
-
-Necessary parameters for SQLite database dataresources:
-
-* db_type  : sqlite
-* location : The location of the SQLite database 
-* db_table : The database table of which some or all fields will be published.
-
-Necessary parameters for non-SQLite database dataresources:
 
 * username : The username to connect to the database with.
 * password : The password of the user to connect to the database.
@@ -267,7 +103,7 @@ Necessary parameters for non-SQLite database dataresources:
 
 ### additional create parameters
 
-* port     : The port number to connect to. (not for SQLite based DB resources.)
+* port     : The port number to connect to. Currently if no port is provided, the default port will be accessed.
 * PK : The primary key of an entry. This must be the name of an existing column name in the tabular resource.
 
 
@@ -275,3 +111,18 @@ Necessary parameters for non-SQLite database dataresources:
 
 A check is done to the database to get the columnnames. If this fails, then we a wrong set of parameters has been passed. Also we check, when columns are passed with the request, if they are existing columns.
 
+## SPARQL
+
+This strategy class will perform a SPARQL query on a triple store, and return the result in a CSV format. This allows to re-use our CSV strategy to handle the returning value of the query.
+
+### required create parameters
+
+The required create parameters are:
+
+* endpoint : The sparql end point of the triple store.
+* query : The sparql query on that end point.
+
+### additional create parameters
+
+* PK: The primary key of the dataset
+* start_row : the start row offset of the resulting data set.
