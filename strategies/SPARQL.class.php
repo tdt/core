@@ -55,6 +55,7 @@ class SPARQL extends CSV {
      * @return $mixed An object created with fields of the query result.
      */
     public function read(&$configObject, $package, $resource) {
+        
         /**
          * check if the endpoint is valid ( not empty )
          */
@@ -66,7 +67,9 @@ class SPARQL extends CSV {
 
         $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("text/csv");
         $configObject->delimiter = ',';
-            
+        
+        var_dump($configObject->uri);
+        
         return parent::read($configObject, $package, $resource);
     }
 
