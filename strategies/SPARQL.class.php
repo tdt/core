@@ -68,8 +68,6 @@ class SPARQL extends CSV {
         $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("text/csv");
         $configObject->delimiter = ',';
         
-        var_dump($configObject->uri);
-        
         return parent::read($configObject, $package, $resource);
     }
 
