@@ -30,9 +30,8 @@ class RequestURI{
 
         $requestURI = $_SERVER["REQUEST_URI"];
         //if a SUBDIR has been set in the config, remove this from here
-        if(Config::get("general","subdir") != ""){
-            $subdir = str_replace("/", "/", Config::get("general","subdir"));
-            $requestURI = preg_replace("/". str_replace('/','\/',$subdir) ."/si","",$requestURI,1);
+        if(!empty(Config::get("general","subdir"))){
+            $requestURI = preg_replace("/". str_replace('/','\/',$subdir) ."/si","", $requestURI, 1);
         }
 
         //Now for the hard part: parse the REQUEST_URI
@@ -44,7 +43,12 @@ class RequestURI{
         //shift the path chunks as long as they exist and add them to the right variable
         while(sizeof($path) > 0){
             if($i == 0){
-                $this->package = $path[0];
+                if(empty($path[0])){
+                    $this->package = $path[1];
+                    array_shift($path);
+                }else{
+                    $this->package = $path[0];
+                }
             }elseif($i == 1){
                 $this->resource = $path[0];
                 //if this is the last element in the array
