@@ -30,7 +30,7 @@ class RequestURI{
 
         $requestURI = $_SERVER["REQUEST_URI"];
         //if a SUBDIR has been set in the config, remove this from here
-        if(!empty(Config::get("general","subdir"))){
+        if(Config::get("general","subdir") != ""){
             $requestURI = preg_replace("/". str_replace('/','\/',$subdir) ."/si","", $requestURI, 1);
         }
 
