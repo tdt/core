@@ -10,3 +10,5 @@ nbproject/private/*
 .buildpath
 .project
 tmp/*
+/vendor/
+/composer.lock
