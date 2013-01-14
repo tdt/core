@@ -18,8 +18,6 @@ http://data.iRail.be/spectql/NMBS/Stations{id,name,longitude,latitude}:json
 
  * Sorting
 
-NOTE: Hasn't been ported to our AST just yet, but it's coming!
-
 You can sort a resource by adding a + or - in the selector:
 http://data.iRail.be/spectql/NMBS/Stations{id,name-,longitude,latitude}:json
 This will sort descending on name. 
