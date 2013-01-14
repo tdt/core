@@ -75,7 +75,6 @@ class SPARQL extends CSV {
     public function onAdd($package_id, $gen_resource_id) {
         if (!isset($this->uri)) {
             $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=csv';
-            ;
         }
         if (!isset($this->delimiter)) {
             $this->delimiter = ",";
