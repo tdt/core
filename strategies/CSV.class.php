@@ -16,6 +16,8 @@ use tdt\framework\TDTException;
 
 class CSV extends ATabularData {
 
+    private static $READ_MAX_AMOUNT_OF_ROWS = 100;
+    
     // amount of chars in one row that can be read
     private static $MAX_LINE_LENGTH = 15000;
 
@@ -98,21 +100,22 @@ class CSV extends ATabularData {
         $row = 0;
 
         $rows = array();
+        $rowsRead = 0;
         if (($handle = fopen($filename, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE && $rowsRead<=CSV::$READ_MAX_AMOUNT_OF_ROWS) {
                 $num = count($data);
                 $csvRow = "";
                 for ($c=0; $c < $num; $c++) {
                     $csvRow = $csvRow . $delimiter . $this->enclose($data[$c]);
                 }
                 array_push($rows,ltrim($csvRow,$delimiter));
+                $rowsRead++;
             }
             fclose($handle);
         }else{
             throw new TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."));
         }
-
-
+        
         // get rid for the comment lines according to the given start_row
         for ($i = 1; $i < $start_row; $i++) {
             array_shift($rows);
