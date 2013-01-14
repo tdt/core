@@ -6,6 +6,9 @@ components to make the datatank structure work. Currently it will install tdt/fr
 This can be done by using [composer](http://getcomposer.org/) and performing <b>composer install</b> in the directory of the tdt/start location. You can recognize this location
 by the presence of a composer.json file.
 
+If you're planning on using the tdt/core as stand alone, you'll have to use the configuration of tdt/start and a mapping of the routes to their respective regular expression. This information 
+can be found on [this link](https://github.com/tdt/start/blob/master/app/config/cores.example.json).
+
 # tdt/core's purpose
 
 The DataTank's purpose is to open up data via a set of parameters (i.e. where is your datafile located), an return it to a user in a certain format. Next to that users can also perform 
