@@ -6,7 +6,8 @@ What is it and why would you use it?
 
 The Abstract Filter Layer is a module for filtering and querying the data from The DataTank. It is some sort of abstraction to make it easier to implement new kinds of filters with minimal effort.
 
-At the moment of writing this documentation two filters are implemented using this abstraction layer: SQL and spectql.
+At the moment of writing this documentation two filters are implemented using this abstraction layer: SQL and spectql. Note that SQL is not currently in the core anymore, but is still being used and operational in the old datatank repository on http://www.github.com/iRail/The-DataTank.
+For the sake of completion, we will use both SQL and SPECTQL throughout the documentation. This way when a user doesn't understand a part of the universalfilter via SPECTQL/SQL he might understand it by taking a look at SQL/SPECTQL.
 
 
 ### What do you need to do to implement a new query language?
@@ -15,7 +16,7 @@ Answer: convert the query to the Universal Query Syntax Tree, give it to the Uni
 The UniversalInterpreter interprets the query tree, filters rows, evaluates expressions, matches regexes, filters columns, groups data on certain fields, calculates aggregated values on those fields, ... You don't have to do all those things yourself. So, implementing a new filter becomes a lot easier!
 
 
-An example: The SQL filter. And how it is executed...
+An example: The SPECTQL filter. And how it is executed...
 -----------------------------------------------------
 
 *Note:* this is an example of how I converted SQL-querys to the Filter Syntax Tree, but you can do it your way. (It does not matter how you convert it to the syntax tree, or how the user inputs the query.)
@@ -37,23 +38,27 @@ Add it to the url for sql, and we have:
 
     localhost/The-DataTank/sql.csv?query=SELECT%20Titel%2C%20Omschrijving%20FROM%20genstefeesten.dag15%20WHERE%20Titel%20LIKE%20'Bloem%25'
 
+its SPECTQL equal would look like the following:
+
+    localhost/The-DataTank/gentsefeesten/dag15{Titel,Omschrijving}?Titel~'Bloem'
+
 Surf to this url and you get back the data you want.
 
-### The flow this query follows inside The-DataTank
-When the request enters The-DataTank, it first enters the router. In the router the request gets send to the SQLController.
-The SQLController creates an SQLParser and asks it to parse the SQL-query. That's where the conversion from string to Filter Syntax Tree happens. I will go deeper into this in the next paragraph.
-The SQLParser returns a Syntax Tree. 
+### The flow this query follows inside The-DataTank ( same flow for SQL or SPECTQL )
+When the request enters The-DataTank, it first enters the router. In the router the request gets send to the SPECTQLController.
+The SPECTQLController creates an SPECTQLParser and asks it to parse the SPECTQL-query. That's where the conversion from string to Filter Syntax Tree happens. I will go deeper into this in the next paragraph.
+The SPECTQLParser returns a Syntax Tree. 
 
-The SQLController makes a new UniversalInterpreter and calls the method interpret($tree) on it. This method returns the dataset in the intern representation of the Abstract Filter Layer (but that's not really important). 
-Now the SQLController creates a new TableToPhpObjectConverter and asks it to convert the table to a php object as it is used by The DataTank.
+The SPECTQLController makes a new UniversalInterpreter and calls the method interpret($tree) on it. This method returns the dataset in the intern representation of the Abstract Filter Layer (but that's not really important). 
+Now the SPECTQLController creates a new TableToPhpObjectConverter and asks it to convert the table to a php object as it is used by The DataTank.
 
 Now, you can use the formatters to format the data. Filtering done...
 
 
-### The SQLParser
-So the only component I did not explain in detail in the above description is the SQLParser. It has only one task: convert the string which represents an SQL-query to the Filter Syntax Tree. To do this I use lime-php. That's a php library to describe and parse context free grammars. It uses a notation that looks like Bachus Naur Form, but than with php-statement which tell the parser what to do if it matches a certain part.
-Before I input the data into the parser I already split the query in "tokens" in the SQLTokenizer. In theory, you don't need to do this, as you can pass each character to the grammar and then tokenize there. But e.g. constants (which can contain every character EXCEPT ') are not very handy to describe in a grammar. That's why I first tokenize these basic parts.
-If you need examples for the parsing: both SQL and spectql use the lime-parser and have almost the same structure. First they use a SQL/SpectqlTokenizer, then they parse the grammar with a .lime grammar file. These two steps are combined in the class SQLParser/SpectqlParser.
+### The SPECTQLParser
+So the only component I did not explain in detail in the above description is the SPECTQLParser. It has only one task: convert the string which represents an SPECTQL-query to the Filter Syntax Tree. To do this we use lime-php. That's a php library to describe and parse context free grammars. It uses a notation that looks like Bachus Naur Form, but than with php-statement which tell the parser what to do if it matches a certain part.
+Before I input the data into the parser I already split the query in "tokens" in the SPECTQLTokenizer. In theory, you don't need to do this, as you can pass each character to the grammar and then tokenize there. But e.g. constants (which can contain every character EXCEPT ') are not very handy to describe in a grammar. That's why I first tokenize these basic parts.
+If you need examples for the parsing: both SQL and spectql use the lime-parser and have almost the same structure. First they use a SPECTQLTokenizer, then they parse the grammar with a .lime grammar file. These two steps are combined in the class SPECTQLParser.
 
 
 The Filter Syntax Tree (also Universal Filter Tree)
@@ -166,13 +171,6 @@ the README in the folder universalfilter/tablemanager about how to implement the
 
 Future development
 ------------------
-
-### There is also no filter yet: 
-1. to sort the data. (order multiple columns ascending/descending)
-2. to join data (full/left/right inner/outer join)
-3. for Union
-4. for Limit+Offset
-5. missing functions: functions on dates...
 
 If you want to implement new kinds of filters in the Abstract Filter Layer:
 see the documentation of the interpreter in universalfilters/interpreter (for a global overview)

@@ -55,6 +55,7 @@ class SPARQL extends CSV {
      * @return $mixed An object created with fields of the query result.
      */
     public function read(&$configObject, $package, $resource) {
+        
         /**
          * check if the endpoint is valid ( not empty )
          */
@@ -63,12 +64,22 @@ class SPARQL extends CSV {
 
         if (!isset($configObject->query))
             throw new TDTException(452, array("No SPARQL query supplied"));
-        
-        $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=csv';
-        $configObject->has_header_row = "1";
-        $configObject->delimiter = ",";
+
+        $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("text/csv");
+        $configObject->delimiter = ',';
         
         return parent::read($configObject, $package, $resource);
+    }
+
+    public function onAdd($package_id, $gen_resource_id) {
+        if (!isset($this->uri)) {
+            $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("text/csv");
+        }
+        if (!isset($this->delimiter)) {
+            $this->delimiter = ",";
+        }
+
+        parent::onAdd($package_id, $gen_resource_id);
     }
 
 }

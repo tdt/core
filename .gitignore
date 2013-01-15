@@ -1,12 +1,10 @@
 Makefile
-.DS_Store
-*/.DS_Store
-*/*/.DS_Store
-*/*/*/.DS_Store
-*/*/*/*/.DS_Store
+*.DS_Store
 nbproject/*
 nbproject/private/*
 .settings
 .buildpath
 .project
 tmp/*
+/vendor/
+/composer.lock
