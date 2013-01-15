@@ -25,7 +25,7 @@ class JSON extends AResourceStrategy{
         $data = \tdt\framework\Request::http($this->uri);
         $result = json_decode($data->data);
         if($result){
-            throw new TDTException(500,"Could not transfrom the json data from ". $this->uri ." to a php object model, please check if the json is valid.");
+            throw new TDTException(500,array("Could not transfrom the json data from ". $this->uri ." to a php object model, please check if the json is valid."));
         }
         return true;
     }
