@@ -3,10 +3,10 @@
 /**
  * This class handles a SPARQL query
  *
- * @package The-Datatank/custom/strategies
- * @copyright (C) 2011 by iRail vzw/asbl
+ * @copyright (C) 2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande
+ * @author Pieter Colpaert
  */
 
 namespace tdt\core\strategies;
@@ -17,6 +17,7 @@ class SPARQL extends JSON {
 
 
     public function read(&$configObject,$package,$resource){
+        
         $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
         parent::read($configObject,$package,$resource);
     }
@@ -44,15 +45,4 @@ class SPARQL extends JSON {
         $this->parameters["query"] = "The SPARQL query";
         return $this->parameters;
     }
-
-    public function onAdd($package_id, $gen_resource_id) {
-        if(!empty($this->endpoint) && !empty($this->query)){
-            $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
-        }
-
-        parent::onAdd($package_id, $gen_resource_id);
-    }
-
 }
-
-?>
