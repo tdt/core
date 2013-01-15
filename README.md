@@ -9,6 +9,10 @@ by the presence of a composer.json file.
 If you're planning on using the tdt/core as stand alone, you'll have to use the configuration of tdt/start and a mapping of the routes to their respective regular expression. This information 
 can be found on [this link](https://github.com/tdt/start/blob/master/app/config/cores.example.json).
 
+# Create instances
+
+See examples/
+
 # tdt/core's purpose
 
 The DataTank's purpose is to open up data via a set of parameters (i.e. where is your datafile located), an return it to a user in a certain format. Next to that users can also perform 
@@ -18,14 +22,16 @@ queries on top of that data, resulting in a more specific data set returning in 
 
 ### controllers
 
-The controllers folder is where the magic begins. A HTTP request finds it way to the datatank and via the configuration of tdt/start/app/config/cores.json the given URL will be passed
-to a controller, according to a certain regular expression.
+The controllers folder is where the magic begins. If you use tdt/start, a HTTP request finds it way to the datatank and via the configuration of tdt/start/app/config/cores.json the given URL will be passed
+to a controller, according to a certain regular expression in cores.json of tdt/start.
 
 example:
 "GET | (?P<packageresourcestring>.*)\\.(?P<format>[^?]+).*" : "controllers\\RController"
 
 This will lead a URL passed by a HTTP GET request, existing out of any given string ending with a dot followed by a string representing a format, to our RController. This controller will then apply further logic to provide
-this request of an answer. 
+this request of an answer.
+
+If you want to use The DataTank core without the use of tdt/start, you can still fill out the config of tdt\framework\Config::setConfig($array) documented in the README of the tdt/framework.
 
 ### formatters
 
