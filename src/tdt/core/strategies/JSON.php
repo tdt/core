@@ -10,7 +10,7 @@
 
 namespace tdt\core\strategies;
 
-use tdt\core\model\read\AResourceStrategy;
+use tdt\core\model\resources\AResourceStrategy;
 use tdt\framework\Log;
 use tdt\framework\TDTException;
 
