@@ -11,7 +11,7 @@
 
 namespace tdt\core\strategies;
 
-use tdt\core\model\resources\read\iFilter;
+use tdt\core\model\resources\read\IFilter;
 use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
 use tdt\framework\Log;
 use tdt\framework\TDTException;
