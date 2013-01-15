@@ -15,6 +15,18 @@ use tdt\framework\TDTException;
 
 class SPARQL extends JSON {
 
+
+    public function read(&$configObject,$package,$resource){
+        $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
+        parent::read($configObject,$package,$resource);
+    }
+    
+    public function isValid($package_id,$generic_resource_id){
+        $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");    
+        parent::isValid($package_id,$generic_resource_id);
+    }
+    
+
     /**
      * The parameters returned are required to make this strategy work.
      * @return array with parameter => documentation pairs

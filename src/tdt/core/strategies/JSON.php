@@ -24,15 +24,10 @@ class JSON extends AResourceStrategy{
     public function isValid($package_id,$generic_resource_id){
         $data = \tdt\framework\Request::http($this->uri);
         $result = json_decode($data->data);
-        if($result != true){
-            throw new ResourceAdditionTDTException("Could not transfrom the json data from ". $this->uri ." to a php object model, please check if the json is valid.");
+        if($result){
+            throw new TDTException(500,"Could not transfrom the json data from ". $this->uri ." to a php object model, please check if the json is valid.");
         }
         return true;
-    }
-    
-    // @deprecated
-    public function onUpdate($package, $resource){
-        
     }
 
     public function documentCreateRequiredParameters(){
