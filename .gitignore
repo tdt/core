@@ -1,9 +1,5 @@
 Makefile
-.DS_Store
-*/.DS_Store
-*/*/.DS_Store
-*/*/*/.DS_Store
-*/*/*/*/.DS_Store
+*.DS_Store
 nbproject/*
 nbproject/private/*
 .settings
