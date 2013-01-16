@@ -11,20 +11,26 @@
 
 namespace tdt\core\strategies;
 
+use tdt\core\model\resources\AResourceStrategy;
 use tdt\framework\TDTException;
 
-class SPARQL extends JSON {
+class SPARQL extends AResourceStrategy {
 
 
     public function read(&$configObject,$package,$resource){
-        
-        $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
-        parent::read($configObject,$package,$resource);
+        $uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
+        $data = \tdt\framework\Request::http($uri);
+        return json_decode($data->data);
     }
     
     public function isValid($package_id,$generic_resource_id){
-        $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");    
-        parent::isValid($package_id,$generic_resource_id);
+        $uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
+        $data = \tdt\framework\Request::http($uri);
+        $result = json_decode($data->data);
+        if(!$result){
+            throw new TDTException(500,array("Could not transform the json data from ". $uri ." to a php object model, please check if the json is valid."));
+        }
+        return true;
     }
     
 
@@ -36,13 +42,37 @@ class SPARQL extends JSON {
         return array("endpoint", "query");
     }
 
-    /**
-     * The parameters ( array keys ) returned all of the parameters that can be used to create a strategy.
-     * @return array with parameter => documentation pairs
-     */
-    public function documentCreateParameters() {
-        $this->parameters["endpoint"] = "The URI of the SPARQL endpoint.";
-        $this->parameters["query"] = "The SPARQL query";
-        return $this->parameters;
+    public function read(&$configObject,$package,$resource){ 
     }
+    
+    public function documentReadRequiredParameters(){
+        return array();
+    }
+    
+
+    public function documentUpdateRequiredParameters(){
+        return array();
+    }
+    
+
+   public function documentCreateParameters(){
+        return array(
+            "endpoint" => "The URI of the SPARQL endpoint.",
+            "query" => "The SPARQL query"
+        );
+   }
+   
+   public function documentReadParameters(){
+       return array();
+   }
+   
+   public function documentUpdateParameters(){
+       return array();
+   }
+
+   public function getFields($package,$resource){
+       return array();
+   }
+    
+
 }
