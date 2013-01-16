@@ -121,7 +121,7 @@ class TDTAdminExport extends AReader{
                     $generic_type = $resourceObject->generic_type;
                 }
 
-                $creationParameters = $creationDoc->create->$resource_type;
+                $creationParameters = $creationDoc->create->$resource_type;                
                 if($resource_type == "generic"){
                     $creationParameters = $creationParameters[$generic_type];
                 }
@@ -136,11 +136,22 @@ class TDTAdminExport extends AReader{
                 /**
                  * Only maintain the properties of the create-section
                  */
-                foreach($creationParameters as $key => $value){
-                    if(!isset($resourceDefinition[$key]) || $resourceDefinition[$key] != ""){
+               
+                foreach($creationParameters["parameters"] as $key => $value){                    
+                    if(!isset($resourceDefinition[$key]) || $resourceDefinition[$key] == ""){
+                        unset($resourceDefinition[$key]);
+                    }
+                }      
+                
+                 foreach($creationParameters["requiredparameters"] as $key => $value){                    
+                    if(!isset($resourceDefinition[$key]) || $resourceDefinition[$key] == ""){
                         unset($resourceDefinition[$key]);
                     }
                 }
+                
+                unset($resourceDefinition["parameters"]);
+                unset($resourceDefinition["requiredparameters"]);
+                
                 // make sure the string comes out well in the response strings contain t's and n's
                 header("Content-Type: text/plain");
                 $dump = $this->createDump($package,$resourceObject->resourcename,$resourceDefinition);
@@ -179,7 +190,7 @@ class TDTAdminExport extends AReader{
         $resourceObject = new \stdClass();
         $resourceObject->resourcename = $resource;
         $resourceObject->resource_type = $this->descriptionDoc->$package->$resource->resource_type;
-        // also dump the entire body of the resource object description in it
+        // also dump the entire body of the resource object description in it        
         $resourceObject->description = $this->descriptionDoc->$package->$resource;
         // format the resource_type if it's generic
         if($resourceObject->resource_type == "generic"){
@@ -232,18 +243,21 @@ class TDTAdminExport extends AReader{
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $result = curl_exec($ch);
     $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	 echo "The addition of the resource definition ". $url . " has ";
-	 if(strlen(strstr($responseHeader,"200"))>0){
+    
+     echo "The addition of the resource definition ". $url . " has ";
+     if(strlen(strstr($responseHeader,"200"))>0){
     	echo "succeeded!\n";
-    }else{
-    	echo "failed!\n";
-    }
-	 echo $result;
+     }else{
+    	echo "failed! Error message:\n";
+        echo curl_error($ch);		
+     }
+     
+    echo $result;
     echo "\n ============================================= \n";
     curl_close($ch);
 ?>';
 
-        $dump.= "n";
+        $dump.= "\n";
         return $dump;
     }
 }
