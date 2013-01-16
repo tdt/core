@@ -172,7 +172,7 @@ class GenericResourceFactory extends AResourceFactory {
         if(!isset($doc->delete)){
             $doc->delete = new \stdClass();
         }
-        $d->doc = "You can delete every generic resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
+        $d->documentation = "You can delete every generic resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
         $doc->delete->generic = new \stdClass();
         $doc->delete->generic = $d;
     }
@@ -182,7 +182,7 @@ class GenericResourceFactory extends AResourceFactory {
         foreach($this->getAllStrategies() as $strategy){
             $res = new GenericResourceCreator("","", array(),$strategy);
             $d[$strategy] = new \stdClass();
-            $d[$strategy]->doc = "When your file is structured according to a $strategy -datasource, you can perform a PUT request and load this file in this DataTank";
+            $d[$strategy]->documentation = "When your file is structured according to a $strategy -datasource, you can perform a PUT request and load this file in this DataTank";
             $d[$strategy]->parameters = $res->documentParameters();
             $d[$strategy]->requiredparameters = $res->documentRequiredParameters();
         }
@@ -198,7 +198,7 @@ class GenericResourceFactory extends AResourceFactory {
         foreach($this->getAllStrategies() as $strategy){
             $res = new GenericResourceUpdater("","", array(),$strategy);
             $d[$strategy] = new \stdClass();
-            $d[$strategy]->doc = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that not all properties are adjustable.";
+            $d[$strategy]->documentation = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that not all properties are adjustable.";
             $d[$strategy]->parameters = array();
             $d[$strategy]->requiredparameters = array();
         }

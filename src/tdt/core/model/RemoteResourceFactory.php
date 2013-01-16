@@ -101,7 +101,7 @@ class RemoteResourceFactory extends  AResourceFactory{
 
     public function makeDeleteDoc($doc){
         $d = new \stdClass();
-        $d->doc = "You can delete every remote resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
+        $d->documentation = "You can delete every remote resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
         if(!isset($doc->delete)){
             $doc->delete = new \stdClass();
         }
@@ -112,7 +112,7 @@ class RemoteResourceFactory extends  AResourceFactory{
     public function makeCreateDoc($doc){
         //add stuff to create attribute in doc. No other parameters expected
         $d = new \stdClass();
-        $d->doc = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::get("general","hostname") . Config::get("general","subdir") . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
+        $d->documentation = "Creates a new remote resource by executing a HTTP PUT on an URL formatted like " . Config::get("general","hostname") . Config::get("general","subdir") . "packagename/newresource. The base_uri needs to point to another The DataTank instance.";
         $resource = new  RemoteResourceCreator("","", array());//make an empty object. In the end we only need a remote resource
         $d->parameters = $resource->documentParameters();
         $d->requiredparameters = $resource->documentRequiredParameters();
@@ -144,10 +144,10 @@ class RemoteResourceFactory extends  AResourceFactory{
         $data = unserialize($request->data);
         $remoteResource = new \stdClass();
 
-        if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
-            $remoteResource->doc = $data[$resource]->doc;
+        if(!isset($remoteResource->documentation) && isset($data[$resource]) && isset($data[$resource]->documentation)){
+            $remoteResource->documentation = $data[$resource]->documentation;
         }else{
-            $remoteResource->doc = new \stdClass();
+            $remoteResource->documentation = new \stdClass();
         }
 
         if(isset($data[$resource]->parameters)){
@@ -187,10 +187,10 @@ class RemoteResourceFactory extends  AResourceFactory{
         $remoteResource = new \stdClass();
         $remoteResource->package_name = $package;
         $remoteResource->remote_package = $result["package"];
-        if(!isset($remoteResource->doc) && isset($data[$resource]) && isset($data[$resource]->doc)){
-            $remoteResource->doc = $data[$resource]->doc;
+        if(!isset($remoteResource->documentation) && isset($data[$resource]) && isset($data[$resource]->documentation)){
+            $remoteResource->documentation = $data[$resource]->documentation;
         }else{
-            $remoteResource->doc = new \stdClass();
+            $remoteResource->documentation = new \stdClass();
         }
 
         $remoteResource->resource = $resource;

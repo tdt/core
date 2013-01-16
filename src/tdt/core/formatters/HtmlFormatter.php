@@ -65,7 +65,7 @@ private function getUrl($type) {
 }
 
 private function displayTree($var) {
-     $newline = "n";
+     $newline = "\n";
      $output ="";
      foreach($var as $key => $value) {
          if (is_array($value) || is_object($value)) {

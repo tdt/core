@@ -75,7 +75,7 @@ class InstalledResourceFactory extends  AResourceFactory{
                     $classname = $this->getClassnameOfResource($package,$resourcename);
                     $doc->$package->$resourcename = new \stdClass();
                     include_once("custom/packages/" . $location);
-                    $doc->$package->$resourcename->doc = $classname::getDoc();
+                    $doc->$package->$resourcename->documentation = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();
                     $doc->$package->$resourcename->example_uri = $example_uri;
@@ -105,7 +105,7 @@ class InstalledResourceFactory extends  AResourceFactory{
                     $classname = $this->getClassnameOfResource($package,$resourcename);
                     $doc->$package->$resourcename = new \stdClass();
                     include_once("custom/packages/" . $location);
-                    $doc->$package->$resourcename->doc = $classname::getDoc();
+                    $doc->$package->$resourcename->documentation = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();
                     $doc->$package->$resourcename->example_uri = $example_uri;

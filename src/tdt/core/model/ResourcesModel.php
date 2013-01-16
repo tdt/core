@@ -378,7 +378,7 @@ class ResourcesModel {
         unset($currentParameters->parameters);
         unset($currentParameters->requiredparameters);
         unset($currentParameters->remote_package);
-        unset($currentParameters->doc);
+        unset($currentParameters->documentation);
         unset($currentParameters->resource);
 
         foreach ($parameters as $parameter => $value) {

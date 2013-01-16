@@ -47,7 +47,7 @@ class CoreResourceFactory extends AResourceFactory {
             foreach ($resourcenames as $resourcename) {
                 $classname = "tdt\\core\\model\\packages\\".$package ."\\". $package. $resourcename;
                 $doc->$package->$resourcename = new \stdClass();
-                $doc->$package->$resourcename->doc = $classname::getDoc();
+                $doc->$package->$resourcename->documentation = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                 $doc->$package->$resourcename->parameters = $classname::getParameters();
             }
@@ -75,7 +75,7 @@ class CoreResourceFactory extends AResourceFactory {
     public function makeDeleteDoc($doc) {
         //We cannot delete Core Resources
         $d = new \stdClass();
-        $d->doc = "You cannot delete core resources.";
+        $d->documentation = "You cannot delete core resources.";
         if (!isset($doc->delete)) {
             $doc->delete = new \stdClass();
         }
