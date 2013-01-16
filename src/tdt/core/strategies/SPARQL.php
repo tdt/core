@@ -13,12 +13,13 @@ namespace tdt\core\strategies;
 
 use tdt\core\model\resources\AResourceStrategy;
 use tdt\framework\TDTException;
+use RedBean_Facade as R;
 
 class SPARQL extends AResourceStrategy {
 
 
     public function read(&$configObject,$package,$resource){
-        $uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
+        $uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/json");
         $data = \tdt\framework\Request::http($uri);
         return json_decode($data->data);
     }
@@ -40,9 +41,6 @@ class SPARQL extends AResourceStrategy {
      */
     public function documentCreateRequiredParameters() {
         return array("endpoint", "query");
-    }
-
-    public function read(&$configObject,$package,$resource){ 
     }
     
     public function documentReadRequiredParameters(){

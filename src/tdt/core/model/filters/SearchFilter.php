@@ -3,14 +3,13 @@
  * This filter will filter the collection returned by the request REST-URL, 
  * if that URL contains the filtering properties filterBy and filterValue.
  *
- * @package The-Datatank/filters
- * @copyright (C) 2011 by iRail vzw/asbl
+ * @copyright (C) 2011, 2013 by OKFN vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
  */
 
-namespace  tdt\core\filters;
+namespace  tdt\core\model\filters;
 
 use tdt\framework\TDTException;
 
@@ -75,4 +74,3 @@ class SearchFilter extends  AFilter{
 	}
     }
 }
-?>

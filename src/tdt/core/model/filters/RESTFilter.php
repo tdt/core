@@ -2,18 +2,15 @@
 /**
  * This class represents the RESTful lookup of our API
  *
- * @package The-Datatank/filters
- * @copyright (C) 2011 by iRail vzw/asbl
+ * @copyright (C) 2011, 2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
  * @author Jan Vansteenlandt
- * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\filters;
+namespace tdt\core\model\filters;
 
-
-class RESTFilter extends  AFilter{
+class RESTFilter extends AFilter{
 
     public function __construct($params){
 	parent::__construct($params);
@@ -44,5 +41,4 @@ class RESTFilter extends  AFilter{
 
 	return $resultset;
     }
-  }
-?>
+}

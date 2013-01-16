@@ -8,7 +8,7 @@
    * @author Jan Vansteenlandt
    */
 
-namespace tdt\core\filters;
+namespace tdt\core\model\filters;
 
 abstract class AFilter{
 
@@ -30,4 +30,3 @@ abstract class AFilter{
     
 
 }
-?>
