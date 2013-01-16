@@ -150,6 +150,7 @@ abstract class AResourceStrategy{
 
     /**
      * Throws an exception with a message, and prohibits the resource to be added
+     * This function should only be used when validating a resource!!!
      */
     protected function throwException($package_id, $gen_resource_id,$message){
         $resource_id = DBQueries::getAssociatedResourceId($gen_resource_id);

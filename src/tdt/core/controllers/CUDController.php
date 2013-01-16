@@ -183,8 +183,8 @@ class CUDController extends ACoreController {
     /**
      * PATCH is a 'new' request HTTP HEADER which allows to update a piece of a definition of a resource in our context
      */
-    public function PATCH($matches) {
-
+    public function PATCH($matches) {        
+       
         $model = ResourcesModel::getInstance();
         $doc = $model->getAllDoc();
 

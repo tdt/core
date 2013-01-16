@@ -349,7 +349,7 @@ class ResourcesModel {
     }
 
     /**
-     * Updates the resource with the given parameters.
+     * Updates the resource definition with the given parameters.
      * @param string $package The package name
      * @param string $resource The resource name
      * @param array $parameters An array with update parameters
@@ -369,16 +369,17 @@ class ResourcesModel {
         $doc = $this->getAllDescriptionDoc();
         $currentParameters = $doc->$package->$resource;
 
-        /** issue with updates:
-         * not all things you see are primary put parameters, some are derived and can't be update
-         * i.e. doc property of a remote resource, that property hasn't been put but has been derived from
-         * the other properties of a remote resource.
-         * currently hard coded because there are no extensive units of abstract descriptions (generic, remote) yet...
+        /**
+         * Strip non create parameters from the definition
          */
         unset($currentParameters->parameters);
         unset($currentParameters->requiredparameters);
-        unset($currentParameters->remote_package);
-        unset($currentParameters->documentation);
+        
+        if(isset($currentParameters->remote_package)){
+            unset($currentParameters->documentation);
+        }
+        
+        unset($currentParameters->remote_package);        
         unset($currentParameters->resource);
 
         foreach ($parameters as $parameter => $value) {
@@ -388,14 +389,14 @@ class ResourcesModel {
         }
 
         /**
-         * Columns aren't key = value datamembers and will be handled separatly
+         * Columns aren't key => value datamembers and will be handled separatly
          */
         if (isset($currentParameters->columns) && isset($parameters["columns"])) {
             foreach ($parameters["columns"] as $index => $value) {
                 $currentParameters->columns[$index] = $value;
             }
         }
-
+        
         // delete the empty parameters from the currentParameters object
         foreach ((array) $currentParameters as $key => $value) {
             if ($value == "") {

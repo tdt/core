@@ -8,7 +8,7 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  */
 
-namespace formatters;
+namespace tdt\core\formatters;
 
 
 /**
