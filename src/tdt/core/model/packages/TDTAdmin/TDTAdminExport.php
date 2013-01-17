@@ -22,7 +22,10 @@ class TDTAdminExport extends AReader{
 
     public static function getParameters(){
         return array("export_package" => "The package name of which all or one resource(s) (depending on whether or not a resource parameters is passed as well) will be exported.",
-                     "export_resource" => "The resource to be exported, be sure to pass along a package to identify the resource."
+                     "export_resource" => "The resource to be exported, be sure to pass along the package-string to identify the resource.",
+                     "export_url" => "The base url to where the PUT requests should be sent to. This might be because you want to export resource definitions but PUT them to another datatank instance.",
+                     "export_url_username" => "An authorized username allowed to perform PUT requests. Default is the username in the Config of the datatank.",
+                     "export_url_password" => "The password used to authenticate the user. Default is the password in the Config of the datatank."
         );
     }
 
@@ -35,6 +38,21 @@ class TDTAdminExport extends AReader{
     }
 
     public function read(){
+        
+        /*
+         * Put default values for some read paramaters (export_ -> url, username, password)
+         */        
+        if(!isset($this->export_url)){
+            $this->export_url = Config::get("general","hostname") . Config::get("general","subdir") ;
+        }
+        
+        if(!isset($this->export_url_username)){                    
+            $this->export_url_username = Config::get("general","auth","api_user");
+        }
+        
+        if(!isset($this->export_url_password)){
+            $this->export_url_password = Config::get("general","auth","api_passwd");
+        }        
         $model = ResourcesModel::getInstance();
 
 
@@ -75,7 +93,7 @@ class TDTAdminExport extends AReader{
                 }
             }
         }else if(isset($this->export_package) && !isset($this->export_resource)){
-            $package = $this->export_package;
+            $package = $this->export_package;           
             if($model->hasPackage($this->export_package)){
                 $hash = (array)$allDoc;
                 $resource= (array)$hash[$package];
@@ -88,7 +106,7 @@ class TDTAdminExport extends AReader{
                     }
                 }
             }else{
-                throw new TDTException(452,array($this->export_package ." not found"));
+                throw new TDTException(452,array("package, " .$this->export_package .", not found"));
             }
         }else{
             if($model->hasResource($this->export_package, $this->export_resource)){
@@ -98,7 +116,7 @@ class TDTAdminExport extends AReader{
                     array_push($resources[$this->export_package],$resourceObject);
                 }
             }else{
-                throw new TDTException(452,array($this->export_package . "/" . $this->export_resource . " not found."));
+                throw new TDTException(452,array("package-resource, " .$this->export_package . "/" . $this->export_resource . ", not found."));
             }
         }
 
@@ -206,12 +224,12 @@ class TDTAdminExport extends AReader{
     private function createDump($package,$resource,$resourceDefinition){
         $dump ="";
         $dump.='<?php
-    $url = "'. Config::get("general","hostname") . Config::get("general","subdir") . "TDTAdmin/Resources/".$package."/".$resource .'";
+    $url = "'. $this->export_url . "TDTAdmin/Resources/".$package."/".$resource .'";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_USERPWD,"'. Config::get("auth","api_user") . ':' . Config::get("auth","api_passwd") .'");
+    curl_setopt($ch, CURLOPT_USERPWD,"'. $this->export_url_username . ':' . $this->export_url_password .'");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
     $data = array( ';
 

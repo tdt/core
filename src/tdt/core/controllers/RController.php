@@ -33,7 +33,7 @@ class RController extends ACoreController {
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
-
+              
         /**
          * GET operations on TDTAdmin need to be authenticated!
          */
@@ -104,7 +104,7 @@ class RController extends ACoreController {
         //This will create an instance of a factory depending on which format is set
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-        $parameters = $_GET;
+        $parameters = $_GET;        
         $requiredParameters = array();
 
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {

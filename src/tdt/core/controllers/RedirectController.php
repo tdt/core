@@ -34,8 +34,8 @@ class RedirectController extends ACoreController{
 			$pageURL = str_replace("/.about", ".about", $pageURL);
 		} else {
 			$pageURL .= ".about";
-		}
-
+		}     
+        
 		header("HTTP/1.1 303 See Other");
 		header("Location:" . $pageURL);
 	}
