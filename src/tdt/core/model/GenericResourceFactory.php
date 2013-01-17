@@ -172,7 +172,7 @@ class GenericResourceFactory extends AResourceFactory {
         if(!isset($doc->delete)){
             $doc->delete = new \stdClass();
         }
-        $d->documentation = "You can delete every generic resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
+        $d->documentation = "You can delete every generic resource by sending a DELETE HTTP request to the resource definition located in TDTAdmin/Resources.";
         $doc->delete->generic = new \stdClass();
         $doc->delete->generic = $d;
     }
@@ -198,7 +198,7 @@ class GenericResourceFactory extends AResourceFactory {
         foreach($this->getAllStrategies() as $strategy){
             $res = new GenericResourceUpdater("","", array(),$strategy);
             $d[$strategy] = new \stdClass();
-            $d[$strategy]->documentation = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that not all properties are adjustable.";
+            $d[$strategy]->documentation = "When your generic resource is made you can update properties of it by passing the property names via a PATCH request to TDTAdmin/Resources. Note that only create parameters are adjustable.";
             $d[$strategy]->parameters = array();
             $d[$strategy]->requiredparameters = array();
         }

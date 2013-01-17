@@ -162,7 +162,7 @@ class InstalledResourceFactory extends  AResourceFactory{
      */
     public function makeDeleteDoc($doc){
         $d = new \stdClass();
-        $d->doc = "Installed resources can be deleted from its location, yet it's physical classfile will remain in the folderstructure of the custom/packages folder.";
+        $d->doc = "Installed resources can be deleted by sending a DELETE HTTP request to the resource definition located in TDTAdmin/Resources. The physical file however will remain existant, but no longer published.";
         if(!isset($doc->delete)){
             $doc->delete = new \stdClass();
         }

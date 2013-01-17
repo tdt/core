@@ -101,7 +101,7 @@ class RemoteResourceFactory extends  AResourceFactory{
 
     public function makeDeleteDoc($doc){
         $d = new \stdClass();
-        $d->documentation = "You can delete every remote resource with a DELETE HTTP request on the definition in TDTInfo/Resources.";
+        $d->documentation = "You can delete every remote resource by sending a DELETE HTTP request to the resource definition located in TDTAdmin/Resources.";
         if(!isset($doc->delete)){
             $doc->delete = new \stdClass();
         }
