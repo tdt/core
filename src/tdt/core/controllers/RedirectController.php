@@ -12,7 +12,7 @@ namespace tdt\core\controllers;
 use tdt\core\utility\RequestURI;
 use tdt\framework\TDTException;
 
-class RedirectController extends ACoreController{
+class RedirectController extends AController{
 
 	public function __construct() {
 		parent::__construct();

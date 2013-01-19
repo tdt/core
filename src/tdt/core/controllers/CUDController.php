@@ -12,12 +12,11 @@
 
 namespace tdt\core\controllers;
 
-use tdt\core\controllers\ACoreController;
 use tdt\core\controllers\RController;
 use tdt\core\model\ResourcesModel;
 use tdt\framework\TDTException;
 
-class CUDController extends ACoreController {
+class CUDController extends AController {
 
     public function __construct() {
         parent::__construct();

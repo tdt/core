@@ -13,13 +13,12 @@
 
 namespace tdt\core\controllers;
 
-use tdt\core\controllers\ACoreController;
 use tdt\core\formatters\FormatterFactory;
 use tdt\core\model\filters\FilterFactory;
 use tdt\core\model\ResourcesModel;
 use tdt\framework\TDTException;
 
-class RController extends ACoreController {
+class RController extends AController {
 
     private $formatterfactory;
 

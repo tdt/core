@@ -15,7 +15,7 @@ use tdt\core\model\DBQueries;
 use tdt\core\model\resources\create\RemoteResourceCreator;
 use tdt\core\model\resources\delete\RemoteResourceDeleter;
 use tdt\core\model\resources\read\RemoteResourceReader;
-use tdt\framework\Config;
+use tdt\core\utility\Config;
 use tdt\framework\Request;
 use tdt\framework\TDTException;
 

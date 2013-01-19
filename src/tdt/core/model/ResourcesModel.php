@@ -22,7 +22,7 @@ use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
 use tdt\core\universalfilter\UniversalFilterNode;
 use tdt\framework\Cache\Cache;
-use tdt\framework\Config;
+use tdt\core\utility\Config;
 use tdt\framework\TDTException;
 use RedBean_Facade as R;
 

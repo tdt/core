@@ -14,7 +14,7 @@ namespace tdt\core\formatters;
 use tdt\core\formatters\FormatterFactory;
 use tdt\framework\ContentNegotiator;
 use tdt\framework\TDTException;
-use tdt\framework\Config;
+use tdt\core\utility\Config;
 
 /**
  * This class will provide the correct printers (Xml,Kml,php,...)

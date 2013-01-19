@@ -10,7 +10,7 @@
 
 namespace tdt\core\utility;
 
-use tdt\framework\Config;
+use tdt\core\utility\Config;
 
 
 class RequestURI{

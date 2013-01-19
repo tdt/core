@@ -16,7 +16,7 @@ use tdt\core\formatters\FormatterFactory;
 use tdt\core\model\CoreResourceFactory;
 use tdt\core\model\DBQueries;
 use tdt\framework\Cache\Cache;
-use tdt\framework\Config;
+use tdt\core\utility\Config;
 
 class Doc{
 

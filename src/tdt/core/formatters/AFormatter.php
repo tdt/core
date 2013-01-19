@@ -11,7 +11,7 @@
  */
 namespace tdt\core\formatters;
 
-use tdt\framework\Config;
+use tdt\core\utility\Config;
 
 abstract class AFormatter {
     protected $rootname;
