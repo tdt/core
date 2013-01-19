@@ -19,11 +19,12 @@ namespace tdt\core\universalfilter\interpreter\sourceusage;
 use tdt\core\universalfilter\UniversalFilterNode;
 
 class SourceUsageData {
+
     private $filterSourceNode;
     private $filterParentNode;
     private $filterParentSourceIndex;
     private $sourceId;
-    
+
     /**
      * Constructs a new instance of this class
      * 
@@ -33,47 +34,48 @@ class SourceUsageData {
      * @param string $sourceId 
      */
     public function __construct(UniversalFilterNode $filterSourceNode, UniversalFilterNode $filterParentNode, $filterParentSourceIndex, $sourceId) {
-        $this->filterSourceNode=$filterSourceNode;
-        $this->filterParentNode=$filterParentNode;
-        $this->filterParentSourceIndex=$filterParentSourceIndex;
-        $this->sourceId=$sourceId;
+        $this->filterSourceNode = $filterSourceNode;
+        $this->filterParentNode = $filterParentNode;
+        $this->filterParentSourceIndex = $filterParentSourceIndex;
+        $this->sourceId = $sourceId;
     }
 
     /**
      *
      * @return type 
      */
-    public function getFilterSourceNode(){
+    public function getFilterSourceNode() {
         return $this->filterSourceNode;
     }
-    
-    public function getFilterParentNode(){
+
+    public function getFilterParentNode() {
         return $this->filterParentNode;
     }
-    
-    public function getFilterParentSourceIndex(){
+
+    public function getFilterParentSourceIndex() {
         return $this->filterParentSourceIndex;
     }
-    
-    public function getSourceId(){
+
+    public function getSourceId() {
         return $this->sourceId;
     }
-    
-    public function setFilterSourceNode($filterSourceNode){
+
+    public function setFilterSourceNode($filterSourceNode) {
         $this->filterSourceNode = $filterSourceNode;
     }
-    
-    public function setFilterParentNode($filterParentNode){
+
+    public function setFilterParentNode($filterParentNode) {
         $this->filterParentNode = $filterParentNode;
     }
-    
-    public function setFilterParentSourceIndex($filterParentSourceIndex){
+
+    public function setFilterParentSourceIndex($filterParentSourceIndex) {
         $this->filterParentSourceIndex = $filterParentSourceIndex;
     }
-    
-    public function setSourceId($sourceId){
-        $this->sourceId=$sourceId;
+
+    public function setSourceId($sourceId) {
+        $this->sourceId = $sourceId;
     }
+
 }
 
 ?>

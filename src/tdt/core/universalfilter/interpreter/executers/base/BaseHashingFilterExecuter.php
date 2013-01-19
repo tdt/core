@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Base class for filters that do hashing on records (like distinct or group by) to combine records that look ("hash") the same.
  * 

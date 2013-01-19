@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is a class which will return all the available resources along with the documentation of that resource in this DataTank
  *
@@ -14,29 +15,30 @@ namespace tdt\core\model\packages\TDTInfo;
 use tdt\core\model\resources\read\AReader;
 use tdt\core\model\ResourcesModel;
 
-class TDTInfoResources extends AReader{
+class TDTInfoResources extends AReader {
 
-    public static function getParameters(){
-	return array();
+    public static function getParameters() {
+        return array();
     }
 
-    public static function getRequiredParameters(){
-	return array();
+    public static function getRequiredParameters() {
+        return array();
     }
 
-    public function setParameter($key,$val){
+    public function setParameter($key, $val) {
         //we don't have any parameters
     }
 
-    public function read(){
-	$resmod = ResourcesModel::getInstance();
-	$o = $resmod->getAllDoc();
-	return $o;
+    public function read() {
+        $resmod = ResourcesModel::getInstance(Config::getConfigArray());
+        $o = $resmod->getAllDoc();
+        return $o;
     }
 
-    public static function getDoc(){
-	return "This resource contains the documentation of all resources.";
+    public static function getDoc() {
+        return "This resource contains the documentation of all resources.";
     }
+
 }
 
 ?>

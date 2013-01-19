@@ -16,8 +16,6 @@
  * @package rdql
  * @access public
  */
-
-
 Class RdqlParser extends Object{
 
 /**
@@ -27,13 +25,13 @@ Class RdqlParser extends Object{
  *
  * @var     array   ['selectVars'][] = ?VARNAME
  *                  ['sources'][]{['value']} = URI | QName
- *								 {['is_qname'] = boolean}
+ * 								 {['is_qname'] = boolean}
  *                  ['patterns'][]['subject']['value'] = VARorURI
- *											{['is_qname'] = boolean}
+ * 											{['is_qname'] = boolean}
  *                                ['predicate']['value'] = VARorURI
- *											  {['is_qname'] = boolean}
+ * 											  {['is_qname'] = boolean}
  *                                ['object']['value'] = VARorURIorLiterl
- *							     		   {['is_qname'] = boolean} 
+ * 							     		   {['is_qname'] = boolean} 
  *                                          ['is_literal'] = boolean
  *                                          ['l_lang'] = string
  *                                          ['l_dtype'] = string
@@ -54,7 +52,7 @@ Class RdqlParser extends Object{
  *                 {['ns'][PREFIX] = NAMESPACE}    
  * @access	private
  */
- var $parsedQuery;
+var $parsedQuery;
 
 
 /**
@@ -65,7 +63,7 @@ Class RdqlParser extends Object{
  * @var     array
  * @access	private
  */
- var $tokens;
+var $tokens;
 
 
 /**
@@ -75,19 +73,19 @@ Class RdqlParser extends Object{
  * @return  array   $this->parsedQuery
  * @access	public
  */
- function  parseQuery($queryString) {
+function parseQuery($queryString) {
 
-   $cleanQueryString = $this->removeComments($queryString);
-   $this->tokenize($cleanQueryString);
-   $this->startParsing();
-   if ($this->parsedQuery['selectVars'][0] == '*')
-      $this->parsedQuery['selectVars'] = $this->findAllQueryVariables();
-   else
-      $this->_checkSelectVars();
-   $this->replaceNamespacePrefixes();
+$cleanQueryString = $this->removeComments($queryString);
+$this->tokenize($cleanQueryString);
+$this->startParsing();
+if ($this->parsedQuery['selectVars'][0] == '*')
+$this->parsedQuery['selectVars'] = $this->findAllQueryVariables();
+else
+$this->_checkSelectVars();
+$this->replaceNamespacePrefixes();
 
-   return $this->parsedQuery;
- }
+return $this->parsedQuery;
+}
 
 
 /**
@@ -98,62 +96,64 @@ Class RdqlParser extends Object{
  *  @throws PHPError
  *  @access private
  */
- function removeComments($query) {
- 
-   $last = strlen($query)-1;
-   $query .= ' ';
-   $clean = '';
-   for ($i=0; $i<=$last; $i++) {
-     // don't search for comments inside a 'literal'@lang^^dtype or "literal"@lang^^dtype
-     if ($query{$i} == "'" || $query{$i} == '"') {
-        $quotMark = $query{$i};
-        do
-          $clean .= $query{$i++};
-        while($i < $last && $query{$i} != $quotMark);
-        $clean .= $query{$i};
-        // language
-        if ($query{$i+1} == '@') {
-           do{
-             if ($query{$i+1} == '^' && $query{$i+2} == '^')
-                break;
-             $clean .= $query{++$i};
-           }while ($i < $last && $query{$i} != ' '  && $query{$i} != "t"
-                              && $query{$i} != "n" && $query{$i} != "r");
-        }
-        // datatype
-        if ($query{$i+1} == '^' && $query{$i+2} == '^') {
-            do
-              $clean .= $query{++$i};
-            while ($i < $last && $query{$i} != ' '  && $query{$i} != "t"
-                             && $query{$i} != "n" && $query{$i} != "r" );
-        }
-     // don't search for comments inside an <URI> either
-     }elseif ($query{$i} == '<') {
-        do{
-           $clean .= $query{$i++};
-        }while($i < $last && $query{$i} != '>');
-        $clean .= $query{$i};
-     }elseif ($query{$i} == '/') {
-        // clear: // comment
-        if ($i < $last && $query{$i+1} == '/') {
-            while($i < $last && $query{$i} != "n" && $query{$i} != "r")
-              ++$i;
-            $clean .= ' ';
-        // clear: /*comment*/
-        }elseif ($i < $last-2 && $query{$i+1} == '*') {
-            $i += 2;
-            while($i < $last  && ($query{$i} != '*' || $query{$i+1} != '/'))
-              ++$i;
-            if ($i >= $last && ($query{$last-1} != '*' || $query{$last} != '/'))
-               trigger_error(RDQL_SYN_ERR .": unterminated comment - '*/' missing", E_USER_ERROR);
-            ++$i;
-        }else
-          $clean .= $query{$i};
-     }else
-        $clean .= $query{$i};
-   }
-   return $clean;
- }
+function removeComments($query) {
+
+$last = strlen($query)-1;
+$query .= ' ';
+$clean = '';
+for ($i = 0;
+$i<=$last;
+$i++) {
+// don't search for comments inside a 'literal'@lang^^dtype or "literal"@lang^^dtype
+if ($query{$i} == "'" || $query{$i} == '"') {
+$quotMark = $query{$i};
+do
+$clean .= $query{$i++};
+while($i < $last && $query{$i} != $quotMark);
+$clean .= $query{$i};
+// language
+if ($query{$i+1} == '@') {
+do{
+if ($query{$i+1} == '^' && $query{$i+2} == '^')
+break;
+$clean .= $query{++$i};
+}while ($i < $last && $query{$i} != ' ' && $query{$i} != "t"
+&& $query{$i} != "n" && $query{$i} != "r");
+}
+// datatype
+if ($query{$i+1} == '^' && $query{$i+2} == '^') {
+do
+$clean .= $query{++$i};
+while ($i < $last && $query{$i} != ' ' && $query{$i} != "t"
+&& $query{$i} != "n" && $query{$i} != "r" );
+}
+// don't search for comments inside an <URI> either
+}elseif ($query{$i} == '<') {
+do{
+$clean .= $query{$i++};
+}while($i < $last && $query{$i} != '>');
+$clean .= $query{$i};
+}elseif ($query{$i} == '/') {
+// clear: // comment
+if ($i < $last && $query{$i+1} == '/') {
+while($i < $last && $query{$i} != "n" && $query{$i} != "r")
+++$i;
+$clean .= ' ';
+// clear: /*comment*/
+}elseif ($i < $last-2 && $query{$i+1} == '*') {
+$i += 2;
+while($i < $last && ($query{$i} != '*' || $query{$i+1} != '/'))
+++$i;
+if ($i >= $last && ($query{$last-1} != '*' || $query{$last} != '/'))
+trigger_error(RDQL_SYN_ERR .": unterminated comment - '*/' missing", E_USER_ERROR);
+++$i;
+}else
+$clean .= $query{$i};
+}else
+$clean .= $query{$i};
+}
+return $clean;
+}
 
 
 /**
@@ -164,25 +164,27 @@ Class RdqlParser extends Object{
  * @param   string  $queryString
  * @access	private
  */
- function tokenize($queryString) {
+function tokenize($queryString) {
 
-   $queryString = trim($queryString, " t");
-   $specialChars = array (" ", "t", "r", "n", ",", "(", ")");
-   $len = strlen($queryString);
-   $this->tokens[0]='';
-   $n = 0;
+$queryString = trim($queryString, " t");
+$specialChars = array (" ", "t", "r", "n", ",", "(", ")");
+$len = strlen($queryString);
+$this->tokens[0] = '';
+$n = 0;
 
-   for ($i=0; $i<$len; ++$i) {
-       if (!in_array($queryString{$i}, $specialChars))
-          $this->tokens[$n] .= $queryString{$i};
-       else {
-          if ($this->tokens[$n] != '')
-             ++$n;
-          $this->tokens[$n] = $queryString{$i};
-          $this->tokens[++$n] = '';
-       }
-   }
- }
+for ($i = 0;
+$i<$len;
+++$i) {
+if (!in_array($queryString{$i}, $specialChars))
+$this->tokens[$n] .= $queryString{$i};
+else {
+if ($this->tokens[$n] != '')
+++$n;
+$this->tokens[$n] = $queryString{$i};
+$this->tokens[++$n] = '';
+}
+}
+}
 
 
 /**
@@ -190,10 +192,10 @@ Class RdqlParser extends Object{
  *
  * @access private
  */
- function startParsing() {
+function startParsing() {
 
-   $this->parseSelect();
- }
+$this->parseSelect();
+}
 
 
 /**
@@ -204,69 +206,69 @@ Class RdqlParser extends Object{
  * @throws	PhpError
  * @access	private
  */
-  function parseSelect() {
+function parseSelect() {
 
-   $this->_clearWhiteSpaces();
+$this->_clearWhiteSpaces();
 
-   // Check if the queryString contains a "SELECT" token
-   if (strcasecmp('SELECT', current($this->tokens)))
-      trigger_error(RDQL_SEL_ERR  ."'" .current($this->tokens)
-                                  ."' - SELECT keyword expected", E_USER_ERROR);
-   unset($this->tokens[key($this->tokens)]);
-   $this->_clearWhiteSpaces();
+// Check if the queryString contains a "SELECT" token
+if (strcasecmp('SELECT', current($this->tokens)))
+trigger_error(RDQL_SEL_ERR ."'" .current($this->tokens)
+."' - SELECT keyword expected", E_USER_ERROR);
+unset($this->tokens[key($this->tokens)]);
+$this->_clearWhiteSpaces();
 
-   // Parse SELECT *
-   if (current($this->tokens) == '*') {
-      unset($this->tokens[key($this->tokens)]);
-      $this->parsedQuery['selectVars'][0] = '*';
-      $this->_clearWhiteSpaces();
-      if (strcasecmp('FROM', current($this->tokens))
-          && strcasecmp('SOURCE', current($this->tokens))
-          && strcasecmp('WHERE', current($this->tokens)))
-        trigger_error(RDQL_SYN_ERR .": '" .htmlspecialchars(current($this->tokens))
-                               ."' - SOURCE or WHERE clause expected", E_USER_ERROR);
-   }
+// Parse SELECT *
+if (current($this->tokens) == '*') {
+unset($this->tokens[key($this->tokens)]);
+$this->parsedQuery['selectVars'][0] = '*';
+$this->_clearWhiteSpaces();
+if (strcasecmp('FROM', current($this->tokens))
+&& strcasecmp('SOURCE', current($this->tokens))
+&& strcasecmp('WHERE', current($this->tokens)))
+trigger_error(RDQL_SYN_ERR .": '" .htmlspecialchars(current($this->tokens))
+."' - SOURCE or WHERE clause expected", E_USER_ERROR);
+}
 
-   // Parse SELECT ?Var (, ?Var)*
-   $commaExpected = FALSE;
-   $comma = FALSE;
-   while (current($this->tokens) != NULL) {
-     $k = key($this->tokens);
-     $token = $this->tokens[$k];
+// Parse SELECT ?Var (, ?Var)*
+$commaExpected = FALSE;
+$comma = FALSE;
+while (current($this->tokens) != NULL) {
+$k = key($this->tokens);
+$token = $this->tokens[$k];
 
-     switch ($token) {
-        case ',': if (!$commaExpected)
-                     trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
-                  $comma = TRUE;
-                  $commaExpected = FALSE;
-                  break;
-        case '(':
-        case ')': trigger_error(RDQL_SEL_ERR ." '$token' - illegal input", E_USER_ERROR);
-                  break;
-        default :
-                  if (!strcasecmp('FROM', $token) || !strcasecmp('SOURCE', $token)) {
-                     if ($comma)
-                        trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
-                     unset($this->tokens[$k]);
-                     return $this->parseFrom();
-                  }elseif (!strcasecmp('WHERE', $token) && !$comma) {
-                     if ($comma)
-                        trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
-                     unset($this->tokens[$k]);
-                     return $this->parseWhere();
-                  }
-                  if ($token{0} == '?') {
-                     $this->parsedQuery['selectVars'][] = $this->_validateVar($token, RDQL_SEL_ERR);
-                     $commaExpected = TRUE;
-                     $comma = FALSE;
-                  }else
-                     trigger_error(RDQL_SEL_ERR ." '$token' - '?' missing", E_USER_ERROR);
-     }
-     unset($this->tokens[$k]);
-     $this->_clearWhiteSpaces();
-   }
-   trigger_error(RDQL_SYN_ERR . ': WHERE clause missing', E_USER_ERROR);
- }
+switch ($token) {
+case ',': if (!$commaExpected)
+trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
+$comma = TRUE;
+$commaExpected = FALSE;
+break;
+case '(':
+case ')': trigger_error(RDQL_SEL_ERR ." '$token' - illegal input", E_USER_ERROR);
+break;
+default :
+if (!strcasecmp('FROM', $token) ||!strcasecmp('SOURCE', $token)) {
+if ($comma)
+trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
+unset($this->tokens[$k]);
+return $this->parseFrom();
+}elseif (!strcasecmp('WHERE', $token) &&!$comma) {
+if ($comma)
+trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
+unset($this->tokens[$k]);
+return $this->parseWhere();
+}
+if ($token{0} == '?') {
+$this->parsedQuery['selectVars'][] = $this->_validateVar($token, RDQL_SEL_ERR);
+$commaExpected = TRUE;
+$comma = FALSE;
+}else
+trigger_error(RDQL_SEL_ERR ." '$token' - '?' missing", E_USER_ERROR);
+}
+unset($this->tokens[$k]);
+$this->_clearWhiteSpaces();
+}
+trigger_error(RDQL_SYN_ERR . ': WHERE clause missing', E_USER_ERROR);
+}
 
 
 /**
@@ -276,41 +278,41 @@ Class RdqlParser extends Object{
  * @throws	PhpError
  * @access	private
  */
- function parseFrom() {
+function parseFrom() {
 
-   $comma = FALSE;
-   $commaExpected = FALSE;
-   $i = -1;
-   while (current($this->tokens) != NULL) {
+$comma = FALSE;
+$commaExpected = FALSE;
+$i = -1;
+while (current($this->tokens) != NULL) {
 
-      $this->_clearWhiteSpaces();
-      if (!strcasecmp('WHERE', current($this->tokens)) && count($this->parsedQuery['sources']) != 0) {
-         if ($comma)
-            trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
-         unset($this->tokens[key($this->tokens)]);
-         return $this->parseWhere();
-      }
-      if (current($this->tokens) == ',') {
-         if ($commaExpected) {
-            $comma = TRUE;
-            $commaExpected = FALSE;
-            unset($this->tokens[key($this->tokens)]);
-         }else
-            trigger_error(RDQL_SRC_ERR ."',' - unecpected comma", E_USER_ERROR);
-      }else{
-        $token = current($this->tokens);
-        $this->parsedQuery['sources'][++$i]['value'] = $this->_validateURI($token, RDQL_SRC_ERR);
-        if ($token{0} != '<')
-        	$this->parsedQuery['sources'][$i]['is_qname'] = TRUE;
-        $commaExpected = TRUE;
-        $comma = FALSE;
-      }
-   }
-   trigger_error(RDQL_SYN_ERR .': WHERE clause missing', E_USER_ERROR);
- }
+$this->_clearWhiteSpaces();
+if (!strcasecmp('WHERE', current($this->tokens)) && count($this->parsedQuery['sources']) != 0) {
+if ($comma)
+trigger_error(RDQL_SEL_ERR ." ',' - unexpected comma", E_USER_ERROR);
+unset($this->tokens[key($this->tokens)]);
+return $this->parseWhere();
+}
+if (current($this->tokens) == ',') {
+if ($commaExpected) {
+$comma = TRUE;
+$commaExpected = FALSE;
+unset($this->tokens[key($this->tokens)]);
+}else
+trigger_error(RDQL_SRC_ERR ."',' - unecpected comma", E_USER_ERROR);
+}else{
+$token = current($this->tokens);
+$this->parsedQuery['sources'][++$i]['value'] = $this->_validateURI($token, RDQL_SRC_ERR);
+if ($token{0} != '<')
+$this->parsedQuery['sources'][$i]['is_qname'] = TRUE;
+$commaExpected = TRUE;
+$comma = FALSE;
+}
+}
+trigger_error(RDQL_SYN_ERR .': WHERE clause missing', E_USER_ERROR);
+}
 
 
-/**'
+/* * '
  * Parse the WHERE clause of an Rdql query.
  * When the parsing of the WHERE clause is finished, this method will call
  * a suitable method to parse the subsequent clause if provided.
@@ -318,59 +320,59 @@ Class RdqlParser extends Object{
  * @throws	PhpError
  * @access	private
  */
- function parseWhere() {
+function parseWhere() {
 
-   $comma = FALSE;
-   $commaExpected = FALSE;
-   $i=0;
+$comma = FALSE;
+$commaExpected = FALSE;
+$i = 0;
 
-   do {
-     $this->_clearWhiteSpaces();
-     if (!strcasecmp('AND', current($this->tokens))
-         && count($this->parsedQuery['patterns']) != 0){
-        if ($comma)
-            trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
-        unset($this->tokens[key($this->tokens)]);
-        return $this->parseAnd();
-     }elseif (!strcasecmp('USING', current($this->tokens))
-              && count($this->parsedQuery['patterns']) != 0) {
-        if ($comma)
-            trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
-        unset($this->tokens[key($this->tokens)]);
-        return $this->parseUsing();
-     }
+do {
+$this->_clearWhiteSpaces();
+if (!strcasecmp('AND', current($this->tokens))
+&& count($this->parsedQuery['patterns']) != 0){
+if ($comma)
+trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
+unset($this->tokens[key($this->tokens)]);
+return $this->parseAnd();
+}elseif (!strcasecmp('USING', current($this->tokens))
+&& count($this->parsedQuery['patterns']) != 0) {
+if ($comma)
+trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
+unset($this->tokens[key($this->tokens)]);
+return $this->parseUsing();
+}
 
-     if (current($this->tokens) == ',') {
-        $comma = TRUE;
-        $this->_checkComma($commaExpected, RDQL_WHR_ERR);
+if (current($this->tokens) == ',') {
+$comma = TRUE;
+$this->_checkComma($commaExpected, RDQL_WHR_ERR);
 
-     }else{
+}else{
 
-        if (current($this->tokens) != '(')
-           trigger_error(RDQL_WHR_ERR ."'" .current($this->tokens)
-                                      ."' - '(' expected", E_USER_ERROR);
-        unset($this->tokens[key($this->tokens)]);
-        $this->_clearWhiteSpaces();
+if (current($this->tokens) != '(')
+trigger_error(RDQL_WHR_ERR ."'" .current($this->tokens)
+."' - '(' expected", E_USER_ERROR);
+unset($this->tokens[key($this->tokens)]);
+$this->_clearWhiteSpaces();
 
-        $this->parsedQuery['patterns'][$i]['subject'] = $this->_validateVarUri(current($this->tokens));
-        $this->_checkComma(TRUE, RDQL_WHR_ERR);
-        $this->parsedQuery['patterns'][$i]['predicate'] = $this->_validateVarUri(current($this->tokens));
-        $this->_checkComma(TRUE, RDQL_WHR_ERR);
-        $this->parsedQuery['patterns'][$i++]['object'] = $this->_validateVarUriLiteral(current($this->tokens));
-        $this->_clearWhiteSpaces();
+$this->parsedQuery['patterns'][$i]['subject'] = $this->_validateVarUri(current($this->tokens));
+$this->_checkComma(TRUE, RDQL_WHR_ERR);
+$this->parsedQuery['patterns'][$i]['predicate'] = $this->_validateVarUri(current($this->tokens));
+$this->_checkComma(TRUE, RDQL_WHR_ERR);
+$this->parsedQuery['patterns'][$i++]['object'] = $this->_validateVarUriLiteral(current($this->tokens));
+$this->_clearWhiteSpaces();
 
-       if (current($this->tokens) != ')')
-          trigger_error(RDQL_WHR_ERR ."'" .current($this->tokens) ."' - ')' expected", E_USER_ERROR);
-       unset($this->tokens[key($this->tokens)]);
-       $this->_clearWhiteSpaces();
-       $commaExpected = TRUE;
-       $comma = FALSE;
-     }
-   }while(current($this->tokens) != NULL);
+if (current($this->tokens) != ')')
+trigger_error(RDQL_WHR_ERR ."'" .current($this->tokens) ."' - ')' expected", E_USER_ERROR);
+unset($this->tokens[key($this->tokens)]);
+$this->_clearWhiteSpaces();
+$commaExpected = TRUE;
+$comma = FALSE;
+}
+}while(current($this->tokens) != NULL);
 
-   if ($comma)
-      trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
- }
+if ($comma)
+trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
+}
 
 
 /**
@@ -380,68 +382,68 @@ Class RdqlParser extends Object{
  * @access	private
  * @todo clear comments
  */
- function parseAnd() {
+function parseAnd() {
 
-   $this->_clearWhiteSpaces();
-   $n = 0;
-   $filterStr = '';
+$this->_clearWhiteSpaces();
+$n = 0;
+$filterStr = '';
 
-   while(current($this->tokens) != NULL) {
-     $k = key($this->tokens);
-     $token = $this->tokens[$k];
+while(current($this->tokens) != NULL) {
+$k = key($this->tokens);
+$token = $this->tokens[$k];
 
-     if (!strcasecmp('USING', $token)) {
-        $this->parseFilter($n, $filterStr);
-        unset($this->tokens[$k]);
-        return $this->parseUsing();
-     }elseif ($token == ',') {
-        $this->parseFilter($n, $filterStr);
-        $filterStr = '';
-        $token = '';
-        ++$n;
-     }
-     $filterStr .= $token;
-     unset($this->tokens[$k]);
-   }
-   $this->parseFilter($n, $filterStr);
- }
- 
- 
+if (!strcasecmp('USING', $token)) {
+$this->parseFilter($n, $filterStr);
+unset($this->tokens[$k]);
+return $this->parseUsing();
+}elseif ($token == ',') {
+$this->parseFilter($n, $filterStr);
+$filterStr = '';
+$token = '';
+++$n;
+}
+$filterStr .= $token;
+unset($this->tokens[$k]);
+}
+$this->parseFilter($n, $filterStr);
+}
+
+
 /**
  * Parse the USING clause of an Rdql query
  *
  * @throws	PhpError
  * @access	private
  */
- function parseUsing() {
+function parseUsing() {
 
-  $commaExpected = FALSE;
-  $comma = FALSE;
+$commaExpected = FALSE;
+$comma = FALSE;
 
-  do {
-    $this->_clearWhiteSpaces();
-    if (current($this->tokens) == ',') {
-        $comma = TRUE;
-        $this->_checkComma($commaExpected, RDQL_USG_ERR);
-    }else{
-       $prefix = $this->_validatePrefix(current($this->tokens));
-       $this->_clearWhiteSpaces();
+do {
+$this->_clearWhiteSpaces();
+if (current($this->tokens) == ',') {
+$comma = TRUE;
+$this->_checkComma($commaExpected, RDQL_USG_ERR);
+}else{
+$prefix = $this->_validatePrefix(current($this->tokens));
+$this->_clearWhiteSpaces();
 
-       if (strcasecmp('FOR', current($this->tokens)))
-          trigger_error(RDQL_USG_ERR ." keyword: 'FOR' missing in the namespace declaration: '", E_USER_ERROR);
-       unset($this->tokens[key($this->tokens)]);
-       $this->_clearWhiteSpaces();
+if (strcasecmp('FOR', current($this->tokens)))
+trigger_error(RDQL_USG_ERR ." keyword: 'FOR' missing in the namespace declaration: '", E_USER_ERROR);
+unset($this->tokens[key($this->tokens)]);
+$this->_clearWhiteSpaces();
 
-       $this->parsedQuery['ns'][$prefix] = $this->_validateUri(current($this->tokens), RDQL_USG_ERR);
-       $this->_clearWhiteSpaces();
-       $commaExpected = TRUE;
-       $comma = FALSE;
-    }
-  }while(current($this->tokens) != NULL);
+$this->parsedQuery['ns'][$prefix] = $this->_validateUri(current($this->tokens), RDQL_USG_ERR);
+$this->_clearWhiteSpaces();
+$commaExpected = TRUE;
+$comma = FALSE;
+}
+}while(current($this->tokens) != NULL);
 
-  if ($comma)
-      trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
- }
+if ($comma)
+trigger_error(RDQL_WHR_ERR ." ',' - unexpected comma", E_USER_ERROR);
+}
 
 
 /**
@@ -453,21 +455,21 @@ Class RdqlParser extends Object{
  * @throws  PHPError
  * @access	private
  */
- function parseFilter($n, $filter) {
+function parseFilter($n, $filter) {
 
-   if ($filter == NULL)
-      trigger_error(RDQL_AND_ERR ." ',' - unexpected comma", E_USER_ERROR);
-   $paren = substr_count($filter, '(') - substr_count($filter, ')');
-   if ($paren != 0) {
-      if ($paren > 0)
-         $errorMsg = "'" .htmlspecialchars($filter) ."' - ')' missing ";
-      elseif ($paren < 0)
-         $errorMsg = "'" .htmlspecialchars($filter) ."' - too many ')' ";
-      trigger_error(RDQL_AND_ERR .$errorMsg, E_USER_ERROR);
-   }
+if ($filter == NULL)
+trigger_error(RDQL_AND_ERR ." ',' - unexpected comma", E_USER_ERROR);
+$paren = substr_count($filter, '(') - substr_count($filter, ')');
+if ($paren != 0) {
+if ($paren > 0)
+$errorMsg = "'" .htmlspecialchars($filter) ."' - ')' missing ";
+elseif ($paren < 0)
+$errorMsg = "'" .htmlspecialchars($filter) ."' - too many ')' ";
+trigger_error(RDQL_AND_ERR .$errorMsg, E_USER_ERROR);
+}
 
-   $this->parsedQuery['filters'][$n] = $this->parseExpressions($filter);
- }
+$this->parsedQuery['filters'][$n] = $this->parseExpressions($filter);
+}
 
 
 /**
@@ -495,31 +497,31 @@ Class RdqlParser extends Object{
  *                                 ['value_type'] = ('variable' | 'URI' | 'QName'| 'Literal')
  *                                 ['value_lang'] = string
  *                                 ['value_dtype'] = string
- *								   ['value_dtype_is_qname'] = boolean
+ * 								   ['value_dtype_is_qname'] = boolean
  *                  ['numExpr']['vars'][] = ?VARNAME
  * @access	private
  */
- function parseExpressions($filterStr) {
+function parseExpressions($filterStr) {
 
-   $parsedFilter['string'] = $filterStr;
-   $parsedFilter['regexEqExprs'] = array();
-   $parsedFilter['strEqExprs'] = array();
-   $parsedFilter['numExprVars'] = array();
+$parsedFilter['string'] = $filterStr;
+$parsedFilter['regexEqExprs'] = array();
+$parsedFilter['strEqExprs'] = array();
+$parsedFilter['numExprVars'] = array();
 
-   // parse regex string equality expressions, e.g. ?x ~~ !//foo.com/r!i
-   $reg_ex  = "/(?[a-zA-Z0-9_]+)s+([~!=]~)s+(['|"])?(s'"]+)(['|"])?/";
-   preg_match_all($reg_ex, $filterStr, $eqExprs);
-   foreach ($eqExprs[0] as $i => $eqExpr) {
-     $this->_checkRegExQuotation($filterStr, $eqExprs[3][$i], $eqExprs[5][$i]);
-     $parsedFilter['regexEqExprs'][$i]['var'] = $this->_isDefined($eqExprs[1][$i]);
-     $parsedFilter['regexEqExprs'][$i]['operator'] = $eqExprs[2][$i];
-     $parsedFilter['regexEqExprs'][$i]['regex'] = $eqExprs[4][$i];
+// parse regex string equality expressions, e.g. ?x ~~ !//foo.com/r!i
+$reg_ex = "/(?[a-zA-Z0-9_]+)s+([~!=]~)s+(['|"])?(s'"]+)(['|"])?/";
+preg_match_all($reg_ex, $filterStr, $eqExprs);
+foreach ($eqExprs[0] as $i => $eqExpr) {
+$this->_checkRegExQuotation($filterStr, $eqExprs[3][$i], $eqExprs[5][$i]);
+$parsedFilter['regexEqExprs'][$i]['var'] = $this->_isDefined($eqExprs[1][$i]);
+$parsedFilter['regexEqExprs'][$i]['operator'] = $eqExprs[2][$i];
+$parsedFilter['regexEqExprs'][$i]['regex'] = $eqExprs[4][$i];
 
-     $filterStr = str_replace($eqExpr, " ##RegEx_$i## ", $filterStr);
-   }
+$filterStr = str_replace($eqExpr, " ##RegEx_$i## ", $filterStr);
+}
 
-   // parse ?var  [eq | ne] "literal"@lang^^dtype
-   $reg_ex  = "/(?[a-zA-Z0-9_]+)s+(eq|ne)s+('']*'|""]*")";
+// parse ?var  [eq | ne] "literal"@lang^^dtype
+$reg_ex = "/(?[a-zA-Z0-9_]+)s+(eq|ne)s+('']*'|""]*")";
    $reg_ex .= "(@[a-zA-Z]+)?(^{2}S+:?S+)?/i";
    preg_match_all($reg_ex, $filterStr, $eqExprs);
    foreach ($eqExprs[0] as $i => $eqExpr) {
@@ -723,7 +725,7 @@ Class RdqlParser extends Object{
 
 
 /**
- * Check if the query string of the given clause contains an undesired ','.
+ * Check if the query string of the given clause contains an undesired ', '.
  * If a comma was correctly placed then remove it and clear all whitespaces.
  *
  * @param   string  $commaExpected
@@ -734,9 +736,9 @@ Class RdqlParser extends Object{
  function _checkComma($commaExpected, $clause_error) {
 
    $this->_clearWhiteSpaces();
-   if (current($this->tokens) == ',') {
+   if (current($this->tokens) == ', ') {
       if (!$commaExpected)
-         trigger_error($clause_error ."',' - unexpected comma", E_USER_ERROR);
+         trigger_error($clause_error ."', ' - unexpected comma", E_USER_ERROR);
       else {
          unset($this->tokens[key($this->tokens)]);
          $this->_checkComma(FALSE, $clause_error);
@@ -844,17 +846,17 @@ Class RdqlParser extends Object{
    }else{
       $token_res = $token;
       while($token{strlen($token)-1} != '>' && $token != NULL) {
-        if ($token == '(' || $token == ')' || $token == ',' ||
+        if ($token == '(' || $token == ')' || $token == ', ' ||
             $token == ' ' || $token == "n" || $token == "r") {
            trigger_error($clause_error .''' .htmlspecialchars($token_res)
-                          ."' - illegal input: '$token' - '>' missing", E_USER_ERROR);
-        }
-        unset($this->tokens[key($this->tokens)]);
-        $token = current($this->tokens);
-        $token_res .= $token;
-      }
-      if ($token == NULL)
-         trigger_error($clause_error .''' .htmlspecialchars($token_res) ."' - '>' missing", E_USER_ERROR);
+."' - illegal input: '$token' - '>' missing", E_USER_ERROR);
+}
+unset($this->tokens[key($this->tokens)]);
+$token = current($this->tokens);
+$token_res .= $token;
+}
+if ($token == NULL)
+trigger_error($clause_error .''' .htmlspecialchars($token_res) ."' - '>' missing", E_USER_ERROR);
       unset($this->tokens[key($this->tokens)]);
       return trim($token_res, '<>');
    }

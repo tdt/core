@@ -11,8 +11,8 @@
 
 namespace tdt\core\strategies;
 
-use tdt\framework\Log;
-use tdt\framework\TDTException;
+use Monolog\Logger;
+use tdt\exceptions\TDTException;
 
 class CSV extends ATabularData {
 
@@ -86,7 +86,10 @@ class CSV extends ATabularData {
         if (isset($configObject->uri)) {
             $filename = $configObject->uri;
         } else {
-            throw new TDTException(452, array("Can't find URI of the CSV"));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Can't find URI of the CSV"), $exception_config);
         }
 
         $columns = $configObject->columns;
@@ -111,7 +114,10 @@ class CSV extends ATabularData {
             }
             fclose($handle);
         } else {
-            throw new TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."), $exception_config);
         }
 
         // get rid for the comment lines according to the given start_row
@@ -141,7 +147,10 @@ class CSV extends ATabularData {
 
             // check if the delimiter exists in the csv file ( comes down to checking if the amount of fields in $data > 1 )
             if (count($data) <= 1 && $row == "") {
-                throw new TDTException(452, array("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter."));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("The delimiter ( " . $delimiter . " ) wasn't present in the file, re-add the resource with the proper delimiter."), $exception_config);
             }
 
             /**
@@ -160,7 +169,10 @@ class CSV extends ATabularData {
                     $line+= $start_row;
                     $amountOfElements = count($data);
                     $amountOfColumns = count($columns);
-                    throw new TDTException(452, array("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (" . $delimiter . ") has been passed, or a corrupt datafile has been used. Line number of the error: $line. amount of columns - elements : $amountOfColumns - $amountOfElements."));
+                    $exception_config = array();
+                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                    throw new TDTException(452, array("The amount of data columns is larger than the amount of header columns from the csv, this could be because an incorrect delimiter (" . $delimiter . ") has been passed, or a corrupt datafile has been used. Line number of the error: $line. amount of columns - elements : $amountOfColumns - $amountOfElements."), $exception_config);
                 }
             }
 
@@ -186,10 +198,13 @@ class CSV extends ATabularData {
                      * It could be that the CSV file has been changed column name wise.
                      * We're not going to throw an error for this, because it can still provide a representation of the actual CSV file's data
                      * but we're going to log it nonetheless.
-                     */                    
+                     */
                     foreach (array_keys($fieldhash) as $key) {
-                        if (!in_array($key, $columns))
-                            Log::getInstance()->logAlert(" $package/$resource : The column name $key that has been found in the CSV file isn't present in the saved columns of the CSV resource definition.");
+                        if (!in_array($key, $columns)) {
+                            $log = new Logger('CSV');
+                            $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
+                            $log->addAlert("$package/$resource : The column name $key that has been found in the CSV file isn't present in the saved columns of the CSV resource definition.");
+                        }
                     }
                 }
             } else {
@@ -217,10 +232,14 @@ class CSV extends ATabularData {
                         $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                     } elseif (isset($arrayOfRowObjects[$rowobject->$PK])) {
                         // this means the primary key wasn't unique !
-                        Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key " . $rowobject->$PK . " isn't unique on line " . $line . ".", "NOTICE");
+                        $log = new Logger('CSV');
+                        $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
+                        $log->addAlert("$package/$resource : The column name $key that has been found in the CSV file isn't present in the saved columns of the CSV resource definition.");
                     } else {
                         // this means the primary key was empty, log the problem and continue
-                        Log::getInstance()->log("In the csv file of the $package/$resource resource the primary key is empty on line " . $line . ".", "NOTICE");
+                        $log = new Logger('CSV');
+                        $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
+                        $log->addAlert("$package/$resource : The column name $key that has been found in the CSV file isn't present in the saved columns of the CSV resource definition.");
                     }
                 }
             }
@@ -306,7 +325,10 @@ class CSV extends ATabularData {
                     $index++;
 
                     if (count($line) <= 1) {
-                        throw new TDTException(452, array("The delimiter ( " . $this->delimiter . " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter. On line $index."));
+                        $exception_config = array();
+                        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                        throw new TDTException(452, array("The delimiter ( " . $this->delimiter . " ) wasn't found in the first line of the file, perhaps the file isn't a CSV file or you passed along a wrong delimiter. On line $index."), $exception_config);
                     }
 
                     if (empty($this->columns)) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
  * 
@@ -12,6 +13,7 @@
 namespace tdt\core\utility;
 
 use tdt\cache\Cache;
+
 class Request {
 
     private static $HTTP_REQUEST_TIMEOUT = 10; // set the standard timeout to 10
@@ -24,20 +26,30 @@ class Request {
      * @param array $options Additional arguments to pass along the httprequest.
      * @return mixed Returns errorcode or result of the httprequest.
      */
+
     public static function http($url, array $options = array()) {
         // Parse the URL and make sure we can handle the schema.
         $uri = @parse_url($url);
 
         if ($uri == FALSE) {
-            throw new TDTException(500,array($url));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array($url), $exception_config);
         }
         //maybe our result is the cache. If so, return the cache value
-        $cache = Cache::getInstance();
+        $cache_config = array();
+
+        $cache_config["system"] = Config::get("general", "cache", "system");
+        $cache_config["host"] = Config::get("general", "cache", "host");
+        $cache_config["port"] = Config::get("general", "cache", "port");
+
+        $cache = Cache::getInstance($cache_config);
         //Generate a cachekey for the url and the post data
         $cachekey = "";
-        if(isset($options["data"])){
+        if (isset($options["data"])) {
             $cachekey = md5(urlencode($url) . md5($options["data"]));
-        }else{
+        } else {
             $cachekey = md5(urlencode($url));
         }
         //DEBUG echo $url . " " . $cachekey . "<br/>\n";
@@ -50,7 +62,10 @@ class Request {
         $result = new \StdClass();
 
         if (!isset($uri['scheme'])) {
-            throw new TDTException(500, array("Forgot to add http(s)? " . $url));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Forgot to add http(s)? " . $url), $exception_config);
         }
 
         self::timer_start(__FUNCTION__);
@@ -98,7 +113,10 @@ class Request {
 
         // Make sure the socket opened properly.
         if (!$fp) {
-            throw new TDTException(500,array($url));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array($url), $exception_config);
         }
 
         // Construct the path to act on.
@@ -283,7 +301,7 @@ class Request {
         if (isset($options["cache-time"])) { //are we sure we're going to call the option cache-time?
             $cachingtime = $options["cache-time"];
         }
-        
+
         $cache->set($cachekey, $result, $cachingtime);
 
         return $result;
@@ -332,4 +350,5 @@ class Request {
         }
         return $timers[$name]['time'];
     }
+
 }

@@ -32,7 +32,7 @@ use tdt\core\universalfilter\TernaryFunction;
 use tdt\core\universalfilter\UnaryFunction;
 use tdt\core\universalfilter\UniversalFilterNode;
 
-class SQLConverter {   
+class SQLConverter {
 
     private $sql = "";
     // the SELECT identifiers of the querynode
@@ -45,11 +45,12 @@ class SQLConverter {
     private $selectclause = array();
     private $whereclause = array();
     private $limitclause = array();
-    
+
     /*
      * Returns an array with [0] => offset and [1] => limit (amount of records)
      */
-    public function getLimit(){
+
+    public function getLimit() {
         return $this->limitclause;
     }
 
@@ -60,6 +61,7 @@ class SQLConverter {
     /*
      * array of column AS alias entries
      */
+
     public function getSelectClause() {
         return $this->selectclause;
     }
@@ -67,6 +69,7 @@ class SQLConverter {
     /*
      * array of identifier names
      */
+
     public function getGroupByClause() {
         return $this->groupbyclause;
     }
@@ -75,6 +78,7 @@ class SQLConverter {
      * this is an array with just one string! i.e. a>b AND z<e
      * in future development we might use a new return structure.
      */
+
     public function getWhereClause() {
         return $this->whereclause;
     }
@@ -108,13 +112,13 @@ class SQLConverter {
             
         }
     }
-    
-    private function print_LimitFilter(LimitFilter $filter){                
+
+    private function print_LimitFilter(LimitFilter $filter) {
         $this->limitclause[0] = $filter->offset;
         $this->limitclause[1] = $filter->limit;
-         $this->treeToSQL($filter->getSource());
+        $this->treeToSQL($filter->getSource());
     }
-    
+
     private function print_Identifier(Identifier $filter) {
 
         if ($this->IN_SELECT_CLAUSE) {
@@ -128,7 +132,7 @@ class SQLConverter {
         return $this->identifiers;
     }
 
-    private function print_Constant(Constant $filter) {      
+    private function print_Constant(Constant $filter) {
         return $filter->getConstant();
     }
 
@@ -149,7 +153,7 @@ class SQLConverter {
     }
 
     private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter) {
-               
+
         $this->IN_SELECT_CLAUSE = FALSE;
         array_push($this->whereclause, $this->treeToSQL($filter->getExpression()));
     }
@@ -194,7 +198,7 @@ class SQLConverter {
         $this->treeToSQL($filter->getSource());
     }
 
-    private function print_UnaryFunction(UnaryFunction $filter) {       
+    private function print_UnaryFunction(UnaryFunction $filter) {
 
         switch ($filter->getType()) {
             case UnaryFunction::$FUNCTION_UNARY_UPPERCASE:
@@ -321,72 +325,72 @@ class SQLConverter {
         // not supported yet
     }
 
-    
     /*
      * expects for treeToSQLClauses to be called first.
      */
-    public function getPresentClauses(){
+
+    public function getPresentClauses() {
         $clauses = array();
-        
-          if($this->whereclause){
-            array_push($clauses,"where");
+
+        if ($this->whereclause) {
+            array_push($clauses, "where");
         }
-        
-        if($this->groupbyclause){
-            array_push($clauses,"groupby");
+
+        if ($this->groupbyclause) {
+            array_push($clauses, "groupby");
         }
-        
-        if($this->selectclause){
-            array_push($clauses,"select");
+
+        if ($this->selectclause) {
+            array_push($clauses, "select");
         }
-        
-        if($this->orderbyclause){
-            array_push($clauses,"orderby");
-        }   
-        
-         if($this->limitclause){
-            array_push($clauses,"limit");
-        }   
-        
+
+        if ($this->orderbyclause) {
+            array_push($clauses, "orderby");
+        }
+
+        if ($this->limitclause) {
+            array_push($clauses, "limit");
+        }
+
         return $clauses;
     }
-    
+
     /*
      * Returns the clause(s) for a given clause name. array(["clause"] => ... )
      * The possible clauses are where - groupby - select - order by
      * If a select clause is asked for , then the groupby and where clause, if applicable 
      * will be returned also.
      */
-    public function getClause($clause){        
-        
+
+    public function getClause($clause) {
+
         $clauses = array();
-        
-        foreach($this->getPresentClauses() as $clause_name){
-            switch($clause_name){
+
+        foreach ($this->getPresentClauses() as $clause_name) {
+            switch ($clause_name) {
                 case "where":
-                       array_push($clauses,$this->whereclause);
+                    array_push($clauses, $this->whereclause);
                     break;
                 case "groupby":
-                    array_push($clauses,$this->groupbyclause);
+                    array_push($clauses, $this->groupbyclause);
                     break;
                 case "select":
-                    array_push($clauses,$this->selectclause);
+                    array_push($clauses, $this->selectclause);
                     break;
                 case "orderby":
-                    array_push($clauses,$this->orderbyclause);
+                    array_push($clauses, $this->orderbyclause);
                     break;
-                 case "limit":
-                    array_push($clauses,$this->orderbyclause);
+                case "limit":
+                    array_push($clauses, $this->orderbyclause);
                     break;
             }
-            
-            if($clause == $clause_name)
+
+            if ($clause == $clause_name)
                 break;
-            
         }
         return $clauses;
-        
     }
+
 }
 
 ?>

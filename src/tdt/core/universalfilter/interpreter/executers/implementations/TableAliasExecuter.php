@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the abstact top class for all aggregators
  * 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Executes the ColumnSelectionFilter filter
  * 
@@ -122,10 +123,10 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         $newRows = new UniversalFilterTableContent();
         if (!$this->returnsSingleRow) {
             for ($index = 0; $index < $sourcecontent->getRowCount(); $index++) {
-                $newRows->addRow(new  UniversalFilterTableContentRow());
+                $newRows->addRow(new UniversalFilterTableContentRow());
             }
         } else {
-            $newRows->addRow(new  UniversalFilterTableContentRow());
+            $newRows->addRow(new UniversalFilterTableContentRow());
         }
 
 //loop all columnInterpreters
@@ -195,7 +196,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         }
     }
 
-    public function filterSingleSourceUsages( UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         foreach ($this->columnInterpreters as $columnIndex => $column) {

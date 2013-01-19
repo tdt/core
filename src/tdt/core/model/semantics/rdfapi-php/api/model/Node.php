@@ -1,4 +1,5 @@
 <?php
+
 require_once RDFAPI_INCLUDE_DIR . '/util/Object.php';
 
 // ----------------------------------------------------------------------------------
@@ -18,8 +19,9 @@ require_once RDFAPI_INCLUDE_DIR . '/util/Object.php';
  * @abstract
  *
  */
- class Node extends Object {
- } // end:RDFNode
+class Node extends Object {
+    
+}
 
-
+// end:RDFNode
 ?>

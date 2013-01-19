@@ -180,12 +180,12 @@ class InfModelF extends InfModel {
                     if ($infRule->checkTrigger($statement)) {
                         $infStatement = $infRule->entail($statement);
                         #if(!$this->contains($infStatement)) {
-                            $return[] = $infStatement;
-                            $return = array_merge($return, $this->_entailStatementRec($infStatement, $infStatementsIndex));
-                        };
+                        $return[] = $infStatement;
+                        $return = array_merge($return, $this->_entailStatementRec($infStatement, $infStatementsIndex));
                     };
                 };
             };
+        };
         return $return;
     }
 
@@ -297,7 +297,7 @@ class InfModelF extends InfModel {
                 $statementPositions = $this->_removeFromInference($statement);
                 $inferenceRulesWereTouched = true;
             } else {
-            //get the position of all matching statements
+                //get the position of all matching statements
                 $statementPositions = array();
                 //find the positions of the statements
                 $statementPosition = -1;

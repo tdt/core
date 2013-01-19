@@ -59,7 +59,7 @@ class DbModel extends Model {
      * @param   string   $baseURI
      * @access	public
      */
-    public function DbModel($dbConnection, $modelURI, $modelID, $baseURI=NULL) {
+    public function DbModel($dbConnection, $modelURI, $modelID, $baseURI = NULL) {
 
         $this->dbConn = $dbConnection;
         $this->modelURI = $modelURI;
@@ -304,7 +304,7 @@ class DbModel extends Model {
      * @throws   PhpError
      * @return	boolean
      */
-    public function saveAs($filename, $type ='rdf') {
+    public function saveAs($filename, $type = 'rdf') {
 
         $memModel = $this->getMemModel();
         $memModel->saveAs($filename, $type);
@@ -1178,7 +1178,7 @@ class DbModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-    public function iterFind($sub=null, $pred=null, $obj=null) {
+    public function iterFind($sub = null, $pred = null, $obj = null) {
         // Import Package Utility
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_UTILITY);
 

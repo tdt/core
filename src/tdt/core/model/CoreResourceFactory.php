@@ -13,8 +13,8 @@ namespace tdt\core\model;
 
 class CoreResourceFactory extends AResourceFactory {
 
-
-    public function __construct(){
+    public function __construct() {
+        
     }
 
     protected function getAllResourceNames() {
@@ -28,7 +28,7 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     public function createReader($package, $resource, $parameters, $RESTparameters) {
-        $classname = "tdt\\core\\model\\packages\\".$package ."\\". $package. $resource;
+        $classname = "tdt\\core\\model\\packages\\" . $package . "\\" . $package . $resource;
         $creator = new $classname($package, $resource, $RESTparameters);
         $creator->processParameters($parameters);
         return $creator;
@@ -45,7 +45,7 @@ class CoreResourceFactory extends AResourceFactory {
                 $doc->$package = new \stdClass();
             }
             foreach ($resourcenames as $resourcename) {
-                $classname = "tdt\\core\\model\\packages\\".$package ."\\". $package. $resourcename;
+                $classname = "tdt\\core\\model\\packages\\" . $package . "\\" . $package . $resourcename;
                 $doc->$package->$resourcename = new \stdClass();
                 $doc->$package->$resourcename->documentation = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
@@ -91,14 +91,15 @@ class CoreResourceFactory extends AResourceFactory {
         // we cannot update Core Resources
     }
 
-    public function getAllPackagesDoc(){
+    public function getAllPackagesDoc() {
         //ask every resource we have for documentation
         $packages = array();
-        foreach($this->getAllResourceNames() as $package => $resourcenames){
-            array_push($packages,$package);
+        foreach ($this->getAllResourceNames() as $package => $resourcenames) {
+            array_push($packages, $package);
         }
         return $packages;
     }
+
 }
 
 ?>

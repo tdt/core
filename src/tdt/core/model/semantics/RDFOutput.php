@@ -77,7 +77,7 @@ class RDFOutput {
     private function is_assoc($arr) {
         if (!is_array($arr))
             return false;
-        if (count($arr)==0)
+        if (count($arr) == 0)
             return false;
 
         return array_keys($arr) !== range(0, count($arr) - 1);
@@ -94,7 +94,7 @@ class RDFOutput {
      * @param ResProperty $property The parent property for the current object
      * @access private
      */
-    private function analyzeVariable($var, $uri='', $path='', $resource = null, $property=null) {
+    private function analyzeVariable($var, $uri = '', $path = '', $resource = null, $property = null) {
         //Check if the object is an array, object or primitive variable
         if (is_array($var) && !$this->is_assoc($var)) {
 

@@ -11,7 +11,6 @@
  * @author Jan Vansteenlandt
  */
 
-
 namespace tdt\core\model\resources\read;
 
 interface iFilter {

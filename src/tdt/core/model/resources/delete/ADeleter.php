@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Abstract class to delete a resource
  *
@@ -10,23 +11,22 @@
 
 namespace tdt\core\model\resources\delete;
 
-abstract class ADeleter{
-    
+abstract class ADeleter {
+
     protected $package;
     protected $resource;
     protected $RESTparameters;
-    
-    public function __construct($package,$resource, $RESTparameters){
+
+    public function __construct($package, $resource, $RESTparameters) {
         $this->package = $package;
         $this->resource = $resource;
         $this->RESTparameters = $RESTparameters;
     }
-    
 
     /**
      * This method deletes a resource.
      */
     abstract public function delete();
-    
 }
+
 ?>

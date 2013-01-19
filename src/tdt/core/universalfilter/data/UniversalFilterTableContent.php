@@ -12,7 +12,8 @@
 namespace tdt\core\universalfilter\data;
 
 use tdt\core\universalfilter\common\BigList;
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
+use tdt\core\utility\Config;
 
 class UniversalFilterTableContent {
 
@@ -61,8 +62,11 @@ class UniversalFilterTableContent {
             return $this->rows->getIndex($index);
         } else {
             // This can happen when limit(10) asks for 10 rows, but the table only contains 5            
-           // no worries, the exception is caught !
-            throw new TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"));
+            // no worries, the exception is caught !
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"), $exception_config);
         }//should not happen
     }
 
@@ -75,7 +79,10 @@ class UniversalFilterTableContent {
         if ($index < $this->size) {
             $this->rows->setIndex($index, $row);
         } else {
-            throw new TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("UniversalFilterTableContent: getRow: Index out of bounds"), $exception_config);
         }//should not happen
     }
 

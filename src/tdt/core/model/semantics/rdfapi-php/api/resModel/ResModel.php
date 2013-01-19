@@ -157,7 +157,7 @@ class ResModel {
     public function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
 
         $statement = $this->model->findFirstMatchingStatement($this->_resNode2Node($subject), $this->_resNode2Node($predicate), $this->_resNode2Node($object), $offset);
-        
+
         if ($statement !== null) {
             return new Statement($this->_node2ResNode($statement->getSubject()),
                             $this->_node2ResNode($statement->getPredicate(), true),
@@ -586,7 +586,7 @@ class ResModel {
      * @param   boolean $stream
      * @access	public
      */
-    public function load($filename, $type = NULL, $stream=false) {
+    public function load($filename, $type = NULL, $stream = false) {
         $this->model->load($filename, $type, $stream);
     }
 
@@ -613,7 +613,7 @@ class ResModel {
      * @throws   PhpError
      * @return	boolean
      */
-    public function saveAs($filename, $type ='rdf') {
+    public function saveAs($filename, $type = 'rdf') {
         return $this->model->saveAs($filename, $type = 'rdf');
     }
 

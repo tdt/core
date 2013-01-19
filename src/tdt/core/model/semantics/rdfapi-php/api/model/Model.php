@@ -69,7 +69,7 @@ class Model extends Object {
     public function getBaseURI() {
         return $this->baseURI;
     }
-    
+
     /**
      * Set a base URI for the Model.
      * Affects creating of new resources and serialization syntax.
@@ -86,7 +86,7 @@ class Model extends Object {
         }
         $this->baseURI = $uri;
     }
-    
+
     /**
      * Load a model from a file containing RDF, N3, N-Triples or a xhtml document containing RDF.
      * This function recognizes the suffix of the filename (.n3 or .rdf) and
@@ -98,7 +98,7 @@ class Model extends Object {
      * @param   boolean $stream
      * @access	public
      */
-    public function load($filename, $type = NULL, $stream=false) {
+    public function load($filename, $type = NULL, $stream = false) {
         if ((isset($type)) && ($type == 'n3') OR ($type == 'nt')) {
             // Import Package Syntax
             include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_N3);

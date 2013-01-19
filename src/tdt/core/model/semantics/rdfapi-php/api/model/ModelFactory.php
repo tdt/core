@@ -111,7 +111,7 @@ class ModelFactory {
      * @return	object	DbStore
      * @access	public
      */
-    public static function getDbStore($dbDriver=ADODB_DB_DRIVER, $host=ADODB_DB_HOST, $dbName=ADODB_DB_NAME, $user=ADODB_DB_USER, $password=ADODB_DB_PASSWORD) {
+    public static function getDbStore($dbDriver = ADODB_DB_DRIVER, $host = ADODB_DB_HOST, $dbName = ADODB_DB_NAME, $user = ADODB_DB_USER, $password = ADODB_DB_PASSWORD) {
         $dbs = new DbStore($dbDriver, $host, $dbName, $user, $password);
         return $dbs;
     }

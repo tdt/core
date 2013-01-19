@@ -396,7 +396,7 @@ class N3Serializer extends Object {
 
                 //try to be intelligent
                 $quoteSingle = strpos($l, ''') !== false;
-                $quoteDouble = strpos($l, '"') !== false;
+                $quoteDouble = strpos($l, ' "') !== false;
                 if ($quoteSingle && !$quoteDouble) {
                     $quoteChar = $long ? '"""' : '"';
                 } else if ($quoteDouble && !$quoteSingle) {
@@ -501,8 +501,15 @@ class N3Serializer extends Object {
      * @return void
      * */
     private function fixAnon($t, $a) {
-        $t = preg_replace("/( ] $|[ )/", '', $t);
-        return $a . $t;
+        $t = preg_replace("/(] $|[)/", '', $t);
+        return $a . $t
+                        
+
+                 
+
+                 
+
+                 ;
     }
 
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The TableManager is an abstraction that sees any data a collection of tables
  * 
@@ -10,12 +11,13 @@
  * @author Jeroen Penninck
  */
 
-namespace tdt\core\universalfilter\tablemanager\implementation;
+namespace tdt\core\universalfilter\tablemanager;
 
 use tdt\core\universalfilter\data\UniversalFilterTableHeader;
 use tdt\core\universalfilter\UniversalFilterNode;
 
 interface IUniversalFilterTableManager {
+
     /**
      * The UniversalInterpreter found a identifier for a table. 
      * Can you give me the header of the table?
@@ -24,7 +26,7 @@ interface IUniversalFilterTableManager {
      * @return UniversalFilterTableHeader 
      */
     public function getTableHeader($globalTableIdentifier);
-    
+
     /**
      * The UniversalInterpreter found a identifier for a table. 
      * Can you give me the content of the table?
@@ -34,8 +36,7 @@ interface IUniversalFilterTableManager {
      * @return UniversalTableContent 
      */
     public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header);
-    
-    
+
     /**
      * This method makes it possible to run a filter directly on the source.
      * 
@@ -59,7 +60,7 @@ interface IUniversalFilterTableManager {
      * @return UniversalFilterNode 
      */
     function runFilterOnSource(UniversalFilterNode $query, $sourceId);
-    
+
     /**
      * This method is used in combination with runFilterOnSource. 
      *   (read that documentation first)
@@ -73,7 +74,6 @@ interface IUniversalFilterTableManager {
      * @return string  A string representing a source.
      */
     public function getSourceIdFromIdentifier($globalTableIdentifier);
-    
 }
 
 ?>

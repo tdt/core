@@ -1,4 +1,5 @@
 <?php
+
 // ----------------------------------------------------------------------------------
 // dataset Package
 // ----------------------------------------------------------------------------------
@@ -8,7 +9,6 @@
 // Author: Daniel Westphal	<http://www.d-westphal.de>
 //
 // ----------------------------------------------------------------------------------
-
 // Include ResModel classes
 require_once( RDFAPI_INCLUDE_DIR . 'dataset/Dataset.php');
 require_once( RDFAPI_INCLUDE_DIR . 'dataset/DatasetMem.php');

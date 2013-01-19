@@ -8,7 +8,6 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-
 use gabordemooij\redbean\RedBean_Facade;
 use RedBean_Facade as R;
 
@@ -366,7 +365,7 @@ class RbModel extends DbModel {
             return $recordSet->fields[0];
     }
 
-    public function findFirstMatchingStatement($subject, $predicate, $object, $offset=-1) {
+    public function findFirstMatchingStatement($subject, $predicate, $object, $offset = -1) {
         if ((!is_a($subject, 'Resource') && $subject != NULL) ||
                 (!is_a($predicate, 'Resource') && $predicate != NULL) ||
                 (!is_a($object, 'Node') && $object != NULL)) {
