@@ -14,6 +14,7 @@ namespace tdt\core\model\packages\TDTInfo;
 
 use tdt\core\model\resources\read\AReader;
 use tdt\core\model\ResourcesModel;
+use tdt\core\utility\Config;
 
 class TDTInfoAdmin extends AReader {
 
