@@ -101,7 +101,7 @@ class StatementIterator extends Object {
             };
         };
 
-        
+
         if ($return = next($this->model->triples)) {
             $this->position = key($this->model->triples);
             return $return;

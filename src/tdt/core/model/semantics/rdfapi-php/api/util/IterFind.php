@@ -93,7 +93,7 @@ class IterFind {
      * @param $returnAsQuads boolean
      * @access	public
      */
-    public function IterFind($graph, $subject, $predicate, $object, $returnAsQuads=false) {
+    public function IterFind($graph, $subject, $predicate, $object, $returnAsQuads = false) {
         if ($graph == NULL) {
             $this->valid = false;
             return;

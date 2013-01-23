@@ -1,33 +1,35 @@
 <?php
+
 // ---------------------------------------------
 // class: SparqlParserExecption
 // ---------------------------------------------
 /**
-* A SPARQL Parser Execption for better errorhandling.
-*
-* @author   Tobias Gauss <tobias.gauss@web.de>
-* @version	 $Id$
-* @license http://www.gnu.org/licenses/lgpl.html LGPL
-*
-* @package sparql
-*/
-class SparqlParserException extends Exception{
- 
-	private $tokenPointer;
+ * A SPARQL Parser Execption for better errorhandling.
+ *
+ * @author   Tobias Gauss <tobias.gauss@web.de>
+ * @version	 $Id$
+ * @license http://www.gnu.org/licenses/lgpl.html LGPL
+ *
+ * @package sparql
+ */
+class SparqlParserException extends Exception {
 
-	public function __construct($message, $code = 0, $pointer){
+    private $tokenPointer;
 
-		$this->tokenPointer = $pointer;
-		parent::__construct($message, $code);
-	}
+    public function __construct($message, $code = 0, $pointer) {
 
-	/**
-	* Returns a pointer to the token which caused the exception.
-	* @return int
-	*/
-	public function getPointer(){
-		return $this->tokenPointer;
-	}
+        $this->tokenPointer = $pointer;
+        parent::__construct($message, $code);
+    }
+
+    /**
+     * Returns a pointer to the token which caused the exception.
+     * @return int
+     */
+    public function getPointer() {
+        return $this->tokenPointer;
+    }
 
 }
+
 ?>

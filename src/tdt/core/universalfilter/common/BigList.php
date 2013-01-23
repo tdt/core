@@ -11,11 +11,11 @@
 
 namespace tdt\core\universalfilter\common;
 
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
 
 class BigList {
-    public static $BLOCKSIZE = 50;
 
+    public static $BLOCKSIZE = 50;
     private $id;
     private $size;
 
@@ -25,57 +25,58 @@ class BigList {
     }
 
     public function setIndex($index, $data) {
-        if($index>=$this->size){
-            throw new TDTException("BigList: Index out of bounds: ".$index);
+        if ($index >= $this->size) {
+            throw new TDTException("BigList: Index out of bounds: " . $index);
         }
         $inst = BigDataBlockManager::getInstance();
-        $blockindex = floor($index/(BigList::$BLOCKSIZE));
-        $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
+        $blockindex = floor($index / (BigList::$BLOCKSIZE));
+        $indexInBlock = "v_" . ($index % (BigList::$BLOCKSIZE));
 
-        $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
-        if(is_null($oldList)){
+        $oldList = $inst->get("BIGLIST_" . $this->id . "_" . $blockindex); //load the data
+        if (is_null($oldList)) {
             $oldList = new \stdClass();
         }
         $oldList->$indexInBlock = $data;
-        $inst->set("BIGLIST_".$this->id."_".$blockindex, $oldList);//save it again
+        $inst->set("BIGLIST_" . $this->id . "_" . $blockindex, $oldList); //save it again
     }
 
     public function getIndex($index) {
-        if($index>=$this->size){
-            throw new TDTException("BigList: Index out of bounds ".$index);
+        if ($index >= $this->size) {
+            throw new TDTException("BigList: Index out of bounds " . $index);
         }
         $inst = BigDataBlockManager::getInstance();
-        $blockindex = floor($index/(BigList::$BLOCKSIZE));
-        $indexInBlock = "v_".($index%(BigList::$BLOCKSIZE));
+        $blockindex = floor($index / (BigList::$BLOCKSIZE));
+        $indexInBlock = "v_" . ($index % (BigList::$BLOCKSIZE));
 
-        $oldList = $inst->get("BIGLIST_".$this->id."_".$blockindex);//load the data
+        $oldList = $inst->get("BIGLIST_" . $this->id . "_" . $blockindex); //load the data
 
-        if(is_null($oldList)){
+        if (is_null($oldList)) {
             $oldList = new \stdClass();
         }
         return $oldList->$indexInBlock;
     }
 
-    public function addItem($data){
+    public function addItem($data) {
         $this->size++;
-        $this->setIndex($this->size-1, $data);
-        if(floor(($this->size-1)/BigList::$BLOCKSIZE)!=floor(($this->size-2)/BigList::$BLOCKSIZE)){
+        $this->setIndex($this->size - 1, $data);
+        if (floor(($this->size - 1) / BigList::$BLOCKSIZE) != floor(($this->size - 2) / BigList::$BLOCKSIZE)) {
             //echo "biglist expand... ".$this->id;
         }
     }
 
-    public function getSize(){
+    public function getSize() {
         return $this->size;
     }
 
-    public function destroy(){
+    public function destroy() {
         //echo "biglist destroyed... ".$this->id;
         $inst = BigDataBlockManager::getInstance();
-        for($i=0;$i<=floor(($this->size-1)/BigList::$BLOCKSIZE);$i++){
-            $inst->delete("BIGLIST_".$this->id."_".$i);
+        for ($i = 0; $i <= floor(($this->size - 1) / BigList::$BLOCKSIZE); $i++) {
+            $inst->delete("BIGLIST_" . $this->id . "_" . $i);
         }
-        $this->size=0;
+        $this->size = 0;
     }
+
 }
 
 ?>

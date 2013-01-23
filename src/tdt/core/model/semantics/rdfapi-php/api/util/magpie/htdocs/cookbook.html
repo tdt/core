@@ -1,40 +1,40 @@
 <html>
-	<head>
-	<title>Magie RSS Recipes:  Simple PHP RSS How To</title>
-	<style>
-	body {
-		font-family:trebuchet MS, trebuchet, verdana, arial, sans-serif; 
-		font-size: 11px; 
-	
-	}
-	
-	pre { font-family: "Courier New", monospace; 
-      padding: 1em; 
-      margin: 0.2em 2.5em 0.2em 3em;
-      background-color: #efeff5;
-      border: 1px solid #cfcfcf;
-      white-space: pre;
- 	}
+    <head>
+        <title>Magie RSS Recipes:  Simple PHP RSS How To</title>
+        <style>
+            body {
+                font-family:trebuchet MS, trebuchet, verdana, arial, sans-serif; 
+                font-size: 11px; 
 
-	</style>
-	</head>
-	<body>
-<p>
-<h1>MagpieRSS Recipes:  Cooking with Corbies</h1>
+            }
 
-<div align="center"><h3><em>"Four and twenty blackbirds baked in a
-pie."</em></h3></div>
-</p>
-<p>
-<ol>
-<li><a href="#limit">Limit the Number of Headlines(aka Items) Returned</a></li>
-<li><a href="#error_message">Display a Custom Error Message if Something Goes
-Wrong</a></li>
-<li><a href="#write_rss">Generate a New RSS Feed</a></li>
-<li><a href="#by_date">Display Headlines More Recent then X Date</a></li>
-<li><a href="#from_file">Parse a Local File Containing RSS</a></li>
+            pre { font-family: "Courier New", monospace; 
+                  padding: 1em; 
+                  margin: 0.2em 2.5em 0.2em 3em;
+                  background-color: #efeff5;
+                  border: 1px solid #cfcfcf;
+                  white-space: pre;
+            }
 
-</ol>
+        </style>
+    </head>
+    <body>
+        <p>
+        <h1>MagpieRSS Recipes:  Cooking with Corbies</h1>
+
+        <div align="center"><h3><em>"Four and twenty blackbirds baked in a
+                    pie."</em></h3></div>
+    </p>
+    <p>
+    <ol>
+        <li><a href="#limit">Limit the Number of Headlines(aka Items) Returned</a></li>
+        <li><a href="#error_message">Display a Custom Error Message if Something Goes
+                Wrong</a></li>
+        <li><a href="#write_rss">Generate a New RSS Feed</a></li>
+        <li><a href="#by_date">Display Headlines More Recent then X Date</a></li>
+        <li><a href="#from_file">Parse a Local File Containing RSS</a></li>
+
+    </ol>
 </p>
 
 <a name="limit"></a><h2>1. Limit the Number of Headlines(aka Items) Returned.</h2>
@@ -110,12 +110,12 @@ ini_set('display_errors', 0);
 
 <h3>See:</h3>
 <a
-href="http://www.php.net/error_reporting">http://www.php.net/error_reporting</a>,<br
-/>
+    href="http://www.php.net/error_reporting">http://www.php.net/error_reporting</a>,<br
+    />
 <a href="http://www.php.net/ini_set">http://www.php.net/ini_set</a>, <br />
 <a
-href="http://www.php.net/manual/en/ref.errorfunc.php">http://www.php.net/manual/en/ref.errorfunc.php</a><br
-/>
+    href="http://www.php.net/manual/en/ref.errorfunc.php">http://www.php.net/manual/en/ref.errorfunc.php</a><br
+    />
 
 <a name="write_rss"></a><h2>3. Generate a New RSS Feed</h2>
 
@@ -164,24 +164,24 @@ foreach ( $rss->items as $item ) {
 <h3>Discussion:</h3>
 
 This recipe only works for RSS 1.0 feeds that include the <dc:date> field.
-(which is very good RSS style) <br /> 
-<code>parse_w3cdtf()</code> is defined in
-<code>rss_utils.inc</code>, and parses RSS style dates into Unix epoch
-seconds.  
+    (which is very good RSS style) <br /> 
+    <code>parse_w3cdtf()</code> is defined in
+    <code>rss_utils.inc</code>, and parses RSS style dates into Unix epoch
+    seconds.  
 
-<h3>See: </h3>
-<a
-href="http://www.php.net/manual/en/ref.datetime.php">http://www.php.net/manual/en/ref.datetime.php</a>
+    <h3>See: </h3>
+    <a
+        href="http://www.php.net/manual/en/ref.datetime.php">http://www.php.net/manual/en/ref.datetime.php</a>
 
-<a name="from_file"></a>
-<h2>5. Parse a Local File Containing RSS</h2>
-<h3>Problem:</h3>
-MagpieRSS provides <code>fetch_rss()</code> which takes a URL and returns a
-parsed RSS object, but what if you want to parse a file stored locally that
-doesn't have a URL?
+    <a name="from_file"></a>
+    <h2>5. Parse a Local File Containing RSS</h2>
+    <h3>Problem:</h3>
+    MagpieRSS provides <code>fetch_rss()</code> which takes a URL and returns a
+    parsed RSS object, but what if you want to parse a file stored locally that
+    doesn't have a URL?
 
-<h3>Solution</h3>
-<pre>
+    <h3>Solution</h3>
+    <pre>
 require_once('rss_parse.inc');
 
 $rss_file = 'some_rss_file.rdf';
@@ -204,34 +204,34 @@ function read_file($filename) {
     fclose($fh);
     return $rss_string;
 }
-</pre>
+    </pre>
 
-<h3>Discussion</h3>
-Here we are using MagpieRSS's RSS parser directly without the convience wrapper
-of <code>fetch_rss()</code>.  We read the contents of the RSS file into a
-string, and pass it to the parser constructor.  Notice also that error handling
-is subtly different.
+    <h3>Discussion</h3>
+    Here we are using MagpieRSS's RSS parser directly without the convience wrapper
+    of <code>fetch_rss()</code>.  We read the contents of the RSS file into a
+    string, and pass it to the parser constructor.  Notice also that error handling
+    is subtly different.
 
-<h3>See: </h3>
-<a
-href="http://www.php.net/manual/en/ref.filesystem.php">http://www.php.net/manual/en/ref.filesystem.php</a>,<br
-/>
-<a
-href="http://www.php.net/manual/en/language.oop.php">http://www.php.net/manual/en/language.oop.php</a>
+    <h3>See: </h3>
+    <a
+        href="http://www.php.net/manual/en/ref.filesystem.php">http://www.php.net/manual/en/ref.filesystem.php</a>,<br
+        />
+    <a
+        href="http://www.php.net/manual/en/language.oop.php">http://www.php.net/manual/en/language.oop.php</a>
 
-<!-- 
-<a name="link"></a><h2>#. Recipe</h2>
-<h3>Problem:</h3>
-Problem description
-<h3>Solution</h3>
-<pre>
-code
-</pre>
-<h3>Discussion/h3>
-Discuss code
-<h3>See: </h3>
-Documentation links:
--->
+    <!-- 
+    <a name="link"></a><h2>#. Recipe</h2>
+    <h3>Problem:</h3>
+    Problem description
+    <h3>Solution</h3>
+    <pre>
+    code
+    </pre>
+    <h3>Discussion/h3>
+    Discuss code
+    <h3>See: </h3>
+    Documentation links:
+    -->
 
 </body>
 </html>

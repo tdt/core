@@ -12,17 +12,18 @@
 namespace tdt\core\universalfilter\sourcefilterbinding;
 
 class ExpectedHeaderNamesAttachment {
-    public static $ATTACHMENTID="ExpectedHeaderNamesInfoAttachmentId";
-    
+
+    public static $ATTACHMENTID = "ExpectedHeaderNamesInfoAttachmentId";
     private $expectedheadernames;
-    
+
     public function __construct($expectedheadernames) {
-        $this->expectedheadernames=$expectedheadernames;
+        $this->expectedheadernames = $expectedheadernames;
     }
-    
-    public function getExpectedHeaderNames(){
+
+    public function getExpectedHeaderNames() {
         return $this->expectedheadernames;
     }
+
 }
 
 ?>

@@ -22,19 +22,19 @@ class RhtmlFormatter extends AFormatter {
 
     public function printBody() {
         //Unwrap object
-        foreach ($this->objectToPrint as $class => $prop){
-            if (is_a($prop,"MemModel")){
+        foreach ($this->objectToPrint as $class => $prop) {
+            if (is_a($prop, "MemModel")) {
                 $this->objectToPrint = $prop;
                 break;
             }
         }
         //When the objectToPrint has a MemModel, it is already an RDF model and is ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!is_a($this->objectToPrint,"MemModel")) {
+        if (!is_a($this->objectToPrint, "MemModel")) {
             $outputter = new RDFOutput();
             $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
         }
-        
+
         //We are certain that the objectToPrint is now a MemModel: write as HTML table
         echo $this->objectToPrint->writeAsHTMLTable();
     }
@@ -44,7 +44,7 @@ class RhtmlFormatter extends AFormatter {
         header("Content-Type: text/html; charset=UTF-8");
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation() {
         return "Prints the RDF with semantic annotations as HTML table. This is for development purposes.";
     }
 

@@ -62,7 +62,7 @@ class SPECTQLParser {
         // we use a + sign to use order functionality, but decode will translate 
         // a + to a whitespace, so lets first translate the + sign to it's urlencoding (%2B)
         $querystring = str_replace("+", "%2B", $querystring);
-        $this->querystring = ltrim(urldecode($querystring), "/");           
+        $this->querystring = ltrim(urldecode($querystring), "/");
     }
 
     // TODO add this to the symbols array
@@ -77,10 +77,10 @@ class SPECTQLParser {
     }
 
     public function interpret() {
-        $querystring = $this->querystring;        
-        $tokenizer = new SPECTQLTokenizer($querystring, array_keys(self::$symbols));       
-        $this->parser = new parse_engine(new spectql());        
-        
+        $querystring = $this->querystring;
+        $tokenizer = new SPECTQLTokenizer($querystring, array_keys(self::$symbols));
+        $this->parser = new parse_engine(new spectql());
+
         if (!strlen($querystring)) {
             //give an error, but in javascript, redirect to our index.html
             header("HTTP1.1 491 No parse string");
@@ -88,15 +88,15 @@ class SPECTQLParser {
             exit(0);
         }
         try {
-            while ($tokenizer->hasNext()) {                
-                $t = $tokenizer->pop();                   
+            while ($tokenizer->hasNext()) {
+                $t = $tokenizer->pop();
                 if (is_numeric($t)) {
                     $this->parser->eat('num', $t);
                 } else if ($t == "'") {
                     $this->parser->eat('string', $tokenizer->pop());
                     $tokenizer->pop();
-                } else if (!$this->is_keyword($t) && preg_match("/[0-9a-zA-Z]+/si",$t)) {                    
-                    $t = rtrim($t);                   
+                } else if (!$this->is_keyword($t) && preg_match("/[0-9a-zA-Z]+/si", $t)) {
+                    $t = rtrim($t);
                     $this->parser->eat('name', $t);
                 } else if ($this->is_keyword($t)) {
                     $this->parser->eat(strtoupper($t), null);
@@ -107,7 +107,10 @@ class SPECTQLParser {
             }
             return $this->parser->eat_eof();
         } catch (Exception $e) {
-            throw new TDTException(500,array("SPECTQLParser - $e->getMessage()"));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("SPECTQLParser - $e->getMessage()"), $exception_config);
         }
     }
 

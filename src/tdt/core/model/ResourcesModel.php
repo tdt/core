@@ -21,11 +21,10 @@ use tdt\core\model\RemoteResourceFactory;
 use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
 use tdt\core\universalfilter\UniversalFilterNode;
-use tdt\framework\Cache\Cache;
-use tdt\framework\Config;
-use tdt\framework\TDTException;
+use tdt\cache\Cache;
+use tdt\core\utility\Config;
+use tdt\exceptions\TDTException;
 use RedBean_Facade as R;
-
 
 class ResourcesModel {
     /*
@@ -37,8 +36,10 @@ class ResourcesModel {
     private static $instance;
     private $factories; //array of factories
     private $updateActions;
+    public $config;
 
     private function __construct() {
+
         $this->host = Config::get("general", "hostname");
         $this->subdir = Config::get("general", "subdir");
 
@@ -59,7 +60,10 @@ class ResourcesModel {
         $this->updateActions["generic"] = "GenericResourceUpdater";
     }
 
-    public static function getInstance() {
+    public static function getInstance(array $config = array()) {
+        if (count($config) > 0) {
+            Config::setConfig($config);
+        }
         R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
         if (!isset(self::$instance)) {
             self::$instance = new ResourcesModel();
@@ -88,11 +92,11 @@ class ResourcesModel {
      * @return a boolean
      */
     public function hasResource($package, $resource) {
-        $doc = $this->getAllDoc();              
+        $doc = $this->getAllDoc();
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
                 foreach ($resourcenames as $resourcename => $var) {
-                    if ($resourcename == $resource) {                        
+                    if ($resourcename == $resource) {
                         return true;
                     }
                 }
@@ -109,7 +113,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($packageresourcestring, $parameters) {
-        
+
         /**
          * Hierachical package/resource structure
          * check if the package/resource structure is correct
@@ -127,7 +131,10 @@ class ResourcesModel {
 
         //if it doesn't, test whether the resource_type has been set
         if (!isset($parameters["resource_type"])) {
-            throw new TDTException(452, array("Parameter resource_type hasn't been set"));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Parameter resource_type hasn't been set"), $exception_config);
         }
 
         /**
@@ -143,7 +150,10 @@ class ResourcesModel {
                 $parameters["generic_type"] = $resourceTypeParts[1];
                 $parameters["resource_type"] = $resourceTypeParts[0];
             } else if (!isset($parameters["generic_type"])) {
-                throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"), $exception_config);
             }
         }
 
@@ -152,7 +162,10 @@ class ResourcesModel {
         $restype = strtolower($restype);
         //now check if the file exist and include it
         if (!in_array($restype, array("generic", "remote", "installed"))) {
-            throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"), $exception_config);
         }
         // get the documentation containing information about the required parameters
         $doc = $this->getAllAdminDoc();
@@ -168,7 +181,7 @@ class ResourcesModel {
              * Solution : fetch all the keys, compare them strtoupper ( or lower, matter of taste ) , then replace
              * generic_type with the "correct" one
              */
-            
+
             $parameters["generic_type"] = $this->formatGenericType($parameters["generic_type"], $doc->create->generic);
             $resourceCreationDoc = $doc->create->generic[$parameters["generic_type"]];
         } elseif ($restype == "remote") {
@@ -183,14 +196,20 @@ class ResourcesModel {
          */
         foreach ($resourceCreationDoc->requiredparameters as $key) {
             if (!isset($parameters[$key])) {
-                throw new TDTException(452, array("Required parameter " . $key . " has not been passed"));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("Required parameter " . $key . " has not been passed"), $exception_config);
             }
         }
 
         //now check if there are nonexistent parameters given
         foreach (array_keys($parameters) as $key) {
             if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
-                throw new TDTException(452, array("The parameter $key is non existent for the given type of resource."));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("The parameter $key is non existent for the given type of resource."), $exception_config);
             }
         }
 
@@ -199,7 +218,7 @@ class ResourcesModel {
         $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
         try {
             //first check if there resource exists yet
-            if ($this->hasResource($package, $resource)) {                  
+            if ($this->hasResource($package, $resource)) {
                 //If it exists, delete it first and continue adding it.
                 //It could be that because errors occured after the addition, that
                 //the documentation reset in the CUDController isn't up to date anymore
@@ -210,19 +229,27 @@ class ResourcesModel {
                 } catch (Exception $ex) {
                     //Clear the documentation in our cache for it has changed
                     $this->clearCachedDocumentation();
-                    throw new TDTException(500, array("Error: " . $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers."));
+                    $exception_config = array();
+                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                    throw new TDTException(500, array("Error: " . $ex->getMessage() . " We've done a hard reset on the internal documentation, try adding it again. If this doesn't work please log on issue or e-mail one of the developers."), $exception_config);
                 }
             }
         } catch (Exception $ex) {
             //Clear the documentation in our cache for it has changed
             $this->deleteResource($package, $resource, $RESTparameters);
-            throw new TDTException($ex->getMessage());
         }
         $creator->create();
     }
 
     private function clearCachedDocumentation() {
-        $c = Cache::getInstance();
+        $cache_config = array();
+
+        $cache_config["system"] = Config::get("general", "cache", "system");
+        $cache_config["host"] = Config::get("general", "cache", "host");
+        $cache_config["port"] = Config::get("general", "cache", "port");
+
+        $c = Cache::getInstance($cache_config);
         $c->delete($this->host . $this->subdir . "documentation");
         $c->delete($this->host . $this->subdir . "admindocumentation");
         $c->delete($this->host . $this->subdir . "packagedocumentation");
@@ -257,7 +284,10 @@ class ResourcesModel {
 
         foreach ($pieces as $package) {
             if ($this->isResource($packagestring, $package)) {
-                throw new TDTException(452, array($packagestring . "/" . $package . " is already a resource, you cannot overwrite resources with packages!"));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array($packagestring . "/" . $package . " is already a resource, you cannot overwrite resources with packages!"), $exception_config);
             }
             $packagestring .= "/" . $package;
         }
@@ -267,7 +297,10 @@ class ResourcesModel {
          */
         $resourcestring = $packagestring . "/" . $resource;
         if ($this->isPackage($resourcestring)) {
-            throw new TDTException(452, array($resourcestring . " is already a packagename, you cannot overwrite a package with a resource."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array($resourcestring . " is already a packagename, you cannot overwrite a package with a resource."), $exception_config);
         }
         return $packagestring;
     }
@@ -323,7 +356,10 @@ class ResourcesModel {
                 return $type;
             }
         }
-        throw new TDTException(452, array($genType . " was not found as a generic_type."));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(452, array($genType . " was not found as a generic_type."), $exception_config);
     }
 
     /**
@@ -337,7 +373,10 @@ class ResourcesModel {
 
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
         }
 
         foreach ($this->factories as $factory) {
@@ -349,7 +388,7 @@ class ResourcesModel {
     }
 
     /**
-     * Updates the resource with the given parameters.
+     * Updates the resource definition with the given parameters.
      * @param string $package The package name
      * @param string $resource The resource name
      * @param array $parameters An array with update parameters
@@ -359,7 +398,10 @@ class ResourcesModel {
 
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
         }
 
         /**
@@ -369,16 +411,17 @@ class ResourcesModel {
         $doc = $this->getAllDescriptionDoc();
         $currentParameters = $doc->$package->$resource;
 
-        /** issue with updates:
-         * not all things you see are primary put parameters, some are derived and can't be update
-         * i.e. doc property of a remote resource, that property hasn't been put but has been derived from
-         * the other properties of a remote resource.
-         * currently hard coded because there are no extensive units of abstract descriptions (generic, remote) yet...
+        /**
+         * Strip non create parameters from the definition
          */
         unset($currentParameters->parameters);
         unset($currentParameters->requiredparameters);
+
+        if (isset($currentParameters->remote_package)) {
+            unset($currentParameters->documentation);
+        }
+
         unset($currentParameters->remote_package);
-        unset($currentParameters->doc);
         unset($currentParameters->resource);
 
         foreach ($parameters as $parameter => $value) {
@@ -388,7 +431,7 @@ class ResourcesModel {
         }
 
         /**
-         * Columns aren't key = value datamembers and will be handled separatly
+         * Columns aren't key => value datamembers and will be handled separatly
          */
         if (isset($currentParameters->columns) && isset($parameters["columns"])) {
             foreach ($parameters["columns"] as $index => $value) {
@@ -417,7 +460,10 @@ class ResourcesModel {
 
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
-            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
         }
 
         /**
@@ -432,7 +478,10 @@ class ResourcesModel {
         } else if ($this->factories["installed"]->hasResource($package, $resource)) {
             $factory = $this->factories["installed"];
         } else {
-            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
         }
         $deleter = $factory->createDeleter($package, $resource, $RESTparameters);
         $deleter->delete();
@@ -466,7 +515,10 @@ class ResourcesModel {
             }
             DBQueries::deletePackage($package);
         } else {
-            throw new TDTException(404, array($package));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array($package), $exception_config);
         }
     }
 
@@ -516,7 +568,7 @@ class ResourcesModel {
         $package = array_shift($pieces);
 
         //Get an instance of our resourcesmodel
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
         $foundPackage = FALSE;
 
@@ -566,7 +618,10 @@ class ResourcesModel {
             $foundPackage = in_array($package, $allPackages);
 
             if (!$foundPackage) {
-                throw new TDTException(404, array($packageresourcestring));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(404, array($packageresourcestring), $exception_config);
             }
         }
 

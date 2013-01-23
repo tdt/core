@@ -314,7 +314,7 @@ class InfModel extends MemModel {
                             }
                             unset($this->infRulesTriggerIndex['o'][$objectLabel][array_search($key, $this->infRulesTriggerIndex['o'][$objectLabel])]);
                         } else {
-                        //remove from Rule-Entailment Index
+                            //remove from Rule-Entailment Index
                             $entailment = $this->infRules[$key]->getEntailment();
 
                             if (is_a($entailment['s'], 'Node')) {
@@ -464,7 +464,7 @@ class InfModel extends MemModel {
                 $this->infRulesTriggerIndex['o'][$trigger['o']->getLabel()][] = $infRulePosition;
             };
         } else {
-        //add to entailment Index if it is a BModel
+            //add to entailment Index if it is a BModel
             //get the entailment
             $entailment = $infRule->getEntailment();
             //evaluate the entailment and add to index
@@ -554,7 +554,7 @@ class InfModel extends MemModel {
             if (isset($this->infRulesEntailIndex['s'][$subjectLabel]))
                 $inIndexS = array_merge($inIndexS, array_values($this->infRulesEntailIndex['s'][$subjectLabel]));
         } else {
-        //if the subject search pattern is NULL, every rule will match the subject search patter
+            //if the subject search pattern is NULL, every rule will match the subject search patter
             $inIndexS = array_keys($this->infRules);
         }
 

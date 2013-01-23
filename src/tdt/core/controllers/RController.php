@@ -13,13 +13,15 @@
 
 namespace tdt\core\controllers;
 
-use tdt\core\controllers\ACoreController;
+use app\core\Config;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use tdt\core\formatters\FormatterFactory;
 use tdt\core\model\filters\FilterFactory;
 use tdt\core\model\ResourcesModel;
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
 
-class RController extends ACoreController {
+class RController extends AController {
 
     private $formatterfactory;
 
@@ -46,7 +48,7 @@ class RController extends ACoreController {
             }
         }
 
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
         $result = $model->processPackageResourceString($matches["packageresourcestring"]);
@@ -111,7 +113,10 @@ class RController extends ACoreController {
             //set the parameter of the method
 
             if (!isset($RESTparameters[0])) {
-                throw new TDTException(452, array("Invalid parameter given: $parameter"));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("Invalid parameter given: $parameter"), $exception_config);
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
@@ -171,7 +176,7 @@ class RController extends ACoreController {
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $packageDoc = $model->getAllPackagesDoc();
         $allPackages = array_keys(get_object_vars($packageDoc));
 
@@ -210,7 +215,7 @@ class RController extends ACoreController {
         }
 
         //Get an instance of our resourcesmodel
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
         /**
@@ -293,7 +298,10 @@ class RController extends ACoreController {
                 }
             } else {
                 if (!$foundPackage) {
-                    throw new TDTException(404, array($packageresourcestring));
+                    $exception_config = array();
+                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                    throw new TDTException(404, array($packageresourcestring), $exception_config);
                 }
             }
 
@@ -307,7 +315,10 @@ class RController extends ACoreController {
 
 
         if (!$foundPackage) {
-            throw new TDTException(404, array($packageresourcestring));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array($packageresourcestring), $exception_config);
         }
 
         /**
@@ -318,7 +329,10 @@ class RController extends ACoreController {
         $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
         if (!isset($doc->$package) || !isset($doc->$package->$resourcename)) {
-            throw new TDTException(404, array($packageresourcestring));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array($packageresourcestring), $exception_config);
         }
 
         $parameters = $_GET;
@@ -326,7 +340,10 @@ class RController extends ACoreController {
         foreach ($doc->$package->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
             if (!isset($RESTparameters[0])) {
-                throw new TDTException(452, array("Invalid parameter:" . $parameter));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("Invalid parameter:" . $parameter), $exception_config);
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
@@ -392,28 +409,40 @@ class RController extends ACoreController {
      * You cannot PUT on a representation
      */
     function PUT($matches) {
-        throw new TDTException(450, array("PUT", $matches["packageresourcestring"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("PUT", $matches["packageresourcestring"]), $exception_config);
     }
 
     /**
      * You cannot delete a representation
      */
     public function DELETE($matches) {
-        throw new TDTException(450, array("DELETE", $matches["packageresourcestring"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("DELETE", $matches["packageresourcestring"]), $exception_config);
     }
 
     /**
      * You cannot use post on a representation
      */
     public function POST($matches) {
-        throw new TDTException(450, array("POST", $matches["packageresourcestring"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("POST", $matches["packageresourcestring"]), $exception_config);
     }
 
     /**
      * You cannot use patch a representation
      */
     public function PATCH($matches) {
-        throw new TDTException(450, array("PATCH", $matches["packageresourcestring"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("PATCH", $matches["packageresourcestring"]), $exception_config);
     }
 
     // visualizations may not be logged

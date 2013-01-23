@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Keeps blocks of data in memory if possible, but otherwise, writes them to file
  *
@@ -18,37 +19,31 @@ namespace tdt\core\universalfilter\common;
 use tdt\core\controllers\SPECTQLController;
 
 class BigDataBlockManager {
+
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
     /*
      * If errors occur with DataBlockManager, up the COUNT_KEEP_IN_MEMORY
      * Somewhere along the line it goes wrong, some blocks wont get deleted.
      */
-    private static $COUNT_KEEP_IN_MEMORY =  100000;
-
+    private static $COUNT_KEEP_IN_MEMORY = 100000;
     private static $instance;
-
-
     //the things in memory:
     private $memoryblockarray;
-    private $issavedtofile;//only for those currently in memory
-
+    private $issavedtofile; //only for those currently in memory
     private $currentcountinmemory = 0;
-
-
 
     public function __construct() {
         $this->memoryblockarray = new \stdClass();
         $this->issavedtofile = new \stdClass();
     }
 
-
-    private function getDirToWriteTo(){
+    private function getDirToWriteTo() {
         $tmpdir = SPECTQLController::$TMP_DIR;
-        return $tmpdir."The-DataTank-BigDataBlockManager_block_";
+        return $tmpdir . "The-DataTank-BigDataBlockManager_block_";
     }
 
-    private function fileNameFor($key){
-        return ($this->getDirToWriteTo()).hashWithNoSpecialChars($key).".datablock";
+    private function fileNameFor($key) {
+        return ($this->getDirToWriteTo()) . hashWithNoSpecialChars($key) . ".datablock";
     }
 
     /*
@@ -66,20 +61,20 @@ class BigDataBlockManager {
      *
      * Picks a block from memory and deletes it (writes it to file first)
      */
-    private function kickABlockFromMemory(){
-        $oldestaccesstime = $this->currentaccesstime+1;
+    private function kickABlockFromMemory() {
+        $oldestaccesstime = $this->currentaccesstime + 1;
         $oldestaccesskey = null;
         foreach ($this->usetimelist as $key => $lastaccesstime) {
-            if($lastaccesstime<$oldestaccesstime){
+            if ($lastaccesstime < $oldestaccesstime) {
                 $oldestaccesstime = $lastaccesstime;
                 $oldestaccesskey = $key;
             }
         }
         unset($this->usetimelist[$oldestaccesskey]);
-        if(!$this->issavedtofile->$oldestaccesskey){
+        if (!$this->issavedtofile->$oldestaccesskey) {
             $this->explicitSaveBlock($oldestaccesskey, $this->memoryblockarray->$oldestaccesskey);
         }
-        unset($this->memoryblockarray->$oldestaccesskey);//remove from memory
+        unset($this->memoryblockarray->$oldestaccesskey); //remove from memory
         $this->currentcountinmemory--;
         //echo "DUMP (".$this->currentcountinmemory.")<br/>";
     }
@@ -89,7 +84,7 @@ class BigDataBlockManager {
      * @param string $key
      * @param object $value
      */
-    private function explicitSaveBlock($key, $value){
+    private function explicitSaveBlock($key, $value) {
         //echo "save ".$key." (".$this->currentcountinmemory.")<br/>";
         $filename = $this->fileNameFor($key);
         $serializedValue = serialize($value);
@@ -104,9 +99,9 @@ class BigDataBlockManager {
      * @param type $key
      * @param type $value
      */
-    private function explicitPutBlockInMemory($key, $value){
-        $this->deleteBlock($key);//remove old data with the same key...
-        $this->currentaccesstime++;//a counter to implement LRU
+    private function explicitPutBlockInMemory($key, $value) {
+        $this->deleteBlock($key); //remove old data with the same key...
+        $this->currentaccesstime++; //a counter to implement LRU
         $this->memoryblockarray->$key = $value;
         $this->usetimelist[$key] = $this->currentaccesstime;
         $this->issavedtofile->$key = false;
@@ -118,13 +113,13 @@ class BigDataBlockManager {
      * Delete the block with this key. ALSO from filesystem.
      * @param string $key
      */
-    private function deleteBlock($key){
-        if(isset($this->memoryblockarray->$key)){
+    private function deleteBlock($key) {
+        if (isset($this->memoryblockarray->$key)) {
             //echo "del_mem ".$key." (".$this->currentcountinmemory.")<br/>";
             //kept and memory (and maybe also on file)
             unset($this->memoryblockarray->$key);
             unset($this->usetimelist[$key]);
-            if($this->issavedtofile->$key){
+            if ($this->issavedtofile->$key) {
                 $filename = $this->fileNameFor($key);
                 //DELETE FILE
                 unlink($filename);
@@ -132,10 +127,10 @@ class BigDataBlockManager {
             unset($this->issavedtofile->$key);
             //echo "[".$this->currentcountinmemory." -> ".($this->currentcountinmemory-1)."]";
             $this->currentcountinmemory--;
-        }else{
+        } else {
             //echo "del_? ".$key." (".$this->currentcountinmemory.")<br/>";
             //kept on file only OR does not exist
-            if($this->blockExistsOnFile($key)){
+            if ($this->blockExistsOnFile($key)) {
                 $filename = $this->fileNameFor($key);
                 //DELETE FILE
                 unlink($filename);
@@ -147,7 +142,7 @@ class BigDataBlockManager {
      * Checks if a block exist on file...
      * @param string $key
      */
-    private function blockExistsOnFile($key){
+    private function blockExistsOnFile($key) {
         return file_exists($this->fileNameFor($key));
     }
 
@@ -157,13 +152,13 @@ class BigDataBlockManager {
      *    (that is handled elsewhere)
      * @param string $key
      */
-    private function explicitLoadBlockFromFileInMemory($key){
+    private function explicitLoadBlockFromFileInMemory($key) {
         $filename = $this->fileNameFor($key);
 
         //READ FILE
         $content = file_get_contents($this->fileNameFor($key));
 
-        $this->currentaccesstime++;//a counter to implement LRU
+        $this->currentaccesstime++; //a counter to implement LRU
         $this->memoryblockarray->$key = unserialize($content);
         $this->usetimelist[$key] = $this->currentaccesstime;
         $this->currentcountinmemory++;
@@ -175,16 +170,16 @@ class BigDataBlockManager {
      * @param string $key
      * @return object
      */
-    private function getBlock($key){
-        if(!isset($this->memoryblockarray->$key)){
-            if($this->blockExistsOnFile($key)){
+    private function getBlock($key) {
+        if (!isset($this->memoryblockarray->$key)) {
+            if ($this->blockExistsOnFile($key)) {
                 //not in memory... it got pushed out...
-                if($this->currentcountinmemory>=BigDataBlockManager::$COUNT_KEEP_IN_MEMORY){
-                    $this->kickABlockFromMemory();//kick another one out
+                if ($this->currentcountinmemory >= BigDataBlockManager::$COUNT_KEEP_IN_MEMORY) {
+                    $this->kickABlockFromMemory(); //kick another one out
                 }
                 //load it back in...
                 $this->explicitLoadBlockFromFileInMemory($key);
-            }else{
+            } else {
                 //sorry, that block does not exist
                 return null;
             }
@@ -192,7 +187,7 @@ class BigDataBlockManager {
 
         //so now it's in memory...
         $this->currentaccesstime++;
-        $this->usetimelist[$key]=$this->currentaccesstime;//last used...
+        $this->usetimelist[$key] = $this->currentaccesstime; //last used...
         return $this->memoryblockarray->$key;
     }
 
@@ -201,8 +196,8 @@ class BigDataBlockManager {
      * @param string $key
      * @param object $value
      */
-    private function setBlock($key, $value){
-        if($this->currentcountinmemory>=BigDataBlockManager::$COUNT_KEEP_IN_MEMORY){
+    private function setBlock($key, $value) {
+        if ($this->currentcountinmemory >= BigDataBlockManager::$COUNT_KEEP_IN_MEMORY) {
             $this->kickABlockFromMemory();
         }
         $this->explicitPutBlockInMemory($key, $value);
@@ -217,7 +212,7 @@ class BigDataBlockManager {
      * @param string $key
      * @param object $value
      */
-    public function set($key, $value){
+    public function set($key, $value) {
         //echo "set: $key<br/>";
         $this->setBlock($key, $value);
     }
@@ -227,7 +222,7 @@ class BigDataBlockManager {
      * @param string $key
      * @return object
      */
-    public function get($key){
+    public function get($key) {
         //echo "get: $key<br/>";
         return $this->getBlock($key);
     }
@@ -236,7 +231,7 @@ class BigDataBlockManager {
      * Deletes a datablock
      * @param type $key
      */
-    public function delete($key){
+    public function delete($key) {
         //echo "del: $key<br/>";
         $this->deleteBlock($key);
     }
@@ -245,12 +240,13 @@ class BigDataBlockManager {
      * returns an instance of this class
      * @return BigDataBlockManager
      */
-    public static function getInstance(){
-        if(!isset(BigDataBlockManager::$instance)){
+    public static function getInstance() {
+        if (!isset(BigDataBlockManager::$instance)) {
             BigDataBlockManager::$instance = new BigDataBlockManager();
         }
         return BigDataBlockManager::$instance;
     }
+
 }
 
 ?>

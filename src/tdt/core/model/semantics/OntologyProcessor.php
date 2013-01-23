@@ -14,7 +14,6 @@
  */
 include_once("tdtml/TDTML.class.php");
 
-
 namespace tdt\core\model\semantics;
 
 class OntologyProcessor {
@@ -22,7 +21,7 @@ class OntologyProcessor {
     private static $uniqueinstance;
 
     private function __construct() {
-
+        
     }
 
     public static function getInstance() {
@@ -84,7 +83,7 @@ class OntologyProcessor {
      * @param string $package The package for which we want to create an ontology
      * @param string $file The uri to a turtle file describing the ontology
      */
-    public function createOntology($package, $file=null) {
+    public function createOntology($package, $file = null) {
         if (isset($file) && !is_null($file)) {
             //file_exists returns false with correct files, probably not accessible?
             //if (file_exists($file))
@@ -123,7 +122,7 @@ class OntologyProcessor {
      * @param string $nmsp The namespace URI of the external ontology
      * @param string $prefix The prefix of the external ontology namespace
      */
-    public function updatePathMap($package, $path, $value, $nmsp, $prefix=null) {
+    public function updatePathMap($package, $path, $value, $nmsp, $prefix = null) {
         $model = $this->getModel($package);
 
         $resource = new Resource($path);

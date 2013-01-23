@@ -18,7 +18,7 @@ use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\UniversalFilterNode;
 
 interface IUniversalFilterNodeExecuter {
-    
+
     /**
      * Initializes this node. It gets the environment of the executer as an argument. 
      * @param UniversalFilterNode $filter The corresponding filter
@@ -34,19 +34,19 @@ interface IUniversalFilterNodeExecuter {
      * @return UniversalFilterTableHeader
      */
     public function getExpressionHeader();
-    
+
     /**
      * Calculates and returns the content of the table
      * 
      * @return UniversalFilterTableContent
      */
     public function evaluateAsExpression();
-    
+
     /**
      * Cleanup
      */
     public function cleanUp();
-    
+
     /**
      * This method modifies the given query and adds the expected columnNames...
      */

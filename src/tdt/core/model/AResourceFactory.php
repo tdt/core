@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Interface for a factory: check documentation on the Abstract Factory Pattern if you don't understand this code.
  *
@@ -10,19 +11,18 @@
 
 namespace tdt\core\model;
 
-abstract class AResourceFactory{
-      
-    
+abstract class AResourceFactory {
+
     /**
      * Quickly check if this factory has a specific resource
      * @param package the name of the package the resource has
      * @param resource the name of the resource
      * @return boolean whether or not this factory has the package
      */
-    public function hasResource($package,$resource){
-        foreach($this->getAllResourceNames() as $packagename => $resourcenames){
-            foreach($resourcenames as $resourcename){
-                if($resourcename == $resource && $package == $packagename){
+    public function hasResource($package, $resource) {
+        foreach ($this->getAllResourceNames() as $packagename => $resourcenames) {
+            foreach ($resourcenames as $resourcename) {
+                if ($resourcename == $resource && $package == $packagename) {
                     return true;
                 }
             }
@@ -41,7 +41,7 @@ abstract class AResourceFactory{
      * @param $resource the name of the new resource. If it exists already, an exception will be thrown
      * @return The returned class extends ACreator and can add a resource to the system
      */
-    abstract public function createCreator($package,$resource, $parameters, $RESTparameters);
+    abstract public function createCreator($package, $resource, $parameters, $RESTparameters);
 
     /**
      * Creates an instance of a reader. This can return the right information for a request
@@ -57,7 +57,7 @@ abstract class AResourceFactory{
      * @param $resource the name of the new resource.
      * @return The returned class extends ADeleter and can delete a resource from the system
      */
-    abstract public function createDeleter($package,$resource, $RESTparameters);
+    abstract public function createDeleter($package, $resource, $RESTparameters);
 
     /**
      * Visitor pattern function: This is the documentation on how to call a read resource
@@ -65,12 +65,11 @@ abstract class AResourceFactory{
      */
     abstract public function makeDoc($doc);
 
-     /**
+    /**
      * Visitor pattern function: This is the documentation on what all of the description properties of a resource are
      * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds its full description.
      */
     abstract public function makeDescriptionDoc($doc);
-
 
     /**
      * Visitor pattern function
@@ -84,12 +83,14 @@ abstract class AResourceFactory{
      */
     abstract public function makeCreateDoc($doc);
 
-/**
+    /**
      * Visitor pattern function
      * @param $doc Doc is an instance of the Doc class. It will go allong every factory and ask for every resource's documentation data. Each resource adds what it wants to add.
      */
-    public function makeUpdateDoc($doc){
+    public function makeUpdateDoc($doc) {
         
     }
+
 }
+
 ?>

@@ -12,27 +12,27 @@
  * @organisation Hogent
  */
 
-
 namespace tdt\core\controllers;
 
-include_once(__DIR__ . "/../lib/parse_engine.php");
+include_once(__DIR__ . "/../../../../lib/parse_engine.php");
 include_once(__DIR__ . "/../controllers/spectql/spectql.php");
 include_once(__DIR__ . "/../controllers/SQL/SQLGrammarFunctions.php");
 
-use tdt\core\controllers\ACoreController;
 use tdt\core\controllers\spectql\SPECTQLParser;
 use tdt\core\formatters\FormatterFactory;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 use tdt\core\universalfilter\tablemanager\implementation\tools\TableToPhpObjectConverter;
 use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
 use tdt\core\utility\RequestURI;
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
+use app\core\Config;
 
-class SPECTQLController extends ACoreController {
+class SPECTQLController extends AController {
 
-    public static $TMP_DIR ="";
+    public static $TMP_DIR = "";
     
-    public function __construct() {       
+    
+    public function __construct() {
         parent::__construct();
         SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
     }
@@ -43,6 +43,7 @@ class SPECTQLController extends ACoreController {
      */
     public function GET($matches) {
 
+        \tdt\core\utility\Config::setConfig(Config::getConfigArray());
         /*
          * Failsafe for when datablock files don't get deleted
          * by the BigDataBlockManager.
@@ -74,7 +75,7 @@ class SPECTQLController extends ACoreController {
 
         if ($format == "") {
             //get the current URL
-            $ru = RequestURI::getInstance();
+            $ru = RequestURI::getInstance(Config::getConfigArray());
             $pageURL = $ru->getURI();
             $pageURL = rtrim($pageURL, "/");
 
@@ -149,7 +150,7 @@ class SPECTQLController extends ACoreController {
         if (isset($matches["query"])) {
             $query = $matches["query"];
         }
-        $parser = new  SPECTQLParser($query);
+        $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
 
         $result = $parser->interpret($context);
@@ -165,28 +166,40 @@ class SPECTQLController extends ACoreController {
      * You cannot PUT on a representation
      */
     function PUT($matches) {
-        throw new TDTException(450, array("PUT", $matches["query"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("PUT", $matches["query"]), $exception_config);
     }
 
     /**
      * You cannot delete a representation
      */
     public function DELETE($matches) {
-        throw new TDTException(450, array("DELETE", $matches["query"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("DELETE", $matches["query"]), $exception_config);
     }
 
     /**
      * You cannot use post on a representation
      */
     public function POST($matches) {
-        throw new TDTException(450, array("POST", $matches["query"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("POST", $matches["query"]), $exception_config);
     }
 
     /**
      * You cannot use patch a representation
      */
     public function PATCH($matches) {
-        throw new TDTException(450, array("PATCH", $matches["query"]));
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array("PATCH", $matches["query"]), $exception_config);
     }
 
 }

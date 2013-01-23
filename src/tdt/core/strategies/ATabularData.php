@@ -15,7 +15,7 @@ namespace tdt\core\strategies;
 use tdt\core\model\DBQueries;
 use tdt\core\model\resources\AResourceStrategy;
 use tdt\core\model\resources\GenericResource;
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
 use RedBean_Facade as R;
 
 abstract class ATabularData extends AResourceStrategy {
@@ -50,8 +50,8 @@ abstract class ATabularData extends AResourceStrategy {
                 $this->throwException($package_id, $generic_resource_id, "$index is not numeric!");
             }
 
-            $column = trim($column);            
-            $formatted_column = preg_replace('/\s+/', '_', $column);           
+            $column = trim($column);
+            $formatted_column = preg_replace('/\s+/', '_', $column);
             if (!isset($column_aliases[$formatted_column])) {
                 $column_aliases[$formatted_column] = $formatted_column;
             } else {
@@ -123,7 +123,10 @@ abstract class ATabularData extends AResourceStrategy {
              * We cannot know what caused the invalidation of the resource, when a resource is invalid, the creator of
              * the strategy is expected to throw an exception of its own.
              */
-            throw new TDTException(452, array("Something went wrong during the validation of the generic resource."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Something went wrong during the validation of the generic resource."), $exception_config);
         }
     }
 

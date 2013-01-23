@@ -1,6 +1,7 @@
 <?php
 
 use semantics\RDFOutput;
+
 /**
  * This file contains the RDF/NTriple formatter.
  * 
@@ -12,6 +13,7 @@ use semantics\RDFOutput;
  * @license AGPLv3
  * @author Miel Vander Sande
  */
+
 namespace formatters;
 
 class NtFormatter extends AFormatter {
@@ -22,19 +24,19 @@ class NtFormatter extends AFormatter {
 
     public function printBody() {
         //Unwrap object
-        foreach ($this->objectToPrint as $class => $prop){
-            if (is_a($prop,"MemModel")){
+        foreach ($this->objectToPrint as $class => $prop) {
+            if (is_a($prop, "MemModel")) {
                 $this->objectToPrint = $prop;
                 break;
             }
         }
         //When the objectToPrint has a MemModel, it is already an RDF model and is ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!is_a($this->objectToPrint,"MemModel")) {
+        if (!is_a($this->objectToPrint, "MemModel")) {
             $outputter = new RDFOutput();
             $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
         }
-        
+
         // Import Package Syntax
         include_once(RDFAPI_INCLUDE_DIR . PACKAGE_SYNTAX_RDF);
 
@@ -50,7 +52,7 @@ class NtFormatter extends AFormatter {
         header("Content-Type: application/n-triples; charset=UTF-8");
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation() {
         return "Prints the N-triples notation with semantic annotations";
     }
 

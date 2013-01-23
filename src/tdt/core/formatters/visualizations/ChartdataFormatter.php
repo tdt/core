@@ -17,67 +17,66 @@ use tdt\core\formatters\AFormatter;
  * This class inherits from the abstract Formatter. It will generate chart data
  */
 class ChartdataFormatter extends AFormatter {
-    
+
     private $data;
     private $category = "category";
     private $value = array();
-	
 
     public function __construct($rootname, $objectToPrint) {
         parent::__construct($rootname, $objectToPrint);
     }
 
-    public function printHeader(){
+    public function printHeader() {
         header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json;charset=UTF-8");	  	  
+        header("Content-Type: application/json;charset=UTF-8");
     }
 
     public function printBody() {
         $array = get_object_vars($this->objectToPrint);
-        if(array_key_exists("category", $_GET)) {
+        if (array_key_exists("category", $_GET)) {
             $this->category = $_GET["category"];
         }
-        if(array_key_exists("value", $_GET)) {
-            $this->value = explode(",",$_GET["value"]);
+        if (array_key_exists("value", $_GET)) {
+            $this->value = explode(",", $_GET["value"]);
         } else {
             $this->getValues($array);
         }
-        if(array_key_exists("refresh", $_GET)) {
+        if (array_key_exists("refresh", $_GET)) {
             $this->refresh = $_GET["refresh"];
         }
-        if(array_key_exists("sort", $_GET)) {
+        if (array_key_exists("sort", $_GET)) {
             $this->sort = $_GET["sort"];
         }
-		
+
 
         $this->data = '[';
-        $this->getChartData($array);		
+        $this->getChartData($array);
         $this->data .= ']';
         echo $this->data;
     }
-    
-    public static function getDocumentation(){
+
+    public static function getDocumentation() {
         return "A formatter which feeds the extjs charts";
     }
-	
+
     private function getValues($array) {
-        foreach($array as $key => $val){
-            if(is_object($val)){
+        foreach ($array as $key => $val) {
+            if (is_object($val)) {
                 $array = get_object_vars($val);
                 $this->getValues($array);
                 break;
-            } else if(is_array($val)) {
+            } else if (is_array($val)) {
                 $array = $val;
                 $this->getValues($array);
                 break;
             } else {
-                if($this->startsWith($key, "value")) {
-                    array_push($this->value,$key);
+                if ($this->startsWith($key, "value")) {
+                    array_push($this->value, $key);
                 }
             }
         }
     }
-	
+
     private function startsWith($haystack, $needle) {
         return (strpos($haystack, $needle) === 0);
     }
@@ -86,8 +85,8 @@ class ChartdataFormatter extends AFormatter {
         $data = "";
         $childdata = "";
         $firstrow = true;
-        foreach($array as $key => $val){
-            if(is_object($val)){
+        foreach ($array as $key => $val) {
+            if (is_object($val)) {
                 $array = get_object_vars($val);
                 $childdata = $this->getChartData($array);
                 if ($childdata != "") {
@@ -97,7 +96,7 @@ class ChartdataFormatter extends AFormatter {
                     $this->data .= '{' . $childdata . '}';
                     $firstrow = false;
                 }
-            } else if(is_array($val)) {
+            } else if (is_array($val)) {
                 $array = $val;
                 $childdata = $this->getChartData($array);
                 if ($childdata != "") {
@@ -108,7 +107,7 @@ class ChartdataFormatter extends AFormatter {
                     $firstrow = false;
                 }
             } else {
-                if($key == $this->category || in_array($key, $this->value)) {
+                if ($key == $this->category || in_array($key, $this->value)) {
                     if (!$firstrow) {
                         $data .= ",";
                     }
@@ -118,6 +117,8 @@ class ChartdataFormatter extends AFormatter {
             }
         }
         return $data;
-    }	
+    }
+
 }
+
 ?>

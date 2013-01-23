@@ -1,7 +1,7 @@
 {
     "name": "tdt/core",
     "description": "A RESTful data adapter",
-    "keywords": ["input", "etl", "mapper", "rdf", "ontologies"],
+    "keywords": ["data adapter", "data transformation", "REST API"],
     "homepage": "http://thedatatank.com",
     "type": "library",
     "license": "AGPLv3",
@@ -9,8 +9,11 @@
         "tdt/start": "Maps the functions of this scheduler to a RESTful API. A controller is already included: tdt scheduler ScheduleController"
     },
     "require": {
-	"tdt/framework" : "dev-master",
-	"gabordemooij/redbean": ">=3.2" 
+        "tdt/exceptions" : "dev-master",        
+        "gabordemooij/redbean": ">=3.2" ,
+        "tdt/negotiators" : "dev-master",
+        "tdt/cache" : "dev-master",
+        "monolog/monolog": "1.2.*"
     },
     "minimum-stability" : "dev",
     "autoload": {

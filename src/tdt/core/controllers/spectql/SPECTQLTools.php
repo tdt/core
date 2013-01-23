@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tools for the SPECTQL parser
  *
@@ -11,23 +12,19 @@
 
 namespace tdt\core\controllers\spectql;
 
-class SPECTQLTools{
-    
+class SPECTQLTools {
 
     /**
      * Adds columns to a relation
      * @param $relation1 passed by reference. The main relation
      * @param $relation2 passed by reference. All the 
      */
-    static public function catRelation(&$relation1, &$relation2){
-        for($i = 0; $i < min(array(sizeof($relation1),sizeof($relation2)));$i++){
-            $relation1[$i] = array_merge($relation1[$i],$relation2[$i]);
+    static public function catRelation(&$relation1, &$relation2) {
+        for ($i = 0; $i < min(array(sizeof($relation1), sizeof($relation2))); $i++) {
+            $relation1[$i] = array_merge($relation1[$i], $relation2[$i]);
         }
     }
-    
-
 
 }
-
 
 ?>

@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * A row in the content of the universal representation of a table
  *
@@ -13,7 +12,9 @@
 namespace tdt\core\universalfilter\data;
 
 include_once(__DIR__ . "/../common/HashString.php");
-use tdt\framework\TDTException;
+
+use tdt\core\utility\Config;
+use tdt\exceptions\TDTException;
 
 class UniversalFilterTableContentRow {
 
@@ -30,8 +31,12 @@ class UniversalFilterTableContentRow {
      * @param ? $value What value?
      */
     public function defineValue($idOfField, $value) {
-        if ($idOfField == "")
-            throw new TDTException(500, array("Not a valid fieldname...")); // Can happen?
+        if ($idOfField == "") {
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Not a valid fieldname..."), $exception_config); // Can happen?
+        }
         $this->data->$idOfField = array("value" => $value);
     }
 
@@ -43,8 +48,12 @@ class UniversalFilterTableContentRow {
      * @param ? $value
      */
     public function defineValueId($idOfField, $value) {
-        if ($idOfField == "")
-            throw new TDTException(500, array("Not a valid fieldname...")); // Can happen?
+        if ($idOfField == "") {
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Not a valid fieldname..."), $exception_config); // Can happen?
+        }
         $this->data->$idOfField = array("id" => $value);
     }
 
@@ -55,8 +64,12 @@ class UniversalFilterTableContentRow {
      * @param UniversalTableContent $groupedColumnValues where each row has only one field "data" and is not grouped itself
      */
     public function defineGroupedValue($idOfField, $groupedColumnValues) {
-        if ($idOfField == "")
-            throw new TDTException(500, array("Not a valid fieldname...")); // Can happen?
+        if ($idOfField == "") {
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Not a valid fieldname..."), $exception_config); // Can happen?
+        }
         $this->data->$idOfField = array("grouped" => $groupedColumnValues);
     }
 
@@ -78,7 +91,10 @@ class UniversalFilterTableContentRow {
                 } else {
                     if (isset($obj["grouped"])) {
                         debug_print_backtrace();
-                        throw new TDTException(500,array("Error: Can not execute this operation on a grouped field!"));
+                        $exception_config = array();
+                        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                        throw new TDTException(500, array("Error: Can not execute this operation on a grouped field!"), $exception_config);
                     } else {
                         // The value or id is null
                         if ($allowNull) {
@@ -90,7 +106,10 @@ class UniversalFilterTableContentRow {
                 }
             }
         } else {
-            throw new TDTException(500,array("Requested a unknown value on a row for a columnId: " . $idOfField . ""));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Requested a unknown value on a row for a columnId: " . $idOfField . ""), $exception_config);
         }
     }
 
@@ -107,7 +126,10 @@ class UniversalFilterTableContentRow {
                 return null;
             }
         } else {
-            throw new TDTException(500,array("Requested a unknown value on a row for a columnId " . $idOfField . ""));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Requested a unknown value on a row for a columnId " . $idOfField . ""), $exception_config);
         }
     }
 
@@ -130,7 +152,10 @@ class UniversalFilterTableContentRow {
         if (isset($this->data->$oldField)) {
             $newRow->data->$newField = $this->data->$oldField;
         } else {
-            throw new TDTException(500,array("Requested a unknown value on a row for a columnId " . $oldField . ""));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Requested a unknown value on a row for a columnId " . $oldField . ""), $exception_config);
         }
     }
 

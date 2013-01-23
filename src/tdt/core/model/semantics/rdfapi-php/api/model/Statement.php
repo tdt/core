@@ -97,7 +97,7 @@ class Statement extends Object {
     public function getObject() {
         return $this->obj;
     }
-    
+
     public function setSubject($subj) {
         $this->subj = $subj;
     }
@@ -109,8 +109,6 @@ class Statement extends Object {
     public function setObject($obj) {
         $this->obj = $obj;
     }
-
-        
 
     /**
      * Retruns the hash code of the triple.

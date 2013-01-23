@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Abstract class to update a resource
  *
@@ -10,7 +11,7 @@
 
 namespace tdt\core\model\resources\update;
 
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
 
 abstract class AUpdater {
 
@@ -31,8 +32,11 @@ abstract class AUpdater {
     public function processParameters($parameters) {
         foreach ($parameters as $key => $value) {
             //check whether this parameter is in the documented parameters
-            if (!in_array($key,array_keys($this->getParameters()))) {
-                throw new TDTException(452, array("Parameter: $key doesn't exist."));
+            if (!in_array($key, array_keys($this->getParameters()))) {
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("Parameter: $key doesn't exist."), $exception_config);
             }
             $this->setParameter($key, $value);
         }
@@ -46,10 +50,9 @@ abstract class AUpdater {
     /**
      * Get the parameters for the update action
      */
-    public function getParameters(){
+    public function getParameters() {
         
     }
-    
 
     /**
      * Set the parameter to the resource.

@@ -293,7 +293,7 @@ class MemModel extends Model {
      * @throws   PhpError
      * @return	boolean
      */
-    public function saveAs($filename, $type ='rdf') {
+    public function saveAs($filename, $type = 'rdf') {
 
 
         // get suffix and create a corresponding serializer
@@ -1099,7 +1099,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-    public function findAsIterator($sub=null, $pred=null, $obj=null) {
+    public function findAsIterator($sub = null, $pred = null, $obj = null) {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/FindIterator.php';
 
@@ -1112,7 +1112,7 @@ class MemModel extends Model {
      * @access	public
      * @return	object	FindIterator
      */
-    public function iterFind($sub=null, $pred=null, $obj=null) {
+    public function iterFind($sub = null, $pred = null, $obj = null) {
         // Import Package Utility
         require_once RDFAPI_INCLUDE_DIR . 'util/IterFind.php';
 

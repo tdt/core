@@ -10,7 +10,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html LGPL
  *
  */
-
 /**
  * Evaluates the regex() function. Returns true if the regex is matched false if not.
  *
@@ -20,19 +19,19 @@
  * @return boolean
  */
 function regex($string, $pattern, $flags = '') {
-    $string = trim($string);
-    $pattern = trim($pattern);
-    if (strpos($string, "str_") === 0) {
-        $string = substr($string, 4);
-        $pattern = substr($pattern, 4);
-        $flags = substr($flags, 4);
-    } else {
-        return false;
-    }
-    if (preg_match('/' . $pattern . '/' . $flags, $string))
-        return true;
-    else
-        return false;
+$string = trim($string);
+$pattern = trim($pattern);
+if (strpos($string, "str_") === 0) {
+$string = substr($string, 4);
+$pattern = substr($pattern, 4);
+$flags = substr($flags, 4);
+} else {
+return false;
+}
+if (preg_match('/' . $pattern . '/' . $flags, $string))
+return true;
+else
+return false;
 }
 
 /**
@@ -43,15 +42,15 @@ function regex($string, $pattern, $flags = '') {
  * @return integer        the corresponding unix timestamp
  */
 function dateTime($string) {
-    $string = trim($string);
-    if (strpos($string, "str_") === 0)
-        $string = substr($string, 4);
+$string = trim($string);
+if (strpos($string, "str_") === 0)
+$string = substr($string, 4);
 
-    $time = strtotime($string);
-    if ($time == -1)
-        return $string;
-    else
-        return $time;
+$time = strtotime($string);
+if ($time == -1)
+return $string;
+else
+return $time;
 }
 
 /**
@@ -63,28 +62,28 @@ function dateTime($string) {
  */
 function langMatches($lang_range, $lang_tag) {
 
-    if ($lang_range == null)
-        return false;
+if ($lang_range == null)
+return false;
 
-    if (strpos($lang_range, "str_") === 0)
-        $lang_range = substr($lang_range, 4);
-    if (strpos($lang_tag, "str_") === 0)
-        $lang_tag = substr($lang_tag, 4);
+if (strpos($lang_range, "str_") === 0)
+$lang_range = substr($lang_range, 4);
+if (strpos($lang_tag, "str_") === 0)
+$lang_tag = substr($lang_tag, 4);
 
-    if (strtolower($lang_range) == strtolower($lang_tag))
-        return true;
-    $tags = preg_match_all("/-s].-s]*/", $lang_range, $hits);
-    if ($tags) {
-        if ($lang_tag == '*')
-            return true;
-        foreach ($hits[0] as $tag) {
-            if (strtolower($tag) == strtolower($lang_tag))
-                return true;
-        }
-        return false;
-    }else {
-        return false;
-    }
+if (strtolower($lang_range) == strtolower($lang_tag))
+return true;
+$tags = preg_match_all("/-s].-s]*/", $lang_range, $hits);
+if ($tags) {
+if ($lang_tag == '*')
+return true;
+foreach ($hits[0] as $tag) {
+if (strtolower($tag) == strtolower($lang_tag))
+return true;
+}
+return false;
+}else {
+return false;
+}
 }
 
 /**
@@ -95,7 +94,7 @@ function langMatches($lang_range, $lang_tag) {
  * @return boolean
  */
 function str($string) {
-    $str = preg_match("/"."]*"|'.']*'/", $string, $hits);
+$str = preg_match("/"."]*"|'.']*'/", $string, $hits);
     if ($str != 0) {
         return "str_" . $hits[0];
     } else {

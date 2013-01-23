@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This class is an abstract formatter class. It will take an object and format it to a certain format.
  * This format and the logic to format it will be implemented in a class that inherits from this class.
@@ -9,15 +10,16 @@
  * @author Pieter Colpaert   <pieter@iRail.be>
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
+
 namespace tdt\core\formatters;
 
-use tdt\framework\Config;
+use tdt\core\utility\Config;
 
 abstract class AFormatter {
+
     protected $rootname;
     protected $objectToPrint;
     protected $format;
-
     // version of The DataTank API
     protected $version;
 
@@ -27,7 +29,7 @@ abstract class AFormatter {
      * @param Mixed  $objectToPrint Object that needs printing.
      */
     public function __construct($rootname, &$objectToPrint) {
-        include(__DIR__."/../version.php");
+        include(__DIR__ . "/../version.php");
         $this->version = $version;
 
         $this->rootname = $rootname;
@@ -56,6 +58,6 @@ abstract class AFormatter {
      * This function will print the body of the responsemessage.
      */
     abstract public function printBody();
-
 }
+
 ?>

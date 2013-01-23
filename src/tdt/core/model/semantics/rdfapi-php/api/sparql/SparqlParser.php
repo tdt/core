@@ -1,4 +1,5 @@
 <?php
+
 // ---------------------------------------------
 // Class: SparqlParser
 // ---------------------------------------------
@@ -10,212 +11,214 @@ require_once RDFAPI_INCLUDE_DIR . 'sparql/QueryTriple.php';
 require_once RDFAPI_INCLUDE_DIR . 'sparql/SparqlParserException.php';
 
 /**
-* Parses a SPARQL Query string and returns a Query Object.
-*
-* @author   Tobias Gauss <tobias.gauss@web.de>
-* @author   Christian Weiske <cweiske@cweiske.de>
-* @version     $Id$
-* @license http://www.gnu.org/licenses/lgpl.html LGPL
-*
-* @package sparql
-*/
+ * Parses a SPARQL Query string and returns a Query Object.
+ *
+ * @author   Tobias Gauss <tobias.gauss@web.de>
+ * @author   Christian Weiske <cweiske@cweiske.de>
+ * @version     $Id$
+ * @license http://www.gnu.org/licenses/lgpl.html LGPL
+ *
+ * @package sparql
+ */
 class SparqlParser extends Object
 {
 
-    /**
-    * The query Object
-    * @var Query
-    */
-    protected $query;
+/**
+ * The query Object
+ * @var Query
+ */
+protected $query;
 
-    /**
-    * The Querystring
-    * @var string
-    */
-    protected $queryString;
+/**
+ * The Querystring
+ * @var string
+ */
+protected $queryString;
 
-    /**
-    * The tokenized Query
-    * @var array
-    */
-    protected $tokens = array();
+/**
+ * The tokenized Query
+ * @var array
+ */
+protected $tokens = array();
 
-    /**
-    * Last parsed graphPattern
-    * @var int
-    */
-    protected $tmp;
+/**
+ * Last parsed graphPattern
+ * @var int
+ */
+protected $tmp;
 
-    /**
-    * Operators introduced by sparql
-    * @var array
-    */
-    protected static $sops = array(
-        'regex',
-        'bound',
-        'isuri',
-        'isblank',
-        'isliteral',
-        'str',
-        'lang',
-        'datatype',
-        'langmatches'
-    );
+/**
+ * Operators introduced by sparql
+ * @var array
+ */
+protected static $sops = array(
+'regex',
+ 'bound',
+ 'isuri',
+ 'isblank',
+ 'isliteral',
+ 'str',
+ 'lang',
+ 'datatype',
+ 'langmatches'
+);
 
-    /**
-    *   Which order operators are to be treated.
-    *   (11.3 Operator Mapping)
-    *   @var array
-    */
-    protected static $operatorPrecedence = array(
-        '||'    => 0,
-        '&&'    => 1,
-        '='     => 2,
-        '!='    => 3,
-        '<'     => 4,
-        '>'     => 5,
-        '<='    => 6,
-        '>='    => 7,
-        '*'     => 0,
-        '/'     => 0,
-        '+'     => 0,
-        '-'     => 0,
-    );
-
-
-
-    /**
-    * Constructor of SparqlParser
-    */
-    public function SparqlParser()
-    {
-    }
+/**
+ *   Which order operators are to be treated.
+ *   (11.3 Operator Mapping)
+ *   @var array
+ */
+protected static $operatorPrecedence = array(
+'||' => 0,
+ '&&' => 1,
+ '=' => 2,
+ '!=' => 3,
+ '<' => 4,
+ '>' => 5,
+ '<=' => 6,
+ '>=' => 7,
+ '*' => 0,
+ '/' => 0,
+ '+' => 0,
+ '-' => 0,
+);
 
 
 
-    /**
-    * Main function of SparqlParser. Parses a query string.
-    *
-    * @param  String $queryString The SPARQL query
-    * @return Query  The query object
-    * @throws SparqlParserException
-    */
-    public function parse($queryString = false)
-    {
-        $this->prepare();
-
-        if ($queryString) {
-            $this->query->setQueryString($queryString);
-            $uncommentedQuery  = $this->uncomment($queryString);
-            $this->queryString = $uncommentedQuery;
-            $this->tokens      = self::tokenize($uncommentedQuery);
-            $this->parseQuery();
-            if (!$this->query->isComplete()) {
-                throw new SparqlParserException(
-                    "Query is incomplete.",
-                    null,
-                    $queryString
-                );
-            }
-        } else {
-            throw new SparqlParserException(
-                "Querystring is empty.",
-                null,
-                key($this->tokens)
-            );
-            $this->query->isEmpty = true;
-        }
-        return $this->query;
-    }//public function parse($queryString = false)
+/**
+ * Constructor of SparqlParser
+ */
+public function SparqlParser()
+{
+}
 
 
 
-    /**
-    *   Set all internal variables to a clear state
-    *   before we start parsing.
-    */
-    protected function prepare()
-    {
-        $this->query          = new Query();
-        $this->queryString    = null;
-        $this->tokens         = array();
-        $this->tmp            = null;
-        // add the default prefixes defined in constants.php
-        global $default_prefixes;
-        $this->query->prefixes = $default_prefixes;
-    }//protected function prepare()
+/**
+ * Main function of SparqlParser. Parses a query string.
+ *
+ * @param  String $queryString The SPARQL query
+ * @return Query  The query object
+ * @throws SparqlParserException
+ */
+public function parse($queryString = false)
+{
+$this->prepare();
+
+if ($queryString) {
+$this->query->setQueryString($queryString);
+$uncommentedQuery = $this->uncomment($queryString);
+$this->queryString = $uncommentedQuery;
+$this->tokens = self::tokenize($uncommentedQuery);
+$this->parseQuery();
+if (!$this->query->isComplete()) {
+throw new SparqlParserException(
+"Query is incomplete.",
+ null,
+ $queryString
+);
+}
+} else {
+throw new SparqlParserException(
+"Querystring is empty.",
+ null,
+ key($this->tokens)
+);
+$this->query->isEmpty = true;
+}
+return $this->query;
+}//public function parse($queryString = false)
 
 
 
-    /**
-    * Tokenizes the query string into $tokens.
-    * The query may not contain any comments.
-    *
-    * @param  string $queryString Query to split into tokens
-    *
-    * @return array Tokens
-    */
-    public static function tokenize($queryString)
-    {
-        $queryString  = trim($queryString);
-        $specialChars = array(' ', "t", "r", "n", ',', '', '(', ')','{','}','"',"'",';','[',']');
-        $len          = strlen($queryString);
-        $tokens       = array('');
-        $n            = 0;
+/**
+ *   Set all internal variables to a clear state
+ *   before we start parsing.
+ */
+protected function prepare()
+{
+$this->query = new Query();
+$this->queryString = null;
+$this->tokens = array();
+$this->tmp = null;
+// add the default prefixes defined in constants.php
+global $default_prefixes;
+$this->query->prefixes = $default_prefixes;
+}//protected function prepare()
 
-        for ($i = 0; $i < $len; ++$i) {
-            if (!in_array($queryString{$i}, $specialChars)) {
-                $tokens[$n] .= $queryString{$i};
-            } else {
-                if ($tokens[$n] != '') {
-                    ++$n;
-                    if (!isset($tokens[$n])) {
-                        $tokens[$n] = '';
-                    }
-                }
-                if ($queryString{$i} == "'" && $n > 1
-                  && $tokens[$n - 2] == "'" && $tokens[$n - 1] == "'"
-                ) {
-                    //special ''' quotation
-                    $tokens[$n - 2] = "'''";
-                    $tokens[$n - 1] = '';
-                    unset($tokens[$n]);
-                    --$n;
-                    continue;
-                } else if ($queryString{$i} == '"' && $n > 1
-                  && $tokens[$n - 2] == '"' && $tokens[$n - 1] == '"'
-                ) {
-                    //special """ quotation
-                    $tokens[$n - 2] = '"""';
-                    $tokens[$n - 1] = '';
-                    unset($tokens[$n]);
-                    --$n;
-                    continue;
-                } else if ($queryString{$i} == '') {
-                    $tokens[$n] .= substr($queryString, $i, 2);
-                    ++$i;
-                    continue;
-                }
-                $tokens[$n] = $queryString{$i};
-                $tokens[++$n] = '';
-            }
-        }
+
+
+/**
+ * Tokenizes the query string into $tokens.
+ * The query may not contain any comments.
+ *
+ * @param  string $queryString Query to split into tokens
+ *
+ * @return array Tokens
+ */
+public static function tokenize($queryString)
+{
+$queryString = trim($queryString);
+$specialChars = array(' ', "t", "r", "n", ',', '', '(', ')', '{', '}', '"', "'", ';', '[', ']');
+$len = strlen($queryString);
+$tokens = array('');
+$n = 0;
+
+for ($i = 0;
+$i < $len;
+++$i) {
+if (!in_array($queryString{$i}, $specialChars)) {
+$tokens[$n] .= $queryString{$i};
+} else {
+if ($tokens[$n] != '') {
+++$n;
+if (!isset($tokens[$n])) {
+$tokens[$n] = '';
+}
+}
+if ($queryString{$i} == "'" && $n > 1
+&& $tokens[$n - 2] == "'" && $tokens[$n - 1] == "'"
+) {
+//special ''' quotation
+$tokens[$n - 2] = "'''";
+$tokens[$n - 1] = '';
+unset($tokens[$n]);
+--$n;
+continue;
+} else if ($queryString{$i} == '"' && $n > 1
+&& $tokens[$n - 2] == '"' && $tokens[$n - 1] == '"'
+) {
+//special """ quotation
+$tokens[$n - 2] = '"""';
+$tokens[$n - 1] = '';
+unset($tokens[$n]);
+--$n;
+continue;
+} else if ($queryString{$i} == '') {
+$tokens[$n] .= substr($queryString, $i, 2);
+++$i;
+continue;
+}
+$tokens[$n] = $queryString{$i};
+$tokens[++$n] = '';
+}
+}
 //var_dump($tokens);
-        return $tokens;
-    }//public static function tokenize($queryString)
+return $tokens;
+}//public static function tokenize($queryString)
 
 
 
-    /**
-    * Removes comments in the query string. Comments are
-    * indicated by '#'.
-    *
-    * @param  String $queryString
-    * @return String The uncommented query string
-    */
-    protected function uncomment($queryString)
-    {
-        $regex ="/((""]*")|('']*')|(<>]*>))|(#.*)/";
+/**
+ * Removes comments in the query string. Comments are
+ * indicated by '#'.
+ *
+ * @param  String $queryString
+ * @return String The uncommented query string
+ */
+protected function uncomment($queryString)
+{
+$regex = "/((""]*")|('']*')|(<>]*>))|(#.*)/";
         return preg_replace($regex,'1',$queryString);
     }//protected function uncomment($queryString)
 
@@ -283,7 +286,8 @@ class SparqlParser extends Object
             $this->query->setBase(current($this->tokens));
         } else {
             $msg = current($this->tokens);
-            $msg = preg_replace('/</', '&lt;', $msg);
+            $msg = preg_replace('/</', '&lt;
+', $msg);
             throw new SparqlParserException(
                 "IRI expected",
                 null,
@@ -310,7 +314,8 @@ class SparqlParser extends Object
             $this->query->addPrefix($prefix, $uri);
         } else {
             $msg = current($this->tokens);
-            $msg = preg_replace('/</', '&lt;', $msg);
+            $msg = preg_replace('/</', '&lt;
+', $msg);
             throw new SparqlParserException(
                 "IRI expected",
                 null,
@@ -429,162 +434,162 @@ class SparqlParser extends Object
     * Sets result form to 'ASK' and 'COUNT'.
     *
     * @param string $form  if it's an ASK or COUNT query
-    * @return void
-    */
-    protected function parseAsk($form){
-        $this->query->setResultForm($form);
-        $this->_fastForward();
-        if(current($this->tokens)=="{")
-            $this->_rewind();
-        $this->parseWhere();
-        $this->parseModifier();
-    }
+* @return void
+*/
+protected function parseAsk($form){
+$this->query->setResultForm($form);
+$this->_fastForward();
+if(current($this->tokens)=="{")
+$this->_rewind();
+$this->parseWhere();
+$this->parseModifier();
+}
 
-    /**
-    * Parses the FROM clause.
-    *
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseFrom(){
-        $this->_fastForward();
-        if(strtolower(current($this->tokens))!='named'){
-            if($this->iriCheck(current($this->tokens))||$this->qnameCheck(current($this->tokens))){
-                $this->query->addFrom(new Resource(substr(current($this->tokens),1,-1)));
-            }else if($this->varCheck(current($this->tokens))){
-                $this->query->addFrom(current($this->tokens));
-            }else{
-                throw new SparqlParserException("Variable, Iri or qname expected in FROM ",null,key($this->tokens));
-            }
-            $this->query->addFrom(current($this->tokens));
-        }else{
-            $this->_fastForward();
-            if($this->iriCheck(current($this->tokens))||$this->qnameCheck(current($this->tokens))){
-                $this->query->addFromNamed(new Resource(substr(current($this->tokens),1,-1)));
-            }else if($this->varCheck(current($this->tokens))){
-                $this->query->addFromNamed(current($this->tokens));
-            }else{
-                throw new SparqlParserException("Variable, Iri or qname expected in FROM NAMED ",null,key($this->tokens));
-            }
-        }
-    }
-
-
-    /**
-    * Parses the CONSTRUCT clause.
-    *
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseConstruct(){
-        $this->_fastForward();
-        $this->query->setResultForm('construct');
-        if(current($this->tokens)=="{"){
-            $this->parseGraphPattern(false,false,false,true);
-        }else{
-            throw new SparqlParserException("Unable to parse CONSTRUCT part. '{' expected. ",null,key($this->tokens));
-        }
-        $this->parseWhere();
-        $this->parseModifier();
-    }
+/**
+ * Parses the FROM clause.
+ *
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseFrom(){
+$this->_fastForward();
+if(strtolower(current($this->tokens))!='named'){
+if($this->iriCheck(current($this->tokens))||$this->qnameCheck(current($this->tokens))){
+$this->query->addFrom(new Resource(substr(current($this->tokens), 1, -1)));
+}else if($this->varCheck(current($this->tokens))){
+$this->query->addFrom(current($this->tokens));
+}else{
+throw new SparqlParserException("Variable, Iri or qname expected in FROM ", null, key($this->tokens));
+}
+$this->query->addFrom(current($this->tokens));
+}else{
+$this->_fastForward();
+if($this->iriCheck(current($this->tokens))||$this->qnameCheck(current($this->tokens))){
+$this->query->addFromNamed(new Resource(substr(current($this->tokens), 1, -1)));
+}else if($this->varCheck(current($this->tokens))){
+$this->query->addFromNamed(current($this->tokens));
+}else{
+throw new SparqlParserException("Variable, Iri or qname expected in FROM NAMED ", null, key($this->tokens));
+}
+}
+}
 
 
-    /**
-    * Parses the WHERE clause.
-    *
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseWhere(){
-        $this->_fastForward();
-        if(current($this->tokens)=="{"){
-            $this->parseGraphPattern();
-        }else{
-            throw new SparqlParserException("Unable to parse WHERE part. '{' expected in Query. ",null,key($this->tokens));
-        }
-    }
+/**
+ * Parses the CONSTRUCT clause.
+ *
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseConstruct(){
+$this->_fastForward();
+$this->query->setResultForm('construct');
+if(current($this->tokens)=="{"){
+$this->parseGraphPattern(false, false, false, true);
+}else{
+throw new SparqlParserException("Unable to parse CONSTRUCT part. '{' expected. ", null, key($this->tokens));
+}
+$this->parseWhere();
+$this->parseModifier();
+}
 
 
-
-    /**
-    * Checks if $token is a variable.
-    *
-    * @param  String  $token The token
-    * @return boolean TRUE if the token is a variable false if not
-    */
-    protected function varCheck($token)
-    {
-        if (isset($token[0]) && ($token{0} == '$' || $token{0} == '?')) {
-            $this->query->addUsedVar($token);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-    * Checks if $token is an IRI.
-    *
-    * @param  String  $token The token
-    * @return boolean TRUE if the token is an IRI false if not
-    */
-    protected function iriCheck($token){
-        $pattern="/^<[^>]*>.?$/";
-        if(preg_match($pattern,$token)>0)
-        return true;
-        return false;
-    }
-
-
-    /**
-    * Checks if $token is a Blanknode.
-    *
-    * @param  String  $token The token
-    * @return boolean TRUE if the token is BNode false if not
-    */
-    protected function bNodeCheck($token){
-        if($token{0} == "_")
-        return true;
-        else
-        return false;
-    }
-
-
-    /**
-    * Checks if $token is a qname.
-    *
-    * @param  String  $token The token
-    * @return boolean TRUE if the token is a qname false if not
-    * @throws SparqlParserException
-    */
-    protected function qnameCheck($token)
-    {
-        $pattern="/^([^:<]*):([^:]*)$/";
-        if (preg_match($pattern,$token,$hits)>0) {
-            $prefs = $this->query->getPrefixes();
-            if (isset($prefs{$hits{1}})) {
-                return true;
-            }
-            if ($hits{1} == "_") {
-                return true;
-            }
-            throw new SparqlParserException("Unbound Prefix: <i>".$hits{1}."</i>",null,key($this->tokens));
-        } else {
-            return false;
-        }
-    }
+/**
+ * Parses the WHERE clause.
+ *
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseWhere(){
+$this->_fastForward();
+if(current($this->tokens)=="{"){
+$this->parseGraphPattern();
+}else{
+throw new SparqlParserException("Unable to parse WHERE part. '{' expected in Query. ", null, key($this->tokens));
+}
+}
 
 
 
-    /**
-    * Checks if $token is a Literal.
-    *
-    * @param string $token The token
-    *
-    * @return boolean TRUE if the token is a Literal false if not
-    */
-    protected function literalCheck($token)
-    {
-        $pattern = "/"'].*$/";
+/**
+ * Checks if $token is a variable.
+ *
+ * @param  String  $token The token
+ * @return boolean TRUE if the token is a variable false if not
+ */
+protected function varCheck($token)
+{
+if (isset($token[0]) && ($token{0} == '$' || $token{0} == '?')) {
+$this->query->addUsedVar($token);
+return true;
+}
+return false;
+}
+
+/**
+ * Checks if $token is an IRI.
+ *
+ * @param  String  $token The token
+ * @return boolean TRUE if the token is an IRI false if not
+ */
+protected function iriCheck($token){
+$pattern = "/^<[^>]*>.?$/";
+if(preg_match($pattern, $token)>0)
+return true;
+return false;
+}
+
+
+/**
+ * Checks if $token is a Blanknode.
+ *
+ * @param  String  $token The token
+ * @return boolean TRUE if the token is BNode false if not
+ */
+protected function bNodeCheck($token){
+if($token{0} == "_")
+return true;
+else
+return false;
+}
+
+
+/**
+ * Checks if $token is a qname.
+ *
+ * @param  String  $token The token
+ * @return boolean TRUE if the token is a qname false if not
+ * @throws SparqlParserException
+ */
+protected function qnameCheck($token)
+{
+$pattern = "/^([^:<]*):([^:]*)$/";
+if (preg_match($pattern, $token, $hits)>0) {
+$prefs = $this->query->getPrefixes();
+if (isset($prefs{$hits{1}})) {
+return true;
+}
+if ($hits{1} == "_") {
+return true;
+}
+throw new SparqlParserException("Unbound Prefix: <i>".$hits{1}."</i>", null, key($this->tokens));
+} else {
+return false;
+}
+}
+
+
+
+/**
+ * Checks if $token is a Literal.
+ *
+ * @param string $token The token
+ *
+ * @return boolean TRUE if the token is a Literal false if not
+ */
+protected function literalCheck($token)
+{
+$pattern = "/"'].*$/";
         if (preg_match($pattern,$token) > 0) {
             return true;
         }
@@ -893,37 +898,37 @@ class SparqlParser extends Object
     *   @internal The functionality of this method is being unit-tested
     *   in testSparqlParserTests::testParseFilter()
     *   "equation'-elements have another key "level" which is to be used
-    *   internally only.
-    *
-    *   @return array Nested tree array representing the filter
-    */
-    protected function parseConstraintTree($nLevel = 0, $bParameter = false)
-    {
-        $tree       = array();
-        $part       = array();
-        $chQuotes   = null;
-        $litQuotes  = null;
-        $strQuoted  = '';
+* internally only.
+*
+* @return array Nested tree array representing the filter
+*/
+protected function parseConstraintTree($nLevel = 0, $bParameter = false)
+{
+$tree = array();
+$part = array();
+$chQuotes = null;
+$litQuotes = null;
+$strQuoted = '';
 
-        while ($tok = next($this->tokens)) {
+while ($tok = next($this->tokens)) {
 //var_dump(array($tok, $tok[strlen($tok) - 1]));
-            if ($chQuotes !== null && $tok != $chQuotes) {
-                $strQuoted .= $tok;
-                continue;
-            } else if ($litQuotes !== null) {
-                $strQuoted .= $tok;
-                if ($tok[strlen($tok) - 1] == '>') {
-                    $tok = '>';
-                } else {
-                    continue;
-                }
-            } else if ($tok == ')' || $tok == '}' || $tok == '.') {
-                break;
-            }
+if ($chQuotes !== null && $tok != $chQuotes) {
+$strQuoted .= $tok;
+continue;
+} else if ($litQuotes !== null) {
+$strQuoted .= $tok;
+if ($tok[strlen($tok) - 1] == '>') {
+$tok = '>';
+} else {
+continue;
+}
+} else if ($tok == ')' || $tok == '}' || $tok == '.') {
+break;
+}
 
-            switch ($tok) {
-                case '"':
-                case ''':
+switch ($tok) {
+case '"':
+case ''':
                     if ($chQuotes === null) {
                         $chQuotes  = $tok;
                         $strQuoted = '';
@@ -982,7 +987,7 @@ class SparqlParser extends Object
                 case "t":
                     continue 2;
 
-                case '=':
+                case ' = ':
                 case '>':
                 case '<':
                 case '<=':
@@ -1016,7 +1021,7 @@ class SparqlParser extends Object
                     $tree['negated'] = true;
                     continue 2;
 
-                case ',':
+                case ', ':
                     //parameter separator
                     if (count($part) == 0 && !isset($tree['type'])) {
                         throw new SparqlParserException(
@@ -1064,488 +1069,487 @@ class SparqlParser extends Object
                     'value'     => $tok,
                     'quoted'    => false,
                     'datatype'  => 'http://www.w3.org/2001/XMLSchema#boolean'
-                );
-            } else {
-                $part[] = array(
-                    'type'      => 'value',
-                    'value'     => $tok,
-                    'quoted'    => false
-                );
-            }
+);
+} else {
+$part[] = array(
+'type' => 'value',
+ 'value' => $tok,
+ 'quoted' => false
+);
+}
 
-            if (isset($tree['type']) && $tree['type'] == 'equation' && isset($part[0])) {
-                $tree['operand2'] = $part[0];
-                self::balanceTree($tree);
-                $part = array();
-            }
-        }
+if (isset($tree['type']) && $tree['type'] == 'equation' && isset($part[0])) {
+$tree['operand2'] = $part[0];
+self::balanceTree($tree);
+$part = array();
+}
+}
 
-        if (!isset($tree['type']) && $bParameter) {
-            return $part;
-        } else if (isset($tree['type']) && $tree['type'] == 'equation'
-            && isset($tree['operand1']) && !isset($tree['operand2'])
-            && isset($part[0])) {
-            $tree['operand2'] = $part[0];
-            self::balanceTree($tree);
-        }
+if (!isset($tree['type']) && $bParameter) {
+return $part;
+} else if (isset($tree['type']) && $tree['type'] == 'equation'
+&& isset($tree['operand1']) &&!isset($tree['operand2'])
+&& isset($part[0])) {
+$tree['operand2'] = $part[0];
+self::balanceTree($tree);
+}
 
-        if (!isset($tree['type']) && isset($part[0])) {
-            if (isset($tree['negated'])) {
-                $part[0]['negated'] = true;
-            }
-            return $part[0];
-        }
+if (!isset($tree['type']) && isset($part[0])) {
+if (isset($tree['negated'])) {
+$part[0]['negated'] = true;
+}
+return $part[0];
+}
 
-        return $tree;
-    }//protected function parseConstraintTree($nLevel = 0, $bParameter = false)
-
-
-
-    /**
-    *   "Balances" the filter tree in the way that operators on the same
-    *   level are nested according to their precedence defined in
-    *   $operatorPrecedence array.
-    *
-    *   @param array $tree  Tree to be modified
-    */
-    protected static function balanceTree(&$tree)
-    {
-        if (
-            isset($tree['type']) && $tree['type'] == 'equation'
-         && isset($tree['operand1']['type']) && $tree['operand1']['type'] == 'equation'
-         && $tree['level'] == $tree['operand1']['level']
-         && self::$operatorPrecedence[$tree['operator']] > self::$operatorPrecedence[$tree['operand1']['operator']]
-        ) {
-            $op2 = array(
-                'type'      => 'equation',
-                'level'     => $tree['level'],
-                'operator'  => $tree['operator'],
-                'operand1'  => $tree['operand1']['operand2'],
-                'operand2'  => $tree['operand2']
-            );
-            $tree['operator']   = $tree['operand1']['operator'];
-            $tree['operand1']   = $tree['operand1']['operand1'];
-            $tree['operand2']   = $op2;
-        }
-    }//protected static function balanceTree(&$tree)
+return $tree;
+}//protected function parseConstraintTree($nLevel = 0, $bParameter = false)
 
 
 
-    protected static function fixNegationInFuncName(&$tree)
-    {
-        if ($tree['type'] == 'function' && $tree['name'][0] == '!') {
-            $tree['name'] = substr($tree['name'], 1);
-            if (!isset($tree['negated'])) {
-                $tree['negated'] = true;
-            } else {
-                unset($tree['negated']);
-            }
-            //perhaps more !!
-            self::fixNegationInFuncName($tree);
-        }
-    }//protected static function fixNegationInFuncName(&$tree)
+/**
+ *   "Balances" the filter tree in the way that operators on the same
+ *   level are nested according to their precedence defined in
+ *   $operatorPrecedence array.
+ *
+ *   @param array $tree  Tree to be modified
+ */
+protected static function balanceTree(&$tree)
+{
+if (
+isset($tree['type']) && $tree['type'] == 'equation'
+&& isset($tree['operand1']['type']) && $tree['operand1']['type'] == 'equation'
+&& $tree['level'] == $tree['operand1']['level']
+&& self::$operatorPrecedence[$tree['operator']] > self::$operatorPrecedence[$tree['operand1']['operator']]
+) {
+$op2 = array(
+'type' => 'equation',
+ 'level' => $tree['level'],
+ 'operator' => $tree['operator'],
+ 'operand1' => $tree['operand1']['operand2'],
+ 'operand2' => $tree['operand2']
+);
+$tree['operator'] = $tree['operand1']['operator'];
+$tree['operand1'] = $tree['operand1']['operand1'];
+$tree['operand2'] = $op2;
+}
+}//protected static function balanceTree(&$tree)
 
 
 
-    /**
-    * Parses a bracketted expression.
-    *
-    * @param  Constraint $constraint
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseBrackettedExpression(&$constraint)
-    {
-        $open = 1;
-        $exp = "";
-        $this->_fastForward();
-        while ($open != 0 && current($this->tokens)!= false) {
-            switch (current($this->tokens)) {
-                case "(":
-                    $open++;
-                    $exp = $exp . current($this->tokens);
-                    break;
-                case ")":
-                    $open--;
-                    if($open != 0){
-                        $exp = $exp . current($this->tokens);
-                    }
-                    break;
-                case false:
-                    throw new SparqlParserException(
-                        "Unexpected end of query.",
-                        null,
-                        key($this->tokens)
-                    );
-                default:
-                    $exp = $exp . current($this->tokens);
-                    break;
-            }
-            next($this->tokens);
-        }
-        $constraint->addExpression($exp);
-    }
-
-
-    /**
-    * Parses an expression.
-    *
-    * @param  Constraint  $constrain
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseExpression(&$constraint)
-    {
-        $exp = "";
-        while (current($this->tokens) != false && current($this->tokens) != "}") {
-            switch (current($this->tokens)) {
-                case false:
-                    throw new SparqlParserException(
-                        "Unexpected end of query.",
-                        null,
-                        key($this->tokens)
-                    );
-                case ".":
-                    break;
-                    break;
-                default:
-                    $exp = $exp . current($this->tokens);
-                    break;
-            }
-            next($this->tokens);
-        }
-        $constraint->addExpression($exp);
-    }
-
-    /**
-    * Parses a GRAPH clause.
-    *
-    * @param  GraphPattern $pattern
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseGraph(){
-        $this->_fastForward();
-        $name = current($this->tokens);
-        if(!$this->varCheck($name)&!$this->iriCheck($name)&&!$this->qnameCheck($name)){
-            $msg = $name;
-            $msg = preg_replace('/</', '&lt;', $msg);
-            throw new SparqlParserException(" IRI or Var expected. ",null,key($this->tokens));
-        }
-        $this->_fastForward();
-
-        if($this->iriCheck($name)){
-            $name = new Resource(substr($name,1,-1));
-        }else if($this->qnameCheck($name)){
-            $name = new Resource($this->query->getFullUri($name));
-        }
-        $this->parseGraphPattern(false,false,$name);
-        if(current($this->tokens)=='.')
-        $this->_fastForward();
-    }
-
-    /**
-    * Parses the solution modifiers of a query.
-    *
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseModifier(){
-        do{
-            switch(strtolower(current($this->tokens))){
-                case "order":
-                $this->_fastForward();
-                if(strtolower(current($this->tokens))=='by'){
-                    $this->_fastForward();
-                    $this->parseOrderCondition();
-                }else{
-                    throw new SparqlParserException("'BY' expected.",null,key($this->tokens));
-                }
-                break;
-                case "limit":
-                $this->_fastForward();
-                $val = current($this->tokens);
-                $this->query->setSolutionModifier('limit',$val);
-                break;
-                case "offset":
-                $this->_fastForward();
-                $val = current($this->tokens);
-                $this->query->setSolutionModifier('offset',$val);
-                break;
-                default:
-                break;
-            }
-        }while(next($this->tokens));
-    }
-
-    /**
-    * Parses order conditions of a query.
-    *
-    * @return void
-    * @throws SparqlParserException
-    */
-    protected function parseOrderCondition(){
-        $valList = array();
-        $val = array();
-        while(strtolower(current($this->tokens))!='limit'
-        & strtolower(current($this->tokens))!= false
-        & strtolower(current($this->tokens))!= 'offset'){
-            switch (strtolower(current($this->tokens))){
-                case "desc":
-                $this->_fastForward();
-                $this->_fastForward();
-                if($this->varCheck(current($this->tokens))){
-                    $val['val'] = current($this->tokens);
-                }else{
-                    throw new SparqlParserException("Variable expected in ORDER BY clause. ",null,key($this->tokens));
-                }
-                $this->_fastForward();
-                if(current($this->tokens)!=')')
-                throw new SparqlParserException("missing ')' in ORDER BY clause.",null,key($this->tokens));
-                $val['type'] = 'desc';
-                $this->_fastForward();
-                break;
-                case "asc" :
-                $this->_fastForward();
-                $this->_fastForward();
-                if($this->varCheck(current($this->tokens))){
-                    $val['val'] = current($this->tokens);
-                }else{
-                    throw new SparqlParserException("Variable expected in ORDER BY clause. ",null,key($this->tokens));
-                }
-                $this->_fastForward();
-                if(current($this->tokens)!=')')
-                throw new SparqlParserException("missing ')' in ORDER BY clause.",null,key($this->tokens));
-                $val['type'] = 'asc';
-                $this->_fastForward();
-                break;
-                default:
-                if($this->varCheck(current($this->tokens))){
-                    $val['val'] = current($this->tokens);
-                    $val['type'] = 'asc';
-                }else{
-                    throw new SparqlParserException("Variable expected in ORDER BY clause. ",null,key($this->tokens));
-                }
-                $this->_fastForward();
-                break;
-            }
-            $valList[] = $val;
-        }
-        prev($this->tokens);
-        $this->query->setSolutionModifier('order by',$valList);
-    }
-
-    /**
-    * Parses a String to an RDF node.
-    *
-    * @param  String $node
-    *
-    * @return Node   The parsed RDF node
-    * @throws SparqlParserException
-    */
-    protected function parseNode($node = false)
-    {
-        //$eon = false;
-        if ($node) {
-            $node = $node;
-        } else {
-            $node = current($this->tokens);
-        }
-        if ($node{strlen($node)-1} == '.') {
-            $node = substr($node,0,-1);
-        }
-        if ($this->dtypeCheck($node)) {
-            return $node;
-        }
-        if ($this->bNodeCheck($node)) {
-            $node = '?'.$node;
-            $this->query->addUsedVar($node);
-            return $node;
-        }
-        if ($node == '[') {
-            $node = '?' . substr($this->query->getBlanknodeLabel(), 1);
-            $this->query->addUsedVar($node);
-            $this->_fastForward();
-            if(current($this->tokens)!=']') {
-                prev($this->tokens);
-            }
-            return $node;
-        }
-        if ($this->iriCheck($node)){
-            $base = $this->query->getBase();
-            if ($base!=null) {
-                $node = new Resource(substr(substr($base,0,-1).substr($node,1),1,-1));
-            } else {
-                $node = new Resource(substr($node,1,-1));
-            }
-            return $node;
-        } else if ($this->qnameCheck($node)) {
-            $node = $this->query->getFullUri($node);
-            $node = new Resource($node);
-            return $node;
-        } else if ($this->literalCheck($node)) {
-            $ch     = substr($node, 0, 1);
-            $chLong = str_repeat($ch, 3);
-            if (substr($node, 0, 3) == $chLong) {
-                $ch = $chLong;
-            }
-            $this->parseLiteral($node, $ch);
-        } else if ($this->varCheck($node)) {
-            $pos = strpos($node,'.');
-            if ($pos) {
-                return substr($node,0,$pos);
-            } else {
-                return $node;
-            }
-        } else if ($node[0] == '<') {
-            //partial IRI? loop tokens until we find a closing >
-            while (next($this->tokens)) {
-                $node .= current($this->tokens);
-                if (substr($node, -1) == '>') {
-                    break;
-                }
-            }
-            if (substr($node, -1) != '>') {
-                throw new SparqlParserException(
-                    "Unclosed IRI: " . $node,
-                    null,
-                    key($this->tokens)
-                );
-            }
-            return $this->parseNode($node);
-        } else {
-            throw new SparqlParserException(
-                '"' . $node . '" is neither a valid rdf- node nor a variable.',
-                null,
-                key($this->tokens)
-            );
-        }
-        return $node;
-    }//protected function parseNode($node = false)
+protected static function fixNegationInFuncName(&$tree)
+{
+if ($tree['type'] == 'function' && $tree['name'][0] == '!') {
+$tree['name'] = substr($tree['name'], 1);
+if (!isset($tree['negated'])) {
+$tree['negated'] = true;
+} else {
+unset($tree['negated']);
+}
+//perhaps more !!
+self::fixNegationInFuncName($tree);
+}
+}//protected static function fixNegationInFuncName(&$tree)
 
 
 
-    /**
-    * Checks if there is a datatype given and appends it to the node.
-    *
-    * @param string $node Node to check
-    *
-    * @return void
-    */
-    protected function checkDtypeLang(&$node, $nSubstrLength = 1)
-    {
-        $this->_fastForward();
-        switch (substr(current($this->tokens), 0, 1)) {
-            case '^':
-                if (substr(current($this->tokens),0,2)=='^^') {
-                    $node = new Literal(substr($node,1,-1));
-                    $node->setDatatype(
-                        $this->query->getFullUri(
-                            substr(current($this->tokens), 2)
-                        )
-                    );
-                }
-                break;
-            case '@':
-                $node = new Literal(
-                    substr($node, $nSubstrLength, -$nSubstrLength),
-                    substr(current($this->tokens), $nSubstrLength)
-                );
-                break;
-            default:
-                prev($this->tokens);
-                $node = new Literal(substr($node, $nSubstrLength, -$nSubstrLength));
-                break;
-
-        }
-    }//protected function checkDtypeLang(&$node, $nSubstrLength = 1)
-
-
-
-    /**
-    * Parses a literal.
-    *
-    * @param String $node
-    * @param String $sep used separator " or '
-    *
-    * @return void
-    */
-    protected function parseLiteral(&$node, $sep)
-    {
-        do {
-            next($this->tokens);
-            $node = $node.current($this->tokens);
-        } while (current($this->tokens) != $sep);
-        $this->checkDtypeLang($node, strlen($sep));
-    }//protected function parseLiteral(&$node, $sep)
+/**
+ * Parses a bracketted expression.
+ *
+ * @param  Constraint $constraint
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseBrackettedExpression(&$constraint)
+{
+$open = 1;
+$exp = "";
+$this->_fastForward();
+while ($open != 0 && current($this->tokens)!= false) {
+switch (current($this->tokens)) {
+case "(":
+$open++;
+$exp = $exp . current($this->tokens);
+break;
+case ")":
+$open--;
+if($open != 0){
+$exp = $exp . current($this->tokens);
+}
+break;
+case false:
+throw new SparqlParserException(
+"Unexpected end of query.",
+ null,
+ key($this->tokens)
+);
+default:
+$exp = $exp . current($this->tokens);
+break;
+}
+next($this->tokens);
+}
+$constraint->addExpression($exp);
+}
 
 
+/**
+ * Parses an expression.
+ *
+ * @param  Constraint  $constrain
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseExpression(&$constraint)
+{
+$exp = "";
+while (current($this->tokens) != false && current($this->tokens) != "}") {
+switch (current($this->tokens)) {
+case false:
+throw new SparqlParserException(
+"Unexpected end of query.",
+ null,
+ key($this->tokens)
+);
+case ".":
+break;
+break;
+default:
+$exp = $exp . current($this->tokens);
+break;
+}
+next($this->tokens);
+}
+$constraint->addExpression($exp);
+}
 
-    /**
-    * Checks if the Node is a typed Literal.
-    *
-    * @param String $node
-    *
-    * @return boolean TRUE if typed FALSE if not
-    */
-    protected function dtypeCheck(&$node)
-    {
-        $patternInt = "/^-?[0-9]+$/";
-        $match = preg_match($patternInt,$node,$hits);
-        if($match>0){
-            $node = new Literal($hits[0]);
-            $node->setDatatype(XML_SCHEMA.'integer');
-            return true;
-        }
-        $patternBool = "/^(true|false)$/";
-        $match = preg_match($patternBool,$node,$hits);
-        if($match>0){
-            $node = new Literal($hits[0]);
-            $node->setDatatype(XML_SCHEMA.'boolean');
-            return true;
-        }
-        $patternType = "/^a$/";
-        $match = preg_match($patternType,$node,$hits);
-        if($match>0){
-            $node = new Resource(RDF_NAMESPACE_URI.'type');
-            return true;
-        }
-        $patternDouble = "/^-?[0-9]+.[0-9]+[e|E]?-?[0-9]*/";
-        $match = preg_match($patternDouble,$node,$hits);
-        if($match>0){
-            $node = new Literal($hits[0]);
-            $node->setDatatype(XML_SCHEMA.'double');
-            return true;
-        }
-        return false;
-    }//protected function dtypeCheck(&$node)
+/**
+ * Parses a GRAPH clause.
+ *
+ * @param  GraphPattern $pattern
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseGraph(){
+$this->_fastForward();
+$name = current($this->tokens);
+if(!$this->varCheck($name)&!$this->iriCheck($name)&&!$this->qnameCheck($name)){
+$msg = $name;
+$msg = preg_replace('/</', '&lt;', $msg);
+throw new SparqlParserException(" IRI or Var expected. ", null, key($this->tokens));
+}
+$this->_fastForward();
+
+if($this->iriCheck($name)){
+$name = new Resource(substr($name, 1, -1));
+}else if($this->qnameCheck($name)){
+$name = new Resource($this->query->getFullUri($name));
+}
+$this->parseGraphPattern(false, false, $name);
+if(current($this->tokens)=='.')
+$this->_fastForward();
+}
+
+/**
+ * Parses the solution modifiers of a query.
+ *
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseModifier(){
+do{
+switch(strtolower(current($this->tokens))){
+case "order":
+$this->_fastForward();
+if(strtolower(current($this->tokens))=='by'){
+$this->_fastForward();
+$this->parseOrderCondition();
+}else{
+throw new SparqlParserException("'BY' expected.", null, key($this->tokens));
+}
+break;
+case "limit":
+$this->_fastForward();
+$val = current($this->tokens);
+$this->query->setSolutionModifier('limit', $val);
+break;
+case "offset":
+$this->_fastForward();
+$val = current($this->tokens);
+$this->query->setSolutionModifier('offset', $val);
+break;
+default:
+break;
+}
+}while(next($this->tokens));
+}
+
+/**
+ * Parses order conditions of a query.
+ *
+ * @return void
+ * @throws SparqlParserException
+ */
+protected function parseOrderCondition(){
+$valList = array();
+$val = array();
+while(strtolower(current($this->tokens))!='limit'
+& strtolower(current($this->tokens))!= false
+& strtolower(current($this->tokens))!= 'offset'){
+switch (strtolower(current($this->tokens))){
+case "desc":
+$this->_fastForward();
+$this->_fastForward();
+if($this->varCheck(current($this->tokens))){
+$val['val'] = current($this->tokens);
+}else{
+throw new SparqlParserException("Variable expected in ORDER BY clause. ", null, key($this->tokens));
+}
+$this->_fastForward();
+if(current($this->tokens)!=')')
+throw new SparqlParserException("missing ')' in ORDER BY clause.", null, key($this->tokens));
+$val['type'] = 'desc';
+$this->_fastForward();
+break;
+case "asc" :
+$this->_fastForward();
+$this->_fastForward();
+if($this->varCheck(current($this->tokens))){
+$val['val'] = current($this->tokens);
+}else{
+throw new SparqlParserException("Variable expected in ORDER BY clause. ", null, key($this->tokens));
+}
+$this->_fastForward();
+if(current($this->tokens)!=')')
+throw new SparqlParserException("missing ')' in ORDER BY clause.", null, key($this->tokens));
+$val['type'] = 'asc';
+$this->_fastForward();
+break;
+default:
+if($this->varCheck(current($this->tokens))){
+$val['val'] = current($this->tokens);
+$val['type'] = 'asc';
+}else{
+throw new SparqlParserException("Variable expected in ORDER BY clause. ", null, key($this->tokens));
+}
+$this->_fastForward();
+break;
+}
+$valList[] = $val;
+}
+prev($this->tokens);
+$this->query->setSolutionModifier('order by', $valList);
+}
+
+/**
+ * Parses a String to an RDF node.
+ *
+ * @param  String $node
+ *
+ * @return Node   The parsed RDF node
+ * @throws SparqlParserException
+ */
+protected function parseNode($node = false)
+{
+//$eon = false;
+if ($node) {
+$node = $node;
+} else {
+$node = current($this->tokens);
+}
+if ($node{strlen($node)-1} == '.') {
+$node = substr($node, 0, -1);
+}
+if ($this->dtypeCheck($node)) {
+return $node;
+}
+if ($this->bNodeCheck($node)) {
+$node = '?'.$node;
+$this->query->addUsedVar($node);
+return $node;
+}
+if ($node == '[') {
+$node = '?' . substr($this->query->getBlanknodeLabel(), 1);
+$this->query->addUsedVar($node);
+$this->_fastForward();
+if(current($this->tokens)!=']') {
+prev($this->tokens);
+}
+return $node;
+}
+if ($this->iriCheck($node)){
+$base = $this->query->getBase();
+if ($base!=null) {
+$node = new Resource(substr(substr($base, 0, -1).substr($node, 1), 1, -1));
+} else {
+$node = new Resource(substr($node, 1, -1));
+}
+return $node;
+} else if ($this->qnameCheck($node)) {
+$node = $this->query->getFullUri($node);
+$node = new Resource($node);
+return $node;
+} else if ($this->literalCheck($node)) {
+$ch = substr($node, 0, 1);
+$chLong = str_repeat($ch, 3);
+if (substr($node, 0, 3) == $chLong) {
+$ch = $chLong;
+}
+$this->parseLiteral($node, $ch);
+} else if ($this->varCheck($node)) {
+$pos = strpos($node, '.');
+if ($pos) {
+return substr($node, 0, $pos);
+} else {
+return $node;
+}
+} else if ($node[0] == '<') {
+//partial IRI? loop tokens until we find a closing >
+while (next($this->tokens)) {
+$node .= current($this->tokens);
+if (substr($node, -1) == '>') {
+break;
+}
+}
+if (substr($node, -1) != '>') {
+throw new SparqlParserException(
+"Unclosed IRI: " . $node,
+ null,
+ key($this->tokens)
+);
+}
+return $this->parseNode($node);
+} else {
+throw new SparqlParserException(
+'"' . $node . '" is neither a valid rdf- node nor a variable.',
+ null,
+ key($this->tokens)
+);
+}
+return $node;
+}//protected function parseNode($node = false)
 
 
 
-    /**
-    * Parses an RDF collection.
-    *
-    * @param  TriplePattern $trp
-    *
-    * @return Node          The first parsed label
-    */
-    protected function parseCollection(&$trp)
-    {
-        $tmpLabel = $this->query->getBlanknodeLabel();
-        $firstLabel = $this->parseNode($tmpLabel);
-        $this->_fastForward();
-        $i = 0;
-        while (current($this->tokens)!=")") {
-            if($i>0)
-            $trp[] = new QueryTriple($this->parseNode($tmpLabel),new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"),$this->parseNode($tmpLabel = $this->query->getBlanknodeLabel()));
-            $trp[] = new QueryTriple($this->parseNode($tmpLabel),new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"),$this->parseNode());
-            $this->_fastForward();
-            $i++;
-        }
-        $trp[] = new QueryTriple($this->parseNode($tmpLabel),new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"),new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"));
-        return $firstLabel;
-    }//protected function parseCollection(&$trp)
+/**
+ * Checks if there is a datatype given and appends it to the node.
+ *
+ * @param string $node Node to check
+ *
+ * @return void
+ */
+protected function checkDtypeLang(&$node, $nSubstrLength = 1)
+{
+$this->_fastForward();
+switch (substr(current($this->tokens), 0, 1)) {
+case '^':
+if (substr(current($this->tokens), 0, 2)=='^^') {
+$node = new Literal(substr($node, 1, -1));
+$node->setDatatype(
+$this->query->getFullUri(
+substr(current($this->tokens), 2)
+)
+);
+}
+break;
+case '@':
+$node = new Literal(
+substr($node, $nSubstrLength, -$nSubstrLength),
+ substr(current($this->tokens), $nSubstrLength)
+);
+break;
+default:
+prev($this->tokens);
+$node = new Literal(substr($node, $nSubstrLength, -$nSubstrLength));
+break;
+
+}
+}//protected function checkDtypeLang(&$node, $nSubstrLength = 1)
+
+
+
+/**
+ * Parses a literal.
+ *
+ * @param String $node
+ * @param String $sep used separator " or '
+ *
+ * @return void
+ */
+protected function parseLiteral(&$node, $sep)
+{
+do {
+next($this->tokens);
+$node = $node.current($this->tokens);
+} while (current($this->tokens) != $sep);
+$this->checkDtypeLang($node, strlen($sep));
+}//protected function parseLiteral(&$node, $sep)
+
+
+
+/**
+ * Checks if the Node is a typed Literal.
+ *
+ * @param String $node
+ *
+ * @return boolean TRUE if typed FALSE if not
+ */
+protected function dtypeCheck(&$node)
+{
+$patternInt = "/^-?[0-9]+$/";
+$match = preg_match($patternInt, $node, $hits);
+if($match>0){
+$node = new Literal($hits[0]);
+$node->setDatatype(XML_SCHEMA.'integer');
+return true;
+}
+$patternBool = "/^(true|false)$/";
+$match = preg_match($patternBool, $node, $hits);
+if($match>0){
+$node = new Literal($hits[0]);
+$node->setDatatype(XML_SCHEMA.'boolean');
+return true;
+}
+$patternType = "/^a$/";
+$match = preg_match($patternType, $node, $hits);
+if($match>0){
+$node = new Resource(RDF_NAMESPACE_URI.'type');
+return true;
+}
+$patternDouble = "/^-?[0-9]+.[0-9]+[e|E]?-?[0-9]*/";
+$match = preg_match($patternDouble, $node, $hits);
+if($match>0){
+$node = new Literal($hits[0]);
+$node->setDatatype(XML_SCHEMA.'double');
+return true;
+}
+return false;
+}//protected function dtypeCheck(&$node)
+
+
+
+/**
+ * Parses an RDF collection.
+ *
+ * @param  TriplePattern $trp
+ *
+ * @return Node          The first parsed label
+ */
+protected function parseCollection(&$trp)
+{
+$tmpLabel = $this->query->getBlanknodeLabel();
+$firstLabel = $this->parseNode($tmpLabel);
+$this->_fastForward();
+$i = 0;
+while (current($this->tokens)!=")") {
+if($i>0)
+$trp[] = new QueryTriple($this->parseNode($tmpLabel), new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"), $this->parseNode($tmpLabel = $this->query->getBlanknodeLabel()));
+$trp[] = new QueryTriple($this->parseNode($tmpLabel), new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#first"), $this->parseNode());
+$this->_fastForward();
+$i++;
+}
+$trp[] = new QueryTriple($this->parseNode($tmpLabel), new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"), new Resource("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"));
+return $firstLabel;
+}//protected function parseCollection(&$trp)
 
 }// end class: SparqlParser.php
-
 ?>

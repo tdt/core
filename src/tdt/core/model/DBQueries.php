@@ -337,26 +337,26 @@ class DBQueries {
              WHERE full_package_name=:package_name", array(":package_name" => $package)
         );
     }
-    
+
     /*
      * Retrieve a package's id by it's name and parent id
      */
-    static function getPackageIdByParentId($package_name,$parentId){
+
+    static function getPackageIdByParentId($package_name, $parentId) {
         return R::getAll(
-                "SELECT package.id as id
+                        "SELECT package.id as id
                  FROM package
-                 WHERE package_name=:package_name AND parent_package = :parent_package",
-                array(":package_name"=>$package_name, ":parent_package" => $parentId)
-            );
+                 WHERE package_name=:package_name AND parent_package = :parent_package", array(":package_name" => $package_name, ":parent_package" => $parentId)
+        );
     }
 
     /**
      * Store a package     
      */
-    static function storePackage($package,$fullPackageName,$parentId) {
+    static function storePackage($package, $fullPackageName, $parentId) {
         $newpackage = R::dispense("package");
         $newpackage->package_name = $package;
-        $newpackage->timestamp = time();       
+        $newpackage->timestamp = time();
         $newpackage->parent_package = $parentId;
         $newpackage->full_package_name = $fullPackageName;
         return R::store($newpackage);

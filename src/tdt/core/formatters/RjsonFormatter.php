@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the RDF/JSON formatter.
  * 
@@ -21,15 +22,15 @@ class RjsonFormatter extends AFormatter {
 
     public function printBody() {
         //Unwrap the object        
-        foreach ($this->objectToPrint as $class => $prop){
-            if (is_a($prop,"MemModel")){
+        foreach ($this->objectToPrint as $class => $prop) {
+            if (is_a($prop, "MemModel")) {
                 $this->objectToPrint = $prop;
                 break;
             }
         }
         //When the objectToPrint has a MemModel, it is already an RDF model and is ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!is_a($this->objectToPrint,"MemModel")) {
+        if (!is_a($this->objectToPrint, "MemModel")) {
             $outputter = new RDFOutput();
             $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
         }
@@ -49,10 +50,9 @@ class RjsonFormatter extends AFormatter {
         header("Content-Type: application/json;charset=UTF-8");
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation() {
         return "Prints in the Talis RDF JSON notation with semantic annotations";
     }
-
 
 }
 

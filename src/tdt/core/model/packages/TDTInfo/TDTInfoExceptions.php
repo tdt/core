@@ -24,7 +24,7 @@ class TDTInfoExceptions extends AReader {
     }
 
     public function setParameter($key, $val) {
-
+        
     }
 
     public function read() {

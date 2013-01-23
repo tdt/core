@@ -10,8 +10,8 @@
  *
  * @author mvdrsand
  */
-
 class TDTML {
+
     public static function PREFERREDMAP() {
         return new Resource('http://thedatatank.com/tdtml/1.0#preferredMap');
     }
