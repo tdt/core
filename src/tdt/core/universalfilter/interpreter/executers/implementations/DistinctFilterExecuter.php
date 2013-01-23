@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Executes the DistinctFilter filter
  * 
@@ -15,10 +16,11 @@ use tdt\core\universalfilter\interpreter\executers\base\BaseHashingFilterExecute
 use tdt\core\universalfilter\UniversalFilterNode;
 
 class DistinctFilterExecuter extends BaseHashingFilterExecuter {
-    
-    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo){
+
+    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo) {
         return true;
     }
+
 }
 
 ?>

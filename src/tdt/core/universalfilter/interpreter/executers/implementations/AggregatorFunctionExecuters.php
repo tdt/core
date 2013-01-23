@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains all evaluators for aggregators
  * 

@@ -8,8 +8,6 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-
-
 use tdt\core\universalfilter\data\UniversalFilterTable;
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\interpreter\Environment;

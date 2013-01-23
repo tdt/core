@@ -19,10 +19,13 @@ use tdt\core\universalfilter\NormalFilterNode;
 use tdt\core\universalfilter\UniversalFilterNode;
 
 class DummyUniversalFilterNode extends NormalFilterNode {
-    public function __construct(UniversalFilterNode $source=null) {
+
+    public function __construct(UniversalFilterNode $source = null) {
         parent::__construct("DUMMY");
-        if($source!=null) $this->setSource ($source);
+        if ($source != null)
+            $this->setSource($source);
     }
+
 }
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This it the implementation of the TableManager for The-DataTank
  * 
@@ -12,17 +13,16 @@
 
 namespace tdt\core\universalfilter\tablemanager\implementation;
 
-
-
 use tdt\core\model\ResourcesModel;
 use tdt\core\universalfilter\data\UniversalFilterTableHeader;
 use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
 use tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode;
-use tdt\core\universalfilter\tablemanager\implementation\IUniversalFilterTableManager;
+use tdt\core\universalfilter\tablemanager\IUniversalFilterTableManager;
 use tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter;
 use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
 use tdt\core\universalfilter\UniversalFilterNode;
-use tdt\framework\TDTException;
+use tdt\core\utility\Config;
+use tdt\exceptions\TDTException;
 
 class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
@@ -32,8 +32,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private $requestedTables = array();
     private $resourcesmodel;
 
-    public function __construct() {       
-        $this->resourcesmodel = ResourcesModel::getInstance();
+    public function __construct() {
+        $this->resourcesmodel = ResourcesModel::getInstance(Config::getConfigArray());
     }
 
     /**
@@ -44,7 +44,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     private function getFullResourcePhpObject($package, $resource, $RESTparameters = array()) {
 
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
 
         $doc = $model->getAllDoc();
         $parameters = array();
@@ -53,7 +53,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             //set the parameter of the method
 
             if (!isset($RESTparameters[0])) {
-                throw new TDTException(452, "Invalid parameter given: " . $parameter);
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, "Invalid parameter given: " . $parameter, $exception_config);
             }
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
@@ -92,8 +95,11 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         $result = $this->resourcesmodel->processPackageResourceString($packageresourcestring);
 
         if ($result["resourcename"] == "") {
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("Illegal identifier. Package does not contain a resourcename: "
-                . $globalTableIdentifier));
+                . $globalTableIdentifier),$exception_config);
         }
 
         return array($result["packagename"], $result["resourcename"], $result["RESTparameters"], $hierarchicalsubparts);
@@ -138,7 +144,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     public function getTableHeader($globalTableIdentifier) {
 
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
 
         $column = NULL;
@@ -204,7 +210,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         /*
          * Check if resource (source) is queryable
          */
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
 
         $globalTableIdentifier = str_replace("/", ".", $sourceId);
 
@@ -330,7 +336,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
                     }
                 }
             }
-         
+
             return $query;
         }
     }

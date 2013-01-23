@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Executes a filter that is calculated externally...
  *

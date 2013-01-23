@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Abstract class for reading(fetching) a resource
  *
@@ -11,7 +12,7 @@
 namespace tdt\core\model\resources\read;
 
 use tdt\framework\LanguageNegotiator;
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
 
 abstract class AReader {
 
@@ -45,7 +46,6 @@ abstract class AReader {
         return $this->read();
     }
 
-
     /**
      * read method of a resource
      */
@@ -69,23 +69,27 @@ abstract class AReader {
     /**
      * Override this function if you want to limit language support
      */
-    public function supportedLanguages(){
+    public function supportedLanguages() {
         return array();
     }
 
     /**
      * Asks a content negotiator class for a language. If the supported languages array is not empty, it will go for the most qualified one in that array.
      */
-    public function getLang(){
+    public function getLang() {
         $ln = new LanguageNegotiator();
         //the language negotiator will always have at least one result, so we can pop the first one without any problem
         $language = $ln->pop();
-        while($ln->hasNext() && (sizeof($this->supportedLanguages())==0 || !in_array($language,$this->supportedLanguages()))){
+        while ($ln->hasNext() && (sizeof($this->supportedLanguages()) == 0 || !in_array($language, $this->supportedLanguages()))) {
             $language = $ln->pop();
         }
-        if(sizeof($this->supportedLanguages())!=0 && !in_array($language,$this->supportedLanguages())){
-            throw new TDTException(500,array("Language: $language is not supported."));
+        if (sizeof($this->supportedLanguages()) != 0 && !in_array($language, $this->supportedLanguages())) {
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Language: $language is not supported."), $exception_config);
         }
         return $language;
     }
+
 }

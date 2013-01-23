@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This factory will provide Filters such as RESTFilter and SearchFilter
  *
@@ -10,30 +11,31 @@
 
 namespace tdt\core\model\filters;
 
-class FilterFactory{
+class FilterFactory {
 
-	private static $factory;
+    private static $factory;
 
-	private function __construct(){
+    private function __construct() {
+        
+    }
 
-	}
+    public static function getInstance() {
+        if (!isset(self::$factory)) {
+            self::$factory = new FilterFactory();
+        }
+        return self::$factory;
+    }
 
-	public static function getInstance(){
-		if(!isset(self::$factory)){
-			self::$factory = new FilterFactory();
-		}
-		return self::$factory;
-	}
-
-	/**
-	 * Gets the filter, and passes along the necessary parameters in order to create that filter
-	 * @param string $filter The filtername
-	 * @param array $params The parameters necessary to instantiate the filter class
-	 */
-	public static function getFilter($filter,$params){
-		$filter = "tdt\\core\\model\\filters\\". $filter;
-		return new $filter($params);
-	}
+    /**
+     * Gets the filter, and passes along the necessary parameters in order to create that filter
+     * @param string $filter The filtername
+     * @param array $params The parameters necessary to instantiate the filter class
+     */
+    public static function getFilter($filter, $params) {
+        $filter = "tdt\\core\\model\\filters\\" . $filter;
+        return new $filter($params);
+    }
 
 }
+
 ?>

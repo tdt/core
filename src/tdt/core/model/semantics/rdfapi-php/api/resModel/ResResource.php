@@ -130,7 +130,7 @@ class ResResource extends Resource {
      */
     public function hasProperty($property, $value = null) {
         $ret = $this->model->findFirstMatchingStatement($this, $property, $value);
-  
+
         return ($ret !== null);
     }
 

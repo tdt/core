@@ -28,11 +28,11 @@ class QueryTreeHandler {
         $this->sqlConverter = new SQLConverter($headerNames);
         $this->sqlConverter->treeToSQLClauses($query);
     }
-    
-    public function getSqlConverter(){
+
+    public function getSqlConverter() {
         return $this->sqlConverter;
-    }  
-    
+    }
+
     /*
      * Expects a clause name, currently supported orderby, where, groupby,select
      */

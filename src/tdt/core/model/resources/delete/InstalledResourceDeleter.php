@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class to delete an installed resource
  *
@@ -12,19 +13,21 @@ namespace tdt\core\model\resources\delete;
 
 use tdt\core\model\DBQueries;
 
-class InstalledResourceDeleter extends ADeleter{
+class InstalledResourceDeleter extends ADeleter {
 
     /**
      * execution method
      */
-    public function delete(){
+    public function delete() {
 
         /**
          * delete bottom up
          */
-        DBQueries::deleteInstalledResource($this->package,$this->resource);
-        DBQueries::deleteResource($this->package,$this->resource);
+        DBQueries::deleteInstalledResource($this->package, $this->resource);
+        DBQueries::deleteResource($this->package, $this->resource);
         DBQueries::deletePackage($this->package);
     }
+
 }
+
 ?>

@@ -15,12 +15,12 @@ use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableMan
 use tdt\core\universalfilter\UniversalFilterNode;
 
 interface IInterpreterControl {
-    
+
     /**
      * @return UniversalFilterNodeExecuter
      */
     public function findExecuterFor(UniversalFilterNode $filternode);
-    
+
     /**
      * @return UniversalFilterTableManager
      */

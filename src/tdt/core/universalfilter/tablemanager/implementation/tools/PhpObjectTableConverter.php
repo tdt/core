@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This class can convert a php-object to a table (as used by the interpreter)
  *
@@ -10,7 +11,6 @@
 
 namespace tdt\core\universalfilter\tablemanager\implementation\tools;
 
-
 use tdt\core\universalfilter\data\UniversalFilterTable;
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
@@ -19,13 +19,12 @@ use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
 
 class PhpObjectTableConverter {
 
-    public static $ID_FIELD="_id";
-    public static $ID_KEY="_key_";
+    public static $ID_FIELD = "_id";
+    public static $ID_KEY = "_key_";
 
     function is_assoc(array $array) {
-        return (bool)count(array_filter(array_keys($array), 'is_string'));
+        return (bool) count(array_filter(array_keys($array), 'is_string'));
     }
-
 
     /**
      * Finds all paths from $root by following the fields with names in $path
@@ -34,24 +33,24 @@ class PhpObjectTableConverter {
      * @param type $root
      * @param type $path
      */
-    private function findTablePhpArray($root, $path, $parentitemindex){
-        if(count($path)==1){
+    private function findTablePhpArray($root, $path, $parentitemindex) {
+        if (count($path) == 1) {
             $parentitemindex++;
         }
 
-        if(!empty($path)){
-            $oldpath=$path;
+        if (!empty($path)) {
+            $oldpath = $path;
             $fieldToSearch = array_shift($path);
 
-            if(is_array($root) || is_object($root)){
+            if (is_array($root) || is_object($root)) {
                 $fieldvalue = null;
-                if(is_array($root)){
+                if (is_array($root)) {
 
-                    if(true /* SEE NOTE*/ || $this->is_assoc($root)){
+                    if (true /* SEE NOTE */ || $this->is_assoc($root)) {
                         $fieldvalue = $root[$fieldToSearch];
 
                         return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
-                    }else{// numeric array or empty array -> search in children...
+                    } else {// numeric array or empty array -> search in children...
                         /* NOTE: */
                         /* if we would implement the _id and _key fields, this code would be better... */
                         /* but as they are not implemented, the user(!) will have problems finding the correct row... */
@@ -59,114 +58,111 @@ class PhpObjectTableConverter {
 
                         for ($i = 0; $i < count($root); $i++) {
                             $copyoldpath = $oldpath;
-                            $temparr = $this->findTablePhpArray($root[$i], $copyoldpath, 0/*todo*/);
+                            $temparr = $this->findTablePhpArray($root[$i], $copyoldpath, 0/* todo */);
                             $newfieldvalue = array_merge($newfieldvalue, $temparr);
                         }
                         $fieldvalue = $newfieldvalue;
 
                         return $fieldvalue;
                     }
-                }else{
-                    if(isset ($root->$fieldToSearch)){
+                } else {
+                    if (isset($root->$fieldToSearch)) {
                         $fieldvalue = $root->$fieldToSearch;
 
                         return $this->findTablePhpArray($fieldvalue, $path, $parentitemindex);
-                    }else{
+                    } else {
                         return array();
                     }
                 }
-            }else{
+            } else {
                 return array();
             }
-        }else{
-            if(is_object($root)){
+        } else {
+            if (is_object($root)) {
                 //return array(array("object" => $root, "parentindex" => $parentitemindex));
-
                 //NOTE: we do save the indices... it's a object.......
                 $rootarr = array();
-                foreach($root as $i => $ritem){
+                foreach ($root as $i => $ritem) {
                     $obj = new \stdClass();
-                    $obj->index=$i;
-                    $obj->value=$ritem;
+                    $obj->index = $i;
+                    $obj->value = $ritem;
                     array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
                 }
                 return $rootarr;
-            }else if(is_array($root)){
+            } else if (is_array($root)) {
                 //NOTE: we don't save the indices... it's an array.......
                 // (unless we find nonNumericIndices)
                 $foundNonNumericIndices = $this->is_assoc($root);
 
                 $rootarr = array();
-                foreach($root as $i => $ritem){
-                    if(is_object($ritem)){//this row is a object = ok
+                foreach ($root as $i => $ritem) {
+                    if (is_object($ritem)) {//this row is a object = ok
                         //ok!
-                    }else if(is_array ($ritem)){//this row is an array = need conversion
+                    } else if (is_array($ritem)) {//this row is an array = need conversion
                         $obj = new \stdClass();
-                        foreach($ritem as $a => $aitem){
+                        foreach ($ritem as $a => $aitem) {
                             $obj = new \stdClass();
-                            $index="index_".$a;
-                            $obj->$index=$aitem;
+                            $index = "index_" . $a;
+                            $obj->$index = $aitem;
                             array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
                         }
-                        $ritem=$obj;
-                    }else{//this row is a value...
+                        $ritem = $obj;
+                    } else {//this row is a value...
                         $obj = new \stdClass();
-                        $obj->value=$ritem;
+                        $obj->value = $ritem;
                         $ritem = $obj;
                     }
 
-                    if($foundNonNumericIndices){
+                    if ($foundNonNumericIndices) {
                         $ritem->index = $i;
                     }
 
                     array_push($rootarr, array("object" => $ritem, "parentindex" => $parentitemindex));
                 }
                 return $rootarr;
-            }else{
+            } else {
                 //should be in the parent table, as a field
                 return array();
             }
         }
     }
 
-    private function getPhpObjectsByIdentifier($splitedId,$resource){
-        $phpObj = $this->findTablePhpArray($resource, isset($splitedId[3])?$splitedId[3] : null, -1);
+    private function getPhpObjectsByIdentifier($splitedId, $resource) {
+        $phpObj = $this->findTablePhpArray($resource, isset($splitedId[3]) ? $splitedId[3] : null, -1);
 
         return $phpObj;
     }
 
-
-    private function parseColumnName($name){
+    private function parseColumnName($name) {
         return preg_replace("/[^A-Za-z0-9]/", "_", $name);
     }
 
-
-    private function getPhpObjectTableHeader($nameOfTable, $objects){
+    private function getPhpObjectTableHeader($nameOfTable, $objects) {
         $columns = array();
         $columnNames = array();
 
-        foreach($objects as $index => $data){
+        foreach ($objects as $index => $data) {
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
 
             $arr_obj = get_object_vars($obj);
-            foreach($arr_obj as $key => $value){
-                $columnName=$this->parseColumnName($key);
+            foreach ($arr_obj as $key => $value) {
+                $columnName = $this->parseColumnName($key);
 
-                if(!in_array($columnName, $columnNames)){
+                if (!in_array($columnName, $columnNames)) {
                     //new field: add header
                     array_push($columnNames, $columnName);
-                    $isLinked=false;
-                    $linkedTable=null;
-                    $linkedTableKey=null;
+                    $isLinked = false;
+                    $linkedTable = null;
+                    $linkedTableKey = null;
 
                     /* TODO: generate linked data info */
-                    /*if(is_array($value) || is_object($value)){
-                        //new field is subtable
-                        $isLinked=true;
-                        $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!
-                        $linkedTableKey=PhpObjectTableConverter::$ID_KEY.$columnName;//todo: check first if field does not exists...
-                    }*/
+                    /* if(is_array($value) || is_object($value)){
+                      //new field is subtable
+                      $isLinked=true;
+                      $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!
+                      $linkedTableKey=PhpObjectTableConverter::$ID_KEY.$columnName;//todo: check first if field does not exists...
+                      } */
 
                     array_push($columns, new UniversalFilterTableHeaderColumnInfo(array($columnName), $isLinked, $linkedTable, $linkedTableKey));
                 }
@@ -175,7 +171,6 @@ class PhpObjectTableConverter {
 
         // add id field (just a field...)
         //array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_FIELD), false, null, null)); //
-
         // add key_parent field
         //array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_KEY.$nameOfTable), false, null, null));
 
@@ -184,68 +179,66 @@ class PhpObjectTableConverter {
         return $header;
     }
 
-    public function getPhpObjectTableContent($header, $nameOfTable, $objects){
-        $rows=new UniversalFilterTableContent();
+    public function getPhpObjectTableContent($header, $nameOfTable, $objects) {
+        $rows = new UniversalFilterTableContent();
 
         $subObjectIndex = array();
 
         //optimalisation: build name->id map
-        $idMap=array();
-        for($index=0;$index<$header->getColumnCount();$index++){
+        $idMap = array();
+        for ($index = 0; $index < $header->getColumnCount(); $index++) {
             $columnId = $header->getColumnIdByIndex($index);
             $columnName = $header->getColumnNameById($columnId);
 
             $idMap[$columnName] = $columnId;
         }
 
-        foreach($objects as $index => $data){
+        foreach ($objects as $index => $data) {
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
 
             $arr_obj = get_object_vars($obj);
-            $currentrow=new UniversalFilterTableContentRow();
-            $found=array();
+            $currentrow = new UniversalFilterTableContentRow();
+            $found = array();
 
 
-            foreach($arr_obj as $key => $value){
+            foreach ($arr_obj as $key => $value) {
                 $columnName = $this->parseColumnName($key);
-                $columnId = $idMap[$columnName];//$header->getColumnIdByName($columnName);
+                $columnId = $idMap[$columnName]; //$header->getColumnIdByName($columnName);
 
-                if(is_array($value) || is_object($value)){
+                if (is_array($value) || is_object($value)) {
                     //we have a subobject
                     //what's it index?
-                    $subObjIndex=0;
-                    if(isset($subObjectIndex[$columnName])){
+                    $subObjIndex = 0;
+                    if (isset($subObjectIndex[$columnName])) {
                         $subObjectIndex[$columnName]++;
-                        $subObjIndex=$subObjectIndex[$columnName];
-                    }else{
-                        $subObjectIndex[$columnName]=0;
+                        $subObjIndex = $subObjectIndex[$columnName];
+                    } else {
+                        $subObjectIndex[$columnName] = 0;
                     }
 
-                    $id = "id_".$subObjIndex;
+                    $id = "id_" . $subObjIndex;
                     //FOR NOW: just display "object" (TODO)  As the id and key field do not exist anymore...
                     $id = "<<object>>";
 
                     $currentrow->defineValueId($columnId, $id);
-                }else{
-                    $currentrow->defineValue($columnId, $value);//what if we have a combination of the two?
+                } else {
+                    $currentrow->defineValue($columnId, $value); //what if we have a combination of the two?
                 }
                 array_push($found, $columnId);
             }
 
             for ($i = 0; $i < $header->getColumnCount(); $i++) {
                 $columnId = $header->getColumnIdByIndex($i);
-                if(!in_array($columnId, $found)){//we did not defined this value yet...
+                if (!in_array($columnId, $found)) {//we did not defined this value yet...
                     $currentrow->defineValue($columnId, null);
                 }
-
             }
 
             //add value id field
             //$columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
             //$currentrow->defineValue($columnId, $parentindex);
             //array_push($found, $columnId);
-
             //add value key_parent field
             //$columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
             //$currentrow->defineValue($columnId, $index);
@@ -257,12 +250,12 @@ class PhpObjectTableConverter {
         return $rows;
     }
 
-    public function getPhpObjectTable($splitedId,$objects){
-        $objects = $this->getPhpObjectsByIdentifier($splitedId,$objects);
+    public function getPhpObjectTable($splitedId, $objects) {
+        $objects = $this->getPhpObjectsByIdentifier($splitedId, $objects);
 
-        $nameOfTable=$splitedId[1];
-        if(isset($splitedId[3]) && count($splitedId[3])>0){
-            $nameOfTable=$splitedId[3][count($splitedId[3])-1];
+        $nameOfTable = $splitedId[1];
+        if (isset($splitedId[3]) && count($splitedId[3]) > 0) {
+            $nameOfTable = $splitedId[3][count($splitedId[3]) - 1];
         }
 
         $header = $this->getPhpObjectTableHeader($nameOfTable, $objects);
@@ -277,12 +270,12 @@ class PhpObjectTableConverter {
         return new UniversalFilterTable($header, $body);
     }
 
-    public function getPhpObjectTableWithHeader($splitedId,$objects,$header){
-        $objects = $this->getPhpObjectsByIdentifier($splitedId,$objects);
+    public function getPhpObjectTableWithHeader($splitedId, $objects, $header) {
+        $objects = $this->getPhpObjectsByIdentifier($splitedId, $objects);
 
-        $nameOfTable=$splitedId[1];
-        if(count($splitedId[2])>0){
-            $nameOfTable=$splitedId[2][count($splitedId[2])-1];
+        $nameOfTable = $splitedId[1];
+        if (count($splitedId[2]) > 0) {
+            $nameOfTable = $splitedId[2][count($splitedId[2]) - 1];
         }
 
         $body = $this->getPhpObjectTableContent($header, $nameOfTable, $objects);
@@ -290,11 +283,11 @@ class PhpObjectTableConverter {
         return new UniversalFilterTable($header, $body);
     }
 
-    public function getNameOfTable($splitedId){
+    public function getNameOfTable($splitedId) {
 
-        $nameOfTable=$splitedId[1];
-        if(count($splitedId[2])>0){
-            $nameOfTable=$splitedId[2][count($splitedId[2])-1];
+        $nameOfTable = $splitedId[1];
+        if (count($splitedId[2]) > 0) {
+            $nameOfTable = $splitedId[2][count($splitedId[2]) - 1];
         }
         return $nameOfTable;
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the abstact top class for all evaluators for ternary functions
  * 
@@ -9,7 +10,6 @@
  */
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
-
 
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\data\UniversalFilterTableContentRow;

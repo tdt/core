@@ -71,7 +71,7 @@ class DbStore extends Object {
      * @param   string   $password
      * @access	public
      */
-    public function DbStore($dbDriver=ADODB_DB_DRIVER, $host=ADODB_DB_HOST, $dbName=ADODB_DB_NAME, $user=ADODB_DB_USER, $password=ADODB_DB_PASSWORD) {
+    public function DbStore($dbDriver = ADODB_DB_DRIVER, $host = ADODB_DB_HOST, $dbName = ADODB_DB_NAME, $user = ADODB_DB_USER, $password = ADODB_DB_PASSWORD) {
 
         // include DBase Package
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DBASE);
@@ -192,7 +192,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-    public function getNewModel($modelURI, $baseURI=NULL) {
+    public function getNewModel($modelURI, $baseURI = NULL) {
 
         if ($this->modelExists($modelURI))
             return FALSE;
@@ -222,7 +222,7 @@ class DbStore extends Object {
      * @return  boolean
      * @access	public
      */
-    public function putModel(&$model, $modelURI=NULL) {
+    public function putModel(&$model, $modelURI = NULL) {
 
         if (!$modelURI) {
             if (is_a($model, 'MemModel'))
@@ -673,7 +673,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-     public function getNewDatasetDb($datasetName) {
+    public function getNewDatasetDb($datasetName) {
 
         require_once(RDFAPI_INCLUDE_DIR . PACKAGE_DATASET);
 
@@ -774,7 +774,7 @@ class DbStore extends Object {
      * @throws  SqlError
      * @access	public
      */
-    public function getNewNamedGraphDb($modelURI, $graphName, $baseURI=NULL) {
+    public function getNewNamedGraphDb($modelURI, $graphName, $baseURI = NULL) {
 
         if ($this->modelExists($modelURI))
             return FALSE;

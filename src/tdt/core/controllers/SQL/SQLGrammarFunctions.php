@@ -6,6 +6,7 @@ use tdt\core\universalfilter\CombinedFilterGenerators;
 use tdt\core\universalfilter\Constant;
 use tdt\core\universalfilter\TernaryFunction;
 use tdt\core\universalfilter\UnaryFunction;
+
 /**
  * This file is used by the grammar to create the tree
  *
@@ -15,21 +16,19 @@ use tdt\core\universalfilter\UnaryFunction;
  * @author Jeroen Penninck
  */
 
-
-
 /**
  * This function appends a filter to the list of filters
  * (But only if the filter to append is not null)
  */
-function putFilterAfterIfExists($filter, $filterToPutAfter){
-    if($filterToPutAfter!=null){
-        if($filterToPutAfter->getSource()==null){
+function putFilterAfterIfExists($filter, $filterToPutAfter) {
+    if ($filterToPutAfter != null) {
+        if ($filterToPutAfter->getSource() == null) {
             $filterToPutAfter->setSource($filter);
-        }else{
+        } else {
             putFilterAfterIfExists($filter, $filterToPutAfter->getSource());
         }
         return $filterToPutAfter;
-    }else{
+    } else {
         return $filter;
     }
 }
@@ -37,47 +36,47 @@ function putFilterAfterIfExists($filter, $filterToPutAfter){
 /**
  * Converts the regex from the normal format to the format used in Universal
  */
-function convertRegexFromSQLToUniversal($SQLRegex){
+function convertRegexFromSQLToUniversal($SQLRegex) {
     $phpregex = preg_quote($SQLRegex, "/");
     $phpregex = str_replace("%", ".*", $phpregex);
     $phpregex = str_replace("?", ".", $phpregex);
-    $phpregex = "/".$phpregex."/";
+    $phpregex = "/" . $phpregex . "/";
     return $phpregex;
 }
 
 /**
  * Gets the  filter for a nulary SQLFunction
  */
-function getNularyFilterForSQLFunction($SQLname){
-    $SQLname=strtoupper($SQLname);
-    
-    if(
-            $SQLname=="NOW" || 
-            $SQLname=="CURRENT_TIMESTAMP" || 
-            $SQLname=="LOCALTIME" || 
-            $SQLname=="LOCALTIMESTAMP") {
+function getNularyFilterForSQLFunction($SQLname) {
+    $SQLname = strtoupper($SQLname);
+
+    if (
+            $SQLname == "NOW" ||
+            $SQLname == "CURRENT_TIMESTAMP" ||
+            $SQLname == "LOCALTIME" ||
+            $SQLname == "LOCALTIMESTAMP") {
         return CombinedFilterGenerators::makeDateTimeNow();
-    }else if(
-            $SQLname=="CURDATE" ||
-            $SQLname=="CUR_DATE" ||
-            $SQLname=="CURRENT_DATE") {
+    } else if (
+            $SQLname == "CURDATE" ||
+            $SQLname == "CUR_DATE" ||
+            $SQLname == "CURRENT_DATE") {
         return CombinedFilterGenerators::makeDateTimeCurrentDate();
-    }else if(
-            $SQLname=="CURTIME" ||
-            $SQLname=="CUR_TIME" ||
-            $SQLname=="CURRENT_TIME") {
+    } else if (
+            $SQLname == "CURTIME" ||
+            $SQLname == "CUR_TIME" ||
+            $SQLname == "CURRENT_TIME") {
         return CombinedFilterGenerators::makeDateTimeCurrentTime();
-    }else{
-        throw new Exception("That nulary function does not exist... (".$SQLname.")");
+    } else {
+        throw new Exception("That nulary function does not exist... (" . $SQLname . ")");
     }
 }
 
 /**
  * Gets the universal name (and filter) for a unary SQLFunction
  */
-function getUnaryFilterForSQLFunction($SQLname, $arg1){
-    $SQLname=strtoupper($SQLname);
-    
+function getUnaryFilterForSQLFunction($SQLname, $arg1) {
+    $SQLname = strtoupper($SQLname);
+
     $unarymap = array(
         "UCASE" => UnaryFunction::$FUNCTION_UNARY_UPPERCASE,
         "UPPER" => UnaryFunction::$FUNCTION_UNARY_UPPERCASE,
@@ -116,52 +115,51 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1){
     $formatshortcuts = array(
         "DAY" => array("j"),
         "DAYOFMONTH" => array("j"),
-        "DAYOFWEEK" => array("N", array("add" => 1,"max" => 7, "min" => 1)),// (php: 1=Monday ipv mySQL: 1=Sunday)
-        "DAYOFYEAR" => array("z", array("add" => 1)),// php: starts from 1, mySQL: starts from 0
+        "DAYOFWEEK" => array("N", array("add" => 1, "max" => 7, "min" => 1)), // (php: 1=Monday ipv mySQL: 1=Sunday)
+        "DAYOFYEAR" => array("z", array("add" => 1)), // php: starts from 1, mySQL: starts from 0
         "HOUR" => array("G"),
         "MINUTE" => array("i"),
-        "MONTH" => array("n"),//php: starts from 1, mySQL: starts from 1
+        "MONTH" => array("n"), //php: starts from 1, mySQL: starts from 1
         "MONTHNAME" => array("F"),
         "SECOND" => array("s"),
         "WEEK" => array("W"),
         "WEEKOFYEAR" => array("W"),
-        "WEEKDAY" => array("N", array("add" => 1,"max" => 7, "min" => 1)),//see DAYOFWEEK
+        "WEEKDAY" => array("N", array("add" => 1, "max" => 7, "min" => 1)), //see DAYOFWEEK
         "YEAR" => array("Y"),
         "YEARWEEK" => array("oW")
     );
-    
-    
-    if(isset($formatshortcuts[$SQLname])){
+
+
+    if (isset($formatshortcuts[$SQLname])) {
         $functioninfo = $formatshortcuts[$SQLname];
         $funct = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT, $arg1, new Constant($functioninfo[0]));
-        if(count($functioninfo)>1){
+        if (count($functioninfo) > 1) {
             $extraoperations = $functioninfo[1];
             $addcount = $extraoperations["add"];
             $funct = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $funct, new Constant($addcount));
-            if(isset($extraoperations["max"]) && isset($extraoperations["min"])) {
+            if (isset($extraoperations["max"]) && isset($extraoperations["min"])) {
                 $max = new Constant($extraoperations["max"]);
                 $min = new Constant($extraoperations["min"]);
-                $funct=CombinedFilterGenerators::makeWrapInRangeFilter($funct, $min, $max);
+                $funct = CombinedFilterGenerators::makeWrapInRangeFilter($funct, $min, $max);
             }
         }
         return $funct;
-    }else if(isset($unarymap[$SQLname])){
+    } else if (isset($unarymap[$SQLname])) {
         return new UnaryFunction($unarymap[$SQLname], $arg1);
-    }else if(isset($unaryaggregatormap[$SQLname])){
+    } else if (isset($unaryaggregatormap[$SQLname])) {
         return new AggregatorFunction($unaryaggregatormap[$SQLname], $arg1);
-    }else{
-        throw new Exception("That unary function does not exist... (".$SQLname.")");
+    } else {
+        throw new Exception("That unary function does not exist... (" . $SQLname . ")");
     }
-    
 }
 
 /**
  * Gets the universal name (and filter) for a binary SQLFunction
  */
-function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
+function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2) {
     //all binary functions like "+", "*", ... are defined in the grammar
-    $SQLname=strtoupper($SQLname);
-    
+    $SQLname = strtoupper($SQLname);
+
     $binarymap = array(
         "REGEX_MATCH" => BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX,
         "ATAN2" => BinaryFunction::$FUNCTION_BINARY_ATAN2,
@@ -172,45 +170,44 @@ function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2){
         "DATE_FORMAT" => BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT,
         "DATEDIFF" => BinaryFunction::$FUNCTION_BINARY_DATETIME_DATEDIFF
     );
-    
-    if(isset($binarymap[$SQLname])){
+
+    if (isset($binarymap[$SQLname])) {
         return new BinaryFunction($binarymap[$SQLname], $arg1, $arg2);
-    }else{
-        throw new Exception("That binary function does not exist... (".$SQLname.")");
+    } else {
+        throw new Exception("That binary function does not exist... (" . $SQLname . ")");
     }
 }
 
 /**
  * Gets the universal name (and filter) for a tertary SQLFunction
  */
-function getTernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3){
-    $SQLname=strtoupper($SQLname);
-    
-    $tertarymap = array(
+function getTernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3) {
+    $SQLname = strtoupper($SQLname);
 
+    $tertarymap = array(
         "MID" => TernaryFunction::$FUNCTION_TERNARY_SUBSTRING,
-		"SUBSTRING" => TernaryFunction::$FUNCTION_TERTNARY_SUBSTRING, // TODO: remove this comment: Jeroen, I've also added SUBSTRING to this bunch of ternary functions!
+        "SUBSTRING" => TernaryFunction::$FUNCTION_TERTNARY_SUBSTRING, // TODO: remove this comment: Jeroen, I've also added SUBSTRING to this bunch of ternary functions!
         "REGEX_REPLACE" => TernaryFunction::$FUNCTION_TERTNARY_REGEX_REPLACE
     );
-    
-    if(isset($tertarymap[$SQLname])){
-        return new TernaryFunction($tertarymap[$SQLname], $arg1,$arg2,$arg3);
-    }else{
-        throw new Exception("That ternary function does not exist... (".$SQLname.")");
+
+    if (isset($tertarymap[$SQLname])) {
+        return new TernaryFunction($tertarymap[$SQLname], $arg1, $arg2, $arg3);
+    } else {
+        throw new Exception("That ternary function does not exist... (" . $SQLname . ")");
     }
 }
 
-function getQuadernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3, $arg4){
-    $SQLname=strtoupper($SQLname);
-    
-    if($SQLname=="GEODISTANCE"){
+function getQuadernaryFunctionForSQLFunction($SQLname, $arg1, $arg2, $arg3, $arg4) {
+    $SQLname = strtoupper($SQLname);
+
+    if ($SQLname == "GEODISTANCE") {
         return CombinedFilterGenerators::makeGeoDistanceFilter($arg1, $arg2, $arg3, $arg4);
-    }else{
-        throw new Exception("That tertary function does not exist... (".$SQLname.")");
+    } else {
+        throw new Exception("That tertary function does not exist... (" . $SQLname . ")");
     }
 }
 
-function getExtractConstant($string){
+function getExtractConstant($string) {
     return new Constant($string);
 }
 
@@ -220,7 +217,7 @@ function getExtractFunction($string, $constant) {
 
 function getDateAddFunction($isadd, $date, $interval, $intervaltype) {
     $type = TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATEADD;
-    if(!$isadd) {
+    if (!$isadd) {
         $type = TernaryFunction::$FUNCTION_TERNARY_DATETIME_DATESUB;
     }
     return new TernaryFunction($type, $date, $interval, $intervaltype);

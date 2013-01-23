@@ -27,7 +27,11 @@ use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 use tdt\core\universalfilter\TernaryFunction;
 use tdt\core\universalfilter\UnaryFunction;
 use tdt\core\universalfilter\UniversalFilterNode;
-use \SortFieldsFilterExecuter;
+
+include_once(__DIR__ . "/executers/implementations/BinaryFunctionExecuters.php");
+include_once(__DIR__ . "/executers/implementations/AggregatorFunctionExecuters.php");
+include_once(__DIR__ . "/executers/implementations/TernaryFunctionExecuters.php");
+include_once(__DIR__ . "/executers/implementations/UnaryFunctionExecuters.php");
 
 class UniversalInterpreter implements IInterpreterControl {
 
@@ -60,7 +64,7 @@ class UniversalInterpreter implements IInterpreterControl {
     /**
      * Constructor, fill the executer-class map.
      */
-    public function __construct($tablemanager) {    
+    public function __construct($tablemanager) {
         $this->tablemanager = $tablemanager;
 
         $this->executers = array(
@@ -132,21 +136,19 @@ class UniversalInterpreter implements IInterpreterControl {
     }
 
     public function findExecuterFor(UniversalFilterNode $filternode) {
-        
+
         /*
          * First look for the class in the default namespace
          * This is because some classes are defined in php files where loose functions are also placed
          * and no namespace has been declared.
          */
-        $classname = "\\".$this->executers[$filternode->getType()];
-        if(class_exists($classname)){
+        $classname = "\\" . $this->executers[$filternode->getType()];
+        if (class_exists($classname)) {
             return new $classname();
-        }else{
-            $classname = "tdt\core\\universalfilter\\interpreter\\executers\\implementations\\" .$this->executers[$filternode->getType()];
+        } else {
+            $classname = "tdt\\core\\universalfilter\\interpreter\\executers\\implementations\\" . $this->executers[$filternode->getType()];            
             return new $classname();
         }
-        
-        
     }
 
     public function getTableManager() {
@@ -165,7 +167,7 @@ class UniversalInterpreter implements IInterpreterControl {
         $cloner = new FilterTreeCloner();
         $clonedtree = $cloner->deepCopyTree($originaltree);
 
-       
+
         $tree = $clonedtree;
 
 

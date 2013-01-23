@@ -350,7 +350,7 @@ class InfModelB extends InfModel {
      * @throws   PhpError
      * @return	boolean   
      */
-    public function saveAs($filename, $type ='rdf') {
+    public function saveAs($filename, $type = 'rdf') {
 
         $memmodel = $this->getMemModel();
         return $memmodel->saveAs($filename, $type);
@@ -458,7 +458,7 @@ class InfModelB extends InfModel {
      * @access	public 
      * @return	object	FindIterator
      */
-    public function findAsIterator($sub=null, $pred=null, $obj=null) {
+    public function findAsIterator($sub = null, $pred = null, $obj = null) {
         $errmsg = RDFAPI_ERROR . '(class: InfModelB; method: findAsIterator): 
 									This function is disabled in the
 									Inference Model';

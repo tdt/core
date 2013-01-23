@@ -1,21 +1,21 @@
 <?php
-/**
-*   vCard profile defined by RFC 2426 - Vocabulary
-*
-*   @version $Id: VCARD.php 431 2007-05-01 15:49:19Z cweiske $
-*   @author Daniel Westphal (dawe@gmx.de)
-*   @package vocabulary
-*
-*   Wrapper, defining resources for all terms of the
-*   vCard Vocabulary.
-*   For details about vCard see: http://www.w3.org/TR/vcard-rdf .
-*   Using the wrapper allows you to define all aspects of
-*   the vocabulary in one spot, simplifing implementation and
-*   maintainence.
-*/
 
+/**
+ *   vCard profile defined by RFC 2426 - Vocabulary
+ *
+ *   @version $Id: VCARD.php 431 2007-05-01 15:49:19Z cweiske $
+ *   @author Daniel Westphal (dawe@gmx.de)
+ *   @package vocabulary
+ *
+ *   Wrapper, defining resources for all terms of the
+ *   vCard Vocabulary.
+ *   For details about vCard see: http://www.w3.org/TR/vcard-rdf .
+ *   Using the wrapper allows you to define all aspects of
+ *   the vocabulary in one spot, simplifing implementation and
+ *   maintainence.
+ */
 // VCARD concepts
-$VCARD_UID = new Resource(VCARD_NS.'UID');
+$VCARD_UID = new Resource(VCARD_NS . 'UID');
 $VCARD_ORGPROPERTIES = new Resource(VCARD_NS . 'ORGPROPERTIES');
 $VCARD_ADRTYPES = new Resource(VCARD_NS . 'ADRTYPES');
 $VCARD_NPROPERTIES = new Resource(VCARD_NS . 'NPROPERTIES');
@@ -62,5 +62,4 @@ $VCARD_LABEL = new Resource(VCARD_NS . 'LABEL');
 $VCARD_TEL = new Resource(VCARD_NS . 'TEL');
 $VCARD_NICKNAME = new Resource(VCARD_NS . 'NICKNAME');
 $VCARD_ROLE = new Resource(VCARD_NS . 'ROLE');
-
 ?>

@@ -13,7 +13,7 @@
 namespace tdt\core\model\resources\create;
 
 use tdt\core\model\DBQueries;
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
 use RedBean_Facade as R;
 
 class GenericResourceCreator extends ACreator {
@@ -21,18 +21,21 @@ class GenericResourceCreator extends ACreator {
     private $strategy;
 
     public function __construct($package, $resource, $RESTparameters, $generic_type) {
-        parent::__construct($package, $resource, $RESTparameters);        
+        parent::__construct($package, $resource, $RESTparameters);
         // Add the parameters of the strategy!
         $this->generic_type = $generic_type;
         if (!class_exists("tdt\\core\\strategies\\" . $this->generic_type)) {
-            throw new TDTException(452,array("Generic type does not exist: " . $this->generic_type . "."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Generic type does not exist: " . $this->generic_type . "."), $exception_config);
         }
         $classname = "tdt\\core\\strategies\\" . $this->generic_type;
         // add all the parameters to the $parameters
         // and all of the requiredParameters to the $requiredParameters
         $this->strategy = new $classname();
         $this->strategy->package = $package;
-        $this->strategy->resource = $resource;                
+        $this->strategy->resource = $resource;
     }
 
     /**
@@ -71,30 +74,30 @@ class GenericResourceCreator extends ACreator {
      * parameters have already been set.
      */
     public function create() {
-        R::setStrictTyping( false );       
+        R::setStrictTyping(false);
         /*
          * Create the package and resource entities and create a generic resource entry.
          * Then pick the correct strategy, and pass along the parameters!
          */
         $package_id = parent::makePackage($this->package);
-                
+
         $resource_id = parent::makeResource($package_id, $this->resource, "generic");
 
-        $meta_data_id = DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));     
-        
-        $generic_id =  DBQueries::storeGenericResource($resource_id, $this->generic_type, $this->documentation);
+        $meta_data_id = DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));
+
+        $generic_id = DBQueries::storeGenericResource($resource_id, $this->generic_type, $this->documentation);
         try {
             $this->strategy->onAdd($package_id, $generic_id);
         } catch (Exception $ex) {
 
             // delete metadata about the resource
-             DBQueries::deleteMetaData($this->package, $this->resource);
+            DBQueries::deleteMetaData($this->package, $this->resource);
 
             //now the only thing left to delete is the main row
-             DBQueries::deleteGenericResource($this->package, $this->resource);
+            DBQueries::deleteGenericResource($this->package, $this->resource);
 
             // also delete the resource entry
-             DBQueries::deleteResource($this->package, $this->resource);
+            DBQueries::deleteResource($this->package, $this->resource);
 
             throw new Exception($ex->getMessage());
         }

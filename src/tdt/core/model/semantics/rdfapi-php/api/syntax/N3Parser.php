@@ -89,9 +89,9 @@ class N3Parser extends Object {
         $Datatype_URI = '(^)' . $URI;
         //     $LLiteral = '"""[^"]*(?:(?:.|"(?!""))[^"]*)*"""';
         $LLiteral = '(?:'
-                . '"""[^"]*(?:(?:.|"(?!""))[^"]*)*"""'
-                . '|'
-                . "'''[^']*(?:(?:.|'(?!''))"]*)*'''"
+        . '"""[^"]*(?:(?:.|"(?!""))[^"]*)*"""'
+        . '|'
+        . "'''[^']*(?:(?:.|'(?!''))"]*)*'''"
                 . ')';
         //          '"""[^"]*(?:(?:.|"(?!""))[^"]*)*"""'
         $Comment = '#.*$';
@@ -533,7 +533,7 @@ class N3Parser extends Object {
      * @access private
      * */
     private function replace_equal(&$l, $p) {
-        if ($l == '=')
+        if ($l == ' = ')
             $l = '<' . $this->OWL_NS . 'sameAs>';
     }
 
@@ -571,20 +571,24 @@ class N3Parser extends Object {
                         $_SERVER['REQUEST_URI'] = '/rdfapi-php';
                     }
                     $list[$i] = '<http://' . $_SERVER['SERVER_ADDR'] . $_SERVER['REQUEST_URI'] . '#generate_timestamp_' . time() . '>';
-                } else {
-                    $list[$i] = '<' . $path . '>';
-                };
-            };
+        } else {
+            $list[$i] = '<' . $path . '>';
+        };
+        };
 
 
-            if (preg_match('/^[-+]?[0-9]+$/', $list[$i])) {
-                //integer
-                $list[$i] = intval($list[$i]);
-            } else if (is_numeric($list[$i])) {
-                //float or decimal
-                // After conversion we cannot distinguish between both
-                $list[$i] = floatval($list[$i]);
-            } else if ((!strstr('<_"'?.;,{}[]()@', $list[$i]{0}))
+        if (preg_match('/^[-+]?[0-9]+$/', $list[$i])) {
+            //integer
+            $list[$i] = intval($list[$i]);
+        } else if (is_numeric($list[$i])) {
+            //float or decimal
+            // After conversion we cannot distinguish between both
+            $list[$i] = floatval($list[$i]);
+        } else
+            if ( (!strstr ('<_"'?.;
+        , {
+            
+        }[]()@', $list[$i]{0}))
                     && (substr($list[$i], 0, 3) != '^^<')
             ) {
                 //prefix or unknown
@@ -607,42 +611,42 @@ class N3Parser extends Object {
                     $bLiteral = true;
                     $chBase = '"';
                 } else if ($list[$i]{0} == ''') {
-                    $bLiteral = true;
-                    $chBase = ''';
+            $bLiteral = true;
+            $chBase = ''';
                 } else {
                     $bLiteral = false;
                 }
                 if ($bLiteral) {
                     $tripleBase = $chBase . $chBase . $chBase;
                     // Congratulations - it's a literal!
-                    if (substr($list[$i], 0, 3) == $tripleBase) {
-                        if (substr($list[$i], -3, 3) == $tripleBase) {
-                            // A big literal...
-                            $lit = substr($list[$i], 3, -3);
-                            //	      print "++$lit++";
-                            $lit = str_replace('n', 'n', $lit);
+            if (substr($list[$i], 0, 3) == $tripleBase) {
+                if (substr($list[$i], -3, 3) == $tripleBase) {
+                    // A big literal...
+                    $lit = substr($list[$i], 3, -3);
+                    //	      print "++$lit++";
+                    $lit = str_replace('n', 'n', $lit);
 
-                            //$lit=ereg_replace("]" . $chBase, "" . $chBase, $lit);
-                            $lit = stripslashes($lit);
+                    //$lit=ereg_replace("]" . $chBase, "" . $chBase, $lit);
+                    $lit = stripslashes($lit);
 
-                            $list[$i] = $chBase . $lit . $chBase;
-                        } else {
-                            die('Incorrect string formatting: ' . substr($list[$i], -3, 3));
-                        }
-                    } else {
-                        if (strstr($list[$i], "n")) {
-                            die('Newline in literal: ' . $list[$i]);
-                        }
-                        $list[$i] = stripslashes($list[$i]);
-                    }
+                    $list[$i] = $chBase . $lit . $chBase;
+                } else {
+                    die('Incorrect string formatting: ' . substr($list[$i], -3, 3));
                 }
+            } else {
+                if (strstr($list[$i], "n")) {
+                    die('Newline in literal: ' . $list[$i]);
+                }
+                $list[$i] = stripslashes($list[$i]);
             }
+        }
+        }
 
-            if (substr($list[$i], 0, 2) == '^^') {
-                if ($list[$i][2] != '<') {
-                    $list[$i] = '^^<' . substr($list[$i], 2) . '>';
-                }
-            };
+        if (substr($list[$i], 0, 2) == '^^') {
+            if ($list[$i][2] != '<') {
+                $list[$i] = '^^<' . substr($list[$i], 2) . '>';
+            }
+        };
         }//foreach list item
 
         return $list;
@@ -675,7 +679,7 @@ class N3Parser extends Object {
             array_pop($statement);
             $statements[] = $statement;
         }
-        
+
         return $statements;
     }
 
@@ -760,19 +764,19 @@ class N3Parser extends Object {
      * @access private
      * */
     private function statementize($list) {
-        
+
         if (count($list) == 1 && preg_match("/_" . BNODE_PREFIX . "[0-9]+_/", $list[0])) {
             if ($this->debug)
                 print "Ignored bNode exists statement. $n";
             return array();
         }
-        
-        
+
+
 
         if (count($list) == 3)
             return array($list);
         if (count($list) < 3) {
-            
+
             throw new Exception(
                     'N3 statement too short,'
                     . ' only ' . count($list) . ' elements instead of 3:' . "n"
@@ -1016,12 +1020,11 @@ class N3Parser extends Object {
 
         if ($this->debug) {
             print "Filter WS:n";
-
         }
         $r = $this->getPrefixes($t); # get the prefix directives, and add to a dict
         $prefixes = $r[0];
         $t = $r[1];
-        
+
         if ($this->debug) {
             print "Prefixes:n";
             print "***n";
@@ -1030,7 +1033,7 @@ class N3Parser extends Object {
         if ($this->debug) {
             print "Stuff applied:n";
         }
-        
+
         $t = $this->fixAnon($t); # fix _:a anons
         if ($this->debug) {
             print "Fix anon:n";
@@ -1044,9 +1047,9 @@ class N3Parser extends Object {
         if ($this->debug) {
             print "Lists applied:n";
         }
-        
+
         $t = $this->getStatements($t); # get all of the "statements" from the stream
-        
+
         foreach ($t as $stat) {
             $stats = $this->statementize($stat);
             foreach ($stats as $y) {
@@ -1111,7 +1114,7 @@ class N3Parser extends Object {
             return $value;
         }
 
-        if (strstr($s, '_' . BNODE_PREFIX)) {
+        if (strstr($s, '_ ' . BNODE_PREFIX)) {
             if (($this->FixBnodes) || (!array_search($s, $this->bNodeMap))) {
                 return new BlankNode($ins);
             } else {

@@ -14,8 +14,10 @@ namespace tdt\core\universalfilter\data;
 
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\data\UniversalFilterTableHeader;
+use tdt\core\utility\Config;
 
 class UniversalFilterTable {
+
     private $header;
     private $content;
 
@@ -25,40 +27,42 @@ class UniversalFilterTable {
      * @param UniversalFilterTableContent $content 
      */
     public function __construct($header, $content) {
-        $this->header=$header;
-        $this->content=$content;
+        $this->header = $header;
+        $this->content = $content;
     }
-    
+
     /**
      * returns the header of this table
      * @return UniversalFilterTableHeader
      */
-    public function getHeader(){
+    public function getHeader() {
         return $this->header;
     }
-    
+
     /**
      * returns the content of this table
      * @return UniversalFilterTableContent
      */
-    public function getContent(){ 
+    public function getContent() {
         return $this->content;
     }
-    
+
     /**
      * sets the header of this table
      * @param UniversalFilterTableHeader $header 
      */
-    public function setHeader(UniversalFilterTableHeader $header){
+    public function setHeader(UniversalFilterTableHeader $header) {
         $this->header = $header;
     }
-    
+
     /**
      * sets the content of this table
      * @param UniversalFilterTableContent $content 
      */
-    public function setContent(UniversalFilterTableContent $content){
+    public function setContent(UniversalFilterTableContent $content) {
         $this->content = $content;
     }
+
 }
+
 ?>

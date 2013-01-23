@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Executes the DistinctFilter filter
  * 
@@ -15,20 +16,21 @@ use tdt\core\universalfilter\interpreter\executers\base\BaseHashingFilterExecute
 use tdt\core\universalfilter\UniversalFilterNode;
 
 class DataGrouperExecuter extends BaseHashingFilterExecuter {
-    
-    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo){        
+
+    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo) {
         //get the columns to group
         $columnIdentifiers = $filter->getColumns();
-        
-        $needToBeGrouped=true;
+
+        $needToBeGrouped = true;
         for ($columnNameIndex = 0; $columnNameIndex < count($columnIdentifiers); $columnNameIndex++) {
             $columnIdentifier = $columnIdentifiers[$columnNameIndex]->getIdentifierString();
-            if($oldColumnInfo->matchName(explode(".", $columnIdentifier))){
-                $needToBeGrouped=false;
+            if ($oldColumnInfo->matchName(explode(".", $columnIdentifier))) {
+                $needToBeGrouped = false;
             }
         }
         return !$needToBeGrouped;
     }
+
 }
 
 ?>

@@ -12,9 +12,9 @@
 namespace tdt\core\formatters;
 
 use tdt\core\formatters\FormatterFactory;
-use tdt\framework\ContentNegotiator;
-use tdt\framework\TDTException;
-use tdt\framework\Config;
+use tdt\negotiators\ContentNegotiator;
+use tdt\exceptions\TDTException;
+use tdt\core\utility\Config;
 
 /**
  * This class will provide the correct printers (Xml,Kml,php,...)
@@ -57,7 +57,7 @@ class FormatterFactory {
             }
             if (!$this->formatExists($format)) {
                 $this->format = Config::get("general", "defaultformat");
-                //throw new TDTException(451,array($format)); // could not find a suitible format
+                //$exception_config = array(); $exception_config["log_dir"] = Config::get("general","logging","path"); $exception_config["url"] = Config::get("general","hostname") . Config::get("general","subdir") . "error"; throw new TDTException(451,array($format),$exception_config); // could not find a suitible format
             }
             $this->format = $format;
             //We've found our format through about, so let's set the header for content-location to the right one
@@ -79,7 +79,7 @@ class FormatterFactory {
             $this->format = $urlformat;
         } else {
             $this->format = Config::get("general", "defaultformat");
-            //throw new TDTException(451,array($urlformat));
+            //$exception_config = array(); $exception_config["log_dir"] = Config::get("general","logging","path"); $exception_config["url"] = Config::get("general","hostname") . Config::get("general","subdir") . "error"; throw new TDTException(451,array($urlformat),$exception_config);
         }
     }
 

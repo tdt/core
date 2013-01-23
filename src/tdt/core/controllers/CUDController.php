@@ -12,12 +12,12 @@
 
 namespace tdt\core\controllers;
 
-use tdt\core\controllers\ACoreController;
 use tdt\core\controllers\RController;
 use tdt\core\model\ResourcesModel;
-use tdt\framework\TDTException;
+use tdt\exceptions\TDTException;
+use app\core\Config;
 
-class CUDController extends ACoreController {
+class CUDController extends AController {
 
     public function __construct() {
         parent::__construct();
@@ -74,7 +74,13 @@ class CUDController extends ACoreController {
 
         //both package and resource set?
         if (count($pieces) < 2) {
-            throw new TDTException(452, array($packageresourcestring));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array($packageresourcestring), $exception_config, $exception_config);
         }
 
         //we need to be authenticated
@@ -93,8 +99,7 @@ class CUDController extends ACoreController {
             parse_str(file_get_contents("php://input"), $_PUT);
         }
 
-        $model = ResourcesModel::getInstance();
-
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $RESTparameters = array();
 
         $model->createResource($packageresourcestring, $_PUT);
@@ -114,7 +119,7 @@ class CUDController extends ACoreController {
      */
     public function DELETE($matches) {
 
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
         //always required: a package and a resource. 
@@ -156,7 +161,10 @@ class CUDController extends ACoreController {
 
         $packageDoc = $model->getAllPackagesDoc();
         if (!$foundPackage && !isset($packageDoc->$package)) {
-            throw new TDTException(404, array($packageresourcestring));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array($packageresourcestring), $exception_config);
         }
 
         //we need to be authenticated
@@ -166,7 +174,7 @@ class CUDController extends ACoreController {
             exit();
         }
         //delete the package and resource when authenticated and authorized in the model
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         if ($resource == "") {
             $model->deletePackage($package);
         } else {
@@ -185,7 +193,7 @@ class CUDController extends ACoreController {
      */
     public function PATCH($matches) {
 
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
         //always required: a package and a resource. 
@@ -235,12 +243,18 @@ class CUDController extends ACoreController {
         }
 
         if (!$foundPackage) {
-            throw new TDTException(404, array($packageresourcestring));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array($packageresourcestring), $exception_config);
         }
 
         //both package and resource set?
         if ($resourcename == "") {
-            throw new TDTException(404, array($packageresourcestring));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array($packageresourcestring), $exception_config);
         }
 
         //we need to be authenticated
@@ -254,7 +268,7 @@ class CUDController extends ACoreController {
         $patch = array();
         parse_str(file_get_contents("php://input"), $patch);
 
-        $model = ResourcesModel::getInstance();
+        $model = ResourcesModel::getInstance(Config::getConfigArray());
         $model->updateResource($package, $resourcename, $patch, $RESTparameters);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
@@ -267,7 +281,10 @@ class CUDController extends ACoreController {
      * POST is currently not used
      */
     public function POST($matches) {
-        throw new TDTException(450, array());
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(450, array(), $exception_config);
     }
 
 }

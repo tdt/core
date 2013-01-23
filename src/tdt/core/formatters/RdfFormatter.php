@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file contains the RDF/XML formatter.
  * 
@@ -21,15 +22,15 @@ class RdfFormatter extends AFormatter {
 
     public function printBody() {
         //Unwrap the object       
-        foreach ($this->objectToPrint as $class => $prop){
-            if (is_a($prop,"MemModel")){
+        foreach ($this->objectToPrint as $class => $prop) {
+            if (is_a($prop, "MemModel")) {
                 $this->objectToPrint = $prop;
                 break;
             }
         }
         //When the objectToPrint has a MemModel, it is already an RDF model and is ready for serialisation.
         //Else it's retrieved data of which we need to build an rdf output
-        if (!is_a($this->objectToPrint,"MemModel")) {
+        if (!is_a($this->objectToPrint, "MemModel")) {
             $outputter = new RDFOutput();
             $this->objectToPrint = $outputter->buildRdfOutput($this->objectToPrint);
         }
@@ -48,10 +49,9 @@ class RdfFormatter extends AFormatter {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/rdf+xml; charset=UTF-8");
         header("Content-Type: text/xml; charset=UTF-8");
- 
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation() {
         return "Prints the RDF/XML notation with semantic annotations";
     }
 

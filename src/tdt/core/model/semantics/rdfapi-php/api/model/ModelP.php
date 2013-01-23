@@ -1,4 +1,5 @@
 <?php
+
 // ----------------------------------------------------------------------------------
 // Model
 // ----------------------------------------------------------------------------------
@@ -9,7 +10,6 @@
 // Author: Tobias Gau�	<tobias.gauss@web.de>
 //
 // ----------------------------------------------------------------------------------
-
 // Include Model classes
 require_once( RDFAPI_INCLUDE_DIR . 'model/Node.php' );
 require_once( RDFAPI_INCLUDE_DIR . 'model/Literal.php' );
@@ -24,5 +24,4 @@ require_once( RDFAPI_INCLUDE_DIR . 'model/ModelFactory.php' );
 require_once( RDFAPI_INCLUDE_DIR . 'sparql/SparqlClient.php' );
 require_once( RDFAPI_INCLUDE_DIR . 'sparql/ClientQuery.php' );
 require_once( RDFAPI_INCLUDE_DIR . 'model/RbModelFactory.php' );
-
 ?>

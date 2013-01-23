@@ -38,7 +38,7 @@ class RdfParser extends Object {
      * @access private
      *
      */
-    private function str2unicode_nfc($str="") {
+    private function str2unicode_nfc($str = "") {
         $result = "";
         /* try to detect encoding */
         $tmp = str_replace("?", "", $str);

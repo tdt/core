@@ -1,18 +1,19 @@
 <?php
+
 /**
-*   RDF Vocabulary Description Language 1.0: RDF Schema (RDFS) Vocabulary
-*
-*   @version $Id: RDFS.php 431 2007-05-01 15:49:19Z cweiske $
-*   @author Daniel Westphal (dawe@gmx.de)
-*   @package vocabulary
-*
-*   Wrapper, defining resources for all terms of the
-*   RDF Schema (RDFS).
-*   For details about RDFS see: http://www.w3.org/TR/rdf-schema/.
-*   Using the wrapper allows you to define all aspects of
-*   the vocabulary in one spot, simplifing implementation and
-*   maintainence.
-*/
+ *   RDF Vocabulary Description Language 1.0: RDF Schema (RDFS) Vocabulary
+ *
+ *   @version $Id: RDFS.php 431 2007-05-01 15:49:19Z cweiske $
+ *   @author Daniel Westphal (dawe@gmx.de)
+ *   @package vocabulary
+ *
+ *   Wrapper, defining resources for all terms of the
+ *   RDF Schema (RDFS).
+ *   For details about RDFS see: http://www.w3.org/TR/rdf-schema/.
+ *   Using the wrapper allows you to define all aspects of
+ *   the vocabulary in one spot, simplifing implementation and
+ *   maintainence.
+ */
 // RDFS concepts
 $RDFS_Resource = new Resource(RDF_SCHEMA_URI . 'Resource');
 $RDFS_Literal = new Resource(RDF_SCHEMA_URI . 'Literal');
@@ -29,6 +30,4 @@ $RDFS_comment = new Resource(RDF_SCHEMA_URI . 'comment');
 $RDFS_member = new Resource(RDF_SCHEMA_URI . 'member');
 $RDFS_seeAlso = new Resource(RDF_SCHEMA_URI . 'seeAlso');
 $RDFS_isDefinedBy = new Resource(RDF_SCHEMA_URI . 'isDefinedBy');
-
-
 ?>

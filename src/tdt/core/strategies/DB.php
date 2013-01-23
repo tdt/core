@@ -11,22 +11,22 @@
 
 namespace tdt\core\strategies;
 
-use tdt\core\model\resources\read\IFilter;
-use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
-use tdt\framework\Log;
-use tdt\framework\TDTException;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use RedBean_Facade as R;
+use tdt\core\model\resources\read\iFilter;
+use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
+use tdt\core\utility\Config;
+use tdt\exceptions\TDTException;
 
 class DB extends ATabularData implements iFilter {
-
     /*
      * If no limit is defined, get a default maximum of rows
      * This way reading a database with a large set of records will not cause 
      * the PHP execution to crash of memory allocation.
      */
+
     private static $READ_MAX_AMOUNT_OF_ROWS = 150;
-    
-    
     //lowercase engine names
     private static $supportedEngines = array("mysql");
 
@@ -76,7 +76,10 @@ class DB extends ATabularData implements iFilter {
      */
     public function read(&$configObject, $package, $resource) {
         parent::read($configObject, $package, $resource);
-
+        
+        R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
+        R::selectDatabase('db_resource');
+        
         $fields = ""; //implode(array_keys($configObject->columns),",");
 
         foreach ($configObject->column_aliases as $column_name => $column_alias) {
@@ -91,11 +94,10 @@ class DB extends ATabularData implements iFilter {
         if ($configObject->limit != "") {
             $sql_limit = "LIMIT 0,$configObject->limit";
         } else {
-            $sql_limit = "LIMIT 0, ".DB::$READ_MAX_AMOUNT_OF_ROWS;
+            $sql_limit = "LIMIT 0, " . DB::$READ_MAX_AMOUNT_OF_ROWS;
         }
         $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";
-
-        R::setup($configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
+        
         $results = R::getAll($sql);
 
         /*
@@ -127,13 +129,18 @@ class DB extends ATabularData implements iFilter {
                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                 } elseif (isset($arrayOfRowObjects[$rowobject->$PK])) {
                     // this means the primary key wasn't unique !
-                    Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " isn't unique.");
+                    $log = new Logger('DB');
+                    $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
+                    $log->addAlert("Resource $package / $resources : Primary key " . $rowobject->$PK . " isn't unique.");
                 } else {
-                    // this means the primary key field was empty, log the problem and continue
-                    Log::getInstance()->logAlert("DB - Resource $package / $resources : Primary key " . $rowobject->$PK . " is empty.");
+                    // this means the primary key field was empty, log the problem and continue                    
+                    $log = new Logger('DB');
+                    $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
+                    $log->addAlert("Resource $package / $resources : Primary key " . $rowobject->$PK . " is empty.");
                 }
             }
         }
+        R::selectDatabase('default');
         return $arrayOfRowObjects;
     }
 
@@ -144,7 +151,10 @@ class DB extends ATabularData implements iFilter {
          * existing ones in the database, if not get the columns from the datatable
          */
         if (!isset($this->username)) {
-            throw new TDTException(452, array("You have to pass along a username for your database resource configuration."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("You have to pass along a username for your database resource configuration."), $exception_config);
         }
 
         if (!isset($this->password)) {
@@ -152,7 +162,10 @@ class DB extends ATabularData implements iFilter {
         }
 
         if (!isset($this->location)) {
-            throw new TDTException(452, array("You have to pass along the location of the database of which you want to open up a table."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("You have to pass along the location of the database of which you want to open up a table."), $exception_config);
         }
 
         if (!isset($this->column_aliases)) {
@@ -163,19 +176,28 @@ class DB extends ATabularData implements iFilter {
          * Check if there is a ";" passed in the table parameter, if so give back an error
          */
         if (strpos($this->db_table, ";") != FALSE) {
-            throw new TDTException(452, array("Your database table has a semi-colon in it, this is not allowed!"));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Your database table has a semi-colon in it, this is not allowed!"), $exception_config);
         }
 
         /**
          * validate according to the db engine
          */
         if (!isset($this->db_type)) {
-            throw new TDTException(452, array("The database engine i.e. MySQL."));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("The database engine i.e. MySQL."), $exception_config);
         } else {
             // check if the db_type is supported
             $this->db_type = strtolower($this->db_type);
             if (!in_array($this->db_type, DB::$supportedEngines)) {
-                throw new TDTException(452, array("Your database engine, $this->db_type, is not supported."));
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("Your database engine, $this->db_type, is not supported."), $exception_config);
             }
         }
 
@@ -183,7 +205,10 @@ class DB extends ATabularData implements iFilter {
          * Check if a database name is given
          */
         if (!isset($this->db_name)) {
-            throw new TDTException(452, array("Passing a database name, parameter db_name, is required!"));
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Passing a database name, parameter db_name, is required!"), $exception_config);
         }
 
         /**
@@ -195,11 +220,12 @@ class DB extends ATabularData implements iFilter {
          * 4) If the columns are all A-OK! then return true.
          * All this functionality has been put into functions.
          */
-        // prepare the connection        
-        R::setup($this->db_type . ":host=" . $this->location . ";dbname=" . $this->db_name, $this->username, $this->password);
-
+        // prepare the connection            
+        R::addDatabase('db_resource', $this->db_type . ":host=" . $this->location . ";dbname=" . $this->db_name, $this->username, $this->password);
+        R::selectDatabase('db_resource');
         // get the table columns
         $table_columns = $this->getTableColumns();
+        R::selectDatabase('default');
         $this->validateColumns($table_columns);
         return true;
     }
@@ -223,14 +249,20 @@ class DB extends ATabularData implements iFilter {
             foreach ($this->columns as $column_key => $column_value) {
                 if (!in_array($column_value, $table_columns)) {
                     //throw error
-                    throw new TDTException(452, array("The supplied column, $column_value, does not exist."));
+                    $exception_config = array();
+                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                    throw new TDTException(452, array("The supplied column, $column_value, does not exist."), $exception_config);
                 }
             }
             // make the columns as columnname => columnname
             // then in the second foreach put the aliases in the columns array (which technically is a hash)
             foreach ($table_columns as $index => $column) {
                 if (!is_numeric($index)) {
-                    throw new TDTException(452, array("The index $index is not numeric in the columns array!"));
+                    $exception_config = array();
+                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                    throw new TDTException(452, array("The index $index is not numeric in the columns array!"), $exception_config);
                 }
             }
         }
@@ -243,18 +275,7 @@ class DB extends ATabularData implements iFilter {
      * In this case the database table that was passed via the db_table parameter.
      */
     private function getTableColumns() {
-        $column_results = R::getAll("SHOW columns from $this->db_table");
-        $table_columns = array();
-
-        /*
-         * the column results is an array of arrays, each array entry represents a column
-         * the field in that array that matters to us is the "Field"
-         */
-        foreach ($column_results as $column_properties) {
-            array_push($table_columns, $column_properties["Field"]);
-        }
-
-        return $table_columns;
+        return array_keys(R::getRow("SELECT * FROM $this->db_table"));
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is an abstract class that needs to be implemented by any installed resource implementation
  *
@@ -14,10 +15,12 @@ namespace tdt\core\model\resources;
 
 use tdt\core\model\resources\read\AReader;
 
-abstract class AResource extends AReader{
+abstract class AResource extends AReader {
 
-    public function read(){
+    public function read() {
         return $this->call();
     }
+
 }
+
 ?>

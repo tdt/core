@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Executes the FilterByExpression filter
  * 
@@ -7,7 +8,6 @@
  * @license AGPLv3
  * @author Jeroen Penninck
  */
-
 
 namespace tdt\core\universalfilter\interpreter\executers\implementations;
 

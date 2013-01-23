@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Returns all visualizations in TDT
  * 
@@ -13,29 +14,28 @@ namespace tdt\core\model\packages\TDTInfo;
 use tdt\core\model\Doc;
 use tdt\core\model\resources\read\AReader;
 
-class TDTInfoVisualizations extends AReader{
+class TDTInfoVisualizations extends AReader {
 
-    public static function getParameters(){
-	return array();
+    public static function getParameters() {
+        return array();
     }
 
-    public static function getRequiredParameters(){
-	return array();
+    public static function getRequiredParameters() {
+        return array();
     }
 
-    public function setParameter($key,$val){
+    public function setParameter($key, $val) {
         //we don't have any parameters
     }
 
-    public function read(){
+    public function read() {
         $d = new Doc();
         return $d->visitAllVisualizations();
     }
 
-    public static function getDoc(){
-	return "Returns all visualizations in this DataTank.";
+    public static function getDoc() {
+        return "Returns all visualizations in this DataTank.";
     }
-    
 
 }
 

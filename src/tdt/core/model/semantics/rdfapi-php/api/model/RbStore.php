@@ -8,7 +8,6 @@
  * @license AGPLv3
  * @author Miel Vander Sande
  */
-
 use gabordemooij\redbean\RedBean_Facade;
 use RedBean_Facade as R;
 
@@ -87,13 +86,11 @@ class RbStore extends DbStore {
         return $check;
     }
 
-
     protected function _createUniqueModelID() {
         $maxModelID = R::getRow('SELECT MAX(modelID) mx FROM models');
 
         return++$maxModelID['mx'];
     }
-
 
     public function close() {
         unset($this);
@@ -127,7 +124,6 @@ class RbStore extends DbStore {
         }
     }
 
-
     public function listModels() {
         $recordSet = R::getAll("SELECT modelURI, baseURI FROM models");
         if (!$recordSet)
@@ -151,7 +147,6 @@ class RbStore extends DbStore {
             }
         }
     }
-
 
 }
 
