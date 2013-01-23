@@ -1,3 +1,7 @@
+# tdt/core
+
+[![Build Status](https://travis-ci.org/tdt/core.png?branch=master)](undefined)
+
 # Installation
 
 To install the datatank core, the best practice is to install tdt/start. This repository is located at http://www.github.com/tdt/start and contains an installer that load the necessary
