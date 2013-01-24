@@ -1,7 +1,7 @@
 <?php
 
 /**
- * An class that provides end2end API testing
+ * A class that provides end2end core API testing
  *
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -10,69 +10,93 @@
 require "vendor/autoload.php";
 
 use tdt\core\utility\Config;
+use tdt\core\model\ResourcesModel;
 
 class APITest extends \PHPUnit_Framework_TestCase {
 
-    private $config = array();
+    private $config;
+    
+    public function __construct() {
+        /*
+        * Prepare the configuration that will be used throughout the creation/reading/deleting
+        * process of the test.  
+        */
+        $configArray = array("general" => array("hostname" => "", "subdir" => "", "defaultformat" => "json",
+            "cache" => array("system" => "NoCache","host"=>"", "port"=>"")),
+            "db" => array("system" => "mysql", "host"=>"localhost","user"=>"root", "password" => "", "name" => "myapp_test"),
+            "logging" => array("enabled" => false, "path" => ""));
 
-    public function __construct($config) {
-        /* $a = array(["general"] => array(
-          ["hostname"] => string(17) "http://localhost/" ["subdir"] => string(13) "start/public/" ["timezone"] => string(15) "Europe/Brussels" ["defaultlanguage"] => string(2) "en" ["defaultformat"] => string(4) "json" ["cache"] => array(3) {
-          ["system"] => string(7) "NoCache" ["host"] => string(9) "localhost" ["port"] => int(11211)
-          ) ["faultinjection"] => array(
-          ["enabled"] => bool(true) ["period"] => int(1000)
-          ) ["auth"] => array(
-          ["enabled"] => bool(true) ["api_user"] => string(3) "tdt" ["api_passwd"] => string(3) "tdt"
-          } ["logging"] => array(2) {
-          ["enabled"] => bool(true) ["path"] => string(16) "/var/log/tdtLogs"
-          }
-          } ["routes"] => array(7) {
-          ["GET | /error/(4..|5..|critical)/?.*"] => string(15) "ErrorController" ["GET | /documentation/?"] => string(23) "DocumentationController" ["GET | /?"] => string(23) "DocumentationController" ["GET | (?P.*)\.(?P[^?]+).*\??(.*)"] => string(32) "tdt\core\controllers\RController" ["GET | TDTAdmin/Resources/(?P.*)"] => string(34) "tdt\core\controllers\CUDController" ["PUT | TDTAdmin/Resources/(?P.*)"] => string(34) "tdt\core\controllers\CUDController" ["GET | (?P.*)"] => string(39) "tdt\core\controllers\RedirectController"
-          } ["db"] => array(5) {
-          ["system"] => string(5) "mysql" ["host"] => string(9) "localhost" ["name"] => string(3) "tdt" ["user"] => string(9) "superuser" ["password"] => string(9) "superuser"
-          }); */
-        $config = array("general" => array("hostname" => "", "subdir" => "", "defaultformat" => "json"),
-            "cache" => array("system" => "NoCache","host"=>"", "port"=>""),
-            "db" => array("system" => "mysql", "host"=>"localhost","user"=>"root", "password" => ""));
+        Config::setConfig($configArray);
+
+
     }
 
     /*
      * Test function to check if a CSV file is added and removed correctly
-     * and in between can be read as well in a correct way. Needs curl to work!
+     * and in between can be read as well in a correct way. 
      */
+    public function testCSV() {                            
 
-    public function testCSV() {
-        $hostname = Config::get("general", "hostname");
-        $subdir = Config::get("general", "subdir");
+        $TEST_PACKAGE_NAME = "UNITTESTCSV";
+        $TEST_RESOURCE_NAME = "csv1";
 
-        $url = $hostname . $subdir . "TDTAdmin/Resources/testcasecsv/csv1";
-        $username = Config::get("general", "auth", "username");
-        $password = Config::get("general", "auth", "password");
+        $parameters = array(
+            'documentation' => "This is a test case for unittesting a CSV resource.",
+            'resource_type' => "generic/CSV",
+            'delimiter' => ";",
+            'uri' => __DIR__ . "/data/CSVData.csv"
+        );    
+        
+        /*
+         * Try creating a resource, if anything fails, the test fails
+         */
+        $create_resource = true;
+        try{
+            $model = ResourcesModel::getInstance();
+            $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
+        }catch(Exception $ex){
+            var_dump($ex->getTrace());
+            $create_resource = false;
+        }
+        
+        $this->assertTrue($create_resource);
+        
+        /*
+         * Try reading the datasource
+         */
+        $read_datasource = true;
+        try{
+            $model = $model = ResourcesModel::getInstance();
+            $csv_object = $model->readResource($TEST_PACKAGE_NAME,$TEST_RESOURCE_NAME,array(),array());
 
-        $fields = array(
-            'documentation' => urlencode("this is a test case for unittesting a CSV resource"),
-            'resource_type' => urlencode("generic/CSV"),
-            'delimiter' => urlencode(";"),
-            'uri' => urlencode(__DIR__ . "/data/CSVData.csv")
-        );
+            // Lets get the first rowobject and compare some values.
+            // Clayton;Ap #630-7719 Scelerisque Road;ac.arcu@facilisismagna.ca;Pierre
+            $object1 = array_shift($csv_object);
+            $this->assertEquals("ac.arcu@facilisismagna.ca",$object1->email);    
+            $this->assertEquals("Pierre",$object1->city); 
+            $this->assertEquals("Clayton",$object1->Name);                   
+            $this->assertEquals("Ap #630-7719 Scelerisque Road",$object1->Street_Address);
+            
+        }catch(Exception $ex){            
+            $read_datasource = false;
+        }
+
+        $this->assertTrue($read_datasource);
+
+        /*
+         * Try deleting the resource
+         */
+        $delete_datasource = true;
+        try{
+            $model = ResourcesModel::getInstance();
+            $model->deleteResource($TEST_PACKAGE_NAME, $TEST_RESOURCE_NAME,array());
+        }catch(Exception $ex){
+            $delete_datasource = false;
+        }
+
+        $this->assertTrue($delete_datasource);
 
 
-
-        //open connection
-        $ch = curl_init();
-
-        // configure the HTTP Request 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERPWD, "' . $username . ':' . $password . '");
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-        $result = curl_exec($ch);
-        $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        var_dump($responseHeader);
-        //close connection
-        curl_close($ch);
     }
 
 }

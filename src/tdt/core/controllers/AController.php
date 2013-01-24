@@ -47,7 +47,7 @@ class AController {
     }
 
     public function setFormat($format) {
-        $this->format_through_url = $format;
+        $this->format_through_url = $format;        
     }
 
     /**

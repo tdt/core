@@ -36,12 +36,12 @@ class Doc {
      */
 
     private function prepareCacheConfig() {
-        $cache_config = array();
+        $cache_config = array();        
 
         $cache_config["system"] = Config::get("general", "cache", "system");
         $cache_config["host"] = Config::get("general", "cache", "host");
-        $cache_config["port"] = Config::get("general", "cache", "port");
-
+        $cache_config["port"] = Config::get("general", "cache", "port");     
+           
         return $cache_config;
     }
 

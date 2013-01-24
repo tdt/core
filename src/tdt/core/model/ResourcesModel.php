@@ -143,7 +143,7 @@ class ResourcesModel {
          * generic type, without passing that as a separate parameter
          * NOTE that passing generic/generic_type has priority over generic_type = ...
          */
-        $resourceTypeParts = explode("/", $parameters["resource_type"]);
+        $resourceTypeParts = explode("/", $parameters["resource_type"]);        
         if ($resourceTypeParts[0] != "remote" && $resourceTypeParts[0] != "installed") {
             if ($resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"])
                     && isset($resourceTypeParts[1])) {
