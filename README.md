@@ -1,6 +1,6 @@
 # tdt/core
 
-[![Build Status](https://travis-ci.org/tdt/core.png?branch=master)](undefined)
+[![Build Status](https://travis-ci.org/tdt/core.png?branch=testing)](undefined)
 
 # Installation
 
