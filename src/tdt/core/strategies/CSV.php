@@ -14,8 +14,8 @@ namespace tdt\core\strategies;
 use Monolog\Logger;
 use tdt\exceptions\TDTException;
 
-class CSV extends ATabularData {
-
+class CSV extends ATabularData{
+    
     private static $READ_MAX_AMOUNT_OF_ROWS = 100;
     // amount of chars in one row that can be read
     private static $MAX_LINE_LENGTH = 15000;

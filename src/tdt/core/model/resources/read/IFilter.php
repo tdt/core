@@ -13,7 +13,7 @@
 
 namespace tdt\core\model\resources\read;
 
-interface iFilter {
+interface IFilter {
 
     /**
      * This has to return not only the dataset as a phpobject!!
