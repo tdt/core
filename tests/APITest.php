@@ -145,7 +145,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
             $this->assertEquals("Lakewood",$object1->City);
             $this->assertEquals("6435",$object1->Income);
             
-        }catch(Exception $ex){                     
+        }catch(Exception $ex){   
+            var_dump($e->getTrace());                 
             $read_datasource = false;
         }
 
