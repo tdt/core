@@ -123,7 +123,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
         try{
             $model = ResourcesModel::getInstance();
             $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
-        }catch(Exception $ex){           
+        }catch(Exception $ex){       
+            var_dump($ex->getTrace());        
             $create_resource = false;
         }
         
@@ -146,7 +147,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             $this->assertEquals("6435",$object1->Income);
             
         }catch(Exception $ex){   
-            var_dump($e->getTrace());                 
+            var_dump($ex->getTrace());                 
             $read_datasource = false;
         }
 
