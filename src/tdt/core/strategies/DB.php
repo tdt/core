@@ -14,15 +14,15 @@ namespace tdt\core\strategies;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use RedBean_Facade as R;
-use tdt\core\model\resources\read\iFilter;
+use tdt\core\model\resources\read\IFilter;
 use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
 
-class DB extends ATabularData implements iFilter {
+class DB extends ATabularData implements IFilter {
     /*
      * If no limit is defined, get a default maximum of rows
-     * This way reading a database with a large set of records will not cause 
+     * This way reading a database with a large set of records will not cause
      * the PHP execution to crash of memory allocation.
      */
 
@@ -76,10 +76,10 @@ class DB extends ATabularData implements iFilter {
      */
     public function read(&$configObject, $package, $resource) {
         parent::read($configObject, $package, $resource);
-        
+
         R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
         R::selectDatabase('db_resource');
-        
+
         $fields = ""; //implode(array_keys($configObject->columns),",");
 
         foreach ($configObject->column_aliases as $column_name => $column_alias) {
@@ -97,7 +97,7 @@ class DB extends ATabularData implements iFilter {
             $sql_limit = "LIMIT 0, " . DB::$READ_MAX_AMOUNT_OF_ROWS;
         }
         $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";
-        
+
         $results = R::getAll($sql);
 
         /*
@@ -133,7 +133,7 @@ class DB extends ATabularData implements iFilter {
                     $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                     $log->addAlert("Resource $package / $resources : Primary key " . $rowobject->$PK . " isn't unique.");
                 } else {
-                    // this means the primary key field was empty, log the problem and continue                    
+                    // this means the primary key field was empty, log the problem and continue
                     $log = new Logger('DB');
                     $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                     $log->addAlert("Resource $package / $resources : Primary key " . $rowobject->$PK . " is empty.");
@@ -220,7 +220,7 @@ class DB extends ATabularData implements iFilter {
          * 4) If the columns are all A-OK! then return true.
          * All this functionality has been put into functions.
          */
-        // prepare the connection            
+        // prepare the connection
         R::addDatabase('db_resource', $this->db_type . ":host=" . $this->location . ";dbname=" . $this->db_name, $this->username, $this->password);
         R::selectDatabase('db_resource');
         // get the table columns

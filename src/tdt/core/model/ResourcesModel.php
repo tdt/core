@@ -214,7 +214,7 @@ class ResourcesModel {
         }
 
 
-        // all is well, let's create that resource!        
+        // all is well, let's create that resource!
         $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
         try {
             //first check if there resource exists yet
@@ -632,7 +632,7 @@ class ResourcesModel {
     }
 
     /**
-     * Check if the resource implements iFilter or not
+     * Check if the resource implements IFilter or not
      * return FALSE if not the resource doesn't implement iFitler
      * return the resource if it does
      */
@@ -649,7 +649,7 @@ class ResourcesModel {
 
                     $interfaces = class_implements($strategy);
 
-                    if (in_array("iFilter", $interfaces)) {
+                    if (in_array("IFilter", $interfaces)) {
                         return $genericResource;
                     } else {
                         return FALSE;
@@ -659,7 +659,7 @@ class ResourcesModel {
                     $reader = $factory->createReader($package, $resource, array(), array());
                     $interfaces = class_implements($reader);
 
-                    if (in_array("iFilter", $interfaces)) {
+                    if (in_array("IFilter", $interfaces)) {
                         return $reader;
                     } else {
                         return FALSE;
