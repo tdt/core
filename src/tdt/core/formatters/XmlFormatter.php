@@ -40,6 +40,13 @@ class XmlFormatter extends AFormatter {
             $this->rootname = $rootname;
         }
 
+        /*
+         * TDTInfo and Admin are exceptions, need special progress
+         */
+
+        if(isset($this->objectToPrint->resources)){
+            $rootname = "resources";            
+        }
 
         if (!is_object($this->objectToPrint->$rootname)) {
             $wrapper = new \stdClass();
