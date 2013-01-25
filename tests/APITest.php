@@ -11,6 +11,7 @@ require "vendor/autoload.php";
 
 use tdt\core\utility\Config;
 use tdt\core\model\ResourcesModel;
+use RedBean_Facade as R;
 
 class APITest extends \PHPUnit_Framework_TestCase {
 
@@ -98,8 +99,16 @@ class APITest extends \PHPUnit_Framework_TestCase {
 
     public function testDB(){
 
+
         $TEST_PACKAGE_NAME = "UNITTESTDB";
         $TEST_RESOURCE_NAME = "db1";
+
+        $DB_HOST = "localhost";
+        $DB_USER = "root";
+        $DB_PASSWORD = "";
+        $DB_NAME = "myapp_test";
+        $DB_TABLE = "test_table";
+        $DB_TYPE = "mysql";
 
         /*
          * Pass along the database parameters leading to the test data
@@ -107,12 +116,12 @@ class APITest extends \PHPUnit_Framework_TestCase {
         $parameters = array(
             'documentation' => "This is a test case for unittesting a DB resource.",
             'resource_type' => "generic/DB",
-            'db_table' => "test_table",
-            'location' => "localhost",
-            'username' => "root",
+            'db_table' => $DB_TABLE,
+            'location' => $DB_HOST,
+            'username' => $DB_USER,
             'password' => "",
-            'db_name' => "myapp_test",
-            'db_type' => "MySQL"
+            'db_name' => $DB_NAME,
+            'db_type' => $DB_TYPE
 
         );    
         
@@ -121,6 +130,24 @@ class APITest extends \PHPUnit_Framework_TestCase {
          */
         $create_resource = true;
         try{
+
+            /*
+             * Add some data to the datatable first 
+             * using RedBean.
+             */
+            
+            R::setup($DB_TYPE . ":host=" . $DB_HOST . ";dbname=" . $DB_NAME, $DB_USER, "");
+            $person = R::dispense($DB_TABLE);
+            $person->Name = "Reginald";
+            $person->Surname = "TSM";
+            $person->City = "San Francisco";
+            $person->Income = "9000";
+            R::store($person);
+
+            /*
+             * Create the resource definition of the datatable 
+             */
+
             $model = ResourcesModel::getInstance();
             $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
         }catch(Exception $ex){       
@@ -133,18 +160,23 @@ class APITest extends \PHPUnit_Framework_TestCase {
         /*
          * Try reading the datasource
          */
-        $read_datasource = true;
-        try{
-            $model = $model = ResourcesModel::getInstance();
-            $db_object = $model->readResource($TEST_PACKAGE_NAME,$TEST_RESOURCE_NAME,array(),array());
 
-            // Lets get the first rowobject and compare some values.
-            // Clayton;Ap #630-7719 Scelerisque Road;ac.arcu@facilisismagna.ca;Pierre
+        $read_datasource = true;
+        try{            
+
+            /*
+             * Access the model to read the datasource
+             */
+            $model = $model = ResourcesModel::getInstance();
+            $db_object = $model->readResource($TEST_PACKAGE_NAME,$TEST_RESOURCE_NAME,array(),array());           
+            
+            // Lets get the object that we injected in the data table and check if it matches            
             $object1 = array_shift($db_object);
-            $this->assertEquals("Yoshi",$object1->Name);
-            $this->assertEquals("Weber",$object1->Surname);
-            $this->assertEquals("Lakewood",$object1->City);
-            $this->assertEquals("6435",$object1->Income);
+        
+            $this->assertEquals("Reginald",$object1->Name);
+            $this->assertEquals("TSM",$object1->Surname);
+            $this->assertEquals("San Francisco",$object1->City);
+            $this->assertEquals("9000",$object1->Income);
             
         }catch(Exception $ex){   
             var_dump($ex->getTrace());                 
