@@ -33,8 +33,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
     }
 
     /*
-     * Test function to check if a CSV file is added and removed correctly
-     * and in between can be read as well in a correct way. 
+     * Test function to check if a CSV strategy is working correctly.
+     * Tests: Create,Read,Delete
      */
     public function testCSV() {                            
 
@@ -97,6 +97,10 @@ class APITest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($delete_datasource);
     }
 
+    /*
+     * Test function to check if the DB strategy is working correctly.
+     * Tests: Create,Read,Delete
+     */
     public function testDB(){
 
 
@@ -150,6 +154,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
 
             $model = ResourcesModel::getInstance();
             $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
+
         }catch(Exception $ex){       
             var_dump($ex->getTrace());        
             $create_resource = false;
@@ -197,6 +202,68 @@ class APITest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->assertTrue($delete_datasource);
+    }
+
+    /*
+     * Test function to check if the JSON strategy is working correctly
+     * Tests: Create,Read,Delete
+     */
+    public function testJSON(){
+
+        $TEST_PACKAGE_NAME = "UNITTESTJSON";
+        $TEST_RESOURCE_NAME = "json1";
+
+        $parameters = array(
+            'documentation' => "This is a test case for unittesting a JSON resource.",
+            'resource_type' => "generic/JSON",            
+            'uri' => "http://demo.thedatatank.org/TDTInfo/Resources.json"
+        );    
+        
+        /*
+         * Try creating a resource, if anything fails, the test fails
+         */
+        $create_resource = true;
+        try{
+            $model = ResourcesModel::getInstance();
+            $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
+        }catch(Exception $ex){            
+            $create_resource = false;
+        }
+        
+        $this->assertTrue($create_resource);
+        
+        /*
+         * Try reading the datasource
+         */
+        $read_datasource = true;
+        try{
+            $model = $model = ResourcesModel::getInstance();
+            $json_object = $model->readResource($TEST_PACKAGE_NAME,$TEST_RESOURCE_NAME,array(),array());
+
+            if(!is_object($json_object->Resources)){
+                $read_datasource = false;
+            }
+            
+                        
+        }catch(Exception $ex){                   
+            $read_datasource = false;
+        }
+
+        $this->assertTrue($read_datasource);
+
+        /*
+         * Try deleting the resource
+         */
+        $delete_datasource = true;
+        try{
+            $model = ResourcesModel::getInstance();
+            $model->deleteResource($TEST_PACKAGE_NAME, $TEST_RESOURCE_NAME,array());
+        }catch(Exception $ex){            
+            $delete_datasource = false;
+        }
+
+        $this->assertTrue($delete_datasource);
+
     }
 
 }
