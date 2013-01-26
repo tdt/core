@@ -55,7 +55,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
         try{
             $model = ResourcesModel::getInstance();
             $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
-        }catch(Exception $ex){            
+        }catch(Exception $ex){   
+            echo $ex->getMessage();         
             $create_resource = false;
         }
         
@@ -78,6 +79,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             $this->assertEquals("Ap #630-7719 Scelerisque Road",$object1->Street_Address);
             
         }catch(Exception $ex){                   
+            echo $ex->getMessage();
             $read_datasource = false;
         }
 
@@ -90,7 +92,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
         try{
             $model = ResourcesModel::getInstance();
             $model->deleteResource($TEST_PACKAGE_NAME, $TEST_RESOURCE_NAME,array());
-        }catch(Exception $ex){            
+        }catch(Exception $ex){    
+            echo $ex->getMessage();        
             $delete_datasource = false;
         }
 
@@ -156,7 +159,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
 
         }catch(Exception $ex){       
-            var_dump($ex->getTrace());        
+            echo $ex->getMessage();        
             $create_resource = false;
         }
         
@@ -184,7 +187,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             $this->assertEquals("9000",$object1->Income);
             
         }catch(Exception $ex){   
-            var_dump($ex->getTrace());                 
+            echo $ex->getMessage();              
             $read_datasource = false;
         }
 
@@ -197,7 +200,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
         try{
             $model = ResourcesModel::getInstance();
             $model->deleteResource($TEST_PACKAGE_NAME, $TEST_RESOURCE_NAME,array());
-        }catch(Exception $ex){           
+        }catch(Exception $ex){      
+            echo $ex->getMessage();     
             $delete_datasource = false;
         }
 
@@ -216,7 +220,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
         $parameters = array(
             'documentation' => "This is a test case for unittesting a JSON resource.",
             'resource_type' => "generic/JSON",            
-            'uri' => "http://demo.thedatatank.org/TDTInfo/Resources.json"
+            'uri' => "http://data.appsforghent.be/TDTInfo/Resources.json"
         );    
         
         /*
@@ -226,7 +230,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
         try{
             $model = ResourcesModel::getInstance();
             $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
-        }catch(Exception $ex){            
+        }catch(Exception $ex){         
+            echo $ex->getMessage();   
             $create_resource = false;
         }
         
@@ -245,7 +250,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
             }
             
                         
-        }catch(Exception $ex){                   
+        }catch(Exception $ex){   
+            echo $ex->getMessage();                
             $read_datasource = false;
         }
 
@@ -258,7 +264,8 @@ class APITest extends \PHPUnit_Framework_TestCase {
         try{
             $model = ResourcesModel::getInstance();
             $model->deleteResource($TEST_PACKAGE_NAME, $TEST_RESOURCE_NAME,array());
-        }catch(Exception $ex){            
+        }catch(Exception $ex){    
+            echo $ex->getMessage();        
             $delete_datasource = false;
         }
 

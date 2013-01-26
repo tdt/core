@@ -96,7 +96,7 @@ class ApacheLogParser{
 	public function getData($limit = 50, $offset = 1){
 		$handle = fopen($this->file, 'rb');
 		if ($handle) {
-			$count = 1;
+			$count = 0;
 			$lines = array();
 			while (!feof($handle)) {
 				$buffer = fgets($handle);	
