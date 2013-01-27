@@ -6,7 +6,8 @@
  * and adjusted with proper regular expressions as the ones provided in the original file didn't work
  * for a CLF apache log file.(standard logging format)
  * 
- * @author Eric Lamb
+ * @author Eric Lamb (base code)
+ * @author Jan Vansteenlandt (adjustments & fixes)
  *
  */
 
@@ -67,8 +68,10 @@ class ApacheLogParser{
 
 	/**
 	 * Executes the supplied filter to the string
-	 * @param $filer
-	 * @param $status
+	 * In the blog it will return the string when 1 of the regex's
+	 * complies, this adjusted function will return the string if it
+	 * complies to all the passed filters!
+	 * @param $filer	 
 	 * @return string
 	 */
 	private function applyFilters($str){
@@ -91,6 +94,7 @@ class ApacheLogParser{
 	/**
 	 * Returns an array of all the filtered lines 
 	 * @param $limit
+	 * @param $offset
 	 * @return array
 	 */
 	public function getData($limit = 50, $offset = 1){
