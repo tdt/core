@@ -19,13 +19,13 @@ class SPARQL extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
         $uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/json");
-        $data = \tdt\framework\Request::http($uri);
+        $data = \tdt\core\utility\Request::http($uri);
         return json_decode($data->data);
     }
 
     public function isValid($package_id, $generic_resource_id) {
         $uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
-        $data = \tdt\framework\Request::http($uri);
+        $data = \tdt\core\utility\Request::http($uri);
         $result = json_decode($data->data);
         if (!$result) {
             $exception_config = array();

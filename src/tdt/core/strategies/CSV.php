@@ -69,6 +69,7 @@ class CSV extends ATabularData{
      * @return $mixed An object created with fields of a CSV file.
      */
     public function read(&$configObject, $package, $resource) {
+        
         /*
          * First retrieve the values for the generic fields of the CSV logic.
          * This is the uri to the file, and a parameter which states if the CSV file

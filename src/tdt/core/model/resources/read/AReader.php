@@ -11,12 +11,13 @@
 
 namespace tdt\core\model\resources\read;
 
-use tdt\framework\LanguageNegotiator;
+use tdt\negotiators\LanguageNegotiator;
 use tdt\exceptions\TDTException;
 
 abstract class AReader {
 
-    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp");
+    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp","limit","offset","page");
+    
     // package and resource are always the two minimum parameters
     protected $parameters = array();
     protected $requiredParameters = array();
