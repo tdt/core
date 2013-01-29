@@ -1,3 +1,7 @@
+# tdt/core
+
+[![Build Status](https://travis-ci.org/tdt/core.png?branch=development)](https://travis-ci.org/tdt/core)
+
 # Installation
 
 To install the datatank core, the best practice is to install tdt/start. This repository is located at http://www.github.com/tdt/start and contains an installer that load the necessary
@@ -31,7 +35,7 @@ example:
 This will lead a URL passed by a HTTP GET request, existing out of any given string ending with a dot followed by a string representing a format, to our RController. This controller will then apply further logic to provide
 this request of an answer.
 
-If you want to use The DataTank core without the use of tdt/start, you can still fill out the config of tdt\core\utility\Config::setConfig($array) documented in the README of the tdt/framework.
+If you want to use The DataTank core without the use of tdt/start, you can still fill out the config of tdt\core\utility\Config::setConfig($array).
 
 ### formatters
 
