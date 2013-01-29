@@ -13,6 +13,7 @@
 namespace tdt\core\utility;
 
 use tdt\cache\Cache;
+use tdt\exceptions\TDTException;
 
 class Request {
 

@@ -14,12 +14,12 @@ namespace tdt\core\strategies;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use RedBean_Facade as R;
-use tdt\core\model\resources\read\iFilter;
+use tdt\core\model\resources\read\IFilter;
 use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
 
-class DB extends ATabularData implements iFilter {
+class DB extends ATabularData implements IFilter {
     /*
      * If no limit is defined, get a default maximum of rows
      * This way reading a database with a large set of records will not cause 
