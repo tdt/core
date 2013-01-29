@@ -262,6 +262,21 @@ class DBQueries {
     }
 
     /**
+     * Delete a strategy entry
+     */
+    static function deleteStrategy($package,$resource,$table){
+        return R::exec(
+                        "DELETE FROM $table
+                    WHERE gen_resource_id IN
+                          (SELECT generic_resource.id FROM generic_resource,package,resource
+                           WHERE resource.resource_name=:resource
+                                 and package.package_name=:package
+                                 and resource_id = resource.id
+                                 and package.id=package_id)", array(":package" => $package, ":resource" => $resource)
+        );
+    }
+
+    /**
      * Retrieve a specific remote resource
      */
     static function getRemoteResource($package, $resource) {

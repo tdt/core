@@ -67,7 +67,7 @@ class CUDController extends AController {
         $RController->HEAD($matches);
     }
 
-    function PUT($matches) {
+    function PUT($matches) {        
 
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/", $packageresourcestring);

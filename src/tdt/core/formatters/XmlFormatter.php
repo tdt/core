@@ -33,11 +33,13 @@ class XmlFormatter extends AFormatter {
 
     public function printBody() {
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
-        $rootname = $this->rootname;
+        $rootname = $this->rootname;            
 
-        if (!isset($this->objectToPrint->$rootname)) {
-            $rootname = ucfirst($this->rootname);
+        if (!isset($this->objectToPrint->$rootname)) {           
             $this->rootname = $rootname;
+            $wrapper = new \stdClass();
+            $wrapper->$rootname = $this->objectToPrint;
+            $this->objectToPrint = $wrapper;
         }
 
 

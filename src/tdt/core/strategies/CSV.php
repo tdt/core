@@ -11,12 +11,14 @@
 
 namespace tdt\core\strategies;
 
-use Monolog\Logger;
 use tdt\exceptions\TDTException;
+use tdt\core\model\resources\AResourceStrategy;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use tdt\core\utility\Config;
 
 class CSV extends ATabularData{
-    
-    private static $READ_MAX_AMOUNT_OF_ROWS = 100;
+
     // amount of chars in one row that can be read
     private static $MAX_LINE_LENGTH = 15000;
 
@@ -69,6 +71,7 @@ class CSV extends ATabularData{
      * @return $mixed An object created with fields of a CSV file.
      */
     public function read(&$configObject, $package, $resource) {
+
         /*
          * First retrieve the values for the generic fields of the CSV logic.
          * This is the uri to the file, and a parameter which states if the CSV file
@@ -92,10 +95,39 @@ class CSV extends ATabularData{
             throw new TDTException(452, array("Can't find URI of the CSV"), $exception_config);
         }
 
+        /**
+         * Get the columns from the configuration
+         */
         $columns = $configObject->columns;
         $column_aliases = $configObject->column_aliases;
         $PK = $configObject->PK;
 
+        /**
+         * Calculate which rows we need to read         
+         */
+        if(!isset($this->page)){
+            $this->page = 1;
+        }
+
+        if(!isset($this->page_size)){
+            $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+        }
+
+        /**
+         * We're going to ask for one more row, if we get one more row than the
+         * user asked for, it means that we still have data to pass along.
+         * When we notice this we will set the Link HTTP header
+         */
+        $offset = ($this->page -1)*$this->page_size;
+        $limit = $this->page_size +1;
+
+        // during the reading we will discover if we have a next and/or previous page
+        $next_page = false;
+        $previous_page = false;
+
+        /**
+         * Read the file         
+         */
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
@@ -103,14 +135,24 @@ class CSV extends ATabularData{
         $rows = array();
         $rowsRead = 0;
         if (($handle = fopen($filename, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE && $rowsRead <= CSV::$READ_MAX_AMOUNT_OF_ROWS + $start_row - 1) {
-                $num = count($data);
-                $csvRow = "";
-                for ($c = 0; $c < $num; $c++) {
-                    $csvRow = $csvRow . $delimiter . $this->enclose($data[$c]);
+            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE && $rowsRead <= $limit) {
+                if($row >= $offset && $row <= $offset+$limit){
+                    $num = count($data);
+                    $csvRow = "";
+                    for ($c = 0; $c < $num; $c++) {
+                        $csvRow = $csvRow . $delimiter . $this->enclose($data[$c]);
+                    }
+                    array_push($rows, ltrim($csvRow, $delimiter));
+                    $rowsRead++;
+                    if($this->page > 1 && !$previous_page){
+                        $previous_page = true;
+                    }
+
+                    if($row == $offset + $limit && !$next_page){
+                        $next_page = true;
+                    }
                 }
-                array_push($rows, ltrim($csvRow, $delimiter));
-                $rowsRead++;
+                $row++;
             }
             fclose($handle);
         } else {
@@ -118,6 +160,18 @@ class CSV extends ATabularData{
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."), $exception_config);
+        }
+
+        /**
+         * Delete last row if the beginning of a next page has been read
+         */
+        if($next_page){
+            array_pop($rows);
+            $this->setLinkHeader($this->page + 1,$this->page_size,"next");
+        }
+
+        if($previous_page){
+            $this->setLinkHeader($this->page -1,$this->page_size,"previous");
         }
 
         // get rid for the comment lines according to the given start_row
@@ -141,6 +195,9 @@ class CSV extends ATabularData{
 
         $line = 0;
 
+        /**
+         * Parse every row and create an object from it        
+         */
         foreach ($rows as $row => $fields) {
             $line++;
             $data = str_getcsv($fields, $delimiter, '"');

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Class inheriting from the AController from tdt\framework
+ * Class inheriting from the AController
  * and adding some functionality specifically for Core controllers
  */
 

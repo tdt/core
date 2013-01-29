@@ -5,7 +5,7 @@
 # Installation
 
 To install the datatank core, the best practice is to install tdt/start. This repository is located at http://www.github.com/tdt/start and contains an installer that load the necessary
-components to make the datatank structure work. Currently it will install tdt/framework and tdt/core.
+components to make the datatank structure work. Currently it will install the requirements for tdt/core found in the composer.json file.
 
 This can be done by using [composer](http://getcomposer.org/) and performing <b>composer install</b> in the directory of the tdt/start location. You can recognize this location
 by the presence of a composer.json file.
