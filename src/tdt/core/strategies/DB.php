@@ -18,6 +18,7 @@ use tdt\core\model\resources\read\IFilter;
 use tdt\core\universalfilter\interpreter\other\QueryTreeHandler;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
+use tdt\core\model\resources\AResourceStrategy;
 
 class DB extends ATabularData implements IFilter {
     /*
@@ -54,8 +55,7 @@ class DB extends ATabularData implements IFilter {
         $this->parameters["db_type"] = "The type of the database, current supported types are: MySQL";
         $this->parameters["db_table"] = "The database table of which some or all fields will be published.";
         $this->parameters["location"] = "The location of the database, for sqlite this will be the path towards the sqlite file, for all the other database types this will be the host on which the database is installed.";
-        $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the tabular resource.";
-        $this->parameters["limit"] = "The limit of a data retrieval query on the database table. If not provided a default amount of rows will be loaded.";
+        $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the tabular resource.";        
         return $this->parameters;
     }
 
@@ -75,30 +75,83 @@ class DB extends ATabularData implements IFilter {
      * @return $mixed An object created with fields and values of the database table
      */
     public function read(&$configObject, $package, $resource) {
+
         parent::read($configObject, $package, $resource);
         
+        /**
+         * Add the database we want to connect to the Redbean databases.
+         * This will allow us to switch between the connection with our own back-end and the database from which to read data.
+         */
         R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
         R::selectDatabase('db_resource');
         
-        $fields = ""; //implode(array_keys($configObject->columns),",");
+        $fields = ""; 
 
+
+        /**
+         * Prepare the SQL statement
+         */
+        
         foreach ($configObject->column_aliases as $column_name => $column_alias) {
             $fields.= " $configObject->db_table" . "." . "$column_name AS $column_alias ,";
         }
 
         $fields = rtrim($fields, ",");
 
-        // prepare to get some of them data from the database!
-        $sql_limit = "";
-
-        if ($configObject->limit != "") {
-            $sql_limit = "LIMIT 0,$configObject->limit";
-        } else {
-            $sql_limit = "LIMIT 0, " . DB::$READ_MAX_AMOUNT_OF_ROWS;
+        if(!isset($this->page)){
+            $this->page = 1;
         }
-        $sql = "SELECT $fields FROM $configObject->db_table $sql_limit";
+
+        if(!isset($this->page_size)){
+            $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+        }
+
+        /**
+         * We're going to ask for one more row, if we get one more row than the
+         * user asked for, it means that we still have data to pass along.
+         * When we notice this we will set the Link HTTP header
+         */
+        $offset = ($this->page -1)*$this->page_size;
+        $limit = $this->page_size +1;
+
+        $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";
         
         $results = R::getAll($sql);
+
+        /**
+         * Check if we have more rows then we can return in 1 page
+         */
+        $result_count = count($results);
+
+        if($result_count > $limit-1){
+            array_pop($results);
+            $this->setLinkHeader($this->page+1, $this->page_size,"next");
+        }
+
+        /**
+         * Check if we have a previous page
+         * Note that previous and next cannot be combined in 1 query.
+         * If we have 1 row too many, and our offset was done -1 and our limit +1
+         * we cannot know which header to pass as we dont know whether the 1 extra record is
+         * from a previous page or a next page.
+         * 
+         * Again take into account that a page size can be bigger then the previous amount of records,
+         * resulting in a negative offset, put offset to 0 if this is the case
+         */
+        if($offset>0){
+            $offset = $offset - $this->page_size;        
+
+            $limit = $this->page_size;
+
+            if($offset<0)
+                $offset = 0;
+
+            $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";            
+            $previous_results = R::getAll($sql);
+            if(count($previous_results)>0){
+                $this->setLinkHeader($this->page-1,$limit,"previous");
+            }
+        }
 
         /*
          *  The result of the R::getAll results in an array of arrays. Each array represents a row.

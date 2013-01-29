@@ -16,7 +16,9 @@ use tdt\exceptions\TDTException;
 
 abstract class AReader {
 
-    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp","limit","offset","page");
+    protected static $DEFAULT_PAGE_SIZE = 50;
+
+    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp","page_size","page");
     
     // package and resource are always the two minimum parameters
     protected $parameters = array();
@@ -91,6 +93,27 @@ abstract class AReader {
             throw new TDTException(500, array("Language: $language is not supported."), $exception_config);
         }
         return $language;
+    }
+
+    /**
+     * setLinkHeader sets a Link header with next, previous
+     * @param int $limit  The limitation of the amount of objects to return
+     * @param int $offset The offset from where to begin to return objects (default = 0)
+     */
+    protected function setLinkHeader($page,$page_size,$referral = "next"){
+
+        /**
+         * Process the correct referral options(next | previous)
+         */
+        if($referral != "next" || $referral != "previous"){
+             $log = new Logger('AReader');
+             $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
+             $log->addError("No correct referral has been found, options are 'next' or 'previous', the referral given was: $referral");
+        }
+
+        header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page=" 
+            . $page . "&page_size=" . $page_size . ";rel=" . $referral);
+
     }
 
 }

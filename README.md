@@ -1,6 +1,6 @@
 # tdt/core
 
-[![Build Status](https://travis-ci.org/tdt/core.png?branch=testing)](undefined)
+[![Build Status](https://travis-ci.org/tdt/core.png?branch=feature-paging)](https://travis-ci.org/tdt/core)
 
 # Installation
 

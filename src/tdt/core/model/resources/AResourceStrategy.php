@@ -16,8 +16,14 @@ use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
 use tdt\exceptions\TDTException;
 use RedBean_Facade as R;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use tdt\core\utility\Config;
 
 abstract class AResourceStrategy {
+
+    protected static $DEFAULT_PAGE_SIZE = 50;
+    protected $link_header = array();    
 
     /**
      * This functions contains the businesslogic of a read method (non paged reading)
@@ -32,15 +38,7 @@ abstract class AResourceStrategy {
         // get the name of the class (=strategy)
         $strat = $this->getClassName();
         $resource_table = (string) GenericResource::$TABLE_PREAMBLE . $strat;
-        return R::exec(
-                        "DELETE FROM $resource_table
-                    WHERE gen_resource_id IN
-                          (SELECT generic_resource.id FROM generic_resource,package,resource
-                           WHERE resource.resource_name=:resource
-                                 and package.package_name=:package
-                                 and resource_id = resource.id
-                                 and package.id=package_id)", array(":package" => $package, ":resource" => $resource)
-        );
+        return DBQueries::deleteStrategy($package,$resource,$resource_table);
     }
 
     /*
@@ -85,7 +83,7 @@ abstract class AResourceStrategy {
     }
 
     public function onUpdate($package, $resource) {
-        
+
     }
 
     public function setParameter($key, $value) {
@@ -158,6 +156,42 @@ abstract class AResourceStrategy {
         throw new TDTException(452, array("$message"), $exception_config);
     }
 
-}
+    /**
+     * setLinkHeader sets a Link header with next, previous
+     * @param int $limit  The limitation of the amount of objects to return
+     * @param int $offset The offset from where to begin to return objects (default = 0)
+     */
+    protected function setLinkHeader($page,$page_size,$referral = "next"){
 
-?>
+        /**
+         * Process the correct referral options(next | previous)
+         */
+        if($referral != "next" || $referral != "previous"){
+           $log = new Logger('AResourceStrategy');
+           $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
+           $log->addError("No correct referral has been found, options are 'next' or 'previous', the referral given was: $referral");
+       }
+
+        /**
+         * Check if the Link header has already been set, with a next relationship for example.
+         * If so we have to append the Link header instead of hard setting it
+         */
+        $link_header_set = false;
+        foreach(headers_list() as $header){
+            if(substr($header,0,4) == "Link"){
+                $header.=", ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page=" 
+                . $page . "&page_size=" . $page_size . ";rel=" . $referral;
+                header($header);
+                $link_header_set = true;
+            }
+        }
+
+        if(!$link_header_set){
+            header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page=" 
+                . $page . "&page_size=" . $page_size . ";rel=" . $referral);        
+        }
+        
+
+    }
+
+}
