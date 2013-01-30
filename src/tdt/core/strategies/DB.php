@@ -98,21 +98,50 @@ class DB extends ATabularData implements IFilter {
 
         $fields = rtrim($fields, ",");
 
-        if(!isset($this->page)){
-            $this->page = 1;
-        }
-
-        if(!isset($this->page_size)){
-            $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
-        }
-
         /**
-         * We're going to ask for one more row, if we get one more row than the
-         * user asked for, it means that we still have data to pass along.
-         * When we notice this we will set the Link HTTP header
+         * Calculate page, size, limit and offset        
          */
-        $offset = ($this->page -1)*$this->page_size;
-        $limit = $this->page_size +1;
+        $limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+        $offset = 0;
+        
+        if(!isset($this->limit) && !isset($this->offset)){        
+
+            if(!isset($this->page)){
+                $this->page = 1;
+            }
+
+            if(!isset($this->page_size)){
+                $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            /**
+             * We're going to ask for one more row, if we get one more row than the
+            * user asked for, it means that we still have data to pass along.
+            * When we notice this we will set the Link HTTP header
+            */
+            $offset = ($this->page -1)*$this->page_size;
+            $limit = $this->page_size +1;
+
+        }else{
+
+            $limit = $this->limit +1;
+            $offset = $this->offset;
+
+            // calculate the page and size from limit and offset as good as possible
+            // meaning that if offset<limit, indicates a non equal division of pages
+            // it will try to restore that equal division of paging
+            // i.e. offset = 2, limit = 20 -> indicates that page 1 exists of 2 rows, page 2 of 20 rows, page 3 min. 20 rows.
+            // paging should be (x=size) x, x, x, y < x EOF
+            $page = $offset/$limit;
+            $page = round($page,0,PHP_ROUND_HALF_DOWN);
+            if($page==0){
+                $page = 1;
+            }
+            $this->page = $page;
+            $this->page_size = $limit -1;
+
+        }
+        
 
         $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";
         
@@ -138,7 +167,9 @@ class DB extends ATabularData implements IFilter {
          * Again take into account that a page size can be bigger then the previous amount of records,
          * resulting in a negative offset, put offset to 0 if this is the case
          */
+        
         if($offset>0){
+
             $offset = $offset - $this->page_size;        
 
             $limit = $this->page_size;
@@ -340,22 +371,30 @@ class DB extends ATabularData implements IFilter {
      *
      */
     public function readAndProcessQuery($query, $parameters) {
-
+        
         /*
          * Decide which part of the query we want to execute ourselves and which part we leave to the universalinterpreter
          * Since this database resource serves as an example for how partially execution works we're going to assume we
          * cannot perform sort by statements ( or higher such as limit statements).
          * Thus we ask for the QueryTreeHandler for the clauses up untill select.
-         */
+         */    
 
         $queryHandler = new QueryTreeHandler($query);
         $converter = $queryHandler->getSqlConverter();
 
-        $queryNode = $queryHandler->getNodeForClause("select");
-
-        $selectClause = $converter->getSelectClause();
-        $whereClause = $converter->getWhereClause();
-        $groupByClause = $converter->getGroupByClause();
+        /*
+         * Try getting the limit node 
+         */
+        $executed_node_name = "limit";
+        $queryNode = $queryHandler->getNodeForClause("limit");
+        
+        /*
+         * If none given, then take the select node    
+         */
+        if(is_null($queryNode)){
+            $queryNode = $queryHandler->getNodeForClause("select");
+            $executed_node_name = "select";
+        }    
 
 
         /*
@@ -392,13 +431,38 @@ class DB extends ATabularData implements IFilter {
         $sourceIdentifier = $parameters["package"] . "." . $parameters["resource"];
         $sourceIdentifier = str_replace("/", ".", $sourceIdentifier);
 
-        // initialize the ORM redbeans to execute some SQL
-        R::setup($configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
+         /**
+         * Add the database we want to connect to the Redbean databases.
+         * This will allow us to switch between the connection with our own back-end and the database from which to read data.
+         */
+        R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
+        R::selectDatabase('db_resource');
 
         $resultObject = new \stdClass();
 
+        // Create the SQL string
         $sql = $this->convertClausesToSQLString($converter, $configObject);
 
+        /**
+         * Get limit if set, and add 1, this way we know if we have to link to a next page or not
+         * and add it to the SQL query string.
+         */
+        $offset = 0;
+        $limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+        $limitless_sql = $sql;
+        $sql.= " LIMIT ";
+
+        if($converter->getLimitClause()){
+            $limit_array = $converter->getLimitClause();
+            $offset = $limit_array[0];
+            $limit = $limit_array[1];
+        }
+
+        $limit = $limit+1;
+
+        $sql.= $offset . ",";
+        $sql.= $limit;                
+        
         try {
             /*
              * Execute the query
@@ -406,9 +470,27 @@ class DB extends ATabularData implements IFilter {
              * we put together an array with the clauses used, and the phpObject retrieved from the database query.
              * We also put an empty entry for the order by clause (if given) so that the interpreter knows we didn't execute it.
              */
-            $results = R::getAll($sql);
+            $results = R::getAll($sql);           
+            /**
+             * Check if we have more rows then we can return in 1 page
+             */
+            $result_count = count($results);
+            $limit = $limit - 1;
+
+            if($result_count > $limit){
+
+                array_pop($results);
+                $page = $offset/$limit;
+                $page = round($page,0,PHP_ROUND_HALF_DOWN);
+                if($page==0){
+                    $page = 1;
+                }
+                $this->page = $page;
+                $this->setLinkHeader($page+1, $limit,"next");
+            }
 
             $arrayOfRowObjects = array();
+
             /*
              * assemble objects out of the resultset
              */
@@ -428,6 +510,44 @@ class DB extends ATabularData implements IFilter {
                 array_push($arrayOfRowObjects, $rowobject);
             }
 
+            /**
+             * check if a previous header should be set.
+             */
+            if($offset>0){
+
+                $offset = $offset - $limit;                    
+
+                if($offset<0)
+                    $offset = 0;
+
+                $sql = $limitless_sql;
+                $sql.= " LIMIT ";
+
+                if($converter->getLimitClause()){
+                    $limit_array = $converter->getLimitClause();
+                    $offset = $limit_array[0];
+                    $limit = $limit_array[1];
+                }      
+
+                $sql.= $offset . ",";
+                $sql.= $limit;  
+
+                $previous_results = R::getAll($sql);
+                if(count($previous_results)>0){
+
+                    $page = $offset/$limit;
+                    $page = round($page,0,PHP_ROUND_HALF_DOWN);
+                    if($page==0){
+                        $page = 2;
+                    }
+                    $this->page = $page;                
+
+                    $this->setLinkHeader($page-1,$limit,"previous");
+                }
+            }
+            // Link the redbean again with our back-end
+            R::selectDatabase('default');
+
             /*
              * We added all the possible clauses except for the order by clause in our SQL query.
              * That means that unless there's been an order by clause, we have executed the entire query.
@@ -445,7 +565,7 @@ class DB extends ATabularData implements IFilter {
                 /*
                  *  We have executed the select partial tree, notify this to the universalfilterTableManager
                  */
-                $resultObject->clause = "select";
+                $resultObject->clause = $executed_node_name;
                 $resultObject->partialTreeResultObject = $arrayOfRowObjects;
 
                 $resultObject->query = $query;
@@ -505,8 +625,8 @@ class DB extends ATabularData implements IFilter {
             foreach ($converter->getGroupByClause() as $groupbyidentifier) {
                 $sql.= $groupbyidentifier . ", ";
             }
-        }
-
+        }    
+        
         $sql = rtrim($sql, ", ");
 
         return $sql;

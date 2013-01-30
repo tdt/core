@@ -50,7 +50,7 @@ class SQLConverter {
      * Returns an array with [0] => offset and [1] => limit (amount of records)
      */
 
-    public function getLimit() {
+    public function getLimitClause() {
         return $this->limitclause;
     }
 
@@ -97,7 +97,8 @@ class SQLConverter {
      * @return string A string representation of the tree
      */
     private function treeToSQL(UniversalFilterNode $tree) {
-        $method = "print_" . get_class($tree);
+        $classname = get_class($tree);
+        $method = "print_" . end(explode("\\", $classname));
         //calls the correct clone method and then returns.
         return $this->$method($tree);
 
@@ -381,7 +382,7 @@ class SQLConverter {
                     array_push($clauses, $this->orderbyclause);
                     break;
                 case "limit":
-                    array_push($clauses, $this->orderbyclause);
+                    array_push($clauses, $this->limitclause);
                     break;
             }
 

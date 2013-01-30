@@ -23,6 +23,7 @@ use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableMan
 use tdt\core\universalfilter\UniversalFilterNode;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
+use tdt\core\utility\RequestURI;
 
 class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
@@ -62,6 +63,32 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
         }
+        /**
+         * Pass along limit and offset if given         
+         */
+        $ru = RequestURI::getInstance(Config::getConfigArray());
+        $pageURL = $ru->getURI();
+        $matches = array();
+
+        if(preg_match('/.*\.limit\((.*)\).*/',$pageURL,$matches)){
+            $limit_items = explode(",",$matches[1]);
+            $limit = 0;
+            $offset = 0;
+
+            if(count($limit_items) == 2){
+                $offset = array_shift($limit_items);
+                $limit = array_shift($limit_items);
+            }else{
+                $limit = array_shift($limit_items);
+            }
+        }
+
+        $parameters["limit"] = $limit;
+        $parameters["offset"] = $offset;        
+
+        /**
+         * Read the resource from the model        
+         */
         $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
 
         //implement cache

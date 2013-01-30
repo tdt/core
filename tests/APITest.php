@@ -18,23 +18,39 @@ class APITest extends \PHPUnit_Framework_TestCase {
     private $config;
     
     public function __construct() {
+
+        parent::__construct('testCSV');
         /*
         * Prepare the configuration that will be used throughout the creation/reading/deleting
         * process of the test.  
         */
         $configArray = array("general" => array("hostname" => "", "subdir" => "", "defaultformat" => "json",
             "cache" => array("system" => "NoCache","host"=>"", "port"=>"")),
-            "db" => array("system" => "mysql", "host"=>"localhost","user"=>"root", "password" => "", "name" => "myapp_test"),
-            "logging" => array("enabled" => false, "path" => ""));
+        "db" => array("system" => "mysql", "host"=>"localhost","user"=>"root", "password" => "", "name" => "myapp_test"),
+        "logging" => array("enabled" => false, "path" => ""));
 
         Config::setConfig($configArray);
 
 
     }
 
+    protected function setUp(){
+        parent::setUp();
+
+        ob_start(); // <-- very important!
+    }
+
+    protected function tearDown(){
+        header_remove(); // <-- VERY important.
+        parent::tearDown();
+    }   
+
     /*
      * Test function to check if a CSV strategy is working correctly.
      * Tests: Create,Read,Delete
+     */
+    /**
+     * @runInSeparateProcess
      */
     public function testCSV() {                            
 
@@ -46,17 +62,20 @@ class APITest extends \PHPUnit_Framework_TestCase {
             'resource_type' => "generic/CSV",
             'delimiter' => ";",
             'uri' => __DIR__ . "/data/CSVData.csv"
-        );    
+            );    
         
+
+
         /*
          * Try creating a resource, if anything fails, the test fails
-         */
+         */        
         $create_resource = true;
         try{
             $model = ResourcesModel::getInstance();
             $model->createResource($TEST_PACKAGE_NAME . "/" . $TEST_RESOURCE_NAME,$parameters); 
         }catch(Exception $ex){   
-            echo $ex->getMessage();         
+            echo $ex->getMessage();  
+            ob_flush();       
             $create_resource = false;
         }
         
@@ -65,11 +84,12 @@ class APITest extends \PHPUnit_Framework_TestCase {
         /*
          * Try reading the datasource
          */
+        
         $read_datasource = true;
         try{
             $model = $model = ResourcesModel::getInstance();
             $csv_object = $model->readResource($TEST_PACKAGE_NAME,$TEST_RESOURCE_NAME,array(),array());
-
+            header_remove();
             // Lets get the first rowobject and compare some values.
             // Clayton;Ap #630-7719 Scelerisque Road;ac.arcu@facilisismagna.ca;Pierre
             $object1 = array_shift($csv_object);
@@ -80,6 +100,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             
         }catch(Exception $ex){                   
             echo $ex->getMessage();
+            ob_flush();
             $read_datasource = false;
         }
 
@@ -103,6 +124,9 @@ class APITest extends \PHPUnit_Framework_TestCase {
     /*
      * Test function to check if the DB strategy is working correctly.
      * Tests: Create,Read,Delete
+     */
+    /**
+     * @runInSeparateProcess
      */
     public function testDB(){
 
@@ -130,7 +154,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             'db_name' => $DB_NAME,
             'db_type' => $DB_TYPE
 
-        );    
+            );    
         
         /*
          * Try creating a resource, if anything fails, the test fails
@@ -180,7 +204,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             
             // Lets get the object that we injected in the data table and check if it matches            
             $object1 = array_shift($db_object);
-        
+
             $this->assertEquals("Reginald",$object1->Name);
             $this->assertEquals("TSM",$object1->Surname);
             $this->assertEquals("San Francisco",$object1->City);
@@ -212,6 +236,9 @@ class APITest extends \PHPUnit_Framework_TestCase {
      * Test function to check if the JSON strategy is working correctly
      * Tests: Create,Read,Delete
      */
+    /**
+     * @runInSeparateProcess
+     */
     public function testJSON(){
 
         $TEST_PACKAGE_NAME = "UNITTESTJSON";
@@ -221,7 +248,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
             'documentation' => "This is a test case for unittesting a JSON resource.",
             'resource_type' => "generic/JSON",            
             'uri' => "http://data.appsforghent.be/TDTInfo/Resources.json"
-        );    
+            );    
         
         /*
          * Try creating a resource, if anything fails, the test fails
@@ -249,7 +276,7 @@ class APITest extends \PHPUnit_Framework_TestCase {
                 $read_datasource = false;
             }
             
-                        
+
         }catch(Exception $ex){   
             echo $ex->getMessage();                
             $read_datasource = false;

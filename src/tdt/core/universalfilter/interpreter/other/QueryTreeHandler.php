@@ -45,7 +45,7 @@ class QueryTreeHandler {
 
         while ($currentNode != null && !$found) {
             $type = $currentNode->getType();
-
+            
             switch ($clause) {
                 case "orderby":
                     if ($type == "FILTERSORTCOLUMNS") {
@@ -67,6 +67,11 @@ class QueryTreeHandler {
                         $found = true;
                     }
                     break;
+                case "limit":
+                    if ($type == "FILTERLIMIT") {
+                        $found = true;
+                    }
+                    break;
             }
 
             if (method_exists($currentNode, "getSource")) {
@@ -75,6 +80,9 @@ class QueryTreeHandler {
             } else {
                 $currentNode = null;
             }
+        }
+        if(!$found){
+            return null;
         }
 
         return $parentNode;

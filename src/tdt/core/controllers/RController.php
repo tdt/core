@@ -184,8 +184,8 @@ class RController extends AController {
         }
 
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
-        $printer->printAll();
+        $printer = $this->formatterfactory->getPrinter($resourcename, $result);        
+        $printer->printAll();        
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {

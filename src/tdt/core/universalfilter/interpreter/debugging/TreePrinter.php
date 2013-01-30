@@ -44,7 +44,8 @@ class TreePrinter {
             return $this->getPadding() . "[!!!! NULL !!!!]";
         }
 
-        $method = "print_" . get_class($tree);
+        $classname = get_class($tree);
+        $method = "print_" . end(explode("\\", $classname));        
         //calls the correct clone method and then returns.
         $var = "";
         if (method_exists($this, $method)) {
@@ -85,74 +86,74 @@ class TreePrinter {
     }
 
     private function print_Identifier(Identifier $filter) {
-        return $this->getPadding() . "Identifier[ " . $filter->getIdentifierString() . " n";
+        return $this->getPadding() . "Identifier[ " . $filter->getIdentifierString() . " ]\n";
     }
 
     private function print_Constant(Constant $filter) {
-        return $this->getPadding() . "Constant[ " . $filter->getConstant() . " n";
+        return $this->getPadding() . "Constant[ " . $filter->getConstant() . " ]\n";
     }
 
     private function print_TableAliasFilter(TableAliasFilter $filter) {
-        return $this->getPadding() . "TableAliasFilter[" . $filter->getAlias() . "] {n" .
-                $this->getPadding(1) . "source: n" .
+        return $this->getPadding() . "TableAliasFilter[" . $filter->getAlias() . "] {\n" .
+                $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter) {
-        return $this->getPadding() . "FilterByExpressionFilter {n" .
-                $this->getPadding(1) . "expression : n" .
+        return $this->getPadding() . "FilterByExpressionFilter {\n" .
+                $this->getPadding(1) . "expression : \n" .
                 $this->treeToStringWithPadding(2, $filter->getExpression()) .
-                $this->getPadding(1) . "source: n" .
+                $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter) {
-        $string = $this->getPadding() . "ColumnSelectionFilter {n";
+        $string = $this->getPadding() . "ColumnSelectionFilter {\n";
         foreach ($filter->getColumnData() as $index => $originalColumn) {
             $aliaspart = "";
             if ($originalColumn->getAlias() != null) {
                 $aliaspart = " [As " . $originalColumn->getAlias() . "]";
             }
-            $string.=$this->getPadding(1) . "column " . ($index + 1) . $aliaspart . ": n";
+            $string.=$this->getPadding(1) . "column " . ($index + 1) . $aliaspart . ": \n";
             $string.=$this->treeToStringWithPadding(2, $originalColumn->getColumn());
         }
 
-        $string.=$this->getPadding(1) . "source: n" .
+        $string.=$this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
 
         return $string;
     }
 
     private function print_SortFieldsFilter(SortFieldsFilter $filter) {
-        $string = $this->getPadding() . "SortFieldsFilter {n";
+        $string = $this->getPadding() . "SortFieldsFilter {\n";
         foreach ($filter->getColumnData() as $index => $originalColumn) {
             $name = $originalColumn->getColumn()->getIdentifierString();
             $order = ($originalColumn->getSortOrder() == SortFieldsFilterColumn::$SORTORDER_ASCENDING ? "ascending" : "descending");
-            $string.=$this->getPadding(1) . "sort column " . $name . " " . $order . " n";
+            $string.=$this->getPadding(1) . "sort column " . $name . " " . $order . " \n";
         }
 
-        $string.=$this->getPadding(1) . "in source: n" .
+        $string.=$this->getPadding(1) . "in source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
 
         return $string;
     }
 
     private function print_DistinctFilter(DistinctFilter $filter) {
-        return $this->getPadding() . "DistinctFilter {n" .
-                $this->getPadding(1) . "source: n" .
+        return $this->getPadding() . "DistinctFilter {\n" .
+                $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_LimitFilter(LimitFilter $filter) {
-        return $this->getPadding() . "LimitFilter {n" .
-                $this->getPadding(1) . "source: n" .
+        return $this->getPadding() . "LimitFilter {\n" .
+                $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_DataGrouper(DataGrouper $filter) {
@@ -164,60 +165,60 @@ class TreePrinter {
             $columnstring.=$column->getIdentifierString();
         }
 
-        return $this->getPadding() . "DataGrouper[" . $columnstring . "] {n" .
-                $this->getPadding(1) . "source: n" .
+        return $this->getPadding() . "DataGrouper[" . $columnstring . "] {\n" .
+                $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_DatasetJoinFilter(DatasetJoinFilter $filter) {
-        $string = $this->getPadding() . "DatasetJoinFilter [keepleft: " . ($filter->getKeepLeft() ? "true" : "false") . "; keepright: " . ($filter->getKeepRight() ? "true" : "false") . "] {n" .
-                $this->getPadding(1) . "source 1: n" .
+        $string = $this->getPadding() . "DatasetJoinFilter [keepleft: " . ($filter->getKeepLeft() ? "true" : "false") . "; keepright: " . ($filter->getKeepRight() ? "true" : "false") . "] {\n" .
+                $this->getPadding(1) . "source 1: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(0)) .
-                $this->getPadding(1) . "source 2: n" .
+                $this->getPadding(1) . "source 2: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(1));
         if ($filter->getExpression() !== NULL) {
-            $string .= $this->getPadding(1) . "expression : n" .
+            $string .= $this->getPadding(1) . "expression : \n" .
                     $this->treeToStringWithPadding(2, $filter->getExpression());
         } else {
-            $string .= $this->getPadding(1) . "expression : &lt;NONE&gt; n";
+            $string .= $this->getPadding(1) . "expression : &lt;NONE&gt; \n";
         }
-        $string .= $this->getPadding() . "}n";
+        $string .= $this->getPadding() . "}\n";
         return $string;
     }
 
     private function print_UnaryFunction(UnaryFunction $filter) {
-        return $this->getPadding() . "UnaryFunction[" . $filter->getType() . "] {n" .
-                $this->getPadding(1) . "argument: n" .
+        return $this->getPadding() . "UnaryFunction[" . $filter->getType() . "] {\n" .
+                $this->getPadding(1) . "argument: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_BinaryFunction(BinaryFunction $filter) {
-        return $this->getPadding() . "BinaryFunction[" . $filter->getType() . "] {n" .
-                $this->getPadding(1) . "argument 1: n" .
+        return $this->getPadding() . "BinaryFunction[" . $filter->getType() . "] {\n" .
+                $this->getPadding(1) . "argument 1: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(0)) .
-                $this->getPadding(1) . "argument 2: n" .
+                $this->getPadding(1) . "argument 2: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(1)) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_TernaryFunction(TernaryFunction $filter) {
-        return $this->getPadding() . "TernaryFunction[" . $filter->getType() . "] {n" .
-                $this->getPadding(1) . "argument 1: n" .
+        return $this->getPadding() . "TernaryFunction[" . $filter->getType() . "] {\n" .
+                $this->getPadding(1) . "argument 1: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(0)) .
-                $this->getPadding(1) . "argument 2: n" .
+                $this->getPadding(1) . "argument 2: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(1)) .
-                $this->getPadding(1) . "argument 3: n" .
+                $this->getPadding(1) . "argument 3: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(2)) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_AggregatorFunction(AggregatorFunction $filter) {
-        return $this->getPadding() . "AggregatorFunction[" . $filter->getType() . "] {n" .
-                $this->getPadding(1) . "argument: n" .
+        return $this->getPadding() . "AggregatorFunction[" . $filter->getType() . "] {\n" .
+                $this->getPadding(1) . "argument: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function print_CheckInFunction(CheckInFunction $filter) {
@@ -229,24 +230,24 @@ class TreePrinter {
             $checkstring.="" . $constant->getConstant() . "";
         }
 
-        return $this->getPadding() . "CheckInFunction[" . $checkstring . "] {n" .
-                $this->getPadding(1) . "source: n" .
+        return $this->getPadding() . "CheckInFunction[" . $checkstring . "] {\n" .
+                $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
-                $this->getPadding() . "}n";
+                $this->getPadding() . "}\n";
     }
 
     private function printSomeUnknownNode(UniversalFilterNode $filter) {
         $string = $this->getPadding() . $filter->getType() . "[?]";
         if ($filter instanceof NormalFilterNode) {
-            $string.=" {n";
+            $string.=" {\n";
             for ($index = 0; $index < $filter->getSourceCount(); $index++) {
-                $string.=$this->getPadding(1) . "source " . ($index + 1) . ": n";
+                $string.=$this->getPadding(1) . "source " . ($index + 1) . ": \n";
                 $string.=$this->treeToStringWithPadding(2, $filter->getSource($index));
             }
-            $string.=$this->getPadding() . "}n";
+            $string.=$this->getPadding() . "}\n";
             return $string;
         } else {
-            return $string . "n";
+            return $string . "\n";
         }
     }
 

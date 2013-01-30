@@ -22,8 +22,7 @@ use tdt\core\utility\Config;
 
 abstract class AResourceStrategy {
 
-    protected static $DEFAULT_PAGE_SIZE = 50;
-    protected $link_header = array();    
+    protected static $DEFAULT_PAGE_SIZE = 50;    
 
     /**
      * This functions contains the businesslogic of a read method (non paged reading)
@@ -86,7 +85,7 @@ abstract class AResourceStrategy {
 
     }
 
-    public function setParameter($key, $value) {
+    public function setParameter($key, $value) {             
         $this->$key = $value;
     }
 
@@ -166,7 +165,7 @@ abstract class AResourceStrategy {
         /**
          * Process the correct referral options(next | previous)
          */
-        if($referral != "next" || $referral != "previous"){
+        if($referral != "next" && $referral != "previous"){
            $log = new Logger('AResourceStrategy');
            $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
            $log->addError("No correct referral has been found, options are 'next' or 'previous', the referral given was: $referral");
