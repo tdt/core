@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Class inheriting from the AController from tdt\framework
+ * Class inheriting from the AController
  * and adding some functionality specifically for Core controllers
  */
 
@@ -47,7 +47,7 @@ class AController {
     }
 
     public function setFormat($format) {
-        $this->format_through_url = $format;
+        $this->format_through_url = $format;        
     }
 
     /**

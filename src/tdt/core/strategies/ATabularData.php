@@ -26,10 +26,7 @@ abstract class ATabularData extends AResourceStrategy {
     function __construct() {
 
         $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if an empty array is passed every column will be published. This array should be build as index => column_alias.";
-
-        $this->parameters["column_aliases"] = "An array that contains the alias of a published column. This array should be build as column_name => column_alias. If no array is passed, the alias will be equal to the normal column name. If your column name,used as a key, contains whitespaces be sure to replace them with an underscore.";
-
-        $this->parameters["limit"] = "The number of rows returned.";
+        $this->parameters["column_aliases"] = "An array that contains the alias of a published column. This array should be build as column_name => column_alias. If no array is passed, the alias will be equal to the normal column name. If your column name,used as a key, contains whitespaces be sure to replace them with an underscore.";    
     }
 
     /**
@@ -66,6 +63,10 @@ abstract class ATabularData extends AResourceStrategy {
 
     // fill in the configuration object that the strategy will receive
     public function read(&$configObject, $package, $resource) {
+
+        $this->package = $package;
+        $this->resource = $resource;
+
         $published_columns = DBQueries::getPublishedColumns($configObject->gen_resource_id);
         $PK = "";
         $columns = array();

@@ -11,12 +11,14 @@
 
 namespace tdt\core\strategies;
 
-use Monolog\Logger;
 use tdt\exceptions\TDTException;
+use tdt\core\model\resources\AResourceStrategy;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use tdt\core\utility\Config;
 
-class CSV extends ATabularData {
+class CSV extends ATabularData{
 
-    private static $READ_MAX_AMOUNT_OF_ROWS = 100;
     // amount of chars in one row that can be read
     private static $MAX_LINE_LENGTH = 15000;
 
@@ -69,6 +71,7 @@ class CSV extends ATabularData {
      * @return $mixed An object created with fields of a CSV file.
      */
     public function read(&$configObject, $package, $resource) {
+
         /*
          * First retrieve the values for the generic fields of the CSV logic.
          * This is the uri to the file, and a parameter which states if the CSV file
@@ -91,11 +94,66 @@ class CSV extends ATabularData {
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("Can't find URI of the CSV"), $exception_config);
         }
-
+        
+        /**
+         * Get the columns from the configuration
+         */
         $columns = $configObject->columns;
         $column_aliases = $configObject->column_aliases;
         $PK = $configObject->PK;
 
+
+        /**
+         * Calculate which rows we need to read               
+         */
+        $limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+        $offset = 0;
+
+        if(!isset($this->limit) && !isset($this->offset)){        
+
+            if(!isset($this->page)){
+                $this->page = 1;
+            }
+
+            if(!isset($this->page_size)){
+                $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            /**
+             * We're going to ask for one more row, if we get one more row than the
+            * user asked for, it means that we still have data to pass along.
+            * When we notice this we will set the Link HTTP header
+            */
+            $offset = ($this->page -1)*$this->page_size;
+            $limit = $this->page_size +1;
+
+        }else{
+           
+            $limit = $this->limit +1;
+            $offset = $this->offset;
+
+            // calculate the page and size from limit and offset as good as possible
+            // meaning that if offset<limit, indicates a non equal division of pages
+            // it will try to restore that equal division of paging
+            // i.e. offset = 2, limit = 20 -> indicates that page 1 exists of 2 rows, page 2 of 20 rows, page 3 min. 20 rows.
+            // paging should be (x=size) x, x, x, y < x EOF
+            $page = $offset/$limit;
+            $page = round($page,0,PHP_ROUND_HALF_DOWN);
+            if($page==0){
+                $page = 1;
+            }
+            $this->page = $page;
+            $this->page_size = $limit -1;
+
+        }
+
+        // during the reading we will discover if we have a next and/or previous page
+        $next_page = false;
+        $previous_page = false;
+
+        /**
+         * Read the file         
+         */
         $resultobject = array();
         $arrayOfRowObjects = array();
         $row = 0;
@@ -103,14 +161,24 @@ class CSV extends ATabularData {
         $rows = array();
         $rowsRead = 0;
         if (($handle = fopen($filename, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE && $rowsRead <= CSV::$READ_MAX_AMOUNT_OF_ROWS + $start_row - 1) {
-                $num = count($data);
-                $csvRow = "";
-                for ($c = 0; $c < $num; $c++) {
-                    $csvRow = $csvRow . $delimiter . $this->enclose($data[$c]);
+            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE && $rowsRead <= $limit) {
+                if($row >= $offset && $row <= $offset+$limit){
+                    $num = count($data);
+                    $csvRow = "";
+                    for ($c = 0; $c < $num; $c++) {
+                        $csvRow = $csvRow . $delimiter . $this->enclose($data[$c]);
+                    }
+                    array_push($rows, ltrim($csvRow, $delimiter));
+                    $rowsRead++;
+                    if($offset > 0 && !$previous_page){
+                        $previous_page = true;
+                    }
+
+                    if($row == $offset + $limit && !$next_page){
+                        $next_page = true;
+                    }
                 }
-                array_push($rows, ltrim($csvRow, $delimiter));
-                $rowsRead++;
+                $row++;
             }
             fclose($handle);
         } else {
@@ -118,6 +186,28 @@ class CSV extends ATabularData {
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("Can't get any data from defined file ,$filename , for this resource."), $exception_config);
+        }
+
+        // re-adjust the limit and page_size again
+        $limit = $limit-1;
+        $this->page_size = $this->page_size;        
+
+        /**
+         * Delete last row if the beginning of a next page has been read
+         */
+        if($next_page){
+            array_pop($rows);
+            $this->setLinkHeader($this->page + 1,$this->page_size,"next");
+        }
+
+        if($previous_page){
+            if($this->page == 1){
+                // This tweak has to be made so that if incorrect page sizes have been given, i.e. offset = 2, limit (=page_size) = 20
+                // We can still link to the "previous page". Note that incomplete paging due to offset and limit
+                // the returned resultset can lie in the the middle of a page, or across 2 pages
+                $this->page++;
+            }
+            $this->setLinkHeader($this->page -1,$this->page_size,"previous");
         }
 
         // get rid for the comment lines according to the given start_row
@@ -133,7 +223,7 @@ class CSV extends ATabularData {
          * note that the precondition of the beforehand filling of the fieldhash
          * is that the column_name is an index! Otherwise there's no way of id'ing a column
          */
-        if ($has_header_row == "0") {
+        if ($has_header_row == "0" || $offset>=1) {
             foreach ($columns as $index => $column_name) {
                 $fieldhash[$column_name] = $index;
             }
@@ -141,6 +231,9 @@ class CSV extends ATabularData {
 
         $line = 0;
 
+        /**
+         * Parse every row and create an object from it        
+         */
         foreach ($rows as $row => $fields) {
             $line++;
             $data = str_getcsv($fields, $delimiter, '"');
@@ -200,7 +293,7 @@ class CSV extends ATabularData {
                      * but we're going to log it nonetheless.
                      */
                     foreach (array_keys($fieldhash) as $key) {
-                        if (!in_array($key, $columns)) {
+                        if (!in_array($key, $columns)) {                             
                             $log = new Logger('CSV');
                             $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                             $log->addAlert("$package/$resource : The column name $key that has been found in the CSV file isn't present in the saved columns of the CSV resource definition.");
@@ -243,7 +336,7 @@ class CSV extends ATabularData {
                     }
                 }
             }
-        }
+        }       
         return $arrayOfRowObjects;
     }
 

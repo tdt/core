@@ -36,6 +36,7 @@ class FormatterFactory {
      * @param string $urlformat The format of the request i.e. json,xml,....
      */
     public function setFormat($urlformat) {
+        
         //We define the format like this:
         // * Check if $urlformat has been set
         //   - if not: probably something fishy happened, set format as error for logging purpose
@@ -47,19 +48,31 @@ class FormatterFactory {
         $urlformat = ucfirst(strtolower($urlformat));
 
         if (strtolower($urlformat) == "about" || $urlformat == "") { //urlformat can be empty on SPECTQL query
-            $cn = new ContentNegotiator();
+
+            /**
+             * Prepare
+             */
+            $default = Config::get("general","defaultformat");
+            $config = array();
+            $config["log_dir"] = Config::get("general","logging","path");
+            $config["enabled"] = Config::get("general","logging","enabled");
+           
+            $cn = new ContentNegotiator($default,$config);           
             $format = $cn->pop();
+
             while (!$this->formatExists($format) && $cn->hasNext()) {
                 $format = $cn->pop();
                 if ($format == "*") {
                     $format == "Xml";
                 }
             }
+
             if (!$this->formatExists($format)) {
-                $this->format = Config::get("general", "defaultformat");
-                //$exception_config = array(); $exception_config["log_dir"] = Config::get("general","logging","path"); $exception_config["url"] = Config::get("general","hostname") . Config::get("general","subdir") . "error"; throw new TDTException(451,array($format),$exception_config); // could not find a suitible format
+                $this->format = Config::get("general", "defaultformat");            
             }
+
             $this->format = $format;
+
             //We've found our format through about, so let's set the header for content-location to the right one
             //to do this we're building our current URL and changing .about in .format
             $format = strtolower($this->format);

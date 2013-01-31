@@ -13,16 +13,17 @@ namespace tdt\core\strategies;
 
 use tdt\core\model\resources\AResourceStrategy;
 use tdt\exceptions\TDTException;
+use tdt\core\utility\Request;
 
 class JSON extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
-        $data = \tdt\framework\Request::http($configObject->uri);
+        $data = Request::http($configObject->uri);
         return json_decode($data->data);
     }
 
     public function isValid($package_id, $generic_resource_id) {
-        $data = \tdt\framework\Request::http($this->uri);
+        $data = Request::http($this->uri);
         $result = json_decode($data->data);
         if (!$result) {
             $exception_config = array();

@@ -642,24 +642,25 @@ class ResourcesModel {
             if ($factory->hasResource($package, $resource)) {
 
                 // remote resource just proxies the url so we don't need to take that into account
-                if (get_class($factory) == "GenericResourceFactory") {
+                if (get_class($factory) == "tdt\core\model\GenericResourceFactory") {
 
                     $genericResource = new GenericResource($package, $resource);
                     $strategy = $genericResource->getStrategy();
 
                     $interfaces = class_implements($strategy);
 
-                    if (in_array("IFilter", $interfaces)) {
+
+                    if (in_array("tdt\\core\\model\\resources\\read\IFilter", $interfaces)) {
                         return $genericResource;
                     } else {
                         return FALSE;
                     }
-                } elseif (get_class($factory) == "InstalledResourceFactory") {
+                } elseif (get_class($factory) == "tdt\core\model\InstalledResourceFactory") {
 
                     $reader = $factory->createReader($package, $resource, array(), array());
                     $interfaces = class_implements($reader);
 
-                    if (in_array("IFilter", $interfaces)) {
+                    if (in_array("tdt\\core\\model\\resources\\read\IFilter", $interfaces)) {
                         return $reader;
                     } else {
                         return FALSE;

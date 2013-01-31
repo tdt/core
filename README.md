@@ -1,6 +1,11 @@
+# tdt/core
+
+[![Build Status](https://travis-ci.org/tdt/core.png?branch=development)](https://travis-ci.org/tdt/core)
+
 # Installation
 
-To install The DataTank core, the best practice is to install [tdt/start](https://www.github.com/tdt/start), it contains an installer that load the necessary components to make the datatank structure work. Currently it will install [tdt/framework](https://www.github.com/tdt/framework) and [tdt/core](https://www.github.com/tdt/core).
+To install the datatank core, the best practice is to install tdt/start. This repository is located at http://www.github.com/tdt/start and contains an installer that load the necessary
+components to make the datatank structure work. Currently it will install the requirements for tdt/core found in the composer.json file.
 
 This can be done by using [composer](http://getcomposer.org/) and performing <b>composer install</b> in the directory of the tdt/start location. You can recognize this location by the presence of a composer.json file.
 
@@ -30,7 +35,7 @@ example:
 This will lead a URL passed by a HTTP GET request, existing out of any given string ending with a dot followed by a string representing a format, to our RController. This controller will then apply further logic to provide
 this request of an answer.
 
-If you want to use The DataTank core without the use of tdt/start, you can still fill out the config of tdt\core\utility\Config::setConfig($array) documented in the README of the tdt/framework.
+If you want to use The DataTank core without the use of tdt/start, you can still fill out the config of tdt\core\utility\Config::setConfig($array).
 
 ### formatters
 
@@ -108,7 +113,7 @@ This section covers some problems encountered with The DataTank installed on a W
 
 #### cURL execution of the TDTAdmin/Export not working
 
-We could just let the user search for this problem by themselves, as it's a bit far from the datatank's focus. However, since export is a very handy functionality we want to make sure the user can 
+We could just let the user search for this problem by themselves, as it's a bit far from the datatank's focus. However, since export is a very handy functionality we want to make sure the user can
 use it without much trouble. The one problem we've encountered with this is that the cURL binaries on wampserver aren't always the correct ones. The thing you should do is replace them by pre-compiled ones.
 
 First of all shut down your wampserver completely, as replacing these binaries might cause inconsistencies in the log files of the wampserver that will cause failures while restarting the stack.

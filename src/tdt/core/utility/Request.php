@@ -3,7 +3,7 @@
 /**
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
  * 
- * @package framework
+ * @package tdt\core\utility
  * @copyright (C) 2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@iRail.be>
@@ -13,6 +13,7 @@
 namespace tdt\core\utility;
 
 use tdt\cache\Cache;
+use tdt\exceptions\TDTException;
 
 class Request {
 

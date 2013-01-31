@@ -41,5 +41,3 @@ class TDTInfoResources extends AReader {
     }
 
 }
-
-?>

@@ -61,7 +61,7 @@ class RController extends AController {
          */
         if ($resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
-            $allPackages = array_keys(get_object_vars($packageDoc));
+            $allPackages = array_keys(get_object_vars($packageDoc));            
             $linkObject = new \stdClass();
             $links = array();
 
@@ -83,7 +83,7 @@ class RController extends AController {
             }
 
             if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);
+                $resourcenames = get_object_vars($doc->$package);                
                 foreach ($resourcenames as $resourcename => $value) {
                     $link = $this->hostname . $this->subdir . $package . "/" . $resourcename;
                     $links[] = $link;
@@ -97,7 +97,7 @@ class RController extends AController {
             //This will create an instance of a factory depending on which format is set
             $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-            $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
+            $printer = $this->formatterfactory->getPrinter($package, $linkObject);
             $printer->printAll();
 
             exit();
@@ -170,9 +170,22 @@ class RController extends AController {
         $o->$RESTresource = $result;
         $result = $o;
 
+        /**
+         * Before printing the object, check the headers
+         * For example, a Link header may be set in order to foresee in paging!
+         * The controller can enhance this header by replacing the standard .about redirect
+         * by the format given by the user.
+         */
+        foreach(headers_list() as $header){
+            if(substr($header,0,4) == "Link"){
+                $header = str_replace(".about",".".$matches["format"],$header);
+                header($header);               
+            }
+        }
+
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
-        $printer->printAll();
+        $printer = $this->formatterfactory->getPrinter($resourcename, $result);        
+        $printer->printAll();        
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {
@@ -308,7 +321,7 @@ class RController extends AController {
             //This will create an instance of a factory depending on which format is set
             $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-            $printer = $this->formatterfactory->getPrinter(strtolower($package), $linkObject);
+            $printer = $this->formatterfactory->getPrinter($package, $linkObject);
             $printer->printHeader();
             exit();
         }
@@ -401,7 +414,7 @@ class RController extends AController {
         $result = $o;
 
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter(strtolower($resourcename), $result);
+        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
         $printer->printHeader();
     }
 

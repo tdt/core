@@ -26,6 +26,7 @@ use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableMan
 use tdt\core\utility\RequestURI;
 use tdt\exceptions\TDTException;
 use app\core\Config;
+use tdt\core\universalfilter\interpreter\debugging\TreePrinter;
 
 class SPECTQLController extends AController {
 
@@ -116,12 +117,12 @@ class SPECTQLController extends AController {
          * uncomment to view the Querytree from the spectql query
          */
         /*
-          $treePrinter = new TreePrinter();
-          $tree = $treePrinter->treeToString($universalquery);
-          echo "<pre>";
-          echo $tree;
-          echo "</pre>";
-         */
+        $treePrinter = new TreePrinter();
+        $tree = $treePrinter->treeToString($universalquery);
+        echo "<pre>";
+        echo $tree;
+        echo "</pre>";        
+        */
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
@@ -140,6 +141,54 @@ class SPECTQLController extends AController {
         $formatterfactory->setFormat($format);
         $rootname = "spectqlquery";
 
+        /**
+         * adjust header if given from the read() of a resource
+         */
+        foreach(headers_list() as $header){
+            if(substr($header,0,4) == "Link"){
+                $ru = RequestURI::getInstance(Config::getConfigArray());
+                $pageURL = $ru->getURI();                                
+                $new_link_header= "Link:";
+
+
+                /**
+                 * Link to next 
+                 * Get the link to next, if present
+                 * Adjust the spectql query URL with the next limit(..,..) and format
+                 */
+                $matches = array();
+                if(preg_match('/page=(.*)&page_size=(.*);rel=next.*/',$header,$matches)){
+                    $query_matches = array();
+                    preg_match('/(.*)\.limit\(.*\)?(:.*)/',$pageURL,$query_matches);
+                    $next_query_url = $query_matches[1];
+                    $limit = $matches[2];
+                    $offset = $limit * ($matches[1] -1 );
+                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;  
+                    $new_link_header.= $next_query_url . ";rel=next;";                  
+                }
+
+                /**
+                 * Link to previous
+                 */
+                $matches = array();
+                if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=previous.*/',$header,$matches)){
+                    $query_matches = array();                    
+                    preg_match('/(.*)\.limit\(.*\)?(:.*)/',$pageURL,$query_matches);
+                    $next_query_url = $query_matches[1];
+                    $limit = $matches[2];
+                    $offset = $limit * ($matches[1] -1 );
+                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;  
+                    $new_link_header.= $next_query_url . ";rel=previous";                  
+                }
+
+                $new_link_header = rtrim($new_link_header,";");                
+                /**
+                 * Set the adjusted Link header
+                 */
+
+                header($new_link_header);               
+            }
+        }
 
         $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
         $printer->printAll();

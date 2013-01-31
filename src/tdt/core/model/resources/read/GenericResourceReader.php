@@ -28,7 +28,7 @@ class GenericResourceReader extends AReader {
     /**
      * read method
      */
-    public function read() {
+    public function read() {       
         return $this->genres->read();
     }
 
@@ -44,15 +44,13 @@ class GenericResourceReader extends AReader {
      * A generic resource can't have parameters (yet), strategies can however
      */
     public function setParameter($key, $value) {
-        if ($key == "page") {
-            $this->$key = $value;
-        } else { // it's a strategy parameter
-            /**
-             * pass along the parameters to the strategy
-             */
-            $strategy = $this->genres->getStrategy();
-            $strategy->setParameter($key, $value);
-        }
+        
+        /**
+         * pass along the parameters to the strategy
+         */
+        $strategy = $this->genres->getStrategy();
+        $strategy->setParameter($key, $value);
+        
     }
 
 }
