@@ -15,6 +15,7 @@ namespace tdt\core\model\resources\create;
 use tdt\core\model\DBQueries;
 use tdt\framework\Request;
 use tdt\exceptions\TDTException;
+use tdt\core\utility\Config;
 
 /**
  * When creating a resource, we always expect a PUT method!
@@ -52,7 +53,7 @@ class RemoteResourceCreator extends ACreator {
 
     /**
      * execution method
-     * Preconditions: 
+     * Preconditions:
      * parameters have already been set.
      */
     public function create() {
