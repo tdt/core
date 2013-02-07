@@ -7,6 +7,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan a t iRail.be>
+ * @author Michiel Vancoillie
  */
 
 namespace tdt\core\model;
@@ -19,7 +20,7 @@ use tdt\exceptions\TDTException;
 class InstalledResourceFactory extends AResourceFactory {
 
     public function __construct() {
-        
+
     }
 
     public function createCreator($package, $resource, $parameters, $RESTparameters) {

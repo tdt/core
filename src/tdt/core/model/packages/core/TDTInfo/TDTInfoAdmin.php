@@ -2,7 +2,7 @@
 
 /**
  * This is a class which will return all the possible admin calls to this datatank
- * 
+ *
  * @package The-Datatank/packages/TDTInfo
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
@@ -10,7 +10,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\packages\TDTInfo;
+namespace tdt\core\model\packages\core\TDTInfo;
 
 use tdt\core\model\resources\read\AReader;
 use tdt\core\model\ResourcesModel;
