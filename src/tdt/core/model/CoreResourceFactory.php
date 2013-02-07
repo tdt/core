@@ -7,14 +7,19 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Pieter Colpaert
+ * @author Michiel Vancoillie
  */
 
 namespace tdt\core\model;
 
 class CoreResourceFactory extends AResourceFactory {
 
+    private $directory;
+    private $namespace;
+
     public function __construct() {
-        
+        $this->directory = __DIR__ . "/packages/core/";
+        $this->namespace = "tdt\\core\\model\\packages\\core\\";
     }
 
     protected function getAllResourceNames() {
@@ -28,7 +33,7 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     public function createReader($package, $resource, $parameters, $RESTparameters) {
-        $classname = "tdt\\core\\model\\packages\\" . $package . "\\" . $package . $resource;
+        $classname = $this->namespace . $package . "\\" . $package . $resource;
         $creator = new $classname($package, $resource, $RESTparameters);
         $creator->processParameters($parameters);
         return $creator;
@@ -45,7 +50,7 @@ class CoreResourceFactory extends AResourceFactory {
                 $doc->$package = new \stdClass();
             }
             foreach ($resourcenames as $resourcename) {
-                $classname = "tdt\\core\\model\\packages\\" . $package . "\\" . $package . $resourcename;
+                $classname = $this->namespace . $package . "\\" . $package . $resourcename;
                 $doc->$package->$resourcename = new \stdClass();
                 $doc->$package->$resourcename->documentation = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
@@ -61,8 +66,8 @@ class CoreResourceFactory extends AResourceFactory {
     private function getCreationTime($package, $resource) {
         //if the object read is a directory and the configuration methods file exists,
         //then add it to the installed packages
-        if (is_dir("core/model/packages/" . $package) && file_exists("core/model/packages/" . $package . "/" . $resource . ".class.php")) {
-            return filemtime("core/model/packages/" . $package . "/" . $resource . ".class.php");
+        if (is_dir($this->directory . $package) && file_exists($this->directory . $package . "/" . $resource . ".class.php")) {
+            return filemtime($this->directory . $package . "/" . $resource . ".class.php");
         }
         return 0;
     }

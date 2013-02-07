@@ -9,8 +9,8 @@
         "tdt/start": "Maps the functions of this scheduler to a RESTful API. A controller is already included: tdt scheduler ScheduleController"
     },
     "require": {
-        "tdt/exceptions" : "dev-master",        
         "gabordemooij/redbean": ">=3.2" ,
+        "tdt/exceptions" : "dev-master",
         "tdt/negotiators" : "dev-master",
         "tdt/cache" : "dev-master",
         "monolog/monolog": "1.2.*"
