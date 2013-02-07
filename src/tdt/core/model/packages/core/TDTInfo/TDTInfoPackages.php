@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\packages\TDTInfo;
+namespace tdt\core\model\packages\core\TDTInfo;
 
 use tdt\core\model\resources\read\AReader;
 use tdt\core\model\ResourcesModel;
@@ -26,7 +26,7 @@ class TDTInfoPackages extends AReader {
     }
 
     public function setParameter($key, $val) {
-        
+
     }
 
     public function read() {

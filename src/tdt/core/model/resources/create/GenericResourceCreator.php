@@ -14,6 +14,7 @@ namespace tdt\core\model\resources\create;
 
 use tdt\core\model\DBQueries;
 use tdt\exceptions\TDTException;
+use tdt\core\utility\Config;
 use RedBean_Facade as R;
 
 class GenericResourceCreator extends ACreator {

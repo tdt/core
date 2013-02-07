@@ -7,6 +7,7 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan a t iRail.be>
+ * @author Michiel Vancoillie
  */
 
 namespace tdt\core\model;
@@ -18,8 +19,10 @@ use tdt\exceptions\TDTException;
 
 class InstalledResourceFactory extends AResourceFactory {
 
+    private $directory;
+
     public function __construct() {
-        
+        $this->directory = __DIR__ . "/packages/installed/";
     }
 
     public function createCreator($package, $resource, $parameters, $RESTparameters) {
@@ -35,8 +38,8 @@ class InstalledResourceFactory extends AResourceFactory {
         // location contains the full name of the file, including the .class.php extension
         $location = $this->getLocationOfResource($package, $resource);
 
-        if (file_exists("custom/packages/" . $location)) {
-            include_once("custom/packages/" . $location);
+        if (file_exists($this->directory . $location)) {
+            include_once($this->directory  . $location);
             $classname = $this->getClassnameOfResource($package, $resource);
             $reader = new $classname($package, $resource, $RESTparameters);
             $reader->processParameters($parameters);
@@ -45,7 +48,7 @@ class InstalledResourceFactory extends AResourceFactory {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(404, array("custom/packages/" . $location), $exception_config);
+            throw new TDTException(404, array($this->directory . $location), $exception_config);
         }
     }
 
@@ -73,10 +76,10 @@ class InstalledResourceFactory extends AResourceFactory {
                 $location = $this->getLocationOfResource($package, $resourcename);
 
                 // file can always have been removed after adding it as a published resource
-                if (file_exists("custom/packages/" . $location)) {
+                if (file_exists($this->directory . $location)) {
                     $classname = $this->getClassnameOfResource($package, $resourcename);
                     $doc->$package->$resourcename = new \stdClass();
-                    include_once("custom/packages/" . $location);
+                    include_once($this->directory . $location);
                     $doc->$package->$resourcename->documentation = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();
@@ -101,11 +104,11 @@ class InstalledResourceFactory extends AResourceFactory {
                 $location = $this->getLocationOfResource($package, $resourcename);
 
                 // file can always have been removed after adding it as a published resource
-                if (file_exists("custom/packages/" . $location)) {
+                if (file_exists($this->directory . $location)) {
 
                     $classname = $this->getClassnameOfResource($package, $resourcename);
                     $doc->$package->$resourcename = new \stdClass();
-                    include_once("custom/packages/" . $location);
+                    include_once($this->directory . $location);
                     $doc->$package->$resourcename->documentation = $classname::getDoc();
                     $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
                     $doc->$package->$resourcename->parameters = $classname::getParameters();
@@ -123,8 +126,8 @@ class InstalledResourceFactory extends AResourceFactory {
         //if the object read is a directory and the configuration methods file exists,
         //then add it to the installed packages
         $location = $this->getLocationofResource($package, $resource);
-        if (file_exists("custom/packages/" . $location)) {
-            return filemtime("custom/packages/" . $location);
+        if (file_exists($this->directory . $location)) {
+            return filemtime($this->directory . $location);
         }
         return 0;
     }
@@ -177,7 +180,7 @@ class InstalledResourceFactory extends AResourceFactory {
 
         $d = new \stdClass();
         $installedResource = new InstalledResourceCreator("", "", array());
-        $d->doc = "You can PUT an installed resource when you have created a resource-class in the custom/packages folder.";
+        $d->doc = "You can PUT an installed resource when you have created a resource-class in the installed folder.";
         $d->parameters = $installedResource->documentParameters();
         $d->requiredparameters = $installedResource->documentRequiredParameters();
 
