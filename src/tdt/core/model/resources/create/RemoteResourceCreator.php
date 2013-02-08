@@ -13,9 +13,9 @@
 namespace tdt\core\model\resources\create;
 
 use tdt\core\model\DBQueries;
-use tdt\framework\Request;
 use tdt\exceptions\TDTException;
 use tdt\core\utility\Config;
+use tdt\core\utility\Request;
 
 /**
  * When creating a resource, we always expect a PUT method!
@@ -63,6 +63,14 @@ class RemoteResourceCreator extends ACreator {
 
         if (!isset($this->package_name) && $this->package != "") {
             $this->package_name = $this->package;
+        }
+
+        // check for loop
+        if(strrpos(strtolower($this->base_url), strtolower(Config::get("general", "hostname") . Config::get("general", "subdir"))) !== false){
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Can't add yourself as remote resource (loop)."), $exception_config);
         }
 
         // format the base url
