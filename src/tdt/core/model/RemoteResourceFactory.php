@@ -18,16 +18,13 @@ use tdt\core\model\resources\create\RemoteResourceCreator;
 use tdt\core\model\resources\delete\RemoteResourceDeleter;
 use tdt\core\model\resources\read\RemoteResourceReader;
 use tdt\core\utility\Config;
-use tdt\framework\Request;
+use tdt\core\utility\Request;
 use tdt\exceptions\TDTException;
 
 class RemoteResourceFactory extends AResourceFactory {
 
     public function __construct() {
-        /* AutoInclude::register("RemoteResourceCreator","cores/core/model/resources/create/RemoteResourceCreator.class.php");
-          AutoInclude::register("RemoteResourceReader","cores/core/model/resources/read/RemoteResourceReader.class.php");
-          AutoInclude::register("RemoteResourceDeleter","cores/core/model/resources/delete/RemoteResourceDeleter.class.php");
-          AutoInclude::register("Request","cores/framework/Request.class.php"); */
+
     }
 
     public function hasResource($package, $resource) {
