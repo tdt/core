@@ -239,6 +239,7 @@ class DBQueries {
      * Store a generic resource
      */
     static function storeGenericResource($resource_id, $type, $documentation) {
+        R::setStrictTyping(false);
         $genres = R::dispense("generic_resource");
         $genres->resource_id = $resource_id;
         $genres->type = $type;
@@ -305,6 +306,7 @@ class DBQueries {
      * Store a remote resource
      */
     static function storeRemoteResource($resource_id, $package_name, $resource_name, $base_url) {
+        R::setStrictTyping(false);
         $remres = R::dispense("remote_resource");
         $remres->resource_id = $resource_id;
         $remres->package_name = $package_name;
@@ -366,7 +368,7 @@ class DBQueries {
     }
 
     /**
-     * Store a package     
+     * Store a package
      */
     static function storePackage($package, $fullPackageName, $parentId) {
         $newpackage = R::dispense("package");
@@ -505,6 +507,7 @@ class DBQueries {
      * Store a published column
      */
     static function storePublishedColumn($generic_resource_id, $index, $column_name, $column_alias, $is_primary_key) {
+        R::setStrictTyping(false);
         $db_columns = R::dispense("published_columns");
         $db_columns->generic_resource_id = $generic_resource_id;
         $db_columns->index = $index;
@@ -620,6 +623,7 @@ class DBQueries {
      * Store the installed resource
      */
     static function storeInstalledResource($resource_id, $location, $classname) {
+        R::setStrictTyping(false);
         $installed_resource = R::dispense("installed_resource");
         $installed_resource->resource_id = $resource_id;
         $installed_resource->location = $location;
@@ -702,7 +706,7 @@ class DBQueries {
     }
 
     /*
-     * Get the resource_id 
+     * Get the resource_id
      * @param resource_name package_id
      */
 

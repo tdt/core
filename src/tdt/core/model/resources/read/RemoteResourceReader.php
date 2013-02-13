@@ -13,7 +13,7 @@
 namespace tdt\core\model\resources\read;
 
 use tdt\core\model\DBQueries;
-use tdt\framework\Request;
+use tdt\core\utility\Request;
 use tdt\exceptions\TDTException;
 
 class RemoteResourceReader extends AReader {

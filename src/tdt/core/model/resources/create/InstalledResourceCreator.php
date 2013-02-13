@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This class creates an installed resource entry in the back-end. 
+ * This class creates an installed resource entry in the back-end.
  * The physical location is somewhere in custom/packages, but in order to "release" it you must map it onto a URL
  * to which the PUT request is made.
  *
@@ -15,11 +15,16 @@ namespace tdt\core\model\resources\create;
 
 use tdt\core\model\DBQueries;
 use tdt\exceptions\TDTException;
+use tdt\core\utility\Config;
 
 class InstalledResourceCreator extends ACreator {
 
+    private $directory;
+
     public function __construct($package, $resource, $RESTparameters) {
         parent::__construct($package, $resource, $RESTparameters);
+
+        $this->directory = __DIR__ . "/../../packages/installed/";
     }
 
     /**
@@ -49,7 +54,7 @@ class InstalledResourceCreator extends ACreator {
 
     /**
      * execution method
-     * Preconditions: 
+     * Preconditions:
      * parameters have already been set.
      */
     public function create() {
@@ -59,25 +64,26 @@ class InstalledResourceCreator extends ACreator {
          */
         // check if the location is legit
 
-        if (file_exists("custom/packages/" . $this->location)) {
-            include_once("custom/packages/" . $this->location );
+        if (file_exists($this->directory . $this->location)) {
+            include_once($this->directory . $this->location);
             if (class_exists($this->classname)) {
                 $package_id = parent::makePackage($this->package);
                 $resource_id = parent::makeResource($package_id, $this->resource, "installed");
 
                 $meta_data_id = DBQueries::storeMetaData($resource_id, $this, array_keys(parent::documentMetaDataParameters()));
+
                 DBQueries::storeInstalledResource($resource_id, $this->location, $this->classname);
             } else {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(452, array("The classname $this->classname doesn't exist on location cores/core/custom/packages/$this->location"), $exception_config);
+                throw new TDTException(452, array("The classname $this->classname doesn't exist on location installed/$this->location"), $exception_config);
             }
         } else {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(452, array("The classname $this->classname doesn't exist on location cores/core/custom/packages/$this->location"), $exception_config);
+            throw new TDTException(452, array("The classname $this->classname doesn't exist on location installed/$this->location"), $exception_config);
         }
     }
 

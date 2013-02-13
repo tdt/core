@@ -22,7 +22,7 @@
  * @author Jan Vansteenlandt <jan@iRail.be>
  */
 
-namespace tdt\core\model\packages\TDTInfo;
+namespace tdt\core\model\packages\core\TDTInfo;
 
 use tdt\core\model\resources\read\AReader;
 use tdt\core\model\ResourcesModel;
@@ -72,7 +72,7 @@ class TDTInfoStatistics extends AReader {
             $this->date = date( 'd/M/Y', time() );
         }
 
-        if($this->checkCache()){            
+        if($this->checkCache()){
             return $this->checkCache();
         }else{
 
@@ -163,7 +163,7 @@ class TDTInfoStatistics extends AReader {
 
                 }
             }
-            $c = Cache::getInstance($this->prepareCacheConfig());    
+            $c = Cache::getInstance($this->prepareCacheConfig());
             $c->set($this->buildCacheString(),$array_of_days, 604800); // cache it for a week.
             return $array_of_days;
     }
@@ -185,7 +185,7 @@ class TDTInfoStatistics extends AReader {
      * It will return FALSE when nothing is found OR when the date is 'today'
      * because the access log can be changed during the current date
      * so we prefer not to cache it, in order to return the correct result.
-     * @return cached_query_result|FALSE 
+     * @return cached_query_result|FALSE
      */
     private function checkCache() {
 
@@ -193,8 +193,8 @@ class TDTInfoStatistics extends AReader {
             return FALSE;
         }
 
-        $c = Cache::getInstance($this->prepareCacheConfig());        
-        $cached_query = $c->get($this->buildCacheString());    
+        $c = Cache::getInstance($this->prepareCacheConfig());
+        $cached_query = $c->get($this->buildCacheString());
         if(is_null($cached_query)){
             return FALSE;
         }else{
@@ -209,7 +209,7 @@ class TDTInfoStatistics extends AReader {
                 $factory->makeDoc($doc);
             }
             $c->set($this->hostname . $this->subdir . "documentation", $doc, 60 * 60 * 60); // cache it for 1 hour by default
-        */      
+        */
 
         }
 
@@ -231,11 +231,11 @@ class TDTInfoStatistics extends AReader {
      */
 
     private function prepareCacheConfig() {
-        $cache_config = array();        
+        $cache_config = array();
 
         $cache_config["system"] = Config::get("general", "cache", "system");
         $cache_config["host"] = Config::get("general", "cache", "host");
-        $cache_config["port"] = Config::get("general", "cache", "port");     
+        $cache_config["port"] = Config::get("general", "cache", "port");
 
         return $cache_config;
     }

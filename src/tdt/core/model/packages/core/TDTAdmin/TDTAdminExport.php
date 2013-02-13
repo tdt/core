@@ -9,7 +9,7 @@
  * @author Jan Vansteenlandt
  */
 
-namespace tdt\core\model\packages\TDTAdmin;
+namespace tdt\core\model\packages\core\TDTAdmin;
 
 use tdt\core\model\resources\read\AReader;
 use tdt\core\model\ResourcesModel;
@@ -212,7 +212,7 @@ class TDTAdminExport extends AReader {
         $resourceObject = new \stdClass();
         $resourceObject->resourcename = $resource;
         $resourceObject->resource_type = $this->descriptionDoc->$package->$resource->resource_type;
-        // also dump the entire body of the resource object description in it        
+        // also dump the entire body of the resource object description in it
         $resourceObject->description = $this->descriptionDoc->$package->$resource;
         // format the resource_type if it's generic
         if ($resourceObject->resource_type == "generic") {
@@ -265,15 +265,15 @@ class TDTAdminExport extends AReader {
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $result = curl_exec($ch);
     $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
+
      echo "The addition of the resource definition ". $url . " has ";
      if(strlen(strstr($responseHeader,"200"))>0){
     	echo "succeeded!\n";
      }else{
     	echo "failed! Error message:\n";
-        echo curl_error($ch);		
+        echo curl_error($ch);
      }
-     
+
     echo $result;
     echo "\n ============================================= \n";
     curl_close($ch);
