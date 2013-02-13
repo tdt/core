@@ -60,7 +60,7 @@ class ResourcesModel {
         $this->updateActions["generic"] = "GenericResourceUpdater";
     }
 
-    public static function getInstance(array $config = array()) {
+    public static function getInstance(array $config = array()) {        
         if (count($config) > 0) {
             Config::setConfig($config);
         }
