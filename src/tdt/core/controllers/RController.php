@@ -130,17 +130,17 @@ class RController extends AController {
         $this->initializeDatabaseConnection();
 
         // apply RESTFilter
-        $subresources = array();
-        $filterfactory = FilterFactory::getInstance();
-
-        if (sizeof($RESTparameters) > 0) {
-            if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
-                $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
-                $resultset = $RESTFilter->filter($result);
-                $subresources = $resultset->subresources;
-                $result = $resultset->result;
-            }
-        }
+//        $subresources = array();
+//        $filterfactory = FilterFactory::getInstance();
+//
+//        if (sizeof($RESTparameters) > 0) {
+//            if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
+//                $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
+//                $resultset = $RESTFilter->filter($result);
+//                $subresources = $resultset->subresources;
+//                $result = $resultset->result;
+//            }
+//        }
         // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 
