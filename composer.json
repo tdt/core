@@ -13,7 +13,8 @@
         "tdt/exceptions" : "dev-master",
         "tdt/negotiators" : "dev-master",
         "tdt/cache" : "dev-master",
-        "monolog/monolog": "1.2.*"
+        "monolog/monolog": "1.2.*",
+        "os/php-excel": "dev-master"
     },
     "minimum-stability" : "dev",
     "autoload": {

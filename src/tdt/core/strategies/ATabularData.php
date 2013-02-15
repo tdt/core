@@ -93,11 +93,13 @@ abstract class ATabularData extends AResourceStrategy {
      * specifically tuned for the parameters of the strategy.
      */
     public function onAdd($package_id, $gen_resource_id) {
+        
         if (!isset($this->PK)) {
             $this->PK = "";
         }
 
         if ($this->isValid($package_id, $gen_resource_id)) {
+
             $this->evaluateColumns($package_id, $gen_resource_id, $this->columns, $this->column_aliases, $this->PK);
             // get the name of the class ( = strategyname)
             // but without the namespace!!

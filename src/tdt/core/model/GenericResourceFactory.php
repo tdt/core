@@ -180,7 +180,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     public function makeCreateDoc($doc) {
-        $d = array();
+        $d = array();        
         foreach ($this->getAllStrategies() as $strategy) {
             $res = new GenericResourceCreator("", "", array(), $strategy);
             $d[$strategy] = new \stdClass();
@@ -196,7 +196,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     public function makeUpdateDoc($doc) {
-        $d = array();
+        $d = array(); 
         foreach ($this->getAllStrategies() as $strategy) {
             $res = new GenericResourceUpdater("", "", array(), $strategy);
             $d[$strategy] = new \stdClass();

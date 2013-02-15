@@ -113,7 +113,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($packageresourcestring, $parameters) {
-
+      
         /**
          * Hierachical package/resource structure
          * check if the package/resource structure is correct
