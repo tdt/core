@@ -48,7 +48,7 @@ class XLS extends ATabularData {
     public function __construct() {
     }
 
-    protected function throwException($message){
+    protected function throwTDTException($message){
         $exception_config = array();
         $exception_config["log_dir"] = Config::get("general", "logging", "path");
         $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
@@ -56,15 +56,7 @@ class XLS extends ATabularData {
     }
 
     protected function isValid($package_id,$generic_resource_id) {            
-
-        if(!isset($this->uri)){
-            $this->throwException("Please provide the uri of the Excel file.");
-        }
-		
-        if(!isset($this->sheet)){
-            $this->throwException("Please provide the sheet name in the Excel file.");
-        }
-	
+       
         if (!isset($this->columns)) {
             $this->columns = array();
         }
@@ -99,12 +91,12 @@ class XLS extends ATabularData {
         if ($this->has_header_row == "0") {
             // no header row ? then columns must be passed
             if(empty($this->columns)){
-                $this->throwException("Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
+                $this->throwTDTException("Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
             }
             
             foreach ($this->columns as $index => $value) {
                 if (!is_numeric($index)) {
-                    $this->throwException("Your array of columns must be an index => string hash array.");
+                    $this->throwTDTException("Your array of columns must be an index => string hash array.");
                 }
             }
 
@@ -336,7 +328,7 @@ class XLS extends ATabularData {
         }else if($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
         }else{
-            throw new TDTException(400,array("Wrong datasource, accepted datasources are .xls or .xlsx files."));
+            $this->throwTDTException("Wrong datasource, accepted datasources are .xls or .xlsx files.");
         }
         
         $objReader->setReadDataOnly(true);
