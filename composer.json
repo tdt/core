@@ -14,7 +14,7 @@
         "tdt/negotiators" : "dev-master",
         "tdt/cache" : "dev-master",
         "monolog/monolog": "1.2.*",
-        "os/php-excel": "dev-master"
+         "CodePlex/PHPExcel": "dev-master"
     },
     "minimum-stability" : "dev",
     "autoload": {

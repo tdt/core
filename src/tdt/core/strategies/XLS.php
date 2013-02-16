@@ -1,6 +1,6 @@
 <?php
 /**
- * This class handles a XLS file
+ * This class handles an XLS file
  *
  * @package core/strategies
  * @copyright (C) 2011 by iRail vzw/asbl
@@ -16,6 +16,8 @@ use tdt\core\model\resources\AResourceStrategy;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use tdt\core\utility\Config;
+use PHPExcel_IOFactory as IOFactory;
+
 
 class XLS extends ATabularData {
 
@@ -122,8 +124,7 @@ class XLS extends ATabularData {
                 } else {
                     $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);				
                 }
-                var_dump($objPHPExcel);
-                exit();
+               
                 $worksheet = $objPHPExcel->getSheetByName($sheet);
 
                 if (!isset($this->named_range) && !isset($this->cell_range)) {
@@ -327,10 +328,13 @@ class XLS extends ATabularData {
     }	
 	
     private function loadExcel($xlsFile,$type,$sheet) {
+
+        $dummy = new \PHPExcel();
+
         if($type == "xls") {
-            $objReader = \IOFactory::createReader('Excel5');			
+            $objReader = IOFactory::createReader('Excel5');			
         }else if($type == "xlsx") {
-            $objReader = \IOFactory::createReader('Excel2007');
+            $objReader = IOFactory::createReader('Excel2007');
         }else{
             throw new TDTException(400,array("Wrong datasource, accepted datasources are .xls or .xlsx files."));
         }
@@ -340,4 +344,3 @@ class XLS extends ATabularData {
         return $objReader->load($xlsFile);	
     }
 }
-?>

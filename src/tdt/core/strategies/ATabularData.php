@@ -98,13 +98,13 @@ abstract class ATabularData extends AResourceStrategy {
             $this->PK = "";
         }
 
-        if ($this->isValid($package_id, $gen_resource_id)) {
-
+        if ($this->isValid($package_id, $gen_resource_id)) {            
             $this->evaluateColumns($package_id, $gen_resource_id, $this->columns, $this->column_aliases, $this->PK);
             // get the name of the class ( = strategyname)
             // but without the namespace!!
-            $strat = $this->getClassName();
+            $strat = $this->getClassName();            
             $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);
+            
             $resource->gen_resource_id = $gen_resource_id;
 
             // for every parameter that has been passed for the creation of the strategy, make a datamember
@@ -119,7 +119,7 @@ abstract class ATabularData extends AResourceStrategy {
                         $resource->$createParam = $this->$createParam;
                     }
                 }
-            }
+            }            
             return R::store($resource);
         } else {
             /**
