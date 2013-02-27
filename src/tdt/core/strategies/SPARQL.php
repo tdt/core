@@ -18,6 +18,13 @@ use RedBean_Facade as R;
 class SPARQL extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
+        $param = get_object_vars($this);
+        
+        foreach ($param as $key => $value) {
+            //$value = addslashes($value);
+            $configObject->query = preg_replace("/(.*)(\\?$key)(\\s.*)/", "$1$value$3", $configObject->query);
+        }
+        
         $uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/json");
         $data = \tdt\core\utility\Request::http($uri);
         return json_decode($data->data);
