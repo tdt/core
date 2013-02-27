@@ -25,6 +25,7 @@ use tdt\cache\Cache;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
 use RedBean_Facade as R;
+use JsonSchema\Validator;
 
 class ResourcesModel {
     /*
@@ -60,8 +61,24 @@ class ResourcesModel {
         $this->updateActions["generic"] = "GenericResourceUpdater";
     }
 
-    public static function getInstance(array $config = array()) {        
+    public static function getInstance(array $config = array()) {
+
         if (count($config) > 0) {
+
+            $config_object = json_decode(json_encode($config)); // need the config to be an object so we can validate for required properties
+            $schema = file_get_contents("/../../../../configuration-schema.json",true);
+
+            $validator = new Validator();
+            $validator->check($config_object, json_decode($schema));
+
+            if (!$validator->isValid()) {
+                echo "The given configuration file for the resource model does not validate. Violations are (split with -- ):\n";
+                foreach ($validator->getErrors() as $error) {
+                    echo sprintf("[%s] %s -- ",$error['property'], $error['message']);
+                }
+                die();
+            }
+
             Config::setConfig($config);
         }
         R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
@@ -143,32 +160,32 @@ class ResourcesModel {
          * generic type, without passing that as a separate parameter
          * NOTE that passing generic/generic_type has priority over generic_type = ...
          */
-        $resourceTypeParts = explode("/", $parameters["resource_type"]);        
+        $resourceTypeParts = explode("/", $parameters["resource_type"]);
         if ($resourceTypeParts[0] != "remote" && $resourceTypeParts[0] != "installed") {
             if ($resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"])
-                    && isset($resourceTypeParts[1])) {
+                && isset($resourceTypeParts[1])) {
                 $parameters["generic_type"] = $resourceTypeParts[1];
-                $parameters["resource_type"] = $resourceTypeParts[0];
-            } else if (!isset($parameters["generic_type"])) {
-                $exception_config = array();
-                $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"), $exception_config);
-            }
-        }
-
-
-        $restype = $parameters["resource_type"];
-        $restype = strtolower($restype);
-        //now check if the file exist and include it
-        if (!in_array($restype, array("generic", "remote", "installed"))) {
+            $parameters["resource_type"] = $resourceTypeParts[0];
+        } else if (!isset($parameters["generic_type"])) {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"), $exception_config);
+            throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"), $exception_config);
         }
+    }
+
+
+    $restype = $parameters["resource_type"];
+    $restype = strtolower($restype);
+        //now check if the file exist and include it
+    if (!in_array($restype, array("generic", "remote", "installed"))) {
+        $exception_config = array();
+        $exception_config["log_dir"] = Config::get("general", "logging", "path");
+        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+        throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"), $exception_config);
+    }
         // get the documentation containing information about the required parameters
-        $doc = $this->getAllAdminDoc();
+    $doc = $this->getAllAdminDoc();
 
         /**
          * get the correct requiredparameters list to check
@@ -214,7 +231,7 @@ class ResourcesModel {
         }
 
 
-        // all is well, let's create that resource!        
+        // all is well, let's create that resource!
         $creator = $this->factories[$restype]->createCreator($package, $resource, $parameters, $RESTparameters);
         try {
             //first check if there resource exists yet
@@ -372,7 +389,7 @@ class ResourcesModel {
     public function readResource($package, $resource, $parameters, $RESTparameters) {
 
         //first check if the resource exists
-        if (!$this->hasResource($package, $resource)) {           
+        if (!$this->hasResource($package, $resource)) {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
@@ -557,7 +574,7 @@ class ResourcesModel {
      * @return array First entry is the [packagename], second entry is the [resourcename], third is the array with [RESTparameters]
       If the package hasn't been found FALSE is returned!
      */
-    public function processPackageResourceString($packageresourcestring) {
+      public function processPackageResourceString($packageresourcestring) {
         $result = array();
 
         $pieces = explode("/", $packageresourcestring);
