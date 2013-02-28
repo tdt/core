@@ -23,8 +23,8 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     protected function getAllResourceNames() {
-        return array("TDTInfo" => array("Resources", "Packages","Admin", "Formatters", "Visualizations","Statistics"),
-            "TDTAdmin" => array("Resources", "Export")
+        return array("tdtinfo" => array("resources", "packages","admin", "formatters", "visualizations","statistics"),
+            "tdtadmin" => array("resources", "export")
         );
     }
 
@@ -33,6 +33,7 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     public function createReader($package, $resource, $parameters, $RESTparameters) {
+
         $classname = $this->namespace . $package . "\\" . $package . $resource;
         $creator = new $classname($package, $resource, $RESTparameters);
         $creator->processParameters($parameters);
@@ -46,10 +47,12 @@ class CoreResourceFactory extends AResourceFactory {
     public function makeDoc($doc) {
         //ask every resource we have for documentation
         foreach ($this->getAllResourceNames() as $package => $resourcenames) {
+            $package = strtolower($package);
             if (!isset($doc->$package)) {
                 $doc->$package = new \stdClass();
             }
             foreach ($resourcenames as $resourcename) {
+                $resourcename = strtolower($resourcename);
                 $classname = $this->namespace . $package . "\\" . $package . $resourcename;
                 $doc->$package->$resourcename = new \stdClass();
                 $doc->$package->$resourcename->documentation = $classname::getDoc();

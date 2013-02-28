@@ -24,11 +24,12 @@ class CUDController extends AController {
     }
 
     /**
-     * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation. 
+     * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
      */
     public function GET($matches) {
 
         $packageresourcestring = $matches[0];
+        $packageresourcestring = strtolower($packageresourcestring);
 
         /*
          * get the format of the string
@@ -67,9 +68,10 @@ class CUDController extends AController {
         $RController->HEAD($matches);
     }
 
-    function PUT($matches) {        
+    function PUT($matches) {
 
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
         $pieces = explode("/", $packageresourcestring);
 
         //both package and resource set?
@@ -97,7 +99,7 @@ class CUDController extends AController {
             $_PUT = (array) json_decode(file_get_contents("php://input"));
         } else {
             parse_str(file_get_contents("php://input"), $_PUT);
-        }        
+        }
 
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $RESTparameters = array();
@@ -108,12 +110,12 @@ class CUDController extends AController {
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         $this->initializeDatabaseConnection();
 
-        //Clear the documentation in our cache for it has changed        
+        //Clear the documentation in our cache for it has changed
         $this->clearCachedDocumentation();
     }
 
     /**
-     * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now, 
+     * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now,
      * this'll do the trick)
      * @param string $matches The matches from the given URL, contains the package and the resource from the URL
      */
@@ -122,8 +124,10 @@ class CUDController extends AController {
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
-        //always required: a package and a resource. 
+        //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
+
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
 
@@ -131,7 +135,7 @@ class CUDController extends AController {
 
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
          * ResourcesModel class -> funcion isResourceValid()
          */
         $foundPackage = FALSE;
@@ -196,8 +200,9 @@ class CUDController extends AController {
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
-        //always required: a package and a resource. 
+        //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
 
@@ -205,7 +210,7 @@ class CUDController extends AController {
 
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
          * ResourcesModel class -> funcion isResourceValid()
          */
         $foundPackage = FALSE;

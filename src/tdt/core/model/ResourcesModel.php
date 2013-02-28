@@ -92,6 +92,7 @@ class ResourcesModel {
      * Checks if a package exists
      */
     public function hasPackage($package) {
+        $package = strtolower($package);
         $doc = $this->getAllPackagesDoc();
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
@@ -109,6 +110,9 @@ class ResourcesModel {
      * @return a boolean
      */
     public function hasResource($package, $resource) {
+        $package = strtolower($package);
+        $resource = strtolower($resource);
+
         $doc = $this->getAllDoc();
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
@@ -130,12 +134,14 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($packageresourcestring, $parameters) {
-      
+
         /**
          * Hierachical package/resource structure
          * check if the package/resource structure is correct
          */
+        $packageresourcestring = strtolower($packageresourcestring);
         $pieces = explode("/", $packageresourcestring);
+
         //throws exception when it's not valid, returns packagestring when done
         $package = $this->isResourceValid($pieces);
         $resource = array_pop($pieces);
@@ -165,27 +171,27 @@ class ResourcesModel {
             if ($resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"])
                 && isset($resourceTypeParts[1])) {
                 $parameters["generic_type"] = $resourceTypeParts[1];
-            $parameters["resource_type"] = $resourceTypeParts[0];
-        } else if (!isset($parameters["generic_type"])) {
+                $parameters["resource_type"] = $resourceTypeParts[0];
+            } else if (!isset($parameters["generic_type"])) {
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"), $exception_config);
+            }
+        }
+
+
+        $restype = $parameters["resource_type"];
+        $restype = strtolower($restype);
+            //now check if the file exist and include it
+        if (!in_array($restype, array("generic", "remote", "installed"))) {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(452, array("Parameter generic_type hasn't been set, or the combination generic/generic_type hasn't been properly passed. A template-example: generic/CSV"), $exception_config);
+            throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"), $exception_config);
         }
-    }
-
-
-    $restype = $parameters["resource_type"];
-    $restype = strtolower($restype);
-        //now check if the file exist and include it
-    if (!in_array($restype, array("generic", "remote", "installed"))) {
-        $exception_config = array();
-        $exception_config["log_dir"] = Config::get("general", "logging", "path");
-        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-        throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"), $exception_config);
-    }
-        // get the documentation containing information about the required parameters
-    $doc = $this->getAllAdminDoc();
+            // get the documentation containing information about the required parameters
+        $doc = $this->getAllAdminDoc();
 
         /**
          * get the correct requiredparameters list to check
@@ -259,7 +265,7 @@ class ResourcesModel {
         $creator->create();
     }
 
-    private function clearCachedDocumentation() {
+    public function clearCachedDocumentation() {
         $cache_config = array();
 
         $cache_config["system"] = Config::get("general", "cache", "system");
@@ -575,6 +581,7 @@ class ResourcesModel {
       If the package hasn't been found FALSE is returned!
      */
       public function processPackageResourceString($packageresourcestring) {
+        $packageresourcestring = strtolower($packageresourcestring);
         $result = array();
 
         $pieces = explode("/", $packageresourcestring);
@@ -654,6 +661,9 @@ class ResourcesModel {
      * return the resource if it does
      */
     public function isResourceIFilter($package, $resource) {
+        $package = strtolower($package);
+        $resource = strtolower($resource);
+
         foreach ($this->factories as $factory) {
 
             if ($factory->hasResource($package, $resource)) {
@@ -699,6 +709,9 @@ class ResourcesModel {
      * get the columns from a resource
      */
     public function getColumnsFromResource($package, $resource) {
+        $package = strtolower($package);
+        $resource = strtolower($resource);
+
         $gen_resource_id = DBQueries::getGenericResourceId($package, $resource);
 
         if (isset($gen_resource_id["gen_resource_id"]) && $gen_resource_id["gen_resource_id"] != "") {

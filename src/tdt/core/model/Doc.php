@@ -36,12 +36,12 @@ class Doc {
      */
 
     private function prepareCacheConfig() {
-        $cache_config = array();        
+        $cache_config = array();
 
         $cache_config["system"] = Config::get("general", "cache", "system");
         $cache_config["host"] = Config::get("general", "cache", "host");
-        $cache_config["port"] = Config::get("general", "cache", "port");     
-           
+        $cache_config["port"] = Config::get("general", "cache", "port");
+
         return $cache_config;
     }
 
@@ -113,12 +113,12 @@ class Doc {
         $c = Cache::getInstance($this->prepareCacheConfig());
         $doc = $c->get($this->hostname . $this->subdir . "admindocumentation");
         if (true){//is_null($doc)) {
-            $doc = new \stdClass();            
-            foreach ($factories as $factory) {            
+            $doc = new \stdClass();
+            foreach ($factories as $factory) {
                 $factory->makeDeleteDoc($doc);
                 $factory->makeCreateDoc($doc);
                 $factory->makeUpdateDoc($doc);
-            }            
+            }
             $c->set($this->hostname . $this->subdir . "admindocumentation", $doc, 60 * 60 * 60); // cache it for 1 hour by default
         }
         return $doc;

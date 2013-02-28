@@ -33,13 +33,15 @@ class RController extends AController {
 
         //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
+
 
         /**
          * GET operations on TDTAdmin need to be authenticated!
          */
-        if ($package == "TDTAdmin") {
+        if ($package == "tdtadmin") {
             //we need to be authenticated
             if (!$this->isBasicAuthenticated()) {
                 header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
@@ -51,7 +53,7 @@ class RController extends AController {
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
-        $result = $model->processPackageResourceString($matches["packageresourcestring"]);
+        $result = $model->processPackageResourceString($packageresourcestring);
         $resourcename = $result["resourcename"];
         $package = $result["packagename"];
         $RESTparameters = $result["RESTparameters"];
@@ -61,7 +63,7 @@ class RController extends AController {
          */
         if ($resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
-            $allPackages = array_keys(get_object_vars($packageDoc));            
+            $allPackages = array_keys(get_object_vars($packageDoc));
             $linkObject = new \stdClass();
             $links = array();
 
@@ -70,6 +72,8 @@ class RController extends AController {
              * and the amount of /'s in the packagestring
              */
             foreach ($allPackages as $packagestring) {
+                $packagestring = strtolower($packagestring);
+
                 if (strpos($packagestring, $package) == 0
                         && strpos($packagestring, $package) !== false && $package != $packagestring
                         && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
@@ -83,8 +87,9 @@ class RController extends AController {
             }
 
             if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);                
+                $resourcenames = get_object_vars($doc->$package);
                 foreach ($resourcenames as $resourcename => $value) {
+                    $resourcename = strtolower($resourcename);
                     $link = $this->hostname . $this->subdir . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {
@@ -126,7 +131,7 @@ class RController extends AController {
 
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
-        //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+        //maybe the resource reinitialised the database connection through RedBean, so let's set it up again with our back-end config.
         $this->initializeDatabaseConnection();
 
         // apply RESTFilter
@@ -179,13 +184,13 @@ class RController extends AController {
         foreach(headers_list() as $header){
             if(substr($header,0,4) == "Link"){
                 $header = str_replace(".about",".".$matches["format"],$header);
-                header($header);               
+                header($header);
             }
         }
 
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter($resourcename, $result);        
-        $printer->printAll();        
+        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
+        $printer->printAll();
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {
@@ -194,6 +199,8 @@ class RController extends AController {
         $allPackages = array_keys(get_object_vars($packageDoc));
 
         foreach ($allPackages as $packagestring) {
+            $packagestring = strtolower($packagestring);
+
             if (strpos($packagestring, $package) == 0
                     && strpos($packagestring, $package) !== false && $package != $packagestring) {
 
@@ -214,11 +221,12 @@ class RController extends AController {
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
+        $package = strtolower($package);
 
         /**
          * Even GET operations on TDTAdmin need to be authenticated!
          */
-        if ($package == "TDTAdmin") {
+        if ($package == "tdtadmin") {
             //we need to be authenticated
             if (!$this->isBasicAuthenticated()) {
                 header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
@@ -243,9 +251,11 @@ class RController extends AController {
         if (!isset($doc->$package)) {
             while (!empty($pieces)) {
                 $package .= "/" . array_shift($pieces);
+                $package = strtolower($package);
                 if (isset($doc->$package)) {
                     $foundPackage = TRUE;
                     $resourcename = array_shift($pieces);
+                    $resourcename = strtolower($resourcename);
                     $reqparamsstring = implode("/", $pieces);
                 }
             }
@@ -254,6 +264,7 @@ class RController extends AController {
             $resourceNotFound = TRUE;
             while (!empty($pieces) && $resourceNotFound) {
                 $resourcename = array_shift($pieces);
+                $resourcename = strtolower($resourcename);
                 if (!isset($doc->$package->$resourcename) && $resourcename != NULL) {
                     $package .= "/" . $resourcename;
                     $resourcename = "";
@@ -284,6 +295,8 @@ class RController extends AController {
              * and the amount of /'s in the packagestring
              */
             foreach ($allPackages as $packagestring) {
+                $packagestring = strtolower($packagestring);
+
                 if (strpos($packagestring, $package) == 0
                         && strpos($packagestring, $package) !== false && $package != $packagestring
                         && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
@@ -302,6 +315,8 @@ class RController extends AController {
                 $foundPackage = TRUE;
                 $resourcenames = get_object_vars($doc->$package);
                 foreach ($resourcenames as $resourcename => $value) {
+
+                    $resourcename = strtolower($resourcename);
                     $link = $this->hostname . $this->subdir . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {

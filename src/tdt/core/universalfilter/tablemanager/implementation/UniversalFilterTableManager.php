@@ -64,7 +64,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             array_shift($RESTparameters);
         }
         /**
-         * Pass along limit and offset if given         
+         * Pass along limit and offset if given
          */
         $ru = RequestURI::getInstance(Config::getConfigArray());
         $pageURL = $ru->getURI();
@@ -84,10 +84,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         }
 
         $parameters["limit"] = $limit;
-        $parameters["offset"] = $offset;        
+        $parameters["offset"] = $offset;
 
         /**
-         * Read the resource from the model        
+         * Read the resource from the model
          */
         $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
 
@@ -177,6 +177,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         $column = NULL;
         try {
             $columns = $model->getColumnsFromResource($identifierpieces[0], $identifierpieces[1]);
+
         } catch (Exception $e) {
             $columns = NULL;
         }
@@ -243,8 +244,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $identifierpieces = explode(".", $sourceId);
         array_push($identifierpieces, array());
-        $package = $identifierpieces[0];
-        $resource = $identifierpieces[1];
+        $package = strtolower($identifierpieces[0]);
+        $resource = strtolower($identifierpieces[1]);
 
         // TODO allow for RESTparameters to be passed. So far no installed/core resource
         // implements IFilter though.

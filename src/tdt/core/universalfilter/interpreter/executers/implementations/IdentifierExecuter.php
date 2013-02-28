@@ -3,7 +3,7 @@
 /**
  * Executes an Identifier
  *
- * format: 
+ * format:
  * - package.package.resource
  * - package.package.resource.name_of_column
  * - alias.name_of_column
@@ -60,7 +60,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             }
         } else {
             $this->isNewTable = true;
-            // load new table               
+            // load new table
             $tableName = $filter->getIdentifierString();
             try {
                 $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
@@ -68,7 +68,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(500, array("IdentifierExectuer - The identifier " . $tableName . " can not be found. It is not a table."), $exception_config);
+                throw new TDTException(500, array("IdentifierExecuter - The identifier " . $tableName . " can not be found. It is not a table."), $exception_config);
             }
         }
     }

@@ -31,8 +31,8 @@ use tdt\core\universalfilter\interpreter\debugging\TreePrinter;
 class SPECTQLController extends AController {
 
     public static $TMP_DIR = "";
-    
-    
+
+
     public function __construct() {
         parent::__construct();
         SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
@@ -66,6 +66,11 @@ class SPECTQLController extends AController {
         if (isset($matches["query"])) {
             $query = $matches["query"];
         }
+
+        /**
+         * lower case the resource identifier
+         */
+
 
         // split off the format of the query, if passed
         $matches = array();
@@ -121,8 +126,9 @@ class SPECTQLController extends AController {
         $tree = $treePrinter->treeToString($universalquery);
         echo "<pre>";
         echo $tree;
-        echo "</pre>";        
-        */
+        echo "</pre>";
+        exit();
+*/
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
@@ -147,12 +153,12 @@ class SPECTQLController extends AController {
         foreach(headers_list() as $header){
             if(substr($header,0,4) == "Link"){
                 $ru = RequestURI::getInstance(Config::getConfigArray());
-                $pageURL = $ru->getURI();                                
+                $pageURL = $ru->getURI();
                 $new_link_header= "Link:";
 
 
                 /**
-                 * Link to next 
+                 * Link to next
                  * Get the link to next, if present
                  * Adjust the spectql query URL with the next limit(..,..) and format
                  */
@@ -163,8 +169,8 @@ class SPECTQLController extends AController {
                     $next_query_url = $query_matches[1];
                     $limit = $matches[2];
                     $offset = $limit * ($matches[1] -1 );
-                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;  
-                    $new_link_header.= $next_query_url . ";rel=next;";                  
+                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
+                    $new_link_header.= $next_query_url . ";rel=next;";
                 }
 
                 /**
@@ -172,21 +178,21 @@ class SPECTQLController extends AController {
                  */
                 $matches = array();
                 if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=previous.*/',$header,$matches)){
-                    $query_matches = array();                    
+                    $query_matches = array();
                     preg_match('/(.*)\.limit\(.*\)?(:.*)/',$pageURL,$query_matches);
                     $next_query_url = $query_matches[1];
                     $limit = $matches[2];
                     $offset = $limit * ($matches[1] -1 );
-                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;  
-                    $new_link_header.= $next_query_url . ";rel=previous";                  
+                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
+                    $new_link_header.= $next_query_url . ";rel=previous";
                 }
 
-                $new_link_header = rtrim($new_link_header,";");                
+                $new_link_header = rtrim($new_link_header,";");
                 /**
                  * Set the adjusted Link header
                  */
 
-                header($new_link_header);               
+                header($new_link_header);
             }
         }
 
