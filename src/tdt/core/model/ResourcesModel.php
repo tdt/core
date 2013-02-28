@@ -130,7 +130,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function createResource($packageresourcestring, $parameters) {
-
+      
         /**
          * Hierachical package/resource structure
          * check if the package/resource structure is correct
@@ -649,7 +649,7 @@ class ResourcesModel {
     }
 
     /**
-     * Check if the resource implements iFilter or not
+     * Check if the resource implements IFilter or not
      * return FALSE if not the resource doesn't implement iFitler
      * return the resource if it does
      */

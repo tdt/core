@@ -23,7 +23,7 @@ use tdt\core\model\resources\AResourceStrategy;
 class DB extends ATabularData implements IFilter {
     /*
      * If no limit is defined, get a default maximum of rows
-     * This way reading a database with a large set of records will not cause 
+     * This way reading a database with a large set of records will not cause
      * the PHP execution to crash of memory allocation.
      */
 
@@ -55,7 +55,7 @@ class DB extends ATabularData implements IFilter {
         $this->parameters["db_type"] = "The type of the database, current supported types are: MySQL";
         $this->parameters["db_table"] = "The database table of which some or all fields will be published.";
         $this->parameters["location"] = "The location of the database, for sqlite this will be the path towards the sqlite file, for all the other database types this will be the host on which the database is installed.";
-        $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the tabular resource.";        
+        $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the tabular resource.";
         return $this->parameters;
     }
 
@@ -77,21 +77,21 @@ class DB extends ATabularData implements IFilter {
     public function read(&$configObject, $package, $resource) {
 
         parent::read($configObject, $package, $resource);
-        
+
         /**
          * Add the database we want to connect to the Redbean databases.
          * This will allow us to switch between the connection with our own back-end and the database from which to read data.
          */
         R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
         R::selectDatabase('db_resource');
-        
-        $fields = ""; 
+
+        $fields = "";
 
 
         /**
          * Prepare the SQL statement
          */
-        
+
         foreach ($configObject->column_aliases as $column_name => $column_alias) {
             $fields.= " $configObject->db_table" . "." . "$column_name AS $column_alias ,";
         }
@@ -99,12 +99,12 @@ class DB extends ATabularData implements IFilter {
         $fields = rtrim($fields, ",");
 
         /**
-         * Calculate page, size, limit and offset        
+         * Calculate page, size, limit and offset
          */
         $limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
         $offset = 0;
-        
-        if(!isset($this->limit) && !isset($this->offset)){        
+
+        if(!isset($this->limit) && !isset($this->offset)){
 
             if(!isset($this->page)){
                 $this->page = 1;
@@ -141,10 +141,10 @@ class DB extends ATabularData implements IFilter {
             $this->page_size = $limit -1;
 
         }
-        
+
 
         $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";
-        
+
         $results = R::getAll($sql);
 
         /**
@@ -163,21 +163,21 @@ class DB extends ATabularData implements IFilter {
          * If we have 1 row too many, and our offset was done -1 and our limit +1
          * we cannot know which header to pass as we dont know whether the 1 extra record is
          * from a previous page or a next page.
-         * 
+         *
          * Again take into account that a page size can be bigger then the previous amount of records,
          * resulting in a negative offset, put offset to 0 if this is the case
          */
-        
+
         if($offset>0){
 
-            $offset = $offset - $this->page_size;        
+            $offset = $offset - $this->page_size;
 
             $limit = $this->page_size;
 
             if($offset<0)
                 $offset = 0;
 
-            $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";            
+            $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";
             $previous_results = R::getAll($sql);
             if(count($previous_results)>0){
                 $this->setLinkHeader($this->page-1,$limit,"previous");
@@ -217,7 +217,7 @@ class DB extends ATabularData implements IFilter {
                     $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                     $log->addAlert("Resource $package / $resources : Primary key " . $rowobject->$PK . " isn't unique.");
                 } else {
-                    // this means the primary key field was empty, log the problem and continue                    
+                    // this means the primary key field was empty, log the problem and continue
                     $log = new Logger('DB');
                     $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                     $log->addAlert("Resource $package / $resources : Primary key " . $rowobject->$PK . " is empty.");
@@ -304,7 +304,7 @@ class DB extends ATabularData implements IFilter {
          * 4) If the columns are all A-OK! then return true.
          * All this functionality has been put into functions.
          */
-        // prepare the connection            
+        // prepare the connection
         R::addDatabase('db_resource', $this->db_type . ":host=" . $this->location . ";dbname=" . $this->db_name, $this->username, $this->password);
         R::selectDatabase('db_resource');
         // get the table columns
@@ -371,30 +371,30 @@ class DB extends ATabularData implements IFilter {
      *
      */
     public function readAndProcessQuery($query, $parameters) {
-        
+
         /*
          * Decide which part of the query we want to execute ourselves and which part we leave to the universalinterpreter
          * Since this database resource serves as an example for how partially execution works we're going to assume we
          * cannot perform sort by statements ( or higher such as limit statements).
          * Thus we ask for the QueryTreeHandler for the clauses up untill select.
-         */    
+         */
 
         $queryHandler = new QueryTreeHandler($query);
         $converter = $queryHandler->getSqlConverter();
 
         /*
-         * Try getting the limit node 
+         * Try getting the limit node
          */
         $executed_node_name = "limit";
         $queryNode = $queryHandler->getNodeForClause("limit");
-        
+
         /*
-         * If none given, then take the select node    
+         * If none given, then take the select node
          */
         if(is_null($queryNode)){
             $queryNode = $queryHandler->getNodeForClause("select");
             $executed_node_name = "select";
-        }    
+        }
 
 
         /*
@@ -461,8 +461,8 @@ class DB extends ATabularData implements IFilter {
         $limit = $limit+1;
 
         $sql.= $offset . ",";
-        $sql.= $limit;                
-        
+        $sql.= $limit;
+
         try {
             /*
              * Execute the query
@@ -470,7 +470,7 @@ class DB extends ATabularData implements IFilter {
              * we put together an array with the clauses used, and the phpObject retrieved from the database query.
              * We also put an empty entry for the order by clause (if given) so that the interpreter knows we didn't execute it.
              */
-            $results = R::getAll($sql);           
+            $results = R::getAll($sql);
             /**
              * Check if we have more rows then we can return in 1 page
              */
@@ -515,7 +515,7 @@ class DB extends ATabularData implements IFilter {
              */
             if($offset>0){
 
-                $offset = $offset - $limit;                    
+                $offset = $offset - $limit;
 
                 if($offset<0)
                     $offset = 0;
@@ -527,10 +527,10 @@ class DB extends ATabularData implements IFilter {
                     $limit_array = $converter->getLimitClause();
                     $offset = $limit_array[0];
                     $limit = $limit_array[1];
-                }      
+                }
 
                 $sql.= $offset . ",";
-                $sql.= $limit;  
+                $sql.= $limit;
 
                 $previous_results = R::getAll($sql);
                 if(count($previous_results)>0){
@@ -540,7 +540,7 @@ class DB extends ATabularData implements IFilter {
                     if($page==0){
                         $page = 2;
                     }
-                    $this->page = $page;                
+                    $this->page = $page;
 
                     $this->setLinkHeader($page-1,$limit,"previous");
                 }
@@ -625,8 +625,8 @@ class DB extends ATabularData implements IFilter {
             foreach ($converter->getGroupByClause() as $groupbyidentifier) {
                 $sql.= $groupbyidentifier . ", ";
             }
-        }    
-        
+        }
+
         $sql = rtrim($sql, ", ");
 
         return $sql;

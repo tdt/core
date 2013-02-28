@@ -2,7 +2,7 @@
 
 /**
  * This it the implementation of the TableManager for The-DataTank
- * 
+ *
  * The TableManager makes it easier to view The DataTank as a collection of tables
  *
  * @package The-Datatank/universalfilter/tablemanager
@@ -101,7 +101,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      *  - a package (string)
      *  - a resource (string)
      *  - a array of subidentifiers
-     * 
+     *
      * @param string $globalTableIdentifier => see universal/UniversalFilters.php/Identifier for format
      * @return array of the three pieces
      */
@@ -163,11 +163,11 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     }
 
     /**
-     * The UniversalInterpreter found a identifier for a table. 
+     * The UniversalInterpreter found a identifier for a table.
      * Can you give me the header of the table?
-     * 
+     *
      * @param string $globalTableIdentifier
-     * @return UniversalFilterTableHeader 
+     * @return UniversalFilterTableHeader
      */
     public function getTableHeader($globalTableIdentifier) {
 
@@ -210,12 +210,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     }
 
     /**
-     * The UniversalInterpreter found a identifier for a table. 
+     * The UniversalInterpreter found a identifier for a table.
      * Can you give me the content of the table?
-     * 
+     *
      * @param string $globalTableIdentifier
      * @param UniversalFilterTableHeader $header The header you created using the above method.
-     * @return UniversalTableContent 
+     * @return UniversalTableContent
      */
     public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header) {
         if (!isset($this->requestedTables[$globalTableIdentifier])) {
@@ -226,12 +226,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
     /**
      * This method makes it possible to run a filter directly on the source.
-     * 
+     *
      * See documentation of the implemented interface for more information...
-     * 
+     *
      * @param UniversalFilterNode $query
      * @param string $sourceId
-     * @return UniversalFilterNode 
+     * @return UniversalFilterNode
      */
     function runFilterOnSource(UniversalFilterNode $query, $sourceId) {
         /*
@@ -247,8 +247,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         $resource = $identifierpieces[1];
 
         // TODO allow for RESTparameters to be passed. So far no installed/core resource
-        // implements iFilter though.
-        // result is FALSE if the resource doesn't implement iFilter
+        // implements IFilter though.
+        // result is FALSE if the resource doesn't implement IFilter
         // result is the resourceObject on which to call and pass the filter upon if it does
         $result = null;
         try {
@@ -263,21 +263,21 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 //            execute partial trees on the source with id $sourceId
 //                     (or the full query, if it can be converted completely)
 //                     (not necessary the case: (even without joins and nested querys)
-//                           e.g.: radius() is not a SQL function... etc... 
+//                           e.g.: radius() is not a SQL function... etc...
 //                              (bad example because you can convert it...)
 //            for each partial answer the source can calculate {
 //                convert it to a table $table
 //                replace the calculated node in the query with a new ExternallyCalculatedFilterNode($table, $originalFilterNode);
 //            }
-            // not only contains the php object of the data but also 
+            // not only contains the php object of the data but also
             // the node that has been executed and the index of it in its parent node.
             // if it has done the entire node (so the entire query has been done)
             // only a new Calculated node has to be passed, and $query doesnt have to be
             // adjusted, but replaced.
-            // The convention to let this function know if the entire node has been executed is to pass 
+            // The convention to let this function know if the entire node has been executed is to pass
             // the index as -1
             // it could also be the case that the filter couldn't do anything with the query
-            // this will be clear to this function if the resultObject->phpDataObject = NULL 
+            // this will be clear to this function if the resultObject->phpDataObject = NULL
 
             $resultObject = $model->readResourceWithFilter($query, $result);
 
@@ -299,10 +299,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
                 /*
                  * iterate over the query tree
                  * Note that when the parentNode is null and you replace a node
-                 * it means that you have executed the upper node of the query aka you've already executed the node.   
-                 * 
+                 * it means that you have executed the upper node of the query aka you've already executed the node.
+                 *
                  * The index in the parent node is always 0 because we only execute clauses such as where, group by
-                 * These nodes only have 1 source. We do not replace or partially execute binaryfunctions or joins, which have 2 or more sources.                  
+                 * These nodes only have 1 source. We do not replace or partially execute binaryfunctions or joins, which have 2 or more sources.
                  */
                 $parentNode = null;
                 $currentNode = $query;
@@ -369,11 +369,11 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     }
 
     /**
-     * This method is used in combination with runFilterOnSource. 
-     * 
+     * This method is used in combination with runFilterOnSource.
+     *
      * See documentation of the implemented interface for more information...
-     * 
-     * @param string $globalTableIdentifier 
+     *
+     * @param string $globalTableIdentifier
      * @return string  A string representing a source.
      */
     public function getSourceIdFromIdentifier($globalTableIdentifier) {

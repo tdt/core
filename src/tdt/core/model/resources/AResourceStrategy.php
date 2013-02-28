@@ -55,9 +55,9 @@ abstract class AResourceStrategy {
     /**
      * When a strategy is added, execute this piece of code.
      */
-    public function onAdd($package_id, $gen_resource_id) {
+    public function onAdd($package_id, $gen_resource_id) {       
         if ($this->isValid($package_id, $gen_resource_id)) {
-            // get the name of the class ( = strategyname)
+            // get the name of the class ( = strategyname)            
             $strat = $this->getClassName();
             $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);
             $resource->gen_resource_id = $gen_resource_id;

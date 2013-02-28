@@ -97,7 +97,7 @@ class CUDController extends AController {
             $_PUT = (array) json_decode(file_get_contents("php://input"));
         } else {
             parse_str(file_get_contents("php://input"), $_PUT);
-        }
+        }        
 
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $RESTparameters = array();

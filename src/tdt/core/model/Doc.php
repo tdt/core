@@ -112,13 +112,13 @@ class Doc {
     public function visitAllAdmin($factories) {
         $c = Cache::getInstance($this->prepareCacheConfig());
         $doc = $c->get($this->hostname . $this->subdir . "admindocumentation");
-        if (is_null($doc)) {
-            $doc = new \stdClass();
-            foreach ($factories as $factory) {
+        if (true){//is_null($doc)) {
+            $doc = new \stdClass();            
+            foreach ($factories as $factory) {            
                 $factory->makeDeleteDoc($doc);
                 $factory->makeCreateDoc($doc);
                 $factory->makeUpdateDoc($doc);
-            }
+            }            
             $c->set($this->hostname . $this->subdir . "admindocumentation", $doc, 60 * 60 * 60); // cache it for 1 hour by default
         }
         return $doc;
