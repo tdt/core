@@ -59,6 +59,11 @@ class ResourcesModel {
 
         //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["generic"] = "GenericResourceUpdater";
+
+         /**
+         * Register the fatal error handler
+         */
+        register_shutdown_function(array($this,"fatal_error_handler"));
     }
 
     public static function getInstance(array $config = array()) {
@@ -262,7 +267,56 @@ class ResourcesModel {
             //Clear the documentation in our cache for it has changed
             $this->deleteResource($package, $resource, $RESTparameters);
         }
-        $creator->create();
+
+        try{
+            R::freeze(true);
+            R::begin();
+            $creator->create();
+            R::commit();
+        }catch(Exception $ex){
+
+            R::rollback();
+            $this->clearCachedDocumentation();
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Error whilst adding the resource: " . $ex->getMessage()), $exception_config);
+        }
+
+    }
+
+    public function fatal_error_handler(){
+        /**
+         * If a fatal error occurs, during a PUT method, we have to delete the put resource, it could be
+         * that there are some leftovers!
+         */
+        if($_SERVER['REQUEST_METHOD'] == "PUT"){
+           $error = error_get_last();
+           if(!is_null($error)){
+                R::rollback();
+
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+
+                /**
+                 * The sever error data
+                 */
+
+                $errfile = "unknown file";
+                $errstr  = "shutdown";
+                $errno   = E_CORE_ERROR;
+                $errline = 0;
+
+                $errno   = $error["type"];
+                $errfile = $error["file"];
+                $errline = $error["line"];
+                $errstr  = $error["message"];
+                header('HTTP/1.0 500 Internal Server Error', true, 500);
+                throw new TDTException(500,array("Fatal error caught: " . $errfile . " - $errstr - $errno - $errline"),$exception_config);
+            }
+
+        }
     }
 
     public function clearCachedDocumentation() {
@@ -721,5 +775,6 @@ class ResourcesModel {
     }
 
 }
+
 
 ?>

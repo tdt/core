@@ -479,6 +479,13 @@ class RController extends AController {
         return in_array($format, $vis);
     }
 
+    public function fatal_error_handler(){
+        echo "hi";
+        var_dump($_SERVER['REQUEST_METHOD']);
+        var_dump($_SERVER['REQUEST_URI']);
+        die();
+    }
+
 }
 
 ?>
