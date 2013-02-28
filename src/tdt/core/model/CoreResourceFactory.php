@@ -24,7 +24,7 @@ class CoreResourceFactory extends AResourceFactory {
 
     protected function getAllResourceNames() {
         return array("tdtinfo" => array("resources", "packages","admin", "formatters", "visualizations","statistics"),
-            "tdtadmin" => array("resources", "export")
+            "tdtadmin" => array("resources", "export","docreset")
         );
     }
 

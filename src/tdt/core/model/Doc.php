@@ -112,7 +112,7 @@ class Doc {
     public function visitAllAdmin($factories) {
         $c = Cache::getInstance($this->prepareCacheConfig());
         $doc = $c->get($this->hostname . $this->subdir . "admindocumentation");
-        if (true){//is_null($doc)) {
+        if (is_null($doc)) {
             $doc = new \stdClass();
             foreach ($factories as $factory) {
                 $factory->makeDeleteDoc($doc);
