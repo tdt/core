@@ -72,13 +72,21 @@ class CUDController extends AController {
 
         $packageresourcestring = $matches["packageresourcestring"];
         $packageresourcestring = strtolower($packageresourcestring);
+        $packageresourcestring = rtrim($packageresourcestring,"/");
         $pieces = explode("/", $packageresourcestring);
+
+        // check for empty pieces
+        foreach($pieces as $piece){
+            if($piece == ""){
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("We found an empty piece in our package-resourcestring, passing a double / might be a the origin of this error. Passed package-resourcestring: $packageresourcestring"), $exception_config, $exception_config);
+            }
+        }
 
         //both package and resource set?
         if (count($pieces) < 2) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
