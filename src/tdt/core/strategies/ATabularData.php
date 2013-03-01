@@ -103,7 +103,7 @@ abstract class ATabularData extends AResourceStrategy {
             // get the name of the class ( = strategyname)
             // but without the namespace!!
             $strat = $this->getClassName();            
-            $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);
+            $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);            
             
             $resource->gen_resource_id = $gen_resource_id;
 
@@ -120,6 +120,7 @@ abstract class ATabularData extends AResourceStrategy {
                     }
                 }
             }            
+
             return R::store($resource);
         } else {
             /**

@@ -71,7 +71,7 @@ class ResourcesModel {
         if (count($config) > 0) {
 
             $config_object = json_decode(json_encode($config)); // need the config to be an object so we can validate for required properties
-            $schema = file_get_contents("/../../../../configuration-schema.json",true);
+            $schema = file_get_contents("configuration-schema.json",true);
 
             $validator = new Validator();
             $validator->check($config_object, json_decode($schema));
@@ -269,7 +269,7 @@ class ResourcesModel {
         }
 
         try{
-            R::freeze(true);
+            //R::freeze(true); -> see issue #21 on github.com/tdt/core
             R::begin();
             $creator->create();
             R::commit();
@@ -290,7 +290,7 @@ class ResourcesModel {
          * If a fatal error occurs, during a PUT method, we have to delete the put resource, it could be
          * that there are some leftovers!
          */
-        if($_SERVER['REQUEST_METHOD'] == "PUT"){
+        if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "PUT"){
            $error = error_get_last();
            if(!is_null($error)){
                 R::rollback();
@@ -447,7 +447,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
-
+    
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
             $exception_config = array();
@@ -455,7 +455,7 @@ class ResourcesModel {
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
         }
-
+    
         foreach ($this->factories as $factory) {
             if ($factory->hasResource($package, $resource)) {
                 $reader = $factory->createReader($package, $resource, $parameters, $RESTparameters);

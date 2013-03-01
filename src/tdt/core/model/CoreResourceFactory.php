@@ -22,6 +22,8 @@ class CoreResourceFactory extends AResourceFactory {
         $this->namespace = "tdt\\core\\model\\packages\\core\\";
     }
 
+    // make sure your classname are named like this: (TDTInfo|TDTAdmin)Uppercasefirst
+    // in this function below, put the names in lowercases.
     protected function getAllResourceNames() {
         return array("tdtinfo" => array("resources", "packages","admin", "formatters", "visualizations","statistics"),
             "tdtadmin" => array("resources", "export","docreset")
@@ -32,12 +34,22 @@ class CoreResourceFactory extends AResourceFactory {
         //do nothing
     }
 
+    private function adjustCasesForPackage($package){
+        // Unix file system are case sensitive
+        if($package =="tdtadmin"){
+            return $package = "TDTAdmin";
+        }else if($package == "tdtinfo"){
+            return $package = "TDTInfo";
+        }
+    }
+
     public function createReader($package, $resource, $parameters, $RESTparameters) {
 
-        $classname = $this->namespace . $package . "\\" . $package . $resource;
-        $creator = new $classname($package, $resource, $RESTparameters);
-        $creator->processParameters($parameters);
-        return $creator;
+        $package_adjusted = $this->adjustCasesForPackage($package);
+        $classname = $this->namespace . $package_adjusted . "\\" . $package_adjusted . ucfirst($resource);
+        $reader = new $classname($package, $resource, $RESTparameters);
+        $reader->processParameters($parameters);
+        return $reader;
     }
 
     public function createDeleter($package, $resource, $RESTparameters) {
@@ -46,14 +58,21 @@ class CoreResourceFactory extends AResourceFactory {
 
     public function makeDoc($doc) {
         //ask every resource we have for documentation
+        
+        
         foreach ($this->getAllResourceNames() as $package => $resourcenames) {
             $package = strtolower($package);
+            // case adjusments
+            $package_adjusted = $this->adjustCasesForPackage($package);
+
             if (!isset($doc->$package)) {
                 $doc->$package = new \stdClass();
             }
+
             foreach ($resourcenames as $resourcename) {
-                $resourcename = strtolower($resourcename);
-                $classname = $this->namespace . $package . "\\" . $package . $resourcename;
+                $resourcename = strtolower($resourcename);                
+                $resource_adjusted = ucfirst($resourcename);
+                $classname = $this->namespace . $package_adjusted . "\\" . $package_adjusted . $resource_adjusted;
                 $doc->$package->$resourcename = new \stdClass();
                 $doc->$package->$resourcename->documentation = $classname::getDoc();
                 $doc->$package->$resourcename->requiredparameters = $classname::getRequiredParameters();
@@ -67,6 +86,9 @@ class CoreResourceFactory extends AResourceFactory {
     }
 
     private function getCreationTime($package, $resource) {
+
+        $package = $this->adjustCasesForPackage($package);
+        $resource = ucfirst($resource);
         //if the object read is a directory and the configuration methods file exists,
         //then add it to the installed packages
         if (is_dir($this->directory . $package) && file_exists($this->directory . $package . "/" . $resource . ".class.php")) {

@@ -52,7 +52,6 @@ class RController extends AController {
 
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
-
         $result = $model->processPackageResourceString($packageresourcestring);
         $resourcename = $result["resourcename"];
         $package = $result["packagename"];
@@ -62,7 +61,7 @@ class RController extends AController {
          * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
          */
         if ($resourcename == "") {
-            $packageDoc = $model->getAllPackagesDoc();
+            $packageDoc = $model->getAllPackagesDoc();            
             $allPackages = array_keys(get_object_vars($packageDoc));
             $linkObject = new \stdClass();
             $links = array();
