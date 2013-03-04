@@ -20,27 +20,6 @@ class RedirectController extends AController {
         parent::__construct();
     }
 
-    /**
-     * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
-     */
-    function GET($matches) {
-        //get the current URL
-        $ru = RequestURI::getInstance(Config::getConfigArray());
-        $pageURL = $ru->getURI();
-        $pageURL = rtrim($pageURL, "/");
-
-        //add .about before the ?
-        if (sizeof($_GET) > 0) {
-            $pageURL = str_replace("?", ".about?", $pageURL);
-            $pageURL = str_replace("/.about", ".about", $pageURL);
-        } else {
-            $pageURL .= ".about";
-        }
-
-        header("HTTP/1.1 303 See Other");
-        header("Location:" . $pageURL);
-    }
-
     function HEAD($matches) {
         $this->GET($matches);
     }
