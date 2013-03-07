@@ -16,7 +16,7 @@ namespace tdt\core\controllers;
 use app\core\Config;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use tdt\core\formatters\FormatterFactory;
+use tdt\formatters\FormatterFactory;
 use tdt\core\model\filters\FilterFactory;
 use tdt\core\model\ResourcesModel;
 use tdt\exceptions\TDTException;
@@ -61,7 +61,7 @@ class RController extends AController {
          * Package can also be a part of an entire packagestring if this is the case then a list of links to the other subpackages will have to be listed
          */
         if ($resourcename == "") {
-            $packageDoc = $model->getAllPackagesDoc();            
+            $packageDoc = $model->getAllPackagesDoc();
             $allPackages = array_keys(get_object_vars($packageDoc));
             $linkObject = new \stdClass();
             $links = array();
@@ -99,7 +99,7 @@ class RController extends AController {
             }
 
             //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+            $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
             $printer = $this->formatterfactory->getPrinter($package, $linkObject);
             $printer->printAll();
@@ -108,7 +108,7 @@ class RController extends AController {
         }
 
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+        $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
         $parameters = $_GET;
         $requiredParameters = array();
@@ -333,7 +333,7 @@ class RController extends AController {
             }
 
             //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+            $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
             $printer = $this->formatterfactory->getPrinter($package, $linkObject);
             $printer->printHeader();
@@ -353,7 +353,7 @@ class RController extends AController {
          * action and return the result.
          */
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+        $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
         if (!isset($doc->$package) || !isset($doc->$package->$resourcename)) {
             $exception_config = array();
