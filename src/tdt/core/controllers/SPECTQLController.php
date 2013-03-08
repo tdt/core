@@ -19,7 +19,6 @@ include_once(__DIR__ . "/../controllers/spectql/spectql.php");
 include_once(__DIR__ . "/../controllers/SQL/SQLGrammarFunctions.php");
 
 use tdt\core\controllers\spectql\SPECTQLParser;
-use tdt\core\formatters\FormatterFactory;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 use tdt\core\universalfilter\tablemanager\implementation\tools\TableToPhpObjectConverter;
 use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;

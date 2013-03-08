@@ -25,7 +25,7 @@ class CoreResourceFactory extends AResourceFactory {
     // make sure your classname are named like this: (TDTInfo|TDTAdmin)Uppercasefirst
     // in this function below, put the names in lowercases.
     protected function getAllResourceNames() {
-        return array("tdtinfo" => array("resources", "packages","admin", "formatters", "visualizations","statistics"),
+        return array("tdtinfo" => array("resources", "packages","admin", "formatters","statistics"),
             "tdtadmin" => array("resources", "export","docreset")
         );
     }
@@ -58,8 +58,8 @@ class CoreResourceFactory extends AResourceFactory {
 
     public function makeDoc($doc) {
         //ask every resource we have for documentation
-        
-        
+
+
         foreach ($this->getAllResourceNames() as $package => $resourcenames) {
             $package = strtolower($package);
             // case adjusments
@@ -70,7 +70,7 @@ class CoreResourceFactory extends AResourceFactory {
             }
 
             foreach ($resourcenames as $resourcename) {
-                $resourcename = strtolower($resourcename);                
+                $resourcename = strtolower($resourcename);
                 $resource_adjusted = ucfirst($resourcename);
                 $classname = $this->namespace . $package_adjusted . "\\" . $package_adjusted . $resource_adjusted;
                 $doc->$package->$resourcename = new \stdClass();

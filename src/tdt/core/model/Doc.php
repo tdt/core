@@ -12,11 +12,11 @@
 
 namespace tdt\core\model;
 
-use tdt\core\formatters\FormatterFactory;
 use tdt\core\model\CoreResourceFactory;
 use tdt\core\model\DBQueries;
 use tdt\cache\Cache;
 use tdt\core\utility\Config;
+use tdt\formatters\Formatter;
 
 class Doc {
     /*
@@ -131,7 +131,7 @@ class Doc {
     public function visitAllFormatters() {
         $c = Cache::getInstance($this->prepareCacheConfig());
         $doc = $c->get($this->hostname . $this->subdir . "formatterdocs");
-        $ff = FormatterFactory::getInstance();
+        $ff = new Formatter();
         if (is_null($doc)) {
             $doc = $ff->getFormatterDocumentation();
             $c->set($this->hostname . $this->subdir . "formatterdocs", $doc, 60 * 60 * 60);
@@ -143,6 +143,7 @@ class Doc {
      * Gets the documentation on the visualizations
      * @return $mixed An object which holds the information about the visualizations
      */
+    /*
     public function visitAllVisualizations() {
         $c = Cache::getInstance($this->prepareCacheConfig());
         $doc = $c->get($this->hostname . $this->subdir . "visualizationdocs");
@@ -152,7 +153,7 @@ class Doc {
             $c->set($this->hostname . $this->subdir . "visualizationdocs", $doc, 60 * 60 * 60);
         }
         return $doc;
-    }
+    }*/
 
 }
 

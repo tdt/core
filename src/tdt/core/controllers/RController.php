@@ -16,7 +16,6 @@ namespace tdt\core\controllers;
 use app\core\Config;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use tdt\formatters\FormatterFactory;
 use tdt\core\model\filters\FilterFactory;
 use tdt\core\model\ResourcesModel;
 use tdt\exceptions\TDTException;
