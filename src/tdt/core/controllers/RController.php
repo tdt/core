@@ -99,16 +99,20 @@ class RController extends AController {
             }
 
             //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
+            //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
-            $printer = $this->formatterfactory->getPrinter($package, $linkObject);
-            $printer->printAll();
+            //$printer = $this->formatterfactory->getPrinter($package, $linkObject);
+            //$printer->printAll();
+
+            $formatter = new \tdt\formatters\Formatter(strtoupper($matches["format"]));
+            $formatter->execute($package,$linkObject);
+
 
             exit();
         }
 
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
+        //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
         $parameters = $_GET;
         $requiredParameters = array();
@@ -188,8 +192,10 @@ class RController extends AController {
         }
 
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
-        $printer->printAll();
+        //$printer = $this->formatterfactory->getPrinter($resourcename, $result);
+        //$printer->printAll();
+        $formatter = new \tdt\formatters\Formatter(strtoupper($matches["format"]));
+        $formatter->execute($resourcename,$result);
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {
@@ -333,10 +339,12 @@ class RController extends AController {
             }
 
             //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
+            //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
-            $printer = $this->formatterfactory->getPrinter($package, $linkObject);
-            $printer->printHeader();
+            /*$printer = $this->formatterfactory->getPrinter($package, $linkObject);
+            $printer->printHeader();*/
+            $formatter = \tdt\formatters\Formatter($matches["format"]);
+            $formatter->printHeader();
             exit();
         }
 
@@ -353,7 +361,7 @@ class RController extends AController {
          * action and return the result.
          */
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
+        //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
         if (!isset($doc->$package) || !isset($doc->$package->$resourcename)) {
             $exception_config = array();
@@ -428,8 +436,10 @@ class RController extends AController {
         $result = $o;
 
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
-        $printer->printHeader();
+        /*$printer = $this->formatterfactory->getPrinter($resourcename, $result);
+        $printer->printHeader();*/
+        $formatter = \tdt\formatters\Formatter($matches["format"]);
+        $formatter->printHeader();
     }
 
     /**

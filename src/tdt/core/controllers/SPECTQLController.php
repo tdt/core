@@ -143,8 +143,6 @@ class SPECTQLController extends AController {
         $o->$RESTresource = $object;
         $result = $o;
 
-        $formatterfactory = FormatterFactory::getInstance($format); //start content negotiation if the formatter factory doesn't exist
-        $formatterfactory->setFormat($format);
         $rootname = "spectqlquery";
 
         /**
@@ -196,8 +194,8 @@ class SPECTQLController extends AController {
             }
         }
 
-        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
-        $printer->printAll();
+        $formatter = new \tdt\formatters\Formatter(strtoupper($format));
+        $formatter->execute($rootname,$result);
     }
 
     function HEAD($matches) {
@@ -209,12 +207,13 @@ class SPECTQLController extends AController {
         $context = array(); // array of context variables
 
         $result = $parser->interpret($context);
-        $formatterfactory = FormatterFactory::getInstance("about"); //start content negotiation if the formatter factory doesn't exist
+
         $rootname = "spectql";
 
 
-        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
-        $printer->printHeader();
+        $formatter = new \tdt\formatters\Formatter(strtoupper("about"));
+        $formatter->printHeader();
+
     }
 
     /**
