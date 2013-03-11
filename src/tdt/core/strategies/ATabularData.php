@@ -17,6 +17,7 @@ use tdt\core\model\resources\AResourceStrategy;
 use tdt\core\model\resources\GenericResource;
 use tdt\exceptions\TDTException;
 use RedBean_Facade as R;
+use tdt\core\utility\Config;
 
 abstract class ATabularData extends AResourceStrategy {
 
@@ -26,7 +27,7 @@ abstract class ATabularData extends AResourceStrategy {
     function __construct() {
 
         $this->parameters["columns"] = "An array that contains the name of the columns that are to be published, if an empty array is passed every column will be published. This array should be build as index => column_alias.";
-        $this->parameters["column_aliases"] = "An array that contains the alias of a published column. This array should be build as column_name => column_alias. If no array is passed, the alias will be equal to the normal column name. If your column name,used as a key, contains whitespaces be sure to replace them with an underscore.";    
+        $this->parameters["column_aliases"] = "An array that contains the alias of a published column. This array should be build as column_name => column_alias. If no array is passed, the alias will be equal to the normal column name. If your column name,used as a key, contains whitespaces be sure to replace them with an underscore.";
     }
 
     /**
@@ -93,18 +94,18 @@ abstract class ATabularData extends AResourceStrategy {
      * specifically tuned for the parameters of the strategy.
      */
     public function onAdd($package_id, $gen_resource_id) {
-        
+
         if (!isset($this->PK)) {
             $this->PK = "";
         }
 
-        if ($this->isValid($package_id, $gen_resource_id)) {            
+        if ($this->isValid($package_id, $gen_resource_id)) {
             $this->evaluateColumns($package_id, $gen_resource_id, $this->columns, $this->column_aliases, $this->PK);
             // get the name of the class ( = strategyname)
             // but without the namespace!!
-            $strat = $this->getClassName();            
-            $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);            
-            
+            $strat = $this->getClassName();
+            $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);
+
             $resource->gen_resource_id = $gen_resource_id;
 
             // for every parameter that has been passed for the creation of the strategy, make a datamember
@@ -119,7 +120,7 @@ abstract class ATabularData extends AResourceStrategy {
                         $resource->$createParam = $this->$createParam;
                     }
                 }
-            }            
+            }
 
             return R::store($resource);
         } else {

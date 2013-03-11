@@ -89,19 +89,29 @@ class GenericResourceCreator extends ACreator {
         $generic_id = DBQueries::storeGenericResource($resource_id, $this->generic_type, $this->documentation);
 
         try {
+
            $this->strategy->onAdd($package_id, $generic_id);
-        } catch (Exception $ex) {
-            // delete metadata about the resource
-            DBQueries::deleteMetaData($this->package, $this->resource);
 
-            //now the only thing left to delete is the main row
-            DBQueries::deleteGenericResource($this->package, $this->resource);
+        } catch (TDTException $ex) {
+            $this->rollbackAddition();
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array($ex->getMsg()), $exception_config);
 
-            // also delete the resource entry
-            DBQueries::deleteResource($this->package, $this->resource);
-
-            throw new Exception($ex->getMessage());
         }
+    }
+
+    private function rollbackAddition(){
+
+        // delete metadata about the resource
+        DBQueries::deleteMetaData($this->package, $this->resource);
+
+        //now the only thing left to delete is the main row
+        DBQueries::deleteGenericResource($this->package, $this->resource);
+
+        // also delete the resource entry
+        DBQueries::deleteResource($this->package, $this->resource);
     }
 
 }

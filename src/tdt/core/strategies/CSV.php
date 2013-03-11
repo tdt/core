@@ -94,7 +94,7 @@ class CSV extends ATabularData{
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("Can't find URI of the CSV"), $exception_config);
         }
-        
+
         /**
          * Get the columns from the configuration
          */
@@ -104,12 +104,12 @@ class CSV extends ATabularData{
 
 
         /**
-         * Calculate which rows we need to read               
+         * Calculate which rows we need to read
          */
         $limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
         $offset = 0;
 
-        if(!isset($this->limit) && !isset($this->offset)){        
+        if(!isset($this->limit) && !isset($this->offset)){
 
             if(!isset($this->page)){
                 $this->page = 1;
@@ -128,7 +128,7 @@ class CSV extends ATabularData{
             $limit = $this->page_size +1;
 
         }else{
-           
+
             $limit = $this->limit +1;
             $offset = $this->offset;
 
@@ -152,7 +152,7 @@ class CSV extends ATabularData{
         $previous_page = false;
 
         /**
-         * Read the file         
+         * Read the file
          */
         $resultobject = array();
         $arrayOfRowObjects = array();
@@ -190,7 +190,7 @@ class CSV extends ATabularData{
 
         // re-adjust the limit and page_size again
         $limit = $limit-1;
-        $this->page_size = $this->page_size;        
+        $this->page_size = $this->page_size;
 
         /**
          * Delete last row if the beginning of a next page has been read
@@ -232,7 +232,7 @@ class CSV extends ATabularData{
         $line = 0;
 
         /**
-         * Parse every row and create an object from it        
+         * Parse every row and create an object from it
          */
         foreach ($rows as $row => $fields) {
             $line++;
@@ -293,7 +293,7 @@ class CSV extends ATabularData{
                      * but we're going to log it nonetheless.
                      */
                     foreach (array_keys($fieldhash) as $key) {
-                        if (!in_array($key, $columns)) {                             
+                        if (!in_array($key, $columns)) {
                             $log = new Logger('CSV');
                             $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                             $log->addAlert("$package/$resource : The column name $key that has been found in the CSV file isn't present in the saved columns of the CSV resource definition.");
@@ -336,7 +336,7 @@ class CSV extends ATabularData{
                     }
                 }
             }
-        }       
+        }
         return $arrayOfRowObjects;
     }
 
