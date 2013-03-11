@@ -9,25 +9,28 @@
  */
 
 namespace tdt\core\strategies;
+use tdt\exceptions\TDTException;
+use tdt\core\model\resources\AResourceStrategy;
 
-class SPARQL extends RDFXML {
+class RDFXML extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
-        $param = get_object_vars($this);
-
-        foreach ($param as $key => $value) {
-            //$value = addslashes($value);
-            $configObject->query = preg_replace("/(.*)(\\?$key)(\\s.*)/", "$1$value$3", $configObject->query);
-        }
-        $this->uri = $this->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/rdf+xml");
-        
-        return parent::read($configObject, $package, $resource);
+        $parser = \ARC2::getRDFXMLParser();
+        $parser->parse($this->uri);
+        return $parser;
     }
 
     public function isValid($package_id, $generic_resource_id) {
-        $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/rdf+xml");
-        
-        parent::isValid($package_id, $generic_resource_id);
+        $parser = \ARC2::getRDFXMLParser();
+        $parser->parse($this->uri);
+        if (!$parser) {
+//            $exception_config = array();
+//            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+//            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Could not transform the RDF/XML data from " . $this->uri . " to a ARC model, please check if the RDF/XML is valid."), $exception_config);
+        }
+        return true;
+        //ARC2_RDFXMLParser
     }
 
     /**
@@ -35,7 +38,7 @@ class SPARQL extends RDFXML {
      * @return array with parameter => documentation pairs
      */
     public function documentCreateRequiredParameters() {
-        return array("endpoint", "query");
+        return array("uri");
     }
 
     public function documentReadRequiredParameters() {
@@ -48,8 +51,7 @@ class SPARQL extends RDFXML {
 
     public function documentCreateParameters() {
         return array(
-            "endpoint" => "The URI of the SPARQL endpoint.",
-            "query" => "The SPARQL query"
+            "uri" => "The URI of the RDF/XML file.",
         );
     }
 
