@@ -16,18 +16,26 @@ class SPARQL extends RDFXML {
         $param = get_object_vars($this);
 
         foreach ($param as $key => $value) {
-            //$value = addslashes($value);
-            $configObject->query = preg_replace("/(.*)(\\?$key)(\\s.*)/", "$1$value$3", $configObject->query);
+            $value = addslashes($value);
+            $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
         }
-        $this->uri = $this->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/rdf+xml");
-        
+        echo $configObject->query;
+        $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/rdf+xml");
+
         return parent::read($configObject, $package, $resource);
     }
 
     public function isValid($package_id, $generic_resource_id) {
         $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/rdf+xml");
+
+        /* parser instantiation */
+        $parser = \ARC2::getSPARQLParser();
         
-        parent::isValid($package_id, $generic_resource_id);
+        $parser->parse($this->query);
+        if ($parser->getErrors()) 
+            throw new TDTException(400, array("SPARQL Query could not be parsed."), $exception_config);
+
+        return parent::isValid($package_id, $generic_resource_id);
     }
 
     /**
