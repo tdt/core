@@ -30,17 +30,17 @@ class XLS extends ATabularData {
         $this->parameters["has_header_row"] = "If the XLS file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
         $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
         $this->parameters["columns"] = "Columns";
-        return $this->parameters;	
+        return $this->parameters;
     }
-    
+
     public function documentCreateRequiredParameters(){
-        return array("uri", "sheet");    
+        return array("uri", "sheet");
     }
 
     public function documentUpdateParameters(){
         return array();
     }
-    
+
     public function documentReadParameters(){
         return array();
     }
@@ -55,8 +55,8 @@ class XLS extends ATabularData {
         throw new TDTException(452, array($message), $exception_config);
     }
 
-    protected function isValid($package_id,$generic_resource_id) {            
-       
+    protected function isValid($package_id,$generic_resource_id) {
+
         if (!isset($this->columns)) {
             $this->columns = array();
         }
@@ -72,7 +72,7 @@ class XLS extends ATabularData {
         if (!isset($this->start_row)) {
             $this->start_row = 1;
         }
-		
+
         if (!isset($this->has_header_row)) {
             $this->has_header_row = 1;
         }
@@ -82,18 +82,18 @@ class XLS extends ATabularData {
         $columns = $this->columns;
 
         /**
-         * if no header row is given, then the columns that are being passed should be 
+         * if no header row is given, then the columns that are being passed should be
          * int => something, int => something
-         * if a header row is given however in the csv file, then we're going to extract those 
+         * if a header row is given however in the csv file, then we're going to extract those
          * header fields and put them in our back-end as well.
-         */       
-        
+         */
+
         if ($this->has_header_row == "0") {
             // no header row ? then columns must be passed
             if(empty($this->columns)){
                 $this->throwTDTException("Your array of columns must be an index => string hash array. Since no header row is specified in the resource CSV file.");
             }
-            
+
             foreach ($this->columns as $index => $value) {
                 if (!is_numeric($index)) {
                     $this->throwTDTException("Your array of columns must be an index => string hash array.");
@@ -102,21 +102,21 @@ class XLS extends ATabularData {
 
         } else {
 
-            // if no column aliases have been passed, then fill the columns variable 
+            // if no column aliases have been passed, then fill the columns variable
             if(empty($this->columns)){
                 if (!is_dir("tmp")) {
                     mkdir("tmp");
                 }
-			
+
                 $isUri = (substr($uri , 0, 4) == "http");
-                if ($isUri) {				
+                if ($isUri) {
                     $tmpFile = uniqid();
                     file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
                     $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
                 } else {
-                    $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);				
+                    $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);
                 }
-               
+
                 $worksheet = $objPHPExcel->getSheetByName($sheet);
 
                 if (!isset($this->named_range) && !isset($this->cell_range)) {
@@ -139,7 +139,7 @@ class XLS extends ATabularData {
                         $range = $worksheet->namedRangeToArray($this->named_range);
                     }
                     if(isset($this->cell_range)) {
-                        $range = $worksheet->rangeToArray($this->cell_range);					
+                        $range = $worksheet->rangeToArray($this->cell_range);
                     }
                     $rowIndex = 1;
                     foreach ($range as $row) {
@@ -151,20 +151,20 @@ class XLS extends ATabularData {
                             $dataIndex++;
                         }
                         $rowIndex += 1;
-                    }					
+                    }
                 }
                 $objPHPExcel->disconnectWorksheets();
                 unset($objPHPExcel);
                 if ($isUri) {
-                    unlink("tmp/" . $tmpFile);				
+                    unlink("tmp/" . $tmpFile);
                 }
             }
         }
         return true;
     }
-	
+
     public function read(&$configObject,$package,$resource){
-       
+
         parent::read($configObject,$package,$resource);
         $uri = $configObject->uri;
         $sheet = $configObject->sheet;
@@ -172,32 +172,32 @@ class XLS extends ATabularData {
         $start_row = $configObject->start_row;
 
         $columns = array();
-        
+
         $PK = $configObject->PK;
-            
+
         $columns = $configObject->columns;
         $column_aliases = $configObject->column_aliases;
 
         $resultobject = new \stdClass();
         $arrayOfRowObjects = array();
         $row = 0;
-          
+
         if (!is_dir("tmp")) {
             mkdir("tmp");
         }
 
-        try { 
+        try {
             $isUri = (substr($uri , 0, 4) == "http");
-            if ($isUri) {			
-			
+            if ($isUri) {
+
                 $tmpFile = uniqid();
                 file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
                 $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
 
             } else {
-                $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);			
+                $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);
             }
-            
+
             $worksheet = $objPHPExcel->getSheetByName($sheet);
 
             if (($configObject->named_range == "") && ($configObject->cell_range == "")) {
@@ -208,7 +208,7 @@ class XLS extends ATabularData {
                         $cellIterator->setIterateOnlyExistingCells(false);
                         if ($rowIndex == $start_row && $has_header_row == "1") {
                             foreach ($cellIterator as $cell) {
-                                if(!is_null($cell) && $cell->getCalculatedValue() != ""){    
+                                if(!is_null($cell) && $cell->getCalculatedValue() != ""){
                                     $columnIndex = $cell->columnIndexFromString($cell->getColumn());
                                     $fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;
                                 }
@@ -228,7 +228,7 @@ class XLS extends ATabularData {
                                 }
                             }
                             if($PK == "") {
-                                array_push($arrayOfRowObjects,$rowobject);   
+                                array_push($arrayOfRowObjects,$rowobject);
                             } else {
                                 if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != ""){
                                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
@@ -250,11 +250,11 @@ class XLS extends ATabularData {
                     $range = $worksheet->namedRangeToArray($configObject->named_range);
                 }
                 if($configObject->cell_range != "") {
-                    $range = $worksheet->rangeToArray($configObject->cell_range);					
+                    $range = $worksheet->rangeToArray($configObject->cell_range);
                 }
                 $rowIndex = 1;
                 foreach ($range as $row) {
-                    if ($rowIndex >= $start_row) {			
+                    if ($rowIndex >= $start_row) {
                         if ($rowIndex == $start_row) {
                             if ($has_header_row == 0) {
                                 $columnIndex = 1;
@@ -269,7 +269,7 @@ class XLS extends ATabularData {
                                     $columnIndex += 1;
                                 }
                             }
-                        } 
+                        }
                         if ($has_header_row == 0 or ($rowIndex > $start_row and $has_header_row != 0)) {
                             $rowobject = new \stdClass();
                             $keys = array_keys($fieldhash);
@@ -278,11 +278,11 @@ class XLS extends ATabularData {
                                 $c = $keys[$columnIndex - 1];
                                 if(array_key_exists($c,$columns)){
                                     $rowobject->$columns[$c] = $cell;
-                                }								
+                                }
                                 $columnIndex += 1;
                             }
                             if($PK == "") {
-                                array_push($arrayOfRowObjects,$rowobject);   
+                                array_push($arrayOfRowObjects,$rowobject);
                             } else {
                                 if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != ""){
                                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
@@ -295,16 +295,16 @@ class XLS extends ATabularData {
                                     $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                                     $log->addAlert("The primary key $PK is empty.");
                                 }
-                            }							
+                            }
                         }
                     }
                     $rowIndex += 1;
                 }
             }
-            
+
             $objPHPExcel->disconnectWorksheets();
             unset($objPHPExcel);
-            if ($isUri) {									
+            if ($isUri) {
                 unlink("tmp/" . $tmpFile);
             }
 
@@ -313,26 +313,26 @@ class XLS extends ATabularData {
             throw new CouldNotGetDataTDTException( $uri );
         }
     }
-	
+
     private function getFileExtension($fileName)
     {
         return strtolower(substr(strrchr($fileName,'.'),1));
-    }	
-	
+    }
+
     private function loadExcel($xlsFile,$type,$sheet) {
 
         $dummy = new \PHPExcel();
 
         if($type == "xls") {
-            $objReader = IOFactory::createReader('Excel5');			
+            $objReader = IOFactory::createReader('Excel5');
         }else if($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
         }else{
             $this->throwTDTException("Wrong datasource, accepted datasources are .xls or .xlsx files.");
         }
-        
+
         $objReader->setReadDataOnly(true);
         $objReader->setLoadSheetsOnly($sheet);
-        return $objReader->load($xlsFile);	
+        return $objReader->load($xlsFile);
     }
 }

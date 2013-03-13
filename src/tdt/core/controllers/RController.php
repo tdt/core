@@ -112,7 +112,6 @@ class RController extends AController {
         }
 
         //This will create an instance of a factory depending on which format is set
-        //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
         $parameters = $_GET;
         $requiredParameters = array();
@@ -131,24 +130,33 @@ class RController extends AController {
             array_shift($RESTparameters);
         }
 
-
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
         //maybe the resource reinitialised the database connection through RedBean, so let's set it up again with our back-end config.
         $this->initializeDatabaseConnection();
 
+/**
+ * REST FILTER SHOULD BE DELETED
+ */
         // apply RESTFilter
-       $subresources = array();
-       $filterfactory = FilterFactory::getInstance();
+       // $subresources = array();
+       // $filterfactory = FilterFactory::getInstance();
 
-       if (sizeof($RESTparameters) > 0) {
-           if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
-               $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
-               $resultset = $RESTFilter->filter($result);
-               $subresources = $resultset->subresources;
-               $result = $resultset->result;
-           }
-       }
+       // if (sizeof($RESTparameters) > 0) {
+       //     if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
+       //         $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
+       //         $resultset = $RESTFilter->filter($result);
+       //         $subresources = $resultset->subresources;
+       //         $result = $resultset->result;
+       //     }
+       // }
+
+
+/**
+ * END DELETION REST FILTER
+ */
+
+
         // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 

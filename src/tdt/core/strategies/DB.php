@@ -79,6 +79,29 @@ class DB extends ATabularData implements IFilter {
         parent::read($configObject, $package, $resource);
 
         /**
+         * Check the RESTparameters, for a database resource we know it's going to be tabular data
+         * so RESTparameters cannot hold more than 2 strings, the first is the number of the item (rownum starting at 0), the second is the column name to select ( if present ofc.)
+         */
+        if(count($this->rest_params) > 2){
+
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("The amount of REST parameters given, is too high. In a database resource, you can only give up to 2 REST parameters."), $exception_config);
+
+        }else if(count($this->rest_params) > 0){
+            if(!is_numeric($this->rest_params[0]) || $this->rest_params[0] < 0){
+
+               $exception_config = array();
+               $exception_config["log_dir"] = Config::get("general", "logging", "path");
+               $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+               throw new TDTException(452, array("The first REST parameter should be a positive integer."), $exception_config);
+           }
+       }
+
+
+
+        /**
          * Add the database we want to connect to the Redbean databases.
          * This will allow us to switch between the connection with our own back-end and the database from which to read data.
          */
@@ -142,8 +165,17 @@ class DB extends ATabularData implements IFilter {
 
         }
 
+        /**
+         * take RESTparameters into account
+         */
+        $sql = "";
 
-        $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";
+        if(count($this->rest_params)>0){
+            $row = (int)$this->rest_params[0];
+            $sql = "SELECT $fields FROM $configObject->db_table LIMIT $row,1";
+        }else{
+            $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";
+        }
 
         $results = R::getAll($sql);
 
@@ -225,10 +257,41 @@ class DB extends ATabularData implements IFilter {
             }
         }
         R::selectDatabase('default');
-        return $arrayOfRowObjects;
-    }
 
-    protected function isValid($package_id, $generic_resource_id) {
+        /**
+         * If Rest parameters have been given, we need to return that specified object, and not the wrapper array in which it resides!
+         * In our case (DB) this array will hold 1 item.
+         */
+        $result = $arrayOfRowObjects;
+
+        if(count($this->rest_params) > 0){
+            $result = array_shift($arrayOfRowObjects);
+            if(count($this->rest_params) == 2){
+                // add a column filter
+                $column = $this->rest_params[1];
+
+                // the uri is case insensitive, so the column might have been named with a uppercase (first) and result in a column not found.
+                // so lets track down the "good" name of the column
+                foreach(get_object_vars($result) as $property => $value){
+                    if(strtolower($property) == $column){
+                        $column = $property;
+                    }
+                }
+
+                if(isset($result->$column)){
+                    $result = $result->$column;
+                }else{
+                   $exception_config = array();
+                   $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                   $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                   throw new TDTException(452, array("The column $column specified via the rest parameters wasn't found."), $exception_config);
+               }
+           }
+       }
+       return $result;
+   }
+
+   protected function isValid($package_id, $generic_resource_id) {
         /**
          * Check if parameters for non sqlite engines are all passed, create the connection string
          * check if a connection can be made, check if the columns (if any are passed) are
@@ -435,13 +498,13 @@ class DB extends ATabularData implements IFilter {
          * Add the database we want to connect to the Redbean databases.
          * This will allow us to switch between the connection with our own back-end and the database from which to read data.
          */
-        R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
-        R::selectDatabase('db_resource');
+         R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
+         R::selectDatabase('db_resource');
 
-        $resultObject = new \stdClass();
+         $resultObject = new \stdClass();
 
         // Create the SQL string
-        $sql = $this->convertClausesToSQLString($converter, $configObject);
+         $sql = $this->convertClausesToSQLString($converter, $configObject);
 
         /**
          * Get limit if set, and add 1, this way we know if we have to link to a next page or not

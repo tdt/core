@@ -23,6 +23,7 @@ use tdt\core\utility\Config;
 abstract class AResourceStrategy {
 
     protected static $DEFAULT_PAGE_SIZE = 50;
+    protected $rest_params = array();
 
     /**
      * This functions contains the businesslogic of a read method (non paged reading)
@@ -92,6 +93,10 @@ abstract class AResourceStrategy {
 
     public function setParameter($key, $value) {
         $this->$key = $value;
+    }
+
+    public function setRestParameters($rest_params = array()){
+        $this->rest_params = $rest_params;
     }
 
     /**
