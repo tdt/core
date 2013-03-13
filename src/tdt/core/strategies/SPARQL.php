@@ -19,7 +19,7 @@ class SPARQL extends RDFXML {
             $value = addslashes($value);
             $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
         }
-        echo $configObject->query;
+
         $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/rdf+xml");
 
         return parent::read($configObject, $package, $resource);

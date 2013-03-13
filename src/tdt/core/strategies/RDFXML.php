@@ -16,7 +16,9 @@ class RDFXML extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
         $parser = \ARC2::getRDFXMLParser();
-        $parser->parse($configObject->uri);
+        $data = \tdt\core\utility\Request::http($configObject->uri);
+        $parser->parse("",$data->data);
+
         return $parser;
     }
 
