@@ -447,7 +447,7 @@ class ResourcesModel {
      * @param array $RESTparameters An array with additional RESTparameters
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
-    
+
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
             $exception_config = array();
@@ -455,7 +455,7 @@ class ResourcesModel {
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
         }
-    
+
         foreach ($this->factories as $factory) {
             if ($factory->hasResource($package, $resource)) {
                 $reader = $factory->createReader($package, $resource, $parameters, $RESTparameters);
@@ -665,6 +665,7 @@ class ResourcesModel {
                     $foundPackage = TRUE;
                     $resourcename = array_shift($pieces);
                     $reqparamsstring = implode("/", $pieces);
+                    break;
                 }
             }
         } else {
