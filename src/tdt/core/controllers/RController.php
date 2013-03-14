@@ -346,11 +346,6 @@ class RController extends AController {
                 }
             }
 
-            //This will create an instance of a factory depending on which format is set
-            //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
-
-            /*$printer = $this->formatterfactory->getPrinter($package, $linkObject);
-            $printer->printHeader();*/
             $formatter = \tdt\formatters\Formatter($matches["format"]);
             $formatter->printHeader();
             exit();

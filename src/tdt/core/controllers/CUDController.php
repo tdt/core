@@ -38,8 +38,9 @@ class CUDController extends AController {
         $dotposition = strrpos($packageresourcestring, ".");
         $format = substr($packageresourcestring, $dotposition);
         $format = ltrim($format, ".");
-        $end = $dotposition - 1;
-        $packageresourcestring = substr($packageresourcestring, 1, $end);
+        $end = $dotposition;
+
+        $packageresourcestring = substr($packageresourcestring, 0, $end);
 
         $matches["packageresourcestring"] = ltrim($packageresourcestring, "/");
         $matches["format"] = $format;

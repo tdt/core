@@ -26,7 +26,7 @@ class TDTAdminExport extends AReader {
             "export_url" => "The base url to where the PUT requests should be sent to. This might be because you want to export resource definitions but PUT them to another datatank instance.",
             "export_url_username" => "An authorized username allowed to perform PUT requests. Default is the username in the Config of the datatank.",
             "export_url_password" => "The password used to authenticate the user. Default is the password in the Config of the datatank."
-        );
+            );
     }
 
     public static function getRequiredParameters() {
@@ -39,6 +39,12 @@ class TDTAdminExport extends AReader {
 
     public function read() {
 
+        if(count($this->RESTparameters)>0){
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array("The export functionality doesn't support REST parameters."), $exception_config);
+        }
         /*
          * Put default values for some read paramaters (export_ -> url, username, password)
          */
@@ -199,9 +205,9 @@ class TDTAdminExport extends AReader {
      */
     private function isResourceExportable($package, $resource) {
         return isset($this->descriptionDoc->$package->$resource->resource_type) &&
-                ($this->descriptionDoc->$package->$resource->resource_type == "generic" ||
-                $this->descriptionDoc->$package->$resource->resource_type == "remote" ||
-                $this->descriptionDoc->$package->$resource->resource_type == "installed");
+        ($this->descriptionDoc->$package->$resource->resource_type == "generic" ||
+            $this->descriptionDoc->$package->$resource->resource_type == "remote" ||
+            $this->descriptionDoc->$package->$resource->resource_type == "installed");
     }
 
     /**
@@ -228,60 +234,60 @@ class TDTAdminExport extends AReader {
     private function createDump($package, $resource, $resourceDefinition) {
         $dump = "";
         $dump.='<?php
-    $url = "' . $this->export_url . "TDTAdmin/Resources/" . $package . "/" . $resource . '";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HEADER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_USERPWD,"' . $this->export_url_username . ':' . $this->export_url_password . '");
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-    $data = array( ';
+        $url = "' . $this->export_url . "TDTAdmin/Resources/" . $package . "/" . $resource . '";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERPWD,"' . $this->export_url_username . ':' . $this->export_url_password . '");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        $data = array( ';
 
-        $count = 0;
-        foreach ($resourceDefinition as $key => $value) {
-            $count++;
-            if (!is_array($value)) {
-                $dump.= '"' . $key . '"' . ' => "' . $value . '"';
-            } else {
-                $dump.= '"' . $key . '"' . " => array(";
+            $count = 0;
+            foreach ($resourceDefinition as $key => $value) {
+                $count++;
+                if (!is_array($value)) {
+                    $dump.= '"' . $key . '"' . ' => "' . $value . '"';
+                } else {
+                    $dump.= '"' . $key . '"' . " => array(";
                 // array index, meant to know when to place a trailing "," or not
-                $counter = 0;
-                foreach ($value as $index => $mapping) {
-                    $counter++;
-                    $dump.= '"' . $index . '"' . ' => "' . $mapping . '"';
-                    if (count($value) != $counter) {
-                        $dump.= ",";
-                    }
-                }
-                $dump.= ')';
-            }
-            if ($count != count($resourceDefinition)) {
-                $dump.= ", ";
-            }
-        }
+                        $counter = 0;
+                        foreach ($value as $index => $mapping) {
+                            $counter++;
+                            $dump.= '"' . $index . '"' . ' => "' . $mapping . '"';
+                            if (count($value) != $counter) {
+                                $dump.= ",";
+                            }
+                        }
+                        $dump.= ')';
+}
+if ($count != count($resourceDefinition)) {
+    $dump.= ", ";
+}
+}
 
 
-        $dump.= ');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    $result = curl_exec($ch);
-    $responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$dump.= ');
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+$result = curl_exec($ch);
+$responseHeader = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-     echo "The addition of the resource definition ". $url . " has ";
-     if(strlen(strstr($responseHeader,"200"))>0){
-    	echo "succeeded!\n";
-     }else{
-    	echo "failed! Error message:\n";
-        echo curl_error($ch);
-     }
+echo "The addition of the resource definition ". $url . " has ";
+if(strlen(strstr($responseHeader,"200"))>0){
+ echo "succeeded!\n";
+}else{
+ echo "failed! Error message:\n";
+ echo curl_error($ch);
+}
 
-    echo $result;
-    echo "\n ============================================= \n";
-    curl_close($ch);
+echo $result;
+echo "\n ============================================= \n";
+curl_close($ch);
 ?>';
 
-        $dump.= "\n";
-        return $dump;
-    }
+$dump.= "\n";
+return $dump;
+}
 
 }
 

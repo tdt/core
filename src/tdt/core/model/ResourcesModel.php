@@ -28,6 +28,7 @@ use RedBean_Facade as R;
 use JsonSchema\Validator;
 
 class ResourcesModel {
+
     /*
      * installation variables
      */
@@ -635,6 +636,7 @@ class ResourcesModel {
       If the package hasn't been found FALSE is returned!
      */
       public function processPackageResourceString($packageresourcestring) {
+
         $packageresourcestring = strtolower($packageresourcestring);
         $result = array();
 
@@ -649,7 +651,7 @@ class ResourcesModel {
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
         $foundPackage = FALSE;
-
+        //var_dump($doc);
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
          * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
@@ -661,9 +663,25 @@ class ResourcesModel {
         if (!isset($doc->$package)) {
             while (!empty($pieces)) {
                 $package .= "/" . array_shift($pieces);
+
                 if (isset($doc->$package)) {
+
                     $foundPackage = TRUE;
                     $resourcename = array_shift($pieces);
+
+                    /**
+                     * Check if the resource exists
+                     */
+                    if($resourcename != null || $resourcename != ""){
+                        $package_object = $doc->$package;
+                        if(!isset($package_object->$resourcename)){
+                            $exception_config = array();
+                            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                            throw new TDTException(404, array($packageresourcestring), $exception_config);
+                        }
+                    }
+
                     $reqparamsstring = implode("/", $pieces);
                     break;
                 }

@@ -32,6 +32,13 @@ class TDTAdminDocreset extends AReader{
 
     public function read() {
 
+        if(count($this->RESTparameters)>0){
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(404, array("The documentation reset functionality doesn't support REST parameters."), $exception_config);
+        }
+
         try{
             $cache_config = array();
 
