@@ -14,11 +14,15 @@ class SPARQL extends RDFXML {
 
     public function read(&$configObject, $package, $resource) {
         $param = get_object_vars($this);
+        
 
         foreach ($param as $key => $value) {
             $value = addslashes($value);
             $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
         }
+        
+        $parser = \ARC2::getSPARQLParser();
+
 
         $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/rdf+xml");
 
