@@ -28,11 +28,6 @@ use tdt\core\universalfilter\universalfilters\TernaryFunction;
 use tdt\core\universalfilter\universalfilters\UnaryFunction;
 use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
-include_once(__DIR__ . "/executers/implementations/BinaryFunctionExecuters.php");
-include_once(__DIR__ . "/executers/implementations/AggregatorFunctionExecuters.php");
-include_once(__DIR__ . "/executers/implementations/TernaryFunctionExecuters.php");
-include_once(__DIR__ . "/executers/implementations/UnaryFunctionExecuters.php");
-
 class UniversalInterpreter implements IInterpreterControl {
 
     private $executers;
