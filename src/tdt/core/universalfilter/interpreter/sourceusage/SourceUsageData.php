@@ -2,7 +2,7 @@
 
 /**
  * Contains information about sources that are used by a (part of) a query.
- * 
+ *
  * All filters below (and inclusive) $filterSourceNode only use ONE source, namely $sourceId.
  * And this is the biggest subtree.
  * So, $filterParentNode combines multiple sources.
@@ -16,7 +16,7 @@
 
 namespace tdt\core\universalfilter\interpreter\sourceusage;
 
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class SourceUsageData {
 
@@ -27,11 +27,11 @@ class SourceUsageData {
 
     /**
      * Constructs a new instance of this class
-     * 
+     *
      * @param UniversalFilterNode $filterSourceNode
      * @param UniversalFilterNode $filterParentNode
      * @param int $filterParentSourceIndex
-     * @param string $sourceId 
+     * @param string $sourceId
      */
     public function __construct(UniversalFilterNode $filterSourceNode, UniversalFilterNode $filterParentNode, $filterParentSourceIndex, $sourceId) {
         $this->filterSourceNode = $filterSourceNode;
@@ -42,7 +42,7 @@ class SourceUsageData {
 
     /**
      *
-     * @return type 
+     * @return type
      */
     public function getFilterSourceNode() {
         return $this->filterSourceNode;

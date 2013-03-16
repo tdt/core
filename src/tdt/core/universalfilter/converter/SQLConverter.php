@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This class converts a tree to a SQL query string (simple query) 
+ * This class converts a tree to a SQL query string (simple query)
  * This is based on the debugging TreeToString of the universalfilters
  *
  * IMPORTANT NOTE: the functions which contain "not supported yet" are meant for this converter
@@ -15,22 +15,22 @@
 
 namespace tdt\core\universalfilter\converter;
 
-use tdt\core\universalfilter\AggregatorFunction;
-use tdt\core\universalfilter\BinaryFunction;
-use tdt\core\universalfilter\CheckInFunction;
-use tdt\core\universalfilter\ColumnSelectionFilter;
-use tdt\core\universalfilter\Constant;
-use tdt\core\universalfilter\DataGrouper;
-use tdt\core\universalfilter\DistinctFilter;
-use tdt\core\universalfilter\FilterByExpressionFilter;
-use tdt\core\universalfilter\Identifier;
-use tdt\core\universalfilter\LimitFilter;
-use tdt\core\universalfilter\SortFieldsFilter;
-use tdt\core\universalfilter\SortFieldsFilterColumn;
-use tdt\core\universalfilter\TableAliasFilter;
-use tdt\core\universalfilter\TernaryFunction;
-use tdt\core\universalfilter\UnaryFunction;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\AggregatorFunction;
+use tdt\core\universalfilter\universalfilters\BinaryFunction;
+use tdt\core\universalfilter\universalfilters\CheckInFunction;
+use tdt\core\universalfilter\universalfilters\ColumnSelectionFilter;
+use tdt\core\universalfilter\universalfilters\Constant;
+use tdt\core\universalfilter\universalfilters\DataGrouper;
+use tdt\core\universalfilter\universalfilters\DistinctFilter;
+use tdt\core\universalfilter\universalfilters\FilterByExpressionFilter;
+use tdt\core\universalfilter\universalfilters\Identifier;
+use tdt\core\universalfilter\universalfilters\LimitFilter;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilter;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilterColumn;
+use tdt\core\universalfilter\universalfilters\TableAliasFilter;
+use tdt\core\universalfilter\universalfilters\TernaryFunction;
+use tdt\core\universalfilter\universalfilters\UnaryFunction;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class SQLConverter {
 
@@ -106,11 +106,11 @@ class SQLConverter {
          * Sometimes only an identifier can be present, without any clauses
          * So we check for the "selectclausepresent" if we have a select clause
          * If not, we add one. If we have this situation we also know that the identifier
-         * is the resource identifier, for there are no columnselectionfilter identifiers, or 
+         * is the resource identifier, for there are no columnselectionfilter identifiers, or
          * filter identifiers ( they need a select clause )
          */
         if (!$this->selectClausePresent) {
-            
+
         }
     }
 
@@ -359,7 +359,7 @@ class SQLConverter {
     /*
      * Returns the clause(s) for a given clause name. array(["clause"] => ... )
      * The possible clauses are where - groupby - select - order by
-     * If a select clause is asked for , then the groupby and where clause, if applicable 
+     * If a select clause is asked for , then the groupby and where clause, if applicable
      * will be returned also.
      */
 

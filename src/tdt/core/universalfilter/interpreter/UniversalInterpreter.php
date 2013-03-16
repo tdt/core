@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The UniversalInterpreter: 
+ * The UniversalInterpreter:
  * Create an instance of this class and give it a query-tree execute the filter.
  *
  * @package The-Datatank/universalfilter/interpreter
@@ -12,9 +12,9 @@
 
 namespace tdt\core\universalfilter\interpreter;
 
-use tdt\core\universalfilter\AggregatorFunction;
-use tdt\core\universalfilter\BinaryFunction;
-use tdt\core\universalfilter\CheckInFunction;
+use tdt\core\universalfilter\universalfilters\AggregatorFunction;
+use tdt\core\universalfilter\universalfilters\BinaryFunction;
+use tdt\core\universalfilter\universalfilters\CheckInFunction;
 use tdt\core\universalfilter\data\UniversalFilterTable;
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\data\UniversalFilterTableHeader;
@@ -24,9 +24,9 @@ use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\other\DummyUniversalFilterNode;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
-use tdt\core\universalfilter\TernaryFunction;
-use tdt\core\universalfilter\UnaryFunction;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\TernaryFunction;
+use tdt\core\universalfilter\universalfilters\UnaryFunction;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 include_once(__DIR__ . "/executers/implementations/BinaryFunctionExecuters.php");
 include_once(__DIR__ . "/executers/implementations/AggregatorFunctionExecuters.php");
@@ -42,20 +42,20 @@ class UniversalInterpreter implements IInterpreterControl {
      * Are nested querys allowed?
      * true = yes, they are allowed.
      * false = no, throw an exception if you try to use them...
-     * 
-     * @var boolean 
+     *
+     * @var boolean
      */
     public static $ALLOW_NESTED_QUERYS = false;
 
     /**
      * For debugging purposses, would you like to see debug information about execution of querys on the source?
-     * @var boolean 
+     * @var boolean
      */
     public static $DEBUG_QUERY_ON_SOURCE_EXECUTION = false;
 
     /**
      * How the date is saved internally...
-     * @var string 
+     * @var string
      */
     public static $INTERNAL_DATETIME_FORMAT = 'Y-m-d H:i:s';
     public static $INTERNAL_DATETIME_FORMAT_ONLYDATE = "Y-m-d";
@@ -146,7 +146,7 @@ class UniversalInterpreter implements IInterpreterControl {
         if (class_exists($classname)) {
             return new $classname();
         } else {
-            $classname = "tdt\\core\\universalfilter\\interpreter\\executers\\implementations\\" . $this->executers[$filternode->getType()];            
+            $classname = "tdt\\core\\universalfilter\\interpreter\\executers\\implementations\\" . $this->executers[$filternode->getType()];
             return new $classname();
         }
     }

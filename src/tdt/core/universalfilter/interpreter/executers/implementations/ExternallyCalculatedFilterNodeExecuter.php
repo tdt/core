@@ -17,7 +17,7 @@ use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterN
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
 use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -117,7 +117,7 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
-            
+
         }
     }
 

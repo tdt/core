@@ -2,7 +2,7 @@
 
 /**
  * Base class for filters that evaluate expressions AND have a source (like select and where)
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -17,7 +17,7 @@ use tdt\core\universalfilter\data\UniversalFilterTableContentRow;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     //put your code here
@@ -25,7 +25,7 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
     /**
      * Build the child environment to give to children.
      * This environment combines the info from the parent environment AND the info from the source table
-     * 
+     *
      * @param UniversalFilterNode $filter
      * @param Environment $topenv
      * @return array Intern data
@@ -34,7 +34,7 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
         //
         // BUILD ENVIRONMENT TO GIVE TO EXPRESSIONS
         //
-        
+
         //get source environment header
         $executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         $header = $executer->getExpressionHeader();

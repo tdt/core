@@ -20,7 +20,7 @@ use tdt\core\model\InstalledResourceFactory;
 use tdt\core\model\RemoteResourceFactory;
 use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\cache\Cache;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;

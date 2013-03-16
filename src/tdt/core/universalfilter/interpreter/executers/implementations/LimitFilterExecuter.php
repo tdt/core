@@ -2,7 +2,7 @@
 
 /**
  * Executes the LimitFilter filter
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -15,7 +15,7 @@ use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\exceptions\TDTException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -57,7 +57,7 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
                 $newRows->addRow($newRow);
             } catch (TDTException $ex) {
                 // this exception will occur when we go out of bounds in our source
-                // do nothing, the row just doesn't get added, and ofcourse subsequent rows won't be added as well 
+                // do nothing, the row just doesn't get added, and ofcourse subsequent rows won't be added as well
                 // for they do not exist.
                 $log = new Logger('SPECTQL');
                 $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
@@ -75,7 +75,7 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
-            
+
         }
     }
 

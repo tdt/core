@@ -15,12 +15,12 @@ use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\data\UniversalFilterTableHeader;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 interface IUniversalFilterNodeExecuter {
 
     /**
-     * Initializes this node. It gets the environment of the executer as an argument. 
+     * Initializes this node. It gets the environment of the executer as an argument.
      * @param UniversalFilterNode $filter The corresponding filter
      * @param Environment $topenv The environment given to evaluate this filter. It should NEVER be modified.
      * @param IInterpreterControl $interpreter The interpreter that evaluates this tree.
@@ -30,14 +30,14 @@ interface IUniversalFilterNodeExecuter {
 
     /**
      * Returns the header of the returned table
-     * 
+     *
      * @return UniversalFilterTableHeader
      */
     public function getExpressionHeader();
 
     /**
      * Calculates and returns the content of the table
-     * 
+     *
      * @return UniversalFilterTableContent
      */
     public function evaluateAsExpression();
@@ -53,9 +53,9 @@ interface IUniversalFilterNodeExecuter {
     public function modififyFiltersWithHeaderInformation();
 
     /**
-     * Finds out which sources this executer uses, 
+     * Finds out which sources this executer uses,
      * and which parts of the query can be executed on one source
-     * 
+     *
      * @param UniversalFilterNode $filter The parent
      * @param int $parentIndex The index in the parent.
      * @return array of SourceUsageData
