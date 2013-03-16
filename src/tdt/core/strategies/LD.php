@@ -12,13 +12,15 @@
 namespace tdt\core\strategies;
 
 class LD extends SPARQL {
-    
 
     public function read(&$configObject, $package, $resource) {
-        
+
         $uri = \tdt\core\utility\RequestURI::getInstance()->getRealWorldObjectURI();
         //a lot of rewriting uri mumbo jumbo and adding LDP implementation (we need to be able to manipulate an rdf model here...)
-        $configObject->query = "DESCRIBE <$uri>";
+        $configObject->query = "DESCRIBE ?s ";
+        $configObject->query .= "WHERE { ?s ?p ?o . ";
+        $configObject->query .= "FILTER (?s LIKE '$uri%') ";
+        $configObject->query .= "}";
 
         return parent::read($configObject, $package, $resource);
     }
@@ -57,6 +59,5 @@ class LD extends SPARQL {
             "endpoint" => "The URI of the SPARQL endpoint.",
         );
     }
-
 
 }
