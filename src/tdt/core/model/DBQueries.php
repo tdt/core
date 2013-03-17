@@ -402,11 +402,22 @@ class DBQueries {
      * Get all published columns of a generic resource
      */
     static function getPublishedColumns($generic_resource_id) {
-        return R::getAll(
+        $results = R::getAll(
                         "SELECT column_name, is_primary_key,column_name_alias,published_columns.index
              FROM  published_columns
              WHERE generic_resource_id=:id", array(":id" => $generic_resource_id)
         );
+
+        $lower_case_results = array();
+        foreach($results  as $result){
+            $lower_case_result = array();
+            foreach($result as $key => $value){
+                $lower_case_result[$key] = strtolower($value);
+            }
+            array_push($lower_case_results,$lower_case_result);
+        }
+
+        return $lower_case_results;
     }
 
     /**
