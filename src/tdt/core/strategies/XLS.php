@@ -120,6 +120,10 @@ class XLS extends ATabularData {
 
                 $worksheet = $objPHPExcel->getSheetByName($sheet);
 
+                if(is_null($worksheet)){
+                    $this->throwTDTException("The sheet with name, $sheet, has not been found in the Excel file.");
+                }
+
                 if (!isset($this->named_range) && !isset($this->cell_range)) {
                     foreach ($worksheet->getRowIterator() as $row) {
                         $rowIndex = $row->getRowIndex();
