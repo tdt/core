@@ -111,8 +111,9 @@ class XLS extends ATabularData {
                 $isUri = (substr($uri , 0, 4) == "http");
                 if ($isUri) {
                     $tmpFile = uniqid();
-                    file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
-                    $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
+
+                    file_put_contents(__DIR__."/../tmp/" . $tmpFile, file_get_contents($uri));
+                    $objPHPExcel = $this->loadExcel(__DIR__."/../tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
                 } else {
                     $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);
                 }
@@ -156,7 +157,7 @@ class XLS extends ATabularData {
                 $objPHPExcel->disconnectWorksheets();
                 unset($objPHPExcel);
                 if ($isUri) {
-                    unlink("tmp/" . $tmpFile);
+                    unlink(__DIR__."/../tmp/" . $tmpFile);
                 }
             }
         }
