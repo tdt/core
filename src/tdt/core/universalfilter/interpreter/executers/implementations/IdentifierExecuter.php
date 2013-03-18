@@ -23,7 +23,7 @@ use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\exceptions\TDTException;
 use tdt\core\utility\Config;
 
@@ -52,7 +52,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(500,array("The identifier " . $this->filter->getIdentifierString() . "can not be found. It is not a column."),$exception_config);
+                throw new TDTException(500,array("The identifier " . $this->filter->getIdentifierString() . " can not be found. It is not a column."),$exception_config);
             }
             if (!$this->isColumn) {
                 $this->singlevaluecolumnheader = $this->header->getColumnInformationById($this->header->getColumnId());

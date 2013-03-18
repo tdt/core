@@ -2,7 +2,7 @@
 
 /**
  * Executes the DistinctFilter filter
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -13,7 +13,7 @@ namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
 use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
 use tdt\core\universalfilter\interpreter\executers\base\BaseHashingFilterExecuter;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class DataGrouperExecuter extends BaseHashingFilterExecuter {
 

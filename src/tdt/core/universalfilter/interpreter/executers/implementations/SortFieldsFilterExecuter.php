@@ -2,7 +2,7 @@
 
 /**
  * Executes the ColumnSelectionFilter filter
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -13,8 +13,8 @@ use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\SortFieldsFilterColumn;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilterColumn;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 include_once(__DIR__ . "/../../../common/StableSorting.php");
 
@@ -138,7 +138,7 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
-            
+
         }
     }
 

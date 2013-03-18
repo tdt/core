@@ -23,7 +23,7 @@ use tdt\exceptions\TDTException;
 class GenericResourceFactory extends AResourceFactory {
 
     public function __construct() {
-        
+
     }
 
     public function hasResource($package, $resource) {
@@ -106,6 +106,7 @@ class GenericResourceFactory extends AResourceFactory {
                 $strategyTable = "generic_resource_" . strtolower($documentation["type"]);
 
                 $result = DBQueries::getStrategyProperties($genericId, $strategyTable);
+
                 if (isset($result[0])) {
                     foreach ($result[0] as $column => $value) {
                         if ($column != "id" && $column != "gen_resource_id") {
@@ -180,7 +181,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     public function makeCreateDoc($doc) {
-        $d = array();        
+        $d = array();
         foreach ($this->getAllStrategies() as $strategy) {
             $res = new GenericResourceCreator("", "", array(), $strategy);
             $d[$strategy] = new \stdClass();
@@ -196,7 +197,7 @@ class GenericResourceFactory extends AResourceFactory {
     }
 
     public function makeUpdateDoc($doc) {
-        $d = array(); 
+        $d = array();
         foreach ($this->getAllStrategies() as $strategy) {
             $res = new GenericResourceUpdater("", "", array(), $strategy);
             $d[$strategy] = new \stdClass();

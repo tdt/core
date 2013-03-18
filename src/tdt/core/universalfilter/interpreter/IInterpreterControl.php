@@ -12,7 +12,7 @@
 namespace tdt\core\universalfilter\interpreter;
 
 use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 interface IInterpreterControl {
 

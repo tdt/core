@@ -20,7 +20,7 @@ use tdt\core\model\InstalledResourceFactory;
 use tdt\core\model\RemoteResourceFactory;
 use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\cache\Cache;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
@@ -449,8 +449,12 @@ class ResourcesModel {
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
 
+        $resource = strtolower($resource);
+        $package = strtolower($package);
+
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
+
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";

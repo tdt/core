@@ -2,7 +2,7 @@
 
 /**
  * Executes the ColumnSelectionFilter filter
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -18,7 +18,7 @@ use tdt\core\universalfilter\data\UniversalFilterTableHeader;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\BaseEvaluationEnvironmentFilterExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter {
 
@@ -181,7 +181,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 $exprexec->cleanUp();
             }
         } catch (Exception $ex) {
-            
+
         }
     }
 

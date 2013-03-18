@@ -318,6 +318,7 @@ class CSV extends ATabularData{
                          * format column names like they are stored, namely replace a whitespace by an underscore
                          */
                         $formatted_column = preg_replace('/\s+/', '_', trim($data[$i]));
+                        $formatted_column = strtolower($formatted_column);
                         $fieldhash[$formatted_column] = $i;
                     }
 

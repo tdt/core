@@ -153,6 +153,9 @@ class SPECTQLController extends AController {
                 $pageURL = $ru->getURI();
                 $new_link_header= "Link:";
 
+                // cut off the format, position = position of the ':' before the format
+                $position = strrpos($pageURL,":");
+                $next_query_url = substr($pageURL,0,$position);
 
                 /**
                  * Link to next
@@ -161,11 +164,9 @@ class SPECTQLController extends AController {
                  */
                 $matches = array();
                 if(preg_match('/page=(.*)&page_size=(.*);rel=next.*/',$header,$matches)){
-                    $query_matches = array();
-                    preg_match('/(.*)\.limit\(.*\)?(:.*)/',$pageURL,$query_matches);
-                    $next_query_url = $query_matches[1];
-                    $limit = $matches[2];
-                    $offset = $limit * ($matches[1] -1 );
+
+                    $offset = ($matches[1] - 1) * $matches[2];
+                    $limit = $offset + $matches[2];
                     $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
                     $new_link_header.= $next_query_url . ";rel=next;";
                 }
@@ -175,11 +176,8 @@ class SPECTQLController extends AController {
                  */
                 $matches = array();
                 if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=previous.*/',$header,$matches)){
-                    $query_matches = array();
-                    preg_match('/(.*)\.limit\(.*\)?(:.*)/',$pageURL,$query_matches);
-                    $next_query_url = $query_matches[1];
-                    $limit = $matches[2];
-                    $offset = $limit * ($matches[1] -1 );
+                    $offset = ($matches[1] - 1) * $matches[2];
+                    $limit = $offset + $matches[2];
                     $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
                     $new_link_header.= $next_query_url . ";rel=previous";
                 }

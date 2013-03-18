@@ -2,7 +2,7 @@
 
 /**
  * Print the tree...
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -11,24 +11,24 @@
 
 namespace tdt\core\universalfilter\interpreter\debugging;
 
-use tdt\core\universalfilter\AggregatorFunction;
-use tdt\core\universalfilter\BinaryFunction;
-use tdt\core\universalfilter\CheckInFunction;
-use tdt\core\universalfilter\ColumnSelectionFilter;
-use tdt\core\universalfilter\Constant;
-use tdt\core\universalfilter\DataGrouper;
-use tdt\core\universalfilter\DatasetJoinFilter;
-use tdt\core\universalfilter\DistinctFilter;
-use tdt\core\universalfilter\FilterByExpressionFilter;
-use tdt\core\universalfilter\Identifier;
-use tdt\core\universalfilter\LimitFilter;
-use tdt\core\universalfilter\NormalFilterNode;
-use tdt\core\universalfilter\SortFieldsFilter;
-use tdt\core\universalfilter\SortFieldsFilterColumn;
-use tdt\core\universalfilter\TableAliasFilter;
-use tdt\core\universalfilter\TernaryFunction;
-use tdt\core\universalfilter\UnaryFunction;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\AggregatorFunction;
+use tdt\core\universalfilter\universalfilters\BinaryFunction;
+use tdt\core\universalfilter\universalfilters\CheckInFunction;
+use tdt\core\universalfilter\universalfilters\ColumnSelectionFilter;
+use tdt\core\universalfilter\universalfilters\Constant;
+use tdt\core\universalfilter\universalfilters\DataGrouper;
+use tdt\core\universalfilter\universalfilters\DatasetJoinFilter;
+use tdt\core\universalfilter\universalfilters\DistinctFilter;
+use tdt\core\universalfilter\universalfilters\FilterByExpressionFilter;
+use tdt\core\universalfilter\universalfilters\Identifier;
+use tdt\core\universalfilter\universalfilters\LimitFilter;
+use tdt\core\universalfilter\universalfilters\NormalFilterNode;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilter;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilterColumn;
+use tdt\core\universalfilter\universalfilters\TableAliasFilter;
+use tdt\core\universalfilter\universalfilters\TernaryFunction;
+use tdt\core\universalfilter\universalfilters\UnaryFunction;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class TreePrinter {
 
@@ -45,7 +45,7 @@ class TreePrinter {
         }
 
         $classname = get_class($tree);
-        $method = "print_" . end(explode("\\", $classname));        
+        $method = "print_" . end(explode("\\", $classname));
         //calls the correct clone method and then returns.
         $var = "";
         if (method_exists($this, $method)) {

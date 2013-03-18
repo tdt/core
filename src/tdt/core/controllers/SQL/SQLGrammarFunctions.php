@@ -1,11 +1,11 @@
 <?php
 
-use tdt\core\universalfilter\AggregatorFunction;
-use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\universalfilters\AggregatorFunction;
+use tdt\core\universalfilter\universalfilters\BinaryFunction;
 use tdt\core\universalfilter\CombinedFilterGenerators;
-use tdt\core\universalfilter\Constant;
-use tdt\core\universalfilter\TernaryFunction;
-use tdt\core\universalfilter\UnaryFunction;
+use tdt\core\universalfilter\universalfilters\Constant;
+use tdt\core\universalfilter\universalfilters\TernaryFunction;
+use tdt\core\universalfilter\universalfilters\UnaryFunction;
 
 /**
  * This file is used by the grammar to create the tree

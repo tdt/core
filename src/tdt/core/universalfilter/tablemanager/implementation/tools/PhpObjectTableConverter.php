@@ -134,7 +134,7 @@ class PhpObjectTableConverter {
     }
 
     private function parseColumnName($name) {
-        return preg_replace("/[^A-Za-z0-9]/", "_", $name);
+        return strtolower(preg_replace("/[^A-Za-z0-9]/", "_", $name));
     }
 
     private function getPhpObjectTableHeader($nameOfTable, $objects) {

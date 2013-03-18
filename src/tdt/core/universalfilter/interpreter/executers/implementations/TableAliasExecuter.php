@@ -2,7 +2,7 @@
 
 /**
  * This file contains the abstact top class for all aggregators
- * 
+ *
  * The filter inside the aggregator gets executed row by row
  *
  * @package The-Datatank/universalfilter
@@ -16,7 +16,7 @@ namespace tdt\core\universalfilter\interpreter\executers\implementations;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -45,7 +45,7 @@ class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
-            
+
         }
     }
 

@@ -20,7 +20,7 @@ use tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode;
 use tdt\core\universalfilter\tablemanager\IUniversalFilterTableManager;
 use tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter;
 use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
 use tdt\core\utility\RequestURI;
@@ -81,10 +81,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             }else{
                 $limit = array_shift($limit_items);
             }
+            $parameters["limit"] = $limit;
+            $parameters["offset"] = $offset;
         }
 
-        $parameters["limit"] = $limit;
-        $parameters["offset"] = $offset;
 
         /**
          * Read the resource from the model
