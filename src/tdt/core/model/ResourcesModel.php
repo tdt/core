@@ -449,8 +449,12 @@ class ResourcesModel {
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
 
+        $resource = strtolower($resource);
+        $package = strtolower($package);
+
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
+
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";

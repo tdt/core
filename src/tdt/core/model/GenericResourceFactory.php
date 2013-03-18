@@ -106,7 +106,7 @@ class GenericResourceFactory extends AResourceFactory {
                 $strategyTable = "generic_resource_" . strtolower($documentation["type"]);
 
                 $result = DBQueries::getStrategyProperties($genericId, $strategyTable);
-                var_dump($result);
+
                 if (isset($result[0])) {
                     foreach ($result[0] as $column => $value) {
                         if ($column != "id" && $column != "gen_resource_id") {
