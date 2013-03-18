@@ -14,15 +14,29 @@ class SPARQL extends RDFXML {
 
     public function read(&$configObject, $package, $resource) {
         $param = get_object_vars($this);
-        
 
         foreach ($param as $key => $value) {
             $value = addslashes($value);
             $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
         }
-        
-        $parser = \ARC2::getSPARQLParser();
 
+        $matches = array();
+        preg_match_all("/FROM <(.*)>/", $configObject->query, $matches, PREG_SET_ORDER);
+        
+        if (empty($matches[0])) {
+            $graphs = \tdt\core\model\DBQueries::getAllGraphs();
+            $pos = stripos($configObject->query, "WHERE");
+            $froms = "";
+            foreach ($graphs as $graph) {
+                $froms .="FROM <" . $graph["graph_id"] . "> ";
+            }
+            $configObject->query = substr($configObject->query, 0, $pos) . $froms . substr($configObject->query, $pos);
+        } else {
+            for ($i = 1; $i < \count($matches[0]); $i++) {
+                $replace = \tdt\core\model\DBQueries::getLatestGraph($match);
+                $query = str_replace($match, $replace, $configObject->query);
+            }
+        }
 
         $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/rdf+xml");
 
@@ -34,9 +48,9 @@ class SPARQL extends RDFXML {
 
         /* parser instantiation */
         $parser = \ARC2::getSPARQLParser();
-        
+
         $parser->parse($this->query);
-        if ($parser->getErrors()) 
+        if ($parser->getErrors())
             throw new TDTException(400, array("SPARQL Query could not be parsed."), $exception_config);
 
         return parent::isValid($package_id, $generic_resource_id);
