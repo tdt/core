@@ -98,15 +98,12 @@ class RController extends AController {
                 }
             }
 
+            $resultObject = new \stdClass();
+            $resultObject->$package = $linkObject;
             //This will create an instance of a factory depending on which format is set
-            //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
-
-            //$printer = $this->formatterfactory->getPrinter($package, $linkObject);
-            //$printer->printAll();
 
             $formatter = new \tdt\formatters\Formatter(strtoupper($matches["format"]));
-            $formatter->execute($package,$linkObject);
-
+            $formatter->execute($package,$resultObject);
 
             exit();
         }
@@ -372,21 +369,11 @@ class RController extends AController {
 
         /**
          * Apply filters to the resulting object
-         * 1) RESTfilter
+         *
          * 2) OSpec filter
          */
-        // apply RESTFilter
-        $subresources = array();
-        $filterfactory = FilterFactory::getInstance();
 
-        if (sizeof($RESTparameters) > 0) {
-            if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
-                $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
-                $resultset = $RESTFilter->filter($result);
-                $subresources = $resultset->subresources;
-                $result = $resultset->result;
-            }
-        }
+
         // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 
@@ -468,5 +455,3 @@ class RController extends AController {
         return in_array($format, $vis);
     }
 }
-
-?>
