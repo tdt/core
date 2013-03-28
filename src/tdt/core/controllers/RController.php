@@ -135,28 +135,6 @@ class RController extends AController {
         //maybe the resource reinitialised the database connection through RedBean, so let's set it up again with our back-end config.
         $this->initializeDatabaseConnection();
 
-/**
- * REST FILTER SHOULD BE DELETED
- */
-        // apply RESTFilter
-       // $subresources = array();
-       // $filterfactory = FilterFactory::getInstance();
-
-       // if (sizeof($RESTparameters) > 0) {
-       //     if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
-       //         $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
-       //         $resultset = $RESTFilter->filter($result);
-       //         $subresources = $resultset->subresources;
-       //         $result = $resultset->result;
-       //     }
-       // }
-
-
-/**
- * END DELETION REST FILTER
- */
-
-
         // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 
@@ -200,8 +178,7 @@ class RController extends AController {
         }
 
         // get the according formatter from the factory
-        //$printer = $this->formatterfactory->getPrinter($resourcename, $result);
-        //$printer->printAll();
+
         $formatter = new \tdt\formatters\Formatter(strtoupper($matches["format"]));
         $formatter->execute($resourcename,$result);
     }
