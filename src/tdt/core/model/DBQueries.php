@@ -634,5 +634,31 @@ class DBQueries {
              WHERE :package_id = package.id and lower(resource.resource_name) =:resource and resource.package_id = package.id", array(":package_id" => $package_id, ":resource" => $resource)
         );
     }
+    
+    /*
+     * Get the graph URI
+     * @param resource_name package_id
+     */
+
+    static function getLatestGraph($graph) {
+        return R::getCell(
+                        "SELECT graph_id
+             FROM graph
+             WHERE :graph_name = graph_name ORDER BY version DESC LIMIT 1", array(":graph_name" => $graph)
+        );
+    }
+    
+    static function getAllGraphs() {
+        return R::getAll(
+                "SELECT x.graph_id
+            FROM graph x
+JOIN (
+	SELECT graph_name, MAX(version) as version
+        FROM graph
+	GROUP BY graph_name
+) y ON x.graph_name = y.graph_name AND x.version = y.version"
+                );
+        
+    }
 
 }

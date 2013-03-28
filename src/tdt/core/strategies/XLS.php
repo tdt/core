@@ -21,6 +21,10 @@ use PHPExcel_IOFactory as IOFactory;
 
 class XLS extends ATabularData {
 
+    public function __construct(){
+        $this->tmp_dir = __DIR__ . "/../tmp";
+    }
+
     public function documentCreateParameters(){
         $this->parameters["uri"] = "The path to the excel sheet (can be a url as well).";
         $this->parameters["sheet"] = "The sheet name of the excel";
@@ -33,6 +37,8 @@ class XLS extends ATabularData {
         return $this->parameters;
     }
 
+    private $tmp_dir;
+
     public function documentCreateRequiredParameters(){
         return array("uri", "sheet");
     }
@@ -43,9 +49,6 @@ class XLS extends ATabularData {
 
     public function documentReadParameters(){
         return array();
-    }
-
-    public function __construct() {
     }
 
     protected function throwTDTException($message){
@@ -104,15 +107,16 @@ class XLS extends ATabularData {
 
             // if no column aliases have been passed, then fill the columns variable
             if(empty($this->columns)){
-                if (!is_dir("tmp")) {
-                    mkdir("tmp");
+                if (!is_dir($this->tmp_dir)) {
+                    mkdir($this->tmp_dir);
                 }
 
                 $isUri = (substr($uri , 0, 4) == "http");
                 if ($isUri) {
                     $tmpFile = uniqid();
-                    file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
-                    $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
+
+                    file_put_contents($this->tmp_dir. "/" . $tmpFile, file_get_contents($uri));
+                    $objPHPExcel = $this->loadExcel($this->tmp_dir ."/" . $tmpFile,$this->getFileExtension($uri),$sheet);
                 } else {
                     $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);
                 }
@@ -160,7 +164,7 @@ class XLS extends ATabularData {
                 $objPHPExcel->disconnectWorksheets();
                 unset($objPHPExcel);
                 if ($isUri) {
-                    unlink("tmp/" . $tmpFile);
+                    unlink($this->tmp_dir . "/" . $tmpFile);
                 }
             }
         }
@@ -186,8 +190,8 @@ class XLS extends ATabularData {
         $arrayOfRowObjects = array();
         $row = 0;
 
-        if (!is_dir("tmp")) {
-            mkdir("tmp");
+        if (!is_dir($this->tmp_dir)) {
+            mkdir($this->tmp_dir);
         }
 
         try {
@@ -195,8 +199,8 @@ class XLS extends ATabularData {
             if ($isUri) {
 
                 $tmpFile = uniqid();
-                file_put_contents("tmp/" . $tmpFile, file_get_contents($uri));
-                $objPHPExcel = $this->loadExcel("tmp/" . $tmpFile,$this->getFileExtension($uri),$sheet);
+                file_put_contents($this->tmp_dir . "/" . $tmpFile, file_get_contents($uri));
+                $objPHPExcel = $this->loadExcel($this->tmp_dir . "/" . $tmpFile,$this->getFileExtension($uri),$sheet);
 
             } else {
                 $objPHPExcel = $this->loadExcel($uri,$this->getFileExtension($uri),$sheet);
@@ -204,7 +208,7 @@ class XLS extends ATabularData {
 
             $worksheet = $objPHPExcel->getSheetByName($sheet);
 
-            if (($configObject->named_range == "") && ($configObject->cell_range == "")) {
+            if (($configObject->named_range == "" || $configObject->named_range == "0") && ($configObject->cell_range == "" || $configObject->cell_range == "0")) {
                 foreach ($worksheet->getRowIterator() as $row) {
                     $rowIndex = $row->getRowIndex();
                     if ($rowIndex >= $start_row) {
@@ -225,7 +229,12 @@ class XLS extends ATabularData {
                             foreach ($cellIterator as $cell) {
                                 $columnIndex = $cell->columnIndexFromString($cell->getColumn());
                                 if (!is_null($cell) && isset($keys[$columnIndex-1]) ) {
+                                    // format the column name as we normally format column names
                                     $c = $keys[$columnIndex - 1];
+                                    $c = trim($c);
+                                    $c = preg_replace('/\s+/', '_', $c);
+                                    $c = strtolower($c);
+                                                                    
                                     if(in_array($c,$columns)){
                                         $rowobject->$column_aliases[$c] = $cell->getCalculatedValue();
                                     }
@@ -309,7 +318,7 @@ class XLS extends ATabularData {
             $objPHPExcel->disconnectWorksheets();
             unset($objPHPExcel);
             if ($isUri) {
-                unlink("tmp/" . $tmpFile);
+                unlink($this->tmp_dir . "/" . $tmpFile);
             }
 
             return $arrayOfRowObjects;
