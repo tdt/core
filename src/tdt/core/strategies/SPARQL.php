@@ -14,7 +14,7 @@ class SPARQL extends RDFXML {
 
     public function read(&$configObject, $package, $resource) {
         $param = get_object_vars($this);
-
+        unset($param["rest_params"]);
         foreach ($param as $key => $value) {
             $value = addslashes($value);
             $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
