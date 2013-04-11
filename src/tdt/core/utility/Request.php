@@ -2,7 +2,7 @@
 
 /**
  * Helper classes that are specifically designed for TDT. When developing modules you can use these for better performance
- * 
+ *
  * @package tdt\core\utility
  * @copyright (C) 2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
@@ -286,7 +286,7 @@ class Request {
                 } elseif ($options['max_redirects']) {
                     // Redirect to the new location.
                     $options['max_redirects']--;
-                    $result = self::HttpRequest($location, $options);
+                    $result = self::http($location, $options);
                     $result->redirect_code = $code;
                 }
                 if (!isset($result->redirect_url)) {
@@ -315,7 +315,7 @@ class Request {
     }
 
     /**
-     * Function needed by drupal for http request. 
+     * Function needed by drupal for http request.
      */
     private static function timer_stop($name) {
         global $timers;
