@@ -17,7 +17,7 @@ class LD extends SPARQL {
 
         $uri = \tdt\core\utility\RequestURI::getInstance()->getRealWorldObjectURI();
         //a lot of rewriting uri mumbo jumbo and adding LDP implementation (we need to be able to manipulate an rdf model here...)
-        $configObject->query = "CONSTRUCT ?s ?p ?o ";
+        $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
         $configObject->query .= "WHERE { ?s ?p ?o . ";
         $configObject->query .= "FILTER (?s LIKE '$uri%') ";
         $configObject->query .= "}";

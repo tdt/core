@@ -25,7 +25,7 @@ class RDFXML extends AResourceStrategy {
     public function isValid($package_id, $generic_resource_id) {
         $parser = \ARC2::getRDFXMLParser();
         $parser->parse($this->uri);
-
+        
         if (!$parser)
             throw new TDTException(500, array("Could not transform the RDF/XML data from " . $this->uri . " to a ARC model, please check if the RDF/XML is valid."), $exception_config);
         
