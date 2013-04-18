@@ -53,7 +53,7 @@ abstract class ACreator {
             "license" => "The license of the data.",
             "publisher" => "An entity responsible for making the resource available.",
             "rights" => "Information about rights held in and over the resource.",
-            "rightsHolder" => "A person or organization owning or managing rights over the resource.",
+            "rights_holder" => "A person or organization owning or managing rights over the resource.",
             "example_uri" => "An example of how a call to the resource may look like."
         );
     }

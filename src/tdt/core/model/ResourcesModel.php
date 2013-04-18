@@ -234,7 +234,7 @@ class ResourcesModel {
 
         //now check if there are nonexistent parameters given
         foreach (array_keys($parameters) as $key) {
-            if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
+            if (!in_array(strtolower($key), array_keys(array_change_key_case($resourceCreationDoc->parameters)))) {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";

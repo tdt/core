@@ -121,7 +121,7 @@ class GenericResourceFactory extends AResourceFactory {
                 $metadata = DBQueries::getMetaData($package, $resourcename);
                 if (!empty($metadata)) {
                     foreach ($metadata as $name => $value) {
-                        if ($name != "id" && $name != "resource_id") {
+                        if ($name != "id" && $name != "resource_id" && !empty($value)) {
                             $doc->$package->$resourcename->$name = $value;
                         }
                     }

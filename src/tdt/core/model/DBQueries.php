@@ -482,7 +482,6 @@ class DBQueries {
      */
     static function storeMetaData($resource_id, $resource, $metadataArray) {
         $metadata = R::dispense("metadata");
-        $add = false;
         foreach ($metadataArray as $key) {
             if (isset($resource->$key) && $resource->$key != "") {
                 $metadata->$key = $resource->$key;
@@ -490,9 +489,8 @@ class DBQueries {
             }
         }
         $metadata->resource_id = $resource_id;
-        if ($add) {
-            return R::store($metadata);
-        }
+        return R::store($metadata);
+
     }
 
     /**
@@ -634,7 +632,7 @@ class DBQueries {
              WHERE :package_id = package.id and lower(resource.resource_name) =:resource and resource.package_id = package.id", array(":package_id" => $package_id, ":resource" => $resource)
         );
     }
-    
+
     /*
      * Get the graph URI
      * @param resource_name package_id
@@ -647,7 +645,7 @@ class DBQueries {
              WHERE :graph_name = graph_name ORDER BY version DESC LIMIT 1", array(":graph_name" => $graph)
         );
     }
-    
+
     static function getAllGraphs() {
         return R::getAll(
                 "SELECT x.graph_id
@@ -658,7 +656,7 @@ JOIN (
 	GROUP BY graph_name
 ) y ON x.graph_name = y.graph_name AND x.version = y.version"
                 );
-        
+
     }
 
 }
