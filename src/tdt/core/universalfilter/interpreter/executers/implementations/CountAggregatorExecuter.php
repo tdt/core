@@ -1,5 +1,5 @@
 <?php
-namespace tdt\core\universalfilter;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\interpreter\executers\implementations\AggregatorFunctionExecuter;
 class CountAggregatorExecuter extends AggregatorFunctionExecuter {

@@ -1,5 +1,5 @@
 <?php
-namespace tdt\core\universalfilter;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 use tdt\core\universalfilter\interpreter\executers\implementations\TernaryFunctionExecuter;
 use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
