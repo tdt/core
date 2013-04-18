@@ -49,8 +49,6 @@ class TDTAdminResources extends AReader {
             /**
              * If no resourcename has been passed, check the package in the packagename, instead of the description documentation.
              */
-
-
             if(isset($result_object->$package)){
                 $result_object = $result_object->$package;
             }else{

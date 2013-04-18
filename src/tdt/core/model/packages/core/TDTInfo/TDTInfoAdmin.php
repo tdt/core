@@ -36,10 +36,20 @@ class TDTInfoAdmin extends AReader {
         $result_object = $resmod->getAllAdminDoc();
 
         foreach($this->RESTparameters as $param){
-            if (is_object($result_object) && isset($result_object->$param)) {
+            if (is_object($result_object) && $this->isPropertySet($result_object,$param)) {
+                $param = $this->isPropertySet($result_object,$param);
                 $result_object = $result_object->$param;
-            }else if (is_array($result_object) && isset($result_object[$param])) {
-                $result_object = $result[$param];
+            }else if (is_array($result_object)){
+                // Lower case the keys and check if $param is an entry
+                $result_object = array_change_key_case($result_object); // Default is lower case.
+                if(isset($result_object[$param])){
+                    $result_object = $result_object[$param];
+                }else{
+                    $exception_config = array();
+                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                    throw new TDTException(404, array("The REST parameters $param hasn't been found, check if the hierarchy is correct, or spelling errors have been made."), $exception_config);
+                }
             }else {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
@@ -47,14 +57,25 @@ class TDTInfoAdmin extends AReader {
                 throw new TDTException(404, array("The REST parameters $param hasn't been found, check if the hierarchy is correct, or spelling errors have been made."), $exception_config);
             }
         }
-
         return $result_object;
     }
 
-   public static function getDoc() {
+    public static function getDoc() {
        return "This resource contains the information an Admin should know. It documents all possible addition, deletion and creation methods";
-   }
+    }
 
+    /**
+     * check if a property is set in the object, the property to compare with is in lower case.
+     */
+    private function isPropertySet($object,$lower_property){
+        $properties = get_object_vars($object);
+
+        foreach($properties as $property => $value){
+            if(strtolower($property) == $lower_property){
+                return $property;
+            }
+        }
+        return false;
+    }
 }
 
-?>
