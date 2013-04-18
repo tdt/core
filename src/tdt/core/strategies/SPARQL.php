@@ -14,7 +14,7 @@ class SPARQL extends RDFXML {
 
     public function read(&$configObject, $package, $resource) {
         $param = get_object_vars($this);
-
+        unset($param["rest_params"]);
         foreach ($param as $key => $value) {
             $value = addslashes($value);
             $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
@@ -37,8 +37,10 @@ class SPARQL extends RDFXML {
                 $query = str_replace($match, $replace, $configObject->query);
             }
         }
-
-        $configObject->uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/rdf+xml");
+        $q= urlencode($configObject->query);
+        $q = str_replace("+","%20",$q);
+        
+        $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
 
         return parent::read($configObject, $package, $resource);
     }
