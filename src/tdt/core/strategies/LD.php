@@ -61,6 +61,8 @@ class LD extends SPARQL {
     public function documentCreateParameters() {
         return array(
             "endpoint" => "The URI of the SPARQL endpoint.",
+            "endpoint_user" => "Username for file behind authentication",
+            "endpoint_password" => "Password for file behind authentication"
         );
     }
 

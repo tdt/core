@@ -20,10 +20,6 @@ class SPARQL extends RDFXML {
             $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
         }
 
-        /* parser instantiation */
-        $parser = \ARC2::getSPARQLParser();
-
-        $parser->parse($this->query);
         /* configuration */
         $config = array(
             /* remote endpoint */
@@ -31,7 +27,7 @@ class SPARQL extends RDFXML {
         );
 
         /* instantiation */
-        $store = \ARC2::getRemoteStore($config);
+        //$store = \ARC2::getRemoteStore($config);
 
         $matches = array();
         preg_match_all("/FROM <(.*)>/", $configObject->query, $matches, PREG_SET_ORDER);
@@ -100,7 +96,9 @@ class SPARQL extends RDFXML {
     public function documentCreateParameters() {
         return array(
             "endpoint" => "The URI of the SPARQL endpoint.",
-            "query" => "The SPARQL query"
+            "query" => "The SPARQL query",
+            "endpoint_user" => "Username for file behind authentication",
+            "endpoint_password" => "Password for file behind authentication"
         );
     }
 

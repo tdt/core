@@ -16,10 +16,54 @@ class RDFXML extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
         $parser = \ARC2::getRDFXMLParser();
-        $data = \tdt\core\utility\Request::http($configObject->uri);
-        $parser->parse("",$data->data);
+        //$data = \tdt\core\utility\Request::http($configObject->uri);
+        $data = execRequest($configObject->uri, $configObject->endpoint_user, $configObject->endpoint_password);
+        $parser->parse("",$data);
+        //$parser->parse("",$data->data);
 
         return $parser;
+    }
+    
+    private function execRequest($uri, $usr = "", $pass = "") {
+
+        // is curl installed?
+        if (!function_exists('curl_init')) {
+            throw new \Exception('CURL is not installed!');
+        }
+
+        // get curl handle
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_USERPWD, $usr . ":" . $pass);
+        
+        // set request url
+        curl_setopt($ch, CURLOPT_URL, $uri);
+
+        // return response, don't print/echo
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+
+        $response = curl_exec($ch);
+
+        if (!$response)
+        {
+            echo "endpoint returned error: " . curl_error($ch) . " - ";
+            throw new \Exception("Endpoint returned an error!");
+        }
+        
+        $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($response_code != "200")
+        {
+            echo "query failed: " . $response_code . "\n" . $response . "\n";
+            throw new \Exception("Query failed: $response");
+        }
+
+
+        curl_close($ch);
+
+        return $response;
     }
 
     public function isValid($package_id, $generic_resource_id) {
@@ -51,6 +95,8 @@ class RDFXML extends AResourceStrategy {
     public function documentCreateParameters() {
         return array(
             "uri" => "The URI of the RDF/XML file.",
+            "endpoint_user" => "Username for file behind authentication",
+            "endpoint_password" => "Password for file behind authentication"
         );
     }
 
