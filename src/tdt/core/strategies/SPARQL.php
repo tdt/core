@@ -20,29 +20,52 @@ class SPARQL extends RDFXML {
             $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
         }
 
+        /* parser instantiation */
+        $parser = \ARC2::getSPARQLParser();
+
+        $parser->parse($this->query);
+        /* configuration */
+        $config = array(
+            /* remote endpoint */
+            'remote_store_endpoint' => $configObject->endpoint,
+        );
+
+        /* instantiation */
+        $store = \ARC2::getRemoteStore($config);
+
         $matches = array();
         preg_match_all("/FROM <(.*)>/", $configObject->query, $matches, PREG_SET_ORDER);
         
+        
         if (empty($matches[0])) {
             $graphs = \tdt\core\model\DBQueries::getAllGraphs();
+            
             $pos = stripos($configObject->query, "WHERE");
             $froms = "";
             foreach ($graphs as $graph) {
                 $froms .="FROM <" . $graph["graph_id"] . "> ";
             }
+            
             $configObject->query = substr($configObject->query, 0, $pos) . $froms . substr($configObject->query, $pos);
         } else {
             for ($i = 1; $i < \count($matches[0]); $i++) {
                 $replace = \tdt\core\model\DBQueries::getLatestGraph($match);
+                echo $replace;
                 $query = str_replace($match, $replace, $configObject->query);
             }
         }
-        $q= urlencode($configObject->query);
-        $q = str_replace("+","%20",$q);
         
+       
+        $q = urlencode($configObject->query);
+        $q = str_replace("+", "%20", $q);
+
         $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
 
         return parent::read($configObject, $package, $resource);
+        //$rows = $store->query($configObject->query);
+       
+
+        //return $rows;
     }
 
     public function isValid($package_id, $generic_resource_id) {

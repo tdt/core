@@ -15,7 +15,11 @@ class LD extends SPARQL {
 
     public function read(&$configObject, $package, $resource) {
 
-        $uri = \tdt\core\utility\RequestURI::getInstance()->getRealWorldObjectURI();
+        $requestURI = \tdt\core\utility\RequestURI::getInstance();
+
+        $uri = $requestURI->getRealWorldObjectURI();
+        
+        //$base_uri = implode("/",array($requestURI->getHostName(),$requestURI->getPackage(),$requestURI->getResource()));
         //a lot of rewriting uri mumbo jumbo and adding LDP implementation (we need to be able to manipulate an rdf model here...)
         $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
         $configObject->query .= "WHERE { ?s ?p ?o . ";
