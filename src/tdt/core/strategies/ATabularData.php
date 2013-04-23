@@ -166,5 +166,3 @@ abstract class ATabularData extends AResourceStrategy {
     }
 
 }
-
-?>
