@@ -54,6 +54,7 @@ class RController extends AController {
         $result = $model->processPackageResourceString($packageresourcestring);
 
         $resourcename = $result["resourcename"];
+
         $package = $result["packagename"];
         $RESTparameters = $result["RESTparameters"];
 
@@ -175,9 +176,8 @@ class RController extends AController {
         }
 
         // get the according formatter from the factory
-
         $formatter = new \tdt\formatters\Formatter(strtoupper($matches["format"]));
-        $formatter->execute($resourcename,$result);
+        $formatter->execute($RESTresource,$result);
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {

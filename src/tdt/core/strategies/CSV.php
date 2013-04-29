@@ -80,10 +80,10 @@ class CSV extends ATabularData{
 
         parent::read($configObject, $package, $resource);
 
-         /**
-         * Check the RESTparameters, for a database resource we know it's going to be tabular data
-         * so RESTparameters cannot hold more than 2 strings, the first is the number of the item (rownum starting at 0), the second is the column name to select ( if present ofc.)
-         */
+            /**
+             * Check the RESTparameters, for a database resource we know it's going to be tabular data
+             * so RESTparameters cannot hold more than 2 strings, the first is the number of the item (rownum starting at 0), the second is the column name to select ( if present ofc.)
+             */
          if(count($this->rest_params) > 2){
 
             $exception_config = array();
@@ -94,16 +94,16 @@ class CSV extends ATabularData{
         }else if(count($this->rest_params) > 0){
             if(!is_numeric($this->rest_params[0]) || $this->rest_params[0] < 0){
 
-             $exception_config = array();
-             $exception_config["log_dir"] = Config::get("general", "logging", "path");
-             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-             throw new TDTException(452, array("The first REST parameter should be a positive integer."), $exception_config);
-         }
-     }
+               $exception_config = array();
+               $exception_config["log_dir"] = Config::get("general", "logging", "path");
+               $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+               throw new TDTException(452, array("The first REST parameter should be a positive integer."), $exception_config);
+            }
+        }
 
-     $has_header_row = $configObject->has_header_row;
-     $start_row = $configObject->start_row;
-     $delimiter = $configObject->delimiter;
+        $has_header_row = $configObject->has_header_row;
+        $start_row = $configObject->start_row;
+        $delimiter = $configObject->delimiter;
 
         /**
          * check if the uri is valid ( not empty )
@@ -155,14 +155,22 @@ class CSV extends ATabularData{
 
             }else{
 
+                if(empty($this->limit)){
+                    $this->limit = $limit;
+                }
+
+                if(empty($this->offset)){
+                    $this->offset = 0;
+                }
+
                 $limit = $this->limit +1;
                 $offset = $this->offset;
 
-            // calculate the page and size from limit and offset as good as possible
-            // meaning that if offset<limit, indicates a non equal division of pages
-            // it will try to restore that equal division of paging
-            // i.e. offset = 2, limit = 20 -> indicates that page 1 exists of 2 rows, page 2 of 20 rows, page 3 min. 20 rows.
-            // paging should be (x=size) x, x, x, y < x EOF
+                // calculate the page and size from limit and offset as good as possible
+                // meaning that if offset<limit, indicates a non equal division of pages
+                // it will try to restore that equal division of paging
+                // i.e. offset = 2, limit = 20 -> indicates that page 1 exists of 2 rows, page 2 of 20 rows, page 3 min. 20 rows.
+                // paging should be (x=size) x, x, x, y < x EOF
                 $page = $offset/$limit;
                 $page = round($page,0,PHP_ROUND_HALF_DOWN);
                 if($page==0){
