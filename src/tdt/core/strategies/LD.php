@@ -18,13 +18,16 @@ class LD extends SPARQL {
         $requestURI = \tdt\core\utility\RequestURI::getInstance();
 
         $uri = $requestURI->getRealWorldObjectURI();
+        //Get graph to query from URI
+        $graph = substr($uri, 0, stripos($uri, $package . "/" .$resource) + strlen($package . "/" .$resource));
         
         //$base_uri = implode("/",array($requestURI->getHostName(),$requestURI->getPackage(),$requestURI->getResource()));
         //a lot of rewriting uri mumbo jumbo and adding LDP implementation (we need to be able to manipulate an rdf model here...)
         $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
-        $configObject->query .= "WHERE { ?s ?p ?o . ";
+        $configObject->query .= "WHERE { GRAPH <$graph> { ";
+        $configObject->query .= "?s ?p ?o .";
         $configObject->query .= "FILTER (?s LIKE '$uri%') ";
-        $configObject->query .= "}";
+        $configObject->query .= "} }";
 
         return parent::read($configObject, $package, $resource);
     }
