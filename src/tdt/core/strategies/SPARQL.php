@@ -21,37 +21,28 @@ class SPARQL extends RDFXML {
         }
 
         /* configuration */
-        $config = array(
-            /* remote endpoint */
-            'remote_store_endpoint' => $configObject->endpoint,
-        );
+//        $config = array(
+//            /* remote endpoint */
+//            'remote_store_endpoint' => $configObject->endpoint,
+//        );
 
         /* instantiation */
         //$store = \ARC2::getRemoteStore($config);
 
         $matches = array();
-        preg_match_all("/FROM <(.*)>/", $configObject->query, $matches, PREG_SET_ORDER);
-        
-        
-        if (empty($matches[0])) {
-            $graphs = \tdt\core\model\DBQueries::getAllGraphs();
+        preg_match_all("/GRAPH\s*?<(.*?)>/", $configObject->query, $matches, PREG_SET_ORDER);
+
+
+        foreach ($matches as $match) {
+            $graph = $match[1];
+            $replace = \tdt\core\model\DBQueries::getLatestGraph($graph);
             
-            $pos = stripos($configObject->query, "WHERE");
-            $froms = "";
-            foreach ($graphs as $graph) {
-                $froms .="FROM <" . $graph["graph_id"] . "> ";
-            }
-            
-            $configObject->query = substr($configObject->query, 0, $pos) . $froms . substr($configObject->query, $pos);
-        } else {
-            for ($i = 1; $i < \count($matches[0]); $i++) {
-                $replace = \tdt\core\model\DBQueries::getLatestGraph($match);
-                echo $replace;
-                $query = str_replace($match, $replace, $configObject->query);
-            }
+            if ($replace)
+                $configObject->query = str_replace("GRAPH <$graph>", "GRAPH <$replace>", $configObject->query);
+    
         }
-        
-       
+
+
         $q = urlencode($configObject->query);
         $q = str_replace("+", "%20", $q);
 
@@ -59,8 +50,6 @@ class SPARQL extends RDFXML {
 
         return parent::read($configObject, $package, $resource);
         //$rows = $store->query($configObject->query);
-       
-
         //return $rows;
     }
 
