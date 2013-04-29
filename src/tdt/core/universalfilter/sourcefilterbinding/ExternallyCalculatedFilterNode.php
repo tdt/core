@@ -12,8 +12,8 @@
 namespace tdt\core\universalfilter\sourcefilterbinding;
 
 use tdt\core\universalfilter\data\UniversalFilterTable;
-use tdt\core\universalfilter\NormalFilterNode;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\NormalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class ExternallyCalculatedFilterNode extends NormalFilterNode {
 

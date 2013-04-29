@@ -2,7 +2,7 @@
 
 /**
  * This file contains the abstact top class for all evaluators for unary functions
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -18,7 +18,7 @@ use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -97,7 +97,7 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
         try {
             $this->executer1->cleanUp();
         } catch (Exception $ex) {
-            
+
         }
     }
 

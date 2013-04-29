@@ -2,7 +2,7 @@
 
 /**
  * This file contains the abstact top class for all aggregators
- * 
+ *
  * The filter inside the aggregator gets executed row by row
  *
  * @package The-Datatank/universalfilter
@@ -22,7 +22,7 @@ use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -45,7 +45,7 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
         // Evaluate the header of the filter inside this aggregator...
         //  (evaluation need to be done for each row)
         //
-        
+
         //check if header1 returns isSingleRow if we give it a single row
         $evaluatorEnvironment = $topenv->newModifiableEnvironment();
         //single row header
@@ -162,8 +162,8 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
 
     /**
      * Evaluates the subfilter for each row. (neccessary for SELECTS in AVG in SELECT)
-     * 
-     * @return UniversalFilterTableContent 
+     *
+     * @return UniversalFilterTableContent
      */
     protected function evaluateSubExpression() {
         $context = $this->topenv->getTable()->getContent();
@@ -279,7 +279,7 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
 
             $this->evaluatorTable->getContent()->tryDestroyTable();
         } catch (Exception $ex) {
-            
+
         }
     }
 
@@ -295,14 +295,14 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
     }
 
     /**
-     * Converts a column to an array to make it easier to process 
-     * 
+     * Converts a column to an array to make it easier to process
+     *
      * CAN CONTAIN NULL VALUES!
-     * 
+     *
      * @todo TODO: What if big table => should NOT convert to array. => Rewrite all aggregators... (can not use array_sum, count, max, min, ...)
      * @param UniversalFilterTableContent $content
      * @param type $columnId
-     * @return array 
+     * @return array
      */
     public function convertColumnToArray(UniversalFilterTableContent $content, $columnId) {
         $arr = array();
@@ -315,7 +315,7 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
     //
     // (Most of) these methods need to be overriden by subclasses
     //
-    
+
     public function getName($name) {
         return $name;
     }

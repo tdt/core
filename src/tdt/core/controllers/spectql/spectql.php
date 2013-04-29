@@ -1,18 +1,18 @@
 <?php
 
-use tdt\core\universalfilter\BinaryFunction;
-use tdt\core\universalfilter\ColumnSelectionFilter;
-use tdt\core\universalfilter\ColumnSelectionFilterColumn;
-use tdt\core\universalfilter\Constant;
-use tdt\core\universalfilter\DataGrouper;
-use tdt\core\universalfilter\FilterByExpressionFilter;
-use tdt\core\universalfilter\Identifier;
-use tdt\core\universalfilter\LimitFilter;
-use tdt\core\universalfilter\SortFieldsFilter;
-use tdt\core\universalfilter\SortFieldsFilterColumn;
+use tdt\core\universalfilter\universalfilters\BinaryFunction;
+use tdt\core\universalfilter\universalfilters\ColumnSelectionFilter;
+use tdt\core\universalfilter\universalfilters\ColumnSelectionFilterColumn;
+use tdt\core\universalfilter\universalfilters\Constant;
+use tdt\core\universalfilter\universalfilters\DataGrouper;
+use tdt\core\universalfilter\universalfilters\FilterByExpressionFilter;
+use tdt\core\universalfilter\universalfilters\Identifier;
+use tdt\core\universalfilter\universalfilters\LimitFilter;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilter;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilterColumn;
 
 
-include_once("/../../../../tdt/core/universalfilter/UniversalFilters.php");
+//include_once("/../../../../tdt/core/universalfilter/UniversalFilters.php");
 
 /*
 
@@ -916,7 +916,7 @@ class spectql extends lime_parser {
             }
         }
 
-// group by				
+// group by
 
         if ($aggregate) {
             $datagrouper = new DataGrouper($groupby);

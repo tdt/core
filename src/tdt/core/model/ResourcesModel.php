@@ -20,13 +20,15 @@ use tdt\core\model\InstalledResourceFactory;
 use tdt\core\model\RemoteResourceFactory;
 use tdt\core\model\resources\GenericResource;
 use tdt\core\model\ResourcesModel;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\cache\Cache;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
 use RedBean_Facade as R;
+use JsonSchema\Validator;
 
 class ResourcesModel {
+
     /*
      * installation variables
      */
@@ -58,10 +60,31 @@ class ResourcesModel {
 
         //Added for linking this resource to a class descibed in an onthology
         $this->updateActions["generic"] = "GenericResourceUpdater";
+
+         /**
+         * Register the fatal error handler
+         */
+        register_shutdown_function(array($this,"fatal_error_handler"));
     }
 
     public static function getInstance(array $config = array()) {
+
         if (count($config) > 0) {
+
+            $config_object = json_decode(json_encode($config)); // need the config to be an object so we can validate for required properties
+            $schema = file_get_contents("configuration-schema.json",true);
+
+            $validator = new Validator();
+            $validator->check($config_object, json_decode($schema));
+
+            if (!$validator->isValid()) {
+                echo "The given configuration file for the resource model does not validate. Violations are (split with -- ):\n";
+                foreach ($validator->getErrors() as $error) {
+                    echo sprintf("[%s] %s -- ",$error['property'], $error['message']);
+                }
+                die();
+            }
+
             Config::setConfig($config);
         }
         R::setup(Config::get("db", "system") . ":host=" . Config::get("db", "host") . ";dbname=" . Config::get("db", "name"), Config::get("db", "user"), Config::get("db", "password"));
@@ -75,6 +98,7 @@ class ResourcesModel {
      * Checks if a package exists
      */
     public function hasPackage($package) {
+        $package = strtolower($package);
         $doc = $this->getAllPackagesDoc();
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
@@ -92,6 +116,9 @@ class ResourcesModel {
      * @return a boolean
      */
     public function hasResource($package, $resource) {
+        $package = strtolower($package);
+        $resource = strtolower($resource);
+
         $doc = $this->getAllDoc();
         foreach ($doc as $packagename => $resourcenames) {
             if ($package == $packagename) {
@@ -118,7 +145,9 @@ class ResourcesModel {
          * Hierachical package/resource structure
          * check if the package/resource structure is correct
          */
+        $packageresourcestring = strtolower($packageresourcestring);
         $pieces = explode("/", $packageresourcestring);
+
         //throws exception when it's not valid, returns packagestring when done
         $package = $this->isResourceValid($pieces);
         $resource = array_pop($pieces);
@@ -146,7 +175,7 @@ class ResourcesModel {
         $resourceTypeParts = explode("/", $parameters["resource_type"]);
         if ($resourceTypeParts[0] != "remote" && $resourceTypeParts[0] != "installed") {
             if ($resourceTypeParts[0] == "generic" && !isset($parameters["generic_type"])
-                    && isset($resourceTypeParts[1])) {
+                && isset($resourceTypeParts[1])) {
                 $parameters["generic_type"] = $resourceTypeParts[1];
                 $parameters["resource_type"] = $resourceTypeParts[0];
             } else if (!isset($parameters["generic_type"])) {
@@ -160,14 +189,14 @@ class ResourcesModel {
 
         $restype = $parameters["resource_type"];
         $restype = strtolower($restype);
-        //now check if the file exist and include it
+            //now check if the file exist and include it
         if (!in_array($restype, array("generic", "remote", "installed"))) {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("Resource type doesn't exist. Choose from generic,remote or installed"), $exception_config);
         }
-        // get the documentation containing information about the required parameters
+            // get the documentation containing information about the required parameters
         $doc = $this->getAllAdminDoc();
 
         /**
@@ -205,7 +234,7 @@ class ResourcesModel {
 
         //now check if there are nonexistent parameters given
         foreach (array_keys($parameters) as $key) {
-            if (!in_array($key, array_keys($resourceCreationDoc->parameters))) {
+            if (!in_array(strtolower($key), array_keys(array_change_key_case($resourceCreationDoc->parameters)))) {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
@@ -239,10 +268,59 @@ class ResourcesModel {
             //Clear the documentation in our cache for it has changed
             $this->deleteResource($package, $resource, $RESTparameters);
         }
-        $creator->create();
+
+        try{
+            //R::freeze(true); -> see issue #21 on github.com/tdt/core
+            R::begin();
+            $creator->create();
+            R::commit();
+        }catch(Exception $ex){
+
+            R::rollback();
+            $this->clearCachedDocumentation();
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("Error whilst adding the resource: " . $ex->getMessage()), $exception_config);
+        }
+
     }
 
-    private function clearCachedDocumentation() {
+    public function fatal_error_handler(){
+        /**
+         * If a fatal error occurs, during a PUT method, we have to delete the put resource, it could be
+         * that there are some leftovers!
+         */
+        if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "PUT"){
+           $error = error_get_last();
+           if(!is_null($error)){
+                R::rollback();
+
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+
+                /**
+                 * The sever error data
+                 */
+
+                $errfile = "unknown file";
+                $errstr  = "shutdown";
+                $errno   = E_CORE_ERROR;
+                $errline = 0;
+
+                $errno   = $error["type"];
+                $errfile = $error["file"];
+                $errline = $error["line"];
+                $errstr  = $error["message"];
+                header('HTTP/1.0 500 Internal Server Error', true, 500);
+                throw new TDTException(500,array("Fatal error caught: " . $errfile . " - $errstr - $errno - $errline"),$exception_config);
+            }
+
+        }
+    }
+
+    public function clearCachedDocumentation() {
         $cache_config = array();
 
         $cache_config["system"] = Config::get("general", "cache", "system");
@@ -371,8 +449,12 @@ class ResourcesModel {
      */
     public function readResource($package, $resource, $parameters, $RESTparameters) {
 
+        $resource = strtolower($resource);
+        $package = strtolower($package);
+
         //first check if the resource exists
         if (!$this->hasResource($package, $resource)) {
+
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
@@ -557,7 +639,9 @@ class ResourcesModel {
      * @return array First entry is the [packagename], second entry is the [resourcename], third is the array with [RESTparameters]
       If the package hasn't been found FALSE is returned!
      */
-    public function processPackageResourceString($packageresourcestring) {
+      public function processPackageResourceString($packageresourcestring) {
+
+        $packageresourcestring = strtolower($packageresourcestring);
         $result = array();
 
         $pieces = explode("/", $packageresourcestring);
@@ -571,7 +655,7 @@ class ResourcesModel {
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
         $foundPackage = FALSE;
-
+        //var_dump($doc);
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
          * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
@@ -583,10 +667,27 @@ class ResourcesModel {
         if (!isset($doc->$package)) {
             while (!empty($pieces)) {
                 $package .= "/" . array_shift($pieces);
+
                 if (isset($doc->$package)) {
+
                     $foundPackage = TRUE;
                     $resourcename = array_shift($pieces);
+
+                    /**
+                     * Check if the resource exists
+                     */
+                    if($resourcename != null || $resourcename != ""){
+                        $package_object = $doc->$package;
+                        if(!isset($package_object->$resourcename)){
+                            $exception_config = array();
+                            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                            throw new TDTException(404, array($packageresourcestring), $exception_config);
+                        }
+                    }
+
                     $reqparamsstring = implode("/", $pieces);
+                    break;
                 }
             }
         } else {
@@ -637,6 +738,9 @@ class ResourcesModel {
      * return the resource if it does
      */
     public function isResourceIFilter($package, $resource) {
+        $package = strtolower($package);
+        $resource = strtolower($resource);
+
         foreach ($this->factories as $factory) {
 
             if ($factory->hasResource($package, $resource)) {
@@ -682,6 +786,9 @@ class ResourcesModel {
      * get the columns from a resource
      */
     public function getColumnsFromResource($package, $resource) {
+        $package = strtolower($package);
+        $resource = strtolower($resource);
+
         $gen_resource_id = DBQueries::getGenericResourceId($package, $resource);
 
         if (isset($gen_resource_id["gen_resource_id"]) && $gen_resource_id["gen_resource_id"] != "") {
@@ -691,5 +798,6 @@ class ResourcesModel {
     }
 
 }
+
 
 ?>

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This is a filternode that does nothing. 
+ * This is a filternode that does nothing.
  * It is not a valid filter. You can not execute it.
- * 
- * It can be used as a root of the query-tree, 
+ *
+ * It can be used as a root of the query-tree,
  *  so that all real filters have a parent.
  *
  * @package The-Datatank/universalfilter/interpreter/sourceusage
@@ -15,8 +15,8 @@
 
 namespace tdt\core\universalfilter\interpreter\other;
 
-use tdt\core\universalfilter\NormalFilterNode;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\NormalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class DummyUniversalFilterNode extends NormalFilterNode {
 

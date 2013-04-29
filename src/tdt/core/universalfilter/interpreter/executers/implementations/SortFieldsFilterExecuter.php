@@ -2,44 +2,26 @@
 
 /**
  * Executes the ColumnSelectionFilter filter
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
+
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
+
 use tdt\core\universalfilter\data\UniversalFilterTable;
 use tdt\core\universalfilter\data\UniversalFilterTableContent;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\SortFieldsFilterColumn;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\SortFieldsFilterColumn;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 include_once(__DIR__ . "/../../../common/StableSorting.php");
 
-/* sorting methods... */
 
-function SortFieldsFilterCompare($obj1, $obj2, $dir = -1) {
-    $str1 = $obj1["data"];
-    $str2 = $obj2["data"];
-
-    if ($str1 == $str2) {
-        return 0;
-    } else if ($str1 < $str2) {
-        return $dir * -1;
-    } else {
-        return $dir * 1;
-    }
-}
-
-function SortFieldsFilterCompareAsc($obj1, $obj2) {
-    return SortFieldsFilterCompare($obj1, $obj2, 1);
-}
-
-function SortFieldsFilterCompareDesc($obj1, $obj2) {
-    return SortFieldsFilterCompare($obj1, $obj2, -1);
-}
 
 /* the executer */
 
@@ -138,7 +120,7 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
-            
+
         }
     }
 

@@ -16,7 +16,6 @@ namespace tdt\core\controllers;
 use app\core\Config;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use tdt\core\formatters\FormatterFactory;
 use tdt\core\model\filters\FilterFactory;
 use tdt\core\model\ResourcesModel;
 use tdt\exceptions\TDTException;
@@ -33,26 +32,16 @@ class RController extends AController {
 
         //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
 
-        /**
-         * GET operations on TDTAdmin need to be authenticated!
-         */
-        if ($package == "TDTAdmin") {
-            //we need to be authenticated
-            if (!$this->isBasicAuthenticated()) {
-                header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-                header('HTTP/1.0 401 Unauthorized');
-                exit();
-            }
-        }
-
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
+        $result = $model->processPackageResourceString($packageresourcestring);
 
-        $result = $model->processPackageResourceString($matches["packageresourcestring"]);
         $resourcename = $result["resourcename"];
+
         $package = $result["packagename"];
         $RESTparameters = $result["RESTparameters"];
 
@@ -61,7 +50,7 @@ class RController extends AController {
          */
         if ($resourcename == "") {
             $packageDoc = $model->getAllPackagesDoc();
-            $allPackages = array_keys(get_object_vars($packageDoc));            
+            $allPackages = array_keys(get_object_vars($packageDoc));
             $linkObject = new \stdClass();
             $links = array();
 
@@ -70,6 +59,8 @@ class RController extends AController {
              * and the amount of /'s in the packagestring
              */
             foreach ($allPackages as $packagestring) {
+                $packagestring = strtolower($packagestring);
+
                 if (strpos($packagestring, $package) == 0
                         && strpos($packagestring, $package) !== false && $package != $packagestring
                         && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
@@ -83,8 +74,9 @@ class RController extends AController {
             }
 
             if (isset($doc->$package)) {
-                $resourcenames = get_object_vars($doc->$package);                
+                $resourcenames = get_object_vars($doc->$package);
                 foreach ($resourcenames as $resourcename => $value) {
+                    $resourcename = strtolower($resourcename);
                     $link = $this->hostname . $this->subdir . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {
@@ -94,17 +86,17 @@ class RController extends AController {
                 }
             }
 
+            $resultObject = new \stdClass();
+            $resultObject->$package = $linkObject;
             //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
-            $printer = $this->formatterfactory->getPrinter($package, $linkObject);
-            $printer->printAll();
+            $formatter = new \tdt\formatters\Formatter(strtoupper($matches["format"]));
+            $formatter->execute($package,$resultObject);
 
             exit();
         }
 
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
 
         $parameters = $_GET;
         $requiredParameters = array();
@@ -123,24 +115,11 @@ class RController extends AController {
             array_shift($RESTparameters);
         }
 
-
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
-        //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
+        //maybe the resource reinitialised the database connection through RedBean, so let's set it up again with our back-end config.
         $this->initializeDatabaseConnection();
 
-        // apply RESTFilter
-        $subresources = array();
-        $filterfactory = FilterFactory::getInstance();
-
-        if (sizeof($RESTparameters) > 0) {
-            if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
-                $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
-                $resultset = $RESTFilter->filter($result);
-                $subresources = $resultset->subresources;
-                $result = $resultset->result;
-            }
-        }
         // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 
@@ -179,13 +158,13 @@ class RController extends AController {
         foreach(headers_list() as $header){
             if(substr($header,0,4) == "Link"){
                 $header = str_replace(".about",".".$matches["format"],$header);
-                header($header);               
+                header($header);
             }
         }
 
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter($resourcename, $result);        
-        $printer->printAll();        
+        $formatter = new \tdt\formatters\Formatter(strtoupper($matches["format"]));
+        $formatter->execute($RESTresource,$result);
     }
 
     private function getAllSubPackages($package, &$linkObject, &$links) {
@@ -194,6 +173,8 @@ class RController extends AController {
         $allPackages = array_keys(get_object_vars($packageDoc));
 
         foreach ($allPackages as $packagestring) {
+            $packagestring = strtolower($packagestring);
+
             if (strpos($packagestring, $package) == 0
                     && strpos($packagestring, $package) !== false && $package != $packagestring) {
 
@@ -214,18 +195,8 @@ class RController extends AController {
         $packageresourcestring = $matches["packageresourcestring"];
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
+        $package = strtolower($package);
 
-        /**
-         * Even GET operations on TDTAdmin need to be authenticated!
-         */
-        if ($package == "TDTAdmin") {
-            //we need to be authenticated
-            if (!$this->isBasicAuthenticated()) {
-                header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-                header('HTTP/1.0 401 Unauthorized');
-                exit();
-            }
-        }
 
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance(Config::getConfigArray());
@@ -243,9 +214,11 @@ class RController extends AController {
         if (!isset($doc->$package)) {
             while (!empty($pieces)) {
                 $package .= "/" . array_shift($pieces);
+                $package = strtolower($package);
                 if (isset($doc->$package)) {
                     $foundPackage = TRUE;
                     $resourcename = array_shift($pieces);
+                    $resourcename = strtolower($resourcename);
                     $reqparamsstring = implode("/", $pieces);
                 }
             }
@@ -254,6 +227,7 @@ class RController extends AController {
             $resourceNotFound = TRUE;
             while (!empty($pieces) && $resourceNotFound) {
                 $resourcename = array_shift($pieces);
+                $resourcename = strtolower($resourcename);
                 if (!isset($doc->$package->$resourcename) && $resourcename != NULL) {
                     $package .= "/" . $resourcename;
                     $resourcename = "";
@@ -284,6 +258,8 @@ class RController extends AController {
              * and the amount of /'s in the packagestring
              */
             foreach ($allPackages as $packagestring) {
+                $packagestring = strtolower($packagestring);
+
                 if (strpos($packagestring, $package) == 0
                         && strpos($packagestring, $package) !== false && $package != $packagestring
                         && substr_count($package, "/") + 1 == substr_count($packagestring, "/")) {
@@ -302,6 +278,8 @@ class RController extends AController {
                 $foundPackage = TRUE;
                 $resourcenames = get_object_vars($doc->$package);
                 foreach ($resourcenames as $resourcename => $value) {
+
+                    $resourcename = strtolower($resourcename);
                     $link = $this->hostname . $this->subdir . $package . "/" . $resourcename;
                     $links[] = $link;
                     if (!isset($linkObject->resources)) {
@@ -318,11 +296,8 @@ class RController extends AController {
                 }
             }
 
-            //This will create an instance of a factory depending on which format is set
-            $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
-
-            $printer = $this->formatterfactory->getPrinter($package, $linkObject);
-            $printer->printHeader();
+            $formatter = \tdt\formatters\Formatter($matches["format"]);
+            $formatter->printHeader();
             exit();
         }
 
@@ -339,7 +314,7 @@ class RController extends AController {
          * action and return the result.
          */
         //This will create an instance of a factory depending on which format is set
-        $this->formatterfactory = FormatterFactory::getInstance($matches["format"]);
+        //$this->formatterfactory = FormatterFactory::getInstance($matches["format"],Config::get("general","defaultformat"),Config::get("general","logging","path"),Config::get("general","logging","enabled"));
 
         if (!isset($doc->$package) || !isset($doc->$package->$resourcename)) {
             $exception_config = array();
@@ -370,21 +345,11 @@ class RController extends AController {
 
         /**
          * Apply filters to the resulting object
-         * 1) RESTfilter
+         *
          * 2) OSpec filter
          */
-        // apply RESTFilter
-        $subresources = array();
-        $filterfactory = FilterFactory::getInstance();
 
-        if (sizeof($RESTparameters) > 0) {
-            if (!(is_subclass_of($result, 'Model') || is_a($result, 'Model'))) {
-                $RESTFilter = $filterfactory->getFilter("RESTFilter", $RESTparameters);
-                $resultset = $RESTFilter->filter($result);
-                $subresources = $resultset->subresources;
-                $result = $resultset->result;
-            }
-        }
+
         // Apply Lookup filter if asked, this has been implemented according to the
         // Open Search Specifications
 
@@ -414,8 +379,10 @@ class RController extends AController {
         $result = $o;
 
         // get the according formatter from the factory
-        $printer = $this->formatterfactory->getPrinter($resourcename, $result);
-        $printer->printHeader();
+        /*$printer = $this->formatterfactory->getPrinter($resourcename, $result);
+        $printer->printHeader();*/
+        $formatter = \tdt\formatters\Formatter($matches["format"]);
+        $formatter->printHeader();
     }
 
     /**
@@ -463,7 +430,4 @@ class RController extends AController {
         $vis = array("map", "grid", "bar", "chart", "column", "pie");
         return in_array($format, $vis);
     }
-
 }
-
-?>

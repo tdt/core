@@ -20,7 +20,7 @@ use tdt\core\universalfilter\sourcefilterbinding\ExternallyCalculatedFilterNode;
 use tdt\core\universalfilter\tablemanager\IUniversalFilterTableManager;
 use tdt\core\universalfilter\tablemanager\implementation\tools\PhpObjectTableConverter;
 use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\core\utility\Config;
 use tdt\exceptions\TDTException;
 use tdt\core\utility\RequestURI;
@@ -64,7 +64,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             array_shift($RESTparameters);
         }
         /**
-         * Pass along limit and offset if given         
+         * Pass along limit and offset if given
          */
         $ru = RequestURI::getInstance(Config::getConfigArray());
         $pageURL = $ru->getURI();
@@ -81,13 +81,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             }else{
                 $limit = array_shift($limit_items);
             }
+            $parameters["limit"] = $limit;
+            $parameters["offset"] = $offset;
         }
 
-        $parameters["limit"] = $limit;
-        $parameters["offset"] = $offset;        
 
         /**
-         * Read the resource from the model        
+         * Read the resource from the model
          */
         $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
 
@@ -177,6 +177,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         $column = NULL;
         try {
             $columns = $model->getColumnsFromResource($identifierpieces[0], $identifierpieces[1]);
+
         } catch (Exception $e) {
             $columns = NULL;
         }
@@ -243,8 +244,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $identifierpieces = explode(".", $sourceId);
         array_push($identifierpieces, array());
-        $package = $identifierpieces[0];
-        $resource = $identifierpieces[1];
+        $package = strtolower($identifierpieces[0]);
+        $resource = strtolower($identifierpieces[1]);
 
         // TODO allow for RESTparameters to be passed. So far no installed/core resource
         // implements IFilter though.

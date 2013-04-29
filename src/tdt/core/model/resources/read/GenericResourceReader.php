@@ -22,13 +22,14 @@ class GenericResourceReader extends AReader {
         parent::__construct($package, $resource, $RESTparameters);
         $this->genres = new GenericResource($this->package, $this->resource);
         $strategy = $this->genres->getStrategy();
+        $strategy->setRestParameters($RESTparameters);
         $this->parameters = array_merge($this->parameters, $strategy->documentReadParameters());
     }
 
     /**
      * read method
      */
-    public function read() {       
+    public function read() {
         return $this->genres->read();
     }
 
@@ -44,13 +45,13 @@ class GenericResourceReader extends AReader {
      * A generic resource can't have parameters (yet), strategies can however
      */
     public function setParameter($key, $value) {
-        
+
         /**
          * pass along the parameters to the strategy
          */
         $strategy = $this->genres->getStrategy();
         $strategy->setParameter($key, $value);
-        
+
     }
 
 }
