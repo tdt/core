@@ -2,7 +2,7 @@
 
 /**
  * Base class for filters that do hashing on records (like distinct or group by) to combine records that look ("hash") the same.
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
@@ -20,15 +20,15 @@ use tdt\core\universalfilter\data\UniversalFilterTableHeaderColumnInfo;
 use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExecuter {
 
     /**
      * Need to be overriden by subclasses. Which columns need to be hashed???
-     * 
+     *
      * @param UniversalFilterNode $filter
-     * @param UniversalFilterTableHeaderColumnInfo $oldColumnInfo 
+     * @param UniversalFilterTableHeaderColumnInfo $oldColumnInfo
      */
     public abstract function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo);
 
@@ -87,7 +87,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
         //
         // now Group!
         //
-        
+
         $bigListOfGroups = new BigList();
         $bigGroupMap = new BigMap(); //of hashkey => array of indices in the rows of the source table that match the description
         //loop through all rows and check if they are in the map
@@ -183,7 +183,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
-            
+
         }
     }
 

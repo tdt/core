@@ -19,7 +19,6 @@ include_once(__DIR__ . "/../controllers/spectql/spectql.php");
 include_once(__DIR__ . "/../controllers/SQL/SQLGrammarFunctions.php");
 
 use tdt\core\controllers\spectql\SPECTQLParser;
-use tdt\core\formatters\FormatterFactory;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 use tdt\core\universalfilter\tablemanager\implementation\tools\TableToPhpObjectConverter;
 use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
@@ -31,8 +30,8 @@ use tdt\core\universalfilter\interpreter\debugging\TreePrinter;
 class SPECTQLController extends AController {
 
     public static $TMP_DIR = "";
-    
-    
+
+
     public function __construct() {
         parent::__construct();
         SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
@@ -67,6 +66,11 @@ class SPECTQLController extends AController {
             $query = $matches["query"];
         }
 
+        /**
+         * lower case the resource identifier
+         */
+
+
         // split off the format of the query, if passed
         $matches = array();
         $format = "";
@@ -98,15 +102,6 @@ class SPECTQLController extends AController {
          * we're going to find out if the TDTAdmin has been adressed.
          */
 
-        if (preg_match("/.*TDTAdmin.*/i", $query) == 1) {
-            if (!$this->isBasicAuthenticated()) {
-                //we need to be authenticated
-                header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-                header('HTTP/1.0 401 Unauthorized');
-                exit();
-            }
-        }
-
         $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
 
@@ -121,8 +116,9 @@ class SPECTQLController extends AController {
         $tree = $treePrinter->treeToString($universalquery);
         echo "<pre>";
         echo $tree;
-        echo "</pre>";        
-        */
+        echo "</pre>";
+        exit();
+*/
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
@@ -137,8 +133,6 @@ class SPECTQLController extends AController {
         $o->$RESTresource = $object;
         $result = $o;
 
-        $formatterfactory = FormatterFactory::getInstance($format); //start content negotiation if the formatter factory doesn't exist
-        $formatterfactory->setFormat($format);
         $rootname = "spectqlquery";
 
         /**
@@ -147,24 +141,25 @@ class SPECTQLController extends AController {
         foreach(headers_list() as $header){
             if(substr($header,0,4) == "Link"){
                 $ru = RequestURI::getInstance(Config::getConfigArray());
-                $pageURL = $ru->getURI();                                
+                $pageURL = $ru->getURI();
                 $new_link_header= "Link:";
 
+                // cut off the format, position = position of the ':' before the format
+                $position = strrpos($pageURL,":");
+                $next_query_url = substr($pageURL,0,$position);
 
                 /**
-                 * Link to next 
+                 * Link to next
                  * Get the link to next, if present
                  * Adjust the spectql query URL with the next limit(..,..) and format
                  */
                 $matches = array();
                 if(preg_match('/page=(.*)&page_size=(.*);rel=next.*/',$header,$matches)){
-                    $query_matches = array();
-                    preg_match('/(.*)\.limit\(.*\)?(:.*)/',$pageURL,$query_matches);
-                    $next_query_url = $query_matches[1];
-                    $limit = $matches[2];
-                    $offset = $limit * ($matches[1] -1 );
-                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;  
-                    $new_link_header.= $next_query_url . ";rel=next;";                  
+
+                    $offset = ($matches[1] - 1) * $matches[2];
+                    $limit = $offset + $matches[2];
+                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
+                    $new_link_header.= $next_query_url . ";rel=next;";
                 }
 
                 /**
@@ -172,26 +167,23 @@ class SPECTQLController extends AController {
                  */
                 $matches = array();
                 if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=previous.*/',$header,$matches)){
-                    $query_matches = array();                    
-                    preg_match('/(.*)\.limit\(.*\)?(:.*)/',$pageURL,$query_matches);
-                    $next_query_url = $query_matches[1];
-                    $limit = $matches[2];
-                    $offset = $limit * ($matches[1] -1 );
-                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;  
-                    $new_link_header.= $next_query_url . ";rel=previous";                  
+                    $offset = ($matches[1] - 1) * $matches[2];
+                    $limit = $offset + $matches[2];
+                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
+                    $new_link_header.= $next_query_url . ";rel=previous";
                 }
 
-                $new_link_header = rtrim($new_link_header,";");                
+                $new_link_header = rtrim($new_link_header,";");
                 /**
                  * Set the adjusted Link header
                  */
 
-                header($new_link_header);               
+                header($new_link_header);
             }
         }
 
-        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
-        $printer->printAll();
+        $formatter = new \tdt\formatters\Formatter(strtoupper($format));
+        $formatter->execute($rootname,$result);
     }
 
     function HEAD($matches) {
@@ -203,12 +195,13 @@ class SPECTQLController extends AController {
         $context = array(); // array of context variables
 
         $result = $parser->interpret($context);
-        $formatterfactory = FormatterFactory::getInstance("about"); //start content negotiation if the formatter factory doesn't exist
+
         $rootname = "spectql";
 
 
-        $printer = $formatterfactory->getPrinter(strtolower($rootname), $result);
-        $printer->printHeader();
+        $formatter = new \tdt\formatters\Formatter(strtoupper("about"));
+        $formatter->printHeader();
+
     }
 
     /**

@@ -11,26 +11,26 @@
 
 namespace tdt\core\universalfilter;
 
-use tdt\core\universalfilter\AggregatorFunction;
-use tdt\core\universalfilter\AggregatorFunction;
-use tdt\core\universalfilter\BinaryFunction;
-use tdt\core\universalfilter\BinaryFunction;
+use tdt\core\universalfilter\universalfilters\AggregatorFunction;
+use tdt\core\universalfilter\universalfilters\AggregatorFunction;
+use tdt\core\universalfilter\universalfilters\BinaryFunction;
+use tdt\core\universalfilter\universalfilters\BinaryFunction;
 use tdt\core\universalfilter\CombinedFilterGenerators;
-use tdt\core\universalfilter\Constant;
-use tdt\core\universalfilter\Constant;
+use tdt\core\universalfilter\universalfilters\Constant;
+use tdt\core\universalfilter\universalfilters\Constant;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
-use tdt\core\universalfilter\NormalFilterNode;
-use tdt\core\universalfilter\NormalFilterNode;
-use tdt\core\universalfilter\UnaryFunction;
-use tdt\core\universalfilter\UnaryFunction;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\NormalFilterNode;
+use tdt\core\universalfilter\universalfilters\NormalFilterNode;
+use tdt\core\universalfilter\universalfilters\UnaryFunction;
+use tdt\core\universalfilter\universalfilters\UnaryFunction;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class CombinedFilterGenerators {
 
     /**
      * This function sets the source of a combined filer
      * @param NormalFilterNode $for
-     * @param UniversalFilterNode $sourceToSet 
+     * @param UniversalFilterNode $sourceToSet
      */
     public static function setCombinedFilterSource(NormalFilterNode $for, UniversalFilterNode $sourceToSet) {
         if ($for->getSource() === null) {
@@ -42,7 +42,7 @@ class CombinedFilterGenerators {
 
     /**
      * Creates a BETWEEN-filter  (inclusive!)
-     * 
+     *
      * @param UniversalFilterNode $a what to filter
      * @param UniversalFilterNode $b left bound
      * @param UniversalFilterNode $c right bound
@@ -56,7 +56,7 @@ class CombinedFilterGenerators {
 
     /**
      * Creates a smaller (or equal) than ALL/ANY  filter
-     * 
+     *
      * @param UniversalFilterNode $a the left side
      * @param UniversalFilterNode $b the right side
      * @param boolean $strictSmaller <= or <
@@ -71,7 +71,7 @@ class CombinedFilterGenerators {
 
     /**
      * Creates a larger (or equal) than ALL/ANY  filter
-     * 
+     *
      * @param UniversalFilterNode $a the left side
      * @param UniversalFilterNode $b the right side
      * @param boolean $strictLarger >= or >
@@ -86,7 +86,7 @@ class CombinedFilterGenerators {
 
     /**
      * Creates a degree to radians filter
-     * 
+     *
      * @param UniversalFilterNode $a the argument
      * @return NormalFilterNode the filter
      */
@@ -96,9 +96,9 @@ class CombinedFilterGenerators {
 
     /**
      * Creates a EarthDistance filter
-     * 
+     *
      * Which calculates the distance between ($longA,$latA) and ($longB,$latB)
-     * 
+     *
      * @param UniversalFilterNode $longA logitude A (in degrees)
      * @param UniversalFilterNode $latA latitude A (in degrees)
      * @param UniversalFilterNode $longB longitude B (in degrees)
@@ -108,7 +108,7 @@ class CombinedFilterGenerators {
     public static function makeGeoDistanceFilter(UniversalFilterNode $latA, UniversalFilterNode $longA, UniversalFilterNode $latB, UniversalFilterNode $longB) {
         /*
          * Based upon code:
-         * 
+         *
           $olat = $feature->geometry->coordinates[1];
           $olon = $feature->geometry->coordinates[0];
           $R = 6371; // earth's radius in km
@@ -191,15 +191,15 @@ class CombinedFilterGenerators {
 
     /**
      * Wraps the values of funct to be between a and b
-     * 
+     *
      * This can be used as modulo if a=0
-     * 
+     *
      * (Only tested for positive values...)
      */
     public static function makeWrapInRangeFilter(UniversalFilterNode $funct, UniversalFilterNode $min, UniversalFilterNode $max) {
         // the logic:
         //   a = (a-min)%(max-min+1)+min
-        // the logic (without modulo): 
+        // the logic (without modulo):
         //   a = ((a-min)-floor((a-min)/(max-min+1))*(max-min+1))+min
 
         $r =
@@ -247,5 +247,3 @@ class CombinedFilterGenerators {
     }
 
 }
-
-?>

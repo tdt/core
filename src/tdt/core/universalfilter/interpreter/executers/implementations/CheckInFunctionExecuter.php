@@ -2,14 +2,14 @@
 
 /**
  * Executes the Check In List filter
- * 
+ *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
  */
 
-namespace implementations;
+namespace tdt\core\universalfilter\interpreter\executers\implementations;
 
 use tdt\core\universalfilter\interpreter\executers\implementations\UnaryFunctionExecuter;
 

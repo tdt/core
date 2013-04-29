@@ -36,4 +36,27 @@ function mergesort(&$array, $cmp_function = 'strcmp') {
     return;
 }
 
+/* sorting methods... */
+
+function SortFieldsFilterCompare($obj1, $obj2, $dir = -1) {
+    $str1 = $obj1["data"];
+    $str2 = $obj2["data"];
+
+    if ($str1 == $str2) {
+        return 0;
+    } else if ($str1 < $str2) {
+        return $dir * -1;
+    } else {
+        return $dir * 1;
+    }
+}
+
+function SortFieldsFilterCompareAsc($obj1, $obj2) {
+    return SortFieldsFilterCompare($obj1, $obj2, 1);
+}
+
+function SortFieldsFilterCompareDesc($obj1, $obj2) {
+    return SortFieldsFilterCompare($obj1, $obj2, -1);
+}
+
 ?>

@@ -47,7 +47,7 @@ class AController {
     }
 
     public function setFormat($format) {
-        $this->format_through_url = $format;        
+        $this->format_through_url = $format;
     }
 
     /**
@@ -83,14 +83,6 @@ class AController {
 
     protected function getBaseURL($str = "") {
         return Config::get("general", "hostname") . Config::get("general", "subdir") . $str;
-    }
-
-    protected function isBasicAuthenticated() {
-        if (Config::get("general", "auth", "enabled")) {
-            return isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] == Config::get("general", "auth", "api_user") && $_SERVER['PHP_AUTH_PW'] == Config::get("general", "auth", "api_passwd");
-        } else {
-            return true;
-        }
     }
 
     protected function initializeDatabaseConnection() {

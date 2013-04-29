@@ -7,7 +7,7 @@
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
- * 
+ *
  * @see universalfilter/interpreter/executers/base/IUniversalFilterNodeExecuter.interface.php for the documentation of these methods
  */
 
@@ -17,7 +17,7 @@ use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
 use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 abstract class AbstractUniversalFilterNodeExecuter {
 
@@ -30,7 +30,7 @@ abstract class AbstractUniversalFilterNodeExecuter {
     public abstract function evaluateAsExpression();
 
     public function cleanUp() {
-        
+
     }
 
     public function getTableNames() {
@@ -55,13 +55,13 @@ abstract class AbstractUniversalFilterNodeExecuter {
     /**
      * We want to give back the biggest subtree which only uses one source.
      * So, we need a method to combine children...
-     * 
+     *
      * Method:
      * if all your dependencies contain one source -> return new SourceUsageData with you in
-     * if some of your dependencies contain more than one source, 
-     *    or there are two different dependencies with a different source 
+     * if some of your dependencies contain more than one source,
+     *    or there are two different dependencies with a different source
      *      -> join all and return.
-     * 
+     *
      * @param array $arr The SourceUsageData-array to combine
      */
     protected function combineSourceUsages(array /* of SourceUsageData */ $arr, $filter, $parent, $parentIndex) {

@@ -23,7 +23,7 @@ use tdt\exceptions\TDTException;
 class GenericResourceFactory extends AResourceFactory {
 
     public function __construct() {
-        
+
     }
 
     public function hasResource($package, $resource) {
@@ -64,21 +64,20 @@ class GenericResourceFactory extends AResourceFactory {
 
             foreach ($resourcenames as $resourcename) {
                 $documentation = DBQueries::getGenericResourceDoc($package, $resourcename);
-                $example_uri = DBQueries::getExampleUri($package, $resourcename);
-
-                if ($example_uri == FALSE) {
-                    $example_uri = "";
-                }
-
 
                 $doc->$package->$resourcename = new \stdClass();
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
-                $doc->$package->$resourcename->example_uri = $example_uri;
-                /**
-                 * Create a generic resource, get the strategy and ask for
-                 * the read parameters of the strategy.
-                 * NOTE: We don't ask for generic resource parameters, because there are none !
-                 */
+
+                // Get the meta-data for the resource.
+                $metadata = DBQueries::getMetaData($package, $resourcename);
+                if (!empty($metadata)) {
+                    foreach ($metadata as $name => $value) {
+                        if ($name != "id" && $name != "resource_id" && !empty($value)) {
+                            $doc->$package->$resourcename->$name = $value;
+                        }
+                    }
+                }
+
                 $genres = new GenericResource($package, $resourcename);
                 $strategy = $genres->getStrategy();
                 $doc->$package->$resourcename->parameters = $strategy->documentReadParameters();
@@ -99,13 +98,13 @@ class GenericResourceFactory extends AResourceFactory {
                 $doc->$package->$resourcename->documentation = $documentation["doc"];
                 $doc->$package->$resourcename->generic_type = $documentation["type"];
                 $doc->$package->$resourcename->resource_type = "generic";
-                /**
-                 * Get the strategy properties
-                 */
+
+                // Get the strategy properties.
                 $genericId = $documentation["id"];
                 $strategyTable = "generic_resource_" . strtolower($documentation["type"]);
 
                 $result = DBQueries::getStrategyProperties($genericId, $strategyTable);
+
                 if (isset($result[0])) {
                     foreach ($result[0] as $column => $value) {
                         if ($column != "id" && $column != "gen_resource_id") {
@@ -114,21 +113,17 @@ class GenericResourceFactory extends AResourceFactory {
                     }
                 }
 
-                /**
-                 * Get the metadata properties
-                 */
+               // Get the meta-data for the resource.
                 $metadata = DBQueries::getMetaData($package, $resourcename);
                 if (!empty($metadata)) {
                     foreach ($metadata as $name => $value) {
-                        if ($name != "id" && $name != "resource_id") {
+                        if ($name != "id" && $name != "resource_id" && !empty($value)) {
                             $doc->$package->$resourcename->$name = $value;
                         }
                     }
                 }
 
-                /**
-                 * Get the published columns
-                 */
+                // Get the publised columns.
                 $columns = DBQueries::getPublishedColumns($genericId);
                 // pretty formatted columns
                 $prettyColumns = array();
@@ -139,9 +134,7 @@ class GenericResourceFactory extends AResourceFactory {
                     $doc->$package->$resourcename->columns = $prettyColumns;
                 }
 
-                /**
-                 * Get the published columns aliases
-                 */
+                // Get and process the column aliases.
                 $columnAliases = array();
                 if (!empty($columns)) {
                     foreach ($columns as $columnentry) {
