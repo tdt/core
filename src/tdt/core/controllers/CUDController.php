@@ -24,11 +24,12 @@ class CUDController extends AController {
     }
 
     /**
-     * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation. 
+     * You cannot get a real-world object, only its representation. Therefore we're going to redirect you to .about which will do content negotiation.
      */
     public function GET($matches) {
 
         $packageresourcestring = $matches[0];
+        $packageresourcestring = strtolower($packageresourcestring);
 
         /*
          * get the format of the string
@@ -37,8 +38,9 @@ class CUDController extends AController {
         $dotposition = strrpos($packageresourcestring, ".");
         $format = substr($packageresourcestring, $dotposition);
         $format = ltrim($format, ".");
-        $end = $dotposition - 1;
-        $packageresourcestring = substr($packageresourcestring, 1, $end);
+        $end = $dotposition;
+
+        $packageresourcestring = substr($packageresourcestring, 0, $end);
 
         $matches["packageresourcestring"] = ltrim($packageresourcestring, "/");
         $matches["format"] = $format;
@@ -67,27 +69,29 @@ class CUDController extends AController {
         $RController->HEAD($matches);
     }
 
-    function PUT($matches) {        
+    function PUT($matches) {
 
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
+        $packageresourcestring = rtrim($packageresourcestring,"/");
         $pieces = explode("/", $packageresourcestring);
+
+        // check for empty pieces
+        foreach($pieces as $piece){
+            if($piece == ""){
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("We found an empty piece in our package-resourcestring, passing a double / might be a the origin of this error. Passed package-resourcestring: $packageresourcestring"), $exception_config, $exception_config);
+            }
+        }
 
         //both package and resource set?
         if (count($pieces) < 2) {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array($packageresourcestring), $exception_config, $exception_config);
-        }
-
-        //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
         }
 
         //fetch all the PUT variables in one array
@@ -108,12 +112,12 @@ class CUDController extends AController {
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
         $this->initializeDatabaseConnection();
 
-        //Clear the documentation in our cache for it has changed        
+        //Clear the documentation in our cache for it has changed
         $this->clearCachedDocumentation();
     }
 
     /**
-     * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now, 
+     * Delete a resource (There is some room for improvement of queries, or division in subfunctions but for now,
      * this'll do the trick)
      * @param string $matches The matches from the given URL, contains the package and the resource from the URL
      */
@@ -122,8 +126,10 @@ class CUDController extends AController {
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
-        //always required: a package and a resource. 
+        //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
+
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
 
@@ -131,7 +137,7 @@ class CUDController extends AController {
 
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
          * ResourcesModel class -> funcion isResourceValid()
          */
         $foundPackage = FALSE;
@@ -167,12 +173,6 @@ class CUDController extends AController {
             throw new TDTException(404, array($packageresourcestring), $exception_config);
         }
 
-        //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
-        }
         //delete the package and resource when authenticated and authorized in the model
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         if ($resource == "") {
@@ -196,8 +196,9 @@ class CUDController extends AController {
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
 
-        //always required: a package and a resource. 
+        //always required: a package and a resource.
         $packageresourcestring = $matches["packageresourcestring"];
+        $packageresourcestring = strtolower($packageresourcestring);
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
 
@@ -205,7 +206,7 @@ class CUDController extends AController {
 
         /**
          * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the 
+         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
          * ResourcesModel class -> funcion isResourceValid()
          */
         $foundPackage = FALSE;
@@ -255,13 +256,6 @@ class CUDController extends AController {
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(404, array($packageresourcestring), $exception_config);
-        }
-
-        //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
         }
 
         // patch (array) contains all the patch parameters

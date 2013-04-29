@@ -11,7 +11,7 @@
 
 namespace tdt\core\universalfilter\interpreter\executers\tools;
 
-use tdt\core\universalfilter\DateTimeExtractConstants;
+use tdt\core\universalfilter\universalfilters\DateTimeExtractConstants;
 use tdt\core\universalfilter\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\universalfilter\interpreter\UniversalInterpreter;
 
@@ -19,7 +19,7 @@ class ExecuterDateTimeTools {
 
     /**
      * Reads the internal format.
-     * 
+     *
      * @param string $value
      * @param string $what
      * @return DateTime the datetime in the value
@@ -35,8 +35,8 @@ class ExecuterDateTimeTools {
     /**
      * Calculates the days that passed since the start of the year...
      *
-     * @param DateTime $datetime 
-     * @return int 
+     * @param DateTime $datetime
+     * @return int
      */
     static function daysSinceStartYear(DateTime $datetime) {
         $datediff = $datetime->diff(new DateTime($datetime->format("Y") . "0101"));
@@ -45,7 +45,7 @@ class ExecuterDateTimeTools {
 
     /**
      * Extracts some part out of the date.
-     * 
+     *
      * @param DateTime $datetime
      * @param string $constant (see DateTimeExtractConstants)
      * @return string the result
@@ -79,10 +79,10 @@ class ExecuterDateTimeTools {
 
     /**
      * Convert a string to an DateInterval-object
-     * 
+     *
      * @param string $diffstring
      * @param string $constant
-     * @return DateInterval 
+     * @return DateInterval
      */
     static function toInterval($diffstring, $constant) {
         $replacementmap = array(

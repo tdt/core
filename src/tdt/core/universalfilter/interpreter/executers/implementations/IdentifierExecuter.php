@@ -3,7 +3,7 @@
 /**
  * Executes an Identifier
  *
- * format: 
+ * format:
  * - package.package.resource
  * - package.package.resource.name_of_column
  * - alias.name_of_column
@@ -23,7 +23,7 @@ use tdt\core\universalfilter\interpreter\Environment;
 use tdt\core\universalfilter\interpreter\executers\base\AbstractUniversalFilterNodeExecuter;
 use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 use tdt\exceptions\TDTException;
 use tdt\core\utility\Config;
 
@@ -52,7 +52,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(500,array("The identifier " . $this->filter->getIdentifierString() . "can not be found. It is not a column."),$exception_config);
+                throw new TDTException(500,array("The identifier " . $this->filter->getIdentifierString() . " can not be found. It is not a column."),$exception_config);
             }
             if (!$this->isColumn) {
                 $this->singlevaluecolumnheader = $this->header->getColumnInformationById($this->header->getColumnId());
@@ -60,7 +60,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             }
         } else {
             $this->isNewTable = true;
-            // load new table               
+            // load new table
             $tableName = $filter->getIdentifierString();
             try {
                 $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
@@ -68,7 +68,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(500, array("IdentifierExectuer - The identifier " . $tableName . " can not be found. It is not a table."), $exception_config);
+                throw new TDTException(500, array("IdentifierExecuter - The identifier " . $tableName . " can not be found. It is not a table."), $exception_config);
             }
         }
     }

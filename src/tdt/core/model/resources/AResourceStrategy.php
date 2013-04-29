@@ -22,7 +22,8 @@ use tdt\core\utility\Config;
 
 abstract class AResourceStrategy {
 
-    protected static $DEFAULT_PAGE_SIZE = 50;    
+    protected static $DEFAULT_PAGE_SIZE = 50;
+    protected $rest_params = array();
 
     /**
      * This functions contains the businesslogic of a read method (non paged reading)
@@ -78,6 +79,11 @@ abstract class AResourceStrategy {
                 }
             }
             return R::store($resource);
+        }else{
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(452, array("Something went wrong during the validation of the generic resource."), $exception_config);
         }
     }
 
@@ -85,8 +91,12 @@ abstract class AResourceStrategy {
 
     }
 
-    public function setParameter($key, $value) {             
+    public function setParameter($key, $value) {
         $this->$key = $value;
+    }
+
+    public function setRestParameters($rest_params = array()){
+        $this->rest_params = $rest_params;
     }
 
     /**
@@ -178,7 +188,7 @@ abstract class AResourceStrategy {
         $link_header_set = false;
         foreach(headers_list() as $header){
             if(substr($header,0,4) == "Link"){
-                $header.=", ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page=" 
+                $header.=", ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
                 . $page . "&page_size=" . $page_size . ";rel=" . $referral;
                 header($header);
                 $link_header_set = true;
@@ -186,10 +196,10 @@ abstract class AResourceStrategy {
         }
 
         if(!$link_header_set){
-            header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page=" 
-                . $page . "&page_size=" . $page_size . ";rel=" . $referral);        
+            header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
+                . $page . "&page_size=" . $page_size . ";rel=" . $referral);
         }
-        
+
 
     }
 

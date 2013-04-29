@@ -1,39 +1,69 @@
 <?php
 
 /**
- * This class handles a SPARQL query
+ * This class handles Turtle input
  *
  * @copyright (C) 2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Miel Vander Sande
- * @author Pieter Colpaert
  */
 
 namespace tdt\core\strategies;
 
-use tdt\core\model\resources\AResourceStrategy;
-use tdt\exceptions\TDTException;
-use RedBean_Facade as R;
-
-class SPARQL extends AResourceStrategy {
+class SPARQL extends RDFXML {
 
     public function read(&$configObject, $package, $resource) {
-        $uri = $configObject->endpoint . '?query=' . urlencode($configObject->query) . '&format=' . urlencode("application/json");
-        $data = \tdt\core\utility\Request::http($uri);
-        return json_decode($data->data);
+        $param = get_object_vars($this);
+        unset($param["rest_params"]);
+        foreach ($param as $key => $value) {
+            $value = addslashes($value);
+            $configObject->query = str_replace("\$\{$key\}", "\"$value\"", $configObject->query);
+        }
+
+        /* configuration */
+//        $config = array(
+//            /* remote endpoint */
+//            'remote_store_endpoint' => $configObject->endpoint,
+//        );
+
+        /* instantiation */
+        //$store = \ARC2::getRemoteStore($config);
+
+        $matches = array();
+        preg_match_all("/GRAPH\s*?<(.*?)>/", $configObject->query, $matches, PREG_SET_ORDER);
+
+
+        foreach ($matches as $match) {
+            $graph = $match[1];
+            $replace = \tdt\core\model\DBQueries::getLatestGraph($graph);
+            
+            if ($replace)
+                $configObject->query = str_replace("GRAPH <$graph>", "GRAPH <$replace>", $configObject->query);
+    
+        }
+
+
+        $q = urlencode($configObject->query);
+        $q = str_replace("+", "%20", $q);
+
+        $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
+
+        return parent::read($configObject, $package, $resource);
+        //$rows = $store->query($configObject->query);
+        //return $rows;
     }
 
     public function isValid($package_id, $generic_resource_id) {
-        $uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/json");
-        $data = \tdt\core\utility\Request::http($uri);
-        $result = json_decode($data->data);
-        if (!$result) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("Could not transform the json data from " . $uri . " to a php object model, please check if the json is valid."), $exception_config);
-        }
-        return true;
+        $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/rdf+xml");
+
+        /* parser instantiation */
+        $parser = \ARC2::getSPARQLParser();
+
+        $parser->parse($this->query);
+        if ($parser->getErrors())
+            throw new TDTException(400, array("SPARQL Query could not be parsed."), $exception_config);
+
+        return parent::isValid($package_id, $generic_resource_id);
     }
 
     /**
@@ -55,7 +85,9 @@ class SPARQL extends AResourceStrategy {
     public function documentCreateParameters() {
         return array(
             "endpoint" => "The URI of the SPARQL endpoint.",
-            "query" => "The SPARQL query"
+            "query" => "The SPARQL query",
+            "endpoint_user" => "Username for file behind authentication",
+            "endpoint_password" => "Password for file behind authentication"
         );
     }
 

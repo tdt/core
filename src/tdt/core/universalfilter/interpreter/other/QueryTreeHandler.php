@@ -7,14 +7,14 @@
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt
- * 
+ *
  */
 
 namespace tdt\core\universalfilter\interpreter\other;
 
 use tdt\core\universalfilter\converter\SQLConverter;
 use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
-use tdt\core\universalfilter\UniversalFilterNode;
+use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class QueryTreeHandler {
 
@@ -45,7 +45,7 @@ class QueryTreeHandler {
 
         while ($currentNode != null && !$found) {
             $type = $currentNode->getType();
-            
+
             switch ($clause) {
                 case "orderby":
                     if ($type == "FILTERSORTCOLUMNS") {

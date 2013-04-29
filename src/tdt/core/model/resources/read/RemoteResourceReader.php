@@ -51,6 +51,10 @@ class RemoteResourceReader extends AReader {
             $url = $url . $this->$param . "/";
         }
 
+        foreach($this->RESTparameters as $param){
+            $url = $url . $param . "/";
+        }
+
         $url = rtrim($url, "/");
         //add format: php because we're going to deserialize this
         $url .= ".php";

@@ -9,9 +9,10 @@ components to make the datatank structure work. Currently it will install the re
 
 This can be done by using [composer](http://getcomposer.org/) and performing <b>composer install</b> in the directory of the tdt/start location. You can recognize this location by the presence of a composer.json file.
 
+
 If you're planning on using the tdt/core as stand alone, you'll have to use the configuration of tdt/start and a mapping of the routes to their respective regular expression. This information can be found on [here](https://github.com/tdt/start/blob/master/app/config/cores.example.json).
 
-# Create instances
+# Create instances aka resources
 
 See examples/
 
@@ -78,6 +79,81 @@ denied from creation.
 ### universalfilter
 
 This folder contains a large set of classes that allow for querying on top of PHP objects.
+
+
+## Stand-alone usage
+
+The tdt/core can be installed via composer and provides the following functionality if used without any other tdt/ components:
+
+* define resource definitions to read data such as CSV, XML, SHP files and databases.
+* process this data and creating PHP objects out of it
+
+To do this you'll need to used the ResourcesModel class, found in model/ResourcesModel.php. This class represents the resource definition of every resource. It needs a configuration parameter in order to work though, so let's take a look at how this configuration parameter is supposed to look like.
+
+### Making an instance
+
+The ResourcesModel class is a Singleton class, so you'll have to create an instance once with a configuration parameter. This configuration tells our ResourcesModel where to put and get our definitions.
+The configuration parameter is an array and, if used stand-alone wise, consists of 2 subarrays namely *general* and *db*.
+
+The *general* entry in the configuration array is again an array consisting of the following key-value pairs:
+
+* timezone => string i.e. Europe/Brussels
+* defaultlanguage => string i.e 'en'
+* defaultformat => string 'json'
+* accesslogapache => string i.e. 'C:\wamp\logs\access.log'
+* apachelogformat => string i.e 'common'
+
+* cache => array (system => string 'MemCache' ,'host' => string 'localhost' (length=9),'port' => int 11211)
+* faultinjection' => array('enabled' => boolean true,'period' => int 1000)
+* auth => array('enabled' => boolean true,'api\_user' => string 'username', 'api\_passwd' => string 'password')
+* logging' => array('enabled' => boolean true, 'path' => string 'C:\wamp\www\startLogs')
+
+The *db* entry is also an array containing the following key-value pairs:
+
+* system => string i.e. 'mysql'
+* host => string i.e. 'localhost'
+* name => string i.e. 'my_database'
+* user => string i.e. 'root'
+* password' => string i.e. 'password'
+
+Write rights are necessary for the user you pass along in the *db*-entry of the configuration array.
+
+So far so good, you got your resources model. Now in order to read data from resource definitions, you need to use the *createResource* and *readResource* functions.
+
+### createResource
+
+The createResource function takes 2 arguments:
+
+1. parameter-resource-string
+2. parameters array
+
+The first is the name under which you want to put your resource definition. Say for example you want to put a definition of a dataset concerning the population of the north pole into your datatank, you might opt to give that string the value "nortpole/population".
+
+The second parameter is an array containing necessary parameters for your resource, aka your definition or your resource. To know what the necessary parameters are for your file you want to publish take a look at TDTInfo/Admin. This resource is a standard given resource containing all the information an admin user can do on a DataTank. A CSV file resource for example will take parameters such as "delimiter" whereas a database resource will take parameters such as db\_password.
+
+### readResource
+
+The readResource function takes 4 arguments:
+
+1. packagename
+2. resourcename
+3. parameters
+4. RESTparameters
+
+The first two parameters are pretty straightforward, let's say that we want to read our previously added northpole population data source we have to give packagename and resourcename the values "northpole" and "population" respectively.
+
+The third parameter is an array containing read parameters, these are key-value pairs that you would normally pass along in the query string in a URL. If these are applicable fill those in, otherwise pass along an empty array.
+
+The fourth parameter is RESTparameters, and is used to dig into an object. For example:
+
+
+northpole/population returns this data object:
+
+object=> populationdata => array(region1 => some data
+                   ,region2 => some data
+                   ,region3 => some data )
+
+Now if I only want data about region1 I can pass along with the RESTparameter parameter an array which holds a 2 strings: "populationdata", "region1". This will return only the data about region1.
 
 # Coding standards
 
