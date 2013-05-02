@@ -23,7 +23,7 @@ class SHP extends ATabularData {
 
     public function documentCreateParameters(){
         return array("uri" => "The path to the shape file (can be a url).",
-                     "EPSG" => "EPSG coordinate system code. Default to 4326.",
+                     "epsg" => "EPSG coordinate system code. Default to 4326.",
                      "columns" => "The columns that are to be published. By default it will publish all columns.",
                      "PK" => "The primary key for each row.",
         );
@@ -57,10 +57,6 @@ class SHP extends ATabularData {
 
         if (!isset($this->PK)) {
             $this->PK = "";
-        }
-
-        if (!isset($this->EPSG)) {
-            $this->EPSG = "4326";
         }
 
         $uri = $this->uri;
@@ -137,8 +133,8 @@ class SHP extends ATabularData {
 
         $PK = $configObject->PK;
 
-        if(!empty($configObject->EPSG)){
-            $EPSG = $configObject->EPSG;
+        if(!empty($configObject->epsg)){
+            $EPSG = $configObject->epsg;
         }
 
         $columns = $configObject->columns;
@@ -182,11 +178,11 @@ class SHP extends ATabularData {
                     // read shape data
                     $shp_data = $record->getShpData();
 
-                    //if (!empty($EPSG)) {
+                    if (!empty($EPSG)) {
                         $proj4 = new \Proj4php();
-                        $projSrc = new \Proj4phpProj('EPSG:'. 31370,$proj4);
+                        $projSrc = new \Proj4phpProj('EPSG:'. $EPSG,$proj4);
                         $projDest = new \Proj4phpProj('EPSG:4326',$proj4);
-                    //}
+                    }
 
                     if(isset($shp_data['parts'])) {
 
@@ -196,13 +192,15 @@ class SHP extends ATabularData {
                             foreach ($part['points'] as $point) {
                                 $x = $point['x'];
                                 $y = $point['y'];
-                                //if()
-                                $pointSrc = new \proj4phpPoint($x,$y);
 
-                                $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
-                                $x = $pointDest->x;
-                                $y = $pointDest->y;
-                                //
+                                if(!empty($EPSG)){
+
+                                    $pointSrc = new \proj4phpPoint($x,$y);
+
+                                    $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                                    $x = $pointDest->x;
+                                    $y = $pointDest->y;
+                                }
 
                                 $points[] = $x.','.$y;
                             }
@@ -216,7 +214,7 @@ class SHP extends ATabularData {
                         $x = $shp_data['x'];
                         $y = $shp_data['y'];
 
-                        if ($EPSG != "") {
+                        if (!empty($EPSG)) {
                             $pointSrc = new \proj4phpPoint($x,$y);
                             $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
                             $x = $pointDest->x;
