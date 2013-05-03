@@ -36,19 +36,6 @@ class RController extends AController {
         $pieces = explode("/", $packageresourcestring);
         $package = array_shift($pieces);
 
-
-        /**
-         * GET operations on TDTAdmin need to be authenticated!
-         */
-        if ($package == "tdtadmin") {
-            //we need to be authenticated
-            if (!$this->isBasicAuthenticated()) {
-                header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-                header('HTTP/1.0 401 Unauthorized');
-                exit();
-            }
-        }
-
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $doc = $model->getAllDoc();
         $result = $model->processPackageResourceString($packageresourcestring);
@@ -210,17 +197,6 @@ class RController extends AController {
         $package = array_shift($pieces);
         $package = strtolower($package);
 
-        /**
-         * Even GET operations on TDTAdmin need to be authenticated!
-         */
-        if ($package == "tdtadmin") {
-            //we need to be authenticated
-            if (!$this->isBasicAuthenticated()) {
-                header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-                header('HTTP/1.0 401 Unauthorized');
-                exit();
-            }
-        }
 
         //Get an instance of our resourcesmodel
         $model = ResourcesModel::getInstance(Config::getConfigArray());

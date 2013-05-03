@@ -94,13 +94,6 @@ class CUDController extends AController {
             throw new TDTException(452, array($packageresourcestring), $exception_config, $exception_config);
         }
 
-        //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
-        }
-
         //fetch all the PUT variables in one array
         // NOTE: when php://input is called upon, the contents are flushed !! So you can call php://input only once !
         $HTTPheaders = getallheaders();
@@ -180,12 +173,6 @@ class CUDController extends AController {
             throw new TDTException(404, array($packageresourcestring), $exception_config);
         }
 
-        //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
-        }
         //delete the package and resource when authenticated and authorized in the model
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         if ($resource == "") {
@@ -269,13 +256,6 @@ class CUDController extends AController {
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(404, array($packageresourcestring), $exception_config);
-        }
-
-        //we need to be authenticated
-        if (!$this->isBasicAuthenticated()) {
-            header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-            header('HTTP/1.0 401 Unauthorized');
-            exit();
         }
 
         // patch (array) contains all the patch parameters

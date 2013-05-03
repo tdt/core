@@ -102,15 +102,6 @@ class SPECTQLController extends AController {
          * we're going to find out if the TDTAdmin has been adressed.
          */
 
-        if (preg_match("/.*TDTAdmin.*/i", $query) == 1) {
-            if (!$this->isBasicAuthenticated()) {
-                //we need to be authenticated
-                header('WWW-Authenticate: Basic realm="' . $this->hostname . $this->subdir . '"');
-                header('HTTP/1.0 401 Unauthorized');
-                exit();
-            }
-        }
-
         $parser = new SPECTQLParser($query);
         $context = array(); // array of context variables
 
