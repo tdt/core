@@ -115,9 +115,13 @@ class SPARQL extends RDFXML {
     }
 
     private function processParameters($query) {
-        $param = get_object_vars($this);
-        unset($param["rest_params"]);
+        
+        //Cannot use this
+//        $param = get_object_vars($this);
+//        unset($param["rest_params"]);
 
+        $param = $_GET;
+        
         $placeholders = array();
         preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders);
 
