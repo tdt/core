@@ -123,15 +123,15 @@ class SPARQL extends RDFXML {
         $param = $_GET;
         
         $placeholders = array();
-        preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders);
+        preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders, PREG_SET_ORDER);
 
         for ($i = 1; $i < count($placeholders); $i++) {
-            $placeholder = trim($placeholders[$i][0]);
+            $placeholder = trim($placeholders[0][$i]);
 
             $elements = array();
             //For example ${x.each('?t = $_','||')}
             preg_match_all("/([a-zA-Z]+?)\\.([a-zA-Z]+?)\\('(.*?)','(.*?)'\\)/", $placeholder, $elements, PREG_SET_ORDER);
-
+            
             if (!empty($elements))
                 $placeholder = trim($elements[0][1]);
 
