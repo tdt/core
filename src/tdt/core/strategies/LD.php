@@ -10,6 +10,7 @@
  */
 
 namespace tdt\core\strategies;
+use RedBean_Facade as R;
 
 class LD extends SPARQL {
 
@@ -20,7 +21,11 @@ class LD extends SPARQL {
         $uri = $requestURI->getRealWorldObjectURI();
         //Get graph to query from URI
         $graph = substr($uri, 0, stripos($uri, $package . "/" .$resource) + strlen($package . "/" .$resource));
-        
+        $otherpart = substr($uri, stripos($uri, $package . "/" .$resource) + strlen($package . "/" .$resource));
+        $resultgraph = R::getRow( 'select graph_name from graph WHERE graph_name like :graph COLLATE utf8_general_ci limit 1', array(':graph' => $graph) );
+        $graph = $resultgraph["graph_name"];  
+        $uri = $graph . $otherpart;
+
         //$base_uri = implode("/",array($requestURI->getHostName(),$requestURI->getPackage(),$requestURI->getResource()));
         //a lot of rewriting uri mumbo jumbo and adding LDP implementation (we need to be able to manipulate an rdf model here...)
         $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
