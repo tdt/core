@@ -190,14 +190,6 @@ class SPARQL extends RDFXML {
 
     public function isValid($package_id, $generic_resource_id) {
         $this->uri = $this->endpoint . '?query=' . urlencode($this->query) . '&format=' . urlencode("application/rdf+xml");
-
-        /* parser instantiation */
-        $parser = \ARC2::getSPARQLParser();
-
-        $parser->parse($this->query);
-        if ($parser->getErrors())
-            throw new TDTException(400, array("SPARQL Query could not be parsed."), $exception_config);
-
         return parent::isValid($package_id, $generic_resource_id);
     }
 
