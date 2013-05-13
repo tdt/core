@@ -19,10 +19,10 @@ use tdt\core\utility\Config;
 use tdt\formatters\Formatter;
 
 class Doc {
+
     /*
      * installation variables
      */
-
     private $hostname;
     private $subdir;
 
@@ -34,7 +34,6 @@ class Doc {
     /*
      * prepare the caching configuration
      */
-
     private function prepareCacheConfig() {
         $cache_config = array();
 

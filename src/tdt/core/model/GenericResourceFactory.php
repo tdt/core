@@ -142,11 +142,9 @@ class GenericResourceFactory extends AResourceFactory {
                     }
                     $doc->$package->$resourcename->column_aliases = $columnAliases;
                 }
-
-                $doc->$package->$resourcename->parameters = array();
-                $doc->$package->$resourcename->requiredparameters = array();
             }
         }
+        var_dump($doc);
     }
 
     protected function getAllResourceNames() {
