@@ -144,7 +144,6 @@ class GenericResourceFactory extends AResourceFactory {
                 }
             }
         }
-        var_dump($doc);
     }
 
     protected function getAllResourceNames() {
