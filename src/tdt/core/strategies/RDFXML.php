@@ -57,16 +57,22 @@ class RDFXML extends AResourceStrategy {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("The SPARQL endpoint returned an error: curl_error($ch)"), $exception_config);
+            throw new TDTException(500, array("The call to the SPARQL endpoint returned an error: curl_error($ch)"), $exception_config);
         }
 
         $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ($response_code != "200"){
+        if ($response_code != "200"){ // According to the SPARQL 1.1 spec, it can only return 200,400,500 reponses.
+
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("The SPARQL query failed, with response code: $response_code and message: $response."), $exception_config);
+
+            if($response_code == "400"){
+                throw new TDTException(452, array("The SPARQL query failed, with the message: $response."), $exception_config);
+            }else{
+                throw new TDTException(500, array("The SPARQL query failed, with response code: $response_code and message: $response."), $exception_config);
+            }
         }
 
 
