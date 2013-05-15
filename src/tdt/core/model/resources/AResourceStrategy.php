@@ -199,8 +199,48 @@ abstract class AResourceStrategy {
             header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
                 . $page . "&page_size=" . $page_size . ";rel=" . $referral);
         }
+    }
 
+    /**
+     * Calculate the limit and offset based on the request string parameters.
+     */
+    protected function calculateLimitAndOffset(){
+        if(empty($this->limit) && empty($this->offset)){
 
+            if(empty($this->page)){
+                $this->page = 1;
+            }
+
+            if(empty($this->page_size)){
+                $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            $this->offset = ($this->page -1)*$this->page_size;
+            $this->limit = $this->page_size;
+
+        }else{
+
+            if(empty($this->limit)){
+                $this->limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            if(empty($this->offset)){
+                $this->offset = 0;
+            }
+
+            // calculate the page and size from limit and offset as good as possible
+            // meaning that if offset<limit, indicates a non equal division of pages
+            // it will try to restore that equal division of paging
+            // i.e. offset = 2, limit = 20 -> indicates that page 1 exists of 2 rows, page 2 of 20 rows, page 3 min. 20 rows.
+            // paging should be (x=size) x, x, x, y < x EOF
+            $page = $this->offset/$this->limit;
+            $page = round($page,0,PHP_ROUND_HALF_DOWN);
+            if($page==0){
+                $page = 1;
+            }
+            $this->page = $page;
+            $this->page_size = $this->limit ;
+        }
     }
 
 }

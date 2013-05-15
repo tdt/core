@@ -15,18 +15,21 @@ use tdt\core\model\resources\AResourceStrategy;
 class RDFXML extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
+
+        $this->package = $package;
+        $this->resource = $resource;
+
+        $this->calculateLimitAndOffset();
         $parser = \ARC2::getRDFXMLParser();
-        //$data = \tdt\core\utility\Request::http($configObject->uri);
         $data = $this->execRequest($configObject->uri, $configObject->endpoint_user, $configObject->endpoint_password);
         $parser->parse("",$data);
-        //$parser->parse("",$data->data);
 
         return $parser;
     }
-    
+
     private function execRequest($uri, $usr = "", $pass = "") {
 
-        // is curl installed?
+        // Is curl installed?
         if (!function_exists('curl_init')) {
             throw new \Exception('CURL is not installed!');
         }
@@ -36,7 +39,7 @@ class RDFXML extends AResourceStrategy {
 
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         curl_setopt($ch, CURLOPT_USERPWD, $usr . ":" . $pass);
-        
+
         // set request url
         curl_setopt($ch, CURLOPT_URL, $uri);
 
@@ -51,7 +54,7 @@ class RDFXML extends AResourceStrategy {
             echo "endpoint returned error: " . curl_error($ch) . " - ";
             throw new \Exception("Endpoint returned an error!");
         }
-        
+
         $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($response_code != "200")
@@ -69,10 +72,10 @@ class RDFXML extends AResourceStrategy {
     public function isValid($package_id, $generic_resource_id) {
         $parser = \ARC2::getRDFXMLParser();
         $parser->parse($this->uri);
-        
+
         if (!$parser)
             throw new TDTException(500, array("Could not transform the RDF/XML data from " . $this->uri . " to a ARC model, please check if the RDF/XML is valid."), $exception_config);
-        
+
         return true;
     }
 
