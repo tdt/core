@@ -48,11 +48,6 @@ class LD extends SPARQL {
             $this->setLinkHeader($this->page+1, $this->page_size, "next");
         }
 
-        // http://docs.openlinksw.com/virtuoso/rdfsparql.html
-        // So when constructing a graph, limit will limit the amount of triples, not results
-        // therefore: amount of triples x limit
-        //$limit = $this->limit * 4;
-
         $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
         $configObject->query .= "WHERE { GRAPH <$graph> { ";
         $configObject->query .= "?s ?p ?o .";
