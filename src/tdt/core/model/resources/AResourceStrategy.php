@@ -22,7 +22,7 @@ use tdt\core\utility\Config;
 
 abstract class AResourceStrategy {
 
-    protected static $DEFAULT_PAGE_SIZE = 50;
+    protected static $DEFAULT_PAGE_SIZE = 500;
     protected $rest_params = array();
 
     /**
