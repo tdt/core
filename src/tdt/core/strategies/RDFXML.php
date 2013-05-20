@@ -21,6 +21,13 @@ class RDFXML extends AResourceStrategy {
         $this->resource = $resource;
 
         $this->calculateLimitAndOffset();
+
+        // Virtuoso only allows for 10000 rows to sort, so we have to limit the limit :).
+        if($this->limit > 10000){
+            $this->limit = 10000;
+            $this->page_size = 10000;
+        }
+
         $parser = \ARC2::getRDFXMLParser();
         $data = $this->execRequest($configObject->uri, $configObject->endpoint_user, $configObject->endpoint_password);
         $parser->parse("",$data);

@@ -553,9 +553,6 @@ class CSV extends ATabularData implements IFilter{
                 $result[$value] = $data[$index];
             }else{
                 $result[$value] = "";
-                $log = new Logger('CSV');
-                $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
-                $log->addAlert("$this->package/$this->resource : The column index $index has not been found in the CSV file, most likely this is due to an empty value.");
             }
         }
         return $result;
