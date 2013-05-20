@@ -46,6 +46,12 @@ class LD extends SPARQL {
 
         if($this->limit + $this->offset < $count){
             $this->setLinkHeader($this->page+1, $this->page_size, "next");
+
+            $last_page = round($count / $this->limit,0);
+            if($last_page > $this->page+1){
+                $this->setLinkHeader($last_page,$this->limit, "last");
+            }
+
         }
 
         $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
