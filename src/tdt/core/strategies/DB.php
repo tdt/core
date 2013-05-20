@@ -21,13 +21,7 @@ use tdt\exceptions\TDTException;
 use tdt\core\model\resources\AResourceStrategy;
 
 class DB extends ATabularData implements IFilter {
-    /*
-     * If no limit is defined, get a default maximum of rows
-     * This way reading a database with a large set of records will not cause
-     * the PHP execution to crash of memory allocation.
-     */
 
-    private static $READ_MAX_AMOUNT_OF_ROWS = 150;
     //lowercase engine names
     private static $supportedEngines = array("mysql");
 

@@ -24,7 +24,7 @@ class UniversalFilterTable {
     /**
      * Makes a new table.
      * @param UniversalFilterTableHeader $header
-     * @param UniversalFilterTableContent $content 
+     * @param UniversalFilterTableContent $content
      */
     public function __construct($header, $content) {
         $this->header = $header;
@@ -49,7 +49,7 @@ class UniversalFilterTable {
 
     /**
      * sets the header of this table
-     * @param UniversalFilterTableHeader $header 
+     * @param UniversalFilterTableHeader $header
      */
     public function setHeader(UniversalFilterTableHeader $header) {
         $this->header = $header;
@@ -57,12 +57,10 @@ class UniversalFilterTable {
 
     /**
      * sets the content of this table
-     * @param UniversalFilterTableContent $content 
+     * @param UniversalFilterTableContent $content
      */
     public function setContent(UniversalFilterTableContent $content) {
         $this->content = $content;
     }
 
 }
-
-?>

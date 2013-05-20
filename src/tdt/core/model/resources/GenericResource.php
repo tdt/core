@@ -52,7 +52,7 @@ class GenericResource {
 
         // pass these parameters onto the createConfig to create the config object
         $configObject = $this->createConfigObject($parameters, $strat);
-        
+
         // give the config object to the read function!
         return $strat->read($configObject, $this->package, $this->resource);
     }
@@ -111,5 +111,3 @@ class GenericResource {
     }
 
 }
-
-?>

@@ -798,6 +798,3 @@ class ResourcesModel {
     }
 
 }
-
-
-?>

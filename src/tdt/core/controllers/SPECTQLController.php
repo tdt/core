@@ -118,7 +118,7 @@ class SPECTQLController extends AController {
         echo $tree;
         echo "</pre>";
         exit();
-*/
+        */
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
@@ -132,6 +132,13 @@ class SPECTQLController extends AController {
         $o = new \stdClass();
         $o->$RESTresource = $object;
         $result = $o;
+
+        // Workaround, the spectql tree doesn't accept null as object to start with
+        // It gets it header names from it to continue processing the data.
+        // Workaround: return object with headernames, but with every datamember = null
+        if($this->isArrayNull($result->spectqlquery)){
+            $result->spectqlquery = array();
+        }
 
         $rootname = "spectqlquery";
 
@@ -244,6 +251,18 @@ class SPECTQLController extends AController {
         throw new TDTException(450, array("PATCH", $matches["query"]), $exception_config);
     }
 
-}
+    /**
+     * Check if the object is actually null
+     */
+    private function isArrayNull($array){
+        foreach($array as $arr){
+            foreach($arr as $key => $value){
+                if(!is_null($value))
+                    return false;
+            }
+        }
 
-?>
+        return true;
+    }
+
+}

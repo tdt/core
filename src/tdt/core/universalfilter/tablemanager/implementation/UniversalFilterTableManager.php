@@ -85,14 +85,20 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             $parameters["offset"] = $offset;
         }
 
-
         /**
          * Read the resource from the model
          */
         $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
 
-        //implement cache
-
+        if(empty($resourceObject)){
+            $column_names = $model->getColumnsFromResource($package,$resource);
+            $resourceObject = array();
+            $obj = new \stdClass();
+            foreach($column_names as $key => $column_name){
+                $obj->$column_name["column_name_alias"] = null;
+            }
+            array_push($resourceObject,$obj);
+        }
         return $resourceObject;
     }
 
@@ -283,13 +289,36 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             $resultObject = $model->readResourceWithFilter($query, $result);
 
             if (isset($resultObject->phpDataObject) && $resultObject->phpDataObject == NULL) {
+
                 return $query;
             } elseif ($resultObject->indexInParent == "-1") {
+
+                if(empty($resultObject->phpDataObject)){
+                    $column_names = $model->getColumnsFromResource($package,$resource);
+                    $arr = array();
+                    $obj = new \stdClass();
+                    foreach($column_names as $key => $column_name){
+                        $obj->$column_name["column_name_alias"] = null;
+                    }
+                    array_push($arr,$obj);
+                    $resultObject->phpDataObject = $arr;
+                }
 
                 $converter = new PhpObjectTableConverter();
                 $table = $converter->getPhpObjectTable($identifierpieces, $resultObject->phpDataObject);
                 return new ExternallyCalculatedFilterNode($table, $query);
             } else {// query has been partially executed
+
+                if(empty($resultObject->partialTreeResultObject) > 0){
+                    $column_names = $model->getColumnsFromResource($package,$resource);
+                    $arr = array();
+                    $obj = new \stdClass();
+                    foreach($column_names as $key => $column_name){
+                        $obj->$column_name["column_name_alias"] = null;
+                    }
+                    array_push($arr,$obj);
+                    $resultObject->partialTreeResultObject = $arr;
+                }
 
                 /*
                  * get the clauses from the resultObject
@@ -402,5 +431,3 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     }
 
 }
-
-?>
