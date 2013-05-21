@@ -27,7 +27,6 @@ class TDTInfoResources extends AReader {
     }
 
     public function setParameter($key, $val) {
-        //we don't have any parameters
     }
 
     public function read() {
@@ -45,11 +44,8 @@ class TDTInfoResources extends AReader {
             $package = $result["packagename"];
             $resource = $result["resourcename"];
 
-            /**
-             * If no resourcename has been passed, check the package in the packagename, instead of the description documentation.
-             */
 
-
+            // If no resourcename has been passed, check the package in the packagename, instead of the description documentation.
             if(isset($result_object->$package)){
                 $result_object = $result_object->$package;
             }else{
@@ -62,11 +58,6 @@ class TDTInfoResources extends AReader {
             if($resource != null || $resource != ""){
                 $result_object = $result_object->$resource;
             }
-
-
-            /**
-             * Take the rest of the RESTparameters into account
-             */
 
             $RESTparameters = $result["RESTparameters"];
             while(!empty($RESTparameters)){
@@ -85,13 +76,10 @@ class TDTInfoResources extends AReader {
 
 
         }
-
-
         return $result_object;
     }
 
     public static function getDoc() {
-        return "This resource contains the documentation of all resources.";
+        return "This resource contains the documentation of all the resources.";
     }
-
 }

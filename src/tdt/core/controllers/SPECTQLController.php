@@ -43,11 +43,8 @@ class SPECTQLController extends AController {
     public function GET($matches) {
 
         \tdt\core\utility\Config::setConfig(Config::getConfigArray());
-        /*
-         * Failsafe for when datablock files don't get deleted
-         * by the BigDataBlockManager.
-         */
 
+        // Failsafe, for when datablocks don't get deleted by the BigDataBlockManager.
         $tmpdir = SPECTQLController::$TMP_DIR . "*";
 
         $files = glob($tmpdir);
@@ -57,18 +54,10 @@ class SPECTQLController extends AController {
             }
         }
 
-        /*
-         * Parse the query
-         */
         $query = "/";
         if (isset($matches["query"])) {
             $query = $matches["query"];
         }
-
-        /**
-         * lower case the resource identifier
-         */
-
 
         // split off the format of the query, if passed
         $matches = array();
@@ -134,7 +123,7 @@ class SPECTQLController extends AController {
 
         // Workaround, the spectql tree doesn't accept null as object to start with
         // It gets it header names from it to continue processing the data.
-        // Workaround: return object with headernames, but with every datamember = null
+        // Workaround: return object with headernames, but with every datamember = null.
         if($this->isArrayNull($result->spectqlquery)){
             $result->spectqlquery = array();
         }
