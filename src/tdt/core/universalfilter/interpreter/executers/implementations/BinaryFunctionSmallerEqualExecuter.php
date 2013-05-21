@@ -12,7 +12,7 @@ class BinaryFunctionSmallerEqualExecuter extends BinaryFunctionExecuter {
         return $nameA . "_issmallerorequal_" . $nameB;
     }
     public function doBinaryFunction($valueA, $valueB) {
-        if ($valueA === null || $valueB === null)
+        if ($valueA === null || $valueB === null || ($valueA == "null" && is_numeric($valueB)))
             return null;
         return ($valueA <= $valueB ? "true" : "false");
     }

@@ -24,6 +24,7 @@ abstract class AResourceStrategy {
 
     protected static $DEFAULT_PAGE_SIZE = 500;
     protected $rest_params = array();
+    protected $link_referrals = array("last","previous","next");
 
     /**
      * This functions contains the businesslogic of a read method (non paged reading)
@@ -175,7 +176,7 @@ abstract class AResourceStrategy {
         /**
          * Process the correct referral options(next | previous)
          */
-        if($referral != "next" && $referral != "previous"){
+        if(!in_array($referral,$this->link_referrals)){
            $log = new Logger('AResourceStrategy');
            $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
            $log->addError("No correct referral has been found, options are 'next' or 'previous', the referral given was: $referral");
@@ -225,9 +226,6 @@ abstract class AResourceStrategy {
                 $this->offset = ($this->page -1)*$this->page_size;
                 $this->limit = $this->page_size;
             }
-
-
-
         }else{
 
             if(empty($this->limit)){

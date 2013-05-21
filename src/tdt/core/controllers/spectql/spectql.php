@@ -10,7 +10,6 @@ use tdt\core\universalfilter\universalfilters\Identifier;
 use tdt\core\universalfilter\universalfilters\LimitFilter;
 use tdt\core\universalfilter\universalfilters\SortFieldsFilter;
 use tdt\core\universalfilter\universalfilters\SortFieldsFilterColumn;
-
 /*
 
 DON'T EDIT THIS FILE!
@@ -388,7 +387,7 @@ var $i = array (
   ),
   44 =>
   array (
-    '\'.\'' => 's 13',
+    '\'.\'' => 'r 30',
     '\'&\'' => 'r 30',
     '\'|\'' => 'r 30',
     '\':\'' => 'r 30',
@@ -417,7 +416,7 @@ var $i = array (
   ),
   47 =>
   array (
-    '\'.\'' => 's 13',
+    '\'.\'' => 'r 32',
     '\'&\'' => 'r 32',
     '\'|\'' => 'r 32',
     '\':\'' => 'r 32',
@@ -446,7 +445,7 @@ var $i = array (
   ),
   50 =>
   array (
-    '\'.\'' => 's 13',
+    '\'.\'' => 'r 34',
     '\'&\'' => 'r 34',
     '\'|\'' => 'r 34',
     '\':\'' => 'r 34',
@@ -905,10 +904,10 @@ $sel =& $tokens[2];
 
 
 
-		// from
+    // from
         $totalfilter = new Identifier($tokens[0]);
 
-		// group by
+    // group by
         $groupby = array();
         $aggregate = false;
         foreach ($sel["identifiers"] as $identifier) {
@@ -929,12 +928,12 @@ $sel =& $tokens[2];
             $totalfilter = putFilterAfterIfExists($totalfilter, $datagrouper);
         }
 
-		// select
+    // select
         $selecttables = new ColumnSelectionFilter($sel["filters"]);
         $totalfilter = putFilterAfterIfExists($totalfilter, $selecttables);
 
 
-		// order by
+    // order by
         $orderby = new SortFieldsFilter($sel["sorts"]);
         if (!empty($sel["sorts"])) {
             $totalfilter = putFilterAfterIfExists($totalfilter, $orderby);
@@ -956,7 +955,7 @@ $fl =& $tokens[5];
 
 $totalfilter = new Identifier($tokens[0]);
 
-		// where
+    // where
         $expressionFilter = new FilterByExpressionFilter($fl);
         $totalfilter = putFilterAfterIfExists($totalfilter, $expressionFilter);
 
@@ -970,17 +969,17 @@ $totalfilter = new Identifier($tokens[0]);
             }
         }
 
-		// group by
+    // group by
         if ($aggregate) {
             $datagrouper = new DataGrouper($groupby);
             $totalfilter = putFilterAfterIfExists($totalfilter, $datagrouper);
         }
 
-		// functions (binary, unary or tertiary)
+    // functions (binary, unary or tertiary)
         $selecttables = new ColumnSelectionFilter($sel["filters"]);
         $totalfilter = putFilterAfterIfExists($totalfilter, $selecttables);
 
-		// order by
+    // order by
         $orderby = new SortFieldsFilter($sel["sorts"]);
         if (!empty($sel["sorts"])) {
             $totalfilter = putFilterAfterIfExists($totalfilter, $orderby);
@@ -1242,7 +1241,7 @@ $function =& $tokens[0];
 $lat =& $tokens[2];
 $long =& $tokens[4];
 $radius =& $tokens[6];
- /* TODO in radius function (ternary function)*/
+ /* TODO function (ternary function)*/
 }
 
 function reduce_36_selector_1($tokens, &$result) {
@@ -1262,7 +1261,7 @@ $result = reset($tokens);
 $arg =& $tokens[2];
  $filters = array_merge($tokens[0]["filters"],$tokens[2]["filters"]);
                                     $sorts   = array_merge($tokens[0]["sorts"],$tokens[2]["sorts"]);
-				    $identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
+            $identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
                                     $result = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers);
 }
 

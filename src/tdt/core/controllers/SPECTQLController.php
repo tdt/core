@@ -31,7 +31,6 @@ class SPECTQLController extends AController {
 
     public static $TMP_DIR = "";
 
-
     public function __construct() {
         parent::__construct();
         SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";

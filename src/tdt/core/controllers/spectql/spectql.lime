@@ -9,8 +9,7 @@
 %left '|'
 %left '+' '-'
 %left '*' '/'
-%left '>' EQ '<' '~'
-
+%left '>' EQ LE GE '<' '~' NE
 stmt = flow
 | flow ':' format
 .
