@@ -110,5 +110,3 @@ class RemoteResourceCreator extends ACreator {
     }
 
 }
-
-?>

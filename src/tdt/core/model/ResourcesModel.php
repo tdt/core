@@ -545,13 +545,9 @@ class ResourcesModel {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
+            throw new TDTException(452, array("Trying to delete $package / $resource, but it's no longer present in the back-end."), $exception_config);
         }
 
-        /**
-         * We only support the deletion of generic and remote resources and packages by
-         * an API call.
-         */
         $factory = "";
         if ($this->factories["generic"]->hasResource($package, $resource)) {
             $factory = $this->factories["generic"];
@@ -563,7 +559,7 @@ class ResourcesModel {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(452, array("package/resource pair: $package, $resource was not found."), $exception_config);
+            throw new TDTException(452, array("Trying to delete $package / $resource, but it's no longer present in the back-end."), $exception_config);
         }
         $deleter = $factory->createDeleter($package, $resource, $RESTparameters);
         $deleter->delete();

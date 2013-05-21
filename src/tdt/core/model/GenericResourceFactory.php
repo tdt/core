@@ -24,7 +24,6 @@ use tdt\core\utility\Config;
 class GenericResourceFactory extends AResourceFactory {
 
     public function __construct() {
-
     }
 
     public function hasResource($package, $resource) {

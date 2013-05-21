@@ -156,10 +156,16 @@ abstract class AResourceStrategy {
      * This function should only be used when validating a resource!!!
      */
     protected function throwException($package_id, $gen_resource_id, $message) {
+
+        $log = new Logger('AResourceStrategy');
+        $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
+        $log->addError($message);
+
         $resource_id = DBQueries::getAssociatedResourceId($gen_resource_id);
         $package = DBQueries::getPackageById($package_id);
         $resource = DBQueries::getResourceById($resource_id);
         ResourcesModel::getInstance(Config::getConfigArray())->deleteResource($package, $resource, array());
+
         $exception_config = array();
         $exception_config["log_dir"] = Config::get("general", "logging", "path");
         $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
