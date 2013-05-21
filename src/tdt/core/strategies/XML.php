@@ -18,7 +18,7 @@ use Monolog\Logger;
 use tdt\core\utility\Config;
 use tdt\core\utility\Request;
 
-include_once("/../../../../includes/XMLUtils.class.php");
+include_once(__DIR__ . "/../../../../includes/XMLUtils.class.php");
 
 class XML extends AResourceStrategy{
 
