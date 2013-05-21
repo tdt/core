@@ -103,7 +103,7 @@ class CSV extends ATabularData implements IFilter{
             throw new TDTException(452, array("The amount of REST parameters given, is too high. In a CSV resource, you can only give up to 2 REST parameters."), $exception_config);
 
         }else if(count($this->rest_params) > 0){
-            if(!is_numeric($this->rest_params[0]) || $this->rest_params[0] < 0){
+            if($this->rest_params[0] < 0){
 
                $exception_config = array();
                $exception_config["log_dir"] = Config::get("general", "logging", "path");
