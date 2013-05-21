@@ -138,5 +138,3 @@ class Doc {
         return $doc;
     }
 }
-
-?>
