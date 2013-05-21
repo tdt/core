@@ -142,9 +142,7 @@ class SPECTQLController extends AController {
 
         $rootname = "spectqlquery";
 
-        /**
-         * adjust header if given from the read() of a resource
-         */
+        // Adjust the paging Link HTTP headers to SPECTQL uri's.
         foreach(headers_list() as $header){
             if(substr($header,0,4) == "Link"){
                 $ru = RequestURI::getInstance(Config::getConfigArray());
@@ -153,38 +151,41 @@ class SPECTQLController extends AController {
 
                 // cut off the format, position = position of the ':' before the format
                 $position = strrpos($pageURL,":");
-                $next_query_url = substr($pageURL,0,$position);
+                $base_url = substr($pageURL,0,$position);
 
-                /**
-                 * Link to next
-                 * Get the link to next, if present
-                 * Adjust the spectql query URL with the next limit(..,..) and format
-                 */
+                // Cut off the limit() clause if present.
+                $base_url = preg_replace('/(\.limit\(.*\))/','',$base_url);
+
+
+                // Next page link.
                 $matches = array();
                 if(preg_match('/page=(.*)&page_size=(.*);rel=next.*/',$header,$matches)){
 
                     $offset = ($matches[1] - 1) * $matches[2];
-                    $limit = $offset + $matches[2];
-                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
-                    $new_link_header.= $next_query_url . ";rel=next;";
+                    $limit = $matches[2];
+                    $next_url = $base_url . ".limit(" . $offset . "," . $limit . "):" . $format;
+                    $new_link_header.= $next_url . ";rel=next, ";
                 }
 
-                /**
-                 * Link to previous
-                 */
+                // Previous page link.
                 $matches = array();
                 if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=previous.*/',$header,$matches)){
                     $offset = ($matches[1] - 1) * $matches[2];
-                    $limit = $offset + $matches[2];
-                    $next_query_url.= ".limit(" . $offset . "," . $limit . "):" . $format;
-                    $new_link_header.= $next_query_url . ";rel=previous";
+                    $limit = $matches[2];
+                    $previous_url = $base_url . ".limit(" . $offset . "," . $limit . "):" . $format;
+                    $new_link_header.= $previous_url . ";rel=previous, ";
                 }
 
-                $new_link_header = rtrim($new_link_header,";");
-                /**
-                 * Set the adjusted Link header
-                 */
+                // Last page link.
+                $matches = array();
+                if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=last.*/',$header,$matches)){
+                    $offset = ($matches[1] - 1) * $matches[2];
+                    $limit = $matches[2];
+                    $last_url = $base_url . ".limit(" . $offset . "," . $limit . "):" . $format;
+                    $new_link_header.= $last_url . ";rel=last, ";
+                }
 
+                $new_link_header = rtrim($new_link_header,", ");
                 header($new_link_header);
             }
         }
