@@ -20,6 +20,7 @@ class LD extends SPARQL {
         $requestURI = \tdt\core\utility\RequestURI::getInstance();
 
         $uri = $requestURI->getRealWorldObjectURI();
+
         //Get graph to query from URI
         $graph = substr($uri, 0, stripos($uri, $package . "/" .$resource) + strlen($package . "/" .$resource));
         $otherpart = substr($uri, stripos($uri, $package . "/" .$resource) + strlen($package . "/" .$resource));
@@ -27,7 +28,7 @@ class LD extends SPARQL {
         $graph = $resultgraph["graph_name"];
         $uri = $graph . $otherpart;
 
-        $configObject->query = "SELECT count(?s) AS ?count WHERE{ GRAPH <$graph> { ?s ?p ?o . FILTER (?s LIKE '$uri%')}}";
+        $configObject->query = "SELECT count(?s) AS ?count WHERE{ GRAPH <$graph> { ?s ?p ?o . FILTER ( (?s LIKE '$uri') OR (?s LIKE '$uri/%') )}}";
         $count_obj = parent::read($configObject,$package,$resource);
         $triples = $count_obj->triples;
 
@@ -52,7 +53,6 @@ class LD extends SPARQL {
             if($last_page > $this->page+1){
                 $this->setLinkHeader($last_page,$this->limit, "last");
             }
-
         }
 
         $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
