@@ -60,6 +60,7 @@ class LD extends SPARQL {
         $configObject->query .= "?s ?p ?o .";
         $configObject->query .= "FILTER ( (?s LIKE '$uri') OR (?s LIKE '$uri/%') )";
         $configObject->query .= "}  } ORDER BY asc(?s) OFFSET $this->offset LIMIT $this->limit";
+        $configObject->isPaged = true;
 
         return parent::read($configObject, $package, $resource);
     }

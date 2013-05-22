@@ -105,7 +105,9 @@ class SPARQL extends RDFXML {
             }
         }
 
-        $configObject->query = $configObject->query . " OFFSET $this->offset LIMIT $this->limit";
+        if(empty($configObject->isPaged)){
+            $configObject->query = $configObject->query . " OFFSET $this->offset LIMIT $this->limit";
+        }
 
         $q = urlencode($configObject->query);
         $q = str_replace("+", "%20", $q);
