@@ -175,7 +175,8 @@ class CSV extends ATabularData implements IFilter{
 
                         foreach($values as $key => $value){
                             $key = $aliases[$key];
-                            $obj->$key = $value;
+                            if(!empty($key))
+                                $obj->$key = $value;
                         }
 
                         if(empty($PK) || empty($aliases[$PK])){

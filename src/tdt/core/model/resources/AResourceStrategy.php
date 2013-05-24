@@ -161,15 +161,19 @@ abstract class AResourceStrategy {
         $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
         $log->addError($message);
 
-        $resource_id = DBQueries::getAssociatedResourceId($gen_resource_id);
-        $package = DBQueries::getPackageById($package_id);
-        $resource = DBQueries::getResourceById($resource_id);
-        ResourcesModel::getInstance(Config::getConfigArray())->deleteResource($package, $resource, array());
+        try{
+            $resource_id = DBQueries::getAssociatedResourceId($gen_resource_id);
+            $package = DBQueries::getPackageById($package_id);
+            $resource = DBQueries::getResourceById($resource_id);
+            ResourcesModel::getInstance(Config::getConfigArray())->deleteResource($package, $resource, array());
+        }catch(TDTException $ex){
+
+        }
 
         $exception_config = array();
         $exception_config["log_dir"] = Config::get("general", "logging", "path");
         $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-        throw new TDTException(452, array("$message"), $exception_config);
+        throw new TDTException(452, array($message), $exception_config);
     }
 
     /**
