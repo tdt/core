@@ -369,31 +369,35 @@ class CSV extends ATabularData implements IFilter{
         $queryHandler = new QueryTreeHandler($query);
         $converter = $queryHandler->getNoSqlConverter();
 
-        /*
-         * Try getting the limit node.
-         */
-        $executed_node_name = "limit";
-        $queryNode = $queryHandler->getNodeForClause("limit");
+        // We're only executing the where clause.
+        $queryNode = $queryHandler->getNodeForClause("where");
 
-        /*
-         * If none given, then take the select node.
-         */
+        // We only apply limit when no group by or sort is applied.
         $limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
         $offset = 0;
 
-        // For now we only support the where clause.
-        if(is_null($queryNode)){
-            $queryNode = $queryHandler->getNodeForClause("where");
-            $executed_node_name = "where";
+        $group_by = $converter->getGroupbyClause();
+        $order = $converter->getOrderByClause();
+
+        if(!empty($group_by) || !empty($order)){
+            $limit = 2147483647; // max int
         }else{
             $limit_clause = $converter->getLimitClause();
-            $offset = $limit_clause[0];
-            $limit = $limit_clause[1];
+            if(!empty($limit_clause)){
+                $offset = $limit_clause[0];
+                $limit = $limit_clause[1];
+            }
         }
 
-        /*
-         * Get the configObject
-         */
+        if(empty($queryNode)){
+            // Let the spectql tree handle the query
+            $resultObject->indexInParent = "";
+            $resultObject->executeNode = null;
+            $resultObject->phpDataObject = null;
+            $resultObject->parentNode = null;
+            return $resultObject;
+        }
+
         $configObject = $parameters["configObject"];
         parent::read($configObject, $parameters["package"], $parameters["resource"]);
 
@@ -406,9 +410,6 @@ class CSV extends ATabularData implements IFilter{
         $start_row = $configObject->start_row;
         $delimiter = $configObject->delimiter;
 
-        /**
-         * check if the uri is valid ( not empty )
-         */
         if (isset($configObject->uri)) {
             $filename = $configObject->uri;
         } else {
@@ -454,13 +455,13 @@ class CSV extends ATabularData implements IFilter{
                     $values = $this->createValues($columns,$data,$total_rows);
                     $interpret = new LogicalInterpreter();
                     if(!empty($where) && $interpret->interpret($where,$values)){
-
                         if($offset <= $hits && $offset + $limit > $hits){
                             $obj = new \stdClass();
 
                             foreach($values as $key => $value){
                                 $key = $aliases[$key];
-                                $obj->$key = $value;
+                                if(!empty($key))
+                                    $obj->$key = $value;
                             }
                             array_push($arrayOfRowObjects,$obj);
                         }
@@ -531,24 +532,14 @@ class CSV extends ATabularData implements IFilter{
 
         $arrayOfRowObjects = $result;
 
-        // We've only done the where node, if it was present.
-        if ($executed_node_name != "select") {
+        $resultObject->indexInParent = "";
 
-                $resultObject->indexInParent = "";
+        //We have executed the select partial tree, notify this to the universalfilterTableManager
+        $resultObject->clause = "where";
+        $resultObject->partialTreeResultObject = $arrayOfRowObjects;
+        $resultObject->query = $query;
 
-                //We have executed the select partial tree, notify this to the universalfilterTableManager
-                $resultObject->clause = $executed_node_name;
-                $resultObject->partialTreeResultObject = $arrayOfRowObjects;
 
-                $resultObject->query = $query;
-        } else {
-                // All the nodes have been executed, so far this will never happen in the CSV implementation
-                // But it can be done -> WIP.
-                $resultObject->indexInParent = "-1";
-                $resultObject->executedNode = $query;
-                $resultObject->parentNode = null;
-                $resultObject->phpDataObject = $arrayOfRowObjects;
-        }
         return $resultObject;
     }
 

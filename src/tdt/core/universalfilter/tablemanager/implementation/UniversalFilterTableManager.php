@@ -288,8 +288,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
             $resultObject = $model->readResourceWithFilter($query, $result);
 
-            if (isset($resultObject->phpDataObject) && $resultObject->phpDataObject == NULL) {
-
+            if (empty($resultObject->indexInParent) && empty($resultObject->clause)){
                 return $query;
             } elseif ($resultObject->indexInParent == "-1") {
 
@@ -309,7 +308,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
                 return new ExternallyCalculatedFilterNode($table, $query);
             } else {// query has been partially executed
 
-                if(empty($resultObject->partialTreeResultObject) > 0){
+                if(empty($resultObject->partialTreeResultObject)){
                     $column_names = $model->getColumnsFromResource($package,$resource);
                     $arr = array();
                     $obj = new \stdClass();
