@@ -13,12 +13,14 @@
 namespace tdt\core\universalfilter\interpreter\other;
 
 use tdt\core\universalfilter\converter\SQLConverter;
+use tdt\core\universalfilter\converter\NoSQLConverter;
 use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
 use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
 class QueryTreeHandler {
 
     private $sqlConverter;
+    private $noSqlConverter;
     private $query;
 
     public function __construct(UniversalFilterNode $query) {
@@ -27,6 +29,14 @@ class QueryTreeHandler {
         $headerNames = $requiredColumnNames->getExpectedHeaderNames();
         $this->sqlConverter = new SQLConverter($headerNames);
         $this->sqlConverter->treeToSQLClauses($query);
+
+        $this->noSqlConverter = new noSqlConverter($headerNames);
+        $this->noSqlConverter->treeToSQLClauses($query);
+
+    }
+
+    public function getNoSqlConverter(){
+        return $this->noSqlConverter;
     }
 
     public function getSqlConverter() {
@@ -89,5 +99,3 @@ class QueryTreeHandler {
     }
 
 }
-
-?>

@@ -95,18 +95,26 @@ class CUDController extends AController {
         }
 
         //fetch all the PUT variables in one array
-        // NOTE: when php://input is called upon, the contents are flushed !! So you can call php://input only once !
         $HTTPheaders = getallheaders();
         if (isset($HTTPheaders["Content-Type"]) && $HTTPheaders["Content-Type"] == "application/json") {
-            $_PUT = (array) json_decode(file_get_contents("php://input"));
+            $json_string = file_get_contents("php://input");
+            $params = json_decode($json_string,true);
+
+            // Check if the object is wrapped or not (e.g. are the parameters already in the object, or are these wrapped.)
+            $param_object = array_shift($params);
+            if(is_array($param_object)){
+                $params = $param_object;
+            }else{
+                $params = json_decode($json_string,true);
+            }
         } else {
-            parse_str(file_get_contents("php://input"), $_PUT);
+            parse_str(file_get_contents("php://input"), $params);
         }
 
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $RESTparameters = array();
 
-        $model->createResource($packageresourcestring, $_PUT);
+        $model->createResource($packageresourcestring, $params);
         header("Content-Location: " . $this->hostname . $this->subdir . $packageresourcestring);
 
         //maybe the resource reinitialised the database, so let's set it up again with our config, just to be sure.
@@ -189,7 +197,7 @@ class CUDController extends AController {
     }
 
     /**
-     * PATCH is a 'new' request HTTP HEADER which allows to update a piece of a definition of a resource in our context
+     * PATCH is a relatively new request HTTP HEADER which will be used to update a piece of a resource definition.
      */
     public function PATCH($matches) {
 
@@ -204,11 +212,6 @@ class CUDController extends AController {
 
         $RESTparameters = array();
 
-        /**
-         * Since we do not know where the package/resource/requiredparameters end, we're going to build the package string
-         * and check if it exists, if so we have our packagestring. Why is this always correct ? Take a look at the
-         * ResourcesModel class -> funcion isResourceValid()
-         */
         $foundPackage = FALSE;
         $resourcename = "";
         $reqparamsstring = "";
@@ -260,7 +263,21 @@ class CUDController extends AController {
 
         // patch (array) contains all the patch parameters
         $patch = array();
-        parse_str(file_get_contents("php://input"), $patch);
+        $HTTPheaders = getallheaders();
+        if (isset($HTTPheaders["Content-Type"]) && $HTTPheaders["Content-Type"] == "application/json") {
+            $json_string = file_get_contents("php://input");
+            $patch = json_decode($json_string,true);
+
+            // Check if the object is wrapped or not (e.g. are the parameters already in the object, or are these wrapped.)
+            $param_object = array_shift($patch);
+            if(is_array($param_object)){
+                $patch = $param_object;
+            }else{
+                $patch = json_decode($json_string,true);
+            }
+        } else {
+            parse_str(file_get_contents("php://input"), $patch);
+        }
 
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         $model->updateResource($package, $resourcename, $patch, $RESTparameters);
@@ -282,5 +299,3 @@ class CUDController extends AController {
     }
 
 }
-
-?>

@@ -16,6 +16,7 @@ namespace tdt\core\utility;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use tdt\core\utility\Config;
+use tdt\exceptions\TDTException;
 
 class ApacheLogParser{
 

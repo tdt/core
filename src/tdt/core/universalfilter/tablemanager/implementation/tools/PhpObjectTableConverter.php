@@ -201,31 +201,33 @@ class PhpObjectTableConverter {
             $currentrow = new UniversalFilterTableContentRow();
             $found = array();
 
-
             foreach ($arr_obj as $key => $value) {
                 $columnName = $this->parseColumnName($key);
-                $columnId = $idMap[$columnName]; //$header->getColumnIdByName($columnName);
 
-                if (is_array($value) || is_object($value)) {
-                    //we have a subobject
-                    //what's it index?
-                    $subObjIndex = 0;
-                    if (isset($subObjectIndex[$columnName])) {
-                        $subObjectIndex[$columnName]++;
-                        $subObjIndex = $subObjectIndex[$columnName];
+                if(!empty($idMap[$columnName])){
+                    $columnId = $idMap[$columnName]; //$header->getColumnIdByName($columnName);
+
+                    if (is_array($value) || is_object($value)) {
+                        //we have a subobject
+                        //what's it index?
+                        $subObjIndex = 0;
+                        if (isset($subObjectIndex[$columnName])) {
+                            $subObjectIndex[$columnName]++;
+                            $subObjIndex = $subObjectIndex[$columnName];
+                        } else {
+                            $subObjectIndex[$columnName] = 0;
+                        }
+
+                        $id = "id_" . $subObjIndex;
+                        //FOR NOW: just display "object" (TODO)  As the id and key field do not exist anymore...
+                        $id = "<<object>>";
+
+                        $currentrow->defineValueId($columnId, $id);
                     } else {
-                        $subObjectIndex[$columnName] = 0;
+                        $currentrow->defineValue($columnId, $value); //what if we have a combination of the two?
                     }
-
-                    $id = "id_" . $subObjIndex;
-                    //FOR NOW: just display "object" (TODO)  As the id and key field do not exist anymore...
-                    $id = "<<object>>";
-
-                    $currentrow->defineValueId($columnId, $id);
-                } else {
-                    $currentrow->defineValue($columnId, $value); //what if we have a combination of the two?
+                    array_push($found, $columnId);
                 }
-                array_push($found, $columnId);
             }
 
             for ($i = 0; $i < $header->getColumnCount(); $i++) {
@@ -293,5 +295,3 @@ class PhpObjectTableConverter {
     }
 
 }
-
-?>

@@ -650,27 +650,27 @@ class DBQueries {
         return R::getAll(
                 "SELECT x.graph_id
             FROM graph x
-JOIN (
-	SELECT graph_name, MAX(version) as version
-        FROM graph
-	GROUP BY graph_name
-) y ON x.graph_name = y.graph_name AND x.version = y.version"
-                );
+            JOIN (
+            	SELECT graph_name, MAX(version) as version
+                    FROM graph
+            	GROUP BY graph_name
+            ) y ON x.graph_name = y.graph_name AND x.version = y.version"
+        );
 
     }
-    
+
     static function getAllGraphs($graph_name) {
         return R::getAll(
                 "SELECT x.graph_id
-            FROM graph x WHERE x.graph_name = :graph_name",array(":graph_name" => $graph_name)
-                );
+                    FROM graph x WHERE x.graph_name = :graph_name",
+                    array(":graph_name" => $graph_name)
+        );
 
     }
-    
+
     static function deleteGraph($graph_id) {
         return R::exec(
-                "DELETE FROM graph x WHERE graph_id=:graph_id);",array(":graph_id"=> $graph_id));
-
+            "DELETE FROM graph WHERE graph_id=:graph_id",array(":graph_id"=> $graph_id));
     }
 
 }

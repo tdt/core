@@ -11,24 +11,32 @@
 namespace tdt\core\strategies;
 use tdt\exceptions\TDTException;
 use tdt\core\model\resources\AResourceStrategy;
+use tdt\core\utility\Config;
 
 class RDFXML extends AResourceStrategy {
 
     public function read(&$configObject, $package, $resource) {
+
+        $this->package = $package;
+        $this->resource = $resource;
+
+        $this->calculateLimitAndOffset();
+
         $parser = \ARC2::getRDFXMLParser();
-        //$data = \tdt\core\utility\Request::http($configObject->uri);
         $data = $this->execRequest($configObject->uri, $configObject->endpoint_user, $configObject->endpoint_password);
         $parser->parse("",$data);
-        //$parser->parse("",$data->data);
 
         return $parser;
     }
-    
+
     private function execRequest($uri, $usr = "", $pass = "") {
 
-        // is curl installed?
+        // Is curl installed?
         if (!function_exists('curl_init')) {
-            throw new \Exception('CURL is not installed!');
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array('CURL is not installed!'), $exception_config);
         }
 
         // get curl handle
@@ -36,7 +44,7 @@ class RDFXML extends AResourceStrategy {
 
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         curl_setopt($ch, CURLOPT_USERPWD, $usr . ":" . $pass);
-        
+
         // set request url
         curl_setopt($ch, CURLOPT_URL, $uri);
 
@@ -46,18 +54,26 @@ class RDFXML extends AResourceStrategy {
 
         $response = curl_exec($ch);
 
-        if (!$response)
-        {
-            echo "endpoint returned error: " . curl_error($ch) . " - ";
-            throw new \Exception("Endpoint returned an error!");
+        if (!$response){
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+            throw new TDTException(500, array("The call to the SPARQL endpoint returned an error: curl_error($ch)"), $exception_config);
         }
-        
+
         $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ($response_code != "200")
-        {
-            echo "query failed: " . $response_code . "\n" . $response . "\n";
-            throw new \Exception("Query failed: $response");
+        if ($response_code != "200"){ // According to the SPARQL 1.1 spec, it can only return 200,400,500 reponses.
+
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+
+            if($response_code == "400"){
+                throw new TDTException(452, array("The SPARQL query failed, with the message: $response."), $exception_config);
+            }else{
+                throw new TDTException(500, array("The SPARQL query failed, with response code: $response_code and message: $response."), $exception_config);
+            }
         }
 
 
@@ -69,10 +85,14 @@ class RDFXML extends AResourceStrategy {
     public function isValid($package_id, $generic_resource_id) {
         $parser = \ARC2::getRDFXMLParser();
         $parser->parse($this->uri);
-        
-        if (!$parser)
+
+        if (!$parser){
+            $exception_config = array();
+            $exception_config["log_dir"] = Config::get("general", "logging", "path");
+            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(500, array("Could not transform the RDF/XML data from " . $this->uri . " to a ARC model, please check if the RDF/XML is valid."), $exception_config);
-        
+        }
+
         return true;
     }
 

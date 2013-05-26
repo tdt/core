@@ -1,11 +1,9 @@
 <?php
 
 /**
- * This class converts a tree to a SQL query string (simple query)
- * This is based on the debugging TreeToString of the universalfilters
- *
- * IMPORTANT NOTE: the functions which contain "not supported yet" are meant for this converter
- * this doesnt mean that the functionality hasn't been implemented in the universalinterpreter!
+ * Unlike SQLConverter this class tries to output every clause into arrays
+ * So that the different clauses are processed, but still need to be interpreted by the classes facing
+ * these clauses.
  *
  * @package The-Datatank/universalfilter/tools
  * @copyright (C) 2012 by iRail vzw/asbl
@@ -32,14 +30,13 @@ use tdt\core\universalfilter\universalfilters\TernaryFunction;
 use tdt\core\universalfilter\universalfilters\UnaryFunction;
 use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
 
-class SQLConverter {
+class NoSQLConverter {
 
-    private $sql = "";
     // the SELECT identifiers of the querynode
     private $identifiers = array();
-    private $IN_SELECT_CLAUSE = TRUE;
-    private $selectClausePresent = FALSE;
-    private $headerNames;
+    private $in_select_clause = TRUE;
+    private $select_clause_present = FALSE;
+    private $header_names;
     private $groupbyclause = array();
     private $orderbyclause = array();
     private $selectclause = array();
@@ -69,22 +66,16 @@ class SQLConverter {
     /*
      * array of identifier names
      */
-
     public function getGroupByClause() {
         return $this->groupbyclause;
     }
-
-    /*
-     * this is an array with just one string! i.e. a>b AND z<e
-     * in future development we might use a new return structure.
-     */
 
     public function getWhereClause() {
         return $this->whereclause;
     }
 
-    public function __construct($headerNames) {
-        $this->headerNames = $headerNames;
+    public function __construct($header_names) {
+        $this->header_names = $header_names;
     }
 
     public function treeToSQLClauses(UniversalFilterNode $tree) {
@@ -94,7 +85,6 @@ class SQLConverter {
     private function treeToSQL(UniversalFilterNode $tree) {
         $classname = get_class($tree);
         $method = "print_" . end(explode("\\", $classname));
-        //calls the correct clone method and then returns.
         return $this->$method($tree);
     }
 
@@ -106,10 +96,10 @@ class SQLConverter {
 
     private function print_Identifier(Identifier $filter) {
 
-        if ($this->IN_SELECT_CLAUSE) {
+        if ($this->in_select_clause) {
             array_push($this->identifiers, $filter->getIdentifierString());
         }
-
+        // just add it to the string
         return $filter->getIdentifierString();
     }
 
@@ -139,13 +129,13 @@ class SQLConverter {
 
     private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter) {
 
-        $this->IN_SELECT_CLAUSE = FALSE;
-        array_push($this->whereclause, $this->treeToSQL($filter->getExpression()));
+        $this->in_select_clause = FALSE;
+        $this->whereclause = $this->treeToSQL($filter->getExpression());
     }
 
     private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter) {
 
-        $this->selectClausePresent = TRUE;
+        $this->select_clause_present = TRUE;
 
         foreach ($filter->getColumnData() as $index => $originalColumn) {
 
@@ -153,13 +143,13 @@ class SQLConverter {
             if ($originalColumn->getColumn()->getType() == "IDENTIFIER" && $originalColumn->getColumn()->getIdentifierString() == "*") {
 
                 array_push($this->identifiers, '*');
-                foreach ($this->headerNames as $headerName) {
+                foreach ($this->header_names as $headerName) {
                     array_push($this->selectclause, "$headerName AS $headerName");
                 }
             } else {
                 $identifier = $this->treeToSQL($originalColumn->getColumn());
-
-                $headerName = array_shift($this->headerNames);
+                // insert requiredHeaderName !!
+                $headerName = array_shift($this->header_names);
                 array_push($this->selectclause, "$identifier AS $headerName");
             }
         }
@@ -169,6 +159,10 @@ class SQLConverter {
             // continue the recursion
             $this->treeToSQL($filter->getSource());
         }
+    }
+
+    private function print_DistinctFilter(DistinctFilter $filter) {
+        // not supported yet
     }
 
     private function print_DataGrouper(DataGrouper $filter) {
@@ -216,44 +210,58 @@ class SQLConverter {
 
         switch ($filter->getType()) {
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= "=";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,"=");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= "<";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,"<");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= ">";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,">");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= ">=";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,">=");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= "<=";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,"<=");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= "!=";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,"!=");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             case BinaryFunction::$FUNCTION_BINARY_AND:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= " AND ";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,"AND");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
+                return $function;
+            case BinaryFunction::$FUNCTION_BINARY_OR:
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,"OR");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             case BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX:
-                $function = $this->treeToSQL($filter->getSource(0));
-                $function.= " LIKE ";
-                $function.= $this->treeToSQL($filter->getSource(1));
+                $function = array();
+                array_push($function,$this->treeToSQL($filter->getSource(0)));
+                array_push($function,"LIKE");
+                array_push($function,$this->treeToSQL($filter->getSource(1)));
                 return $function;
             default:
                 break;
@@ -378,5 +386,3 @@ class SQLConverter {
     }
 
 }
-
-?>

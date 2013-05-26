@@ -16,10 +16,8 @@ use tdt\exceptions\TDTException;
 
 abstract class AReader {
 
-    protected static $DEFAULT_PAGE_SIZE = 50;
+    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp","page_size","page", "limit", "offset");
 
-    public static $BASICPARAMS = array("callback", "filterBy", "filterValue", "filterOp","page_size","page");
-    
     // package and resource are always the two minimum parameters
     protected $parameters = array();
     protected $requiredParameters = array();
@@ -105,15 +103,89 @@ abstract class AReader {
         /**
          * Process the correct referral options(next | previous)
          */
-        if($referral != "next" || $referral != "previous"){
-             $log = new Logger('AReader');
-             $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
-             $log->addError("No correct referral has been found, options are 'next' or 'previous', the referral given was: $referral");
+        if($referral != "next" && $referral != "previous"){
+           $log = new Logger('AResourceStrategy');
+           $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
+           $log->addError("No correct referral has been found, options are 'next' or 'previous', the referral given was: $referral");
+       }
+
+        /**
+         * Check if the Link header has already been set, with a next relationship for example.
+         * If so we have to append the Link header instead of hard setting it
+         */
+        $link_header_set = false;
+        foreach(headers_list() as $header){
+            if(substr($header,0,4) == "Link"){
+                $header.=", ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
+                . $page . "&page_size=" . $page_size . ";rel=" . $referral;
+                header($header);
+                $link_header_set = true;
+            }
         }
 
-        header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page=" 
-            . $page . "&page_size=" . $page_size . ";rel=" . $referral);
+        if(!$link_header_set){
+            header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
+                . $page . "&page_size=" . $page_size . ";rel=" . $referral);
+        }
+    }
 
+    /**
+     * Calculate the limit and offset based on the request string parameters.
+     */
+    protected function calculateLimitAndOffset(){
+
+        if(empty($this->limit) && empty($this->offset)){
+
+            if(empty($this->page)){
+                $this->page = 1;
+            }
+
+            if(empty($this->page_size)){
+                $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            if($this->page == -1){ // Return all of the result-set == no paging.
+                $this->limit = 2147483647; // max int on 32-bit machines
+                $this->offset= 0;
+                $this->page_size = 2147483647;
+                $this->page = 1;
+            }else{
+                $this->offset = ($this->page -1)*$this->page_size;
+                $this->limit = $this->page_size;
+            }
+
+
+
+        }else{
+
+            if(empty($this->limit)){
+                $this->limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            if(empty($this->offset)){
+                $this->offset = 0;
+            }
+
+            if($this->limit == -1){
+                $this->limit = 2147483647;
+                $this->page = 1;
+                $this->page_size = 2147483647;
+                $this->offset = 0;
+            }else{
+                // calculate the page and size from limit and offset as good as possible
+                // meaning that if offset<limit, indicates a non equal division of pages
+                // it will try to restore that equal division of paging
+                // i.e. offset = 2, limit = 20 -> indicates that page 1 exists of 2 rows, page 2 of 20 rows, page 3 min. 20 rows.
+                // paging should be (x=size) x, x, x, y < x EOF
+                $page = $this->offset/$this->limit;
+                $page = round($page,0,PHP_ROUND_HALF_DOWN);
+                if($page==0){
+                    $page = 1;
+                }
+                $this->page = $page;
+                $this->page_size = $this->limit ;
+            }
+        }
     }
 
 }

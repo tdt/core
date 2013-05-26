@@ -55,5 +55,3 @@ class GenericResourceReader extends AReader {
     }
 
 }
-
-?>
