@@ -19,11 +19,11 @@ use tdt\core\model\resources\GenericResource;
 use tdt\core\model\resources\read\GenericResourceReader;
 use tdt\core\model\resources\update\GenericResourceUpdater;
 use tdt\exceptions\TDTException;
+use tdt\core\utility\Config;
 
 class GenericResourceFactory extends AResourceFactory {
 
     public function __construct() {
-
     }
 
     public function hasResource($package, $resource) {
@@ -80,6 +80,7 @@ class GenericResourceFactory extends AResourceFactory {
 
                 $genres = new GenericResource($package, $resourcename);
                 $strategy = $genres->getStrategy();
+                $doc->$package->$resourcename->uri = Config::get("general", "hostname") . Config::get("general", "subdir") . $package . "/" . $resourcename . ".about";
                 $doc->$package->$resourcename->parameters = $strategy->documentReadParameters();
                 $doc->$package->$resourcename->requiredparameters = array();
             }
@@ -142,9 +143,6 @@ class GenericResourceFactory extends AResourceFactory {
                     }
                     $doc->$package->$resourcename->column_aliases = $columnAliases;
                 }
-
-                $doc->$package->$resourcename->parameters = array();
-                $doc->$package->$resourcename->requiredparameters = array();
             }
         }
     }

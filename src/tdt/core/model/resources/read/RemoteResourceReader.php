@@ -90,5 +90,3 @@ class RemoteResourceReader extends AReader {
     }
 
 }
-
-?>

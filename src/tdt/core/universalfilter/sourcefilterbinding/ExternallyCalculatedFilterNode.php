@@ -31,5 +31,3 @@ class ExternallyCalculatedFilterNode extends NormalFilterNode {
     }
 
 }
-
-?>

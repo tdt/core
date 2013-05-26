@@ -58,12 +58,14 @@ abstract class ATabularData extends AResourceStrategy {
                 $column_aliases[$formatted_column] = $formatted_column_alias;
             }
 
-            DBQueries::storePublishedColumn($generic_resource_id, $index, $formatted_column, $column_aliases[$formatted_column], ($PK != "" && $PK == $formatted_column ? 1 : 0));
+            DBQueries::storePublishedColumn($generic_resource_id, $index, $formatted_column, $column_aliases[$formatted_column], ($PK != "" && strtolower($PK) == strtolower($formatted_column) ? 1 : 0));
         }
     }
 
-    // fill in the configuration object that the strategy will receive
+    // Fill in the configuration object that the strategy will receive.
     public function read(&$configObject, $package, $resource) {
+
+        $this->calculateLimitAndOffset();
 
         $this->package = $package;
         $this->resource = $resource;
@@ -101,8 +103,7 @@ abstract class ATabularData extends AResourceStrategy {
 
         if ($this->isValid($package_id, $gen_resource_id)) {
             $this->evaluateColumns($package_id, $gen_resource_id, $this->columns, $this->column_aliases, $this->PK);
-            // get the name of the class ( = strategyname)
-            // but without the namespace!!
+            // Get the name of the class ( = strategyname) but without the namespace!!
             $strat = $this->getClassName();
             $resource = R::dispense(GenericResource::$TABLE_PREAMBLE . $strat);
 

@@ -54,7 +54,7 @@ class UniversalFilterTableHeader {
                     $exception_config = array();
                     $exception_config["log_dir"] = Config::get("general", "logging", "path");
                     $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                    throw new TDTException(500, array("That identifier is not unique " . $columnName . " Please be more specific."), $exception_config);
+                    throw new TDTException(500, array("The identifier  $columnName is not unique."), $exception_config);
                 }
             }
         }
@@ -182,8 +182,8 @@ class UniversalFilterTableHeader {
     /**
      * Clones this header...
      * Only usefull if you rename the table afterwards or if you set singleRowByConstruction.
-     * 
-     * @return UniversalFilterTableHeader 
+     *
+     * @return UniversalFilterTableHeader
      */
     public function cloneHeader() {
         return new UniversalFilterTableHeader(

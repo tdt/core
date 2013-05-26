@@ -22,8 +22,9 @@ use tdt\core\utility\Config;
 
 abstract class AResourceStrategy {
 
-    protected static $DEFAULT_PAGE_SIZE = 50;
+    protected static $DEFAULT_PAGE_SIZE = 500;
     protected $rest_params = array();
+    protected $link_referrals = array("last","previous","next");
 
     /**
      * This functions contains the businesslogic of a read method (non paged reading)
@@ -155,14 +156,24 @@ abstract class AResourceStrategy {
      * This function should only be used when validating a resource!!!
      */
     protected function throwException($package_id, $gen_resource_id, $message) {
-        $resource_id = DBQueries::getAssociatedResourceId($gen_resource_id);
-        $package = DBQueries::getPackageById($package_id);
-        $resource = DBQueries::getResourceById($resource_id);
-        ResourcesModel::getInstance(Config::getConfigArray())->deleteResource($package, $resource, array());
+
+        $log = new Logger('AResourceStrategy');
+        $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
+        $log->addError($message);
+
+        try{
+            $resource_id = DBQueries::getAssociatedResourceId($gen_resource_id);
+            $package = DBQueries::getPackageById($package_id);
+            $resource = DBQueries::getResourceById($resource_id);
+            ResourcesModel::getInstance(Config::getConfigArray())->deleteResource($package, $resource, array());
+        }catch(TDTException $ex){
+
+        }
+
         $exception_config = array();
         $exception_config["log_dir"] = Config::get("general", "logging", "path");
         $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-        throw new TDTException(452, array("$message"), $exception_config);
+        throw new TDTException(452, array($message), $exception_config);
     }
 
     /**
@@ -175,7 +186,7 @@ abstract class AResourceStrategy {
         /**
          * Process the correct referral options(next | previous)
          */
-        if($referral != "next" && $referral != "previous"){
+        if(!in_array($referral,$this->link_referrals)){
            $log = new Logger('AResourceStrategy');
            $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ERROR));
            $log->addError("No correct referral has been found, options are 'next' or 'previous', the referral given was: $referral");
@@ -199,8 +210,61 @@ abstract class AResourceStrategy {
             header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
                 . $page . "&page_size=" . $page_size . ";rel=" . $referral);
         }
-
-
     }
 
+    /**
+     * Calculate the limit and offset based on the request string parameters.
+     */
+    protected function calculateLimitAndOffset(){
+
+        if(empty($this->limit) && empty($this->offset)){
+
+            if(empty($this->page)){
+                $this->page = 1;
+            }
+
+            if(empty($this->page_size)){
+                $this->page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            if($this->page == -1){ // Return all of the result-set == no paging.
+                $this->limit = 2147483647; // max int on 32-bit machines
+                $this->offset= 0;
+                $this->page_size = 2147483647;
+                $this->page = 1;
+            }else{
+                $this->offset = ($this->page -1)*$this->page_size;
+                $this->limit = $this->page_size;
+            }
+        }else{
+
+            if(empty($this->limit)){
+                $this->limit = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+            }
+
+            if(empty($this->offset)){
+                $this->offset = 0;
+            }
+
+            if($this->limit == -1){
+                $this->limit = 2147483647;
+                $this->page = 1;
+                $this->page_size = 2147483647;
+                $this->offset = 0;
+            }else{
+                // calculate the page and size from limit and offset as good as possible
+                // meaning that if offset<limit, indicates a non equal division of pages
+                // it will try to restore that equal division of paging
+                // i.e. offset = 2, limit = 20 -> indicates that page 1 exists of 2 rows, page 2 of 20 rows, page 3 min. 20 rows.
+                // paging should be (x=size) x, x, x, y < x EOF
+                $page = $this->offset/$this->limit;
+                $page = round($page,0,PHP_ROUND_HALF_DOWN);
+                if($page==0){
+                    $page = 1;
+                }
+                $this->page = $page;
+                $this->page_size = $this->limit ;
+            }
+        }
+    }
 }

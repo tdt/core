@@ -21,13 +21,7 @@ use tdt\exceptions\TDTException;
 use tdt\core\model\resources\AResourceStrategy;
 
 class DB extends ATabularData implements IFilter {
-    /*
-     * If no limit is defined, get a default maximum of rows
-     * This way reading a database with a large set of records will not cause
-     * the PHP execution to crash of memory allocation.
-     */
 
-    private static $READ_MAX_AMOUNT_OF_ROWS = 150;
     //lowercase engine names
     private static $supportedEngines = array("mysql");
 
@@ -64,7 +58,13 @@ class DB extends ATabularData implements IFilter {
      * @return array with parameter => documentation pairs
      */
     public function documentReadParameters() {
-        return array();
+        $page_size = AResourceStrategy::$DEFAULT_PAGE_SIZE;
+        return array(
+            "page" => "Represents the page number if the dataset is paged, this parameter works together with page_size, which is default set to $page_size. Set this parameter to -1 if you don't want paging to be applied.",
+            "page_size" => "Represents the size of a page, this means that by setting this parameter, you can alter the amount of results that are returned, in one page (e.g. page=1&page_size=3 will give you results 1,2 and 3).",
+            "limit" => "Instead of page/page_size you can use limit and offset. Limit has the same purpose as page_size, namely putting a cap on the amount of entries returned, the default is $page_size. Set this parameter to -1 if don't want paging to be applied.",
+            "offset" => "Represents the offset from which results are returned (e.g. ?offset=12&limit=5 will return 5 results starting from 12).",
+        );
     }
 
     /**

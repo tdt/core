@@ -18,6 +18,8 @@ use tdt\core\universalfilter\interpreter\IInterpreterControl;
 use tdt\core\universalfilter\interpreter\sourceusage\SourceUsageData;
 use tdt\core\universalfilter\sourcefilterbinding\ExpectedHeaderNamesAttachment;
 use tdt\core\universalfilter\universalfilters\UniversalFilterNode;
+use tdt\exceptions\TDTException;
+use tdt\core\utility\Config;
 
 class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -81,7 +83,10 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
                     $givenColumnsString.="" . $columnNameGivenTable . "";
                 }
 
-                throw new Exception("Illegal external calculation. The returned table should contain a column with name " . $givenName . ", but no column with that name found. Found columnNames: " . $givenColumnsString . ".");
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                //throw new TDTException(500, array("Illegal external calculation. The returned table should contain a column with name " . $givenName . ", but no column with that name found. Found columnNames: " . $givenColumnsString . "."), $exception_config);
             }
 
             $newHeaderColumn = $columnInfo->cloneColumnWithId($givenColumnId);
@@ -130,5 +135,3 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
     }
 
 }
-
-?>

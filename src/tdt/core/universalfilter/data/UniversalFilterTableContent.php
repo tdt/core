@@ -61,7 +61,7 @@ class UniversalFilterTableContent {
         if ($index < $this->size) {
             return $this->rows->getIndex($index);
         } else {
-            // This can happen when limit(10) asks for 10 rows, but the table only contains 5            
+            // This can happen when limit(10) asks for 10 rows, but the table only contains 5
             // no worries, the exception is caught !
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
@@ -73,7 +73,7 @@ class UniversalFilterTableContent {
     /**
      * Sets the row on a cetain index
      * @param int $index
-     * @param UniversalFilterTableContentRow $row 
+     * @param UniversalFilterTableContentRow $row
      */
     public function setRow($index, $row) {
         if ($index < $this->size) {
@@ -88,7 +88,7 @@ class UniversalFilterTableContent {
 
     /**
      * Adds a row to this table
-     * @param UniversalFilterTableContentRow $row 
+     * @param UniversalFilterTableContentRow $row
      */
     public function addRow($row) {
         $this->size++;
@@ -121,5 +121,3 @@ class UniversalFilterTableContent {
     }
 
 }
-
-?>
