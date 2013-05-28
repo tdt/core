@@ -115,6 +115,10 @@ class RController extends AController {
             array_shift($RESTparameters);
         }
 
+        foreach($RESTparameters as $i => $rparam){
+            $RESTparameters[$i] = rawurldecode($rparam);
+        }
+
         $result = $model->readResource($package, $resourcename, $parameters, $RESTparameters);
 
         //maybe the resource reinitialised the database connection through RedBean, so let's set it up again with our back-end config.

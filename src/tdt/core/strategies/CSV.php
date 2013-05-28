@@ -183,7 +183,7 @@ class CSV extends ATabularData implements IFilter{
                             array_push($arrayOfRowObjects,$obj);
                         }else{
                             $key = $aliases[$PK];
-                            $arrayOfRowObjects[$obj->$key] = $obj;
+                            $arrayOfRowObjects[strtolower($obj->$key)] = $obj;
                         }
                     }
                     $hits++;
@@ -226,8 +226,9 @@ class CSV extends ATabularData implements IFilter{
 
         $result = $arrayOfRowObjects;
         if(count($this->rest_params) > 0){
+            $result = $this->rest_params[0];
 
-            $id = $this->rest_params[0];
+            $id = strtolower(urldecode($this->rest_params[0]));
             if(empty($arrayOfRowObjects[$id])){
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
