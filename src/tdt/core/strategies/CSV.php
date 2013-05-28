@@ -226,7 +226,16 @@ class CSV extends ATabularData implements IFilter{
 
         $result = $arrayOfRowObjects;
         if(count($this->rest_params) > 0){
-            $result = array_shift($arrayOfRowObjects);
+
+            $id = $this->rest_params[0];
+            if(empty($arrayOfRowObjects[$id])){
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("The id $id specified via the rest parameters wasn't found."), $exception_config);
+            }
+
+            $result = $arrayOfRowObjects[$id];
             if(count($this->rest_params) == 2){
                 // add a column filter
                 $column = $this->rest_params[1];
@@ -249,7 +258,6 @@ class CSV extends ATabularData implements IFilter{
                 }
             }
         }
-
         return $result;
     }
 
@@ -277,7 +285,10 @@ class CSV extends ATabularData implements IFilter{
             $this->has_header_row = 1;
         }
 
-        if (!isset($this->PK)) {
+        if (!isset($this->PK) && isset($this->pk)) {
+            $this->PK = $this->pk;
+
+        }else if(empty($this->PK)){
             $this->PK = "";
         }
 

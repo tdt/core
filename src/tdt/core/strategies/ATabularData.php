@@ -97,7 +97,10 @@ abstract class ATabularData extends AResourceStrategy {
      */
     public function onAdd($package_id, $gen_resource_id) {
 
-        if (!isset($this->PK)) {
+        if (!isset($this->PK) && isset($this->pk)) {
+            $this->PK = $this->pk;
+
+        }else if(empty($this->PK)){
             $this->PK = "";
         }
 

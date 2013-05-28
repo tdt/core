@@ -68,7 +68,10 @@ class XLS extends ATabularData {
             $this->column_aliases = array();
         }
 
-        if (!isset($this->PK)) {
+        if (!isset($this->PK) && isset($this->pk)) {
+            $this->PK = $this->pk;
+
+        }else if(empty($this->PK)){
             $this->PK = "";
         }
 
@@ -234,7 +237,7 @@ class XLS extends ATabularData {
                                     $c = trim($c);
                                     $c = preg_replace('/\s+/', '_', $c);
                                     $c = strtolower($c);
-                                                                    
+
                                     if(in_array($c,$columns)){
                                         $rowobject->$column_aliases[$c] = $cell->getCalculatedValue();
                                     }

@@ -55,7 +55,10 @@ class SHP extends ATabularData {
             $this->column_aliases = array();
         }
 
-        if (!isset($this->PK)) {
+        if (!isset($this->PK) && isset($this->pk)) {
+            $this->PK = $this->pk;
+
+        }else if(empty($this->PK)){
             $this->PK = "";
         }
 
