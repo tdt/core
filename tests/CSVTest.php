@@ -26,7 +26,7 @@ class CSVTest extends \PHPUnit_Framework_TestCase {
         */
         $configArray = array("general" => array("hostname" => "", "subdir" => "", "defaultformat" => "json",
             "cache" => array("system" => "NoCache","host"=>"", "port"=>"")),
-        "db" => array("system" => "mysql", "host"=>"localhost","user"=>"root", "password" => "", "name" => "myapp_test"),
+        "db" => array("system" => "mysql", "host"=>"localhost","user"=>"root", "password" => "", "name" => "coretest"),
         "logging" => array("enabled" => false, "path" => ""));
 
         Config::setConfig($configArray);
