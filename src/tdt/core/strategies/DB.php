@@ -105,11 +105,11 @@ class DB extends ATabularData implements IFilter {
          * Add the database we want to connect to the Redbean databases.
          * This will allow us to switch between the connection with our own back-end and the database from which to read data.
          */
+
         R::addDatabase('db_resource', $configObject->db_type . ":host=" . $configObject->location . ";dbname=" . $configObject->db_name, $configObject->username, $configObject->password);
         R::selectDatabase('db_resource');
 
         $fields = "";
-
 
         /**
          * Prepare the SQL statement
@@ -176,8 +176,14 @@ class DB extends ATabularData implements IFilter {
         }else{
             $sql = "SELECT $fields FROM $configObject->db_table LIMIT $offset,$limit";
         }
-
-        $results = R::getAll($sql);
+        try{            
+            $results = R::getAll($sql);
+        }catch(Exception $ex){
+            echo $ex->getMessage();
+            var_dump($ex->getTrace());
+            exit();
+        }
+        
 
         /**
          * Check if we have more rows then we can return in 1 page
@@ -297,14 +303,15 @@ class DB extends ATabularData implements IFilter {
          * check if a connection can be made, check if the columns (if any are passed) are
          * existing ones in the database, if not get the columns from the datatable
          */
-        if (!isset($this->username)) {
+    
+        if (empty($this->username)) {
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(452, array("You have to pass along a username for your database resource configuration."), $exception_config);
         }
 
-        if (!isset($this->password)) {
+        if (empty($this->password)) {
             $this->password = "";
         }
 
@@ -367,13 +374,14 @@ class DB extends ATabularData implements IFilter {
          * 4) If the columns are all A-OK! then return true.
          * All this functionality has been put into functions.
          */
+
         // prepare the connection
         R::addDatabase('db_resource', $this->db_type . ":host=" . $this->location . ";dbname=" . $this->db_name, $this->username, $this->password);
         R::selectDatabase('db_resource');
-        // get the table columns
-        $table_columns = $this->getTableColumns();
+        // Get the table columns.
+        $table_columns = $this->getTableColumns();       
         R::selectDatabase('default');
-        $this->validateColumns($table_columns);
+        $this->validateColumns($table_columns);        
         return true;
     }
 
