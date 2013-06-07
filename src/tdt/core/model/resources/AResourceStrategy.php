@@ -181,7 +181,7 @@ abstract class AResourceStrategy {
      * @param int $limit  The limitation of the amount of objects to return
      * @param int $offset The offset from where to begin to return objects (default = 0)
      */
-    protected function setLinkHeader($page,$page_size,$referral = "next"){
+    protected function setLinkHeader($page,$page_size,$referral = "next", $rest_params = array()){
 
         /**
          * Process the correct referral options(next | previous)
@@ -197,9 +197,15 @@ abstract class AResourceStrategy {
          * If so we have to append the Link header instead of hard setting it
          */
         $link_header_set = false;
+        $rest = implode('/',$rest_params);
+
+        if(!empty($rest_params)){
+            $rest = "/" . $rest;
+        }
+
         foreach(headers_list() as $header){
             if(substr($header,0,4) == "Link"){
-                $header.=", ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
+                $header.=", ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . $rest . ".about?page="
                 . $page . "&page_size=" . $page_size . ";rel=" . $referral;
                 header($header);
                 $link_header_set = true;
@@ -207,7 +213,7 @@ abstract class AResourceStrategy {
         }
 
         if(!$link_header_set){
-            header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . ".about?page="
+            header("Link: ". Config::get("general","hostname") . Config::get("general","subdir") . $this->package . "/" . $this->resource . $rest . ".about?page="
                 . $page . "&page_size=" . $page_size . ";rel=" . $referral);
         }
     }
