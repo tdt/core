@@ -13,7 +13,7 @@ use tdt\core\utility\Config;
 use tdt\core\model\ResourcesModel;
 use RedBean_Facade as R;
 
-class CSVTest extends \PHPUnit_Framework_TestCase {
+class JSONTest extends \PHPUnit_Framework_TestCase {
 
     private $config;
 
