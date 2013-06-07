@@ -208,7 +208,7 @@ class CSV extends ATabularData implements IFilter{
             }
             $this->setLinkHeader($page + 1,$limit,"next");
 
-            $last_page = round($total_rows / $this->limit,0);
+            $last_page = ceil(round($total_rows / $this->limit,1));
             if($last_page > $this->page+1){
                 $this->setLinkHeader($last_page,$this->page_size, "last");
             }

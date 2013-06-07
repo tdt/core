@@ -97,9 +97,9 @@ class SPARQL extends RDFXML {
         }
 
         if($this->limit + $this->offset < $count){
-            $this->setLinkHeader($this->page+1, $this->page_size, "next");
+            $this->setLinkHeader($this->page+1, $this->page_size, "next");            
 
-            $last_page = round($count / $this->limit,0);
+            $last_page = ceil(round($count / $this->limit,1));            
             if($last_page > $this->page+1){
                 $this->setLinkHeader($last_page,$this->limit, "last");
             }
@@ -108,7 +108,7 @@ class SPARQL extends RDFXML {
         if(empty($configObject->isPaged)){
             $configObject->query = $configObject->query . " OFFSET $this->offset LIMIT $this->limit";
         }
-
+        
         $q = urlencode($configObject->query);
         $q = str_replace("+", "%20", $q);
 
