@@ -26,15 +26,14 @@ class LD extends SPARQL {
         $otherpart = substr($uri, stripos($uri, $package . "/" .$resource) + strlen($package . "/" .$resource));
         $resultgraph = R::getRow( 'select graph_name from graph WHERE graph_name like :graph COLLATE utf8_general_ci limit 1', array(':graph' => $graph) );
         $graph = $resultgraph["graph_name"];
-        $uri = $graph . $otherpart;      
-        var_dump($uri);
-        exit(); 
+        $uri = $graph . $otherpart;
 
         $configObject->query = "CONSTRUCT { ?s ?p ?o } ";
         $configObject->query .= "WHERE { GRAPH <$graph> { ";
         $configObject->query .= "?s ?p ?o .";
         $configObject->query .= "FILTER ( (?s LIKE '$uri') OR (?s LIKE '$uri/%') )";
         $configObject->query .= "}  } ORDER BY asc(?s) ";
+        $configObject->req_uri = $uri;
 
         return parent::read($configObject, $package, $resource);
     }

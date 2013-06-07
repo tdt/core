@@ -91,24 +91,29 @@ class SPARQL extends RDFXML {
             }
         }
 
+        $req_uri = "";
+        if(!empty($configObject->req_uri)){
+            $req_uri = $configObject->req_uri;
+        }
+
         // Calculate page link headers, previous and next.
         if($this->page > 1){
-            $this->setLinkHeader($this->page-1, $this->page_size, "previous");
+            $this->setLinkHeader($this->page-1, $this->page_size, "previous",$req_uri);
         }
 
         if($this->limit + $this->offset < $count){
-            $this->setLinkHeader($this->page+1, $this->page_size, "next");            
+            $this->setLinkHeader($this->page+1, $this->page_size, "next",$req_uri);
 
-            $last_page = ceil(round($count / $this->limit,1));            
+            $last_page = ceil(round($count / $this->limit,1));
             if($last_page > $this->page+1){
-                $this->setLinkHeader($last_page,$this->limit, "last");
+                $this->setLinkHeader($last_page,$this->limit, "last",$req_uri);
             }
         }
 
         if(empty($configObject->isPaged)){
             $configObject->query = $configObject->query . " OFFSET $this->offset LIMIT $this->limit";
         }
-        
+
         $q = urlencode($configObject->query);
         $q = str_replace("+", "%20", $q);
 
