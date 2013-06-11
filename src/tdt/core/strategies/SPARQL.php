@@ -17,10 +17,11 @@ use Monolog\Handler\StreamHandler;
 
 class SPARQL extends RDFXML {
 
+    protected $max_sorted_top_rows = 10000;
+
     public function read(&$configObject, $package, $resource) {
         $this->php_fix_raw_query();
-        $configObject->query = $this->processParameters($configObject->query);
-
+        $configObject->query = $this->processParameters($configObject->query);        
 
         $matches = array();
         preg_match_all("/GRAPH\s*?<(.*?)>/", $configObject->query, $matches, PREG_SET_ORDER);
@@ -96,6 +97,14 @@ class SPARQL extends RDFXML {
             $req_uri = $configObject->req_uri;
         }
 
+        // Triplestores (e.g. Virtuoso sometimes have a limit to which rows can be sorted)
+        // if the given limit is higher than this, adjust the limit and log this re-capping of the limit.
+        if($this->limit > $this->max_sorted_top_rows || $this->page_size > $this->max_sorted_top_rows){
+            $this->limit = $this->max_sorted_top_rows;
+            $this->page_size = $this->max_sorted_top_rows;
+            $this->logError("The calculated limit, $this->limit, was too high. We adjusted this to $this->max_sorted_top_rows.");
+        }
+
         // Calculate page link headers, previous and next.
         if($this->page > 1){
             $this->setLinkHeader($this->page-1, $this->page_size, "previous",$req_uri);
@@ -118,6 +127,7 @@ class SPARQL extends RDFXML {
         $q = str_replace("+", "%20", $q);
 
         $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
+        
 
         return parent::read($configObject, $package, $resource);
 
