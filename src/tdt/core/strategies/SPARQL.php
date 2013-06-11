@@ -206,7 +206,7 @@ class SPARQL extends RDFXML {
         preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders, PREG_SET_ORDER);
 
         for ($i = 1; $i < count($placeholders); $i++) {
-            $placeholder = trim($placeholders[0][$i]);
+            $placeholder = trim($placeholders[$i][1]);
 
             $elements = array();
             //For example ${x.each('?t = $_','||')}
