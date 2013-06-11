@@ -233,7 +233,7 @@ class SPARQL extends RDFXML {
                     $value = $param[$placeholder][$i];
                 } else {
                     $value = $param[$placeholder];
-                    if (!is_array($value))
+                    if (is_array($value))
                         throw new \tdt\exceptions\TDTException(400, array("The parameter $placeholder is single value, array given."), array("log_dir" => Config::get("general","logging","path")));
                 }
                 $value = addslashes($value);
