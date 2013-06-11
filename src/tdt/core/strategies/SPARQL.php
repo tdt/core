@@ -223,14 +223,14 @@ class SPARQL extends RDFXML {
 
             if (empty($elements)) {
                 //${name[0]}
-                $i = strpos($placeholder, "[");
-                if ($i !== false) {
-                    $i = substr($placeholder, $i, count($placeholder) - $i - 1);
+                $index = strpos($placeholder, "[");
+                if ($index !== false) {
+                    $index = substr($placeholder, $index, count($placeholder) - $index - 1);
                     
-                    if (!isset($param[$placeholder][$i]))
+                    if (!isset($param[$placeholder][$index]))
                         throw new \tdt\exceptions\TDTException(400, array("The index of parameter $placeholder does not exist."), array("log_dir" => Config::get("general","logging","path")));
                     
-                    $value = $param[$placeholder][$i];
+                    $value = $param[$placeholder][$index];
                 } else {
                     $value = $param[$placeholder];
                     if (is_array($value))
