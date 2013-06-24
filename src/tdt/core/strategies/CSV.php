@@ -217,7 +217,7 @@ class CSV extends ATabularData implements IFilter{
         if($offset > 0 && $hits >0){
             $page = $offset/$limit;
             $page = round($page,0,PHP_ROUND_HALF_DOWN);
-            $page -1;
+            $page--;
             if($page <= 0){                   
                 $page = 1;
             }
