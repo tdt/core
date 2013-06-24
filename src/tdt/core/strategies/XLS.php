@@ -22,6 +22,7 @@ use PHPExcel_IOFactory as IOFactory;
 class XLS extends ATabularData {
 
     public function __construct(){
+        parent::__construct();
         $this->tmp_dir = __DIR__ . "/../tmp";
     }
 
@@ -32,8 +33,8 @@ class XLS extends ATabularData {
         $this->parameters["cell_range"] = "Range of cells (i.e. A1:B10)";
         $this->parameters["PK"] = "The primary key for each row.";
         $this->parameters["has_header_row"] = "If the XLS file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
-        $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";
-        $this->parameters["columns"] = "Columns";
+        $this->parameters["start_row"] = "The number of the row (rows start at number 1) at which the actual data starts; i.e. if the first two lines are comment lines, your start_row should be 3. Default is 1.";        
+
         return $this->parameters;
     }
 
@@ -41,11 +42,7 @@ class XLS extends ATabularData {
 
     public function documentCreateRequiredParameters(){
         return array("uri", "sheet");
-    }
-
-    public function documentUpdateParameters(){
-        return array();
-    }
+    }   
 
     public function documentReadParameters(){
         return array();
