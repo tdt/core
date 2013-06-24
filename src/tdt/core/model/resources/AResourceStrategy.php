@@ -22,7 +22,7 @@ use tdt\core\utility\Config;
 
 abstract class AResourceStrategy {
 
-    protected static $DEFAULT_PAGE_SIZE = 500;
+    protected static $DEFAULT_PAGE_SIZE = 20;
     protected $rest_params = array();
     protected $link_referrals = array("last","previous","next");
 
@@ -264,9 +264,9 @@ abstract class AResourceStrategy {
                 // paging should be (x=size) x, x, x, y < x EOF
                 $page = $this->offset/$this->limit;
                 $page = round($page,0,PHP_ROUND_HALF_DOWN);
-                if($page==0){
+                if($page == 0){
                     $page = 1;
-                }
+                }                
                 $this->page = $page;
                 $this->page_size = $this->limit ;
             }

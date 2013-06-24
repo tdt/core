@@ -17,6 +17,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use tdt\core\utility\Config;
 use PHPExcel_IOFactory as IOFactory;
+use tdt\core\model\ResourcesModel;
 
 
 class XLS extends ATabularData {
@@ -174,12 +175,16 @@ class XLS extends ATabularData {
     public function read(&$configObject,$package,$resource){
 
         parent::read($configObject,$package,$resource);
+
+        // Get the necessary parameters to read an Excel file.
         $uri = $configObject->uri;
         $sheet = $configObject->sheet;
         $has_header_row = $configObject->has_header_row;
         $start_row = $configObject->start_row;
 
-        $columns = array();
+        if($has_header_row){
+            $start_row++;
+        }                
 
         $PK = $configObject->PK;
 
@@ -189,6 +194,20 @@ class XLS extends ATabularData {
         $resultobject = new \stdClass();
         $arrayOfRowObjects = array();
         $row = 0;
+        $hits = 0;
+
+        // Set the parameters for paging
+        $total_rows = 0;
+        $limit = $this->limit;
+        $offset = $this->offset;
+
+        $model = ResourcesModel::getInstance();
+        $column_infos = $model->getColumnsFromResource($this->package,$this->resource);
+        $aliases = array();
+
+        foreach($column_infos as $column_info){
+            $aliases[$column_info["column_name"]] = $column_info["column_name_alias"];
+        }
 
         if (!is_dir($this->tmp_dir)) {
             mkdir($this->tmp_dir);
@@ -197,7 +216,7 @@ class XLS extends ATabularData {
         try {
             $isUri = (substr($uri , 0, 4) == "http");
             if ($isUri) {
-
+                // We cannot stream the XLS file, so if it's on an url, we have to store in the temp folder.
                 $tmpFile = uniqid();
                 file_put_contents($this->tmp_dir . "/" . $tmpFile, file_get_contents($uri));
                 $objPHPExcel = $this->loadExcel($this->tmp_dir . "/" . $tmpFile,$this->getFileExtension($uri),$sheet);
@@ -212,31 +231,24 @@ class XLS extends ATabularData {
                 foreach ($worksheet->getRowIterator() as $row) {
                     $rowIndex = $row->getRowIndex();
                     if ($rowIndex >= $start_row) {
-                        $cellIterator = $row->getCellIterator();
-                        $cellIterator->setIterateOnlyExistingCells(false);
-                        if ($rowIndex == $start_row && $has_header_row == "1") {
-                            foreach ($cellIterator as $cell) {
-                                if(!is_null($cell) && $cell->getCalculatedValue() != ""){
-                                    $columnIndex = $cell->columnIndexFromString($cell->getColumn());
-                                    $fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;
-                                }
-                            }
-                        } else {
+                        if($offset <= $hits && $offset + $limit > $hits){
+                            $cellIterator = $row->getCellIterator();
+                            $cellIterator->setIterateOnlyExistingCells(false);
 
-                            $rowobject = new \stdClass();
-                            $keys = array_keys($fieldhash);
+                            $alias_copy = $aliases;
+                            $rowobject = new \stdClass();                            
 
                             foreach ($cellIterator as $cell) {
                                 $columnIndex = $cell->columnIndexFromString($cell->getColumn());
-                                if (!is_null($cell) && isset($keys[$columnIndex-1]) ) {
+                                if (!is_null($cell) && isset($column_infos[$columnIndex-1]) ) {
                                     // format the column name as we normally format column names
-                                    $c = $keys[$columnIndex - 1];
+                                    $c = array_shift($alias_copy);
                                     $c = trim($c);
                                     $c = preg_replace('/\s+/', '_', $c);
                                     $c = strtolower($c);
 
-                                    if(in_array($c,$columns)){
-                                        $rowobject->$column_aliases[$c] = $cell->getCalculatedValue();
+                                    if(in_array($c,$aliases)){
+                                        $rowobject->$aliases[$c] = $cell->getCalculatedValue();
                                     }
                                 }
                             }
@@ -246,75 +258,50 @@ class XLS extends ATabularData {
                                 if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != ""){
                                     $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
                                 }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
-                                    $log = new Logger('CSV');
+                                    $log = new Logger('XLS');
                                     $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                                     $log->addAlert("The primary key $PK has been used already for another record!");
                                 }else{
-                                    $log = new Logger('CSV');
+                                    $log = new Logger('XLS');
                                     $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
                                     $log->addAlert("The primary key $PK is empty.");
                                 }
                             }
                         }
+                        $hits++;
                     }
+                    $total_rows++;
                 }
-            } else {
-                if($configObject->named_range != "") {
-                    $range = $worksheet->namedRangeToArray($configObject->named_range);
+            } 
+
+            $total_rows -= $start_row - 1;
+            
+            // Paging.
+            if($offset + $limit < $hits){
+                $page = $offset/$limit;
+                $page = round($page,0,PHP_ROUND_HALF_DOWN);
+                if($page==0){
+                    $page = 1;
                 }
-                if($configObject->cell_range != "") {
-                    $range = $worksheet->rangeToArray($configObject->cell_range);
-                }
-                $rowIndex = 1;
-                foreach ($range as $row) {
-                    if ($rowIndex >= $start_row) {
-                        if ($rowIndex == $start_row) {
-                            if ($has_header_row == 0) {
-                                $columnIndex = 1;
-                                foreach ($row as $cell) {
-                                    $fieldhash[ $columnIndex - 1 ] = $columnIndex;
-                                    $columnIndex += 1;
-                                }
-                            } else {
-                                $columnIndex = 1;
-                                foreach ($row as $cell) {
-                                    $fieldhash[ $cell ] = $columnIndex;
-                                    $columnIndex += 1;
-                                }
-                            }
-                        }
-                        if ($has_header_row == 0 or ($rowIndex > $start_row and $has_header_row != 0)) {
-                            $rowobject = new \stdClass();
-                            $keys = array_keys($fieldhash);
-                            $columnIndex = 1;
-                            foreach ($row as $cell) {
-                                $c = $keys[$columnIndex - 1];
-                                if(array_key_exists($c,$columns)){
-                                    $rowobject->$columns[$c] = $cell;
-                                }
-                                $columnIndex += 1;
-                            }
-                            if($PK == "") {
-                                array_push($arrayOfRowObjects,$rowobject);
-                            } else {
-                                if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != ""){
-                                    $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
-                                }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
-                                    $log = new Logger('CSV');
-                                    $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
-                                    $log->addAlert("The primary key $PK has been used already for another record!");
-                                }else{
-                                    $log = new Logger('CSV');
-                                    $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
-                                    $log->addAlert("The primary key $PK is empty.");
-                                }
-                            }
-                        }
-                    }
-                    $rowIndex += 1;
+                $this->setLinkHeader($page + 1,$limit,"next");
+
+                $last_page = ceil(round($total_rows / $this->limit,1));
+                if($last_page > $this->page+1){
+                    $this->setLinkHeader($last_page,$this->page_size, "last");
                 }
             }
 
+            if($offset > 0 && $hits >0){
+                $page = $offset/$limit;
+                $page = round($page,0,PHP_ROUND_HALF_DOWN);
+                $page -1;
+                if($page <= 0){                   
+                    $page = 1;
+                }
+
+                $this->setLinkHeader($page,$limit,"previous");
+            }
+            
             $objPHPExcel->disconnectWorksheets();
             unset($objPHPExcel);
             if ($isUri) {
@@ -327,8 +314,7 @@ class XLS extends ATabularData {
         }
     }
 
-    private function getFileExtension($fileName)
-    {
+    private function getFileExtension($fileName){
         return strtolower(substr(strrchr($fileName,'.'),1));
     }
 

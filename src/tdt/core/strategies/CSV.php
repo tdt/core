@@ -217,11 +217,11 @@ class CSV extends ATabularData implements IFilter{
         if($offset > 0 && $hits >0){
             $page = $offset/$limit;
             $page = round($page,0,PHP_ROUND_HALF_DOWN);
-            if($page==0){
-                // Try to divide the paging into equal pages.
-                $page = 2;
+            $page -1;
+            if($page <= 0){                   
+                $page = 1;
             }
-            $this->setLinkHeader($page -1,$limit,"previous");
+            $this->setLinkHeader($page, $limit,"previous");
         }
 
         $result = $arrayOfRowObjects;
