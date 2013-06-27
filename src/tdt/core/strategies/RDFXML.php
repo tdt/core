@@ -30,7 +30,7 @@ class RDFXML extends AResourceStrategy {
     }
 
     private function execRequest($uri, $usr = "", $pass = "") {
-        
+
         // Is curl installed?
         if (!function_exists('curl_init')) {
             $exception_config = array();
@@ -43,7 +43,7 @@ class RDFXML extends AResourceStrategy {
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-        curl_setopt($ch, CURLOPT_USERPWD, $usr . ":" . $pass);        
+        curl_setopt($ch, CURLOPT_USERPWD, $usr . ":" . $pass);
         // set request url
         curl_setopt($ch, CURLOPT_URL, $uri);
 
@@ -82,6 +82,7 @@ class RDFXML extends AResourceStrategy {
     }
 
     public function isValid($package_id, $generic_resource_id) {
+
         $parser = \ARC2::getRDFXMLParser();
         $parser->parse($this->uri);
 

@@ -314,7 +314,7 @@ class ResourcesModel {
                 $errline = $error["line"];
                 $errstr  = $error["message"];
                 header('HTTP/1.0 500 Internal Server Error', true, 500);
-                throw new TDTException(500,array("Fatal error caught: " . $errfile . " - $errstr - $errno - $errline"),$exception_config);
+                throw new TDTException(500,array("Fatal error caught (file - error string - error number - error line): " . $errfile . " - $errstr - $errno - $errline"),$exception_config);
             }
 
         }
