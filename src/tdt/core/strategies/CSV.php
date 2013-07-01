@@ -51,7 +51,7 @@ class CSV extends ATabularData implements IFilter{
      * The parameters ( array keys ) returned all of the parameters that can be used to create a strategy.
      * @return array with parameter => documentation pairs
      */
-    public function documentCreateParameters() {
+    public function documentCreateParameters() {        
         $this->parameters["uri"] = "The URI to the CSV file.";
         $this->parameters["PK"] = "The primary key of an entry. This must be the name of an existing column name in the CSV file.";
         $this->parameters["has_header_row"] = "If the CSV file contains a header row with the column name, pass 1 as value, if not pass 0. Default value is 1.";
@@ -71,7 +71,7 @@ class CSV extends ATabularData implements IFilter{
             "page_size" => "Represents the size of a page, this means that by setting this parameter, you can alter the amount of results that are returned, in one page (e.g. page=1&page_size=3 will give you results 1,2 and 3).",
             "limit" => "Instead of page/page_size you can use limit and offset. Limit has the same purpose as page_size, namely putting a cap on the amount of entries returned, the default is $page_size. Set this parameter to -1 if don't want paging to be applied.",
             "offset" => "Represents the offset from which results are returned (e.g. ?offset=12&limit=5 will return 5 results starting from 12).",
-        );
+          );
     }
 
     /**
@@ -217,11 +217,11 @@ class CSV extends ATabularData implements IFilter{
         if($offset > 0 && $hits >0){
             $page = $offset/$limit;
             $page = round($page,0,PHP_ROUND_HALF_DOWN);
-            if($page==0){
-                // Try to divide the paging into equal pages.
-                $page = 2;
+            $page--;
+            if($page <= 0){                   
+                $page = 1;
             }
-            $this->setLinkHeader($page -1,$limit,"previous");
+            $this->setLinkHeader($page, $limit,"previous");
         }
 
         $result = $arrayOfRowObjects;

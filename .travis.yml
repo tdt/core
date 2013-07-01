@@ -7,6 +7,8 @@ env:
   - DB=mysql
 before_script:
   - composer install
-  - mysql -e 'create database myapp_test;'
+  - mysql -e 'create database coretest;'
 
-script: phpunit tests/APITest.php
+script: 
+- phpunit tests/CSVTest.php
+- phpunit tests/JSONTest.php
