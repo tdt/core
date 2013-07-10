@@ -68,5 +68,3 @@ class RedirectController extends AController {
     }
 
 }
-
-?>

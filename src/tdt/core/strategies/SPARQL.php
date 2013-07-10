@@ -37,7 +37,7 @@ class SPARQL extends RDFXML {
 
         // Create a count query for paging purposes, this assumes that a where clause is included in the query.
         // Note that the where "clause" is obligatory but it's not mandatory it is preceded by a WHERE keyword.
-        $query = $configObject->query;
+        $query = $configObject->query;                
 
         $matches = array();
         $keyword = "";
@@ -60,14 +60,15 @@ class SPARQL extends RDFXML {
         }
 
 
-        $query = preg_replace("/($keyword\s*{.*?})/i", '', $query);
+        $query = preg_replace("/($keyword\s*{.*?})/i", '', $query);       
+
 
         if (stripos($query, "where") === FALSE) {
-            preg_match('/({.*}).*/i', $query, $matches);
+            preg_match('/({[^}]+}).*/i', $query, $matches);
         } else {
-            preg_match('/(where\s*{.*}).*/i', $query, $matches);
+            preg_match('/(where\s*{[^}]+}).*/i', $query, $matches);
         }
-
+       
         if (count($matches) < 2) {
             $message = "Failed to extract the where clause from the sparql query: $query";
             $this->logError($message);
@@ -78,17 +79,19 @@ class SPARQL extends RDFXML {
             throw new TDTException(500, array($message), $exception_config);
         }
 
-        $query = $matches[1];
+        $query = $matches[1];        
 
         // Prepare the query to count results.
-        $count_query = $prefix . " SELECT count(*) AS ?count " . $query;
+        $count_query = $prefix . " SELECT count(*) AS ?count " . $query;        
 
-        $count_query = urlencode($count_query);
-        $count_query = str_replace("+", "%20", $count_query);
-
+        //Virtuoso doesn't accept url encoded '<' and '>' - signs. So we'll have to replace them by the proper symbol again       
+        $count_query = $this->encodeUrl($count_query);
+                
         $configObject->uri = $configObject->endpoint . '?query=' . $count_query . '&format=' . urlencode("application/rdf+xml");
-        $count_obj = parent::read($configObject, $package, $resource);
-        $triples = $count_obj->triples;
+        
+        $count_obj = parent::read($configObject, $package, $resource);        
+        
+        $triples = $count_obj->triples;        
 
         // Get the results#value, in order to get a count of all the results.
         // This will be used for paging purposes.
@@ -129,14 +132,25 @@ class SPARQL extends RDFXML {
         if (empty($configObject->isPaged)) {
             $configObject->query = $configObject->query . " OFFSET $this->offset LIMIT $this->limit";
         }
-
-        $q = urlencode($configObject->query);
-        $q = str_replace("+", "%20", $q);
+        
+        $q = $this->encodeUrl($configObject->query);
 
         $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
 
-
         return parent::read($configObject, $package, $resource);
+    }
+
+    /**
+     * We encode the URL using a sequence of operations, because < and > have to be in the query string
+     * while the rest of the string has to be encoded.
+     */
+    private function encodeUrl($q){
+        $q = urlencode($q);
+        $q = str_replace('%3C','&lt;',$q);
+        $q = str_replace('%3E', '&gt;', $q);        
+        $q = html_entity_decode($q);
+        $q = str_replace("+", "%20", $q);   
+        return $q;
     }
 
     function php_fix_raw_query() {

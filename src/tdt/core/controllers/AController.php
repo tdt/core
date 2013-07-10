@@ -59,11 +59,12 @@ class AController {
     }
 
     protected function getFormat($formats = null) {
+
         if ($formats == null) {
             $formats = array("turtle", "ntriples", "rdfxml", "xml", "csv", "json");
         }
 
-        //always give format set throught the URL the upperhand
+        // Always give format set throught the URL the upperhand
         if ($this->format_through_url !== "") {
             return $this->format_through_url;
         } else {
@@ -104,5 +105,3 @@ class AController {
     }
 
 }
-
-?>

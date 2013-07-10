@@ -62,9 +62,8 @@ class InstalledResourceCreator extends ACreator {
          * Create the package and resource entities and create a generic resource entry.
          * Then pick the correct strategy, and pass along the parameters!
          */
-        // check if the location is legit
-
-        if (file_exists($this->directory . $this->location)) {
+        // check if the location is legit        
+        if (file_exists($this->directory . $this->location)) {            
             include_once($this->directory . $this->location);
             if (class_exists($this->classname)) {
                 $package_id = parent::makePackage($this->package);
@@ -77,7 +76,7 @@ class InstalledResourceCreator extends ACreator {
                 $exception_config = array();
                 $exception_config["log_dir"] = Config::get("general", "logging", "path");
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(452, array("The classname $this->classname doesn't exist on location installed/$this->location"), $exception_config);
+                throw new TDTException(452, array("The class $this->classname doesn't exist on location installed/$this->location"), $exception_config);
             }
         } else {
             $exception_config = array();
@@ -88,5 +87,3 @@ class InstalledResourceCreator extends ACreator {
     }
 
 }
-
-?>

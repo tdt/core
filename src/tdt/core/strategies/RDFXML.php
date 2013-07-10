@@ -44,20 +44,21 @@ class RDFXML extends AResourceStrategy {
 
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
         curl_setopt($ch, CURLOPT_USERPWD, $usr . ":" . $pass);
-        // set request url
-        curl_setopt($ch, CURLOPT_URL, $uri);
+
+        // set request url            
+        curl_setopt($ch, CURLOPT_URL, $uri);            
 
         // return response, don't print/echo
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-
-        $response = curl_exec($ch);
-
+        $response = curl_exec($ch);        
+      
         if (!$response){
             $exception_config = array();
             $exception_config["log_dir"] = Config::get("general", "logging", "path");
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("The call to the SPARQL endpoint returned an error: curl_error($ch)"), $exception_config);
+            $error_msg = curl_error($ch);
+            throw new TDTException(500, array("The call to the SPARQL endpoint returned an error: $error_msg"), $exception_config);
         }
 
         $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);

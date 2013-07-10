@@ -31,10 +31,8 @@ class CUDController extends AController {
         $packageresourcestring = $matches[0];
         $packageresourcestring = strtolower($packageresourcestring);
 
-        /*
-         * get the format of the string
-         */
-
+        
+        // Get the format of the string.
         $dotposition = strrpos($packageresourcestring, ".");
         $format = substr($packageresourcestring, $dotposition);
         $format = ltrim($format, ".");
@@ -53,16 +51,14 @@ class CUDController extends AController {
 
         $packageresourcestring = $matches[0];
 
-        /*
-         * get the format of the string
-         */
+        // Get the format of the string.
         $dotposition = strrpos($packageresourcestring, ".");
         $format = substr($packageresourcestring, $dotposition);
         $format = ltrim($format, ".");
         $end = $dotposition - 1;
         $packageresourcestring = substr($packageresourcestring, 1, $end);
 
-        // fill in the matches array
+        // Fill in the matches array to redirect to the HEAD function.
         $matches["packageresourcestring"] = ltrim($packageresourcestring, "/");
         $matches["format"] = $format;
         $RController = new RController();
@@ -70,13 +66,13 @@ class CUDController extends AController {
     }
 
     function PUT($matches) {
-
+            
         $packageresourcestring = $matches["packageresourcestring"];
         $packageresourcestring = strtolower($packageresourcestring);
         $packageresourcestring = rtrim($packageresourcestring,"/");
         $pieces = explode("/", $packageresourcestring);
 
-        // check for empty pieces
+        // Check for empty pieces.
         foreach($pieces as $piece){
             if($piece == ""){
                 $exception_config = array();
