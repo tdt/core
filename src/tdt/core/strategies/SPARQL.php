@@ -22,7 +22,7 @@ class SPARQL extends RDFXML {
     public function read(&$configObject, $package, $resource) {
 
         $_GET = $this->php_fix_raw_query();
-        $configObject->query = $this->processParameters($configObject->query);
+        $configObject->query = $this->processParameters($configObject->query);    
 
         $matches = array();
         preg_match_all("/GRAPH\s*?<(.*?)>/", $configObject->query, $matches, PREG_SET_ORDER);
@@ -60,8 +60,7 @@ class SPARQL extends RDFXML {
         }
 
 
-        $query = preg_replace("/($keyword\s*{.*?})/i", '', $query);       
-
+        $query = preg_replace("/($keyword\s*{.*?})/i", '', $query);               
 
         if (stripos($query, "where") === FALSE) {
             preg_match('/({[^}]+}).*/i', $query, $matches);
@@ -78,12 +77,12 @@ class SPARQL extends RDFXML {
             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
             throw new TDTException(500, array($message), $exception_config);
         }
-
-        $query = $matches[1];        
+        
+        $query = $matches[0];        
 
         // Prepare the query to count results.
-        $count_query = $prefix . " SELECT count(*) AS ?count " . $query;        
-
+        $count_query = $prefix . " SELECT count(*) AS ?count " . $query;    
+       
         //Virtuoso doesn't accept url encoded '<' and '>' - signs. So we'll have to replace them by the proper symbol again       
         $count_query = $this->encodeUrl($count_query);
                 
@@ -224,7 +223,8 @@ class SPARQL extends RDFXML {
     private function processParameters($query) {
         $param = $_GET;
         //var_dump($param);
-        $placeholders = array();
+        $placeholders = array();        
+
         preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders, PREG_SET_ORDER);
         for ($i = 0; $i < count($placeholders); $i++) {
 
@@ -269,7 +269,7 @@ class SPARQL extends RDFXML {
                 }
                 $value = addslashes($value);
 
-                $query = str_replace("\${" . $placeholder . "}", "\"$value\"", $query);
+                $query = str_replace("\${" . $placeholder . "}", $value, $query);                
                 continue;
             }
 
@@ -281,12 +281,10 @@ class SPARQL extends RDFXML {
 
             $placeholder = "\${" . $elements[0][0] . "}";
 
-            $query = str_replace($placeholder, $replacement, $query);
+            $query = str_replace($placeholder, $replacement, $query);            
 
         }
-
-        /*echo $query;
-            exit();*/
+                
         return $query;
     }
 

@@ -22,5 +22,3 @@ abstract class AResource extends AReader {
     }
 
 }
-
-?>
