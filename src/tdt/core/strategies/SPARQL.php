@@ -35,6 +35,12 @@ class SPARQL extends RDFXML {
                 $configObject->query = str_replace("GRAPH <$graph>", "GRAPH <$replace>", $configObject->query);
         }
 
+        // Check if there's a limit and/or offset in the query
+        // don't apply our paging functinality.
+        if(stripos($configObject->query, "limit") || stripos($configObject->query, "offset")){
+            $configObject->isPaged = true;
+        }
+
         // Create a count query for paging purposes, this assumes that a where clause is included in the query.
         // Note that the where "clause" is obligatory but it's not mandatory it is preceded by a WHERE keyword.
         $query = $configObject->query;                
@@ -42,97 +48,98 @@ class SPARQL extends RDFXML {
         $matches = array();
         $keyword = "";
 
-        $prefix = "";
+        if(empty($configObject->isPaged)){
+            $prefix = "";
 
-        if (stripos($query, "select") !== FALSE) { // SELECT query
-            $keyword = "select";
-            $prefix = substr($query, 0, stripos($query,"select"));
-        } elseif (stripos($query, "construct") !== FALSE) { // CONSTRUCT query
-            $keyword = "construct";
-            $prefix = substr($query, 0, stripos($query,"construct"));
-        } else { // No valid SPARQL keyword has been found.
-            $this->logError("No valid keyword (select or construct) has been found in the query: $query.");
+            if (stripos($query, "select") !== FALSE) { // SELECT query
+                $keyword = "select";
+                $prefix = substr($query, 0, stripos($query,"select"));
+            } elseif (stripos($query, "construct") !== FALSE) { // CONSTRUCT query
+                $keyword = "construct";
+                $prefix = substr($query, 0, stripos($query,"construct"));
+            } else { // No valid SPARQL keyword has been found.
+                $this->logError("No valid keyword (select or construct) has been found in the query: $query.");
 
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(452, array("No valid keyword (select or construct) has been found in the query: $query."), $exception_config);
-        }
-
-
-        $query = preg_replace("/($keyword\s*{.*?})/i", '', $query);               
-
-        if (stripos($query, "where") === FALSE) {
-            preg_match('/({[^}]+}).*/i', $query, $matches);
-        } else {
-            preg_match('/(where\s*{[^}]+}).*/i', $query, $matches);
-        }
-       
-        if (count($matches) < 2) {
-            $message = "Failed to extract the where clause from the sparql query: $query";
-            $this->logError($message);
-
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array($message), $exception_config);
-        }
-        
-        $query = $matches[0];        
-
-        // Prepare the query to count results.
-        $count_query = $prefix . " SELECT count(*) AS ?count " . $query;    
-       
-        //Virtuoso doesn't accept url encoded '<' and '>' - signs. So we'll have to replace them by the proper symbol again       
-        $count_query = $this->encodeUrl($count_query);
-                
-        $configObject->uri = $configObject->endpoint . '?query=' . $count_query . '&format=' . urlencode("application/rdf+xml");
-        
-        $count_obj = parent::read($configObject, $package, $resource);        
-        
-        $triples = $count_obj->triples;        
-
-        // Get the results#value, in order to get a count of all the results.
-        // This will be used for paging purposes.
-        $count = 0;
-        foreach ($triples as $triple) {
-            if (!empty($triple['p']) && preg_match('/.*sparql-results#value/', $triple['p'])) {
-                $count = $triple['o'];
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(452, array("No valid keyword (select or construct) has been found in the query: $query."), $exception_config);
             }
-        }
 
-        $req_uri = "";
-        if (!empty($configObject->req_uri)) {
-            $req_uri = $configObject->req_uri;
-        }
 
-        // Triplestores (e.g. Virtuoso sometimes have a limit to which rows can be sorted)
-        // if the given limit is higher than this, adjust the limit and log this re-capping of the limit.
-        if($this->limit > $this->max_sorted_top_rows || $this->page_size > $this->max_sorted_top_rows){
-            $this->limit = $this->max_sorted_top_rows;
-            $this->page_size = $this->max_sorted_top_rows;
-            $this->logError("The calculated limit, $this->limit, was too high. We adjusted this to $this->max_sorted_top_rows.");
-        }
+            $query = preg_replace("/($keyword\s*{.*?})/i", '', $query);               
 
-        // Calculate page link headers, previous and next.
-        if ($this->page > 1) {
-            $this->setLinkHeader($this->page - 1, $this->page_size, "previous", $req_uri);
-        }
-
-        if ($this->limit + $this->offset < $count) {
-            $this->setLinkHeader($this->page + 1, $this->page_size, "next", $req_uri);
-
-            $last_page = ceil(round($count / $this->limit, 1));
-            if ($last_page > $this->page + 1) {
-                $this->setLinkHeader($last_page, $this->limit, "last", $req_uri);
+            if (stripos($query, "where") === FALSE) {
+                preg_match('/({[^}]+}).*/i', $query, $matches);
+            } else {
+                preg_match('/(where\s*{[^}]+}).*/i', $query, $matches);
             }
-        }
 
-        if (empty($configObject->isPaged)) {
+            if (count($matches) < 2) {
+                $message = "Failed to extract the where clause from the sparql query: $query";
+                $this->logError($message);
+
+                $exception_config = array();
+                $exception_config["log_dir"] = Config::get("general", "logging", "path");
+                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
+                throw new TDTException(500, array($message), $exception_config);
+            }
+
+            $query = $matches[1];            
+
+            // Prepare the query to count results.
+            $count_query = $prefix . " SELECT count(?s) AS ?count " . $query;            
+
+            //Virtuoso doesn't accept url encoded '<' and '>' - signs. So we'll have to replace them by the proper symbol again       
+            $count_query = $this->encodeUrl($count_query);
+
+            $configObject->uri = $configObject->endpoint . '?query=' . $count_query . '&format=' . urlencode("application/rdf+xml");
+            
+            $count_obj = parent::read($configObject, $package, $resource);        
+            
+            $triples = $count_obj->triples;        
+
+            // Get the results#value, in order to get a count of all the results.
+            // This will be used for paging purposes.
+            $count = 0;
+            foreach ($triples as $triple) {
+                if (!empty($triple['p']) && preg_match('/.*sparql-results#value/', $triple['p'])) {
+                    $count = $triple['o'];
+                }
+            }
+
+            $req_uri = "";
+            if (!empty($configObject->req_uri)) {
+                $req_uri = $configObject->req_uri;
+            }
+
+            // Triplestores (e.g. Virtuoso sometimes have a limit to which rows can be sorted)
+            // if the given limit is higher than this, adjust the limit and log this re-capping of the limit.
+            if($this->limit > $this->max_sorted_top_rows || $this->page_size > $this->max_sorted_top_rows){
+                $this->limit = $this->max_sorted_top_rows;
+                $this->page_size = $this->max_sorted_top_rows;
+                $this->logError("The calculated limit, $this->limit, was too high. We adjusted this to $this->max_sorted_top_rows.");
+            }
+
+            // Calculate page link headers, previous and next.
+            if ($this->page > 1) {
+                $this->setLinkHeader($this->page - 1, $this->page_size, "previous", $req_uri);
+            }
+
+            if ($this->limit + $this->offset < $count) {
+                $this->setLinkHeader($this->page + 1, $this->page_size, "next", $req_uri);
+
+                $last_page = ceil(round($count / $this->limit, 1));
+                if ($last_page > $this->page + 1) {
+                    $this->setLinkHeader($last_page, $this->limit, "last", $req_uri);
+                }
+            }
+
             $configObject->query = $configObject->query . " OFFSET $this->offset LIMIT $this->limit";
         }
-        
-        $q = $this->encodeUrl($configObject->query);
+    
+
+        $q = $this->encodeUrl($configObject->query);        
 
         $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
 
@@ -284,7 +291,7 @@ class SPARQL extends RDFXML {
             $query = str_replace($placeholder, $replacement, $query);            
 
         }
-                
+
         return $query;
     }
 
@@ -293,19 +300,19 @@ class SPARQL extends RDFXML {
 
         switch ($function) {
             case "each":
-                if (!is_array($values))
-                    $values = array($values);
+            if (!is_array($values))
+                $values = array($values);
 
-                $arr_result = array();
-                foreach ($values as $value)
-                    $arr_result[] = str_replace("\$_", "\"$value\"", $pattern);
+            $arr_result = array();
+            foreach ($values as $value)
+                $arr_result[] = str_replace("\$_", "\"$value\"", $pattern);
 
-                $result = implode($concat, $arr_result);
+            $result = implode($concat, $arr_result);
 
-                break;
+            break;
 
             default:
-                throw new \tdt\exceptions\TDTException(400, array("Unknown placeholder function $function"), array());
+            throw new \tdt\exceptions\TDTException(400, array("Unknown placeholder function $function"), array());
         }
 
         return $result;
@@ -347,7 +354,7 @@ class SPARQL extends RDFXML {
             "query" => "The SPARQL query",
             "endpoint_user" => "Username for file behind authentication",
             "endpoint_password" => "Password for file behind authentication"
-        );
+            );
     }
 
     public function documentReadParameters() {
