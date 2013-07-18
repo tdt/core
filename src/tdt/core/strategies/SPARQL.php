@@ -70,9 +70,9 @@ class SPARQL extends RDFXML {
             $query = preg_replace("/($keyword\s*{.*?})/i", '', $query);               
 
             if (stripos($query, "where") === FALSE) {
-                preg_match('/({[^}]+}).*/i', $query, $matches);
+                preg_match('/({[\s\S]+}).*?/i', $query, $matches);
             } else {
-                preg_match('/(where\s*{[^}]+}).*/i', $query, $matches);
+                preg_match('/(where\s*{[\s\S]+}).*?/i', $query, $matches);
             }
 
             if (count($matches) < 2) {
@@ -84,8 +84,8 @@ class SPARQL extends RDFXML {
                 $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
                 throw new TDTException(500, array($message), $exception_config);
             }
-
-            $query = $matches[1];            
+            
+            $query = $matches[0];            
 
             // Prepare the query to count results.
             $count_query = $prefix . " SELECT count(?s) AS ?count " . $query;            
