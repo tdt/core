@@ -25,7 +25,7 @@ class LD extends SPARQL {
         $configObject->query .= "WHERE { ";
         $configObject->query .= "?s ?p ?o .";
         $configObject->query .= "FILTER ( (?s LIKE '$uri') OR (?s LIKE '$uri/%') )";
-        $configObject->query .= "} ORDER BY asc(?o) ";                  
+        $configObject->query .= "} ORDER BY asc(?s) ";                  
         
         $configObject->req_uri = $uri;
 
