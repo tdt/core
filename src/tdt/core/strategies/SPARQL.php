@@ -88,7 +88,7 @@ class SPARQL extends RDFXML {
             $query = $matches[0];            
 
             // Prepare the query to count results.
-            $count_query = $prefix . " SELECT count(?s) AS ?count " . $query;            
+            $count_query = $prefix . " SELECT count(*) AS ?count " . $query;                    
 
             //Virtuoso doesn't accept url encoded '<' and '>' - signs. So we'll have to replace them by the proper symbol again       
             $count_query = $this->encodeUrl($count_query);
@@ -137,8 +137,7 @@ class SPARQL extends RDFXML {
 
             $configObject->query = $configObject->query . " OFFSET $this->offset LIMIT $this->limit";
         }
-    
-
+                
         $q = $this->encodeUrl($configObject->query);        
 
         $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
