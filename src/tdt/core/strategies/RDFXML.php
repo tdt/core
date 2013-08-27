@@ -24,8 +24,14 @@ class RDFXML extends AResourceStrategy {
 
         $parser = \ARC2::getRDFXMLParser();
         $data = $this->execRequest($configObject->uri, $configObject->endpoint_user, $configObject->endpoint_password);
+
+        if(!empty($configObject->keyword) && $configObject->keyword == "select"){
+            $data = simplexml_load_string($data);
+            return $data;      
+        }else{
+            $parser->parse("",$data);
+        }
         
-        $parser->parse("",$data);
 
         return $parser;
     }

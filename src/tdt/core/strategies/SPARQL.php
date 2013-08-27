@@ -139,9 +139,14 @@ class SPARQL extends RDFXML {
         }
                 
         $q = $this->encodeUrl($configObject->query);        
+        
+        if($keyword == "select"){
+            $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/csv");                 
+        }else{
+            $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
+        }
 
-        $configObject->uri = $configObject->endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
-
+        $configObject->keyword = "select";
         return parent::read($configObject, $package, $resource);
     }
 
