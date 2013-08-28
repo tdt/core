@@ -26,7 +26,8 @@ class RDFXML extends AResourceStrategy {
         $data = $this->execRequest($configObject->uri, $configObject->endpoint_user, $configObject->endpoint_password);
 
         if(!empty($configObject->keyword) && $configObject->keyword == "select"){
-            $data = simplexml_load_string($data);
+            
+            $data = json_decode($data);
             return $data;      
         }else{
             $parser->parse("",$data);
