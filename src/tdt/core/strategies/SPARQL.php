@@ -279,7 +279,8 @@ class SPARQL extends RDFXML {
                         throw new \tdt\exceptions\TDTException(400, array("The parameter $placeholder is single value, array given."), array("log_dir" => Config::get("general","logging","path")));
                 }
                 $value = addslashes($value);
-
+                $value = str_replace('%23','#',$value);
+                
                 $query = str_replace("\${" . $placeholder . "}", $value, $query);                
                 continue;
             }
