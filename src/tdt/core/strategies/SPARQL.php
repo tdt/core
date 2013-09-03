@@ -233,7 +233,7 @@ class SPARQL extends RDFXML {
 
     private function processParameters($query) {
         $param = $_GET;
-        //var_dump($param);
+        
         $placeholders = array();        
 
         preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders, PREG_SET_ORDER);
@@ -279,7 +279,7 @@ class SPARQL extends RDFXML {
                         throw new \tdt\exceptions\TDTException(400, array("The parameter $placeholder is single value, array given."), array("log_dir" => Config::get("general","logging","path")));
                 }
                 $value = addslashes($value);
-                $value = str_replace('%23','#',$value);
+                $value = urldecode($value);                        
                 
                 $query = str_replace("\${" . $placeholder . "}", $value, $query);                
                 continue;
