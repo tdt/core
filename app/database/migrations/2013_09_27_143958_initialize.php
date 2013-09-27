@@ -12,7 +12,7 @@ class Initialize extends Migration {
     public function up()
     {
         // Create the definitions table
-        Schema::create('definition', function($table){
+        Schema::create('definitions', function($table){
 
             $table->increments('id');
             $table->string('collection_uri', 255);
@@ -34,7 +34,7 @@ class Initialize extends Migration {
     public function down()
     {
         // Drop the definitions table
-        Schema::drop('definition');
+        Schema::drop('definitions');
     }
 
 }
