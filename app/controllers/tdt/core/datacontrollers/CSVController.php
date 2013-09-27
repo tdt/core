@@ -2,6 +2,8 @@
 
 namespace tdt\core\datacontrollers;
 
+use tdt\core\datasets\Data;
+
 class CSVController implements IDataController {
 
     /// TODO: remove and make APager
@@ -25,12 +27,23 @@ class CSVController implements IDataController {
         $has_header_row = $source_definition->has_header_row;
         $start_row = $source_definition->start_row;
         $delimiter = $source_definition->delimiter;
-        // $columns = $source_definition->columns;
-        // $column_aliases = $source_definition->column_aliases;
         $PK = $source_definition->pk;
 
         $limit = $this->limit;
         $offset = $this->offset;
+
+        // Get CSV columns
+        $columns = $source_definition->tabularColumns();
+        $columns = $columns->getResults();
+        if(!$columns){
+            \App::abort(452, "Can't find columns for this CSVDefinition.");
+        }
+
+        // Set aliases
+        $aliases = array();
+        foreach($columns as $column){
+            $aliases[$column->column_name] = $column->column_name_alias;
+        }
 
         // Read the CSV file.
         $resultobject = array();
@@ -43,42 +56,35 @@ class CSVController implements IDataController {
             $start_row++;
         }
 
-        // $model = new \stdClass();//ResourcesModel::getInstance();
-        // $column_infos = $model->getColumnsFromResource($this->package,$this->resource);
-        // $aliases = array();
-
-        // foreach($column_infos as $column_info){
-        //     $aliases[$column_info["column_name"]] = $column_info["column_name_alias"];
-        // }
 
         // Contains the amount of rows that we added to the resulting object.
         $hits = 0;
         if (($handle = fopen($uri, "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
 
-                // if($total_rows >= $start_row -1){
-                //     $num = count($data);
+                if($total_rows >= $start_row -1){
+                    $num = count($data);
 
-                //     $values = $this->createValues($columns,$data,$total_rows);
-                //     if($offset <= $hits && $offset + $limit > $hits){
-                //         $obj = new \stdClass();
+                    $values = $this->createValues($columns, $data, $total_rows);
+                    if($offset <= $hits && $offset + $limit > $hits){
+                        $obj = new \stdClass();
 
-                //         foreach($values as $key => $value){
-                //             $key = $aliases[$key];
-                //             if(!empty($key))
-                //                 $obj->$key = $value;
-                //         }
+                        foreach($values as $key => $value){
+                            $key = $aliases[$key];
+                            if(!empty($key))
+                                $obj->$key = $value;
+                        }
 
-                //         if(empty($PK) || empty($aliases[$PK])){
-                //             array_push($arrayOfRowObjects,$obj);
-                //         }else{
-                //             $key = $aliases[$PK];
-                //             $arrayOfRowObjects[$obj->$key] = $obj;
-                //         }
-                //     }
-                //     $hits++;
-                // }
-                // $total_rows++;
+                        if(empty($PK) || empty($aliases[$PK])){
+                            array_push($arrayOfRowObjects, $obj);
+                        }else{
+                            $key = $aliases[$PK];
+                            $arrayOfRowObjects[$obj->$key] = $obj;
+                        }
+                    }
+                    $hits++;
+                }
+                $total_rows++;
             }
             fclose($handle);
 
@@ -86,7 +92,9 @@ class CSVController implements IDataController {
             \App::abort(452, "Can't get any data from defined URI ($uri) for this resource.");
         }
 
-        // // Paging.
+        // TODO: REST filtering
+
+        // TODO: Paging.
         // if($offset + $limit < $hits){
         //     $page = $offset/$limit;
         //     $page = round($page,0,PHP_ROUND_HALF_DOWN);
@@ -111,33 +119,29 @@ class CSVController implements IDataController {
         //     $this->setLinkHeader($page -1,$limit,"previous");
         // }
 
-        // $result = $arrayOfRowObjects;
-        // if(count($this->rest_params) > 0){
-        //     $result = array_shift($arrayOfRowObjects);
-        //     if(count($this->rest_params) == 2){
-        //         // add a column filter
-        //         $column = $this->rest_params[1];
+        $result = $arrayOfRowObjects;
 
-        //         // the uri is case insensitive, so the column might have been named with a uppercase (first) and result in a column not found.
-        //         // so lets track down the "good" name of the column
-        //         foreach(get_object_vars($result) as $property => $value){
-        //             if(strtolower($property) == $column){
-        //                 $column = $property;
-        //             }
-        //         }
+        $data_result = new Data();
+        $data_result->data = $result;
+        $data_result->source_type = 'CSV';
 
-        //         if(isset($result->$column)){
-        //             $result = $result->$column;
-        //         }else{
-        //             $exception_config = array();
-        //             $exception_config["log_dir"] = Config::get("general", "logging", "path");
-        //             $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-        //             throw new TDTException(452, array("The column $column specified via the rest parameters wasn't found."), $exception_config);
-        //         }
-        //     }
-        // }
+        return $data_result;
+    }
 
-        // return $result;
+    /**
+     * This function returns an array with key=column-name and value=data
+     */
+    private function createValues($columns, $data, $line_number = 0){
+
+        $result = array();
+        foreach($columns as $column){
+            if(!empty($data[$column->index])){
+                $result[$column->column_name_alias] = $data[$column->index];
+            }else{
+                $result[$value] = "";
+            }
+        }
+        return $result;
     }
 
 }
