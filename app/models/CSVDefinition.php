@@ -5,7 +5,7 @@ class CSVDefinition extends Eloquent{
 
     protected $guarded = array('id', 'source_id');
 
-    public function TabularColumns(){
+    public function tabularColumns(){
         return $this->morphMany('TabularColumns', 'tabular');
     }
 }
