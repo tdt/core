@@ -12,7 +12,14 @@ class DatasetController extends \Controller {
 
         if($definition){
 
+            // Create source class
+            $source_class = $definition->source_type.'Definition';
+
+            // echo $source_class; die();
+
             // Get source definition
+            $source_definition = $source_class::where('id', $definition->source_id)->first();
+            echo $source_definition->uri;
 
 
         }else{
