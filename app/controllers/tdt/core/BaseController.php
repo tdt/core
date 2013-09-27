@@ -12,7 +12,7 @@ class BaseController extends \Controller {
     public function handleRequest($uri){
 
         // None of the above -> must be a dataset request
-        DatasetController::handle($uri);
+        return DatasetController::handle($uri);
 
     }
 
