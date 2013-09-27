@@ -19,7 +19,15 @@ class DatasetController extends \Controller {
 
             // Get source definition
             $source_definition = $source_class::where('id', $definition->source_id)->first();
-            echo $source_definition->uri;
+
+            if($source_definition){
+
+                $data_controller = new \tdt\core\datacontrollers\CSVController();
+                $data_controller->readData($source_definition);
+
+            }else{
+                \App::abort(404, "Source for the definition could not be found.");
+            }
 
 
         }else{
