@@ -20,7 +20,7 @@ class TableColumns extends Migration {
             $table->boolean('is_pk');
             $table->string('column_name_alias');
             $table->string('tabular_type');
-            $table->integer('tabular_int');
+            $table->integer('tabular_id');
 
             // created_at | updated_at DATETIME, are default expected by the Eloquent ORM.
             $table->timestamps();
