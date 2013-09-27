@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang='en'>
     <head profile="http://dublincore.org/documents/dcq-html/">
-        <title></title>
+        <title>The DataTank</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
