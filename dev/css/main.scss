@@ -1,0 +1,170 @@
+@import 'bootstrap';
+@import 'prettify';
+
+$green: #328d81;
+$beige: #F5F4EE;
+$darker-beige: #EBEAE4;
+$highlight: #FF2C4C;
+
+$header-height: 60px;
+$footer-height: 60px;
+
+html, body{
+    height: 100%;
+}
+
+body {
+    background-color: $beige;
+    font-family: 'Open Sans', 'Oswald', sans-serif;
+    padding-top: $header-height + 25;
+}
+
+.wrapper{
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin-bottom: -$footer-height;
+}
+
+.navbar {
+    background-color: $green;
+    box-shadow: 0px 0px 10px #999999;
+    height: $header-height;
+
+    .navbar-brand{
+        padding-top: 0px;
+        padding-bottom: 0px;
+
+        img{
+            width: $header-height - 10;
+            height: $header-height - 10;
+            margin: 5px 0px;
+        }
+    }
+
+    ul.nav{
+        li{
+            a{
+                padding: 0px 20px;
+                height: $header-height;
+                line-height: $header-height;
+                color: #fff;
+
+                &:focus, &:hover{
+                    color: #fff;
+                    background-color: lighten($green, 5%);
+                }
+            }
+
+            &.active{
+                a{
+                    background-color: lighten($green, 10%);
+
+                    &:focus, &:hover{
+                        background-color: lighten($green, 10%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.btn{
+    background-color: rgba(255 , 255, 255, 0.8);
+    border: 1px solid darken($beige, 10%);
+    border-radius: 2px;
+    color: #333;
+
+    &:focus, &:hover{
+        color: #333;
+        background-color: $darker-beige;
+    }
+
+    &.btn-primary{
+        background-color: $green;
+        color: #fff;
+        border: 1px solid darken($green, 7%);
+
+        &:focus, &:hover{
+            background-color: $highlight;
+        border: 1px solid darken($highlight, 7%);
+        }
+    }
+}
+
+a{
+    color: $green;
+
+    &:focus, &:hover{
+        text-decoration: none;
+        color: $highlight;
+    }
+}
+
+.well{
+    border: 1px solid darken($beige, 10%);
+    background: rgba(255,255,255, 0.3);
+    box-shadow: none;
+}
+
+// .navbar .nav>li>a {
+//     color: #328D81;
+//     padding: 10px 15px 10px;
+//     text-shadow:none;
+//     margin-top: 7px;
+// }
+
+// .navbar .nav>li>a:hover {
+//     color: #FF2C4C;
+// }
+
+// .navbar .nav {
+//     float: right;
+//     margin: 17px 0 0 0;
+// }
+
+// .active {
+//     color: #FF2C4C;
+
+// }
+
+footer{
+    height: $footer-height;
+    width: 100%;
+    background-color: $darker-beige;
+    line-height: $footer-height;
+    font-size: 11px;
+    color: #333;
+}
+
+.push{
+    height: $footer-height;
+    width: 100%;
+}
+
+
+
+@media(max-width:768px){
+
+    body{
+        padding-top: 0px;
+    }
+
+    .navbar {
+        position: relative;
+        height: auto;
+        padding: 0px;
+
+        .nav{
+            margin: 0px;
+
+            a{
+                border-radius: 0px;
+            }
+        }
+    }
+
+    .wrapper{
+        padding: 0px 15px;
+    }
+}
