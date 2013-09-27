@@ -2,7 +2,7 @@
 
 class InstalledDefinition extends Eloquent{
 
-    protected $table = 'installeddefinition';
+    protected $table = 'installeddefinitions';
 
-	protected $guarded = array('id', 'source_id');
+	protected $guarded = array('id');
 }

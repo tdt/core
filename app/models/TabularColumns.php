@@ -9,5 +9,4 @@ class TabularColumns extends Eloquent{
     public function tabular(){
         return $this->morphTo();
     }
-
 }
