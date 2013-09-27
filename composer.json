@@ -5,24 +5,32 @@
     "homepage": "http://thedatatank.com",
     "type": "library",
     "license": "AGPLv3",
-    "suggest": {
-        "tdt/start": "Maps the functions of this scheduler to a RESTful API. A controller is already included: tdt scheduler ScheduleController"
+    "autoload": {
+        "classmap": [
+            "app/commands",
+            "app/controllers",
+            "app/models",
+            "app/database/migrations",
+            "app/database/seeds",
+            "app/tests/TestCase.php"
+        ]
     },
     "require": {
-        "gabordemooij/redbean": ">=3.2" ,
-        "tdt/exceptions" : "dev-master",
-        "tdt/negotiators" : "dev-master",
-        "tdt/cache" : "dev-master",
-        "monolog/monolog": "1.2.*",
-        "justinrainbow/json-schema": "1.3.1",
-        "CodePlex/PHPExcel": "dev-master",
-        "tdt/formatters" : "dev-master",
-        "semsol/arc2": "dev-master"
+        "laravel/framework": "4.0.*"
     },
-    "minimum-stability" : "dev",
-    "autoload": {
-        "psr-0": {
-            "tdt\\core\\": "src/"
-        }
-    }
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan optimize"
+        ],
+        "pre-update-cmd": [
+            "php artisan clear-compiled"
+        ],
+        "post-update-cmd": [
+            "php artisan optimize"
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
+    },
+    "minimum-stability": "dev"
 }

@@ -1,10 +1,13 @@
 Makefile
 *.DS_Store
-nbproject/*
-nbproject/private/*
 .settings
 .buildpath
 .project
 tmp/*
-/vendor/
-/composer.lock
+/vendor
+composer.phar
+composer.lock
+/app/config/local
+/app/config/staging
+/app/config/production
+/bootstrap/compiled.php
