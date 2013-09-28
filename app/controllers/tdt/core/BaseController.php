@@ -4,6 +4,12 @@ namespace tdt\core;
 
 use tdt\core\datasets\DatasetController;
 
+/**
+ * The base controller
+ * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @license AGPLv3
+ * @author Michiel Vancoillie <michiel@okfn.be>
+ */
 class BaseController extends \Controller {
 
     /*

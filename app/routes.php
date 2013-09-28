@@ -7,8 +7,6 @@
 */
 
 
-
-
 /*
  * IMPORTANT!
  * The catch-all route to catch all other request is added last to allow packages to still have their own routes

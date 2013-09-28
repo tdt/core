@@ -1,18 +1,21 @@
 <?php
-/**
- * The CSV formatter.
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
- * @license AGPLv3
- */
 
 namespace tdt\core\formatters;
 
+/**
+ * CSV Formatter
+ * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt <jan@okfn.be>
+ * @author Pieter Colpaert   <pieter@irail.be>
+ * @author Michiel Vancoillie <michiel@okfn.be>
+ */
 class CSVFormatter{
 
     public static function createResponse($dataObj){
 
         // Create response
-        $response = \Response::make(CSVFormatter::getBody($dataObj), 200);
+        $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
         $response->header('Access-Control-Allow-Origin', '*');

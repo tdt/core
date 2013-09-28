@@ -4,6 +4,12 @@ namespace tdt\core\datasets;
 
 use tdt\core\ContentNegotiator;
 
+/**
+ * DatasetController
+ * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @license AGPLv3
+ * @author Michiel Vancoillie <michiel@okfn.be>
+ */
 class DatasetController extends \Controller {
 
     public static function handle($uri){
