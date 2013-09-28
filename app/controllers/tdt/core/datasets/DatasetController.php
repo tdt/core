@@ -8,12 +8,12 @@ class DatasetController extends \Controller {
 
     public static function handle($uri){
 
-        // Split extension
+        // Split for an (optional) extension
         preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
         // URI is always the first match
         $uri = $matches[1];
         // Get extension (if set)
-        $extension = (!empty($matches[1]))? strtoupper($matches[2]): null;
+        $extension = (!empty($matches[2]))? $matches[2]: null;
 
         // Get definition
         $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name, '%')", array($uri))->first();

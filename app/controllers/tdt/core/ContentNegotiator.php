@@ -5,14 +5,45 @@ namespace tdt\core;
 class ContentNegotiator{
 
     /**
-     * Format using requested formatter (via extension, Accept header or default)
+     * Map MIME-types on formatters for Accept-header
+     */
+    public static $mime_types_map = array(
+        'text/csv' => 'CSV',
+        'application/json' => 'JSON',
+        'application/xml' => 'XML',
+        'application/xslt+xml' => 'XML',
+    );
+
+    /**
+     * Format using requested formatter (via extension, Accept-header or default)
      */
     public static function getResponse($data, $extension = null){
 
-        // TODO: check accept header
-        //\Request::header('Accept');
+        // Extension has priority over Accept-header
+        if(!$extension){
 
-        // TODO: default formatter
+            // Check Accept-header
+            $accept_header = \Request::header('Accept');
+
+            $mimes = explode(',', $accept_header);
+            foreach($mimes as $mime){
+                if(!empty(ContentNegotiator::$mime_types_map[$mime])){
+                    // Matched mime type
+                    $extension = ContentNegotiator::$mime_types_map[$mime];
+                    break;
+                }
+            }
+
+            // Still nothing? Use default formatter
+            if(!$extension){
+                // TODO: get default formatter from config
+                $extension = 'HTML';
+            }
+
+        }
+
+        // Safety first
+        $extension = strtoupper($extension);
 
         // Formatter class
         $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';
