@@ -16,8 +16,15 @@
         ]
     },
     "require": {
-        "laravel/framework": "4.0.*"
+        "laravel/framework": "4.0.*",
+        "tdt/input" : "dev-blackwell"
     },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:tdt/input.git"
+        }
+    ],
     "scripts": {
         "post-install-cmd": [
             "php artisan optimize"
