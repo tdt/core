@@ -17,12 +17,17 @@ class JSONController implements IDataController {
     public function readData($source_definition, $parameters = null){
 
         $data = file_get_contents($source_definition->uri);
-        $php_object = json_decode($data);
 
-        $data_result = new Data();
-        $data_result->data = $php_object;
-        $data_result->source_type = "json";
-        return $data_result;
+        if($data){
 
+            $php_object = json_decode($data);
+
+            $data_result = new Data();
+            $data_result->data = $php_object;
+            $data_result->source_type = 'JSON';
+            return $data_result;
+        }
+
+        \App::abort(452, "Can't get any (json) data from the given URI ($uri).");
     }
 }
