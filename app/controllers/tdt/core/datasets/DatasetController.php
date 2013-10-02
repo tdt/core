@@ -43,6 +43,9 @@ class DatasetController extends \Controller {
                 // Retrieve dataobject from datacontroller
                 $data = $data_controller->readData($source_definition);
 
+                /// Add source definition to the object
+                $data->definition = $source_definition;
+
                 // Return the formatted response with content negotiation
                 return ContentNegotiator::getResponse($data, $extension);
             }else{

@@ -24,7 +24,6 @@ class JSONController implements IDataController {
 
             $data_result = new Data();
             $data_result->data = $php_object;
-            $data_result->source_type = 'JSON';
             return $data_result;
         }
 

@@ -17,7 +17,7 @@ namespace tdt\core\datasets;
  */
 class Data {
 
-    public $source_type;
+    public $definition;
 
     public $paging;
 

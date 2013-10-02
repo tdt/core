@@ -4,7 +4,7 @@ namespace tdt\core\formatters;
 
 
 define("NUMBER_TAG_PREFIX", "_");
-define("DEFAULT_ROOT", "_");
+define("DEFAULT_ROOTNAME", "data");
 
 /**
  * XML Formatter
@@ -31,43 +31,36 @@ class XMLFormatter implements IFormatter{
         // Build the body
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
 
-        $rootname = DEFAULT_ROOT;
+        $rootname = DEFAULT_ROOTNAME;
 
-        if(empty($this->objectToPrint->$rootname)){
+
+        $data = $dataObj->data;
+
+        if(empty($data->$rootname)){
             // Because the rootname plays a prominent role in XML, we need to be sure
             // it's a valid rootname. If not, we take the first datamember as rootname.
-            $entry = get_object_vars($this->objectToPrint);
+            $entry = get_object_vars($data);
             $rootname = array_shift(array_keys($entry));
-            $this->rootname = $rootname;
         }
 
-        if(!isset($this->objectToPrint->$rootname)){
-            $rootname = ucfirst($this->rootname);
-            $this->rootname = $rootname;
+        if(!isset($data->$rootname)){
+            $rootname = ucfirst($rootname);
         }
 
 
-        if(!is_object($this->objectToPrint->$rootname)){
+        if(!is_object($data->$rootname)){
             $wrapper = new \stdClass();
-            $wrapper->$rootname = $this->objectToPrint->$rootname;
-            $this->objectToPrint->$rootname = $wrapper;
+            $wrapper->$rootname = $data->$rootname;
+            $data->$rootname = $wrapper;
         }
 
-        $this->printObject($this->rootname . " version=\"1.0\" timestamp=\"" . time() . "\"", $this->objectToPrint->$rootname);
-        echo "</$this->rootname>";
+        $body .= self::printObject($rootname, $data->$rootname);
+        $body .= "</$rootname>";
 
-        // Get the JSON data
-        $data = $dataObj->data;
-        if (is_object($dataObj->data)) {
-            $data = get_object_vars($dataObj->data);
-        }
-        $data = str_replace("\/", "/", json_encode($data));
-
-        $body = $callback . '(' . $data .  ');';
         return $body;
     }
 
-    private static function printObject($name,$object,$nameobject=null){
+    private static function printObject($name, $object, $nameobject = null){
 
         //check on first character
         if(preg_match("/^[0-9]+.*/", $name)){
@@ -87,13 +80,13 @@ class XMLFormatter implements IFormatter{
                     }
 
                     $tag_close = TRUE;
-                    $this->printObject($key,$value);
+                    self::printObject($key,$value);
                 }elseif(is_array($value)){
                     if($tag_close == FALSE){
                         echo ">";
                     }
                     $tag_close = TRUE;
-                    $this->printArray($key,$value);
+                    self::printArray($key,$value);
                 }else{
 
                     if($key == $name){
@@ -104,7 +97,7 @@ class XMLFormatter implements IFormatter{
 
                         $value = htmlspecialchars($value, ENT_QUOTES);
 
-                        if($this->isNotAnAttribute($key)){
+                        if(self::isNotAnAttribute($key)){
                             if(!$tag_close){
                                 echo ">";
                                 $tag_close = TRUE;
@@ -155,22 +148,22 @@ class XMLFormatter implements IFormatter{
         foreach($array as $key => $value){
             $nametag = $name;
             if(is_object($value)){
-                $this->printObject($nametag,$value,$name);
+                self::printObject($nametag,$value,$name);
                 echo "</$name>";
-            }else if(is_array($value) && !$this->isHash($value)){
+            }else if(is_array($value) && !self::isHash($value)){
                 echo "<".$name. ">";
-                $this->printArray($nametag,$value);
+                self::printArray($nametag,$value);
                 echo "</".$name.">";
-            }else if(is_array($value) && $this->isHash($value)){
+            }else if(is_array($value) && self::isHash($value)){
                 echo "<".$name. ">";
-                $this->printArray($key,$value);
+                self::printArray($key,$value);
                 echo "</".$name.">";
             }else{
                 $name = htmlspecialchars(str_replace(" ","",$name));
                 $value = htmlspecialchars($value);
                 $key = htmlspecialchars(str_replace(" ","",$key));
 
-                if($this->isHash($array)){
+                if(self::isHash($array)){
                     if(preg_match("/^[0-9]+.*/", $key)){
                         $key = NUMBER_TAG_PREFIX . $key;
                     }

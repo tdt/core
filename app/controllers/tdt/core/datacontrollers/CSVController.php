@@ -44,7 +44,7 @@ class CSVController implements IDataController {
         $columns = $source_definition->tabularColumns();
         $columns = $columns->getResults();
         if(!$columns){
-            \App::abort(452, "Can't find columns for this CSVDefinition.");
+            \App::abort(452, "Can't find or fetch the columns for this CSV file.");
         }
 
         // Set aliases
@@ -131,7 +131,6 @@ class CSVController implements IDataController {
 
         $data_result = new Data();
         $data_result->data = $result;
-        $data_result->source_type = 'CSV';
 
         return $data_result;
     }
