@@ -3,6 +3,7 @@
 namespace tdt\core\datacontrollers;
 
 use tdt\core\datasets\Data;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * CSV Controller
@@ -14,8 +15,14 @@ use tdt\core\datasets\Data;
 class JSONController implements IDataController {
 
     public function readData($source_definition, $parameters = null){
-        var_dump($source_definition);
-        exit();
-    }
 
+        $data = file_get_contents($source_definition->uri);
+        $php_object = json_decode($data);
+
+        $data_result = new Data();
+        $data_result->data = $php_object;
+        $data_result->source_type = "json";
+        return $data_result;
+
+    }
 }

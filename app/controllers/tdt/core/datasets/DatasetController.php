@@ -16,8 +16,10 @@ class DatasetController extends \Controller {
 
         // Split for an (optional) extension
         preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
+
         // URI is always the first match
         $uri = $matches[1];
+
         // Get extension (if set)
         $extension = (!empty($matches[2]))? $matches[2]: null;
 
@@ -27,11 +29,10 @@ class DatasetController extends \Controller {
         if($definition){
 
             // Create source class
-            $source_class = $definition->source_type.'Definition';
+            $source_class = $definition->source_type . 'Definition';
 
             // Get source definition
             $source_definition = $source_class::where('id', $definition->source_id)->first();
-
 
             if($source_definition){
 
@@ -44,7 +45,6 @@ class DatasetController extends \Controller {
 
                 // Return the formatted response with content negotiation
                 return ContentNegotiator::getResponse($data, $extension);
-
             }else{
                 \App::abort(404, "Source for the definition could not be found.");
             }
