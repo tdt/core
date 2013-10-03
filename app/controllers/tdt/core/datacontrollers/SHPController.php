@@ -1,6 +1,6 @@
 <?php
 /**
- * This class handles a SHP file.
+ * SHP Controller
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Lieven Janssen
