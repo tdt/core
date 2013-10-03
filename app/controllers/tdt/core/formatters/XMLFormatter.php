@@ -72,7 +72,7 @@ class XMLFormatter implements IFormatter{
 
                 // Check for special keys, then add elements recursively
                 if($key === '@value'){
-                    $object .= $value;
+                    $object .= self::getXMLString($value);
                 }elseif(is_numeric($key)){
                     $object .= self::transformToXML($value, 'element');
                 }else{
@@ -88,13 +88,22 @@ class XMLFormatter implements IFormatter{
             }
         }else{
             // Data is string append it
-            $object .= $data;
+            $object .= self::getXMLString($data);
         }
 
         // Close tag
         $object .= "</$nameobject>";
 
         return $object;
+    }
+
+    private static function getXMLString($string){
+        // Check for XML syntax to escape
+        if(preg_match('/[<>&]+/', $string)){
+            $string = '<![CDATA[' . $string . ']]>';
+        }
+
+        return $string;
     }
 
     public static function getDocumentation(){
