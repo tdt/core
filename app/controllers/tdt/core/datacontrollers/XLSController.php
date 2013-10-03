@@ -22,10 +22,11 @@ class XLSController implements IDataController {
         $has_header_row = $source_definition->has_header_row;
         $start_row = $source_definition->start_row;
 
-        $PK = $source_definition->PK;
+        $pk = $source_definition->pk;
 
         $columns_obj = $source_definition->tabularColumns();
         $columns_obj = $columns_obj->getResults();
+
         if(!$columns_obj){
             \App::abort(452, "Can't find or fetch the columns for this Excell file.");
         }
@@ -33,9 +34,16 @@ class XLSController implements IDataController {
         // Set aliases
         $aliases = array();
         $columns = array();
+        $fieldhash = array();
+
         foreach($columns_obj as $column){
             $aliases[$column->column_name] = $column->column_name_alias;
             array_push($columns, $column->column_name);
+            $fieldhash[$column->column_name] = $column->index;
+
+            if($column->is_pk){
+                $pk = $column->column_name_alias;
+            }
         }
 
         $resultobject = new \stdClass();
@@ -57,10 +65,19 @@ class XLSController implements IDataController {
                 $objPHPExcel = $this->loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri),$sheet);
 
             } else {
+
                 $objPHPExcel = $this->loadExcel($uri, $this->getFileExtension($uri),$sheet);
             }
 
+            if(empty($objPHPExcel)){
+                \App::abort(452, "The Excel file could not be loaded from $uri.");
+            }
+
             $worksheet = $objPHPExcel->getSheetByName($sheet);
+
+            if(empty($worksheet)){
+                \App::abort(452, "The worksheet $sheet could not be found in the Excel file.");
+            }
 
             foreach ($worksheet->getRowIterator() as $row) {
 
@@ -72,7 +89,9 @@ class XLSController implements IDataController {
                     $cellIterator->setIterateOnlyExistingCells(false);
 
                     if ($rowIndex == $start_row && $has_header_row == "1") {
+
                         foreach ($cellIterator as $cell) {
+
                             if(!is_null($cell) && $cell->getCalculatedValue() != ""){
                                 $columnIndex = $cell->columnIndexFromString($cell->getColumn());
                                 $fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;
@@ -101,19 +120,21 @@ class XLSController implements IDataController {
                                 }
                             }
                         }
-                        if(empty($PK)) {
+
+                        if(empty($pk)) {
                             array_push($arrayOfRowObjects,$rowobject);
                         } else {
-                            if(!isset($arrayOfRowObjects[$rowobject->$PK]) && $rowobject->$PK != ""){
-                                $arrayOfRowObjects[$rowobject->$PK] = $rowobject;
-                            }elseif(isset($arrayOfRowObjects[$rowobject->$PK])){
-                                $log = new Logger('CSV');
-                                $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
-                                $log->addAlert("The primary key $PK has been used already for another record!");
+                            if(!isset($arrayOfRowObjects[$rowobject->$pk]) && $rowobject->$pk != ""){
+                                $arrayOfRowObjects[$rowobject->$pk] = $rowobject;
+
+                            }elseif(!empty($arrayOfRowObjects[$rowobject->$pk])){
+
+                                $double = $rowobject->$pk;
+                                \Log::info("The primary key $double has been used already for another record!");
                             }else{
-                                $log = new Logger('CSV');
-                                $log->pushHandler(new StreamHandler(Config::get("general", "logging", "path") . "/log_" . date('Y-m-d') . ".txt", Logger::ALERT));
-                                $log->addAlert("The primary key $PK is empty.");
+
+                                $double = $rowobject->$pk;
+                                \Log::info("The primary key $double is empty.");
                             }
                         }
                     }
