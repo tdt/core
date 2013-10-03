@@ -64,7 +64,6 @@ class CSVController implements IDataController {
             $start_row++;
         }
 
-
         // Contains the amount of rows that we added to the resulting object.
         $hits = 0;
         if (($handle = fopen($uri, "r")) !== FALSE) {

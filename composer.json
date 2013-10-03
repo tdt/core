@@ -17,7 +17,8 @@
     },
     "require": {
         "laravel/framework": "4.0.*",
-        "tdt/input" : "dev-blackwell"
+        "tdt/input" : "dev-blackwell",
+        "CodePlex/PHPExcel": "dev-master"
     },
     "repositories": [
         {
