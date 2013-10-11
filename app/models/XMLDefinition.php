@@ -11,4 +11,17 @@ class XMLDefinition extends Eloquent{
     protected $table = 'xmldefinitions';
 
     protected $guarded = array('id');
+
+    /**
+     * Retrieve the set of create parameters that make up a XML definition.
+     */
+    public static function getCreateParameters(){
+        return array(
+            array(
+                'name' => 'uri',
+                'required' => true,
+                'description' => 'The location of the XML file, this should either be a URL or a local file location.',
+            ),
+        );
+    }
 }

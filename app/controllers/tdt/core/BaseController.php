@@ -3,6 +3,7 @@
 namespace tdt\core;
 
 use tdt\core\datasets\DatasetController;
+use tdt\core\definitions\DiscoveryController;
 
 /**
  * The base controller
@@ -18,8 +19,8 @@ class BaseController extends \Controller {
     public function handleRequest($uri){
 
         // None of the above -> must be a dataset request
-        return DatasetController::handle($uri);
-
+        return DiscoveryController::handle($uri);
+        //return DatasetController::handle($uri);
     }
 
 }

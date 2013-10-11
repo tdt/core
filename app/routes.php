@@ -23,7 +23,7 @@ App::error(function($exception, $code)
 {
     // Log error
     Log::error($exception);
-
+    var_dump($exception->getTraceAsString());
     switch ($code)
     {
         case 403:
