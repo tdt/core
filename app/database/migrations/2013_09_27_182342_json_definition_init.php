@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class JsonDefinition extends Migration {
+class JsonDefinitionInit extends Migration {
 
     /**
      * Run the migrations.

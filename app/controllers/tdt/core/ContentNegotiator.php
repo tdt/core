@@ -52,7 +52,7 @@ class ContentNegotiator{
         $extension = strtoupper($extension);
 
         // Formatter class
-        $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';
+        $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';        
 
         if(!class_exists($formatter_class)){
             \App::abort(400, "Formatter $extension doesn't exist.");

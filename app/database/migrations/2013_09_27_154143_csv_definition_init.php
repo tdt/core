@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CsvDefinition extends Migration {
+class CsvDefinitionInit extends Migration {
 
     /**
      * Run the migrations.

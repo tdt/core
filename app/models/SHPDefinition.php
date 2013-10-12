@@ -6,7 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class SHPDefinition extends Eloquent{
+class ShpDefinition extends Eloquent{
 
     protected $table = 'shpdefinitions';
 
@@ -21,17 +21,23 @@ class SHPDefinition extends Eloquent{
      */
     public static function getCreateParameters(){
         return array(
-            array(
-                'name' => 'uri',
+            'uri' => array(                
                 'required' => true,
                 'description' => 'The location of the SHP file, either a URL or a local file location.',
                 ),
-            array(
-                'name' => 'epsg',
+            'epsg' => array(                
                 'required' => false,
                 'description' => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
                 'default_value' => 4326
                 ),
             );
+    }
+
+    /**
+     * Retrieve the set of validation rules for every create parameter.
+     * If the parameters doesn't have any rules, it's not mentioned in the array.
+     */ 
+    public static function getCreateValidators(){
+        return array();
     }
 }

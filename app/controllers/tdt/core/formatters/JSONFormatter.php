@@ -11,7 +11,7 @@ namespace tdt\core\formatters;
 class JSONFormatter implements IFormatter{
 
     public static function createResponse($dataObj){
-
+        
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 

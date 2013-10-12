@@ -6,7 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class XLSDefinition extends Eloquent{
+class XlsDefinition extends Eloquent{
 
     protected $table = 'xlsdefinitions';
 
@@ -21,35 +21,39 @@ class XLSDefinition extends Eloquent{
      */
     public static function getCreateParameters(){
         return array(
-                array(
-                    'name' => 'uri',
+                'uri' => array(                    
                     'required' => true,
                     'description' => 'The location of the XS file, either a URL or a local file location.',
                 ),
-                array(
-                    'name' => 'sheet',
+                'sheet' => array(                    
                     'required' => false,
                     'description' => 'The delimiter of the separated value file.',
                     'default_value' => ',',
                 ),
-                array(
-                    'name' => 'has_header_row',
+                'has_header_row' => array(                    
                     'required' => false,
                     'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
-                    'default_value' => 1,
-                    'rules' => 'integer|min:0|max:1'
+                    'default_value' => 1,                    
                 ),
-                array(
-                    'name' => 'pk',
+                'pk' => array(                    
                     'required' => false,
                     'description' => 'Name of the column that will be used as a primary key in the results when retrieving the data.',
                 ),
-                array(
-                    'name' => 'start_row',
+                'start_row' => array(                    
                     'required' => false,
-                    'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
-                    'rules' => 'integer',
+                    'description' => 'Defines the row at which the data (and header row if present) starts in the file.',                    
                 ),
+        );
+    }
+
+    /**
+     * Retrieve the set of validation rules for every create parameter.
+     * If the parameters doesn't have any rules, it's not mentioned in the array.
+     */ 
+    public static function getCreateValidators(){
+        return array(
+            'has_header_row' => 'integer|min:0|max:1',
+            'start_row' => 'integer',
         );
     }
 }

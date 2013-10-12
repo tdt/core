@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class XlsDefinition extends Migration {
+class XlsDefinitionInit extends Migration {
 
 	/**
 	 * Run the migrations.

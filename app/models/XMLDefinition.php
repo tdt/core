@@ -6,7 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class XMLDefinition extends Eloquent{
+class XmlDefinition extends Eloquent{
 
     protected $table = 'xmldefinitions';
 
@@ -23,5 +23,13 @@ class XMLDefinition extends Eloquent{
                 'description' => 'The location of the XML file, this should either be a URL or a local file location.',
             ),
         );
+    }
+
+    /**
+     * Retrieve the set of validation rules for every create parameter.
+     * If the parameters doesn't have any rules, it's not mentioned in the array.
+     */ 
+    public static function getCreateValidators(){
+        return array();
     }
 }

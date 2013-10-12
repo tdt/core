@@ -2,6 +2,9 @@
 
 namespace tdt\core\definitions;
 
+use tdt\core\datasets\Data;
+use tdt\core\ContentNegotiator;
+
 /**
  * DiscoveryController
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
@@ -12,9 +15,34 @@ class DiscoveryController extends \Controller {
 
     public static function handle($uri){
 
+        // TODO shouldn't this be in \Controller, or a superclass of some sort?
+        // Split for an (optional) extension
+        preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
+
+        // URI is always the first match
+        $uri = $matches[1];
+
+        // Get extension (if set)
+        $extension = (!empty($matches[2]))? $matches[2]: null;
+
+        $dis_document = self::createDiscoveryDocument();        
+
+        $data_result = new Data();
+        $data_result->data = $dis_document;       
+
+        // Return the formatted response with content negotiation
+        return ContentNegotiator::getResponse($data_result, $extension);
+    }
+
+    /**
+     * Create the discovery document.
+     * TODO create the DELETE and PATCH section of the discovery document
+     * TODO add more resources (definitions, ...)
+     */ 
+    private static function createDiscoveryDocument(){
+
         // Create and return a dument that holds a self-explanatory document
         // about how to interface with the datatank.
-
         $discovery_document = new \stdClass();
 
         // Create the discovery dument head properties.
@@ -32,23 +60,25 @@ class DiscoveryController extends \Controller {
         $put->httpMethod = "PUT";
         $put->path = "/definitions/{identifier}";
         $put->description = "Add a resource definition identified by the {identifier} value, and of the type identified by the content type header value {mediaType}. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors)";
-        $put->contentType = "{mediaType}";
+        $put->contentType = "application/tdt.{mediaType}";
 
         // Every type of definition is identified by a certain mediatype.
         $put->mediaType = new \stdClass();
 
-        // Fetch all the supported definition models.
-        //$app_path = app_path();
+        // Fetch all the supported definition models by iterating the models directory.
         if ($handle = opendir(app_path() . '/models')) {
             while (false !== ($entry = readdir($handle))) {
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
+
                     $model = $matches[1] . "Definition";
+                    
+                    $definition_type = strtolower($matches[1]);
 
                     if(method_exists($model, 'getCreateParameters')){
 
-                        $put->mediaType->$matches[1] = new \stdClass();
-                        $put->mediaType->$matches[1]->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
-                        $put->mediaType->$matches[1]->parameters = $model::getCreateParameters();
+                        $put->mediaType->$definition_type = new \stdClass();
+                        $put->mediaType->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
+                        $put->mediaType->$definition_type->parameters = $model::getCreateParameters();
                     }
                 }
             }
