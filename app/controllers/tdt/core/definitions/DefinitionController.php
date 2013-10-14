@@ -63,10 +63,13 @@ class DefinitionController extends \Controller {
             $validated_params = self::validateParameters($definition, $params);
 
             $def_instance = new $definition();
-            foreach($validated_params as $key => $value){
 
+            foreach($validated_params as $key => $value){
+                $def_instance->$key = $value;
             }
-            $def_instance
+
+            $def_instance->save();
+
 
         }else{
             \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");

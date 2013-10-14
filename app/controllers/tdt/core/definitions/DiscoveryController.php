@@ -25,10 +25,10 @@ class DiscoveryController extends \Controller {
         // Get extension (if set)
         $extension = (!empty($matches[2]))? $matches[2]: null;
 
-        $dis_document = self::createDiscoveryDocument();        
+        $dis_document = self::createDiscoveryDocument();
 
         $data_result = new Data();
-        $data_result->data = $dis_document;       
+        $data_result->data = $dis_document;
 
         // Return the formatted response with content negotiation
         return ContentNegotiator::getResponse($data_result, $extension);
@@ -38,7 +38,7 @@ class DiscoveryController extends \Controller {
      * Create the discovery document.
      * TODO create the DELETE and PATCH section of the discovery document
      * TODO add more resources (definitions, ...)
-     */ 
+     */
     private static function createDiscoveryDocument(){
 
         // Create and return a dument that holds a self-explanatory document
@@ -71,7 +71,7 @@ class DiscoveryController extends \Controller {
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
 
                     $model = $matches[1] . "Definition";
-                    
+
                     $definition_type = strtolower($matches[1]);
 
                     if(method_exists($model, 'getCreateParameters')){
