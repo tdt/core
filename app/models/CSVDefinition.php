@@ -35,13 +35,10 @@ class CsvDefinition extends Eloquent{
                 'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
                 'default_value' => 1,
             ),
-            'pk' => array(
-                'required' => false,
-                'description' => 'Name of the column that will be used as a primary key in the results when retrieving the data.',
-            ),
             'start_row' => array(
                 'required' => false,
                 'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
+                'default_value' => 1,
             ),
         );
     }

@@ -28,7 +28,7 @@ class CsvDropPk extends Migration {
 		// Add the column pk in the CSV definitions table.
 		Schema::table('csvdefinitions', function($table)
 		{
-		    $table->addColumn('add');
+		    $table->string('pk');
 		});
 	}
 

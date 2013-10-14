@@ -18,16 +18,16 @@ class DefinitionController extends \Controller {
 
         switch($method){
             case "PUT":
-                self::createDefinition();
+                self::createDefinition($uri);
                 break;
             case "GET":
                 // TODO return the existing definitions, these should be seen only by authenticated peopless
                 break;
             case "PATCH":
-                self::patchDefinition();
+                self::patchDefinition($uri);
                 break;
             case "DELETE":
-                self::deleteDefinition();
+                self::deleteDefinition($uri);
                 break;
             default:
                 \App::abort(400, "The method $method is not supported by the definitions.");
@@ -39,7 +39,16 @@ class DefinitionController extends \Controller {
     /**
      * Create a new definition based on the PUT parameters given and content-type.
      */
-    private static function createDefinition(){
+    private static function createDefinition($uri){
+
+        // Retrieve the collection uri and resource name
+        $matches = array();
+        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
+            $collection_uri = $matches[1];
+            $resource_name = $matches[2];
+        }else{
+            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
+        }
 
         // Retrieve the parameters of the PUT requests (either a JSON document or a key=value string).
         $request = \Request::createFromGlobals();
@@ -57,29 +66,37 @@ class DefinitionController extends \Controller {
         $matches = array();
 
         if(preg_match('/application\/tdt\.(.*)/', $content_type, $matches)){
-            $definition = ucfirst($matches[1]) . "Definition";
+            $type = $matches[1];
+            $definition_type = ucfirst($type) . "Definition";
 
-            // Validate the given parameters based on the given definition.
-            $validated_params = self::validateParameters($definition, $params);
+            // Validate the given parameters based on the given definition_type.
+            $validated_params = self::validateParameters($definition_type, $params);
 
-            $def_instance = new $definition();
+            $def_instance = new $definition_type();
 
+            // Assign the properties of the new definition_type.
             foreach($validated_params as $key => $value){
                 $def_instance->$key = $value;
             }
 
             $def_instance->save();
 
+            // Create the definition associated with the new definition instance.
+            $definition = new \Definition();
+            $definition->collection_uri = $collection_uri;
+            $definition->resource_name = $resource_name;
+            $definition->source_id = $def_instance->id;
+            $definition->source_type = $type;
+            $definition->save();
+
+            $response = \Response::make(null, 200);
+            $response->header('Location', $request->getHost() . '/' . $uri);
+
+            return $response;
 
         }else{
             \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
         }
-
-        // Check if the definition type is legit.
-        // Check if the URI isn't taken already.
-        // Validate the provided parameters.
-        // Create the new definition.
-
     }
 
     /**
@@ -136,22 +153,14 @@ class DefinitionController extends \Controller {
     /**
      * Delete a definition based on the URI given.
      */
-    private static function deleteDefinition(){
+    private static function deleteDefinition($uri){
 
     }
 
     /**
      * PATCH a definition based on the PATCH parameters and URI.
      */
-    private static function patchDefinition(){
+    private static function patchDefinition($uri){
 
-    }
-
-    /**
-     * Check if a string is a JSON string
-     */
-    private static function isJson($string){
-        json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE);
     }
 }
