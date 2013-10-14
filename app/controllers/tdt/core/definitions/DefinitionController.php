@@ -43,6 +43,7 @@ class DefinitionController extends \Controller {
 
         // Retrieve the collection uri and resource name
         $matches = array();
+
         if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
             $collection_uri = $matches[1];
             $resource_name = $matches[2];
@@ -69,8 +70,12 @@ class DefinitionController extends \Controller {
             $type = $matches[1];
             $definition_type = ucfirst($type) . "Definition";
 
-            // Validate the given parameters based on the given definition_type.
-            $validated_params = self::validateParameters($definition_type, $params);
+            if(class_exists($definition_type)){
+                // Validate the given parameters based on the given definition_type.
+                $validated_params = $definition_type::validate($params);
+            }else{
+                \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
+            }
 
             $def_instance = new $definition_type();
 

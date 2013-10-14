@@ -12,6 +12,13 @@ class XlsDefinition extends Eloquent{
 
     protected $guarded = array('id');
 
+    /**
+     * Validate the input for this model.
+     */
+    public static function validate($params){
+        return parent::validate($params);
+    }
+
     public function tabularColumns(){
         return $this->morphMany('TabularColumns', 'tabular');
     }
@@ -23,7 +30,7 @@ class XlsDefinition extends Eloquent{
         return array(
                 'uri' => array(
                     'required' => true,
-                    'description' => 'The location of the XS file, either a URL or a local file location.',
+                    'description' => 'The location of the XLS file, either a URL or a local file location.',
                 ),
                 'sheet' => array(
                     'required' => false,
@@ -39,6 +46,10 @@ class XlsDefinition extends Eloquent{
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
                 ),
+                'documentation' => array(
+                    'required' => true,
+                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                )
         );
     }
 

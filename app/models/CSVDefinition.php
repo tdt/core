@@ -6,7 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class CsvDefinition extends Eloquent{
+class CsvDefinition extends SourceType{
 
     protected $table = 'csvdefinitions';
 
@@ -14,6 +14,13 @@ class CsvDefinition extends Eloquent{
 
     public function tabularColumns(){
         return $this->morphMany('TabularColumns', 'tabular');
+    }
+
+    /**
+     * Validate the input for this model.
+     */
+    public static function validate($params){
+        return parent::validate($params);
     }
 
     /**
@@ -40,6 +47,10 @@ class CsvDefinition extends Eloquent{
                 'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
                 'default_value' => 1,
             ),
+            'documentation' => array(
+                'required' => true,
+                'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+            )
         );
     }
 

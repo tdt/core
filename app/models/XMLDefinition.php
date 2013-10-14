@@ -13,6 +13,13 @@ class XmlDefinition extends Eloquent{
     protected $guarded = array('id');
 
     /**
+     * Validate the input for this model.
+     */
+    public static function validate($params){
+        return parent::validate($params);
+    }
+
+    /**
      * Retrieve the set of create parameters that make up a XML definition.
      */
     public static function getCreateParameters(){
@@ -22,13 +29,17 @@ class XmlDefinition extends Eloquent{
                 'required' => true,
                 'description' => 'The location of the XML file, this should either be a URL or a local file location.',
             ),
+            'documentation' => array(
+                'required' => true,
+                'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+            )
         );
     }
 
     /**
      * Retrieve the set of validation rules for every create parameter.
      * If the parameters doesn't have any rules, it's not mentioned in the array.
-     */ 
+     */
     public static function getCreateValidators(){
         return array();
     }
