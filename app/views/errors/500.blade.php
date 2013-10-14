@@ -19,7 +19,7 @@
 
                 <h1>500</h1>
                 <h3>Oops, we did something wrong!</h1>
-                <p>{{ $exception->getMessage() }} on line {{ $exception->getLine() }} in file {{ $exception->getFile() }}.</p>
+                <p>{{ $exception->getMessage() }}</p>
             </div>
 
             <div class='push'></div>

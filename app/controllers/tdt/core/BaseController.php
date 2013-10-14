@@ -19,7 +19,7 @@ class BaseController extends \Controller {
      */
     public function handleRequest($uri){
 
-        // None of the above -> must be a dataset request        
+        // None of the above -> must be a dataset request
         return DefinitionController::handle($uri);
         //return DiscoveryController::handle($uri);
         //return DatasetController::handle($uri);
