@@ -2,6 +2,8 @@
 
 namespace tdt\core\definitions;
 
+use Illuminate\Routing\Router;
+
 /**
  * DefinitionController
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
@@ -13,25 +15,23 @@ class DefinitionController extends \Controller {
     public static function handle($uri){
 
         // Propage the request based on the HTTPMethod of the request.
-        $request = \Request::createFromGlobals();
 
-        // Awaiting issue https://github.com/laravel/framework/issues/1655
-        //$method = \Request::header('Method');
+        //$request = //\Route::getRequest();
 
-        $method = $request->getRealMethod();
+        $method = \Request::getMethod();
 
         switch($method){
             case "PUT":
-                self::createDefinition($uri);
+                return self::createDefinition($uri);
                 break;
             case "GET":
                 // TODO return the existing definitions, these should be seen only by authenticated peopless
                 break;
             case "PATCH":
-                self::patchDefinition($uri);
+                return self::patchDefinition($uri);
                 break;
             case "DELETE":
-                self::deleteDefinition($uri);
+                return self::deleteDefinition($uri);
                 break;
             default:
                 \App::abort(400, "The method $method is not supported by the definitions.");
@@ -54,19 +54,19 @@ class DefinitionController extends \Controller {
             \App::abort(452, "The uri should at least have a collection uri and a resource name.");
         }
 
+        // Retrieve the content type and parse out the definition type.
+        $content_type = \Request::header('content_type');
+
         // Retrieve the parameters of the PUT requests (either a JSON document or a key=value string).
-        $request = \Request::createFromGlobals();
-        $params = $request->getContent();
+        $params = \Request::getContent();
 
         // Is the body passed as JSON, if not try getting the request parameters from the uri.
         if(!empty($params)){
             $params = json_decode($params, true);
         }else{
-            $params = $request->query->all();
+            $params = \Input::all();
         }
 
-        // Retrieve the content type and parse out the definition type.
-        $content_type = $request->headers->get('content_type');
         $matches = array();
 
         if(preg_match('/application\/tdt\.(.*)/', $content_type, $matches)){
@@ -98,7 +98,7 @@ class DefinitionController extends \Controller {
             $definition->save();
 
             $response = \Response::make(null, 200);
-            $response->header('Location', $request->getHost() . '/' . $uri);
+            $response->header('Location', \Request::getHost() . '/' . $uri);
 
             return $response;
 
@@ -121,7 +121,6 @@ class DefinitionController extends \Controller {
             $rules = $definition::getCreateValidators();
 
             foreach($create_params as $key => $info){
-
 
                 if(!array_key_exists($key, $params)){
 
@@ -163,6 +162,25 @@ class DefinitionController extends \Controller {
      */
     private static function deleteDefinition($uri){
 
+        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
+            $collection_uri = $matches[1];
+            $resource_name = $matches[2];
+        }else{
+            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
+        }
+
+        $definition = \Definition::where('collection_uri', $collection_uri)
+                  ->where('resource_name', $resource_name)
+                  ->first();
+
+        if(empty($definition)){
+            \App::abort(452, "The given uri, $uri, could not be resolved as a resource that can be deleted.");
+        }
+
+        $definition->delete();
+
+        $response = \Response::make(null, 200);
+        return $response;
     }
 
     /**
