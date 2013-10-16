@@ -19,13 +19,65 @@ class CsvDefinition extends SourceType{
     /**
      * Hook into the save function of Eloquent by saving the parent
      * and establishing a relation to the TabularColumns model.
+     *
+     * Pre-requisite: parameters have already been validated.
      */
     public function save(array $options = array()){
 
-        // Get the columns out of the csv file.
+        // Get the columns out of the csv file before saving the csv definition.
+        // TODO allow for column aliases to be passed.
 
+        $columns = array();
 
-        return parent::save();
+        if (($handle = fopen($this->uri, "r")) !== FALSE) {
+
+            // for further processing we need to process the header row, this MUST be after the comments
+            // so we're going to throw away those lines before we're processing our header_row
+            // our first line will be processed due to lazy evaluation, if the start_row is the first one
+            // then the first argument will return false, and being an &&-statement the second validation will not be processed
+            $commentlinecounter = 1;
+            while ($commentlinecounter < $this->start_row) {
+                $line = fgetcsv($handle, 0, $this->delimiter, '"');
+                $commentlinecounter++;
+            }
+
+            $index = 0;
+
+            if (($line = fgetcsv($handle, 0, $this->delimiter, '"')) !== FALSE) {
+
+                $index++;
+
+                for ($i = 0; $i < sizeof($line); $i++) {
+
+                    // TODO set the alias column last in the array.
+                    array_push($columns, array($i, trim($line[$i]), trim($line[$i])));
+                }
+            }else{
+                \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
+            }
+            fclose($handle);
+        } else {
+            \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
+        }
+
+        // If the columns were parsed correctly, save this definition and use the id to link them to the column objects.
+        parent::save();
+        if(empty($this->id)){
+            \App::abort(452, "The csv definition could not be saved after validation, check if the provided properties are still correct.");
+        }
+
+        foreach($columns as $column){
+            $tabular_column = new TabularColumns();
+            $tabular_column->index = $column[0];
+            $tabular_column->column_name = $column[1];
+            $tabular_column->is_pk = 0;
+            $tabular_column->column_name_alias = $column[2];
+            $tabular_column->tabular_type = 'CsvDefinition';
+            $tabular_column->tabular_id = $this->id;
+            $tabular_column->save();
+        }
+
+        return true;
     }
 
 
@@ -40,6 +92,7 @@ class CsvDefinition extends SourceType{
      * Retrieve the set of create parameters that make up a CSV definition.
      */
     public static function getCreateParameters(){
+
         return array(
             'uri' => array(
                 'required' => true,

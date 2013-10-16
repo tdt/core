@@ -41,6 +41,11 @@ class DefinitionController extends \Controller {
      */
     private static function createDefinition($uri){
 
+        // Check if the uri already exists
+        if(self::exists($uri)){
+            \App::abort(452, "This uri already exists, use POST if you wanted to update the definition.");
+        }
+
         // Retrieve the collection uri and resource name
         $matches = array();
 

@@ -19,7 +19,7 @@ class CSVController implements IDataController {
     protected $offset = 0;
 
     // amount of chars in one row that can be read
-    private static $MAX_LINE_LENGTH = 15000;
+    private static $MAX_LINE_LENGTH = 0;
 
 
     public function readData($source_definition, $parameters = null){
@@ -43,6 +43,7 @@ class CSVController implements IDataController {
         // Get CSV columns
         $columns = $source_definition->tabularColumns();
         $columns = $columns->getResults();
+
         if(!$columns){
             \App::abort(452, "Can't find or fetch the columns for this CSV file.");
         }
