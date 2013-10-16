@@ -17,6 +17,19 @@ class CsvDefinition extends SourceType{
     }
 
     /**
+     * Hook into the save function of Eloquent by saving the parent
+     * and establishing a relation to the TabularColumns model.
+     */
+    public function save(array $options = array()){
+
+        // Get the columns out of the csv file.
+
+
+        return parent::save();
+    }
+
+
+    /**
      * Validate the input for this model.
      */
     public static function validate($params){
@@ -62,6 +75,7 @@ class CsvDefinition extends SourceType{
         return array(
             'has_header_row' => 'integer|min:0|max:1',
             'start_row' => 'integer',
+            'uri' => 'uri',
         );
     }
 }
