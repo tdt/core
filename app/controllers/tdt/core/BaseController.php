@@ -2,10 +2,6 @@
 
 namespace tdt\core;
 
-use tdt\core\datasets\DatasetController;
-use tdt\core\definitions\DiscoveryController;
-use tdt\core\definitions\DefinitionController;
-
 /**
  * The base controller
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
@@ -19,10 +15,31 @@ class BaseController extends \Controller {
      */
     public function handleRequest($uri){
 
-        // None of the above -> must be a dataset request
-        return DefinitionController::handle($uri);
-        //return DiscoveryController::handle($uri);
-        //return DatasetController::handle($uri);
+        // Check first segment of the request
+        $segment = \Request::segment(1);
+
+        // Split for an (optional) extension
+        preg_match('/([^\.]*)(?:\.(.*))?$/', $segment, $matches);
+
+        // URIsegment is always the first match
+        $urisegment = $matches[1];
+
+        switch($urisegment){
+            case 'discover':
+                $controller = 'tdt\core\definitions\DiscoveryController';
+                break;
+            // TODO: don't hardcode this part
+            case 'definitions':
+                $controller = 'tdt\core\definitions\DefinitionController';
+                $uri = str_replace('definitions/', '', $uri);
+                break;
+            default:
+                // None of the above -> must be a dataset request
+                $controller = 'tdt\core\datasets\DatasetController';
+                break;
+        }
+
+        return $controller::handle($uri);
     }
 
 }
