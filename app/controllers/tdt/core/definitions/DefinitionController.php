@@ -14,6 +14,10 @@ class DefinitionController extends \Controller {
 
         // Propage the request based on the HTTPMethod of the request.
         $request = \Request::createFromGlobals();
+
+        // Awaiting issue https://github.com/laravel/framework/issues/1655
+        //$method = \Request::header('Method');
+
         $method = $request->getRealMethod();
 
         switch($method){
@@ -34,7 +38,6 @@ class DefinitionController extends \Controller {
                 break;
         }
     }
-
 
     /**
      * Create a new definition based on the PUT parameters given and content-type.

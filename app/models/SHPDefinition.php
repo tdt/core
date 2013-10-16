@@ -6,7 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class ShpDefinition extends Eloquent{
+class ShpDefinition extends SourceType{
 
     protected $table = 'shpdefinitions';
 

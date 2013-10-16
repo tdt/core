@@ -2,13 +2,11 @@ language: php
 services: mysql
 php:
   - "5.4"
-  - "5.3"
 env:
   - DB=mysql
 before_script:
   - composer install
-  - mysql -e 'create database coretest;'
+  - mysql -e 'create database core_test;'
 
-script: 
-- phpunit tests/CSVTest.php
-- phpunit tests/JSONTest.php
+script:
+- phpunit

@@ -6,7 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class XmlDefinition extends Eloquent{
+class XmlDefinition extends SourceType{
 
     protected $table = 'xmldefinitions';
 

@@ -6,7 +6,7 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class XlsDefinition extends Eloquent{
+class XlsDefinition extends SourceType{
 
     protected $table = 'xlsdefinitions';
 
