@@ -3,6 +3,7 @@
 namespace tdt\core\datasets;
 
 use tdt\core\ContentNegotiator;
+use tdt\core\definitions\DefinitionController;
 
 /**
  * DatasetController
@@ -24,7 +25,7 @@ class DatasetController extends \Controller {
         $extension = (!empty($matches[2]))? $matches[2]: null;
 
         // Get definition
-        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name, '%')", array($uri))->first();
+        $definition = DefinitionController::get($uri);
 
         if($definition){
 

@@ -169,9 +169,7 @@ class DefinitionController extends \Controller {
             \App::abort(452, "The uri should at least have a collection uri and a resource name.");
         }
 
-        $definition = \Definition::where('collection_uri', $collection_uri)
-                  ->where('resource_name', $resource_name)
-                  ->first();
+        $definition = self::get($uri);
 
         if(empty($definition)){
             \App::abort(452, "The given uri, $uri, could not be resolved as a resource that can be deleted.");
@@ -188,5 +186,20 @@ class DefinitionController extends \Controller {
      */
     private static function patchDefinition($uri){
 
+    }
+
+    /**
+     * Get a definition
+     */
+    public static function get($uri){
+        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name, '%')", array($uri))->first();
+    }
+
+    /**
+     * Check if a resource was set
+     */
+    public static function exists($uri){
+        $definition = self::get($uri);
+        return !empty($definition);
     }
 }

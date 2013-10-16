@@ -16,23 +16,18 @@ class BaseController extends \Controller {
     public function handleRequest($uri){
 
         // Check first segment of the request
-        $segment = \Request::segment(1);
-
-        // Split for an (optional) extension
-        preg_match('/([^\.]*)(?:\.(.*))?$/', $segment, $matches);
-
-        // URIsegment is always the first match
-        $urisegment = $matches[1];
-
-        switch($urisegment){
+        switch(\Request::segment(1)){
             case 'discovery':
+                // Discovery document
                 $controller = 'tdt\core\definitions\DiscoveryController';
                 break;
             // TODO: don't hardcode this part
             case 'definitions':
+                // Definitions request
                 $controller = 'tdt\core\definitions\DefinitionController';
                 $uri = str_replace('definitions/', '', $uri);
                 break;
+            // TODO:: add info
             default:
                 // None of the above -> must be a dataset request
                 $controller = 'tdt\core\datasets\DatasetController';
