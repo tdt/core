@@ -51,7 +51,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	/**
 	 * Custom API call function
 	 */
-	public function doAPICall($method, $headers, $data){
+	public function updateRequest($method, $headers = array(), $data = array()){
 
 		// Set the custom headers.
 		foreach($headers as $key => $value){
@@ -64,6 +64,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         \Request::setMethod($method);
 
         // Set the content body.
-        \Input::merge($data);
+        if(is_array($data)){
+        	\Input::merge($data);
+        }
 	}
 }

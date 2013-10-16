@@ -2,46 +2,74 @@
 
 
 use tdt\core\definitions\DefinitionController;
+use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
 class CsvTest extends TestCase{
 
+    // This array holds the names of the files that can be used
+    // to test the csv definitions.
+    private $test_data = array(
+                'comma_in_quotes',
+                'escaped_quotes',
+                'json',
+                'latin1',
+                'newlines',
+                'quotes_and_newlines',
+                'simple',
+                'utf8',
+            );
+
     public function test_put_api(){
 
-        // Set the definition parameters.
-        $data = array(
-            'documentation' => 'A default CSV publication with comma as a delimiter.',
-            'delimiter' => ',',
-            'uri' => 'file://' . __DIR__ . '/data/csv/comma_in_quotes.csv',
-        );
 
-        // Set the headers.
-        $headers = array(
-            'Content-Type' => 'application/tdt.csv'
-        );
+        // Publish each CSV file in the test csv data folder.
+        foreach($this->test_data as $file){
 
-        $method = 'PUT';
+            // Set the definition parameters.
+            $data = array(
+                'documentation' => "A CSV publication from the $file csv file.",
+                'delimiter' => ',',
+                'uri' => 'file://' . __DIR__ . "/data/csv/$file.csv",
+                );
 
-        $this->doAPICall($method, $headers, $data);
+            // Set the headers.
+            $headers = array(
+                'Content-Type' => 'application/tdt.csv'
+            );
 
-        // Put the definition controller to the test!
-        $response = DefinitionController::handle('csv/comma');
+            $this->updateRequest('PUT', $headers, $data);
 
-        // Check if the creation of the definition succeeded.
-        $this->assertEquals(200, $response->getStatusCode());
+            // Put the definition controller to the test!
+            $response = DefinitionController::handle("csv/$file");
+
+            // Check if the creation of the definition succeeded.
+            $this->assertEquals(200, $response->getStatusCode());
+        }
     }
 
     public function test_get_api(){
 
-        $this->call('GET', 'csv/comma.json');
-        $this->assertResponseOk();
+        // Request the data for each of the test csv files.
+        foreach($this->test_data as $file){
+
+            $file = 'csv/'. $file .'.json';
+            $this->updateRequest('GET');
+
+            $response = DatasetController::handle($file);
+            $this->assertEquals(200, $response->getStatusCode());
+        }
     }
 
     public function test_delete_api(){
 
-        $this->doAPICall('DELETE', array(), array());
+        // Delete the published definition for each test csv file.
+        foreach($this->test_data as $file){
 
-        $response = DefinitionController::handle('csv/comma');
-        $this->assertEquals(200, $response->getStatusCode());
+            $this->updateRequest('DELETE');
+
+            $response = DefinitionController::handle("csv/$file");
+            $this->assertEquals(200, $response->getStatusCode());
+        }
     }
 }

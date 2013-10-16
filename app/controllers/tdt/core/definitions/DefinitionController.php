@@ -15,9 +15,6 @@ class DefinitionController extends \Controller {
     public static function handle($uri){
 
         // Propage the request based on the HTTPMethod of the request.
-
-        //$request = //\Route::getRequest();
-
         $method = \Request::getMethod();
 
         switch($method){
