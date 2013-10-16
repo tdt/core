@@ -25,7 +25,7 @@ class BaseController extends \Controller {
         $urisegment = $matches[1];
 
         switch($urisegment){
-            case 'discover':
+            case 'discovery':
                 $controller = 'tdt\core\definitions\DiscoveryController';
                 break;
             // TODO: don't hardcode this part

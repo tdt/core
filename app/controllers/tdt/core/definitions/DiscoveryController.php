@@ -15,23 +15,13 @@ class DiscoveryController extends \Controller {
 
     public static function handle($uri){
 
-        // TODO shouldn't this be in \Controller, or a superclass of some sort?
-        // Split for an (optional) extension
-        preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
-
-        // URI is always the first match
-        $uri = $matches[1];
-
-        // Get extension (if set)
-        $extension = (!empty($matches[2]))? $matches[2]: null;
-
         $dis_document = self::createDiscoveryDocument();
 
         $data_result = new Data();
         $data_result->data = $dis_document;
 
-        // Return the formatted response with content negotiation
-        return ContentNegotiator::getResponse($data_result, $extension);
+        // Return discovery document in JSON
+        return str_replace("\/", "/", json_encode($data_result->data));
     }
 
     /**
