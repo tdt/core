@@ -59,10 +59,10 @@ class SHPController implements IDataController {
             // Prepare the options to read the SHP file.
             $options = array('noparts' => false);
 
-            $isUrl = (substr($uri , 0, 4) == "http");
+            $is_url = (substr($uri , 0, 4) == "http");
 
             // If the shape files are located on an HTTP address, fetch them and store them locally.
-            if ($isUrl) {
+            if ($is_url) {
 
                 $tmp_file_name = uniqid();
                 $tmp_file = $tmp_path . "/" . $tmp_file_name;
