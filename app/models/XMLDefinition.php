@@ -24,8 +24,7 @@ class XmlDefinition extends SourceType{
      */
     public static function getCreateParameters(){
         return array(
-            array(
-                'name' => 'uri',
+            'uri' => array(
                 'required' => true,
                 'description' => 'The location of the XML file, this should either be a URL or a local file location.',
             ),
@@ -41,6 +40,8 @@ class XmlDefinition extends SourceType{
      * If the parameters doesn't have any rules, it's not mentioned in the array.
      */
     public static function getCreateValidators(){
-        return array();
+        return array(
+            'uri' => 'uri',
+        );
     }
 }
