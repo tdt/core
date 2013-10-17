@@ -38,6 +38,7 @@ class ShpDefinition extends SourceType{
         $tmp_dir = sys_get_temp_dir();
 
         if ($is_url) {
+            // This remains untested.
 
             $tmp_file = uniqid();
             file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shp"));
@@ -47,6 +48,7 @@ class ShpDefinition extends SourceType{
             // along this file the class will use file.shx and file.dbf
             $shp = new \ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", $options);
         } else {
+
             // along this file the class will use file.shx and file.dbf
             $shp = new \ShapeFile($this->uri, $options);
         }
