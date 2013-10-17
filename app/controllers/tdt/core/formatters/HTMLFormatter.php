@@ -24,11 +24,14 @@ class HTMLFormatter implements IFormatter{
 
     public static function getBody($dataObj){
 
+        $dataset_link  = \URL::to($dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
 
         // Render the view
         return \View::make('dataset.code')->with('title', 'The Datatank')
                                           ->with('body', self::displayTree($dataObj->data))
-                                          ->with('definition', $dataObj->definition);
+                                          ->with('definition', $dataObj->definition)
+                                          ->with('source_definition', $dataObj->source_definition)
+                                          ->with('dataset_link', $dataset_link);
     }
 
     public static function getDocumentation(){
