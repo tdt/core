@@ -69,6 +69,11 @@ class DefinitionController extends \Controller {
             $params = \Input::all();
         }
 
+        // If we get empty params, then something went wrong.
+        if(empty($params)){
+            \App::abort(452, "The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).");
+        }
+
         $matches = array();
 
         if(preg_match('/application\/tdt\.(.*)/', $content_type, $matches)){
