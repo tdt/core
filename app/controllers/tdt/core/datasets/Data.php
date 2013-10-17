@@ -19,6 +19,8 @@ class Data {
 
     public $definition;
 
+    public $source_definition;
+
     public $paging;
 
     public $geo;
