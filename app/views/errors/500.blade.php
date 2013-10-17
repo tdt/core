@@ -37,7 +37,7 @@
                                 <strong>On Line</strong>
                             </div>
                             <div class='col-lg-10'>
-                                {{ $exception->getLine() }}
+                                <span class='badge'>{{ $exception->getLine() }}</span>
                             </div>
                             <div class='col-lg-2'>
                                 <strong>Trace</strong>

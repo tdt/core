@@ -26,7 +26,7 @@ class BaseController extends \Controller {
                 // Definitions request
                 $controller = 'tdt\core\definitions\DefinitionController';
                 $uri = str_replace('definitions/', '', $uri);
-                break;s
+                break;
             // TODO:: add info
             default:
                 // None of the above -> must be a dataset request
