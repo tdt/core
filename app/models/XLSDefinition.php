@@ -1,5 +1,7 @@
 <?php
 
+use tdt\core\datacontrollers\XLSController;
+
 /**
  * Excell definition model
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
@@ -24,6 +26,83 @@ class XlsDefinition extends SourceType{
     }
 
     /**
+     * Hook into the save function of Eloquent by saving the parent
+     * and establishing a relation to the TabularColumns model.
+     *
+     * Pre-requisite: parameters have already been validated.
+     */
+    public function save(array $options = array()){
+
+        // If no column aliases have been passed, then fill the columns variable
+        // TODO allow columns to be passed through the parameters.
+        $columns = array();
+        $tmp_dir = sys_get_temp_dir();
+
+        if(empty($columns)){
+            if (!is_dir($tmp_dir)) {
+                mkdir($tmp_dir);
+            }
+
+            $is_uri = (substr($this->uri , 0, 4) == "http");
+            if ($is_uri) {
+                $tmp_file = uniqid();
+
+                file_put_contents($tmp_dir. "/" . $tmp_file, file_get_contents($this->uri));
+                $objPHPExcel = XLSController::loadExcel($tmp_dir ."/" . $tmp_file,$this->getFileExtension($this->uri),$this->sheet);
+            } else {
+                $objPHPExcel = XLSController::loadExcel($this->uri,$this->getFileExtension($this->uri),$this->sheet);
+            }
+
+            $worksheet = $objPHPExcel->getSheetByName($this->sheet);
+
+            if(is_null($worksheet)){
+                \App::abort(452, "The sheet with name, $this->sheet, has not been found in the Excel file.");
+            }
+
+            foreach ($worksheet->getRowIterator() as $row) {
+
+                $row_index = $row->getRowIndex();
+                $column_index = 0;
+
+                if ($row_index == $this->start_row) {
+
+                    $cellIterator = $row->getCellIterator();
+                    $cellIterator->setIterateOnlyExistingCells(false);
+
+                    foreach ($cellIterator as $cell) {
+                        if($cell->getCalculatedValue() != ""){
+                            // TODO allow for aliases to be given.
+                            array_push($columns, array($column_index, $cell->getCalculatedValue(), $cell->getCalculatedValue()));
+                        }
+                        $column_index++;
+                    }
+                }
+            }
+
+            $objPHPExcel->disconnectWorksheets();
+            unset($objPHPExcel);
+            if ($is_uri) {
+                unlink($tmp_dir . "/" . $tmp_file);
+            }
+        }
+
+        parent::save();
+
+        foreach($columns as $column){
+            $tabular_column = new TabularColumns();
+            $tabular_column->index = $column[0];
+            $tabular_column->column_name = $column[1];
+            $tabular_column->is_pk = 0;
+            $tabular_column->column_name_alias = $column[2];
+            $tabular_column->tabular_type = 'XlsDefinition';
+            $tabular_column->tabular_id = $this->id;
+            $tabular_column->save();
+        }
+
+        return true;
+    }
+
+    /**
      * Retrieve the set of create parameters that make up a XLS definition.
      */
     public static function getCreateParameters(){
@@ -45,6 +124,7 @@ class XlsDefinition extends SourceType{
                 'start_row' => array(
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
+                    'default_value' => 1,
                 ),
                 'documentation' => array(
                     'required' => true,
@@ -61,6 +141,14 @@ class XlsDefinition extends SourceType{
         return array(
             'has_header_row' => 'integer|min:0|max:1',
             'start_row' => 'integer',
+            'uri' => 'uri',
         );
+    }
+
+    /**
+     * Get the file extension from the file name.
+     */
+    private function getFileExtension($file){
+        return strtolower(substr(strrchr($file, '.'), 1));
     }
 }

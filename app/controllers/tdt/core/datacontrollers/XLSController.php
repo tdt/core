@@ -21,9 +21,9 @@ class XLSController implements IDataController {
         $sheet = $source_definition->sheet;
         $has_header_row = $source_definition->has_header_row;
         $start_row = $source_definition->start_row;
-
         $pk = $source_definition->pk;
 
+        // Retrieve the columns from XLS.
         $columns_obj = $source_definition->tabularColumns();
         $columns_obj = $columns_obj->getResults();
 
@@ -62,11 +62,9 @@ class XLSController implements IDataController {
 
                 $tmpFile = uniqid();
                 file_put_contents($tmp_path . "/" . $tmpFile, file_get_contents($uri));
-                $objPHPExcel = $this->loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri),$sheet);
-
+                $objPHPExcel = self::loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri),$sheet);
             } else {
-
-                $objPHPExcel = $this->loadExcel($uri, $this->getFileExtension($uri),$sheet);
+                $objPHPExcel = self::loadExcel($uri, $this->getFileExtension($uri),$sheet);
             }
 
             if(empty($objPHPExcel)){
@@ -149,30 +147,33 @@ class XLSController implements IDataController {
             return $data_result;
 
         } catch( Exception $ex) {
-
             App::abort(452, "Failed to retrieve data from the XLS file with path $uri.");
         }
-
     }
 
-    private function getFileExtension($fileName){
-        return strtolower(substr(strrchr($fileName,'.'),1));
+    /**
+     * Retrieve the file extension from the xls file. (xls or xlsx)
+     */
+    public static function getFileExtension($file){
+        return strtolower(substr(strrchr($file,'.'), 1));
     }
 
-    private function loadExcel($xlsFile,$type,$sheet) {
-
-        $dummy = new \PHPExcel();
+    /**
+     * Create an Excel PHP Reader object from the Excel sheet.
+     */
+    public static function loadExcel($file, $type, $sheet) {
 
         if($type == "xls") {
             $objReader = IOFactory::createReader('Excel5');
         }else if($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
         }else{
-            $this->throwTDTException("Wrong datasource, accepted datasources are .xls or .xlsx files.");
+            \App::abort(452, "The given file is not supported, supported file are xls or xlsx files.");
         }
 
         $objReader->setReadDataOnly(true);
         $objReader->setLoadSheetsOnly($sheet);
-        return $objReader->load($xlsFile);
+
+        return $objReader->load($file);
     }
 }

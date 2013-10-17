@@ -31,10 +31,9 @@ class CsvDefinition extends SourceType{
 
         if (($handle = fopen($this->uri, "r")) !== FALSE) {
 
-            // for further processing we need to process the header row, this MUST be after the comments
-            // so we're going to throw away those lines before we're processing our header_row
-            // our first line will be processed due to lazy evaluation, if the start_row is the first one
-            // then the first argument will return false, and being an &&-statement the second validation will not be processed
+            // TODO if columns are being passed through the parameters, skip this.
+            // Throw away the lines untill we hit the start row
+            // from then on, process the columns
             $commentlinecounter = 1;
             while ($commentlinecounter < $this->start_row) {
                 $line = fgetcsv($handle, 0, $this->delimiter, '"');
