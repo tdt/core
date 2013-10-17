@@ -11,15 +11,16 @@
     </head>
 
     <body>
-        <div class="container wrapper">
-            <div class="error clearfix">
-                <div class='logo'>
+        <div class="wrapper">
+            <div class="error col-sm-8 col-sm-offset-2">
+                <div class='logo col-md-3 hidden-sm hidden-xs'>
                     <img src='{{ URL::to('img/logo.png') }}'/>
                 </div>
-
-                <h1>403</h1>
-                <h3>Oops, it seems you don't have enough rights to access this!</h1>
-                <p>{{ $exception->getMessage() }}</p>
+                <div class='col-md-9'>
+                    <h1>403</h1>
+                    <h3>Oops, it seems you don't have enough rights to access this!</h1>
+                    <p>{{ $exception->getMessage() }}</p>
+                </div>
             </div>
 
             <div class='push'></div>

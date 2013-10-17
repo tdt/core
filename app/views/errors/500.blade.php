@@ -11,15 +11,45 @@
     </head>
 
     <body>
-        <div class="container wrapper">
-            <div class="error clearfix">
-                <div class='logo'>
+        <div class="wrapper">
+            <div class="error col-sm-8 col-sm-offset-2">
+                <div class='logo col-md-3 hidden-sm hidden-xs'>
                     <img src='{{ URL::to('img/logo.png') }}'/>
                 </div>
-
-                <h1>500</h1>
-                <h3>Oops, we did something wrong!</h1>
-                <p>{{ $exception->getMessage() }}</p>
+                <div class='col-md-9'>
+                    <h1>500</h1>
+                    <h3>Oops, we did something wrong!</h1>
+                    @if(App::environment() == 'local' || App::environment() == 'testing')
+                        <div class='row'>
+                            <div class='col-lg-2'>
+                                <strong>Message</strong>
+                            </div>
+                            <div class='col-lg-10'>
+                                {{ $exception->getMessage() }}
+                            </div>
+                            <div class='col-lg-2'>
+                                <strong>Class</strong>
+                            </div>
+                            <div class='col-lg-10'>
+                                {{ $exception->getFile() }}
+                            </div>
+                            <div class='col-lg-2'>
+                                <strong>On Line</strong>
+                            </div>
+                            <div class='col-lg-10'>
+                                {{ $exception->getLine() }}
+                            </div>
+                            <div class='col-lg-2'>
+                                <strong>Trace</strong>
+                            </div>
+                            <div class='col-lg-10'>
+                                {{ $exception->getTraceAsString() }}
+                            </div>
+                        </div>
+                    @else
+                        <p>If this error persists, get in touch with us!</p>
+                    @endif
+                </div>
             </div>
 
             <div class='push'></div>

@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 $green: #328d81;
 $beige: #F5F4EE;
 $darker-beige: #EBEAE4;
@@ -15,6 +17,7 @@ html, body{
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
+    word-wrap: break-word;
 }
 
 body {
@@ -75,38 +78,21 @@ a{
 }
 
 .error{
-    width: 70%;
-    margin: 0px auto;
     padding-top: 100px;
 
     .logo{
-        float:left;
+        position: relative;
 
         img{
-            width: 200px;
+            max-width: 160px;
         }
     }
 }
 
-.clearfix:after {
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
-}
-
-
-@media (max-width:660px){
+@media (max-width:767px){
 
     .error{
-        width: 80%;
         padding-top: 20px;
     }
 
-
-    .logo{
-        display: none;
-    }
 }
