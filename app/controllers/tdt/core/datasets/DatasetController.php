@@ -41,8 +41,18 @@ class DatasetController extends \Controller {
                 $controller_class = '\\tdt\\core\\datacontrollers\\'.$definition->source_type.'Controller';
                 $data_controller = new $controller_class();
 
+                // Create parameters array
+                $parameters = array();
+
+                // Get REST parameters
+                $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
+                $rest_parameters = ltrim($rest_parameters, '/');
+                if(strlen($rest_parameters) > 0){
+                    $parameters = explode('/', $rest_parameters);
+                }
+
                 // Retrieve dataobject from datacontroller
-                $data = $data_controller->readData($source_definition);
+                $data = $data_controller->readData($source_definition, $parameters);
 
                 // Add definition to the object
                 $data->definition = $definition;
