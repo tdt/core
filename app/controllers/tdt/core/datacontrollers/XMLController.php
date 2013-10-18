@@ -13,7 +13,7 @@ use tdt\core\utils\XMLSerializer;
 * @author Jan Vansteenlandt <jan@okfn.be>
 * @author Michiel Vancoillie <michiel@okfn.be>
 */
-class XMLController implements IDataController {
+class XMLController extends ADataController {
 
     public function readData($source_definition, $parameters = null){
 

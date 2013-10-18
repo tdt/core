@@ -6,6 +6,12 @@ class UriValidator extends \Illuminate\Validation\Validator {
 
     public function validateUri($attribute, $value, $parameters){
 
-        return file_get_contents($value);
+        try{
+
+            file_get_contents($value);
+            return true;
+        }catch(\Exception $ex){
+            return false;
+        }
     }
 }

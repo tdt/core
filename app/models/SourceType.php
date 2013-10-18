@@ -15,37 +15,43 @@ class SourceType extends Eloquent{
         $create_params = self::getCreateParameters();
         $rules = self::getCreateValidators();
 
+        array_keys($create_params);
+
+        // Validate the parameters to their rules.
+        $validator = Validator::make(
+                        $params,
+                        $rules,
+                        self::getErrorMessages()
+        );
+
+        // If any validation fails, return a message and abort the workflow.
+        if($validator->fails()){
+
+            $messages = $validator->messages();
+            \App::abort(452, $messages->first());
+        }
+
+        // Return the parameters with their validated/default values.
         foreach($create_params as $key => $info){
 
-            if(!array_key_exists($key, $params)){
-
-                if(!empty($info['required']) && $info['required']){
-                    \App::abort(452, "The parameter $key is required in order to create a defintion but was not provided.");
-                }
-
-                if(!empty($info['default_value'])){
-                    $validated_params[$key] = $info['default_value'];
-                }else{
-                    $validated_params[$key] = null;
-                }
-            }else{
-
-                if(!empty($rules[$key])){
-
-                    $validator = \Validator::make(
-                        array($key => $params[$key]),
-                        array($key => $rules[$key])
-                        );
-
-                    if($validator->fails()){
-                        \App::abort(452, "The validation failed for parameter $key, make sure the value is valid.");
-                    }
-                }
-
+            if(!empty($params[$key])){
                 $validated_params[$key] = $params[$key];
+            }else if(!empty($info['default_value'])){
+                $validated_params[$key] = $info['default_value'];
+            }else{
+                $validated_params[$key] = null;
             }
         }
 
         return $validated_params;
+    }
+
+    /**
+     * Retrieve the collection of custom error messages for validation.
+     */
+    public static function getErrorMessages(){
+        return array(
+            'uri' => "The uri provided could not be retrieved, if it is a file location, try putting file:// in front of the path.",
+        );
     }
 }

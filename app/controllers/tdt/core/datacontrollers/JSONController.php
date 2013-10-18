@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Jan Vansteenlandt <jan@okfn.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class JSONController implements IDataController {
+class JSONController extends ADataController {
 
     public function readData($source_definition, $parameters = null){
 

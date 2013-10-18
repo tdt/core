@@ -13,9 +13,11 @@ use PHPExcel_IOFactory as IOFactory;
  * @author Pieter Colpaert   <pieter@irail.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class XLSController implements IDataController {
+class XLSController extends ADataController {
 
     public function readData($source_definition, $parameters = null){
+
+        list($limit, $offset) = $this->calculateLimitAndOffset();
 
         $uri = $source_definition->uri;
         $sheet = $source_definition->sheet;
@@ -46,9 +48,7 @@ class XLSController implements IDataController {
             }
         }
 
-        $resultobject = new \stdClass();
         $arrayOfRowObjects = array();
-        $row = 0;
 
         $tmp_path = sys_get_temp_dir();
 
@@ -77,43 +77,46 @@ class XLSController implements IDataController {
                 \App::abort(452, "The worksheet $sheet could not be found in the Excel file.");
             }
 
+            // The amount of rows added to the result.
+            $hits = 0;
+            $total_rows = 0;
+
             foreach ($worksheet->getRowIterator() as $row) {
 
-                $rowIndex = $row->getRowIndex();
+                $row_index = $row->getRowIndex();
 
-                if ($rowIndex >= $start_row) {
+                if ($row_index >= $start_row) {
 
                     $cellIterator = $row->getCellIterator();
                     $cellIterator->setIterateOnlyExistingCells(false);
 
-                    if ($rowIndex == $start_row && $has_header_row == "1") {
+                    if ($row_index == $start_row && $has_header_row == "1") {
 
                         foreach ($cellIterator as $cell) {
 
                             if(!is_null($cell) && $cell->getCalculatedValue() != ""){
-                                $columnIndex = $cell->columnIndexFromString($cell->getColumn());
-                                $fieldhash[ $cell->getCalculatedValue() ] = $columnIndex;
+                                $column_index = $cell->columnIndexFromString($cell->getColumn());
+                                $fieldhash[ $cell->getCalculatedValue() ] = $column_index;
                             }
                         }
-                    } else {
+                    } else if($offset <= $total_rows && $offset + $limit > $total_rows){
 
                         $rowobject = new \stdClass();
                         $keys = array_keys($fieldhash);
 
                         foreach ($cellIterator as $cell) {
 
-                            $columnIndex = $cell->columnIndexFromString($cell->getColumn());
+                            $column_index = $cell->columnIndexFromString($cell->getColumn());
 
-                            if (!is_null($cell) && isset($keys[$columnIndex-1]) ) {
+                            if (!is_null($cell) && isset($keys[$column_index-1]) ) {
 
                                 // Format the column name as we normally format column names
-                                $c = $keys[$columnIndex - 1];
+                                $c = $keys[$column_index - 1];
                                 $c = trim($c);
                                 $c = preg_replace('/\s+/', '_', $c);
                                 $c = strtolower($c);
 
                                 if(in_array($c,$columns)){
-
                                     $rowobject->$aliases[$c] = $cell->getCalculatedValue();
                                 }
                             }
@@ -124,9 +127,7 @@ class XLSController implements IDataController {
                         } else {
                             if(!isset($arrayOfRowObjects[$rowobject->$pk]) && $rowobject->$pk != ""){
                                 $arrayOfRowObjects[$rowobject->$pk] = $rowobject;
-
                             }elseif(!empty($arrayOfRowObjects[$rowobject->$pk])){
-
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double has been used already for another record!");
                             }else{
@@ -136,6 +137,7 @@ class XLSController implements IDataController {
                             }
                         }
                     }
+                    $total_rows++;
                 }
             }
 

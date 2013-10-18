@@ -14,7 +14,7 @@ use tdt\core\datasets\Data;
 include_once(__DIR__ . "/../../../../lib/ShapeFile.inc.php");
 include_once(__DIR__ . "/../../../../lib/proj4php/proj4php.php");
 
-class SHPController implements IDataController {
+class SHPController extends ADataController {
 
     public function readData($source_definition, $parameters = null) {
 

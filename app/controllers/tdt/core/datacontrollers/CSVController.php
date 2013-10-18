@@ -12,11 +12,7 @@ use tdt\core\datasets\Data;
  * @author Pieter Colpaert   <pieter@irail.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class CSVController implements IDataController {
-
-    /// TODO: remove and make APager
-    protected $limit = 50;
-    protected $offset = 0;
+class CSVController extends ADataController {
 
     // amount of chars in one row that can be read
     private static $MAX_LINE_LENGTH = 0;
@@ -24,7 +20,9 @@ class CSVController implements IDataController {
 
     public function readData($source_definition, $parameters = null){
 
-        // Check URI
+        list($limit, $offset) = $this->calculateLimitAndOffset();
+
+        // Check URI given.
         if (!empty($source_definition->uri)) {
             $uri = $source_definition->uri;
         } else {
@@ -37,9 +35,6 @@ class CSVController implements IDataController {
         $delimiter = $source_definition->delimiter;
         $PK = $source_definition->pk;
 
-        $limit = $this->limit;
-        $offset = $this->offset;
-
         // Get CSV columns
         $columns = $source_definition->tabularColumns();
         $columns = $columns->getResults();
@@ -48,7 +43,7 @@ class CSVController implements IDataController {
             \App::abort(452, "Can't find or fetch the columns for this CSV file.");
         }
 
-        // Set aliases
+        // Set aliases.
         $aliases = array();
         foreach($columns as $column){
             $aliases[$column->column_name] = $column->column_name_alias;
@@ -68,6 +63,7 @@ class CSVController implements IDataController {
         // Contains the amount of rows that we added to the resulting object.
         $hits = 0;
         if (($handle = fopen($uri, "r")) !== FALSE) {
+
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
 
                 if($total_rows >= $start_row -1){
@@ -78,6 +74,7 @@ class CSVController implements IDataController {
                         $obj = new \stdClass();
 
                         foreach($values as $key => $value){
+
                             $key = $aliases[$key];
                             if(!empty($key))
                                 $obj->$key = $value;
@@ -100,37 +97,45 @@ class CSVController implements IDataController {
             \App::abort(452, "Can't get any data from defined URI ($uri) for this resource.");
         }
 
-        // TODO: REST filtering
+        $paging = array();
 
-        // TODO: Paging.
-        // if($offset + $limit < $hits){
-        //     $page = $offset/$limit;
-        //     $page = round($page,0,PHP_ROUND_HALF_DOWN);
-        //     if($page==0){
-        //         $page = 1;
-        //     }
-        //     $this->setLinkHeader($page + 1,$limit,"next");
+        // Calculate the paging parameters and pass them with the data object.
+        if($offset + $limit < $hits){
+            $page = $offset/$limit;
+            $page = round($page,0,PHP_ROUND_HALF_DOWN);
 
-        //     $last_page = round($total_rows / $this->limit,0);
-        //     if($last_page > $this->page+1){
-        //         $this->setLinkHeader($last_page,$this->page_size, "last");
-        //     }
-        // }
+            if($page==0){
+                $page = 1;
+            }
 
-        // if($offset > 0 && $hits >0){
-        //     $page = $offset/$limit;
-        //     $page = round($page,0,PHP_ROUND_HALF_DOWN);
-        //     if($page==0){
-        //         // Try to divide the paging into equal pages.
-        //         $page = 2;
-        //     }
-        //     $this->setLinkHeader($page -1,$limit,"previous");
-        // }
+            $paging['next'] = array($page + 1, $limit);
+
+            $last_page = round($total_rows / $limit,0);
+
+            if($last_page > $page + 1){
+                $paging['last'] = array($last_page, self::$DEFAULT_PAGE_SIZE);
+            }
+        }
+
+        if($offset > 0 && $hits > 0){
+
+            $page = $offset/$limit;
+            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
+
+            if($page == 0){
+
+                // Try to divide the paging into equal pages.
+                $page = 2;
+            }
+
+            $paging['previous'] = array($page - 1, $limit);
+        }
 
         $result = $arrayOfRowObjects;
 
         $data_result = new Data();
         $data_result->data = $result;
+        $data_result->paging = $paging;
 
         return $data_result;
     }
