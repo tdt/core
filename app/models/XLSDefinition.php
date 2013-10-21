@@ -33,66 +33,16 @@ class XlsDefinition extends SourceType{
      */
     public function save(array $options = array()){
 
-        // If no column aliases have been passed, then fill the columns variable
-        // TODO allow columns to be passed through the parameters.
-        $columns = array();
-        $tmp_dir = sys_get_temp_dir();
-
-        if(empty($columns)){
-            if (!is_dir($tmp_dir)) {
-                mkdir($tmp_dir);
-            }
-
-            $is_uri = (substr($this->uri , 0, 4) == "http");
-            if ($is_uri) {
-                $tmp_file = uniqid();
-
-                file_put_contents($tmp_dir. "/" . $tmp_file, file_get_contents($this->uri));
-                $objPHPExcel = XLSController::loadExcel($tmp_dir ."/" . $tmp_file,$this->getFileExtension($this->uri),$this->sheet);
-            } else {
-                $objPHPExcel = XLSController::loadExcel($this->uri,$this->getFileExtension($this->uri),$this->sheet);
-            }
-
-            $worksheet = $objPHPExcel->getSheetByName($this->sheet);
-
-            if(is_null($worksheet)){
-                \App::abort(452, "The sheet with name, $this->sheet, has not been found in the Excel file.");
-            }
-
-            foreach ($worksheet->getRowIterator() as $row) {
-
-                $row_index = $row->getRowIndex();
-                $column_index = 0;
-
-                if ($row_index == $this->start_row) {
-
-                    $cellIterator = $row->getCellIterator();
-                    $cellIterator->setIterateOnlyExistingCells(false);
-
-                    foreach ($cellIterator as $cell) {
-                        if($cell->getCalculatedValue() != ""){
-                            // TODO allow for aliases to be given.
-                            array_push($columns, array($column_index, $cell->getCalculatedValue(), $cell->getCalculatedValue()));
-                        }
-                        $column_index++;
-                    }
-                }
-            }
-
-            $objPHPExcel->disconnectWorksheets();
-            unset($objPHPExcel);
-            if ($is_uri) {
-                unlink($tmp_dir . "/" . $tmp_file);
-            }
-        }
+        $columns = $this->parseColumns($options);
 
         parent::save();
 
         foreach($columns as $column){
+
             $tabular_column = new TabularColumns();
             $tabular_column->index = $column[0];
             $tabular_column->column_name = $column[1];
-            $tabular_column->is_pk = 0;
+            $tabular_column->is_pk = $column[3];
             $tabular_column->column_name_alias = $column[2];
             $tabular_column->tabular_type = 'XlsDefinition';
             $tabular_column->tabular_id = $this->id;
@@ -150,5 +100,93 @@ class XlsDefinition extends SourceType{
      */
     private function getFileExtension($file){
         return strtolower(substr(strrchr($file, '.'), 1));
+    }
+
+    /**
+     * Retrieve colummn information from the request parameters.
+     */
+    private function parseColumns($options){
+
+        $aliases = @$options['columns'];
+        $pk = @$options['pk'];
+
+        if(empty($aliases)){
+            $aliases = array();
+        }
+
+
+        $columns = array();
+        $tmp_dir = sys_get_temp_dir();
+
+        if(empty($columns)){
+            if (!is_dir($tmp_dir)) {
+                mkdir($tmp_dir);
+            }
+
+            $is_uri = (substr($this->uri , 0, 4) == "http");
+
+            try{
+                if ($is_uri) {
+                $tmp_file = uniqid();
+
+                    file_put_contents($tmp_dir. "/" . $tmp_file, file_get_contents($this->uri));
+                    $php_obj = XLSController::loadExcel($tmp_dir ."/" . $tmp_file, $this->getFileExtension($this->uri), $this->sheet);
+                } else {
+                    $php_obj = XLSController::loadExcel($this->uri, $this->getFileExtension($this->uri),$this->sheet);
+                }
+
+                $worksheet = $php_obj->getSheetByName($this->sheet);
+
+            }catch(Exception $ex){
+                \App::abort(452, "Something went wrong whilst retrieving the Excel file from uri $this->uri.");
+            }
+
+
+            if(is_null($worksheet)){
+                \App::abort(452, "The sheet with name, $this->sheet, has not been found in the Excel file.");
+            }
+
+            foreach ($worksheet->getRowIterator() as $row) {
+
+                $row_index = $row->getRowIndex();
+
+                if ($row_index == $this->start_row) {
+
+                    $cell_iterator = $row->getCellIterator();
+                    $cell_iterator->setIterateOnlyExistingCells(false);
+
+                    $column_index = 0;
+
+                    foreach($cell_iterator as $cell){
+
+                        if($cell->getCalculatedValue() != ""){
+
+                            $cell_value = trim($cell->getCalculatedValue());
+
+                            // Try to get an alias from the options, if it's empty
+                            // then just take the column value as alias.
+                            $alias = @$aliases[$column_index];
+
+                            if(empty($alias)){
+                                $alias = $cell_value;
+                            }
+
+                            array_push($columns, array($column_index, $cell->getCalculatedValue(), $alias, $pk == $column_index));
+                        }
+                        $column_index++;
+                    }
+
+                    break;
+                }
+            }
+
+            $php_obj->disconnectWorksheets();
+
+            if ($is_uri) {
+                unlink($tmp_dir . "/" . $tmp_file);
+            }
+        }
+
+        return $columns;
     }
 }

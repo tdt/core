@@ -138,7 +138,11 @@ class CsvDefinition extends SourceType{
 
                 for ($i = 0; $i < sizeof($line); $i++) {
 
+
+                    // Try to get an alias from the options, if it's empty
+                    // then just take the column value as alias.
                     $alias = @$aliases[$i];
+
                     if(empty($alias)){
                         $alias = trim($line[$i]);
                     }

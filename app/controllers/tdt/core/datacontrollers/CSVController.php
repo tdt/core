@@ -43,7 +43,7 @@ class CSVController extends ADataController {
             \App::abort(452, "Can't find or fetch the columns for this CSV file.");
         }
 
-        // Set aliases.
+        // Create aliases for the columns.
         $aliases = array();
         $pk = null;
 
@@ -57,7 +57,7 @@ class CSVController extends ADataController {
 
         // Read the CSV file.
         $resultobject = array();
-        $arrayOfRowObjects = array();
+        $row_objects = array();
 
         $rows = array();
         $total_rows = 0;
@@ -78,7 +78,7 @@ class CSVController extends ADataController {
 
                     // Create the values array, containing the (aliased) name of the column
                     // to the value of a the row which $data represents.
-                    $values = $this->createValues($columns, $data, $total_rows);
+                    $values = $this->createValues($columns, $data);
                     if($offset <= $hits && $offset + $limit > $hits){
 
                         $obj = new \stdClass();
@@ -88,9 +88,9 @@ class CSVController extends ADataController {
                         }
 
                         if(empty($pk)){
-                            array_push($arrayOfRowObjects, $obj);
+                            array_push($row_objects, $obj);
                         }else{
-                            $arrayOfRowObjects[$obj->$pk] = $obj;
+                            $row_objects[$obj->$pk] = $obj;
                         }
                     }
                     $hits++;
@@ -138,7 +138,7 @@ class CSVController extends ADataController {
             $paging['previous'] = array($page - 1, $limit);
         }
 
-        $result = $arrayOfRowObjects;
+        $result = $row_objects;
 
         $data_result = new Data();
         $data_result->data = $result;
@@ -150,7 +150,7 @@ class CSVController extends ADataController {
     /**
      * This function returns an array with key=column-name and value=data.
      */
-    private function createValues($columns, $data, $line_number = 0){
+    private function createValues($columns, $data){
 
         $result = array();
 

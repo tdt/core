@@ -23,32 +23,29 @@ class XLSController extends ADataController {
         $sheet = $source_definition->sheet;
         $has_header_row = $source_definition->has_header_row;
         $start_row = $source_definition->start_row;
-        $pk = $source_definition->pk;
 
         // Retrieve the columns from XLS.
         $columns_obj = $source_definition->tabularColumns();
-        $columns_obj = $columns_obj->getResults();
+        $columns = $columns_obj->getResults();
 
         if(!$columns_obj){
             \App::abort(452, "Can't find or fetch the columns for this Excell file.");
         }
 
-        // Set aliases
+        // Create aliases for the columns.
         $aliases = array();
-        $columns = array();
-        $fieldhash = array();
+        $pk = null;
 
-        foreach($columns_obj as $column){
+        foreach($columns as $column){
+
             $aliases[$column->column_name] = $column->column_name_alias;
-            array_push($columns, $column->column_name);
-            $fieldhash[$column->column_name] = $column->index;
 
-            if($column->is_pk){
+            if(!empty($column->is_pk)){
                 $pk = $column->column_name_alias;
             }
         }
 
-        $arrayOfRowObjects = array();
+        $row_objects = array();
 
         $tmp_path = sys_get_temp_dir();
 
@@ -62,16 +59,16 @@ class XLSController extends ADataController {
 
                 $tmpFile = uniqid();
                 file_put_contents($tmp_path . "/" . $tmpFile, file_get_contents($uri));
-                $objPHPExcel = self::loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri),$sheet);
+                $php_obj = self::loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri), $sheet);
             } else {
-                $objPHPExcel = self::loadExcel($uri, $this->getFileExtension($uri),$sheet);
+                $php_obj = self::loadExcel($uri, $this->getFileExtension($uri), $sheet);
             }
 
-            if(empty($objPHPExcel)){
+            if(empty($php_obj)){
                 \App::abort(452, "The Excel file could not be loaded from $uri.");
             }
 
-            $worksheet = $objPHPExcel->getSheetByName($sheet);
+            $worksheet = $php_obj->getSheetByName($sheet);
 
             if(empty($worksheet)){
                 \App::abort(452, "The worksheet $sheet could not be found in the Excel file.");
@@ -81,53 +78,42 @@ class XLSController extends ADataController {
             $hits = 0;
             $total_rows = 0;
 
+            // Iterate all the rows of the Excell sheet.
             foreach ($worksheet->getRowIterator() as $row) {
 
                 $row_index = $row->getRowIndex();
 
-                if ($row_index >= $start_row) {
+                // If our offset is ok, start parsing the data from the excell sheet.
+                if($row_index >= $start_row) {
 
-                    $cellIterator = $row->getCellIterator();
-                    $cellIterator->setIterateOnlyExistingCells(false);
+                    $cell_iterator = $row->getCellIterator();
+                    $cell_iterator->setIterateOnlyExistingCells(false);
 
-                    if ($row_index == $start_row && $has_header_row == "1") {
-
-                        foreach ($cellIterator as $cell) {
-
-                            if(!is_null($cell) && $cell->getCalculatedValue() != ""){
-                                $column_index = $cell->columnIndexFromString($cell->getColumn());
-                                $fieldhash[ $cell->getCalculatedValue() ] = $column_index;
-                            }
-                        }
-                    } else if($offset <= $total_rows && $offset + $limit > $total_rows){
+                    // Only read rows that are allowed in the current requested page.
+                   if($offset <= $total_rows && $offset + $limit > $total_rows){
 
                         $rowobject = new \stdClass();
-                        $keys = array_keys($fieldhash);
 
-                        foreach ($cellIterator as $cell) {
+                        // Iterate each cell in the row, create an array of the values with the name of the column.
+                        // Indices start from 1 in the Excel API.
+                        $data = array();
+                        foreach ($cell_iterator as $cell) {
+                            $data[$cell->columnIndexFromString($cell->getColumn()) - 1] = $cell->getCalculatedValue();
+                        }
 
-                            $column_index = $cell->columnIndexFromString($cell->getColumn());
+                        $values = $this->createValues($columns, $data);
 
-                            if (!is_null($cell) && isset($keys[$column_index-1]) ) {
-
-                                // Format the column name as we normally format column names
-                                $c = $keys[$column_index - 1];
-                                $c = trim($c);
-                                $c = preg_replace('/\s+/', '_', $c);
-                                $c = strtolower($c);
-
-                                if(in_array($c,$columns)){
-                                    $rowobject->$aliases[$c] = $cell->getCalculatedValue();
-                                }
-                            }
+                        foreach($values as $key => $value){
+                            $rowobject->$key = $value;
                         }
 
                         if(empty($pk)) {
-                            array_push($arrayOfRowObjects,$rowobject);
+                            array_push($row_objects,$rowobject);
                         } else {
-                            if(!isset($arrayOfRowObjects[$rowobject->$pk]) && $rowobject->$pk != ""){
-                                $arrayOfRowObjects[$rowobject->$pk] = $rowobject;
-                            }elseif(!empty($arrayOfRowObjects[$rowobject->$pk])){
+                            if(empty($row_objects[$rowobject->$pk])){
+                                $row_objects[$rowobject->$pk] = $rowobject;
+                            }elseif(!empty($row_objects[$rowobject->$pk])){
+
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double has been used already for another record!");
                             }else{
@@ -141,10 +127,10 @@ class XLSController extends ADataController {
                 }
             }
 
-            $objPHPExcel->disconnectWorksheets();
+            $php_obj->disconnectWorksheets();
 
             $data_result = new Data();
-            $data_result->data = $arrayOfRowObjects;
+            $data_result->data = $row_objects;
 
             return $data_result;
 
@@ -177,5 +163,24 @@ class XLSController extends ADataController {
         $objReader->setLoadSheetsOnly($sheet);
 
         return $objReader->load($file);
+    }
+
+    /**
+     * This function returns an array with key=column-name and value=data given
+     * a certain data row.
+     */
+    private function createValues($columns, $data){
+
+        $result = array();
+
+        foreach($columns as $column){
+            if(!empty($data[$column->index])){
+                $result[$column->column_name_alias] = $data[$column->index];
+            }else{
+                \App::abort(452, "The index $column->index could not be found in the data file. Indices start at 0.");
+            }
+        }
+
+        return $result;
     }
 }
