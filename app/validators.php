@@ -1,7 +1,8 @@
 <?php
 
-use tdt\core\validators\UriValidator;
+use tdt\core\validators\CustomValidator;
 
 Validator::resolver(function($translator, $data, $rules, $messages){
-    return new UriValidator($translator, $data, $rules, $messages);
+    return new CustomValidator($translator, $data, $rules, $messages);
 });
+

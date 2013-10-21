@@ -30,6 +30,7 @@ class CsvDefinition extends SourceType{
         // If the columns were parsed correctly, save this definition and use the id to link them to the column objects.
         parent::save();
 
+        // If the model has not been saved, abort the workflow and return an error message.
         if(empty($this->id)){
             \App::abort(452, "The csv definition could not be saved after validation, check if the provided properties are still correct.");
         }
@@ -51,42 +52,23 @@ class CsvDefinition extends SourceType{
 
 
     /**
-     * Validate the input for this model.
+     * Validate the input for this model and related models.
      */
     public static function validate($params){
-        return parent::validate($params);
+
+        $tabular_params = array_only($params, array_keys(TabularColumns::getCreateProperties()));
+        TabularColumns::validate($tabular_params);
+
+        $csv_params = array_only($params, array_keys(self::getCreateProperties()));
+        return parent::validate($csv_params);
     }
 
     /**
      * Retrieve the set of create parameters that make up a CSV definition.
+     * Include the parameters that make up relationships with this model.
      */
-    public static function getCreateParameters(){
-
-        return array(
-            'uri' => array(
-                'required' => true,
-                'description' => 'The location of the CSV file, either a URL or a local file location.',
-            ),
-            'delimiter' => array(
-                'required' => false,
-                'description' => 'The delimiter of the separated value file.',
-                'default_value' => ',',
-            ),
-            'has_header_row' => array(
-                'required' => false,
-                'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
-                'default_value' => 1,
-            ),
-            'start_row' => array(
-                'required' => false,
-                'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
-                'default_value' => 1,
-            ),
-            'documentation' => array(
-                'required' => true,
-                'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-            )
-        );
+    public static function getAllProperties(){
+        return array_merge(self::getCreateProperties(), TabularColumns::getCreateProperties());
     }
 
     /**
@@ -97,7 +79,7 @@ class CsvDefinition extends SourceType{
         return array(
             'has_header_row' => 'integer|min:0|max:1',
             'start_row' => 'integer',
-            'uri' => 'uri|required',
+            'uri' => 'file|required',
             'documentation' => 'required',
         );
     }
@@ -158,5 +140,36 @@ class CsvDefinition extends SourceType{
         }
 
         return $columns;
+    }
+
+    /**
+     * Return the properties ( = column fields ) for this model.
+     */
+    public static function getCreateProperties(){
+        return array(
+                'uri' => array(
+                    'required' => true,
+                    'description' => 'The location of the CSV file, either a URL or a local file location.',
+                ),
+                'delimiter' => array(
+                    'required' => false,
+                    'description' => 'The delimiter of the separated value file.',
+                    'default_value' => ',',
+                ),
+                'has_header_row' => array(
+                    'required' => false,
+                    'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
+                    'default_value' => 1,
+                ),
+                'start_row' => array(
+                    'required' => false,
+                    'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
+                    'default_value' => 1,
+                ),
+                'documentation' => array(
+                    'required' => true,
+                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                )
+            );
     }
 }

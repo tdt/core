@@ -22,7 +22,7 @@ class InstalledDefinition extends Eloquent{
 	/**
      * Retrieve the set of create parameters that make up a JSON definition.
      */
-    public static function getCreateParameters(){
+    public static function getCreateProperties(){
         return array();
     }
 

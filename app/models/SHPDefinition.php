@@ -108,7 +108,7 @@ class ShpDefinition extends SourceType{
     /**
      * Retrieve the set of create parameters that make up a SHP definition.
      */
-    public static function getCreateParameters(){
+    public static function getCreateProperties(){
         return array(
             'uri' => array(
                 'required' => true,

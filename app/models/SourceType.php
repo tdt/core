@@ -8,11 +8,13 @@
  */
 class SourceType extends Eloquent{
 
+
     public static function validate($params){
 
         $validated_params = array();
 
-        $create_params = self::getCreateParameters();
+        $create_params = self::getCreateProperties();
+
         $rules = self::getCreateValidators();
 
         array_keys($create_params);
@@ -51,7 +53,8 @@ class SourceType extends Eloquent{
      */
     public static function getErrorMessages(){
         return array(
-            'uri' => "The uri provided could not be retrieved, if it is a file location, try putting file:// in front of the path.",
+            'uri' => "The uri provided could not be resolved.",
+            'file' => 'The uri provided could not be resolved, if the uri is a system path try putting file:// in front of it.'
         );
     }
 }

@@ -83,6 +83,8 @@ class DefinitionController extends \Controller {
 
             if(class_exists($definition_type)){
                 // Validate the given parameters based on the given definition_type.
+                // The validated parameters should only contain properties that are defined
+                // by the source type, meaning no relational parameters.
                 $validated_params = $definition_type::validate($params);
             }else{
                 \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
@@ -125,7 +127,7 @@ class DefinitionController extends \Controller {
 
         if(class_exists($definition)){
 
-            $create_params = $definition::getCreateParameters();
+            $create_params = $definition::getCreateProperties();
             $rules = $definition::getCreateValidators();
 
             foreach($create_params as $key => $info){
