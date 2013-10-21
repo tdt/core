@@ -26,7 +26,7 @@ class DiscoveryController extends \Controller {
 
     /**
      * Create the discovery document.
-     * TODO create the DELETE and PATCH section of the discovery document
+     * TODO create the PATCH and POST section of the discovery document
      * TODO add more resources (definitions, ...)
      */
     private static function createDiscoveryDocument(){
@@ -43,9 +43,25 @@ class DiscoveryController extends \Controller {
         $definitions = new \stdClass();
 
         $methods = new \stdClass();
+
+        // Attach the methods to the up the methods object.
+        $methods->put = self::createPutDocumentation();
+        $methods->delete = self::createDeleteDocumentation();
+        $methods->patch = self::createPatchDocumentation();
+
+        // Attach the methods to the definitions object.
+        $definitions->methods = $methods;
+        $discovery_document->resources->definitions = $definitions;
+
+        return $discovery_document;
+    }
+
+    /**
+     * Create the put discovery documentation.
+     */
+    private static function createPutDocumentation(){
+
         $put = new \stdClass();
-        $delete = new \stdClass();
-        $patch = new \stdClass();
 
         $put->httpMethod = "PUT";
         $put->path = "/definitions/{identifier}";
@@ -75,16 +91,27 @@ class DiscoveryController extends \Controller {
             closedir($handle);
         }
 
-        // Attach the methods to the up the methods object.
-        $methods->put = $put;
-        $methods->delete = $delete;
-        $methods->path = $patch;
-
-        // Attach the methods to the definitions object.
-        $definitions->methods = $methods;
-        $discovery_document->resources->definitions = $definitions;
-
-        return $discovery_document;
+        return $put;
     }
 
+    /**
+     * Create the delete discovery documentation.
+     */
+    private static function createDeleteDocumentation(){
+
+        $delete = new \stdClass();
+
+        $delete->httpMethod = "DELETE";
+        $delete->path = "/definitions/{identifier}";
+        $delete->description = "Delete a resource definition identified by the {identifier} value.";
+
+        return $delete;
+    }
+
+    /**
+     * Create the patch discovery documentation.
+     */
+    private static function createPatchDocumentation(){
+        return null;
+    }
 }

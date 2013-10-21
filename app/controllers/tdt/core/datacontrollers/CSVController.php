@@ -14,7 +14,7 @@ use tdt\core\datasets\Data;
  */
 class CSVController extends ADataController {
 
-    // amount of chars in one row that can be read
+    // Amount of characters in one row that can be read.
     private static $MAX_LINE_LENGTH = 0;
 
 
@@ -22,7 +22,7 @@ class CSVController extends ADataController {
 
         list($limit, $offset) = $this->calculateLimitAndOffset();
 
-        // Check URI given.
+        // Check the given URI.
         if (!empty($source_definition->uri)) {
             $uri = $source_definition->uri;
         } else {
@@ -45,8 +45,14 @@ class CSVController extends ADataController {
 
         // Set aliases.
         $aliases = array();
+        $pk = null;
+
         foreach($columns as $column){
             $aliases[$column->column_name] = $column->column_name_alias;
+
+            if(!empty($column->is_pk)){
+                $pk = $column->column_name_alias;
+            }
         }
 
         // Read the CSV file.
@@ -67,24 +73,24 @@ class CSVController extends ADataController {
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
 
                 if($total_rows >= $start_row -1){
+
                     $num = count($data);
 
+                    // Create the values array, containing the (aliased) name of the column
+                    // to the value of a the row which $data represents.
                     $values = $this->createValues($columns, $data, $total_rows);
                     if($offset <= $hits && $offset + $limit > $hits){
+
                         $obj = new \stdClass();
 
                         foreach($values as $key => $value){
-
-                            $key = $aliases[$key];
-                            if(!empty($key))
-                                $obj->$key = $value;
+                            $obj->$key = $value;
                         }
 
-                        if(empty($PK) || empty($aliases[$PK])){
+                        if(empty($pk)){
                             array_push($arrayOfRowObjects, $obj);
                         }else{
-                            $key = $aliases[$PK];
-                            $arrayOfRowObjects[$obj->$key] = $obj;
+                            $arrayOfRowObjects[$obj->$pk] = $obj;
                         }
                     }
                     $hits++;
@@ -101,10 +107,11 @@ class CSVController extends ADataController {
 
         // Calculate the paging parameters and pass them with the data object.
         if($offset + $limit < $hits){
-            $page = $offset/$limit;
-            $page = round($page,0,PHP_ROUND_HALF_DOWN);
 
-            if($page==0){
+            $page = $offset/$limit;
+            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
+
+            if($page == 0){
                 $page = 1;
             }
 
@@ -141,19 +148,20 @@ class CSVController extends ADataController {
     }
 
     /**
-     * This function returns an array with key=column-name and value=data
+     * This function returns an array with key=column-name and value=data.
      */
     private function createValues($columns, $data, $line_number = 0){
 
         $result = array();
+
         foreach($columns as $column){
             if(!empty($data[$column->index])){
                 $result[$column->column_name_alias] = $data[$column->index];
             }else{
-                $result[$value] = "";
+                \App::abort(452, "The index $column->index could not be found in the data file. Indices start at 0.");
             }
         }
+
         return $result;
     }
-
 }

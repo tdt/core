@@ -24,52 +24,22 @@ class CsvDefinition extends SourceType{
      */
     public function save(array $options = array()){
 
-        // Get the columns out of the csv file before saving the csv definition.
-        // TODO allow for column aliases to be passed.
-
-        $columns = array();
-
-        if (($handle = fopen($this->uri, "r")) !== FALSE) {
-
-            // TODO if columns are being passed through the parameters, skip this.
-            // Throw away the lines untill we hit the start row
-            // from then on, process the columns
-            $commentlinecounter = 1;
-            while ($commentlinecounter < $this->start_row) {
-                $line = fgetcsv($handle, 0, $this->delimiter, '"');
-                $commentlinecounter++;
-            }
-
-            $index = 0;
-
-            if (($line = fgetcsv($handle, 0, $this->delimiter, '"')) !== FALSE) {
-
-                $index++;
-
-                for ($i = 0; $i < sizeof($line); $i++) {
-
-                    // TODO set the alias column last in the array.
-                    array_push($columns, array($i, trim($line[$i]), trim($line[$i])));
-                }
-            }else{
-                \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
-            }
-            fclose($handle);
-        } else {
-            \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
-        }
+        // Parse the columns of the csv file.
+        $columns = $this->parseColumns($options);
 
         // If the columns were parsed correctly, save this definition and use the id to link them to the column objects.
         parent::save();
+
         if(empty($this->id)){
             \App::abort(452, "The csv definition could not be saved after validation, check if the provided properties are still correct.");
         }
 
         foreach($columns as $column){
+
             $tabular_column = new TabularColumns();
             $tabular_column->index = $column[0];
             $tabular_column->column_name = $column[1];
-            $tabular_column->is_pk = 0;
+            $tabular_column->is_pk = $column[3];
             $tabular_column->column_name_alias = $column[2];
             $tabular_column->tabular_type = 'CsvDefinition';
             $tabular_column->tabular_id = $this->id;
@@ -130,5 +100,59 @@ class CsvDefinition extends SourceType{
             'uri' => 'uri|required',
             'documentation' => 'required',
         );
+    }
+
+    /**
+     * Retrieve colummn information from the request parameters.
+     */
+    private function parseColumns($options){
+
+        // Get the columns out of the csv file before saving the csv definition.
+        // If columns are being passed using the json body or request parameters
+        // allow them to function as aliases, aliases have to be passed as index (0:n-1) => alias.
+        $aliases = @$options['columns'];
+        $pk = @$options['pk'];
+
+        if(empty($aliases)){
+            $aliases = array();
+        }
+
+        $columns = array();
+
+        if(($handle = fopen($this->uri, "r")) !== FALSE) {
+
+            // Throw away the lines untill we hit the start row
+            // from then on, process the columns.
+            $commentlinecounter = 1;
+
+            while ($commentlinecounter < $this->start_row) {
+                $line = fgetcsv($handle, 0, $this->delimiter, '"');
+                $commentlinecounter++;
+            }
+
+            $index = 0;
+
+            if (($line = fgetcsv($handle, 0, $this->delimiter, '"')) !== FALSE) {
+
+                $index++;
+
+                for ($i = 0; $i < sizeof($line); $i++) {
+
+                    $alias = @$aliases[$i];
+                    if(empty($alias)){
+                        $alias = trim($line[$i]);
+                    }
+
+                    array_push($columns, array($i, trim($line[$i]), $alias, $pk == $i));
+                }
+            }else{
+                \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
+            }
+            fclose($handle);
+        } else {
+            \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
+        }
+
+        return $columns;
     }
 }

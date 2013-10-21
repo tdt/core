@@ -77,6 +77,7 @@ class DefinitionController extends \Controller {
         $matches = array();
 
         if(preg_match('/application\/tdt\.(.*)/', $content_type, $matches)){
+
             $type = $matches[1];
             $definition_type = ucfirst($type) . "Definition";
 
@@ -94,7 +95,7 @@ class DefinitionController extends \Controller {
                 $def_instance->$key = $value;
             }
 
-            $def_instance->save();
+            $def_instance->save($params);
 
             // Create the definition associated with the new definition instance.
             $definition = new \Definition();

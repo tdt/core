@@ -38,8 +38,8 @@ class ShpDefinition extends SourceType{
         $tmp_dir = sys_get_temp_dir();
 
         if ($is_url) {
-            // This remains untested.
 
+            // This remains untested.
             $tmp_file = uniqid();
             file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shp"));
             file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".dbf"));
