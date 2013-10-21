@@ -84,7 +84,7 @@ class XLSController extends ADataController {
                 $row_index = $row->getRowIndex();
 
                 // If our offset is ok, start parsing the data from the excell sheet.
-                if($row_index >= $start_row) {
+                if($row_index > $start_row) {
 
                     $cell_iterator = $row->getCellIterator();
                     $cell_iterator->setIterateOnlyExistingCells(false);

@@ -1,13 +1,12 @@
 <?php
 
 /**
- * Base
+ * Base model for every publishable source (CSV, SHP, ...).
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class SourceType extends Eloquent{
-
 
     public static function validate($params){
 
@@ -54,7 +53,8 @@ class SourceType extends Eloquent{
     public static function getErrorMessages(){
         return array(
             'uri' => "The uri provided could not be resolved.",
-            'file' => 'The uri provided could not be resolved, if the uri is a system path try putting file:// in front of it.'
+            'file' => 'The uri provided could not be resolved, if the uri is a system path try putting file:// in front of it.',
+            'json' => 'The contents of the uri could not be parsed as JSON, make sure the JSON is valid.',
         );
     }
 }

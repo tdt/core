@@ -32,7 +32,6 @@ class JsonDefinition extends SourceType{
                 'required' => true,
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
             )
-
         );
     }
 
@@ -41,6 +40,8 @@ class JsonDefinition extends SourceType{
      * If the parameters doesn't have any rules, it's not mentioned in the array.
      */
     public static function getCreateValidators(){
-        return array();
+        return array(
+            'uri' => 'json|uri|required',
+        );
     }
 }
