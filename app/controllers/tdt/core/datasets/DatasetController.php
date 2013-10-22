@@ -30,6 +30,7 @@ class DatasetController extends \Controller {
         if($definition){
 
             // Create source class
+            // TODO get the source class through the polymorphic relation, much prettier.
             $source_class = $definition->source_type . 'Definition';
 
             // Get source definition
@@ -47,6 +48,7 @@ class DatasetController extends \Controller {
                 // Get REST parameters
                 $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
                 $rest_parameters = ltrim($rest_parameters, '/');
+
                 if(strlen($rest_parameters) > 0){
                     $parameters = explode('/', $rest_parameters);
                 }

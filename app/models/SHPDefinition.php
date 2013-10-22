@@ -15,10 +15,19 @@ class ShpDefinition extends SourceType{
 
     protected $guarded = array('id');
 
+    /**
+     * Relationship with the TabularColumns model.
+     */
     public function tabularColumns(){
         return $this->morphMany('TabularColumns', 'tabular');
     }
 
+    /**
+     * Relationship with the Definition model.
+     */
+    public function definition(){
+        return $this->morphOne('Definition');
+    }
 
     /**
      * Hook into the save function of Eloquent by saving the parent

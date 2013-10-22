@@ -19,7 +19,8 @@
         "laravel/framework": "4.0.*",
         "tdt/input" : "dev-blackwell",
         "CodePlex/PHPExcel": "dev-master",
-        "phpunit/phpunit" : "3.7.*"
+        "phpunit/phpunit" : "3.7.*",
+        "semsol/arc2": "dev-master"
     },
     "repositories": [
         {

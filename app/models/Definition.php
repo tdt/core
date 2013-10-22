@@ -7,5 +7,13 @@
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class Definition extends Eloquent{
+
     protected $guarded = array('id', 'source_id');
+
+    /**
+     * Return the poly morphic relationship.
+     */
+    public function source(){
+        return $this->morphTo();
+    }
 }

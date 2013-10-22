@@ -15,14 +15,24 @@ class XlsDefinition extends SourceType{
     protected $guarded = array('id');
 
     /**
+     * Relationship with the TabularColumns model.
+     */
+    public function tabularColumns(){
+        return $this->morphMany('TabularColumns', 'tabular');
+    }
+
+    /**
+     * Relationship with the Definition model.
+     */
+    public function definition(){
+        return $this->morphOne('Definition');
+    }
+
+     /**
      * Validate the input for this model.
      */
     public static function validate($params){
         return parent::validate($params);
-    }
-
-    public function tabularColumns(){
-        return $this->morphMany('TabularColumns', 'tabular');
     }
 
     /**

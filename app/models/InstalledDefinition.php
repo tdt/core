@@ -13,6 +13,13 @@ class InstalledDefinition extends Eloquent{
 	protected $guarded = array('id');
 
     /**
+     * Relationship with the Definition model.
+     */
+    public function definition(){
+        return $this->morphOne('Definition');
+    }
+
+    /**
      * Validate the input for this model.
      */
     public static function validate($params){

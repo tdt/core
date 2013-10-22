@@ -16,7 +16,7 @@ class SourceType extends Eloquent{
 
         $rules = self::getCreateValidators();
 
-        array_keys($create_params);
+        //array_keys($create_params);
 
         // Validate the parameters to their rules.
         $validator = Validator::make(
