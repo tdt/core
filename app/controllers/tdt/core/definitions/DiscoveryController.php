@@ -80,11 +80,11 @@ class DiscoveryController extends \Controller {
 
                     $definition_type = strtolower($matches[1]);
 
-                    if(method_exists($model, 'getCreateParameters')){
+                    if(method_exists($model, 'getAllProperties')){
 
                         $put->mediaType->$definition_type = new \stdClass();
                         $put->mediaType->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
-                        $put->mediaType->$definition_type->parameters = $model::getCreateParameters();
+                        $put->mediaType->$definition_type->parameters = $model::getAllProperties();
                     }
                 }
             }

@@ -83,6 +83,14 @@ class XlsDefinition extends SourceType{
         );
     }
 
+     /**
+     * Retrieve the set of create parameters that make up a XLS definition.
+     * Include the parameters that make up relationships with this model.
+     */
+    public static function getAllProperties(){
+        return array_merge(self::getCreateProperties(), TabularColumns::getCreateProperties());
+    }
+
     /**
      * Retrieve the set of validation rules for every create parameter.
      * If the parameters doesn't have any rules, it's not mentioned in the array.

@@ -35,6 +35,14 @@ class XmlDefinition extends SourceType{
         );
     }
 
+     /**
+     * Retrieve the set of create parameters that make up a XML definition.
+     * Include the parameters that make up relationships with this model.
+     */
+    public static function getAllProperties(){
+        return self::getCreateProperties();
+    }
+
     /**
      * Retrieve the set of validation rules for every create parameter.
      * If the parameters doesn't have any rules, it's not mentioned in the array.
