@@ -206,7 +206,7 @@ class DefinitionController extends \Controller {
      * Get a definition
      */
     public static function get($uri){
-        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name, '%')", array($uri))->first();
+        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->first();
     }
 
     /**

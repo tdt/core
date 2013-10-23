@@ -8,6 +8,11 @@
  */
 class SourceType extends Eloquent{
 
+    public function getType(){
+        // Return bare type (CSV, JSON)
+        return str_replace('definition', '', strtolower(get_called_class()));
+    }
+
     public static function validate($params){
 
         $validated_params = array();

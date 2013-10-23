@@ -16,7 +16,7 @@ class XmlDefinition extends SourceType{
      * Relationship with the Definition model.
      */
     public function definition(){
-        return $this->morphOne('Definition');
+        return $this->morphOne('Definition', 'source');
     }
 
     /**
