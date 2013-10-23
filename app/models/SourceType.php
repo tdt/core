@@ -8,13 +8,6 @@
  */
 class SourceType extends Eloquent{
 
-    /**
-     * Provide the polymorphic link with dublincore.
-     */
-    public dublincore(){
-        return $this->hasOne('DublinCore');
-    }
-
     public static function validate($params){
 
         $validated_params = array();

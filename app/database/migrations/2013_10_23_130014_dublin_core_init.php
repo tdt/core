@@ -11,10 +11,10 @@ class DublinCoreInit extends Migration {
 	 */
 	public function up()
 	{
-		 // Create the table for the dublin core model.
-        Schema::create('dublincore', function($table){
-
-        	$table->string('title');
+		// Add the dublin core to the definitions.
+		Schema::table('definitions', function($table)
+		{
+			$table->string('title');
 			$table->string('creator');
 			$table->string('subject');
 			$table->string('description');
@@ -30,9 +30,7 @@ class DublinCoreInit extends Migration {
 			$table->string('coverage');
 			$table->string('rights');
 
-            // created_at | updated_at DATETIME, are default expected by the Eloquent ORM.
-            $table->timestamps();
-        });
+		});
 	}
 
 	/**
@@ -42,8 +40,27 @@ class DublinCoreInit extends Migration {
 	 */
 	public function down()
 	{
-		// Drop the table for the dublin core model.
-        Schema::drop('dublincore');
+		// Remove the dublin core from the definitions.
+		Schema::table('definitions', function($table)
+		{
+			$table->dropColumn('title');
+			$table->dropColumn('creator');
+			$table->dropColumn('subject');
+			$table->dropColumn('description');
+			$table->dropColumn('publisher');
+			$table->dropColumn('contributor');
+			$table->dropColumn('date');
+			$table->dropColumn('type');
+			$table->dropColumn('format');
+			$table->dropColumn('identifier');
+			$table->dropColumn('source');
+			$table->dropColumn('language');
+			$table->dropColumn('relation');
+			$table->dropColumn('coverage');
+			$table->dropColumn('rights');
+		});
+
+
 	}
 
 }
