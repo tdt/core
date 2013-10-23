@@ -109,7 +109,8 @@ class XlsDefinition extends SourceType{
         return array(
             'has_header_row' => 'integer|min:0|max:1',
             'start_row' => 'integer',
-            'uri' => 'uri',
+            'uri' => 'uri|required',
+            'description' => 'required',
         );
     }
 

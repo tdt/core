@@ -115,7 +115,7 @@ class CsvDefinition extends SourceType{
 
             // Throw away the lines untill we hit the start row
             // from then on, process the columns.
-            $commentlinecounter = 1;
+            $commentlinecounter = 0;
 
             while ($commentlinecounter < $this->start_row) {
                 $line = fgetcsv($handle, 0, $this->delimiter, '"');
@@ -174,7 +174,7 @@ class CsvDefinition extends SourceType{
                 'start_row' => array(
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
-                    'default_value' => 1,
+                    'default_value' => 0,
                 ),
                 'description' => array(
                     'required' => true,

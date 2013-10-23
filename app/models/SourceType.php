@@ -40,7 +40,7 @@ class SourceType extends Eloquent{
 
             if(!empty($params[$key])){
                 $validated_params[$key] = $params[$key];
-            }else if(!empty($info['default_value'])){
+            }else if(!empty($info['default_value']) || is_numeric($info['default_value'])){
                 $validated_params[$key] = $info['default_value'];
             }else{
                 $validated_params[$key] = null;

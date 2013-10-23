@@ -19,7 +19,7 @@ class CsvDefinitionInit extends Migration {
             $table->string('uri', 255);
             $table->boolean('has_header_row');
             $table->string('pk');
-            $table->string('start_row');
+            $table->integer('start_row');
 
             // created_at | updated_at DATETIME, are default expected by the Eloquent ORM.
             $table->timestamps();

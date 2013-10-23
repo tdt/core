@@ -64,6 +64,7 @@ class CSVController extends ADataController {
 
         if($has_header_row == 1){
             $start_row++;
+            $total_rows++;
         }
 
         // Contains the amount of rows that we added to the resulting object.
@@ -72,7 +73,7 @@ class CSVController extends ADataController {
 
             while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
 
-                if($total_rows >= $start_row -1){
+                if($total_rows >= $start_row){
 
                     $num = count($data);
 
