@@ -34,12 +34,12 @@ class DatasetController extends \Controller {
             $source_class = $definition->source_type . 'Definition';
 
             // Get source definition
-            $source_definition = $source_class::where('id', $definition->source_id)->first();
+            $source_definition = $definition->source()->first();
 
             if($source_definition){
 
                 // Create the right datacontroller
-                $controller_class = '\\tdt\\core\\datacontrollers\\'.$definition->source_type.'Controller';
+                $controller_class = '\\tdt\\core\\datacontrollers\\'.$source_definition->getType().'Controller';
                 $data_controller = new $controller_class();
 
                 // Create parameters array
