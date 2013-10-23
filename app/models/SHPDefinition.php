@@ -128,7 +128,7 @@ class ShpDefinition extends SourceType{
                 'description' => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
                 'default_value' => 4326
                 ),
-            'documentation' => array(
+            'description' => array(
                 'required' => true,
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
             )

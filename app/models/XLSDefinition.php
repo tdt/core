@@ -86,7 +86,7 @@ class XlsDefinition extends SourceType{
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
                     'default_value' => 1,
                 ),
-                'documentation' => array(
+                'description' => array(
                     'required' => true,
                     'description' => 'The descriptive or informational string that provides some context for you published dataset.',
                 )

@@ -36,7 +36,7 @@ class SparqlDefinition extends SourceType{
                 'required' => true,
                 'description' => 'The uri of the SPARQL end-point (e.g. http://thisisanendpoint:8890/sparql-auth',
             ),
-            'documentation' => array(
+            'description' => array(
                 'required' => true,
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
             ),

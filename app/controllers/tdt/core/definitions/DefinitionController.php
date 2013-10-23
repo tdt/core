@@ -76,6 +76,8 @@ class DefinitionController extends \Controller {
 
         $matches = array();
 
+        // If the source type exists, validate the given properties and if all is well, create the new definition with
+        // the provide source type.
         if(preg_match('/application\/tdt\.(.*)/', $content_type, $matches)){
 
             $type = $matches[1];
@@ -106,6 +108,8 @@ class DefinitionController extends \Controller {
             $definition->source_id = $def_instance->id;
             $definition->source_type = $type;
             $definition->save();
+            var_dump($params);
+            exit();
 
             $response = \Response::make(null, 200);
             $response->header('Location', \Request::getHost() . '/' . $uri);
