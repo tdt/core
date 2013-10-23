@@ -21,7 +21,7 @@ class JsonTest extends TestCase{
 
             // Set the definition parameters.
             $data = array(
-                'documentation' => "A json publication from the $file json file.",
+                'description' => "A json publication from the $file json file.",
                 'delimiter' => ',',
                 'uri' => 'file://' . __DIR__ . "/data/json/$file.json",
                 );

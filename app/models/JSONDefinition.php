@@ -35,7 +35,7 @@ class JsonDefinition extends SourceType{
                 'required' => true,
                 'description' => 'The location of the JSON file, this should either be a URL or a local file location.',
             ),
-            'documentation' => array(
+            'description' => array(
                 'required' => true,
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
             )
