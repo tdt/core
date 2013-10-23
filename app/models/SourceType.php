@@ -8,6 +8,13 @@
  */
 class SourceType extends Eloquent{
 
+    /**
+     * Provide the polymorphic link with dublincore.
+     */
+    public dublincore(){
+        return $this->hasOne('DublinCore');
+    }
+
     public static function validate($params){
 
         $validated_params = array();
@@ -15,8 +22,6 @@ class SourceType extends Eloquent{
         $create_params = self::getCreateProperties();
 
         $rules = self::getCreateValidators();
-
-        //array_keys($create_params);
 
         // Validate the parameters to their rules.
         $validator = Validator::make(

@@ -11,7 +11,7 @@ class Definition extends Eloquent{
     protected $guarded = array('id', 'source_id');
 
     /**
-     * Return the poly morphic relationship.
+     * Return the poly morphic relationship with a source type.
      */
     public function source(){
         return $this->morphTo();

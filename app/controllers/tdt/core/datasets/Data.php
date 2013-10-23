@@ -26,4 +26,6 @@ class Data {
     public $geo;
 
     public $data;
+
+    public $is_semantic = false;
 }

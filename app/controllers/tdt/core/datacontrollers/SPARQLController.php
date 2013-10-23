@@ -126,16 +126,18 @@ class SPARQLController extends ADataController {
         $data = new Data();
         $data->data = $parser;
         $data->paging = $paging;
+        $data->is_semantic = true;
 
         return $data;
     }
 
     /**
-     * Execute a query using cURL and return the result. This function will abort upon error.
+     * Execute a query using cURL and return the result.
+     * This function will abort upon error.
      */
     private function executeUri($uri, $user = '', $password = ''){
 
-        // Is curl installed?
+        // Check if curl is installed on this machine.
         if (!function_exists('curl_init')) {
            \App::abort(500, "cURL is not installed as an executable on this server, this is necessary to execute the SPARQL query properly.");
         }
