@@ -43,7 +43,7 @@ class DublinCoreInit extends Migration {
 		// Remove the dublin core from the definitions.
 		Schema::table('definitions', function($table)
 		{
-			$table->dropColumn('title');
+			/*$table->dropColumn('title');
 			$table->dropColumn('creator');
 			$table->dropColumn('subject');
 			$table->dropColumn('description');
@@ -57,7 +57,7 @@ class DublinCoreInit extends Migration {
 			$table->dropColumn('language');
 			$table->dropColumn('relation');
 			$table->dropColumn('coverage');
-			$table->dropColumn('rights');
+			$table->dropColumn('rights');*/
 		});
 
 

@@ -90,7 +90,7 @@ class CsvDefinition extends SourceType{
             'has_header_row' => 'integer|min:0|max:1',
             'start_row' => 'integer',
             'uri' => 'file|required',
-            'documentation' => 'required',
+            'description' => 'required',
         );
     }
 
@@ -180,6 +180,6 @@ class CsvDefinition extends SourceType{
                     'required' => true,
                     'description' => 'The descriptive or informational string that provides some context for you published dataset.',
                 )
-            );
+        );
     }
 }

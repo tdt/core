@@ -28,7 +28,7 @@ class XlsTest extends TestCase{
 
             // Set the definition parameters.
             $data = array(
-                'documentation' => "An xls publication from the $file xls file.",
+                'description' => "An xls publication from the $file xls file.",
                 'sheet' => $sheet,
                 'uri' => __DIR__ . "/data/xls/$file" . '.' . $extension,
             );

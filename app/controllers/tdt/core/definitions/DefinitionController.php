@@ -106,10 +106,8 @@ class DefinitionController extends \Controller {
             $definition->collection_uri = $collection_uri;
             $definition->resource_name = $resource_name;
             $definition->source_id = $def_instance->id;
-            $definition->source_type = $type;
+            $definition->source_type = $type . 'definition';
             $definition->save();
-            var_dump($params);
-            exit();
 
             $response = \Response::make(null, 200);
             $response->header('Location', \Request::getHost() . '/' . $uri);

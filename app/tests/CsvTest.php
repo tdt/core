@@ -28,7 +28,7 @@ class CsvTest extends TestCase{
 
             // Set the definition parameters.
             $data = array(
-                'documentation' => "A CSV publication from the $file csv file.",
+                'description' => "A CSV publication from the $file csv file.",
                 'delimiter' => ',',
                 'uri' => 'file://' . __DIR__ . "/data/csv/$file.csv",
                 );

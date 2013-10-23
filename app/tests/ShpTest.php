@@ -31,7 +31,7 @@ class ShpTest extends TestCase{
 
             // Set the definition parameters.
             $data = array(
-                'documentation' => "A shp publication from the $file shp file.",
+                'description' => "A shp publication from the $file shp file.",
                 'epsg' => '4326',
                 'uri' => __DIR__ . "/data/shp/$file.shp",
                 );
