@@ -15,7 +15,7 @@
             <li class="list-group-item">
                 <h5 class="list-group-item-heading">Documentation</h5>
                 <p class="list-group-item-text">
-                    {{ $source_definition->documentation }}
+                    {{ $source_definition->description }}
                 </p>
             </li>
             <li class="list-group-item">
