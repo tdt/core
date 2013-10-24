@@ -11,7 +11,7 @@ namespace tdt\core\formatters;
 class JSONFormatter implements IFormatter{
 
     public static function createResponse($dataObj){
-        
+
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 
@@ -28,6 +28,18 @@ class JSONFormatter implements IFormatter{
         $body = $dataObj->data;
         if (is_object($dataObj->data)) {
             $body = get_object_vars($dataObj->data);
+        }
+
+        if($dataObj->is_semantic){
+
+            // Serializer instantiation
+            $ser = \ARC2::getRDFJSONSerializer();
+            foreach ($dataObj->data as $class => $prop)
+                $triples = $prop->getTriples();
+
+            // Use ARC to serialize to JSON (override)
+            return $ser->getSerializedTriples($triples);
+
         }
 
         // Unescape slashes

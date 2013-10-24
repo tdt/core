@@ -148,14 +148,22 @@ class KMLFormatter implements IFormatter{
                     $body .= self::getArray($array);
                 }
                 if(($lat != "" && $long != "") || count($coords) != 0){
-                    $body .= "<Placemark><name>". htmlspecialchars($key) ."</name><Description>".$name."</Description>";
+                    $body .= "<Placemark><name>". htmlspecialchars($key) ."</name><description>".$name."</description>";
                     $body .= $extendeddata;
                     if($lat != "" && $long != "") {
                         $body .= "<Point><coordinates>".$long.",".$lat."</coordinates></Point>";
                     }
                     if (count($coords)  > 0) {
-                        if (count($coords)  == 1) {
-                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                        if (count($coords) == 1 ) {
+                            $all_coords = explode(" ", $coords[0]);
+
+                            if($all_coords[0] == $all_coords[count($all_coords)-1]){
+                                // Detected ring
+                                $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            }else{
+                                // Just a multiline
+                                $body .= "<LineString><coordinates>".$coords[0]."</coordinates></LineString>";
+                            }
                         } else {
                             $body .= "<MultiGeometry>";
                             foreach($coords as $coord) {
@@ -169,6 +177,7 @@ class KMLFormatter implements IFormatter{
             }
         }
 
+        // echo $body; die();
         return $body;
     }
 
