@@ -139,7 +139,7 @@ class CsvDefinition extends SourceType{
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array($i, trim($line[$i]), $alias, $pk == $i));
+                    array_push($columns, array($i, trim($line[$i]), $alias, $pk === $i));
                 }
             }else{
                 \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");

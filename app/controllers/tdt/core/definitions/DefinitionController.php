@@ -22,7 +22,6 @@ class DefinitionController extends \Controller {
                 return self::createDefinition($uri);
                 break;
             case "GET":
-                // TODO return the existing definitions, these should be seen only by authenticated peopless
                 return self::getDefinition($uri);
                 break;
             case "PATCH":
@@ -53,12 +52,7 @@ class DefinitionController extends \Controller {
         // Retrieve the collection uri and resource name
         $matches = array();
 
-        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
-            $collection_uri = $matches[1];
-            $resource_name = $matches[2];
-        }else{
-            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
-        }
+        list($collection_uri, $resource_name) = self::getParts($uri);
 
         // Retrieve the content type and parse out the definition type.
         $content_type = \Request::header('content_type');
@@ -185,12 +179,7 @@ class DefinitionController extends \Controller {
      */
     private static function deleteDefinition($uri){
 
-        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
-            $collection_uri = $matches[1];
-            $resource_name = $matches[2];
-        }else{
-            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
-        }
+        list($collection_uri, $resource_name) = self::getParts($uri);
 
         $definition = self::get($uri);
 
@@ -217,6 +206,18 @@ class DefinitionController extends \Controller {
     private static function headDefinition($uri){
 
     }
+    /*
+     * GET a definition based on the uri provided
+     */
+    private static function getDefinition($uri){
+
+        if(!self::exists($uri)){
+            \App::abort(452, "No resource has been found with the uri $uri");
+        }
+
+        echo "woo";
+
+    }
 
     /**
      * Get a definition
@@ -231,5 +232,20 @@ class DefinitionController extends \Controller {
     public static function exists($uri){
         $definition = self::get($uri);
         return !empty($definition);
+    }
+
+    /**
+     * Return the collection uri and resource (if it exists)
+     */
+    private static function getParts($uri){
+
+        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
+            $collection_uri = $matches[1];
+            $resource_name = @$matches[2];
+        }else{
+            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
+        }
+
+        return array($collection_uri, $resource_name);
     }
 }
