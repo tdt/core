@@ -64,7 +64,7 @@ class CSVController extends ADataController {
 
         if($has_header_row == 1){
             $start_row++;
-            $total_rows++;
+            //$total_rows++;
         }
 
         // Contains the amount of rows that we added to the resulting object.
@@ -91,6 +91,8 @@ class CSVController extends ADataController {
                         if(empty($pk)){
                             array_push($row_objects, $obj);
                         }else{
+
+                            // TODO log double primary keys
                             $row_objects[$obj->$pk] = $obj;
                         }
                     }
@@ -156,7 +158,7 @@ class CSVController extends ADataController {
         $result = array();
 
         foreach($columns as $column){
-            if(!empty($data[$column->index])){
+            if(!empty($data[$column->index]) || is_numeric($data[$column->index])){
                 $result[$column->column_name_alias] = $data[$column->index];
             }else{
                 \App::abort(452, "The index $column->index could not be found in the data file. Indices start at 0.");

@@ -23,12 +23,16 @@ class DefinitionController extends \Controller {
                 break;
             case "GET":
                 // TODO return the existing definitions, these should be seen only by authenticated peopless
+                return self::getDefinition($uri);
                 break;
             case "PATCH":
                 return self::patchDefinition($uri);
                 break;
             case "DELETE":
                 return self::deleteDefinition($uri);
+                break;
+            case "HEAD":
+                return self::headDefinition($uri);
                 break;
             default:
                 \App::abort(400, "The method $method is not supported by the definitions.");
@@ -204,6 +208,13 @@ class DefinitionController extends \Controller {
      * PATCH a definition based on the PATCH parameters and URI.
      */
     private static function patchDefinition($uri){
+
+    }
+
+    /**
+     * Return the headers of a call made to the uri given.
+     */
+    private static function headDefinition($uri){
 
     }
 
