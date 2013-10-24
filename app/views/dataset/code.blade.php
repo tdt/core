@@ -21,7 +21,7 @@
             <li class="list-group-item">
                 <h5 class="list-group-item-heading">Source Type</h5>
                 <p class="list-group-item-text">
-                    {{ $definition->source_type }}
+                    {{ $source_definition->getType() }}
                 </p>
             </li>
         </ul>

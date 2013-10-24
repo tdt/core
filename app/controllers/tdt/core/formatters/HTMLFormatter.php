@@ -26,9 +26,22 @@ class HTMLFormatter implements IFormatter{
 
         $dataset_link  = \URL::to($dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
 
+
+        // Check if other views need to be served
+        switch($dataObj->source_definition->getType()){
+            case 'CSV':
+                $view = 'dataset.tabular';
+                $data = $dataObj->data;
+                break;
+            default:
+                $view = 'dataset.code';
+                $data = self::displayTree($dataObj->data);
+                break;
+        }
+
         // Render the view
-        return \View::make('dataset.code')->with('title', 'The Datatank')
-                                          ->with('body', self::displayTree($dataObj->data))
+        return \View::make($view)->with('title', 'The Datatank')
+                                          ->with('body', $data)
                                           ->with('definition', $dataObj->definition)
                                           ->with('source_definition', $dataObj->source_definition)
                                           ->with('dataset_link', $dataset_link);
