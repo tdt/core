@@ -31,6 +31,17 @@ class XMLFormatter implements IFormatter{
         // Rootname equals resource name
         $rootname = $dataObj->definition->resource_name;
 
+        // Check for semantic source
+        if($dataObj->is_semantic){
+
+            // Serializer instantiation
+            $ser = \ARC2::getRDFXMLSerializer();
+
+            // Use ARC to serialize to XML (override)
+            return $ser->getSerializedTriples($dataObj->data->getTriples());
+
+        }
+
         // Build the body
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
         $body .= self::transformToXML($dataObj->data, $rootname);
