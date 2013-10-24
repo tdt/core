@@ -3,6 +3,7 @@
 namespace tdt\core\definitions;
 
 use Illuminate\Routing\Router;
+use tdt\core\datasets\Data;
 
 /**
  * DefinitionController
@@ -208,6 +209,7 @@ class DefinitionController extends \Controller {
     }
     /*
      * GET a definition based on the uri provided
+     * TODO add support function get retrieve collections, instead full resources.
      */
     private static function getDefinition($uri){
 
@@ -215,19 +217,26 @@ class DefinitionController extends \Controller {
             \App::abort(452, "No resource has been found with the uri $uri");
         }
 
-        echo "woo";
+        // Get Definition object based on the given uri.
+        $definition = self::get($uri);
+
+        $def_properties = $definition->getAllProperties();
+
+        // Return properties document in JSON
+        // TODO return this in more formats?
+        return str_replace("\/", "/", json_encode($def_properties));
 
     }
 
     /**
-     * Get a definition
+     * Get a definition object with the given uri.
      */
     public static function get($uri){
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->first();
     }
 
     /**
-     * Check if a resource was set
+     * Check if a resource exists with a given uri.
      */
     public static function exists($uri){
         $definition = self::get($uri);

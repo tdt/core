@@ -29,17 +29,13 @@ class DatasetController extends \Controller {
 
         if($definition){
 
-            // Create source class
-            // TODO get the source class through the polymorphic relation, much prettier.
-            $source_class = $definition->source_type . 'Definition';
-
             // Get source definition
             $source_definition = $definition->source()->first();
 
             if($source_definition){
 
                 // Create the right datacontroller
-                $controller_class = '\\tdt\\core\\datacontrollers\\'.$source_definition->getType().'Controller';
+                $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
                 $data_controller = new $controller_class();
 
                 // Create parameters array

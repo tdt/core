@@ -11,6 +11,7 @@ class CsvDefinition extends SourceType{
     protected $table = 'csvdefinitions';
 
     protected $guarded = array('id');
+    protected $fillable = array('uri', 'delimiter', 'has_header_row', 'start_row', 'description');
 
     /**
      * Relationship with the TabularColumns model.
@@ -129,7 +130,6 @@ class CsvDefinition extends SourceType{
                 $index++;
 
                 for ($i = 0; $i < sizeof($line); $i++) {
-
 
                     // Try to get an alias from the options, if it's empty
                     // then just take the column value as alias.
