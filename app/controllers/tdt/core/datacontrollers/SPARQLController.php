@@ -123,6 +123,10 @@ class SPARQLController extends ADataController {
         $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
         $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
 
+        // Parse the triple response and retrieve the triples from them.
+        $parser = \ARC2::getRDFXMLParser();
+        $parser->parse('',$response);
+
         $data = new Data();
         $data->data = $parser;
         $data->paging = $paging;

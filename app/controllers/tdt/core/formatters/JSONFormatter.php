@@ -34,11 +34,9 @@ class JSONFormatter implements IFormatter{
 
             // Serializer instantiation
             $ser = \ARC2::getRDFJSONSerializer();
-            foreach ($dataObj->data as $class => $prop)
-                $triples = $prop->getTriples();
 
             // Use ARC to serialize to JSON (override)
-            return $ser->getSerializedTriples($triples);
+            return $ser->getSerializedTriples($dataObj->data->getTriples());
 
         }
 
