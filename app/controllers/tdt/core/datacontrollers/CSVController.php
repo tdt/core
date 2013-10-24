@@ -64,7 +64,6 @@ class CSVController extends ADataController {
 
         if($has_header_row == 1){
             $start_row++;
-            //$total_rows++;
         }
 
         // Contains the amount of rows that we added to the resulting object.

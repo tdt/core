@@ -190,7 +190,7 @@ class XlsDefinition extends SourceType{
                                 $alias = $cell_value;
                             }
 
-                            array_push($columns, array($column_index, $cell->getCalculatedValue(), $alias, $pk == $column_index));
+                            array_push($columns, array($column_index, $cell->getCalculatedValue(), $alias, $pk === $column_index));
                         }
                         $column_index++;
                     }

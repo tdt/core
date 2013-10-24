@@ -78,6 +78,10 @@ class XLSController extends ADataController {
             $hits = 0;
             $total_rows = 0;
 
+            if($has_header_row == 1){
+                $start_row++;
+            }
+
             // Iterate all the rows of the Excell sheet.
             foreach ($worksheet->getRowIterator() as $row) {
 
