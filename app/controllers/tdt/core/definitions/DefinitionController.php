@@ -3,6 +3,7 @@
 namespace tdt\core\definitions;
 
 use Illuminate\Routing\Router;
+use tdt\core\datasets\Data;
 
 /**
  * DefinitionController
@@ -22,13 +23,16 @@ class DefinitionController extends \Controller {
                 return self::createDefinition($uri);
                 break;
             case "GET":
-                // TODO return the existing definitions, these should be seen only by authenticated peopless
+                return self::getDefinition($uri);
                 break;
             case "PATCH":
                 return self::patchDefinition($uri);
                 break;
             case "DELETE":
                 return self::deleteDefinition($uri);
+                break;
+            case "HEAD":
+                return self::headDefinition($uri);
                 break;
             default:
                 \App::abort(400, "The method $method is not supported by the definitions.");
@@ -49,12 +53,7 @@ class DefinitionController extends \Controller {
         // Retrieve the collection uri and resource name
         $matches = array();
 
-        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
-            $collection_uri = $matches[1];
-            $resource_name = $matches[2];
-        }else{
-            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
-        }
+        list($collection_uri, $resource_name) = self::getParts($uri);
 
         // Retrieve the content type and parse out the definition type.
         $content_type = \Request::header('content_type');
@@ -107,6 +106,13 @@ class DefinitionController extends \Controller {
             $definition->resource_name = $resource_name;
             $definition->source_id = $def_instance->id;
             $definition->source_type = $type . 'definition';
+
+            // Add the create properties of description to the new description object
+            $def_params = array_only($params, array_keys(\Definition::getCreateProperties()));
+            foreach($def_params as $property => $value){
+                $definition->$property = $value;
+            }
+
             $definition->save();
 
             $response = \Response::make(null, 200);
@@ -174,12 +180,7 @@ class DefinitionController extends \Controller {
      */
     private static function deleteDefinition($uri){
 
-        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
-            $collection_uri = $matches[1];
-            $resource_name = $matches[2];
-        }else{
-            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
-        }
+        list($collection_uri, $resource_name) = self::getParts($uri);
 
         $definition = self::get($uri);
 
@@ -201,17 +202,59 @@ class DefinitionController extends \Controller {
     }
 
     /**
-     * Get a definition
+     * Return the headers of a call made to the uri given.
+     */
+    private static function headDefinition($uri){
+
+    }
+    /*
+     * GET a definition based on the uri provided
+     * TODO add support function get retrieve collections, instead full resources.
+     */
+    private static function getDefinition($uri){
+
+        if(!self::exists($uri)){
+            \App::abort(452, "No resource has been found with the uri $uri");
+        }
+
+        // Get Definition object based on the given uri.
+        $definition = self::get($uri);
+
+        $def_properties = $definition->getAllProperties();
+
+        // Return properties document in JSON
+        // TODO return this in more formats?
+        return str_replace("\/", "/", json_encode($def_properties));
+
+    }
+
+    /**
+     * Get a definition object with the given uri.
      */
     public static function get($uri){
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->first();
     }
 
     /**
-     * Check if a resource was set
+     * Check if a resource exists with a given uri.
      */
     public static function exists($uri){
         $definition = self::get($uri);
         return !empty($definition);
+    }
+
+    /**
+     * Return the collection uri and resource (if it exists)
+     */
+    private static function getParts($uri){
+
+        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
+            $collection_uri = $matches[1];
+            $resource_name = @$matches[2];
+        }else{
+            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
+        }
+
+        return array($collection_uri, $resource_name);
     }
 }

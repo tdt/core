@@ -56,7 +56,8 @@ class XmlDefinition extends SourceType{
      */
     public static function getCreateValidators(){
         return array(
-            'uri' => 'uri',
+            'uri' => 'uri|required',
+            'description' => 'required',
         );
     }
 }

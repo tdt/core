@@ -71,6 +71,7 @@ class SparqlDefinition extends SourceType{
         return array(
             'endpoint' => 'required',
             'query' => 'required',
+            'description' => 'required',
         );
     }
 }

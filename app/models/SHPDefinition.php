@@ -119,19 +119,19 @@ class ShpDefinition extends SourceType{
      */
     public static function getCreateProperties(){
         return array(
-            'uri' => array(
-                'required' => true,
-                'description' => 'The location of the SHP file, either a URL or a local file location.',
-                ),
-            'epsg' => array(
-                'required' => false,
-                'description' => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
-                'default_value' => 4326
-                ),
-            'description' => array(
-                'required' => true,
-                'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-            )
+                'uri' => array(
+                    'required' => true,
+                    'description' => 'The location of the SHP file, either a URL or a local file location.',
+                    ),
+                'epsg' => array(
+                    'required' => false,
+                    'description' => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
+                    'default_value' => 4326
+                    ),
+                'description' => array(
+                    'required' => true,
+                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                )
             );
     }
 
@@ -148,6 +148,9 @@ class ShpDefinition extends SourceType{
      * If the parameters doesn't have any rules, it's not mentioned in the array.
      */
     public static function getCreateValidators(){
-        return array();
+        return array(
+            'uri' => 'required',
+            'description' => 'required',
+        );
     }
 }

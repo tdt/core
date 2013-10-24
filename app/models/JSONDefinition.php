@@ -57,6 +57,7 @@ class JsonDefinition extends SourceType{
     public static function getCreateValidators(){
         return array(
             'uri' => 'json|uri|required',
+            'description' => 'required',
         );
     }
 }

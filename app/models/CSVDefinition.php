@@ -11,6 +11,7 @@ class CsvDefinition extends SourceType{
     protected $table = 'csvdefinitions';
 
     protected $guarded = array('id');
+    protected $fillable = array('uri', 'delimiter', 'has_header_row', 'start_row', 'description');
 
     /**
      * Relationship with the TabularColumns model.
@@ -115,7 +116,7 @@ class CsvDefinition extends SourceType{
 
             // Throw away the lines untill we hit the start row
             // from then on, process the columns.
-            $commentlinecounter = 1;
+            $commentlinecounter = 0;
 
             while ($commentlinecounter < $this->start_row) {
                 $line = fgetcsv($handle, 0, $this->delimiter, '"');
@@ -130,7 +131,6 @@ class CsvDefinition extends SourceType{
 
                 for ($i = 0; $i < sizeof($line); $i++) {
 
-
                     // Try to get an alias from the options, if it's empty
                     // then just take the column value as alias.
                     $alias = @$aliases[$i];
@@ -139,7 +139,7 @@ class CsvDefinition extends SourceType{
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array($i, trim($line[$i]), $alias, $pk == $i));
+                    array_push($columns, array($i, trim($line[$i]), $alias, $pk === $i));
                 }
             }else{
                 \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
@@ -174,7 +174,7 @@ class CsvDefinition extends SourceType{
                 'start_row' => array(
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
-                    'default_value' => 1,
+                    'default_value' => 0,
                 ),
                 'description' => array(
                     'required' => true,
