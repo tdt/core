@@ -11,3 +11,5 @@ composer.lock
 /app/config/staging
 /app/config/production
 /bootstrap/compiled.php
+/installed/*
+!/installed/.gitkeep
