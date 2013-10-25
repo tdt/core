@@ -32,7 +32,7 @@ class KMLFormatter implements IFormatter{
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
         $body .= '<kml xmlns="http://www.opengis.net/kml/2.2">';
 
-        // Add the documen
+        // Add the document
         $body .= "<Document>";
 
 
@@ -53,53 +53,15 @@ class KMLFormatter implements IFormatter{
     }
 
     private static function xmlgetelement($value){
+        // TODO decide what to do with the CDATA element.
         $result = "<![CDATA[";
-        if(is_object($value)){
-            $array = get_object_vars($value);
-            foreach($array as $key => $val){
-                if(is_numeric($key)){
-                    $key = "int_" . $key;
-                }
-                $result .= "<" . $key . ">" . $val . "</" . $key . ">";
-            }
-        }else if(is_array($value)){
-            foreach($value as $key => $val){
-                if(is_numeric($key)){
-                    $key = "int_" . $key;
-                }
-                $result .= "<" . $key . ">" . $val . "</" . $key . ">";
-            }
-        }else{
-            $result .= $value;
-        }
         $result .= "]]>";
         return $result;
     }
 
     private static function getExtendedDataElement($value){
+        // TODO decide what to do with extended data element.
         $result = "<ExtendedData>";
-        if(is_object($value)){
-            $array = get_object_vars($value);
-            foreach($array as $key => $val){
-                if(is_numeric($key)){
-                    $key = "int_" . $key;
-                }
-                $key = htmlspecialchars(str_replace(" ","",$key));
-                $val = htmlspecialchars($val);
-                $result .= '<Data name="' . $key . '"><value>' . $val . '</value></Data>';
-            }
-        }else if(is_array($value)){
-            foreach($value as $key => $val){
-                if(is_numeric($key)){
-                    $key = "int_" . $key;
-                }
-                $key = htmlspecialchars(str_replace(" ","",$key));
-                $val = htmlspecialchars($val);
-                $result .= '<Data name="' . $key . '"><value>' . $val . '</value></Data>';
-            }
-        }else{
-            $result .= htmlspecialchars($value);
-        }
         $result .= "</ExtendedData>";
         return $result;
     }
