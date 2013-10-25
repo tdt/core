@@ -31,12 +31,12 @@
  * Get one record at a time to save memory, means that you can work with very large files.
  * Does not load the information until you tell it too (saves time)
  * Added an option to not read the polygon points can be handy sometimes, and saves time :-)
- * 
+ *
  * Example:
-		
+
  //sets the options to show the polygon points, 'noparts' => true would skip that and save time
  $options = array('noparts' => false);
- $shp = new ShapeFile("../../php/shapefile/file.shp",$options); 
+ $shp = new ShapeFile("../../php/shapefile/file.shp",$options);
 
  //Dump the ten first records
  $i = 0;
@@ -48,7 +48,7 @@
  var_dump($shp_data);
  $i++;
  }
- * 
+ *
  */
 
 // Configuration
@@ -97,20 +97,20 @@ class ShapeFile{
         }
 
         $this->fp = fopen($this->file_name, "rb");
-		
+
         $this->_fetchShpBasicConfiguration();
 
         //Set the dbf filename
         $this->dbf_filename = processDBFFileName($this->file_name);
 
     }
-	
-	
+
+
     public function getError(){
         return $this->error_message;
     }
 
-	
+
     function __destruct()
     {
         $this->closeFile();
@@ -137,7 +137,7 @@ class ShapeFile{
                 return false;
             }
             if($shp_record->record_number == "") {
-                return false;			
+                return false;
             }
             $this->fpos = $shp_record->getNextRecordPosition();
             return $shp_record;
@@ -169,7 +169,7 @@ class ShapeFile{
 	}
 */
 
-    // General functions        
+    // General functions
     private function setError($error){
         $this->error_message = $error;
         if($this->show_errors){
@@ -191,11 +191,11 @@ class ShapeFile{
 /**
  * ShapeRecord
  *
- */    
+ */
 class ShapeRecord{
     private $fp;
-    private $fpos = null; 
-	
+    private $fpos = null;
+
     private $dbf = null;
 
     public $record_number     = null;
@@ -221,7 +221,7 @@ class ShapeRecord{
         $this->options = $options;
 
         //_d("Shape record created at byte ".ftell($fp));
-		
+
         if (feof($fp)) {
             echo "end ";
             exit;
@@ -231,7 +231,7 @@ class ShapeRecord{
         $this->file_name = $file_name;
 
     }
-	
+
     public function getNextRecordPosition(){
         $nextRecordPosition = $this->fpos + ((4 + $this->content_length )* 2);
         return $nextRecordPosition;
@@ -245,7 +245,7 @@ class ShapeRecord{
         //_d("Shape Record ID=".$this->record_number." ContentLength=".$this->content_length." RecordShapeType=".$this->record_shape_type."\nEnding byte ".ftell($this->fp)."\n");
     }
 
-    private function getRecordClass(){
+    public function getRecordClass(){
         if(!isset($this->record_class[$this->record_shape_type])){
             //_d("Unable to find record class ($this->record_shape_type) [".getArray($this->record_class)."]");
             return $this->setError( sprintf(INEXISTENT_RECORD_CLASS, $this->record_shape_type) );
@@ -273,10 +273,10 @@ class ShapeRecord{
         } else {
             $this->setError( sprintf(INEXISTENT_FUNCTION, $function_name) );
         }
-		
+
         return $this->shp_data;
     }
-	
+
     public function getDbfFields(){
 
         $fdbf = fopen($this->file_name,'r');
@@ -309,7 +309,7 @@ class ShapeRecord{
                 $unpackString.="A$field[fieldlen]$field[fieldname]/";
             }
         }
-        fseek($fdbf, $header['FirstRecord'] + 1 + ($header['RecordLength'] * ($this->record_number - 1)));        
+        fseek($fdbf, $header['FirstRecord'] + 1 + ($header['RecordLength'] * ($this->record_number - 1)));
         $buf = fread($fdbf,$header['RecordLength']);
         $record=unpack($unpackString,$buf);
         fclose($fdbf);
@@ -320,7 +320,7 @@ class ShapeRecord{
 
 /**
  * Reading functions
- */    
+ */
 
 function readRecordNull(&$fp, $read_shape_type = false,$options = null){
     $data = array();
@@ -402,7 +402,7 @@ function readRecordPolygon(&$fp,$options = null){
 
 /**
  * General functions
- */    
+ */
 function processDBFFileName($dbf_filename){
     //_d("Received filename [$dbf_filename]");
     if(!strstr($dbf_filename, ".")){

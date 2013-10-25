@@ -19,7 +19,7 @@ class SparqlDefinitionInit extends Migration {
             $table->string('query', '1024');
             $table->string('endpoint_user', 256);
             $table->string('endpoint_password', 256);
-            $table->string('documentation');
+            $table->string('description', 256);
 
             // created_at | updated_at DATETIME, are default expected by the Eloquent ORM.
             $table->timestamps();

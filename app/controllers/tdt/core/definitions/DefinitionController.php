@@ -213,6 +213,18 @@ class DefinitionController extends \Controller {
      */
     private static function getDefinition($uri){
 
+        // TODO make dynamic
+        if($uri == 'definitions'){
+            $definitions = \Definition::all();
+
+            $defs_props = array();
+            foreach($definitions as $definition){
+                $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllProperties();
+            }
+
+            return str_replace('\/', '/', json_encode($defs_props));
+        }
+
         if(!self::exists($uri)){
             \App::abort(452, "No resource has been found with the uri $uri");
         }

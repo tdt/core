@@ -10,6 +10,7 @@ class InstalledDefinition extends Eloquent{
 
     protected $table = 'installeddefinitions';
 
+    // TODO make fillable properties
 	protected $guarded = array('id');
 
     /**

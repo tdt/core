@@ -10,7 +10,6 @@ class CsvDefinition extends SourceType{
 
     protected $table = 'csvdefinitions';
 
-    protected $guarded = array('id');
     protected $fillable = array('uri', 'delimiter', 'has_header_row', 'start_row', 'description');
 
     /**

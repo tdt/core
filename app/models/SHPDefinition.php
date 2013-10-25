@@ -1,5 +1,7 @@
 <?php
 
+
+// PHP SHP libraries arent PSR-0 yet.
 include_once(__DIR__ . "/../lib/ShapeFile.inc.php");
 include_once(__DIR__ . "/../lib/proj4php/proj4php.php");
 
@@ -13,7 +15,7 @@ class ShpDefinition extends SourceType{
 
     protected $table = 'shpdefinitions';
 
-    protected $guarded = array('id');
+    protected $fillable = array('uri', 'epsg', 'description');
 
     /**
      * Relationship with the TabularColumns model.
@@ -82,13 +84,14 @@ class ShpDefinition extends SourceType{
         $shp_data = $record->getShpData();
 
         if(isset($shp_data['parts'])) {
+            self::processCoordinates($shp_data['parts'], );
             array_push($columns, array($column_index, 'coords', 'coords'));
         }
 
         if(isset($shp_data['x'])) {
-
+            // TODO add to geoproperties and link with SHP definition
             array_push($columns, array($column_index, 'lat', 'lat'));
-            array_push($columns, array($column_index + 1, 'long', 'lat'));
+            array_push($columns, array($column_index + 1, 'long', 'long'));
         }
 
         parent::save();
@@ -152,5 +155,104 @@ class ShpDefinition extends SourceType{
             'uri' => 'required',
             'description' => 'required',
         );
+    }
+
+    /**
+     * Provide the correct geometric string for a given set of coordinates.
+     * Used to provide information in the geoproperties model.
+     */
+    public static function processCoordinates($coords, $geo_props = array()){
+
+
+
+        if(isset($array)) {
+
+            $longkey = self::array_key_exists_nc("long", $array);
+            if (!$longkey) {
+                $longkey = self::array_key_exists_nc("longitude",$array);
+            }
+            $latkey = self::array_key_exists_nc("lat",$array);
+            if (!$latkey) {
+                $latkey = self::array_key_exists_nc("latitude",$array);
+            }
+            $coordskey = self::array_key_exists_nc("coords",$array);
+            if (!$coordskey) {
+                $coordskey = self::array_key_exists_nc("coordinates",$array);
+            }
+            if($longkey && $latkey) {
+                $long = $array[$longkey];
+                $lat = $array[$latkey];
+                unset($array[$longkey]);
+                unset($array[$latkey]);
+                $name = self::xmlgetelement($array);
+                $extendeddata = self::getExtendedDataElement($array);
+            } else if($coordskey) {
+                $coords = explode(";",$array[$coordskey]);
+                unset($array[$coordskey]);
+                $name = self::xmlgetelement($array);
+                $extendeddata = self::getExtendedDataElement($array);
+            }
+            else {
+                $body .= self::getArray($array);
+            }
+            if(($lat != "" && $long != "") || count($coords) != 0){
+                $body .= "<Placemark><name>". htmlspecialchars($key) ."</name><description>".$name."</description>";
+                $body .= $extendeddata;
+                if($lat != "" && $long != "") {
+                    $body .= "<Point><coordinates>".$long.",".$lat."</coordinates></Point>";
+                }
+                if (count($coords)  > 0) {
+                    if (count($coords) == 1 ) {
+                        $all_coords = explode(" ", $coords[0]);
+
+                        if($all_coords[0] == $all_coords[count($all_coords)-1]){
+                                // Detected ring
+                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                        }else{
+                                // Just a multiline
+                            $body .= "<LineString><coordinates>".$coords[0]."</coordinates></LineString>";
+                        }
+                    } else {
+                        $body .= "<MultiGeometry>";
+                        foreach($coords as $coord) {
+                            $body .= "<LineString><coordinates>".$coord."</coordinates></LineString>";
+                        }
+                        $body .= "</MultiGeometry>";
+                    }
+                }
+                $body .= "</Placemark>";
+            }
+        }
+
+
+        foreach($coords as $coord){
+            var_dump($coord);
+        }
+
+        exit();
+    }
+
+    /**
+     * Case insensitive version of array_key_exists.
+     * Returns the matching key on success, else false.
+     *
+     * @param string $key
+     * @param array $search
+     * @return string|false
+     */
+    private static function array_key_exists_nc($key, $search) {
+        if (array_key_exists($key, $search)) {
+            return $key;
+        }
+        if (!(is_string($key) && is_array($search) && count($search))) {
+            return false;
+        }
+        $key = strtolower($key);
+        foreach ($search as $k => $v) {
+            if (strtolower($k) == $key) {
+                return $k;
+            }
+        }
+        return false;
     }
 }
