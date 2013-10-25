@@ -10,7 +10,7 @@ class JsonDefinition extends SourceType{
 
     protected $table = 'jsondefinitions';
 
-    protected $guarded = array('id');
+    protected $fillable = array('uri', 'description');
 
     /**
      * Relationship with the Definition model.

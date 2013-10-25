@@ -12,7 +12,7 @@ class XlsDefinition extends SourceType{
 
     protected $table = 'xlsdefinitions';
 
-    protected $guarded = array('id');
+    protected $fillable = array('uri', 'sheet', 'has_header_row', 'start_row', 'description');
 
     /**
      * Relationship with the TabularColumns model.

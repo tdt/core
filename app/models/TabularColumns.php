@@ -10,7 +10,7 @@ class TabularColumns extends Eloquent{
 
     protected $table = 'tabularcolumns';
 
-    protected $guarded = array('id', 'source_id', 'source_type');
+    protected $fillable = array('index', 'column_name', 'is_pk', 'column_name_alias');
 
     public function tabular(){
         return $this->morphTo();

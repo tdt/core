@@ -10,7 +10,7 @@ class SparqlDefinition extends SourceType{
 
     protected $table = 'sparqldefinitions';
 
-    protected $guarded = array('id');
+    protected $fillable = array('endpoint', 'query', 'endpoint_user', 'endpoint_password', 'description');
 
     /**
      * Validate the input for this model.

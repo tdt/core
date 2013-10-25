@@ -19,7 +19,7 @@ class SHPController extends ADataController {
     public function readData($source_definition, $parameters = null) {
 
         // It may take a while for the SHP to be read.
-        set_time_limit(1337);
+        set_time_limit(0);
 
         $uri = $source_definition->uri;
 
