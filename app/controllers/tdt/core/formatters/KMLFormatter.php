@@ -26,7 +26,6 @@ class KMLFormatter implements IFormatter{
 
     public static function getBody($dataObj){
 
-
         // Build the body
         // KML header
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -36,7 +35,7 @@ class KMLFormatter implements IFormatter{
         $body .= "<Document>";
 
 
-        $body .= self::getPlacemarks($dataObj->data);
+        $body .= self::getPlacemarks($dataObj);
 
         // Close tags
         $body .= "</Document>";
@@ -45,11 +44,13 @@ class KMLFormatter implements IFormatter{
         return $body;
     }
 
-    private static function getPlacemarks($data){
+    private static function getPlacemarks($dataObj){
+
+        $data = $dataObj->data;
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
-        return self::getArray($data);
+        return self::getArray($data, $dataObj->geo);
     }
 
     private static function xmlgetelement($value){
@@ -66,77 +67,107 @@ class KMLFormatter implements IFormatter{
         return $result;
     }
 
-    private static function getArray($data){
+    /**
+     * Create the geo graphical placemarks in kml
+     * Currently only properties that are not nested are picked up.
+     */
+    private static function getArray($data, $geo){
 
         $body = "";
 
         foreach($data as $key => $value) {
-            $long = "";
-            $lat = "";
-            $coords = array();
+
             if(is_array($value)) {
-                $array = $value;
+                $entry = $value;
+            }else if (is_object($value)) {
+                $entry = get_object_vars($value);
             }
-            if (is_object($value)) {
-                $array = get_object_vars($value);
+
+            // We assume that if longitude exists, latitude does as well if the geometry is a single point.
+            // A point can either be a single column value, or split up in a latitude and longitude.
+            $geo_type = 'point';
+            $is_point = (count($geo) > 1);
+
+            if(!$is_point){
+                $geo_type = key($geo);
+                $column_name = $geo[$geo_type];
             }
-            if(isset($array)) {
-                $longkey = self::array_key_exists_nc("long",$array);
+
+            if(!empty($entry)) {
+
+                /*$longkey = self::entry_key_exists_nc("long",$entry);
                 if (!$longkey) {
-                    $longkey = self::array_key_exists_nc("longitude",$array);
+                    $longkey = self::entry_key_exists_nc("longitude",$entry);
                 }
-                $latkey = self::array_key_exists_nc("lat",$array);
+                $latkey = self::entry_key_exists_nc("lat",$entry);
                 if (!$latkey) {
-                    $latkey = self::array_key_exists_nc("latitude",$array);
+                    $latkey = self::entry_key_exists_nc("latitude",$entry);
                 }
-                $coordskey = self::array_key_exists_nc("coords",$array);
+                $coordskey = self::entry_key_exists_nc("coords",$entry);
                 if (!$coordskey) {
-                    $coordskey = self::array_key_exists_nc("coordinates",$array);
-                }
-                if($longkey && $latkey) {
-                    $long = $array[$longkey];
-                    $lat = $array[$latkey];
-                    unset($array[$longkey]);
-                    unset($array[$latkey]);
-                    $name = self::xmlgetelement($array);
-                    $extendeddata = self::getExtendedDataElement($array);
+                    $coordskey = self::entry_key_exists_nc("coordinates",$entry);
+                }*/
+
+
+                $name = self::xmlgetelement($entry);
+                $extendeddata = self::getExtendedDataElement($entry);
+
+                /*if($longkey && $latkey) {
+                    $long = $entry[$longkey];
+                    $lat = $entry[$latkey];
+                    unset($entry[$longkey]);
+                    unset($entry[$latkey]);
+
                 } else if($coordskey) {
-                    $coords = explode(";",$array[$coordskey]);
-                    unset($array[$coordskey]);
-                    $name = self::xmlgetelement($array);
-                    $extendeddata = self::getExtendedDataElement($array);
+                    $coords = explode(";",$entry[$coordskey]);
+                    unset($entry[$coordskey]);
                 }
                 else {
-                    $body .= self::getArray($array);
-                }
-                if(($lat != "" && $long != "") || count($coords) != 0){
-                    $body .= "<Placemark><name>". htmlspecialchars($key) ."</name><description>".$name."</description>";
-                    $body .= $extendeddata;
-                    if($lat != "" && $long != "") {
-                        $body .= "<Point><coordinates>".$long.",".$lat."</coordinates></Point>";
+                    $body .= self::getArray($entry);
+                }*/
+                //if(($lat != "" && $long != "") || count($coords) != 0){
+                $body .= "<Placemark><name>". htmlspecialchars($key) ."</name><description>".$name."</description>";
+                $body .= $extendeddata;
+                if($is_point) {
+
+                    if(count($geo) > 1){
+                        $point = $entry[$geo['latitude']] . ',' . $entry[$geo['longitude']];
+                    }else{
+                        $point = $entry[$geo['point']];
                     }
-                    if (count($coords)  > 0) {
-                        if (count($coords) == 1 ) {
+
+                    $body .= "<Point><coordinates>" . $point . "</coordinates></Point>";
+                }else{
+                    if($geo_type == 'polyline'){
+
+                        $body .= "<MultiGeometry>";
+                        foreach(explode(';', $entry[$geo['polyline']]) as $coord) {
+                            $body .= "<LineString><coordinates>".$coord."</coordinates></LineString>";
+                        }
+                        $body .= "</MultiGeometry>";
+
+                    }else if($geo_type == 'multipoint'){
+                            // TODO
+                    }else if($geo_type == 'polygon'){
+                        $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] ."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                    }
+                        /*if (count($coords) == 1 ) {
                             $all_coords = explode(" ", $coords[0]);
 
                             if($all_coords[0] == $all_coords[count($all_coords)-1]){
                                 // Detected ring
-                                $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+
                             }else{
                                 // Just a multiline
                                 $body .= "<LineString><coordinates>".$coords[0]."</coordinates></LineString>";
                             }
                         } else {
-                            $body .= "<MultiGeometry>";
-                            foreach($coords as $coord) {
-                                $body .= "<LineString><coordinates>".$coord."</coordinates></LineString>";
-                            }
-                            $body .= "</MultiGeometry>";
-                        }
+
+                        }*/
                     }
                     $body .= "</Placemark>";
                 }
-            }
+            //}
         }
 
         // echo $body; die();

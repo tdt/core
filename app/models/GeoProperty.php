@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Tabular columns model
+ * Geo properties model.
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
@@ -27,7 +27,7 @@ class GeoProperty extends Eloquent{
         return array(
             'geo_property' => array(
                 'required' => false,
-                'description' => "geo_property should be an array holding one of the following values ['latitude'|'longitude'|'point'|'polygon'|'linestring'],
+                'description' => "geo_property should be an array holding one of the following values ['latitude'|'longitude'|'point'|'polygon'|'polyline'],
                 the value should then be the name of the key holding that geo property.",
             ),
         );

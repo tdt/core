@@ -35,9 +35,16 @@ class SHPController extends ADataController {
             \App::abort(452, "The temporary file of the system cannot be found or used.");
         }
 
-        // Fetch the columns of the SHP file
-        $columns = $source_definition->tabularColumns();
-        $columns = $columns->getResults();
+        // Fetch the tabular columns of the SHP file.
+        $columns = $source_definition->tabularColumns()->getResults();
+
+        // Fetch the geo properties of the SHP file.
+        $geo_props = $source_definition->geoProperties()->getResults();
+        $geo = array();
+
+        foreach($geo_props as $geo_prop){
+            $geo[$geo_prop->geo_property] = $geo_prop->path;
+        }
 
         if(!$columns){
             \App::abort(452, "Can't find or fetch columns for this SHP file.");
@@ -78,82 +85,86 @@ class SHPController extends ADataController {
                 $shp = new \ShapeFile($uri, $options); // along this file the class will use file.shx and file.dbf
             }
 
+            // Get the shape records in the binary file.
             while ($record = $shp->getNext()) {
 
                 // Every shape record is parsed as an anonymous object with the properties attached to it.
                 $rowobject = new \stdClass();
+
+                // Get the dBASE data.
                 $dbf_data = $record->getDbfData();
 
-                // Read the meta-data.
                 foreach ($dbf_data as $property => $value) {
                     $property = strtolower($property);
                     $rowobject->$property = trim($value);
                 }
 
-                // TODO change the hardcoded geo-tags to variable tags. (coords, lat)
-                if(in_array("coords",$columns) || in_array("lat",$columns)) {
+                // Read the shape data.
+                $shp_data = $record->getShpData();
 
-                    // Read the shape data.
-                    $shp_data = $record->getShpData();
-
-                    if (!empty($EPSG)) {
-                        $proj4 = new \Proj4php();
-                        $projSrc = new \Proj4phpProj('EPSG:'. $EPSG,$proj4);
-                        $projDest = new \Proj4phpProj('EPSG:4326',$proj4);
-                    }
-
-                    if(isset($shp_data['parts'])) {
-
-                        $parts = array();
-                        foreach ($shp_data['parts'] as $part) {
-                            $points = array();
-                            foreach ($part['points'] as $point) {
-
-                                $x = $point['x'];
-                                $y = $point['y'];
-
-                                // Translate the coordinates to understandable geo coordinates.
-                                if(!empty($EPSG)){
-
-                                    $pointSrc = new \proj4phpPoint($x,$y);
-
-                                    $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
-                                    $x = $pointDest->x;
-                                    $y = $pointDest->y;
-                                }
-
-                                $points[] = $x.','.$y;
-                            }
-                            array_push($parts,implode(" ",$points));
-                        }
-
-                        $rowobject->coords = implode(';', $parts);
-                    }
-
-                    if(isset($shp_data['x'])) {
-
-                        $x = $shp_data['x'];
-                        $y = $shp_data['y'];
-
-                        if (!empty($EPSG)) {
-
-                            $pointSrc = new \proj4phpPoint($x,$y);
-                            $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
-                            $x = $pointDest->x;
-                            $y = $pointDest->y;
-
-                        }
-
-                        $rowobject->long = $x;
-                        $rowobject->lat = $y;
-                    }
+                if (!empty($epsg)) {
+                    $proj4 = new \Proj4php();
+                    $projSrc = new \Proj4phpProj('EPSG:'. $epsg,$proj4);
+                    $projDest = new \Proj4phpProj('EPSG:4326',$proj4);
                 }
+
+                // It it's not a point, it's a collection of coordinates describing a shape.
+                if(!empty($shp_data['parts'])) {
+
+                    $parts = array();
+
+                    foreach ($shp_data['parts'] as $part) {
+
+                        $points = array();
+
+                        foreach ($part['points'] as $point) {
+
+                            $x = $point['x'];
+                            $y = $point['y'];
+
+                            // Translate the coordinates to WSG84 geo coordinates.
+                            if(!empty($epsg)){
+
+                                $pointSrc = new \proj4phpPoint($x,$y);
+
+                                $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                                $x = $pointDest->x;
+                                $y = $pointDest->y;
+                            }
+
+                            $points[] = $x.','.$y;
+                        }
+                        array_push($parts,implode(" ",$points));
+                    }
+
+                    $rowobject->parts = implode(';', $parts);
+                }
+
+                if(isset($shp_data['x'])) {
+
+                    $x = $shp_data['x'];
+                    $y = $shp_data['y'];
+
+                    if (!empty($epsg)) {
+
+                        $pointSrc = new \proj4phpPoint($x,$y);
+                        $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                        $x = $pointDest->x;
+                        $y = $pointDest->y;
+
+                    }
+
+                    $rowobject->x = $x;
+                    $rowobject->y= $y;
+                }
+
 
                 array_push($arrayOfRowObjects,$rowobject);
             }
 
             $data_result = new Data();
             $data_result->data = $arrayOfRowObjects;
+            $data_result->geo = $geo;
             return $data_result;
 
         } catch( Exception $ex) {

@@ -34,6 +34,9 @@ class ShpDefinition extends SourceType{
 
     /**
      * Relationship with the Geo properties model.
+     * TODO find a shape file with different shape types
+     * this will probably break the relationship or displaying of the data.
+     * If so every line or entry needs to have a geo property, or has to be parsed at runtime.
      */
     public function geoProperties(){
         return $this->morphMany('GeoProperty', 'source');
@@ -185,6 +188,8 @@ class ShpDefinition extends SourceType{
 
         $shp_data = $record->getShpData();
         $shape_type = strtolower($record->getRecordClass());
+
+        $geo_properties = array();
 
         // Get the geographical column names.
         // Either multiple coordinates will be set (identified by the parts)
