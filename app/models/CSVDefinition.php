@@ -205,4 +205,27 @@ class CsvDefinition extends SourceType{
                 )
         );
     }
+
+    /**
+     * Because we have related models, and non hard defined foreign key relationships
+     * we have to delete our related models ourselves.
+     */
+    public function delete(){
+
+        // Get the related columns.
+        $columns = $this->tabularColumns()->getResults();
+
+        foreach($columns as $column){
+            $column->delete();
+        }
+
+        // Get the related geo properties
+        $geo_properties = $this->geoProperties()->getResults();
+
+        foreach($geo_properties as $geo_property){
+            $geo_property->delete();
+        }
+
+        parent::delete();
+    }
 }

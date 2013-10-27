@@ -264,36 +264,26 @@ class ShpDefinition extends SourceType{
         );
     }
 
-    /**
-     * Provide the correct geometric string for a given set of coordinates.
-     * Used to provide information in the geoproperties model.
+     /**
+     * Because we have related models, and non hard defined foreign key relationships
+     * we have to delete our related models ourselves.
      */
-    public static function processCoordinates($coords, $geo_props = array()){
+    public function delete(){
 
+         // Get the related columns.
+        $columns = $this->tabularColumns()->getResults();
 
-    }
+        foreach($columns as $column){
+            $column->delete();
+        }
 
-    /**
-     * Case insensitive version of array_key_exists.
-     * Returns the matching key on success, else false.
-     *
-     * @param string $key
-     * @param array $search
-     * @return string|false
-     */
-    private static function array_key_exists_nc($key, $search) {
-        if (array_key_exists($key, $search)) {
-            return $key;
+        // Get the related geo properties
+        $geo_properties = $this->geoProperties()->getResults();
+
+        foreach($geo_properties as $geo_property){
+            $geo_property->delete();
         }
-        if (!(is_string($key) && is_array($search) && count($search))) {
-            return false;
-        }
-        $key = strtolower($key);
-        foreach ($search as $k => $v) {
-            if (strtolower($k) == $key) {
-                return $k;
-            }
-        }
-        return false;
+
+        parent::delete();
     }
 }

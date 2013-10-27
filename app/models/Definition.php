@@ -114,4 +114,15 @@ class Definition extends Eloquent{
 
         return $properties;
     }
+
+    /**
+     * Delete the related source type
+     */
+    public function delete(){
+
+        $source_type = $this->source()->first();
+        $source_type->delete();
+
+        parent::delete();
+    }
 }
