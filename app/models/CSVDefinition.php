@@ -27,6 +27,13 @@ class CsvDefinition extends SourceType{
     }
 
     /**
+     * Relationship with the Geo properties model.
+     */
+    public function geoProperties(){
+        return $this->morphMany('GeoProperty', 'source');
+    }
+
+    /**
      * Hook into the save function of Eloquent by saving the parent
      * and establishing a relation to the TabularColumns model.
      *
@@ -57,6 +64,20 @@ class CsvDefinition extends SourceType{
             $tabular_column->save();
         }
 
+        // Check for passed geo_properties.
+        $geo_props = @$options['geo_property'];
+
+        if(!empty($geo_props)){
+            foreach($geo_props as $geo_type => $column_name){
+                $geo_property = new GeoProperty();
+                $geo_property->path = $column_name;
+                $geo_property->geo_property = $geo_type;
+                $geo_property->source_id = $this->id;
+                $geo_property->source_type = 'CsvDefinition';
+                $geo_property->save();
+            }
+        }
+
         return true;
     }
 
@@ -65,6 +86,9 @@ class CsvDefinition extends SourceType{
      * Validate the input for this model and related models.
      */
     public static function validate($params){
+
+        $geo_params = array_only($params, array_keys(GeoProperty::getCreateProperties()));
+        GeoProperty::validate($geo_params);
 
         $tabular_params = array_only($params, array_keys(TabularColumns::getCreateProperties()));
         TabularColumns::validate($tabular_params);

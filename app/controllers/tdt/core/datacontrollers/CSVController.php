@@ -36,8 +36,15 @@ class CSVController extends ADataController {
         $PK = $source_definition->pk;
 
         // Get CSV columns
-        $columns = $source_definition->tabularColumns();
-        $columns = $columns->getResults();
+        $columns = $source_definition->tabularColumns()->getResults();
+
+        // Get the geo properties
+        $geo_properties = $source_definition->geoProperties()->getResults();
+        $geo = array();
+
+        foreach($geo_properties as $geo_prop){
+            $geo[$geo_prop->geo_property] = $geo_prop->path;
+        }
 
         if(!$columns){
             \App::abort(452, "Can't find or fetch the columns for this CSV file.");
@@ -145,6 +152,7 @@ class CSVController extends ADataController {
         $data_result = new Data();
         $data_result->data = $result;
         $data_result->paging = $paging;
+        $data_result->geo = $geo;
 
         return $data_result;
     }

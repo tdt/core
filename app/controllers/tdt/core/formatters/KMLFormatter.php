@@ -131,7 +131,7 @@ class KMLFormatter implements IFormatter{
                 if($is_point) {
 
                     if(count($geo) > 1){
-                        $point = $entry[$geo['latitude']] . ',' . $entry[$geo['longitude']];
+                        $point = $entry[$geo['longitude']] . ',' . $entry[$geo['latitude']];
                     }else{
                         $point = $entry[$geo['point']];
                     }

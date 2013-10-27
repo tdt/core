@@ -12,6 +12,8 @@ class GeoProperty extends Eloquent{
 
     protected $fillable = array('path', 'geo_property');
 
+    public static $GEOTYPES = array('polygon', 'latitude', 'longitude', 'polyline', 'multiline', 'point');
+
     /**
      * Return the polymorphic relation with a source type.
      */
@@ -38,7 +40,17 @@ class GeoProperty extends Eloquent{
      */
     public static function validate($params){
 
+        if(!empty($params['geo_property'])){
+            $params = $params['geo_property'];
+            foreach($params as $geo_type => $column_name){
 
-        return true;
+                $type = mb_strtolower($geo_type);
+                if(!in_array($type, self::$GEOTYPES)){
+
+                    $types = implode(', ', self::$GEOTYPES);
+                    \App::abort(452, "The given geo type ($geo_type) is not supported, the supported list is: $types.");
+                }
+            }
+        }
     }
 }
