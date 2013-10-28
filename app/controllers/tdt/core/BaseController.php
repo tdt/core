@@ -36,5 +36,4 @@ class BaseController extends \Controller {
 
         return $controller::handle($uri);
     }
-
 }

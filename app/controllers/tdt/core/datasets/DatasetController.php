@@ -38,19 +38,16 @@ class DatasetController extends \Controller {
                 $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
                 $data_controller = new $controller_class();
 
-                // Create parameters array
-                $parameters = array();
+                // Retrieve dataobject from datacontroller
+                $data = $data_controller->readData($source_definition);
 
                 // Get REST parameters
                 $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
                 $rest_parameters = ltrim($rest_parameters, '/');
 
                 if(strlen($rest_parameters) > 0){
-                    $parameters = explode('/', $rest_parameters);
+                    $data->data = self::applyRestFilter($data->data,  explode('/', $rest_parameters));
                 }
-
-                // Retrieve dataobject from datacontroller
-                $data = $data_controller->readData($source_definition, $parameters);
 
                 // Add definition to the object
                 $data->definition = $definition;
@@ -67,6 +64,28 @@ class DatasetController extends \Controller {
         }else{
             \App::abort(404, "The resource you were looking for could not be found (URI: $uri).");
         }
+    }
+
+    /**
+     * Apply RESTful filtering of the data.
+     * @return mixed filtered object
+     */
+    private static function applyRestFilter($data, $rest_params){
+
+        foreach($rest_params as $rest_param){
+
+            if(is_object($data) && isset($data->$rest_param)){
+
+                $data = $data->$rest_param;
+            }elseif(is_array($data) && isset($data[$rest_param])){
+
+                $data = $data[$rest_param];
+            }else{
+                \App::abort(452, "No property ($rest_param) has been found.");
+            }
+        }
+
+        return array($data);
 
     }
 }
