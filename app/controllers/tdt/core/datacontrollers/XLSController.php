@@ -24,14 +24,14 @@ class XLSController extends ADataController {
         $has_header_row = $source_definition->has_header_row;
         $start_row = $source_definition->start_row;
 
-        // Retrieve the columns from XLS.
+        // Retrieve the columns from XLS
         $columns = $source_definition->tabularColumns()->getResults();
 
         if(!$columns){
             \App::abort(452, "Can't find or fetch the columns for this Excell file.");
         }
 
-        // Create aliases for the columns.
+        // Create aliases for the columns
         $aliases = array();
         $pk = null;
 
@@ -44,10 +44,10 @@ class XLSController extends ADataController {
             }
         }
 
-        // Create an array to store our objects in to return.
+        // Create an array to store our objects in to return
         $row_objects = array();
 
-        // Get the temporary directory to store our excel files in if necessary.
+        // Get the temporary directory to store our excel files in if necessary
         $tmp_path = sys_get_temp_dir();
 
         if(empty($tmp_path)){
@@ -75,31 +75,31 @@ class XLSController extends ADataController {
                 \App::abort(452, "The worksheet $sheet could not be found in the Excel file.");
             }
 
-            // The amount of rows added to the result.
+            // The amount of rows added to the result
             $total_rows = 0;
 
             if($has_header_row == 1){
                 $start_row++;
             }
 
-            // Iterate all the rows of the Excell sheet.
+            // Iterate all the rows of the Excell sheet
             foreach ($worksheet->getRowIterator() as $row) {
 
                 $row_index = $row->getRowIndex();
 
-                // If our offset is ok, start parsing the data from the excell sheet.
+                // If our offset is ok, start parsing the data from the excell sheet
                 if($row_index > $start_row) {
 
                     $cell_iterator = $row->getCellIterator();
                     $cell_iterator->setIterateOnlyExistingCells(false);
 
-                    // Only read rows that are allowed in the current requested page.
+                    // Only read rows that are allowed in the current requested page
                    if($offset <= $total_rows && $offset + $limit > $total_rows){
 
                         $rowobject = new \stdClass();
 
-                        // Iterate each cell in the row, create an array of the values with the name of the column.
-                        // Indices start from 1 in the Excel API.
+                        // Iterate each cell in the row, create an array of the values with the name of the column
+                        // Indices start from 1 in the Excel API
                         $data = array();
                         foreach ($cell_iterator as $cell) {
                             $data[$cell->columnIndexFromString($cell->getColumn()) - 1] = $cell->getCalculatedValue();

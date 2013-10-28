@@ -24,7 +24,7 @@ class MAPFormatter implements IFormatter{
 
     public static function getBody($dataObj){
 
-        // Parse a kml from the objectToPrint, and convert it to a geojson.
+        // Parse a kml from the objectToPrint, and convert it to a geojson
         ob_start();
         echo KMLFormatter::getBody($dataObj);
 

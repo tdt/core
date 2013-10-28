@@ -21,21 +21,21 @@ class SourceType extends Eloquent{
 
         $rules = self::getCreateValidators();
 
-        // Validate the parameters to their rules.
+        // Validate the parameters to their rules
         $validator = Validator::make(
                         $params,
                         $rules,
                         self::getErrorMessages()
         );
 
-        // If any validation fails, return a message and abort the workflow.
+        // If any validation fails, return a message and abort the workflow
         if($validator->fails()){
 
             $messages = $validator->messages();
             \App::abort(452, $messages->first());
         }
 
-        // Return the parameters with their validated/default values.
+        // Return the parameters with their validated/default values
         foreach($create_params as $key => $info){
 
             if(!empty($params[$key])){

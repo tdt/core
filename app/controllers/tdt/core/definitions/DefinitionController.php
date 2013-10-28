@@ -16,7 +16,7 @@ class DefinitionController extends \Controller {
 
     public static function handle($uri){
 
-        // Propage the request based on the HTTPMethod of the request.
+        // Propage the request based on the HTTPMethod of the request
         $method = \Request::getMethod();
 
         switch($method){
@@ -56,20 +56,20 @@ class DefinitionController extends \Controller {
 
         list($collection_uri, $resource_name) = self::getParts($uri);
 
-        // Retrieve the content type and parse out the definition type.
+        // Retrieve the content type and parse out the definition type
         $content_type = \Request::header('content_type');
 
-        // Retrieve the parameters of the PUT requests (either a JSON document or a key=value string).
+        // Retrieve the parameters of the PUT requests (either a JSON document or a key=value string)
         $params = \Request::getContent();
 
-        // Is the body passed as JSON, if not try getting the request parameters from the uri.
+        // Is the body passed as JSON, if not try getting the request parameters from the uri
         if(!empty($params)){
             $params = json_decode($params, true);
         }else{
             $params = \Input::all();
         }
 
-        // If we get empty params, then something went wrong.
+        // If we get empty params, then something went wrong
         if(empty($params)){
             \App::abort(452, "The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).");
         }
@@ -77,16 +77,16 @@ class DefinitionController extends \Controller {
         $matches = array();
 
         // If the source type exists, validate the given properties and if all is well, create the new definition with
-        // the provide source type.
+        // the provide source type
         if(preg_match('/application\/tdt\.(.*)/', $content_type, $matches)){
 
             $type = $matches[1];
             $definition_type = ucfirst($type) . "Definition";
 
             if(class_exists($definition_type)){
-                // Validate the given parameters based on the given definition_type.
+                // Validate the given parameters based on the given definition_type
                 // The validated parameters should only contain properties that are defined
-                // by the source type, meaning no relational parameters.
+                // by the source type, meaning no relational parameters
                 $validated_params = $definition_type::validate($params);
             }else{
                 \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
@@ -94,14 +94,14 @@ class DefinitionController extends \Controller {
 
             $def_instance = new $definition_type();
 
-            // Assign the properties of the new definition_type.
+            // Assign the properties of the new definition_type
             foreach($validated_params as $key => $value){
                 $def_instance->$key = $value;
             }
 
             $def_instance->save($params);
 
-            // Create the definition associated with the new definition instance.
+            // Create the definition associated with the new definition instance
             $definition = new \Definition();
             $definition->collection_uri = $collection_uri;
             $definition->resource_name = $resource_name;
@@ -230,7 +230,7 @@ class DefinitionController extends \Controller {
             \App::abort(452, "No resource has been found with the uri $uri");
         }
 
-        // Get Definition object based on the given uri.
+        // Get Definition object based on the given uri
         $definition = self::get($uri);
 
         $def_properties = $definition->getAllProperties();

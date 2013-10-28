@@ -18,7 +18,7 @@ class SHPController extends ADataController {
 
     public function readData($source_definition, $parameters = null) {
 
-        // It may take a while for the SHP to be read.
+        // It may take a while for the SHP to be read
         set_time_limit(0);
 
         // Get the limit and offset
@@ -31,17 +31,17 @@ class SHPController extends ADataController {
         $epsg = $source_definition->epsg;
 
         // The tmp folder of the system, if none is given
-        // abort the process.
+        // abort the process
         $tmp_path = sys_get_temp_dir();
 
         if(empty($tmp_path)){
             \App::abort(452, "The temporary file of the system cannot be found or used.");
         }
 
-        // Fetch the tabular columns of the SHP file.
+        // Fetch the tabular columns of the SHP file
         $columns = $source_definition->tabularColumns()->getResults();
 
-        // Fetch the geo properties of the SHP file.
+        // Fetch the geo properties of the SHP file
         $geo_props = $source_definition->geoProperties()->getResults();
         $geo = array();
 
@@ -53,7 +53,7 @@ class SHPController extends ADataController {
             \App::abort(452, "Can't find or fetch columns for this SHP file.");
         }
 
-        // Create an array that maps alias names to column names.
+        // Create an array that maps alias names to column names
         $aliases = array();
         foreach($columns as $column){
             $aliases[$column->column_name] = $column->column_name_alias;
@@ -63,15 +63,15 @@ class SHPController extends ADataController {
 
         try {
 
-            // Create the array in which all the resulting objects will be placed.
+            // Create the array in which all the resulting objects will be placed
             $arrayOfRowObjects = array();
 
-            // Prepare the options to read the SHP file.
+            // Prepare the options to read the SHP file
             $options = array('noparts' => false);
 
             $is_url = (substr($uri , 0, 4) == "http");
 
-            // If the shape files are located on an HTTP address, fetch them and store them locally.
+            // If the shape files are located on an HTTP address, fetch them and store them locally
             if ($is_url) {
 
                 $tmp_file_name = uniqid();
@@ -88,18 +88,18 @@ class SHPController extends ADataController {
                 $shp = new \ShapeFile($uri, $options); // along this file the class will use file.shx and file.dbf
             }
 
-            // Keep track of the total amount of rows.
+            // Keep track of the total amount of rows
             $total_rows = 0;
 
-            // Get the shape records in the binary file.
+            // Get the shape records in the binary file
             while ($record = $shp->getNext()) {
 
                 if($offset <= $total_rows && $offset + $limit > $total_rows){
 
-                    // Every shape record is parsed as an anonymous object with the properties attached to it.
+                    // Every shape record is parsed as an anonymous object with the properties attached to it
                     $rowobject = new \stdClass();
 
-                    // Get the dBASE data.
+                    // Get the dBASE data
                     $dbf_data = $record->getDbfData();
 
                     foreach ($dbf_data as $property => $value) {
@@ -107,7 +107,7 @@ class SHPController extends ADataController {
                         $rowobject->$property = trim($value);
                     }
 
-                    // Read the shape data.
+                    // Read the shape data
                     $shp_data = $record->getShpData();
 
                     if (!empty($epsg)) {
@@ -116,7 +116,7 @@ class SHPController extends ADataController {
                         $projDest = new \Proj4phpProj('EPSG:4326',$proj4);
                     }
 
-                    // It it's not a point, it's a collection of coordinates describing a shape.
+                    // It it's not a point, it's a collection of coordinates describing a shape
                     if(!empty($shp_data['parts'])) {
 
                         $parts = array();
@@ -130,7 +130,7 @@ class SHPController extends ADataController {
                                 $x = $point['x'];
                                 $y = $point['y'];
 
-                            // Translate the coordinates to WSG84 geo coordinates.
+                            // Translate the coordinates to WSG84 geo coordinates
                                 if(!empty($epsg)){
 
                                     $pointSrc = new \proj4phpPoint($x,$y);
@@ -170,7 +170,7 @@ class SHPController extends ADataController {
                 $total_rows++;
             }
 
-            // Calculate the paging headers properties.
+            // Calculate the paging headers properties
             $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);
 
             $data_result = new Data();

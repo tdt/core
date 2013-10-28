@@ -29,7 +29,7 @@ abstract class ADataController {
             $page = \Input::get('page', 1);
             $page_size = \Input::get('page_size', self::$DEFAULT_PAGE_SIZE);
 
-            // Don't do extra work when page and page_size are also default values.
+            // Don't do extra work when page and page_size are also default values
             if($page > 1 || $page_size != self::$DEFAULT_PAGE_SIZE){
 
                 $offset = ($page -1)*$page_size;
@@ -53,7 +53,7 @@ abstract class ADataController {
 
         $paging = array();
 
-        // Calculate the paging parameters and pass them with the data object.
+        // Calculate the paging parameters and pass them with the data object
         if($offset + $limit < $total_rows){
 
             $page = $offset/$limit;
@@ -79,7 +79,7 @@ abstract class ADataController {
 
             if($page == 0){
 
-                // Try to divide the paging into equal pages.
+                // Try to divide the paging into equal pages
                 $page = 2;
             }
 

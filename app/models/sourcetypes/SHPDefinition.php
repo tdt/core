@@ -1,7 +1,7 @@
 <?php
 
 
-// PHP SHP libraries arent PSR-0 yet so we have to include them.
+// PHP SHP libraries arent PSR-0 yet so we have to include them
 include_once(__DIR__ . "/../../lib/ShapeFile.inc.php");
 include_once(__DIR__ . "/../../lib/proj4php/proj4php.php");
 
@@ -50,8 +50,8 @@ class ShpDefinition extends SourceType{
      */
     public function save(array $options = array()){
 
-        // If geo properties are passed, then utilize them.
-        // If they're not parse the SHP file in to search for them automatically.
+        // If geo properties are passed, then utilize them
+        // If they're not parse the SHP file in to search for them automatically
         $columns = @$options['columns'];
 
         if(empty($columns)){
@@ -105,7 +105,7 @@ class ShpDefinition extends SourceType{
 
         if ($is_url) {
 
-            // This remains untested.
+            // This remains untested
             $tmp_file = uniqid();
             file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shp"));
             file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".dbf"));
@@ -126,7 +126,7 @@ class ShpDefinition extends SourceType{
             \App::abort(452, "We failed to retrieve a record from the provided shape file on uri $this->uri, make sure the corresponding dbf and shx files are at the same location.");
         }
 
-        // Get the dBASE fields.
+        // Get the dBASE fields
         $dbf_fields = $record->getDbfFields();
         $column_index = 0;
 
@@ -139,7 +139,7 @@ class ShpDefinition extends SourceType{
 
         $shp_data = $record->getShpData();
 
-        // Get the geographical column names.
+        // Get the geographical column names
         // Either coords will be set (identified by the parts)
         // or a lat long will be set (identified by x and y)
         if(!empty($shp_data['parts'])) {
@@ -168,7 +168,7 @@ class ShpDefinition extends SourceType{
 
         if ($is_url) {
 
-            // This remains untested.
+            // This remains untested
             $tmp_file = uniqid();
             file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shp"));
             file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".dbf"));
@@ -191,9 +191,9 @@ class ShpDefinition extends SourceType{
 
         $geo_properties = array();
 
-        // Get the geographical column names.
+        // Get the geographical column names
         // Either multiple coordinates will be set (identified by the parts)
-        // or a lat long pair will be set (identified by x and y).
+        // or a lat long pair will be set (identified by x and y)
         if(!empty($shp_data['parts'])) {
             if(strpos($shape_type, 'polyline')){
                 array_push($geo_properties, array('polyline', 'parts'));
@@ -270,7 +270,7 @@ class ShpDefinition extends SourceType{
      */
     public function delete(){
 
-         // Get the related columns.
+         // Get the related columns
         $columns = $this->tabularColumns()->getResults();
 
         foreach($columns as $column){

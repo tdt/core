@@ -14,7 +14,7 @@ use tdt\core\datasets\Data;
  */
 class CSVController extends ADataController {
 
-    // Amount of characters in one row that can be read.
+    // Amount of characters in one row that can be read
     private static $MAX_LINE_LENGTH = 0;
 
 
@@ -22,7 +22,7 @@ class CSVController extends ADataController {
 
         list($limit, $offset) = $this->calculateLimitAndOffset();
 
-        // Check the given URI.
+        // Check the given URI
         if (!empty($source_definition->uri)) {
             $uri = $source_definition->uri;
         } else {
@@ -50,7 +50,7 @@ class CSVController extends ADataController {
             \App::abort(452, "Can't find or fetch the columns for this CSV file.");
         }
 
-        // Create aliases for the columns.
+        // Create aliases for the columns
         $aliases = array();
         $pk = null;
 
@@ -62,7 +62,7 @@ class CSVController extends ADataController {
             }
         }
 
-        // Read the CSV file.
+        // Read the CSV file
         $resultobject = array();
         $row_objects = array();
 
@@ -73,7 +73,7 @@ class CSVController extends ADataController {
             $start_row++;
         }
 
-        // Contains the amount of rows that we added to the resulting object.
+        // Contains the amount of rows that we added to the resulting object
         $hits = 0;
         if (($handle = fopen($uri, "r")) !== FALSE) {
 
@@ -84,7 +84,7 @@ class CSVController extends ADataController {
                     $num = count($data);
 
                     // Create the values array, containing the (aliased) name of the column
-                    // to the value of a the row which $data represents.
+                    // to the value of a the row which $data represents
                     $values = $this->createValues($columns, $data);
                     if($offset <= $hits && $offset + $limit > $hits){
 

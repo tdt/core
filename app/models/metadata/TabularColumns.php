@@ -54,13 +54,13 @@ class TabularColumns extends Eloquent{
 
         array_keys($create_params);
 
-        // Validate the parameters to their rules.
+        // Validate the parameters to their rules
         $validator = Validator::make(
                         $params,
                         $rules
                     );
 
-        // If any validation fails, return a message and abort the workflow.
+        // If any validation fails, return a message and abort the workflow
         if($validator->fails()){
 
             $messages = $validator->messages();

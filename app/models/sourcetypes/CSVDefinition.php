@@ -41,13 +41,13 @@ class CsvDefinition extends SourceType{
      */
     public function save(array $options = array()){
 
-        // Parse the columns of the csv file.
+        // Parse the columns of the csv file
         $columns = $this->parseColumns($options);
 
-        // If the columns were parsed correctly, save this definition and use the id to link them to the column objects.
+        // If the columns were parsed correctly, save this definition and use the id to link them to the column objects
         parent::save();
 
-        // If the model has not been saved, abort the workflow and return an error message.
+        // If the model has not been saved, abort the workflow and return an error message
         if(empty($this->id)){
             \App::abort(452, "The csv definition could not be saved after validation, check if the provided properties are still correct.");
         }
@@ -64,7 +64,7 @@ class CsvDefinition extends SourceType{
             $tabular_column->save();
         }
 
-        // Check for passed geo_properties.
+        // Check for passed geo_properties
         $geo_props = @$options['geo_property'];
 
         if(!empty($geo_props)){
@@ -123,9 +123,9 @@ class CsvDefinition extends SourceType{
      */
     private function parseColumns($options){
 
-        // Get the columns out of the csv file before saving the csv definition.
+        // Get the columns out of the csv file before saving the csv definition
         // If columns are being passed using the json body or request parameters
-        // allow them to function as aliases, aliases have to be passed as index (0:n-1) => alias.
+        // allow them to function as aliases, aliases have to be passed as index (0:n-1) => alias
         $aliases = @$options['columns'];
         $pk = @$options['pk'];
 
@@ -138,7 +138,7 @@ class CsvDefinition extends SourceType{
         if(($handle = fopen($this->uri, "r")) !== FALSE) {
 
             // Throw away the lines untill we hit the start row
-            // from then on, process the columns.
+            // from then on, process the columns
             $commentlinecounter = 0;
 
             while ($commentlinecounter < $this->start_row) {
@@ -155,7 +155,7 @@ class CsvDefinition extends SourceType{
                 for ($i = 0; $i < sizeof($line); $i++) {
 
                     // Try to get an alias from the options, if it's empty
-                    // then just take the column value as alias.
+                    // then just take the column value as alias
                     $alias = @$aliases[$i];
 
                     if(empty($alias)){
@@ -212,7 +212,7 @@ class CsvDefinition extends SourceType{
      */
     public function delete(){
 
-        // Get the related columns.
+        // Get the related columns
         $columns = $this->tabularColumns()->getResults();
 
         foreach($columns as $column){

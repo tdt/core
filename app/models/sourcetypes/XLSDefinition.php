@@ -183,7 +183,7 @@ class XlsDefinition extends SourceType{
                             $cell_value = trim($cell->getCalculatedValue());
 
                             // Try to get an alias from the options, if it's empty
-                            // then just take the column value as alias.
+                            // then just take the column value as alias
                             $alias = @$aliases[$column_index];
 
                             if(empty($alias)){
@@ -215,7 +215,7 @@ class XlsDefinition extends SourceType{
      */
     public function delete(){
 
-        // Get the related columns.
+        // Get the related columns
         $columns = $this->tabularColumns()->getResults();
 
         foreach($columns as $column){

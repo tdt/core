@@ -54,14 +54,14 @@ class KMLFormatter implements IFormatter{
     }
 
     private static function xmlgetelement($value){
-        // TODO decide what to do with the CDATA element.
+        // TODO decide what to do with the CDATA element
         $result = "<![CDATA[";
         $result .= "]]>";
         return $result;
     }
 
     private static function getExtendedDataElement($value){
-        // TODO decide what to do with extended data element.
+        // TODO decide what to do with extended data element
         $result = "<ExtendedData>";
         $result .= "</ExtendedData>";
         return $result;
@@ -83,8 +83,8 @@ class KMLFormatter implements IFormatter{
                 $entry = get_object_vars($value);
             }
 
-            // We assume that if longitude exists, latitude does as well if the geometry is a single point.
-            // A point can either be a single column value, or split up in a latitude and longitude.
+            // We assume that if longitude exists, latitude does as well if the geometry is a single point
+            // A point can either be a single column value, or split up in a latitude and longitude
             $geo_type = 'point';
             $is_point = (count($geo) > 1);
 

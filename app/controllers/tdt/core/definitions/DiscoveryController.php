@@ -32,10 +32,10 @@ class DiscoveryController extends \Controller {
     private static function createDiscoveryDocument(){
 
         // Create and return a dument that holds a self-explanatory document
-        // about how to interface with the datatank.
+        // about how to interface with the datatank
         $discovery_document = new \stdClass();
 
-        // Create the discovery dument head properties.
+        // Create the discovery dument head properties
         $discovery_document->protocol = "rest";
         $discovery_document->rootUrl = "URL TODO"; //TODO provide host uri in the configuration of core.
         $discovery_document->resources = new \stdClass();
@@ -44,12 +44,12 @@ class DiscoveryController extends \Controller {
 
         $methods = new \stdClass();
 
-        // Attach the methods to the up the methods object.
+        // Attach the methods to the up the methods object
         $methods->put = self::createPutDocumentation();
         $methods->delete = self::createDeleteDocumentation();
         $methods->patch = self::createPatchDocumentation();
 
-        // Attach the methods to the definitions object.
+        // Attach the methods to the definitions object
         $definitions->methods = $methods;
         $discovery_document->resources->definitions = $definitions;
 
@@ -68,13 +68,13 @@ class DiscoveryController extends \Controller {
         $put->description = "Add a resource definition identified by the {identifier} value, and of the type identified by the content type header value {mediaType}. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors)";
         $put->contentType = "application/tdt.{mediaType}";
 
-        // Every type of definition is identified by a certain mediatype.
+        // Every type of definition is identified by a certain mediatype
         $put->mediaType = new \stdClass();
 
-        // Get the base properties that can be added to every definition.
+        // Get the base properties that can be added to every definition
         $base_properties = \Definition::getCreateProperties();
 
-        // Fetch all the supported definition models by iterating the models directory.
+        // Fetch all the supported definition models by iterating the models directory
         if ($handle = opendir(app_path() . '/models')) {
             while (false !== ($entry = readdir($handle))) {
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
@@ -89,7 +89,7 @@ class DiscoveryController extends \Controller {
                         $put->mediaType->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
 
                         $all_properties = array_merge($base_properties, $model::getAllProperties());
-                        // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties.
+                        // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
                         $put->mediaType->$definition_type->parameters = $all_properties;
                     }
                 }

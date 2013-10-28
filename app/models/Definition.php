@@ -89,12 +89,12 @@ class Definition extends Eloquent{
         $properties = array();
         $source_definition = $this->source()->first();
 
-        // Add all the properties that are mass assignable.
+        // Add all the properties that are mass assignable
         foreach($source_definition->getFillable() as $key){
             $properties[$key] = $source_definition->getAttributeValue($key);
         }
 
-        // If the source type has a relationship with tabular columns, then attach those to the properties.
+        // If the source type has a relationship with tabular columns, then attach those to the properties
         if(method_exists(get_class($source_definition), 'tabularColumns')){
 
             $columns = $source_definition->tabularColumns();
