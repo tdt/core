@@ -78,5 +78,12 @@ class ShpTest extends TestCase{
             $response = DefinitionController::handle("shp/$name");
             $this->assertEquals(200, $response->getStatusCode());
         }
+
+        // Check if everything is deleted properly.
+        $definitions_count = Definition::all()->count();
+        $shp_count = ShpDefinition::all()->count();
+
+        $this->assertTrue($shp_count == 0);
+        $this->assertTrue($definitions_count == 0);
     }
 }

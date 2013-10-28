@@ -25,9 +25,9 @@ class XLSController extends ADataController {
         $start_row = $source_definition->start_row;
 
         // Retrieve the columns from XLS.
-        $columns_obj = $source_definition->tabularColumns()->getResults();
+        $columns = $source_definition->tabularColumns()->getResults();
 
-        if(!$columns_obj){
+        if(!$columns){
             \App::abort(452, "Can't find or fetch the columns for this Excell file.");
         }
 

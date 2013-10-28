@@ -71,5 +71,12 @@ class CsvTest extends TestCase{
             $response = DefinitionController::handle("csv/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
+
+        // Check if everything is deleted properly.
+        $definitions_count = Definition::all()->count();
+        $csv_count = CsvDefinition::all()->count();
+
+        $this->assertTrue($csv_count == 0);
+        $this->assertTrue($definitions_count == 0);
     }
 }

@@ -77,5 +77,12 @@ class XlsTest extends TestCase{
             $response = DefinitionController::handle("xls/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
+
+        // Check if everything is deleted properly.
+        $definitions_count = Definition::all()->count();
+        $xls_count = XlsDefinition::all()->count();
+
+        $this->assertTrue($xls_count == 0);
+        $this->assertTrue($definitions_count == 0);
     }
 }

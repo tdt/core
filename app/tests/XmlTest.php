@@ -64,5 +64,12 @@ class XmlTest extends TestCase{
             $response = DefinitionController::handle("xml/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
+
+        // Check if everything is deleted properly.
+        $definitions_count = Definition::all()->count();
+        $xml_count = XmlDefinition::all()->count();
+
+        $this->assertTrue($xml_count == 0);
+        $this->assertTrue($definitions_count == 0);
     }
 }

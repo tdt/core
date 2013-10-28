@@ -170,7 +170,6 @@ class KMLFormatter implements IFormatter{
             //}
         }
 
-        // echo $body; die();
         return $body;
     }
 

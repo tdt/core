@@ -64,5 +64,12 @@ class JsonTest extends TestCase{
             $response = DefinitionController::handle("json/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
+
+        // Check if everything is deleted properly.
+        $definitions_count = Definition::all()->count();
+        $json_count = JsonDefinition::all()->count();
+
+        $this->assertTrue($json_count == 0);
+        $this->assertTrue($definitions_count == 0);
     }
 }
