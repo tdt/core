@@ -13,7 +13,7 @@ abstract class ADataController {
 
     protected static $DEFAULT_PAGE_SIZE = 312;
 
-    public abstract function readData($source_definition, $parameters = null);
+    public abstract function readData($source_definitions);
 
     /**
      * Calculate the limit and offset based on the request string parameters.
