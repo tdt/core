@@ -8,7 +8,7 @@ namespace tdt\core;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class ContentNegotiator{
+class ContentNegotiator extends Pager{
 
     /**
      * Map MIME-types on formatters for Accept-header
@@ -52,14 +52,22 @@ class ContentNegotiator{
         $extension = strtoupper($extension);
 
         // Formatter class
-        $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';        
+        $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';
 
         if(!class_exists($formatter_class)){
             \App::abort(400, "Formatter $extension doesn't exist.");
         }
 
+        // Create the response from the designated formatter
+        $response = $formatter_class::createResponse($data);
+
+        // Set the paging headers
+        if(!empty($data->paging)){
+            $response->header('Link', self::getLinkHeader($data->paging));
+        }
+
         // Return formatted response
-        return $formatter_class::createResponse($data);
+        return $response;
     }
 
 }

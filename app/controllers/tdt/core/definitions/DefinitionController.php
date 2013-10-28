@@ -106,7 +106,7 @@ class DefinitionController extends \Controller {
             $definition->collection_uri = $collection_uri;
             $definition->resource_name = $resource_name;
             $definition->source_id = $def_instance->id;
-            $definition->source_type = $type . 'definition';
+            $definition->source_type = ucfirst($type) . 'Definition';
 
             // Add the create properties of description to the new description object
             $def_params = array_only($params, array_keys(\Definition::getCreateProperties()));
