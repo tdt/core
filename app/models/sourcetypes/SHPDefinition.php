@@ -2,8 +2,8 @@
 
 
 // PHP SHP libraries arent PSR-0 yet so we have to include them.
-include_once(__DIR__ . "/../lib/ShapeFile.inc.php");
-include_once(__DIR__ . "/../lib/proj4php/proj4php.php");
+include_once(__DIR__ . "/../../lib/ShapeFile.inc.php");
+include_once(__DIR__ . "/../../lib/proj4php/proj4php.php");
 
 /**
  * Shape definition model, all processing is done based on the
