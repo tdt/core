@@ -13,8 +13,6 @@ use tdt\core\definitions\DefinitionController;
  */
 class DatasetController extends \Controller {
 
-    private static $PAGING_KEYWORDS = array('next', 'last', 'previous', 'first');
-
     public static function handle($uri){
 
         // Split for an (optional) extension
@@ -60,11 +58,6 @@ class DatasetController extends \Controller {
                 // Add source definition to the object
                 $data->source_definition = $source_definition;
 
-                // Add the paging headers if necessary.
-                if(!empty($data->paging)){
-                    self::addPagingHeaders($data->paging, $extension);
-                }
-
                 // Return the formatted response with content negotiation
                 return ContentNegotiator::getResponse($data, $extension);
             }else{
@@ -74,38 +67,6 @@ class DatasetController extends \Controller {
         }else{
             \App::abort(404, "The resource you were looking for could not be found (URI: $uri).");
         }
-
-    }
-
-    /**
-     * Provide paging headers in the response using the Link HTTP header.
-     */
-    private static function addPagingHeaders($paging, $extension){
-
-        $link_value = '';
-        $base_uri = \Request::url();
-
-        // Chip of the extension which indicates formatter we should use, in order to form the base uri.
-        $base_uri = substr($base_uri, 0, strlen($base_uri) - strlen('.' . $extension));
-
-        foreach($paging as $keyword => $page_info){
-
-            if(!in_array($keyword, self::$PAGING_KEYWORDS)){
-
-                $key_words = implode(', ', self::$PAGING_KEYWORDS);
-                \App::abort(452, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
-
-            }else if(count($page_info) != 2){
-                \App::abort(452, "The provided page info did not contain 2 parts, it should only contain a page number and a page size.");
-            }
-
-            $link_value .= $base_uri . '.' . $extension . '?page=' . $page_info[0] . '&page_size=' . $page_info[1] . ';rel=' . $keyword . ',';
-        }
-
-        // Trim the most right comma off.
-        $link_value = rtrim($link_value, ",");
-        // Set the paging header.
-        header("Link: " . $link_value);
 
     }
 }
