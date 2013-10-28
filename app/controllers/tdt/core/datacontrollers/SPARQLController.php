@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SPARQLController extends ADataController {
 
-    public function readData($source_definition, $parameters = null){
+    public function readData($source_definition){
 
         list($limit, $offset) = $this->calculateLimitAndOffset();
 

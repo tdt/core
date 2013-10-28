@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class JSONController extends ADataController {
 
-    public function readData($source_definition, $parameters = null){
+    public function readData($source_definition){
 
         $data = file_get_contents($source_definition->uri);
 

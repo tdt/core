@@ -15,7 +15,7 @@ use PHPExcel_IOFactory as IOFactory;
  */
 class XLSController extends ADataController {
 
-    public function readData($source_definition, $parameters = null){
+    public function readData($source_definition){
 
         list($limit, $offset) = $this->calculateLimitAndOffset();
 
