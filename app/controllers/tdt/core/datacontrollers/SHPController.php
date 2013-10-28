@@ -21,6 +21,9 @@ class SHPController extends ADataController {
         // It may take a while for the SHP to be read.
         set_time_limit(0);
 
+        // Get the limit and offset
+        list($limit, $offset) = $this->calculateLimitAndOffset();
+
         $uri = $source_definition->uri;
 
         $columns = array();
@@ -85,86 +88,95 @@ class SHPController extends ADataController {
                 $shp = new \ShapeFile($uri, $options); // along this file the class will use file.shx and file.dbf
             }
 
+            // Keep track of the total amount of rows.
+            $total_rows = 0;
+
             // Get the shape records in the binary file.
             while ($record = $shp->getNext()) {
 
-                // Every shape record is parsed as an anonymous object with the properties attached to it.
-                $rowobject = new \stdClass();
+                if($offset <= $total_rows && $offset + $limit > $total_rows){
 
-                // Get the dBASE data.
-                $dbf_data = $record->getDbfData();
+                    // Every shape record is parsed as an anonymous object with the properties attached to it.
+                    $rowobject = new \stdClass();
 
-                foreach ($dbf_data as $property => $value) {
-                    $property = strtolower($property);
-                    $rowobject->$property = trim($value);
-                }
+                    // Get the dBASE data.
+                    $dbf_data = $record->getDbfData();
 
-                // Read the shape data.
-                $shp_data = $record->getShpData();
-
-                if (!empty($epsg)) {
-                    $proj4 = new \Proj4php();
-                    $projSrc = new \Proj4phpProj('EPSG:'. $epsg,$proj4);
-                    $projDest = new \Proj4phpProj('EPSG:4326',$proj4);
-                }
-
-                // It it's not a point, it's a collection of coordinates describing a shape.
-                if(!empty($shp_data['parts'])) {
-
-                    $parts = array();
-
-                    foreach ($shp_data['parts'] as $part) {
-
-                        $points = array();
-
-                        foreach ($part['points'] as $point) {
-
-                            $x = $point['x'];
-                            $y = $point['y'];
-
-                            // Translate the coordinates to WSG84 geo coordinates.
-                            if(!empty($epsg)){
-
-                                $pointSrc = new \proj4phpPoint($x,$y);
-
-                                $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
-                                $x = $pointDest->x;
-                                $y = $pointDest->y;
-                            }
-
-                            $points[] = $x.','.$y;
-                        }
-                        array_push($parts,implode(" ",$points));
+                    foreach ($dbf_data as $property => $value) {
+                        $property = strtolower($property);
+                        $rowobject->$property = trim($value);
                     }
 
-                    $rowobject->parts = implode(';', $parts);
-                }
-
-                if(isset($shp_data['x'])) {
-
-                    $x = $shp_data['x'];
-                    $y = $shp_data['y'];
+                    // Read the shape data.
+                    $shp_data = $record->getShpData();
 
                     if (!empty($epsg)) {
-
-                        $pointSrc = new \proj4phpPoint($x,$y);
-                        $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
-                        $x = $pointDest->x;
-                        $y = $pointDest->y;
-
+                        $proj4 = new \Proj4php();
+                        $projSrc = new \Proj4phpProj('EPSG:'. $epsg,$proj4);
+                        $projDest = new \Proj4phpProj('EPSG:4326',$proj4);
                     }
 
-                    $rowobject->x = $x;
-                    $rowobject->y= $y;
+                    // It it's not a point, it's a collection of coordinates describing a shape.
+                    if(!empty($shp_data['parts'])) {
+
+                        $parts = array();
+
+                        foreach ($shp_data['parts'] as $part) {
+
+                            $points = array();
+
+                            foreach ($part['points'] as $point) {
+
+                                $x = $point['x'];
+                                $y = $point['y'];
+
+                            // Translate the coordinates to WSG84 geo coordinates.
+                                if(!empty($epsg)){
+
+                                    $pointSrc = new \proj4phpPoint($x,$y);
+
+                                    $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                                    $x = $pointDest->x;
+                                    $y = $pointDest->y;
+                                }
+
+                                $points[] = $x.','.$y;
+                            }
+                            array_push($parts,implode(" ",$points));
+                        }
+
+                        $rowobject->parts = implode(';', $parts);
+                    }
+
+                    if(isset($shp_data['x'])) {
+
+                        $x = $shp_data['x'];
+                        $y = $shp_data['y'];
+
+                        if (!empty($epsg)) {
+
+                            $pointSrc = new \proj4phpPoint($x,$y);
+                            $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                            $x = $pointDest->x;
+                            $y = $pointDest->y;
+
+                        }
+
+                        $rowobject->x = $x;
+                        $rowobject->y= $y;
+                    }
+                    array_push($arrayOfRowObjects,$rowobject);
                 }
-
-
-                array_push($arrayOfRowObjects,$rowobject);
+                $total_rows++;
             }
+
+            // Calculate the paging headers properties.
+            $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);
 
             $data_result = new Data();
             $data_result->data = $arrayOfRowObjects;
             $data_result->geo = $geo;
+            $data_result->paging = $paging;
             return $data_result;
 
         } catch( Exception $ex) {

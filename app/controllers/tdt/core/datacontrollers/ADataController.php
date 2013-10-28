@@ -11,11 +11,11 @@ namespace tdt\core\datacontrollers;
  */
 abstract class ADataController {
 
-    protected static $DEFAULT_PAGE_SIZE = 500;
+    protected static $DEFAULT_PAGE_SIZE = 5;
 
     public abstract function readData($source_definition, $parameters = null);
 
-     /**
+    /**
      * Calculate the limit and offset based on the request string parameters.
      */
     protected function calculateLimitAndOffset(){
@@ -44,5 +44,48 @@ abstract class ADataController {
         }
 
         return array($limit, $offset);
+    }
+
+    /**
+     * Calculate the link headers.
+     */
+    protected function calculatePagingHeaders($limit, $offset, $total_rows){
+
+        $paging = array();
+
+        // Calculate the paging parameters and pass them with the data object.
+        if($offset + $limit < $total_rows){
+
+            $page = $offset/$limit;
+            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
+
+            if($page == 0){
+                $page = 1;
+            }
+
+            $paging['next'] = array($page + 1, $limit);
+
+            $last_page = round($total_rows / $limit,0);
+
+            if($last_page > $page + 1){
+                $paging['last'] = array($last_page, self::$DEFAULT_PAGE_SIZE);
+            }
+        }
+
+        if($offset > 0 && $total_rows > 0){
+
+            $page = $offset/$limit;
+            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
+
+            if($page == 0){
+
+                // Try to divide the paging into equal pages.
+                $page = 2;
+            }
+
+            $paging['previous'] = array($page - 1, $limit);
+        }
+
+        return $paging;
     }
 }

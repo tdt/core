@@ -98,8 +98,12 @@ class CSVController extends ADataController {
                             array_push($row_objects, $obj);
                         }else{
 
-                            // TODO log double primary keys
-                            $row_objects[$obj->$pk] = $obj;
+                            if(!empty($row_objects[$obj->pk])){
+                                \Log::info("The primary key $pk has been used already for another record!");
+                            }else{
+                                $row_objects[$obj->$pk] = $obj;
+                            }
+
                         }
                     }
                     $hits++;
@@ -112,45 +116,10 @@ class CSVController extends ADataController {
             \App::abort(452, "Can't get any data from defined URI ($uri) for this resource.");
         }
 
-        $paging = array();
-
-        // Calculate the paging parameters and pass them with the data object.
-        if($offset + $limit < $hits){
-
-            $page = $offset/$limit;
-            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
-
-            if($page == 0){
-                $page = 1;
-            }
-
-            $paging['next'] = array($page + 1, $limit);
-
-            $last_page = round($total_rows / $limit,0);
-
-            if($last_page > $page + 1){
-                $paging['last'] = array($last_page, self::$DEFAULT_PAGE_SIZE);
-            }
-        }
-
-        if($offset > 0 && $hits > 0){
-
-            $page = $offset/$limit;
-            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
-
-            if($page == 0){
-
-                // Try to divide the paging into equal pages.
-                $page = 2;
-            }
-
-            $paging['previous'] = array($page - 1, $limit);
-        }
-
-        $result = $row_objects;
+        $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);
 
         $data_result = new Data();
-        $data_result->data = $result;
+        $data_result->data = $row_objects;
         $data_result->paging = $paging;
         $data_result->geo = $geo;
 

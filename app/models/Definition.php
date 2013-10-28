@@ -23,7 +23,7 @@ class Definition extends Eloquent{
     public static function getCreateProperties(){
         return array(
                 'title' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'A name given to the resource.',
                 ),
                 'subject' => array(
@@ -39,43 +39,43 @@ class Definition extends Eloquent{
                     'description' => 'An entity responsible for making the resource available.',
                 ),
                 'contributor' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'An entity responsible for making contributions to the resource.',
                 ),
                 'date' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'A point or period of time associated with an event in the lifecycle of the resource.',
                 ),
                 'type' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'The nature or genre of the resource.',
                 ),
                 'format' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'The file format, physical medium, or dimensions of the resource.',
                 ),
                 'identifier' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'An unambiguous reference to the resource within a given context.',
                 ),
                 'source' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'A related resource from which the described resource is derived.',
                 ),
                 'language' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'A language of the resource.',
                 ),
                 'relation' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'A related resource.',
                 ),
                 'coverage' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'The spatial or temporal topic of the resource, the spatial applicability of the resource, or the jurisdiction under which the resource is relevant.',
                 ),
                 'rights' => array(
-                    'required' => true,
+                    'required' => false,
                     'description' => 'Information about rights held in and over the resource.',
                 ),
         );

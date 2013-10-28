@@ -25,8 +25,7 @@ class XLSController extends ADataController {
         $start_row = $source_definition->start_row;
 
         // Retrieve the columns from XLS.
-        $columns_obj = $source_definition->tabularColumns();
-        $columns = $columns_obj->getResults();
+        $columns_obj = $source_definition->tabularColumns()->getResults();
 
         if(!$columns_obj){
             \App::abort(452, "Can't find or fetch the columns for this Excell file.");
@@ -45,8 +44,10 @@ class XLSController extends ADataController {
             }
         }
 
+        // Create an array to store our objects in to return.
         $row_objects = array();
 
+        // Get the temporary directory to store our excel files in if necessary.
         $tmp_path = sys_get_temp_dir();
 
         if(empty($tmp_path)){
@@ -75,7 +76,6 @@ class XLSController extends ADataController {
             }
 
             // The amount of rows added to the result.
-            $hits = 0;
             $total_rows = 0;
 
             if($has_header_row == 1){
@@ -132,6 +132,8 @@ class XLSController extends ADataController {
             }
 
             $php_obj->disconnectWorksheets();
+
+            $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);
 
             $data_result = new Data();
             $data_result->data = $row_objects;

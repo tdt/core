@@ -83,30 +83,7 @@ class SPARQLController extends ADataController {
         }
 
         // Calculate page link headers, previous, next and last.
-        $paging = array();
-
-        $page = $offset/$limit;
-        $page = round($page, 0, PHP_ROUND_HALF_DOWN);
-
-        if($page == 0){
-            $page = 1;
-        }
-
-        if($page > 1){
-            $paging['previous'] = array($this->page - 1, $limit);
-        }
-
-        if($limit + $offset < $count){
-
-            $paging['next'] = array($page + 1, $limit);
-
-            $last_page = round($count / $limit, 0);
-
-            if($last_page > $page + 1){
-
-                $paging['last'] = array($last_page, self::$DEFAULT_PAGE_SIZE);
-            }
-        }
+        $paging = $this->calculatePagingHeaders($limit, $offset, $count);
 
         $query = $source_definition->query;
         if(!empty($offset)){
@@ -121,6 +98,7 @@ class SPARQLController extends ADataController {
         $q = str_replace("+", "%20", $q);
 
         $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
+
         $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
 
         // Parse the triple response and retrieve the triples from them.
