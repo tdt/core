@@ -20,12 +20,11 @@ class SPARQLController extends ADataController {
 
         // Retrieve the necessary variables to read from a SPARQL endpoint.
         $uri = \Request::url();
+
         $endpoint = $source_definition->endpoint;
         $endpoint_user = $source_definition->endpoint_user;
         $endpoint_password = $source_definition->endpoint_password;
         $query = $source_definition->query;
-
-        //$this->php_fix_raw_query();
 
         // Create a count query for paging purposes, this assumes that a where clause is included in the query.
         // Note that the where "clause" is obligatory but it's not mandatory it is preceded by a WHERE keyword.
@@ -33,8 +32,9 @@ class SPARQLController extends ADataController {
         $keyword = "";
 
         // TODO provide a SPARQL query validator.
-        // Check which statement has been used to ask for json (select)
-        // or ask for rdf/xml to parse them into a graph (construct).
+
+        // If a select statement has been passed, we ask for JSON results.
+        // If a construct statement has been passed, we ask for RDF/XML.
         if(stripos($query,"select") === 0){ // SELECT query
             $keyword = "select";
         }elseif(stripos($query,"construct") === 0){ // CONSTRUCT query
@@ -67,7 +67,7 @@ class SPARQLController extends ADataController {
         $count_uri = $endpoint . '?query=' . $count_query . '&format=' . urlencode("application/rdf+xml");
         $response = $this->executeUri($count_uri, $endpoint_user, $endpoint_password);
 
-        // Parse the triple response and retrieve the triples from them.
+        // Parse the triple response and retrieve the form them containing our count result.
         $parser = \ARC2::getRDFXMLParser();
         $parser->parse('',$response);
 
@@ -82,7 +82,7 @@ class SPARQLController extends ADataController {
             }
         }
 
-        // Calculate page link headers, previous, next and last.
+        // Calculate page link headers, previous, next and last based on the count from the previous query.
         $paging = $this->calculatePagingHeaders($limit, $offset, $count);
 
         $query = $source_definition->query;
@@ -94,21 +94,38 @@ class SPARQLController extends ADataController {
             $query = $query . " LIMIT $limit";
         }
 
+        // Prepare the query with proper encoding for the request.
         $q = urlencode($query);
         $q = str_replace("+", "%20", $q);
 
-        $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
+        if($keyword == 'select'){
 
-        $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
+            $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/sparql-results+json");
+            $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
+            $result = json_decode($response);
 
-        // Parse the triple response and retrieve the triples from them.
-        $parser = \ARC2::getRDFXMLParser();
-        $parser->parse('',$response);
+            if(!$result){
+                \App::abort(452, 'The query has been executed, but failed to return proper JSON');
+            }
+
+            $is_semantic = false;
+
+        }else{
+
+            $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
+
+            $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
+
+            // Parse the triple response and retrieve the triples from them.
+            $result = \ARC2::getRDFXMLParser();
+            $result->parse('', $response);
+            $is_semantic = true;
+        }
 
         $data = new Data();
-        $data->data = $parser;
+        $data->data = $result;
         $data->paging = $paging;
-        $data->is_semantic = true;
+        $data->is_semantic = $is_semantic;
 
         return $data;
     }
@@ -139,8 +156,8 @@ class SPARQLController extends ADataController {
         // Request for a string result instead of having the result being outputted.
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $response = curl_exec($ch);
         // Execute the request.
+        $response = curl_exec($ch);
 
         if (!$response){
             $curl_err = curl_error($ch);
