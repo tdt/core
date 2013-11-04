@@ -67,7 +67,6 @@ class InfoController extends \Controller {
                 break;
             default:
                 break;
-
         }
     }
 
@@ -80,11 +79,12 @@ class InfoController extends \Controller {
     private static function createDcat($pieces){
 
         // List all namespaces that can be used in a DCAT document
-        $ns = array("dcat" => "http://www.w3.org/ns/dcat#",
-                    "dct"  => "http://purl.org/dc/terms/",
-                    "rdf"  => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                    "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
-                    "owl"  => "http://www.w3.org/2002/07/owl#",
+        $ns = array('dcat' => 'http://www.w3.org/ns/dcat#',
+                    'dct'  => 'http://purl.org/dc/terms/',
+                    'foaf' => 'http://xmlns.com/foaf/0.1/',
+                    'rdf'  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                    'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
+                    'owl'  => 'http://www.w3.org/2002/07/owl#',
         );
 
         // Create a new EasyRDF graph
@@ -94,10 +94,15 @@ class InfoController extends \Controller {
 
         // Add the catalog and a title
         $graph->addResource('http://www.w3.org/ns/dcat#Catalog', 'a', 'dcat:catalog');
-        $graph->addLiteral('http://www.w3.org/ns/dcat#Catalog', 'dct:title', 'A DCAT feed of datasets on the datatank hosted on ' . $uri);
+        $graph->addLiteral('http://www.w3.org/ns/dcat#Catalog', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
 
         // Add the relationships with the datasets
-        $definitions = \Definition::all();
+        $definitions = \Definition::query()->orderBy('updated_at', 'desc')->get();
+        $last_mod_def = $definitions->first();
+
+        // Add the last modified timestamp in ISO8601
+        $graph->addLiteral('http://www.w3.org/ns/dcat#Catalog', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def->updated_at)));
+        $graph->addLiteral('http://www.w3.org/ns/dcat#Catalog', 'foaf:homepage', $uri);
 
         foreach($definitions as $definition){
 
@@ -110,6 +115,8 @@ class InfoController extends \Controller {
             // Add the dataset resource and its description
             $graph->addResource($dataset_uri, 'a', 'dcat:dataset');
             $graph->addLiteral($dataset_uri, 'dct:description', $definition->description);
+            $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
+            $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
         }
 
         // Get the triples from our created graph
