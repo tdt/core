@@ -34,8 +34,14 @@ class XMLFormatter implements IFormatter{
         // Check for semantic source
         if($dataObj->is_semantic){
 
+            // Check if a configuration is given
+            $conf = array();
+            if(!empty($dataObj->semantic->conf)){
+                $conf = $dataObj->semantic->conf;
+            }
+
             // Serializer instantiation
-            $ser = \ARC2::getRDFXMLSerializer();
+            $ser = \ARC2::getRDFXMLSerializer($conf);
 
             // Use ARC to serialize to XML (override)
             return $ser->getSerializedTriples($dataObj->data->getTriples());

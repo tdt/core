@@ -31,12 +31,17 @@ class NTFormatter implements IFormatter{
 
         if($dataObj->is_semantic){
 
+            // Check if a configuration is given
+            $conf = array();
+            if(!empty($dataObj->semantic->conf)){
+                $conf = $dataObj->semantic->conf;
+            }
+
             // Serializer instantiation
-            $ser = \ARC2::getNTriplesSerializer();
+            $ser = \ARC2::getNTriplesSerializer($conf);
 
             // Serialize a triples array
             return $ser->getSerializedTriples($dataObj->data->getTriples());
-
         }
 
         // Else

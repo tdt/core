@@ -32,8 +32,14 @@ class JSONFormatter implements IFormatter{
 
         if($dataObj->is_semantic){
 
+            // Check if a configuration is given
+            $conf = array();
+            if(!empty($dataObj->semantic->conf)){
+                $conf = $dataObj->semantic->conf;
+            }
+
             // Serializer instantiation
-            $ser = \ARC2::getRDFJSONSerializer();
+            $ser = \ARC2::getRDFJSONSerializer($conf);
 
             // Use ARC to serialize to JSON (override)
             return $ser->getSerializedTriples($dataObj->data->getTriples());

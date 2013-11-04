@@ -28,4 +28,6 @@ class Data {
     public $data;
 
     public $is_semantic = false;
+
+    public $semantic;
 }

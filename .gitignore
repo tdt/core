@@ -13,3 +13,4 @@ composer.lock
 /bootstrap/compiled.php
 /installed/*
 !/installed/.gitkeep
+app/config/workbench.php

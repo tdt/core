@@ -30,11 +30,28 @@ class JSONPFormatter implements IFormatter{
             \App::abort(452, "To request JSONP you need to add a callback parameter (...jsonp?callback=functionname)");
         }
 
+        if($dataObj->is_semantic){
+
+            // Check if a configuration is given
+            $conf = array();
+            if(!empty($dataObj->semantic->conf)){
+                $conf = $dataObj->semantic->conf;
+            }
+
+            // Serializer instantiation
+            $ser = \ARC2::getRDFJSONSerializer($conf);
+
+            // Use ARC to serialize to JSON (override)
+            return $ser->getSerializedTriples($dataObj->data->getTriples());
+
+        }
+
         // Get the JSON data
         $data = $dataObj->data;
         if (is_object($dataObj->data)) {
             $data = get_object_vars($dataObj->data);
         }
+
         $data = str_replace("\/", "/", json_encode($data));
 
         // Build the body
