@@ -27,7 +27,11 @@ class BaseController extends \Controller {
                 $controller = 'tdt\core\definitions\DefinitionController';
                 $uri = str_replace('definitions/', '', $uri);
                 break;
-            // TODO:: add info
+            case 'info':
+                // Info request
+                $controller = 'tdt\core\definitions\InfoController';
+                $uri = str_replace('info/', '', $uri);
+                break;
             default:
                 // None of the above -> must be a dataset request
                 $controller = 'tdt\core\datasets\DatasetController';

@@ -20,7 +20,8 @@
         "tdt/input" : "dev-blackwell",
         "CodePlex/PHPExcel": "dev-master",
         "phpunit/phpunit" : "3.7.*",
-        "semsol/arc2": "dev-master"
+        "semsol/arc2": "dev-master",
+        "easyrdf/easyrdf" : "dev-master"
     },
     "repositories": [
         {
