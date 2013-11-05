@@ -80,7 +80,7 @@ class DiscoveryController extends \Controller {
 
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
 
-                    $model = $matches[1] . "Definition";
+                    $model = ucfirst(strtolower($matches[1])) . "Definition";
 
                     $definition_type = strtolower($matches[1]);
 
