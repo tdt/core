@@ -75,8 +75,9 @@ class DiscoveryController extends \Controller {
         $base_properties = \Definition::getCreateProperties();
 
         // Fetch all the supported definition models by iterating the models directory
-        if ($handle = opendir(app_path() . '/models')) {
+        if ($handle = opendir(app_path() . '/models/sourcetypes')) {
             while (false !== ($entry = readdir($handle))) {
+
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
 
                     $model = $matches[1] . "Definition";
