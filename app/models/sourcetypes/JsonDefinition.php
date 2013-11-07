@@ -1,16 +1,16 @@
 <?php
 
 /**
- * XMl definition model
+ * JSON definition model
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class XmlDefinition extends SourceType{
+class JsonDefinition extends SourceType{
 
-    protected $table = 'xmldefinitions';
+    protected $table = 'jsondefinitions';
 
-    protected $guarded = array('id');
+    protected $fillable = array('uri', 'description');
 
     /**
      * Relationship with the Definition model.
@@ -27,13 +27,13 @@ class XmlDefinition extends SourceType{
     }
 
     /**
-     * Retrieve the set of create parameters that make up a XML definition.
+     * Retrieve the set of create parameters that make up a JSON definition.
      */
     public static function getCreateParameters(){
         return array(
             'uri' => array(
                 'required' => true,
-                'description' => 'The location of the XML file, this should either be a URL or a local file location.',
+                'description' => 'The location of the JSON file, this should either be a URL or a local file location.',
             ),
             'description' => array(
                 'required' => true,
@@ -42,21 +42,21 @@ class XmlDefinition extends SourceType{
         );
     }
 
-     /**
-     * Retrieve the set of create parameters that make up a XML definition.
+    /**
+     * Retrieve the set of create parameters that make up a JSON definition.
      * Include the parameters that make up relationships with this model.
      */
     public static function getAllParameters(){
         return self::getCreateParameters();
     }
 
-    /**
+   /**
      * Retrieve the set of validation rules for every create parameter.
      * If the parameters doesn't have any rules, it's not mentioned in the array.
      */
     public static function getCreateValidators(){
         return array(
-            'uri' => 'uri|required',
+            'uri' => 'json|uri|required',
             'description' => 'required',
         );
     }
