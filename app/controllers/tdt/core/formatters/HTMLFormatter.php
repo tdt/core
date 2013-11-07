@@ -25,6 +25,9 @@ class HTMLFormatter implements IFormatter{
     public static function getBody($dataObj){
 
         $dataset_link  = \URL::to($dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
+        if(!empty($dataObj->rest_parameters)){
+            $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
+        }
 
 
         // Check if other views need to be served

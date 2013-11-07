@@ -42,13 +42,17 @@ class DatasetController extends \Controller {
                 $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
                 $rest_parameters = ltrim($rest_parameters, '/');
                 $rest_parameters = explode('/', $rest_parameters);
+                if(empty($rest_parameters[0])){
+                    $rest_parameters = null;
+                }
 
                 // Retrieve dataobject from datacontroller
                 $data = $data_controller->readData($source_definition, $rest_parameters);
+                $data->rest_parameters = $rest_parameters;
 
                 // REST filtering
-                if($source_definition->getType() != 'INSTALLED' && strlen($rest_parameters) > 0){
-                    $data->data = self::applyRestFilter($data->data, $rest_parameters);
+                if($source_definition->getType() != 'INSTALLED' && count($data->rest_parameters) > 0){
+                    $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
                 }
 
                 // Add definition to the object

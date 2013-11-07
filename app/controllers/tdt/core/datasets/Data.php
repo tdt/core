@@ -21,6 +21,8 @@ class Data {
 
     public $source_definition;
 
+    public $rest_parameters;
+
     public $paging;
 
     public $geo;

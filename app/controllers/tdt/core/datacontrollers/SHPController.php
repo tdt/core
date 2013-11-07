@@ -16,7 +16,7 @@ include_once(__DIR__ . "/../../../../lib/proj4php/proj4php.php");
 
 class SHPController extends ADataController {
 
-    public function readData($source_definition) {
+    public function readData($source_definition, $rest_parameters = null) {
 
         // It may take a while for the SHP to be read
         set_time_limit(0);
