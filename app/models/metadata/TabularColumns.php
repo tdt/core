@@ -19,7 +19,7 @@ class TabularColumns extends Eloquent{
     /**
      * Retrieve the set of create parameters that make up a TabularColumn model.
      */
-    public static function getCreateProperties(){
+    public static function getCreateParameters(){
 
         return array(
             'columns' => array(
@@ -49,7 +49,7 @@ class TabularColumns extends Eloquent{
 
         $validated_params = array();
 
-        $create_params = self::getCreateProperties();
+        $create_params = self::getCreateParameters();
         $rules = self::getCreateValidators();
 
         array_keys($create_params);

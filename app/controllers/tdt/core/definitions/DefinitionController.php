@@ -108,8 +108,8 @@ class DefinitionController extends \Controller {
             $definition->source_id = $def_instance->id;
             $definition->source_type = ucfirst($type) . 'Definition';
 
-            // Add the create properties of description to the new description object
-            $def_params = array_only($params, array_keys(\Definition::getCreateProperties()));
+            // Add the create parameters of description to the new description object
+            $def_params = array_only($params, array_keys(\Definition::getCreateParameters()));
             foreach($def_params as $property => $value){
                 $definition->$property = $value;
             }
@@ -136,7 +136,7 @@ class DefinitionController extends \Controller {
 
         if(class_exists($definition)){
 
-            $create_params = $definition::getCreateProperties();
+            $create_params = $definition::getCreateParameters();
             $rules = $definition::getCreateValidators();
 
             foreach($create_params as $key => $info){
@@ -220,7 +220,7 @@ class DefinitionController extends \Controller {
 
             $defs_props = array();
             foreach($definitions as $definition){
-                $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllProperties();
+                $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
             }
 
             return str_replace('\/', '/', json_encode($defs_props));
@@ -233,7 +233,7 @@ class DefinitionController extends \Controller {
         // Get Definition object based on the given uri
         $definition = self::get($uri);
 
-        $def_properties = $definition->getAllProperties();
+        $def_properties = $definition->getAllParameters();
 
         // Return properties document in JSON
         // TODO return this in more formats?

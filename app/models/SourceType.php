@@ -17,7 +17,7 @@ class SourceType extends Eloquent{
 
         $validated_params = array();
 
-        $create_params = self::getCreateProperties();
+        $create_params = self::getCreateParameters();
 
         $rules = self::getCreateValidators();
 

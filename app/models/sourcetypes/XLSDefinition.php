@@ -65,7 +65,7 @@ class XlsDefinition extends SourceType{
     /**
      * Retrieve the set of create parameters that make up a XLS definition.
      */
-    public static function getCreateProperties(){
+    public static function getCreateParameters(){
         return array(
                 'uri' => array(
                     'required' => true,
@@ -97,8 +97,8 @@ class XlsDefinition extends SourceType{
      * Retrieve the set of create parameters that make up a XLS definition.
      * Include the parameters that make up relationships with this model.
      */
-    public static function getAllProperties(){
-        return array_merge(self::getCreateProperties(), TabularColumns::getCreateProperties());
+    public static function getAllParameters(){
+        return array_merge(self::getCreateParameters(), TabularColumns::getCreateParameters());
     }
 
     /**

@@ -87,13 +87,13 @@ class CsvDefinition extends SourceType{
      */
     public static function validate($params){
 
-        $geo_params = array_only($params, array_keys(GeoProperty::getCreateProperties()));
+        $geo_params = array_only($params, array_keys(GeoProperty::getCreateParameters()));
         GeoProperty::validate($geo_params);
 
-        $tabular_params = array_only($params, array_keys(TabularColumns::getCreateProperties()));
+        $tabular_params = array_only($params, array_keys(TabularColumns::getCreateParameters()));
         TabularColumns::validate($tabular_params);
 
-        $csv_params = array_only($params, array_keys(self::getCreateProperties()));
+        $csv_params = array_only($params, array_keys(self::getCreateParameters()));
         return parent::validate($csv_params);
     }
 
@@ -101,8 +101,8 @@ class CsvDefinition extends SourceType{
      * Retrieve the set of create parameters that make up a CSV definition.
      * Include the parameters that make up relationships with this model.
      */
-    public static function getAllProperties(){
-        return array_merge(self::getCreateProperties(), TabularColumns::getCreateProperties());
+    public static function getAllParameters(){
+        return array_merge(self::getCreateParameters(), TabularColumns::getCreateParameters());
     }
 
     /**
@@ -178,7 +178,7 @@ class CsvDefinition extends SourceType{
     /**
      * Return the properties ( = column fields ) for this model.
      */
-    public static function getCreateProperties(){
+    public static function getCreateParameters(){
         return array(
                 'uri' => array(
                     'required' => true,

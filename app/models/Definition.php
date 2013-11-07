@@ -20,7 +20,7 @@ class Definition extends Eloquent{
     /**
      * Return the properties ( = column fields ) for this model.
      */
-    public static function getCreateProperties(){
+    public static function getCreateParameters(){
         return array(
                 'title' => array(
                     'required' => false,
@@ -84,7 +84,7 @@ class Definition extends Eloquent{
     /**
      * Return all properties from a definition, including the properties of his relational objects
      */
-    public function getAllProperties(){
+    public function getAllParameters(){
 
         $properties = array();
         $source_definition = $this->source()->first();

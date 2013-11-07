@@ -24,7 +24,7 @@ class GeoProperty extends Eloquent{
     /**
      * Retrieve the set of create parameters that make up a TabularColumn model.
      */
-    public static function getCreateProperties(){
+    public static function getCreateParameters(){
 
         return array(
             'geo_property' => array(

@@ -29,7 +29,7 @@ class XmlDefinition extends SourceType{
     /**
      * Retrieve the set of create parameters that make up a XML definition.
      */
-    public static function getCreateProperties(){
+    public static function getCreateParameters(){
         return array(
             'uri' => array(
                 'required' => true,
@@ -46,8 +46,8 @@ class XmlDefinition extends SourceType{
      * Retrieve the set of create parameters that make up a XML definition.
      * Include the parameters that make up relationships with this model.
      */
-    public static function getAllProperties(){
-        return self::getCreateProperties();
+    public static function getAllParameters(){
+        return self::getCreateParameters();
     }
 
     /**
