@@ -17,6 +17,12 @@ class DiscoveryController extends \Controller {
 
         $dis_document = self::createDiscoveryDocument();
 
+        // If the input package is installed, add it to the discovery document
+        if(class_exists('tdt\input\InputServiceProvider')){
+            $discovery_class = 'tdt\input\controllers\DiscoveryController';
+            $dis_document->resources->input = $discovery_class::createDiscoveryDocument();
+        }
+
         $data_result = new Data();
         $data_result->data = $dis_document;
 
@@ -37,7 +43,7 @@ class DiscoveryController extends \Controller {
 
         // Create the discovery dument head properties
         $discovery_document->protocol = "rest";
-        $discovery_document->rootUrl = "URL TODO"; //TODO provide host uri in the configuration of core.
+        $discovery_document->rootUrl = \Request::root();
         $discovery_document->resources = new \stdClass();
 
         $definitions = new \stdClass();
@@ -45,6 +51,7 @@ class DiscoveryController extends \Controller {
         $methods = new \stdClass();
 
         // Attach the methods to the up the methods object
+        $methods->get = self::createGetDocumentation();
         $methods->put = self::createPutDocumentation();
         $methods->delete = self::createDeleteDocumentation();
         $methods->patch = self::createPatchDocumentation();
@@ -54,6 +61,20 @@ class DiscoveryController extends \Controller {
         $discovery_document->resources->definitions = $definitions;
 
         return $discovery_document;
+    }
+
+    /**
+     * Create the get discovery documentation.
+     */
+    private static function createGetDocumentation(){
+
+        $get = new \stdClass();
+
+        $get->httpMethod = "GET";
+        $get->path = "/definitions/{identifier}";
+        $get->description = "Get a resource definition identified by the {identifier} value, or retrieve a list of the current definitions by leaving {identifier} empty.";
+
+        return $get;
     }
 
     /**

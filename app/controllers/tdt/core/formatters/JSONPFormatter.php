@@ -43,7 +43,6 @@ class JSONPFormatter implements IFormatter{
 
             // Use ARC to serialize to JSON (override)
             return $ser->getSerializedTriples($dataObj->data->getTriples());
-
         }
 
         // Get the JSON data
