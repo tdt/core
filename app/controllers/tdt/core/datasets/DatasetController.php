@@ -38,15 +38,17 @@ class DatasetController extends \Controller {
                 $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
                 $data_controller = new $controller_class();
 
-                // Retrieve dataobject from datacontroller
-                $data = $data_controller->readData($source_definition);
-
                 // Get REST parameters
                 $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
                 $rest_parameters = ltrim($rest_parameters, '/');
+                $rest_parameters = explode('/', $rest_parameters);
 
-                if(strlen($rest_parameters) > 0){
-                    $data->data = self::applyRestFilter($data->data,  explode('/', $rest_parameters));
+                // Retrieve dataobject from datacontroller
+                $data = $data_controller->readData($source_definition, $rest_parameters);
+
+                // REST filtering
+                if($source_definition->getType() != 'INSTALLED' && strlen($rest_parameters) > 0){
+                    $data->data = self::applyRestFilter($data->data, $rest_parameters);
                 }
 
                 // Add definition to the object

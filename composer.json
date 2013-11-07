@@ -21,7 +21,8 @@
         "CodePlex/PHPExcel": "dev-master",
         "phpunit/phpunit" : "3.7.*",
         "semsol/arc2": "dev-master",
-        "easyrdf/easyrdf" : "dev-master"
+        "easyrdf/easyrdf" : "dev-master",
+        "kriswallsmith/buzz": "dev-master"
     },
     "repositories": [
         {
