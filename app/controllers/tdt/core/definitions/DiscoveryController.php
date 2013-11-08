@@ -18,7 +18,7 @@ class DiscoveryController extends \Controller {
         $dis_document = self::createDiscoveryDocument();
 
         // If the input package is installed, add it to the discovery document
-        if(class_exists('tdt\input\InputServiceProvider')){
+        if(class_exists('tdt\input\controllers\DiscoveryController')){
             $discovery_class = 'tdt\input\controllers\DiscoveryController';
             $dis_document->resources->input = $discovery_class::createDiscoveryDocument();
         }
@@ -33,7 +33,6 @@ class DiscoveryController extends \Controller {
     /**
      * Create the discovery document.
      * TODO create the PATCH and POST section of the discovery document
-     * TODO add more resources (definitions, ...)
      */
     private static function createDiscoveryDocument(){
 
