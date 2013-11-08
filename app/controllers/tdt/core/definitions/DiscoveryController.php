@@ -31,8 +31,7 @@ class DiscoveryController extends \Controller {
     }
 
     /**
-     * Create the discovery document.
-     * TODO create the PATCH and POST section of the discovery document
+     * Create the discovery document
      */
     private static function createDiscoveryDocument(){
 
@@ -45,27 +44,37 @@ class DiscoveryController extends \Controller {
         $discovery_document->rootUrl = \Request::root();
         $discovery_document->resources = new \stdClass();
 
-        $definitions = new \stdClass();
-
-        $methods = new \stdClass();
-
-        // Attach the methods to the up the methods object
-        $methods->get = self::createGetDocumentation();
-        $methods->put = self::createPutDocumentation();
-        $methods->delete = self::createDeleteDocumentation();
-        $methods->patch = self::createPatchDocumentation();
-
-        // Attach the methods to the definitions object
-        $definitions->methods = $methods;
-        $discovery_document->resources->definitions = $definitions;
+        $discovery_document->resources->definitions = self::createDefinitions();
+        $discovery_document->resources->info = self::createInfo();
 
         return $discovery_document;
     }
 
     /**
+     * Create the definitions resource for the discovery document
+     */
+    private static function createDefinitions(){
+
+        $definitions = new \stdClass();
+
+        $methods = new \stdClass();
+
+        // Attach the methods to the up the methods object
+        $methods->get = self::createDefGetDiscovery();
+        $methods->put = self::createDefPutDiscovery();
+        $methods->delete = self::createDefDeleteDiscovery();
+        $methods->patch = self::createDefPatchDiscovery();
+
+        // Attach the methods to the definitions object
+        $definitions->methods = $methods;
+
+        return $definitions;
+    }
+
+    /**
      * Create the get discovery documentation.
      */
-    private static function createGetDocumentation(){
+    private static function createDefGetDiscovery(){
 
         $get = new \stdClass();
 
@@ -79,7 +88,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the put discovery documentation.
      */
-    private static function createPutDocumentation(){
+    private static function createDefPutDiscovery(){
 
         $put = new \stdClass();
 
@@ -124,7 +133,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the delete discovery documentation.
      */
-    private static function createDeleteDocumentation(){
+    private static function createDefDeleteDiscovery(){
 
         $delete = new \stdClass();
 
@@ -138,7 +147,26 @@ class DiscoveryController extends \Controller {
     /**
      * Create the patch discovery documentation.
      */
-    private static function createPatchDocumentation(){
+    private static function createDefPatchDiscovery(){
         return null;
+    }
+
+    /**
+     * Create the info discovery documentation
+     */
+    private static function createInfo(){
+
+        // Info only supports the get method
+        $info = new \stdClass();
+
+        // Attach the methods to the info object
+        $info->methods = new \stdClass();
+        $info->methods->get  = new \stdClass();
+
+        $info->methods->get->httpMethod = "GET";
+        $info->methods->get->path = "/info";
+        $info->methods->get->description = "Get a list of all retrievable datasets published on this datatank instance.";
+
+        return $info;
     }
 }

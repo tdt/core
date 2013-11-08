@@ -30,15 +30,12 @@ class InfoController extends \Controller {
 
         switch($method){
             case "GET":
-                $data = self::getInfo($uri);
+                return self::getInfo($uri, $extension);
                 break;
             default:
                 \App::abort(400, "The method $method is not supported by the info resource.");
                 break;
         }
-
-        // We expect a format and a data object to be returned
-        return ContentNegotiator::getResponse($data, $extension);
     }
 
     /**
@@ -52,18 +49,25 @@ class InfoController extends \Controller {
      * GET an info document based on the uri provided
      * TODO add support function get retrieve collections, instead full resources.
      */
-    private static function getInfo($uri){
-
-        // Split the uri in its pieces
-        $pieces = explode('/', $uri);
-
-        // Get the first piece
-        $resource = array_shift($pieces);
+    private static function getInfo($uri, $extension = null){
 
         // We have different informational resources
-        switch($resource){
+        switch($uri){
             case 'dcat':
-                return self::createDcat($pieces);
+
+                // Default format is json
+                if(empty($extension)){
+                    $extension = "json";
+                }
+
+                $dcat = self::createDcat();
+
+                // Allow content nego. for dcat
+                return ContentNegotiator::getResponse($dcat, $extension);
+                break;
+            case 'info':
+                // Return the informational properties and uri's of published datasets
+                return self::getDefinitionsInfo();
                 break;
             default:
                 break;
@@ -76,7 +80,7 @@ class InfoController extends \Controller {
      * @param $pieces array of uri pieces
      * @return mixed \Data object with a graph of DCAT information
      */
-    private static function createDcat($pieces){
+    private static function createDcat(){
 
         // List all namespaces that can be used in a DCAT document
         $ns = array('dcat' => 'http://www.w3.org/ns/dcat#',
@@ -140,7 +144,54 @@ class InfoController extends \Controller {
         $data_result->semantic->conf = array('ns' => $ns);
         $data_result->definition = new \stdClass();
         $data_result->definition->resource_name = 'dcat';
+        $data_result->definition->collection_uri = 'info';
 
         return $data_result;
+    }
+
+    /**
+     * Return the information about published datasets
+     */
+    private static function getDefinitionsInfo(){
+
+        // Get all of the definitions
+        $definitions = \Definition::all();
+
+        $info = array();
+
+        foreach($definitions as $definition){
+
+            $definition_info = new \stdClass();
+            $definition_info->description = $definition->description;
+            $id = $definition->collection_uri . '/' .$definition->resource_name;
+            $definition_info->uri = \Request::root() . '/' . $id;
+
+            // Get the available request parameters from the responsible datacontroller
+            $source_type = $definition->source()->first();
+
+            $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->getType() . 'Controller';
+            $params = $datacontroller::getParameters();
+            $definition_info->parameters = $params;
+
+            $req_params = $datacontroller::getRequiredParameters();
+            if(!empty($req_params)){
+                $definition_info->required_parameters = $req_params;
+            }
+
+            // Add the info to the collection
+            $info[$id] = $definition_info;
+        }
+
+
+        // Add DCAT as a resource
+        $definition_info = new \stdClass();
+        $definition_info->description = "A DCAT document about the available datasets created by using the DCAT vocabulary.";
+        $id = 'info/dcat';
+        $definition_info->uri = \Request::root() . '/' . $id;
+
+        // Add the info to the collection
+        $info[$id] = $definition_info;
+
+        return str_replace('\/', '/', json_encode($info));
     }
 }
