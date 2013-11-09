@@ -51,4 +51,19 @@ class CustomValidator extends \Illuminate\Validation\Validator {
         }
     }
 
+    /**
+     * Check if the given file is located in the installed folder and the
+     */
+    public function validateInstalled($attribute, $value, $parameters){
+
+        try{
+
+            $class_file = app_path() . '/../installed/' .  $value;
+            return file_exists($class_file);
+
+        }catch(Exception $ex){
+            return false;
+        }
+
+    }
 }

@@ -6,14 +6,14 @@ use tdt\core\datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * JSON Controller
+ * Installed Controller
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
 class INSTALLEDController extends ADataController {
 
-    public function readData($source_definition, $rest_parameters = null){
+    public function readData($source_definition, $rest_parameters = array()){
 
         // Include the class
         $class_file = app_path() . '/../installed/' .  $source_definition->path;
@@ -51,7 +51,8 @@ class INSTALLEDController extends ADataController {
                 if(!empty($parameter_keys)){
                     foreach($parameter_keys as $key){
                         if(!empty($parameters[$key]['required']) && $parameters[$key]['required']){
-                            \App::abort(400, "Oops, you forgot to specify the REST parameter '$key' (".$parameters[$key]['description'].").");
+                            \App::abort(400, "Oops, you forgot to specify the REST parameter '$key' (".$parameters[$key]['description'].").
+                                You have to specify this parameter by passing it as a part of the URI, unlike optional parameters which are passed in the query string.");
                         }
                     }
                 }

@@ -43,7 +43,7 @@ class DatasetController extends \Controller {
                 $rest_parameters = ltrim($rest_parameters, '/');
                 $rest_parameters = explode('/', $rest_parameters);
                 if(empty($rest_parameters[0])){
-                    $rest_parameters = null;
+                    $rest_parameters = array();
                 }
 
                 // Retrieve dataobject from datacontroller

@@ -10,7 +10,7 @@ class InstalledDefinition extends SourceType{
 
     protected $table = 'installeddefinitions';
 
-    protected $fillable = array('path', 'description');
+    protected $fillable = array('path', 'description', 'class');
 
     /**
      * Relationship with the Definition model.
@@ -23,11 +23,30 @@ class InstalledDefinition extends SourceType{
      * Validate the input for this model.
      */
     public static function validate($params){
-        return parent::validate($params);
+        $validated_params = parent::validate($params);
+
+        // Validate the class after the path has been validated in the parent
+        $class_file = app_path() . '/../installed/' .  $params['path'];
+
+        // The file exists through the validation of the parent, but to be sure is checked again here
+        if(file_exists($class_file)){
+            require_once $class_file;
+
+            $class_name = $params['class'];
+
+            // Check if class exists
+            if(!class_exists($class_name)){
+                \App::abort('The class file was found, but the class name could not be resolved.');
+            }
+        }else{
+            \App::abort('The class file could not be found with given path: ' . $class_file);
+        }
+
+        return $validated_params;
     }
 
     /**
-     * Retrieve the set of create parameters that make up a JSON definition.
+     * Retrieve the set of create parameters that make up a installed definition.
      */
     public static function getCreateParameters(){
         return array(
@@ -61,7 +80,7 @@ class InstalledDefinition extends SourceType{
     public static function getCreateValidators(){
         return array(
             'class' => 'required',
-            'path' => 'required',
+            'path' => 'installed|required',
             'description' => 'required',
         );
     }

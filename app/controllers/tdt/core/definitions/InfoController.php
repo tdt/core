@@ -169,19 +169,35 @@ class InfoController extends \Controller {
             // Get the available request parameters from the responsible datacontroller
             $source_type = $definition->source()->first();
 
-            $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->getType() . 'Controller';
-            $params = $datacontroller::getParameters();
-            $definition_info->parameters = $params;
+            // Installed source types contain their own set of parameters (required and optional)
+            if(strtolower($source_type->getType()) == 'installed'){
 
-            $req_params = $datacontroller::getRequiredParameters();
-            if(!empty($req_params)){
-                $definition_info->required_parameters = $req_params;
+                // Include the class
+                $class_file = app_path() . '/../installed/' .  $source_type->path;
+
+                if(file_exists($class_file)){
+
+                    require_once $class_file;
+
+                    $class_name = $source_type->class;
+
+                    // Check if class exists
+                    if(class_exists($class_name)){
+
+                        $installed = new $class_name();
+                        $definition_info->parameters = $installed::getParameters();
+                    }
+                }
+            }else{
+
+                $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->getType() . 'Controller';
+                $params = $datacontroller::getParameters();
+                $definition_info->parameters = $params;
             }
 
             // Add the info to the collection
             $info[$id] = $definition_info;
         }
-
 
         // Add DCAT as a resource
         $definition_info = new \stdClass();
