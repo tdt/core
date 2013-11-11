@@ -18,7 +18,7 @@ class CSVController extends ADataController {
     private static $MAX_LINE_LENGTH = 0;
 
 
-    public function readData($source_definition, $rest_parameters = null){
+    public function readData($source_definition, $rest_parameters = array()){
 
         list($limit, $offset) = $this->calculateLimitAndOffset();
 

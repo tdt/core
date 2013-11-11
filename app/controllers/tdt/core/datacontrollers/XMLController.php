@@ -15,7 +15,7 @@ use tdt\core\utils\XMLSerializer;
 */
 class XMLController extends ADataController {
 
-    public function readData($source_definition, $rest_parameters = null){
+    public function readData($source_definition, $rest_parameters = array()){
 
         $xml_ser = $this->xmlstr_to_array(file_get_contents($source_definition->uri));
 
