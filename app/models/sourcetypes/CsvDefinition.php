@@ -109,7 +109,17 @@ class CsvDefinition extends SourceType{
      * Include the parameters that make up relationships with this model.
      */
     public static function getAllParameters(){
-        return array_merge(self::getCreateParameters(), TabularColumns::getCreateParameters());
+
+        $column_params = array('columns' => array('description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
+                                                'parameters' => TabularColumns::getCreateParameters(),
+                                            )
+        );
+
+        $geo_params = array('geo' => array('description' => 'Geo must be an array of objects of which the template is described in the parameters section.',
+                                            'parameters' => GeoProperty::getCreateParameters(),
+        ));
+
+        return array_merge(self::getCreateParameters(), $column_params, $geo_params);
     }
 
     /**

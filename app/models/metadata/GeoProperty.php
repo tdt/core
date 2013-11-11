@@ -10,7 +10,7 @@ class GeoProperty extends Eloquent{
 
     protected $table = 'geoproperties';
 
-    protected $fillable = array('path', 'geo_property');
+    protected $fillable = array('path', 'property');
 
     public static $GEOTYPES = array('polygon', 'latitude', 'longitude', 'polyline', 'multiline', 'point');
 
@@ -26,11 +26,16 @@ class GeoProperty extends Eloquent{
      */
     public static function getCreateParameters(){
 
+        $geo_type_string = implode(',', self::$GEOTYPES);
+
         return array(
-            'geo_property' => array(
+            'property' => array(
                 'required' => false,
-                'description' => "geo_property should be an array holding one of the following values ['latitude'|'longitude'|'point'|'polygon'|'polyline'],
-                the value should then be the name of the key holding that geo property.",
+                'description' => "This must be a string holding one of the following values $geo_type_string.",
+            ),
+            'path' => array(
+                'required' => false,
+                'description' => 'This takes on the path to the value of the property, for tabular data for example this will be the name of the column that holds the property value.',
             ),
         );
     }
