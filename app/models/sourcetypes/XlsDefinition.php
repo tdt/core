@@ -50,11 +50,11 @@ class XlsDefinition extends SourceType{
         foreach($columns as $column){
 
             $tabular_column = new TabularColumns();
-            $tabular_column->index = $column[0];
-            $tabular_column->column_name = $column[1];
-            $tabular_column->is_pk = $column[3];
-            $tabular_column->column_name_alias = $column[2];
-            $tabular_column->tabular_type = 'XlsDefinition';
+            $tabular_column->index = $column['index'];
+            $tabular_column->column_name = $column['column_name'];
+            $tabular_column->is_pk = $column['is_pk'];
+            $tabular_column->column_name_alias = $column['column_name_alias'];
+            $tabular_column->tabular_type = 'CsvDefinition';
             $tabular_column->tabular_id = $this->id;
             $tabular_column->save();
         }
@@ -190,7 +190,7 @@ class XlsDefinition extends SourceType{
                                 $alias = $cell_value;
                             }
 
-                            array_push($columns, array($column_index, $cell->getCalculatedValue(), $alias, $pk === $column_index));
+                            array_push($columns, array('index' => $column_index, 'column_name' => $cell->getCalculatedValue(), 'column_name_alias' => $alias, 'is_pk' => ($pk === $column_index)));
                         }
                         $column_index++;
                     }

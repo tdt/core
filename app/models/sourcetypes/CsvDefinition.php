@@ -41,8 +41,14 @@ class CsvDefinition extends SourceType{
      */
     public function save(array $options = array()){
 
-        // Parse the columns of the csv file
-        $columns = $this->parseColumns($options);
+        // Check for passed columns
+        $columns = @$options['columns'];
+
+        if(empty($columns)){
+
+            // Parse the columns of the csv file
+            $columns = $this->parseColumns($options);
+        }
 
         // If the columns were parsed correctly, save this definition and use the id to link them to the column objects
         parent::save();
@@ -55,23 +61,24 @@ class CsvDefinition extends SourceType{
         foreach($columns as $column){
 
             $tabular_column = new TabularColumns();
-            $tabular_column->index = $column[0];
-            $tabular_column->column_name = $column[1];
-            $tabular_column->is_pk = $column[3];
-            $tabular_column->column_name_alias = $column[2];
+            $tabular_column->index = $column['index'];
+            $tabular_column->column_name = $column['column_name'];
+            $tabular_column->is_pk = $column['is_pk'];
+            $tabular_column->column_name_alias = $column['column_name_alias'];
             $tabular_column->tabular_type = 'CsvDefinition';
             $tabular_column->tabular_id = $this->id;
             $tabular_column->save();
         }
 
         // Check for passed geo_properties
-        $geo_props = @$options['geo_property'];
+        $geo_props = @$options['geo'];
 
         if(!empty($geo_props)){
-            foreach($geo_props as $geo_type => $column_name){
+            foreach($geo_props as $geo_entry){
+
                 $geo_property = new GeoProperty();
-                $geo_property->path = $column_name;
-                $geo_property->geo_property = $geo_type;
+                $geo_property->path = $geo_entry['path'];
+                $geo_property->property = $geo_entry['property'];
                 $geo_property->source_id = $this->id;
                 $geo_property->source_type = 'CsvDefinition';
                 $geo_property->save();
@@ -162,7 +169,7 @@ class CsvDefinition extends SourceType{
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array($i, trim($line[$i]), $alias, $pk === $i));
+                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk == $i)));
                 }
             }else{
                 \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");

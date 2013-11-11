@@ -208,6 +208,21 @@ class InfoController extends \Controller {
         // Add the info to the collection
         $info[$id] = $definition_info;
 
-        return str_replace('\/', '/', json_encode($info));
+        return self::makeResponse(str_replace('\/', '/', json_encode($info)));
+    }
+
+    /**
+     * Return the response with the given data ( formatted in json )
+     */
+    private static function makeResponse($data){
+
+         // Create response
+        $response = \Response::make($data, 200);
+
+        // Set headers
+        $response->header('Access-Control-Allow-Origin', '*');
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+
+        return $response;
     }
 }

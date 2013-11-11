@@ -23,11 +23,7 @@ class DiscoveryController extends \Controller {
             $dis_document->resources->input = $discovery_class::createDiscoveryDocument();
         }
 
-        $data_result = new Data();
-        $data_result->data = $dis_document;
-
-        // Return discovery document in JSON
-        return str_replace("\/", "/", json_encode($data_result->data));
+        return self::makeResponse(str_replace("\/", "/", json_encode($dis_document)));
     }
 
     /**
@@ -168,5 +164,20 @@ class DiscoveryController extends \Controller {
         $info->methods->get->description = "Get a list of all retrievable datasets published on this datatank instance.";
 
         return $info;
+    }
+
+    /**
+     * Return the response with the given data ( formatted in json )
+     */
+    private static function makeResponse($data){
+
+         // Create response
+        $response = \Response::make($data, 200);
+
+        // Set headers
+        $response->header('Access-Control-Allow-Origin', '*');
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+
+        return $response;
     }
 }

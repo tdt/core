@@ -102,14 +102,34 @@ class Definition extends Eloquent{
 
             $columns_props = array();
             foreach($columns as $column){
-                $columns_props[$column->index] = array(
+                array_push($columns_props, array(
                     'column_name' => $column->column_name,
                     'is_pk' => $column->is_pk,
                     'column_name_alias' => $column->column_name_alias,
-                );
+                    'index' => $column->index,
+                ));
             }
 
             $properties['columns'] = $columns_props;
+        }
+
+        // If the source type has a relationship with geoproperties, attach those to the properties
+        if(method_exists(get_class($source_definition), 'geoProperties')){
+
+            $geo_props = $source_definition->geoProperties();
+            $geo_props = $geo_props->getResults();
+
+            $geo_props_arr = array();
+            foreach($geo_props as $geo_prop){
+
+                $geo_entry = new \stdClass();
+
+                $geo_entry->path = $geo_prop->path;
+                $geo_entry->property = $geo_prop->property;
+                array_push($geo_props_arr, $geo_entry);
+            }
+
+            $properties['geo'] = $geo_props_arr;
         }
 
         return $properties;

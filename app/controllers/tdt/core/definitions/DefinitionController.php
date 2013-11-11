@@ -223,7 +223,7 @@ class DefinitionController extends \Controller {
                 $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
             }
 
-            return str_replace('\/', '/', json_encode($defs_props));
+            return self::makeResponse(str_replace('\/', '/', json_encode($defs_props)), 200);
         }
 
         if(!self::exists($uri)){
@@ -235,10 +235,7 @@ class DefinitionController extends \Controller {
 
         $def_properties = $definition->getAllParameters();
 
-        // Return properties document in JSON
-        // TODO return this in more formats?
-        return str_replace("\/", "/", json_encode($def_properties));
-
+        return self::makeResponse(str_replace("\/", "/", json_encode($def_properties)));
     }
 
     /**
@@ -269,5 +266,20 @@ class DefinitionController extends \Controller {
         }
 
         return array($collection_uri, $resource_name);
+    }
+
+    /**
+     * Return the response with the given data ( formatted in json )
+     */
+    private static function makeResponse($data){
+
+         // Create response
+        $response = \Response::make($data, 200);
+
+        // Set headers
+        $response->header('Access-Control-Allow-Origin', '*');
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+
+        return $response;
     }
 }

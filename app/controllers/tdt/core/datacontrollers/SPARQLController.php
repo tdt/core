@@ -86,6 +86,7 @@ class SPARQLController extends ADataController {
         $paging = $this->calculatePagingHeaders($limit, $offset, $count);
 
         $query = $source_definition->query;
+
         if(!empty($offset)){
             $query = $query . " OFFSET $offset ";
         }

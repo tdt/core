@@ -43,7 +43,7 @@ class CSVController extends ADataController {
         $geo = array();
 
         foreach($geo_properties as $geo_prop){
-            $geo[$geo_prop->geo_property] = $geo_prop->path;
+            $geo[$geo_prop->property] = $geo_prop->path;
         }
 
         if(!$columns){
@@ -98,7 +98,7 @@ class CSVController extends ADataController {
                             array_push($row_objects, $obj);
                         }else{
 
-                            if(!empty($row_objects[$obj->pk])){
+                            if(!empty($row_objects[$obj->$pk])){
                                 \Log::info("The primary key $pk has been used already for another record!");
                             }else{
                                 $row_objects[$obj->$pk] = $obj;

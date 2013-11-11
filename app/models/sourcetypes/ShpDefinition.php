@@ -55,10 +55,10 @@ class ShpDefinition extends SourceType{
         $columns = @$options['columns'];
 
         if(empty($columns)){
-            $columns = $this->parseColumns();
+            $columns = $this->parseColumns($options);
         }
 
-        $geo_properties = @$options['geo_properties'];
+        $geo_properties = @$options['geo'];
 
         if(empty($geo_properties)){
             $geo_properties = $this->parseGeoProperty();
@@ -68,21 +68,23 @@ class ShpDefinition extends SourceType{
 
         // Save the TabularColumns
         foreach($columns as $column){
+
             $tabular_column = new TabularColumns();
-            $tabular_column->index = $column[0];
-            $tabular_column->column_name = $column[1];
-            $tabular_column->is_pk = 0;
-            $tabular_column->column_name_alias = $column[2];
+            $tabular_column->index = $column['index'];
+            $tabular_column->column_name = $column['column_name'];
+            $tabular_column->is_pk = $column['is_pk'];
+            $tabular_column->column_name_alias = $column['column_name_alias'];
             $tabular_column->tabular_type = 'ShpDefinition';
             $tabular_column->tabular_id = $this->id;
             $tabular_column->save();
         }
 
         // Save the GeoProperty
-        foreach($geo_properties as $geo_prop){
+        foreach($geo_properties as $geo_entry){
+
             $geo_property = new GeoProperty();
-            $geo_property->path = $geo_prop[1];
-            $geo_property->geo_property = $geo_prop[0];
+            $geo_property->path = $geo_entry['path'];
+            $geo_property->property = $geo_entry['property'];
             $geo_property->source_id = $this->id;
             $geo_property->source_type = 'ShpDefinition';
             $geo_property->save();
@@ -96,12 +98,13 @@ class ShpDefinition extends SourceType{
      *
      * TODO clean up this function a bit.
      */
-    private function parseColumns(){
+    private function parseColumns($options){
 
         $options = array('noparts' => false);
         $is_url = (substr($this->uri , 0, 4) == "http");
         $tmp_dir = sys_get_temp_dir();
         $columns = array();
+        $pk = @$options['pk'];
 
         if ($is_url) {
 
@@ -121,7 +124,7 @@ class ShpDefinition extends SourceType{
 
         $record = $shp->getNext();
 
-        // read meta data
+        // Read meta data
         if(!$record){
             \App::abort(452, "We failed to retrieve a record from the provided shape file on uri $this->uri, make sure the corresponding dbf and shx files are at the same location.");
         }
@@ -133,7 +136,7 @@ class ShpDefinition extends SourceType{
         foreach ($dbf_fields as $field) {
 
             $property = strtolower($field["fieldname"]);
-            array_push($columns, array($column_index, $property, $property));
+            array_push($columns, array('index' => $column_index, 'column_name' => $property, 'column_name_alias' => $property, 'is_pk' => ($pk === $column_index)));
             $column_index++;
         }
 
@@ -143,16 +146,16 @@ class ShpDefinition extends SourceType{
         // Either coords will be set (identified by the parts)
         // or a lat long will be set (identified by x and y)
         if(!empty($shp_data['parts'])) {
-            array_push($columns, array($column_index, 'parts', 'parts'));
+            array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
         }else if(!empty($shp_data['x'])) {
-            array_push($columns, array($column_index, 'x', 'x'));
-            array_push($columns, array($column_index + 1, 'y', 'y'));
+            array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
+            array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
         }else{
             \App::abort(452, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported.
                 The supported geometries are Null Shape, Point, PolyLine, Polygon, MultiPoint');
         }
-        return $columns;
 
+        return $columns;
     }
 
 
@@ -196,15 +199,15 @@ class ShpDefinition extends SourceType{
         // or a lat long pair will be set (identified by x and y)
         if(!empty($shp_data['parts'])) {
             if(strpos($shape_type, 'polyline')){
-                array_push($geo_properties, array('polyline', 'parts'));
+                array_push($geo_properties, array('property' => 'polyline', 'path' => 'parts'));
             }else if(strpos($shape_type, 'polygon')){
-                array_push($geo_properties, array('polygon', 'parts'));
+                array_push($geo_properties, array('property' => 'polygon', 'path' => 'parts'));
             }else{ // TODO support more types
                 \App::abort(452, 'Provided geometric type ( $shape_type ) is not supported');
             }
         }else if(isset($shp_data['x'])){
-            array_push($geo_properties, array('latitude', 'x'));
-            array_push($geo_properties, array('longitude', 'y'));
+            array_push($geo_properties, array('property' => 'latitude', 'path' => 'x'));
+            array_push($geo_properties, array('property' => 'longitude', 'path' => 'y'));
         }
 
         return $geo_properties;
