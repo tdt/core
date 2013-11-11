@@ -58,27 +58,32 @@ class TabularColumns extends Eloquent{
      */
     public static function validate($params){
 
-        var_dump($params);
-        exit();
+        // If no columns are passed, then we'll parse them ourselves
+        if(empty($params)){
+            return;
+        }
 
         $validated_params = array();
 
         $create_params = self::getCreateParameters();
         $rules = self::getCreateValidators();
 
-        array_keys($create_params);
+        //array_keys($create_params);
 
-        // Validate the parameters to their rules
-        $validator = Validator::make(
-                        $params,
-                        $rules
-                    );
+        foreach($params as $column_entry){
 
-        // If any validation fails, return a message and abort the workflow
-        if($validator->fails()){
+            // Validate the parameters to their rules
+            $validator = Validator::make(
+                            $column_entry,
+                            $rules
+                        );
 
-            $messages = $validator->messages();
-            \App::abort(452, $messages->first());
+            // If any validation fails, return a message and abort the workflow
+            if($validator->fails()){
+
+                $messages = $validator->messages();
+                \App::abort(452, $messages->first());
+            }
         }
     }
 }

@@ -32,6 +32,10 @@ class XlsDefinition extends SourceType{
      * Validate the input for this model.
      */
     public static function validate($params){
+
+        $tabular_params = @$params['columns'];
+        TabularColumns::validate($tabular_params);
+
         return parent::validate($params);
     }
 

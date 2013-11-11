@@ -41,20 +41,47 @@ class GeoProperty extends Eloquent{
     }
 
     /**
+     * Return the set of rules for the parameters for validation purposes.
+     */
+    public static function getCreateValidators(){
+        return array(
+            'property' => 'required',
+            'path' => 'required',
+        );
+    }
+
+    /**
      * Validate the parameters.
      */
     public static function validate($params){
 
-        if(!empty($params['geo_property'])){
-            $params = $params['geo_property'];
-            foreach($params as $geo_type => $column_name){
+        // If no geo parameters are passed, return
+        if(empty($params)){
+            return;
+        }
 
-                $type = mb_strtolower($geo_type);
-                if(!in_array($type, self::$GEOTYPES)){
+        foreach($params as $geo){
 
-                    $types = implode(', ', self::$GEOTYPES);
-                    \App::abort(452, "The given geo type ($geo_type) is not supported, the supported list is: $types.");
-                }
+            // Validate the parameters to their rules
+            $validator = Validator::make(
+                            $geo,
+                            self::getCreateValidators()
+                        );
+
+            // If any validation fails, return a message and abort the workflow
+            if($validator->fails()){
+
+                $messages = $validator->messages();
+                \App::abort(452, $messages->first());
+            }
+
+            // Checkc if the given type is valid
+
+            $type = mb_strtolower($geo['property']);
+            if(!in_array($type, self::$GEOTYPES)){
+
+                $types = implode(', ', self::$GEOTYPES);
+                \App::abort(452, "The given geo type ($type) is not supported, the supported list is: $types.");
             }
         }
     }

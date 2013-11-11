@@ -94,10 +94,10 @@ class CsvDefinition extends SourceType{
      */
     public static function validate($params){
 
-        $geo_params = array_only($params, array_keys(GeoProperty::getCreateParameters()));
+        $geo_params = @$params['geo'];
         GeoProperty::validate($geo_params);
 
-        $tabular_params = array_only($params, array_keys(TabularColumns::getCreateParameters()));
+        $tabular_params = @$params['columns'];
         TabularColumns::validate($tabular_params);
 
         $csv_params = array_only($params, array_keys(self::getCreateParameters()));
@@ -179,7 +179,7 @@ class CsvDefinition extends SourceType{
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk == $i)));
+                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
                 }
             }else{
                 \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");

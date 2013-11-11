@@ -218,10 +218,10 @@ class ShpDefinition extends SourceType{
      */
     public static function validate($params){
 
-        $tabular_params = array_only($params, array_keys(TabularColumns::getCreateParameters()));
+        $tabular_params = @$params['columns'];
         TabularColumns::validate($tabular_params);
 
-        $geo_params = array_only($params, array_keys(GeoProperty::getCreateParameters()));
+        $geo_params = @$params['geo'];
         GeoProperty::validate($geo_params);
 
         return parent::validate($params);
