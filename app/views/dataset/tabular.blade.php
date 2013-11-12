@@ -6,7 +6,7 @@
         <table class='table table-hover well'>
             @if($source_definition->has_header_row)
             <thead>
-                <?php $first_row = $body[0] ?>
+                <?php $first_row = array_shift($body) ?>
                 <tr>
                     @foreach($first_row as $key => $value)
                         <td>{{ $key }}</td>
