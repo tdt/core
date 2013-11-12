@@ -33,7 +33,7 @@
         <br/>
         <ul class="list-group">
             <li class="list-group-item">
-                <h5 class="list-group-item-heading">Documentation</h5>
+                <h5 class="list-group-item-heading">Description</h5>
                 <p class="list-group-item-text">
                     {{ $source_definition->description }}
                 </p>
