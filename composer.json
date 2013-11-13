@@ -24,12 +24,6 @@
         "easyrdf/easyrdf" : "dev-master",
         "kriswallsmith/buzz": "dev-master"
     },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@github.com:tdt/input.git"
-        }
-    ],
     "scripts": {
         "post-install-cmd": [
             "php artisan optimize"
