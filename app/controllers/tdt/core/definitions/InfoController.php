@@ -105,27 +105,32 @@ class InfoController extends \Controller {
         $graph->addLiteral($uri . '/info/dcat', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
 
         // Add the relationships with the datasets
+
         $definitions = \Definition::query()->orderBy('updated_at', 'desc')->get();
-        $last_mod_def = $definitions->first();
 
-        // Add the last modified timestamp in ISO8601
-        $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def->updated_at)));
-        $graph->addLiteral($uri . '/info/dcat', 'foaf:homepage', $uri);
+        if(!empty($definitions)){
+            $last_mod_def = $definitions->first();
 
-        foreach($definitions as $definition){
+            // Add the last modified timestamp in ISO8601
+            $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def->updated_at)));
+            $graph->addLiteral($uri . '/info/dcat', 'foaf:homepage', $uri);
 
-            // Create the dataset uri
-            $dataset_uri = $uri . "/" . $definition->collection_uri . "/" . $definition->resource_name;
+            foreach($definitions as $definition){
 
-            // Add the dataset link to the catalog
-            $graph->addResource($uri . '/info/dcat', 'dcat:Dataset', $dataset_uri);
+                // Create the dataset uri
+                $dataset_uri = $uri . "/" . $definition->collection_uri . "/" . $definition->resource_name;
 
-            // Add the dataset resource and its description
-            $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
-            $graph->addLiteral($dataset_uri, 'dct:description', $definition->description);
-            $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
-            $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
+                // Add the dataset link to the catalog
+                $graph->addResource($uri . '/info/dcat', 'dcat:Dataset', $dataset_uri);
+
+                // Add the dataset resource and its description
+                $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
+                $graph->addLiteral($dataset_uri, 'dct:description', $definition->description);
+                $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
+                $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
+            }
         }
+
 
         // Get the triples from our created graph
         $triples = $graph->serialise('turtle');
