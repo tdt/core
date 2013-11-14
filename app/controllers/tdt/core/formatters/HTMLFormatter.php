@@ -91,6 +91,7 @@ class HTMLFormatter implements IFormatter{
 
         for( $i = 0; $i < $json_length; $i++ ) {
             $char = $json[$i];
+
             $new_line_level = NULL;
             $post = "";
             if( $ends_line_level !== NULL ) {

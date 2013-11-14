@@ -1,9 +1,9 @@
 [
     {
         "id": 1,
-        "na  é": "Ava",
+        "name": "Ava",
         "surname": "Giles",
-        "ci° ty": "Oberursel"
+        "city": "Oberursel"
     },
     {
         "id": 2,
@@ -51,7 +51,7 @@
         "id": 9,
         "name": "Erin",
         "surname": "Buckley",
-        "city": "P?ttlingen"
+        "city": "Pottlingen"
     },
     {
         "id": 10,
@@ -189,7 +189,7 @@
         "id": 32,
         "name": "Chastity",
         "surname": "Gamble",
-        "city": "Thim?on"
+        "city": "Thimön"
     },
     {
         "id": 33,
