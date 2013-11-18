@@ -15,6 +15,9 @@ class BaseController extends \Controller {
      */
     public function handleRequest($uri){
 
+        // Introduce case insensitivity
+        $uri = strtolower(rtrim($uri, '/'));
+
         // Check first segment of the request
         switch(\Request::segment(1)){
             case 'discovery':

@@ -29,33 +29,39 @@ class HTMLFormatter implements IFormatter{
             $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
         }
 
-        // Check if other views need to be served
-        switch($dataObj->source_definition->getType()){
-            case 'CSV':
-                $view = 'dataset.tabular';
-                $data = $dataObj->data;
-                break;
-            case 'LD':
-                // This data object is always semantic
-                $view = 'dataset.code';
+        if(!empty($dataObj->source_definition)){
+            // Check if other views need to be served
+            switch($dataObj->source_definition->getType()){
+                case 'CSV':
+                    $view = 'dataset.tabular';
+                    $data = $dataObj->data;
+                    break;
+                case 'LD':
+                    // This data object is always semantic
+                    $view = 'dataset.code';
 
-                // Check if a configuration is given
-                $conf = array();
-                if(!empty($dataObj->semantic->conf)){
-                    $conf = $dataObj->semantic->conf;
-                }
+                    // Check if a configuration is given
+                    $conf = array();
+                    if(!empty($dataObj->semantic->conf)){
+                        $conf = $dataObj->semantic->conf;
+                    }
 
-                // Serializer instantiation
-                $ser = \ARC2::getRDFJSONSerializer($conf);
+                    // Serializer instantiation
+                    $ser = \ARC2::getRDFJSONSerializer($conf);
 
-                // Use ARC to serialize to JSON (override)
-                $data = self::displayTree(json_decode($ser->getSerializedTriples($dataObj->data->getTriples())));
+                    // Use ARC to serialize to JSON (override)
+                    $data = self::displayTree(json_decode($ser->getSerializedTriples($dataObj->data->getTriples())));
 
-                break;
-            default:
-                $view = 'dataset.code';
-                $data = self::displayTree($dataObj->data);
-                break;
+                    break;
+                default:
+                    $view = 'dataset.code';
+                    $data = self::displayTree($dataObj->data);
+                    break;
+            }
+        }else{
+            // Collection view
+            $view = 'dataset.collection';
+            $data = self::displayTree($dataObj->data);
         }
 
         // Render the view

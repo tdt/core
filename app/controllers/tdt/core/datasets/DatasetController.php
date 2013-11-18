@@ -68,7 +68,45 @@ class DatasetController extends \Controller {
             }
 
         }else{
-            \App::abort(404, "The resource you were looking for could not be found (URI: $uri).");
+
+            // Coulnd't find a definition, but it might be a collection
+            $resources = \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get();
+
+            if(count($resources) > 0){
+
+                $data = new Data();
+                $data->data = new \stdClass();
+
+                foreach ($resources as $res) {
+
+                    // Check if it's a subcollection or a dataset
+                    $collection_uri = rtrim($res->collection_uri, '/');
+                    if($collection_uri == $uri){
+                        if(empty($data->data->datasets)){
+                            $data->data->datasets = array();
+                        }
+
+                        array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
+                    }else{
+                        if(empty($data->data->collections)){
+                            $data->data->collections = array();
+                        }
+
+                        array_push($data->data->collections, \URL::to($collection_uri));
+                    }
+                }
+
+                // Add definition to the object
+                $data->definition = new \Definition();
+                $data->definition->collection_uri = $uri;
+                $data->definition->resource_name = '';
+
+                // Return the formatted response with content negotiation
+                return ContentNegotiator::getResponse($data, $extension);
+            }else{
+                \App::abort(404, "The dataset or collection you were looking for could not be found (URI: $uri).");
+            }
+
         }
     }
 
