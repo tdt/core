@@ -5,8 +5,8 @@ php:
 env:
   - DB=mysql
 before_script:
-  - composer install
   - mysql -e 'create database core_test;'
+  - composer install
 
 script:
 - phpunit
