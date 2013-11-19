@@ -3,6 +3,7 @@
 namespace tdt\core\definitions;
 
 use Illuminate\Routing\Router;
+use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 
 
@@ -21,18 +22,34 @@ class DefinitionController extends \Controller {
 
         switch($method){
             case "PUT":
+                // Set permission
+                Auth::requirePermissions('definition.create');
+
                 return self::createDefinition($uri);
                 break;
             case "GET":
-                return self::getDefinition($uri);
+                // Set permission
+                Auth::requirePermissions('definition.view');
+
+                return self::viewDefinition($uri);
                 break;
+            case "POST":
             case "PATCH":
-                return self::patchDefinition($uri);
+                // Set permission
+                Auth::requirePermissions('definition.update');
+
+                return self::updateDefinition($uri);
                 break;
             case "DELETE":
+                // Set permission
+                Auth::requirePermissions('definition.delete');
+
                 return self::deleteDefinition($uri);
                 break;
             case "HEAD":
+                // Set permission
+                Auth::requirePermissions('definition.view');
+
                 return self::headDefinition($uri);
                 break;
             default:
@@ -200,7 +217,7 @@ class DefinitionController extends \Controller {
     /**
      * PATCH a definition based on the PATCH parameters and URI.
      */
-    private static function patchDefinition($uri){
+    private static function updateDefinition($uri){
 
     }
 
@@ -214,7 +231,7 @@ class DefinitionController extends \Controller {
      * GET a definition based on the uri provided
      * TODO add support function get retrieve collections, instead full resources.
      */
-    private static function getDefinition($uri){
+    private static function viewDefinition($uri){
 
         // TODO make dynamic
         if($uri == 'definitions'){

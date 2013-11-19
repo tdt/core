@@ -3,6 +3,7 @@
 namespace tdt\core\definitions;
 
 use Illuminate\Routing\Router;
+use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
 
@@ -15,6 +16,9 @@ use tdt\core\ContentNegotiator;
 class InfoController extends \Controller {
 
     public static function handle($uri){
+
+        // Set permission
+        Auth::requirePermissions('info.view');
 
         // Propagate the request based on the HTTPMethod of the request
         $method = \Request::getMethod();

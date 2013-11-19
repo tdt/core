@@ -2,6 +2,7 @@
 
 namespace tdt\core\definitions;
 
+use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
 
@@ -14,6 +15,9 @@ use tdt\core\ContentNegotiator;
 class DiscoveryController extends \Controller {
 
     public static function handle($uri){
+
+        // Set permission
+        Auth::requirePermissions('discovery.view');
 
         $dis_document = self::createDiscoveryDocument();
 
