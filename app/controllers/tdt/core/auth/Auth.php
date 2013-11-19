@@ -9,6 +9,9 @@ namespace tdt\core\auth;
  */
 class Auth extends \Controller {
 
+    private static $user;
+    private static $password;
+
     /**
      * Check if user meets permissions required to do the request, otherwise prompt login
      */
@@ -66,18 +69,22 @@ class Auth extends \Controller {
      */
     protected static function logIn(){
 
-        header('WWW-Authenticate: Basic');
-        header('HTTP/1.0 401 Unauthorized');
+        // Basic auth, TODO: remove check
+
+        if(\App::environment() != 'testing'){
+            header('WWW-Authenticate: Basic');
+            header('HTTP/1.0 401 Unauthorized');
+        }
 
         // Fix basic auth on some servers;
         self::basicAuth();
 
-        if(isset($_SERVER['PHP_AUTH_USER'])){
+        if(isset(self::$user)){
             try{
                 // Set login credentials
                 $credentials = array(
-                    'email'    => $_SERVER['PHP_AUTH_USER'],
-                    'password' => $_SERVER['PHP_AUTH_PW'],
+                    'email'    => self::$user,
+                    'password' => self::$password,
                 );
 
                 // Try to authenticate the user
@@ -110,9 +117,13 @@ class Auth extends \Controller {
      *  Fix for empty PHP_AUTH_USER
      */
     protected static function basicAuth(){
-        //
-        if(!empty($_SERVER['Authorization'])){
-            list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = explode(':' , base64_decode(substr($_SERVER['Authorization'], 6)));
+
+        self::$user = \Request::header('PHP_AUTH_USER');
+        self::$password = \Request::header('PHP_AUTH_PW');
+        $auth_header = \Request::header('Authorization');
+
+        if(!empty($auth_header)){
+            list(self::$user, self::$password) = explode(':' , base64_decode(substr(\Request::header('Authorization'), 6)));
         }
     }
 

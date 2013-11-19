@@ -5,7 +5,8 @@ php:
 env:
   - DB=mysql
 before_script:
-  - mysql -e 'create database core_test;'
+  - mysql -e 'CREATE DATABASE core_test;'
+  - sudo hostname test.travis-ci.org
   - composer install
 
 script:

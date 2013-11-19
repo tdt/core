@@ -2,70 +2,67 @@
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
-	/**
-	 * Creates the application.
-	 * This function is automatically called by Laravel.
-	 *
-	 * @return Symfony\Component\HttpKernel\HttpKernelInterface
-	 */
-	public function createApplication()
-	{
-		$unitTesting = true;
+    /**
+     * Creates the application.
+     * This function is automatically called by Laravel.
+     *
+     * @return Symfony\Component\HttpKernel\HttpKernelInterface
+     */
+    public function createApplication()
+    {
+        $unitTesting = true;
 
-		$testEnvironment = 'testing';
+        $testEnvironment = 'testing';
 
-		return require __DIR__.'/../../bootstrap/start.php';
-	}
+        return require __DIR__.'/../../bootstrap/start.php';
+    }
 
-	/**
-	 * Default preparation for each test
-	 */
-	public function setUp(){
+    /**
+     * Default preparation for each test
+     */
+    public function setUp(){
 
-		parent::setUp();
+        parent::setUp();
 
-		$this->prepareForTests();
-	}
+        $this->prepareForTests();
+    }
 
-	/**
-	 * Prepare for the tests to be run.
-	 */
-	public function prepareForTests(){
+    /**
+     * Prepare for the tests to be run.
+     */
+    public function prepareForTests(){
 
         // Enable your route filters, very important!
         Route::enableFilters();
         Route::any('{all}', 'tdt\core\BaseController@handleRequest')->where('all', '.*');
-        Artisan::call('migrate');
-		Mail::pretend(true);
-	}
+        Mail::pretend(true);
+    }
 
-	/**
-	 * Delete everything out of our testing database.
-	 */
-	public static function tearDownAfterClass(){
+    /**
+     * Delete everything out of our testing database.
+     */
+    public static function tearDownAfterClass(){
 
-		parent::tearDownAfterClass();
-		Artisan::call('migrate:reset');
-	}
+        parent::tearDownAfterClass();
+    }
 
-	/**
-	 * Custom API call function
-	 */
-	public function updateRequest($method, $headers = array(), $data = array()){
+    /**
+     * Custom API call function
+     */
+    public function updateRequest($method, $headers = array(), $data = array()){
 
-		// Set the custom headers.
-		foreach($headers as $key => $value){
+        // Log in as admin header
+        $headers['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
 
-			// Prepare the request with the content-type header.
-	        \Request::getFacadeRoot()->headers->replace([$key => $value]);
-		}
+        // Set the custom headers.
+        \Request::getFacadeRoot()->headers->replace($headers);
 
         // Set the custom method.
         \Request::setMethod($method);
 
         // Set the content body.
         if(is_array($data)){
-        	\Input::merge($data);
+            \Input::merge($data);
         }
-	}
+    }
 }

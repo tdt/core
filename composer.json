@@ -28,6 +28,9 @@
     "scripts": {
         "post-install-cmd": [
             "php artisan optimize",
+            "php artisan migrate:install",
+            "php artisan migrate",
+            "php artisan migrate --package=cartalyst/sentry",
             "php artisan db:seed --class=UserSeeder"
         ],
         "pre-update-cmd": [

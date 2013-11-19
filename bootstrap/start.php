@@ -28,7 +28,8 @@ $app->redirectIfTrailingSlash();
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('*.local', '*-local', 'local'),
+    'local' => array('*.local', '*-local', 'local', '*.dev'),
+    'testing' => array('*.travis-ci.org'),
 
 ));
 
