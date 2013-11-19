@@ -167,12 +167,13 @@ class InfoController extends \Controller {
         foreach($definitions as $definition){
 
             $definition_info = new \stdClass();
-            $definition_info->description = $definition->description;
+
             $id = $definition->collection_uri . '/' .$definition->resource_name;
             $definition_info->uri = \Request::root() . '/' . $id;
 
             // Get the available request parameters from the responsible datacontroller
             $source_type = $definition->source()->first();
+            $definition_info->description = $source_type->description;
 
             // Installed source types contain their own set of parameters (required and optional)
             if(strtolower($source_type->getType()) == 'installed'){
