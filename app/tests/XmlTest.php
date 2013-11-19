@@ -22,7 +22,6 @@ class XmlTest extends TestCase{
             // Set the definition parameters.
             $data = array(
                 'description' => "A xml publication from the $file xml file.",
-                'delimiter' => ',',
                 'uri' => __DIR__ . "/data/xml/$file.xml",
             );
 
