@@ -15,7 +15,7 @@ class BaseController extends \Controller {
      */
     public function handleRequest($uri){
 
-        // Introduce case insensitivity
+        // Introduce case insensitivity and trim right '/'
         $uri = strtolower(rtrim($uri, '/'));
 
         // Check first segment of the request
@@ -41,6 +41,12 @@ class BaseController extends \Controller {
                 break;
         }
 
-        return $controller::handle($uri);
+        $response = $controller::handle($uri);
+
+        // Forget authentication and cookie(s)
+        \Sentry::logout();
+        $cookie = \Cookie::forget('tdt_auth');
+
+        return $response->withCookie($cookie);
     }
 }

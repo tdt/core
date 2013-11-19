@@ -12,7 +12,7 @@
 
     <body>
         <nav class="navbar navbar-fixed-top">
-            <a class="navbar-brand" href="">
+            <a class="navbar-brand" href="{{ URL::to('') }} ">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
             </a>
         </nav>

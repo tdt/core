@@ -3,6 +3,7 @@
 namespace tdt\core\datasets;
 
 use tdt\core\ContentNegotiator;
+use tdt\core\auth\Auth;
 use tdt\core\definitions\DefinitionController;
 
 /**
@@ -14,6 +15,15 @@ use tdt\core\definitions\DefinitionController;
 class DatasetController extends \Controller {
 
     public static function handle($uri){
+
+        // Don't allow non-Get requests
+        $method = \Request::getMethod();
+        if($method != 'GET'){
+            \App::abort(400, "The method $method is not supported for the datasets.");
+        }
+
+        // Set permission
+        Auth::requirePermissions('dataset.view');
 
         // Split for an (optional) extension
         preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
@@ -76,30 +86,28 @@ class DatasetController extends \Controller {
 
                 $data = new Data();
                 $data->data = new \stdClass();
+                $data->data->datasets = array();
+                $data->data->collections = array();
+
 
                 foreach ($resources as $res) {
 
                     // Check if it's a subcollection or a dataset
                     $collection_uri = rtrim($res->collection_uri, '/');
                     if($collection_uri == $uri){
-                        if(empty($data->data->datasets)){
-                            $data->data->datasets = array();
-                        }
-
                         array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
                     }else{
-                        if(empty($data->data->collections)){
-                            $data->data->collections = array();
-                        }
-
                         array_push($data->data->collections, \URL::to($collection_uri));
                     }
                 }
 
-                // Add definition to the object
+                // Fake a definition
                 $data->definition = new \Definition();
-                $data->definition->collection_uri = $uri;
-                $data->definition->resource_name = '';
+                $uri_array = explode('/', $uri);
+                $last_chunk = array_pop($uri_array);
+
+                $data->definition->collection_uri = join('/', $uri_array);
+                $data->definition->resource_name = $last_chunk;
 
                 // Return the formatted response with content negotiation
                 return ContentNegotiator::getResponse($data, $extension);
