@@ -93,7 +93,11 @@ class XlsDefinition extends SourceType{
                 'description' => array(
                     'required' => true,
                     'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                )
+                ),
+                'pk' => array(
+                    'required' => false,
+                    'description' => 'This is a shortcut to define a primary key of this dataset. The value must be the index of the column you want each row to be mapped on. The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.'
+                ),
         );
     }
 
@@ -103,9 +107,11 @@ class XlsDefinition extends SourceType{
      */
     public static function getAllParameters(){
 
-         $column_params = array('columns' => array('description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
-                                                'parameters' => TabularColumns::getCreateParameters(),
-                                            )
+         $column_params = array(
+            'columns' =>
+                array('description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
+                  'parameters' => TabularColumns::getCreateParameters(),
+            ),
         );
 
         return array_merge(self::getCreateParameters(), $column_params);

@@ -59,12 +59,14 @@ class HTMLFormatter implements IFormatter{
                     break;
             }
         }else{
+
             // Collection view
             $view = 'dataset.collection';
             $data = self::displayTree($dataObj->data);
         }
 
         // Render the view
+
         return \View::make($view)->with('title', 'The Datatank')
                                           ->with('body', $data)
                                           ->with('definition', $dataObj->definition)

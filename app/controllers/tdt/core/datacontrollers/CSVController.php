@@ -103,7 +103,6 @@ class CSVController extends ADataController {
                             }else{
                                 $row_objects[$obj->$pk] = $obj;
                             }
-
                         }
                     }
                     $hits++;
@@ -134,10 +133,11 @@ class CSVController extends ADataController {
         $result = array();
 
         foreach($columns as $column){
-            if(!empty($data[$column->index]) || is_numeric($data[$column->index])){
-                $result[$column->column_name_alias] = $data[$column->index];
+            if(!empty($data[$column->index]) || is_numeric(@$data[$column->index])){
+                $result[$column->column_name_alias] = @$data[$column->index];
             }else{
-                \App::abort(452, "The index $column->index could not be found in the data file. Indices start at 0.");
+                \Log::warning("We expected a value for index $column->index, yet no value was given. Filling in an empty value.");
+                $result[$column->column_name_alias] = null;
             }
         }
 

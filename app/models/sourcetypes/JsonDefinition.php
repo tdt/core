@@ -30,6 +30,7 @@ class JsonDefinition extends SourceType{
      * Retrieve the set of create parameters that make up a JSON definition.
      */
     public static function getCreateParameters(){
+
         return array(
             'uri' => array(
                 'required' => true,

@@ -10,7 +10,7 @@ class XmlDefinition extends SourceType{
 
     protected $table = 'xmldefinitions';
 
-    protected $guarded = array('id');
+    protected $fillable = array('uri', 'description');
 
     /**
      * Relationship with the Definition model.
@@ -47,6 +47,7 @@ class XmlDefinition extends SourceType{
      * Include the parameters that make up relationships with this model.
      */
     public static function getAllParameters(){
+        var_dump(self::getCreateParameters());
         return self::getCreateParameters();
     }
 

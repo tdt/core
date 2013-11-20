@@ -179,7 +179,7 @@ class CsvDefinition extends SourceType{
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
+                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk == $i)));
                 }
             }else{
                 \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
@@ -219,7 +219,11 @@ class CsvDefinition extends SourceType{
                 'description' => array(
                     'required' => true,
                     'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                )
+                ),
+                'pk' => array(
+                    'required' => false,
+                    'description' => 'This is a shortcut to define a primary key of this dataset. The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.'
+                ),
         );
     }
 
