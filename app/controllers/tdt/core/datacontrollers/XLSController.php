@@ -22,7 +22,9 @@ class XLSController extends ADataController {
         $uri = $source_definition->uri;
         $sheet = $source_definition->sheet;
         $has_header_row = $source_definition->has_header_row;
-        $start_row = $source_definition->start_row;
+        // Rows start at 1 in XLS, we have however documented that they start at 0 to be consistent with common sense and other
+        // tabular sources such as CSV.
+        $start_row = $source_definition->start_row + 1;
 
         // Retrieve the columns from XLS
         $columns = $source_definition->tabularColumns()->getResults();

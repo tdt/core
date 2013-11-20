@@ -158,20 +158,22 @@ class DefinitionSeeder extends Seeder {
 
         $xls_data = array(
             'tabular',
-            );
+        );
 
         foreach($xls_data as $file){
 
             // Don't create doubles
-            $definition = Definition::where('collection_uri', '=', 'csv')->where('resource_name', '=', $file)->first();
+            $definition = Definition::where('collection_uri', '=', 'xls')->where('resource_name', '=', $file)->first();
 
             if(empty($definition)){
 
                 //Create a new XlsDefinition
                 $xls_def = new XlsDefinition();
                 $xls_def->uri = __DIR__ . '/../../tests/data/xls/' . $file . '.xlsx';
-                $xls_def->description = "Published XLSX file, created from the framework itself. All personal related data, if present, is randomly generated.";
+                $xls_def->description = "Published XLS(X) file, created from the framework itself. All personal related data, if present, is randomly generated.";
                 $xls_def->sheet = 'Sheet1';
+                $xls_def->has_header_row = 1;
+                $xls_def->start_row = 0;
                 $xls_def->save();
 
                 // Add the XlsDefinition to the Definition

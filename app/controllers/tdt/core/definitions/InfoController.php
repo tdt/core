@@ -59,7 +59,7 @@ class InfoController extends \Controller {
         switch($uri){
             case 'dcat':
 
-                // Default format is json
+                // Default format is ttl for dcat
                 if(empty($extension)){
                     $extension = 'ttl';
                 }

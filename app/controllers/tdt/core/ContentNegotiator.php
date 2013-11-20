@@ -26,7 +26,7 @@ class ContentNegotiator extends Pager{
     public static function getResponse($data, $extension = null){
 
         // Extension has priority over Accept-header
-        if(!empty($extension)){
+        if(empty($extension)){
 
             // Check Accept-header
             $accept_header = \Request::header('Accept');
@@ -48,10 +48,6 @@ class ContentNegotiator extends Pager{
                 // Default formatter for semantic data is turtle
                 $extension = 'ttl';
             }
-
-        }else if(!empty($data->semantic)){
-            // Default formatter for semantic data is turtle
-            $extension = 'ttl';
         }
 
         // Safety first

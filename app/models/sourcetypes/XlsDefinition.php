@@ -58,7 +58,7 @@ class XlsDefinition extends SourceType{
             $tabular_column->column_name = $column['column_name'];
             $tabular_column->is_pk = $column['is_pk'];
             $tabular_column->column_name_alias = $column['column_name_alias'];
-            $tabular_column->tabular_type = 'CsvDefinition';
+            $tabular_column->tabular_type = 'XlsDefinition';
             $tabular_column->tabular_id = $this->id;
             $tabular_column->save();
         }
@@ -88,7 +88,7 @@ class XlsDefinition extends SourceType{
                 'start_row' => array(
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
-                    'default_value' => 1,
+                    'default_value' => 0,
                 ),
                 'description' => array(
                     'required' => true,
@@ -148,6 +148,7 @@ class XlsDefinition extends SourceType{
         $tmp_dir = sys_get_temp_dir();
 
         if(empty($columns)){
+
             if (!is_dir($tmp_dir)) {
                 mkdir($tmp_dir);
             }
@@ -179,7 +180,8 @@ class XlsDefinition extends SourceType{
 
                 $row_index = $row->getRowIndex();
 
-                if ($row_index == $this->start_row) {
+                // Rows start at 1 in XLS
+                if ($row_index == $this->start_row + 1) {
 
                     $cell_iterator = $row->getCellIterator();
                     $cell_iterator->setIterateOnlyExistingCells(false);
