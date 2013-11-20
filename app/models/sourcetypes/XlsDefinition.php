@@ -49,6 +49,8 @@ class XlsDefinition extends SourceType{
 
         $columns = $this->parseColumns($options);
 
+        // Unset the pk parameter, serves as a shortcut for the columns configuration
+        unset($this->pk);
         parent::save();
 
         foreach($columns as $column){

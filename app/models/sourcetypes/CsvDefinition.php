@@ -50,6 +50,9 @@ class CsvDefinition extends SourceType{
             $columns = $this->parseColumns($options);
         }
 
+        // Unset the pk parameter, serves as a shortcut for the columns configuration
+        unset($this->pk);
+
         // If the columns were parsed correctly, save this definition and use the id to link them to the column objects
         parent::save();
 
@@ -222,7 +225,7 @@ class CsvDefinition extends SourceType{
                 ),
                 'pk' => array(
                     'required' => false,
-                    'description' => 'This is a shortcut to define a primary key of this dataset. The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.'
+                    'description' => 'This is a shortcut to define a primary key of this dataset. The value must be the index of the column you want each row to be mapped on. The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.'
                 ),
         );
     }

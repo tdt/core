@@ -51,7 +51,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
      */
     public function updateRequest($method, $headers = array(), $data = array()){
 
-        // Log in as admin header
+        // Log in as admin - header
         $headers['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
 
         // Set the custom headers.
