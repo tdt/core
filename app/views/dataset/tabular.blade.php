@@ -21,7 +21,7 @@
                 @foreach($body as $row)
                 <tr>
                     @foreach($row as $key => $value)
-                        <td>{{ $value }}</td>
+                        <td>{{ nl2br($value) }}</td>
                     @endforeach
                 </tr>
                 @endforeach
