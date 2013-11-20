@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?><persons>
-    <person>
+<?xml version="1.0" encoding="UTF-8" ?>
+<persons>
+    <person id="foo" attribute="bar">
         <id>1</id>
-        <name>Rosalyn</name>
+        <name id='rose'>Rosalyn</name>
         <surname>Mcclure</surname>
         <city>Victor Harbor</city>
     </person>
