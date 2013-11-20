@@ -104,6 +104,7 @@ class ShpDefinition extends SourceType{
         $is_url = (substr($this->uri , 0, 4) == "http");
         $tmp_dir = sys_get_temp_dir();
         $columns = array();
+
         $pk = @$options['pk'];
 
         if ($is_url) {

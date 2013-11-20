@@ -46,7 +46,7 @@ class SHPController extends ADataController {
         $geo = array();
 
         foreach($geo_props as $geo_prop){
-            $geo[$geo_prop->geo_property] = $geo_prop->path;
+            $geo[$geo_prop->property] = $geo_prop->path;
         }
 
         if(!$columns){
@@ -130,7 +130,7 @@ class SHPController extends ADataController {
                                 $x = $point['x'];
                                 $y = $point['y'];
 
-                            // Translate the coordinates to WSG84 geo coordinates
+                                // Translate the coordinates to WSG84 geo coordinates
                                 if(!empty($epsg)){
 
                                     $pointSrc = new \proj4phpPoint($x,$y);

@@ -18,23 +18,18 @@ class DefinitionSeeder extends Seeder {
 
         // Add csv definitions
         $this->seedCsv();
-        $this->command->info('Succesfully seeded CSV definitions.');
 
         // Add the json definitions
         $this->seedJson();
-        $this->command->info('Succesfully seeded JSON definitions.');
 
         // Add the xml definitions
         $this->seedXml();
-        $this->command->info('Succesfully seeded XML definitions.');
 
         // Add the shp definitions
         $this->seedShp();
-        $this->command->info('Succesfully seeded SHP definitions.');
 
         // Add the xls definitions
         $this->seedXls();
-        $this->command->info('Succesfully seeded XLS definitions.');
 
     }
 
@@ -53,7 +48,10 @@ class DefinitionSeeder extends Seeder {
             'quotes_and_newlines',
             'simple',
             'utf8',
-            );
+        );
+
+        // Provide a message when nothing has been added (doubles have been found)
+        $added = false;
 
         foreach($csv_data as $file){
 
@@ -78,7 +76,14 @@ class DefinitionSeeder extends Seeder {
                 $definition->source_id = $csv_def->id;
                 $definition->source_type = 'CsvDefinition';
                 $definition->save();
+
+                $this->command->info("Published a CSV file on uri (relative to the root) csv/$file .");
+                $added = true;
             }
+        }
+
+        if(!$added){
+            $this->command->info("No CSV files have been published, all of the uri's that the CSV seeder wanted to use are already taken.");
         }
     }
 
@@ -89,12 +94,14 @@ class DefinitionSeeder extends Seeder {
 
         $xml_data = array(
             'persons',
-            );
+        );
+
+        $added = false;
 
         foreach($xml_data as $file){
 
             // Don't create doubles
-            $definition = Definition::where('collection_uri', '=', 'csv')->where('resource_name', '=', $file)->first();
+            $definition = Definition::where('collection_uri', '=', 'xml')->where('resource_name', '=', $file)->first();
 
             if(empty($definition)){
 
@@ -111,7 +118,14 @@ class DefinitionSeeder extends Seeder {
                 $definition->source_id = $xml_def->id;
                 $definition->source_type = 'XmlDefinition';
                 $definition->save();
+
+                $this->command->info("Published an XML file on uri (relative to the root) xml/$file .");
+                $added = true;
             }
+        }
+
+        if(!$added){
+            $this->command->info("No XML files have been published, all of the uri's that the XML seeder wanted to use are already taken.");
         }
 
     }
@@ -125,12 +139,14 @@ class DefinitionSeeder extends Seeder {
         $json_data = array(
             'complex_persons',
             'simple_persons',
-            );
+        );
+
+        $added = false;
 
         foreach($json_data as $file){
 
             // Don't create doubles
-            $definition = Definition::where('collection_uri', '=', 'csv')->where('resource_name', '=', $file)->first();
+            $definition = Definition::where('collection_uri', '=', 'json')->where('resource_name', '=', $file)->first();
 
             if(empty($definition)){
 
@@ -147,7 +163,14 @@ class DefinitionSeeder extends Seeder {
                 $definition->source_id = $json_def->id;
                 $definition->source_type = 'JsonDefinition';
                 $definition->save();
+
+                $this->command->info("Published a JSON file on uri (relative to the root) json/$file .");
+                $added = true;
             }
+        }
+
+        if(!$added){
+            $this->command->info("No JSON files have been published, all of the uri's that the JSON seeder wanted to use are already taken.");
         }
     }
 
@@ -159,6 +182,8 @@ class DefinitionSeeder extends Seeder {
         $xls_data = array(
             'tabular',
         );
+
+        $added = false;
 
         foreach($xls_data as $file){
 
@@ -183,7 +208,14 @@ class DefinitionSeeder extends Seeder {
                 $definition->source_id = $xls_def->id;
                 $definition->source_type = 'XlsDefinition';
                 $definition->save();
+
+                $this->command->info("Published a XLS file on uri (relative to the root) xls/$file .");
+                $added = true;
             }
+        }
+
+        if(!$added){
+            $this->command->info("No XLS files have been published, all of the uri's that the XLS seeder wanted to use are already taken.");
         }
     }
 
@@ -194,12 +226,14 @@ class DefinitionSeeder extends Seeder {
 
         $shp_data = array(
             'boundaries' => 'gis.osm_boundaries_v06',
-            );
+        );
+
+        $added = false;
 
         foreach($shp_data as $name => $file){
 
             // Don't create doubles
-            $definition = Definition::where('collection_uri', '=', 'csv')->where('resource_name', '=', $name)->first();
+            $definition = Definition::where('collection_uri', '=', 'shp')->where('resource_name', '=', $name)->first();
 
             if(empty($definition)){
 
@@ -217,7 +251,14 @@ class DefinitionSeeder extends Seeder {
                 $definition->source_id = $shp_def->id;
                 $definition->source_type = 'ShpDefinition';
                 $definition->save();
+
+                $this->command->info("Published a SHP file on uri (relative to the root) shp/$file .");
+                $added = true;
             }
+        }
+
+        if(!$added){
+            $this->command->info("No SHP files have been published, all of the uri's that the SHP seeder wanted to use are already taken.");
         }
     }
 }

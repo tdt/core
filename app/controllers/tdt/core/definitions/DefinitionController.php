@@ -38,7 +38,6 @@ class DefinitionController extends \Controller {
             case "PATCH":
                 // Set permission
                 Auth::requirePermissions('definition.update');
-
                 return self::updateDefinition($uri);
                 break;
             case "DELETE":
