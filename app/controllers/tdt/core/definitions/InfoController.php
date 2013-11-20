@@ -112,7 +112,7 @@ class InfoController extends \Controller {
 
         $definitions = \Definition::query()->orderBy('updated_at', 'desc')->get();
 
-        if(!empty($definitions)){
+        if(count($definitions) > 0){
             $last_mod_def = $definitions->first();
 
             // Add the last modified timestamp in ISO8601
