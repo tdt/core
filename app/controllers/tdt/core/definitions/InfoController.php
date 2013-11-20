@@ -124,12 +124,14 @@ class InfoController extends \Controller {
                 // Create the dataset uri
                 $dataset_uri = $uri . "/" . $definition->collection_uri . "/" . $definition->resource_name;
 
+                $source_type = $definition->source()->first();
+
                 // Add the dataset link to the catalog
                 $graph->addResource($uri . '/info/dcat', 'dcat:Dataset', $dataset_uri);
 
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
-                $graph->addLiteral($dataset_uri, 'dct:description', $definition->description);
+                $graph->addLiteral($dataset_uri, 'dct:description', @$source_type->description);
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
             }
