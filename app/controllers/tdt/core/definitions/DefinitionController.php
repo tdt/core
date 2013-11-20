@@ -86,12 +86,12 @@ class DefinitionController extends \Controller {
             $params = \Input::all();
         }
 
-        $params = array_change_key_case($params);
-
         // If we get empty params, then something went wrong
         if(empty($params)){
             \App::abort(452, "The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).");
         }
+
+        $params = array_change_key_case($params);
 
         $matches = array();
 
