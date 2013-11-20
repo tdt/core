@@ -61,7 +61,7 @@ class InfoController extends \Controller {
 
                 // Default format is json
                 if(empty($extension)){
-                    $extension = "json";
+                    $extension = 'ttl';
                 }
 
                 $dcat = self::createDcat();
