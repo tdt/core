@@ -52,7 +52,8 @@ class DatasetController extends \Controller {
                 $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
                 $rest_parameters = ltrim($rest_parameters, '/');
                 $rest_parameters = explode('/', $rest_parameters);
-                if(empty($rest_parameters[0])){
+
+                if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
                     $rest_parameters = array();
                 }
 
@@ -119,25 +120,53 @@ class DatasetController extends \Controller {
     }
 
     /**
-     * Apply RESTful filtering of the data.
+     * Apply RESTful filtering of the data (case insensitive)
      * @return mixed filtered object
      */
     private static function applyRestFilter($data, $rest_params){
 
         foreach($rest_params as $rest_param){
 
-            if(is_object($data) && isset($data->$rest_param)){
+            if(is_object($data) && $key = self::propertyExists($data, $rest_param)){
 
-                $data = $data->$rest_param;
-            }elseif(is_array($data) && isset($data[$rest_param])){
+                $data = $data->$key;
+            }elseif(is_array($data) && $key = self::keyExists($data, $rest_param)){
 
-                $data = $data[$rest_param];
+                $data = $data[$key];
             }else{
                 \App::abort(452, "No property ($rest_param) has been found.");
             }
         }
 
         return array($data);
+    }
 
+    /**
+     * Case insensitive search for a property of an object
+     */
+    private static function propertyExists($object, $property){
+
+        $vars = get_object_vars($object);
+        foreach($vars as $key => $value) {
+            if(strtolower($property) == strtolower($key)) {
+                return $key;
+                break;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Case insensitive search for a key in an array
+     */
+    private static function keyExists($array, $property){
+
+        foreach($array as $key => $value) {
+            if(strtolower($property) == strtolower($key)) {
+                return $key;
+                break;
+            }
+        }
+        return false;
     }
 }

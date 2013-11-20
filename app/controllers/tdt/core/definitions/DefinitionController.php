@@ -22,6 +22,7 @@ class DefinitionController extends \Controller {
 
         switch($method){
             case "PUT":
+
                 // Set permission
                 Auth::requirePermissions('definition.create');
 
