@@ -47,7 +47,6 @@ class XmlDefinition extends SourceType{
      * Include the parameters that make up relationships with this model.
      */
     public static function getAllParameters(){
-        var_dump(self::getCreateParameters());
         return self::getCreateParameters();
     }
 
