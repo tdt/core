@@ -30,8 +30,8 @@
     </div>
 
     <div class="col-sm-3">
-        <a href="{{ $dataset_link }}.json" class="btn btn-block btn-primary">View as JSON</a>
-        <a href="{{ $dataset_link }}.csv" class="btn btn-block">Download as CSV</a>
+        <a href="{{ $dataset_link }}.json" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
+        <a href="{{ $dataset_link }}.csv" class="btn btn-block"><i class='fa fa-table'></i> Download CSV</a>
 
         <br/>
         <ul class="list-group">

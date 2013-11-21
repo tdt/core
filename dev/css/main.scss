@@ -193,12 +193,35 @@ footer{
         padding: 0px;
     }
 
+    &.collection{
+        background-color: lighten($primary-soft, 20%);
+
+        &:hover{
+            background-color: lighten($primary-soft, 18%) !important;
+        }
+    }
+
     &.dataset{
         clear: both;
         margin: 0px;
         box-shadow: none !important;
         cursor: pointer;
         margin-top: -1px;
+
+        &.dataset-link{
+            .icon{
+                line-height: 18px;
+            }
+
+            h4{
+                margin-bottom: 0px;
+            }
+
+            .panel-body{
+                padding: 7px;
+            }
+
+        }
 
         a:hover{
             color: inherit;
@@ -235,6 +258,10 @@ footer{
 }
 
 .table{
+    thead>tr>th {
+        border-bottom: 0px none;
+    }
+
     tbody{
         tr:hover{
             td{

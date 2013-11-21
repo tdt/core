@@ -66,7 +66,7 @@ class HTMLFormatter implements IFormatter{
 
             // Collection view
             $view = 'dataset.collection';
-            $data = self::displayTree($dataObj->data);
+            $data = $dataObj->data;
         }
 
         // Render the view
