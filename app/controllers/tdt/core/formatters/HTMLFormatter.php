@@ -36,6 +36,10 @@ class HTMLFormatter implements IFormatter{
                     $view = 'dataset.tabular';
                     $data = $dataObj->data;
                     break;
+                case 'SHP':
+                    $view = 'dataset.map';
+                    $data = $dataset_link . '.map';
+                    break;
                 case 'LD':
                     // This data object is always semantic
                     $view = 'dataset.code';

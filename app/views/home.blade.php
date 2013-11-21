@@ -59,7 +59,7 @@
                 @if(empty($definitions))
                     This datatank is hungry for data, no datasets were added yet.
                 @else
-                    No dataset found with the filter <strong>'<span class='dataset-filter'></span>'</strong>
+                    No dataset(s) found with the filter <strong>'<span class='dataset-filter'></span>'</strong>
                 @endif
             </div>
         </div>

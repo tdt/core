@@ -12,7 +12,7 @@
                 ?>
                 <tr>
                     @foreach($first_row as $key => $value)
-                        <td>{{ $key }}</td>
+                        <th>{{ $key }}</th>
                     @endforeach
                 </tr>
             </thead>
