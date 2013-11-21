@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="col-sm-12">
-        <h3>Datasets</h3>
+        <h3>All datasets</h3>
         <div class="input-group">
             <input id='dataset-filter' type="text" class="form-control" placeholder='Search for datasets'>
             <span class="input-group-btn">
