@@ -108,7 +108,6 @@ class KMLFormatter implements IFormatter{
                     $coordskey = self::entry_key_exists_nc("coordinates",$entry);
                 }*/
 
-
                 $name = self::xmlgetelement($entry);
                 $extendeddata = self::getExtendedDataElement($entry);
 

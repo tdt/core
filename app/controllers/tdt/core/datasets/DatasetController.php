@@ -128,11 +128,16 @@ class DatasetController extends \Controller {
         foreach($rest_params as $rest_param){
 
             if(is_object($data) && $key = self::propertyExists($data, $rest_param)){
-
                 $data = $data->$key;
-            }elseif(is_array($data) && $key = self::keyExists($data, $rest_param)){
+            }elseif(is_array($data)){
 
-                $data = $data[$key];
+                if($key = self::keyExists($data, $rest_param)){
+                    $data = $data[$key];
+                }else if(is_numeric($rest_param)){
+                    for($i = 0; $i <= $rest_param; $i++){
+                        $data = array_shift($data);
+                    }
+                }
             }else{
                 \App::abort(452, "No property ($rest_param) has been found.");
             }
