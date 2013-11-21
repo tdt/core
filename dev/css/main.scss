@@ -1,22 +1,35 @@
 @import 'bootstrap';
 @import 'prettify';
+@import 'font-awesome';
 
-$green: #328d81;
-$beige: #F5F4EE;
-$darker-beige: #EBEAE4;
-$highlight: #FF2C4C;
+$primary: #183440;
+$primary-highlight: #3C606E;
+$primary-soft: desaturate(lighten($primary-highlight, 40%), 15%);
+
+$secondary: #DCDBBD;
+$secondary-highlight: lighten($secondary, 16%);
+
+$third: #90AB9C;
+$highlight: #90AB9C;
 
 $header-height: 60px;
 $footer-height: 60px;
+$footer-border: 2px;
+
+*{
+    outline: none !important;
+}
 
 html, body{
     height: 100%;
 }
 
 body {
-    background-color: $beige;
+    background-color: $secondary-highlight;
     font-family: 'Open Sans', 'Oswald', sans-serif;
-    padding-top: $header-height + 25;
+    font-size: 13px;
+    color: #3C606E;
+    padding-top: $header-height + 20;
 }
 
 .wrapper{
@@ -27,9 +40,10 @@ body {
 }
 
 .navbar {
-    background-color: $green;
-    box-shadow: 0px 0px 10px #999999;
+    background-color: $primary;
+    box-shadow: 0px none;
     height: $header-height;
+    margin-bottom: 0px;
 
     .navbar-brand{
         padding-top: 0px;
@@ -52,16 +66,16 @@ body {
 
                 &:focus, &:hover{
                     color: #fff;
-                    background-color: lighten($green, 5%);
+                    background-color: lighten($primary, 5%);
                 }
             }
 
             &.active{
                 a{
-                    background-color: lighten($green, 10%);
+                    background-color: $primary-highlight;
 
                     &:focus, &:hover{
-                        background-color: lighten($green, 10%);
+                        background-color: $primary-highlight;
                     }
                 }
             }
@@ -69,31 +83,53 @@ body {
     }
 }
 
+#content{
+    h3:first-child{
+        margin-top: 0px;
+    }
+}
+
 .btn{
-    background-color: rgba(255 , 255, 255, 0.8);
-    border: 1px solid darken($beige, 10%);
+    background-color: lighten($secondary, 10%);
+    border: 1px solid darken($secondary, 7%);
     border-radius: 2px;
     color: #333;
 
     &:focus, &:hover{
-        color: #333;
-        background-color: $darker-beige;
+        background-color: lighten($secondary, 15%);
+        border: 1px solid $secondary;
     }
 
     &.btn-primary{
-        background-color: $green;
+        background-color: $primary;
         color: #fff;
-        border: 1px solid darken($green, 7%);
+        border: 1px solid darken($primary, 7%);
 
         &:focus, &:hover{
-            background-color: $highlight;
-        border: 1px solid darken($highlight, 7%);
+            background-color: $primary-highlight;
+            border: 1px solid darken($primary-highlight, 7%);
         }
     }
 }
 
+input{
+    box-shadow: none !important;
+
+    &:focus{
+        box-shadow: none !important;
+        border: 1px solid $secondary !important;
+        border-bottom: 1px solid $highlight !important;
+    }
+}
+
+.input-group-btn:last-child{
+    .btn{
+        border-left: 0px none;
+    }
+}
+
 a{
-    color: $green;
+    color: $primary;
 
     &:focus, &:hover{
         text-decoration: none;
@@ -102,8 +138,8 @@ a{
 }
 
 .well{
-    border: 1px solid darken($beige, 10%);
-    background: rgba(255,255,255, 0.3);
+    border: 1px solid $secondary;
+    background: #fff;
     box-shadow: none;
 }
 
@@ -131,10 +167,12 @@ a{
 footer{
     height: $footer-height;
     width: 100%;
-    background-color: $darker-beige;
-    line-height: $footer-height;
+    background-color: #fff;
+    color: $primary-soft;
+    border-top: $footer-border solid $secondary;
+    line-height: $footer-height - $footer-border;
+    // box-shadow: 0px -2px 0px 0px $secondary;
     font-size: 11px;
-    color: #333;
 }
 
 .push{
@@ -144,6 +182,66 @@ footer{
 
 .row{
     margin: 0px;
+}
+
+.panel{
+    .row > div{
+        padding: 0px;
+    }
+
+    &.dataset{
+        clear: both;
+        margin: 0px;
+        box-shadow: none !important;
+        cursor: pointer;
+        margin-top: -1px;
+
+        a:hover{
+            color: inherit;
+        }
+
+        &:hover{
+            background-color: $secondary-highlight;
+            color: $primary;
+        }
+
+        h4{
+            margin-top: 0px;
+            margin-bottom: 5px;
+        }
+
+        .icon{
+            width: 5%;
+            height: 100%;
+            float:left;
+            line-height: 42px;
+            text-align: center;
+            margin-left: -15px;
+
+            & + div{
+                width: 95%;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.empty{
+    margin-bottom: 20px;
+}
+
+.table{
+    tbody{
+        tr:hover{
+            td{
+                background-color: $secondary-highlight !important;
+            }
+        }
+    }
+}
+
+.note{
+    color: $primary-soft;
 }
 
 
@@ -168,6 +266,24 @@ footer{
     }
 
     .wrapper{
-        padding: 0px 15px;
+        padding: ($header-height + 15px) 0px 0px 0px;
+        margin-top: -$header-height - 1;
     }
+
+
+    .panel{
+
+        &.dataset{
+
+            .icon{
+                width: 15%;
+                line-height: 20px;
+
+                & + div{
+                    width: 85%;
+                }
+            }
+        }
+    }
+
 }

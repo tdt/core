@@ -1,11 +1,19 @@
 @import "bootstrap";
 
-$green: #328d81;
-$beige: #F5F4EE;
-$darker-beige: #EBEAE4;
+$primary: #183440;
+$primary-highlight: #3C606E;
+
+$secondary: #DCDBBD;
+$secondary-highlight: lighten($secondary, 13%);
+
+$third: #90AB9C;
 $highlight: #fff;
 
 $footer-height: 60px;
+
+*{
+    outline: none !important;
+}
 
 html, body{
     height: 100%;
@@ -21,7 +29,7 @@ html, body{
 }
 
 body {
-    background-color: $green;
+    background-color: $primary;
     color: #fff;
     font-family: 'Open Sans', 'Oswald', sans-serif;
     font-weight: 100;
@@ -79,7 +87,7 @@ a{
 
 .badge{
     background-color: #fff;
-    color: $green;
+    color: $primary;
 }
 
 .error{

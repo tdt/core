@@ -18,7 +18,7 @@
         </nav>
 
         <div class="wrapper">
-            <div class='row'>
+            <div id='content' class='row'>
                 @yield('content')
             </div>
 
@@ -27,7 +27,7 @@
 
         <footer>
             <div class="col-lg-12">
-                The DataTank &ndash; Visit our <a href="http://thedatatank.com/" target="_blank">website</a>
+                The DataTank &middot; <a href="//thedatatank.com/" target="_blank">Visit our website</a>
             </div>
         </footer>
         <script src="{{ URL::to("js/script.min.js") }}" type="text/javascript"></script>

@@ -35,6 +35,10 @@ class BaseController extends \Controller {
                 $controller = 'tdt\core\definitions\InfoController';
                 $uri = str_replace('info/', '', $uri);
                 break;
+            case '':
+                // Home URL requests
+                $controller = 'tdt\core\HomeController';
+                break;
             default:
                 // None of the above -> must be a dataset request
                 $controller = 'tdt\core\datasets\DatasetController';
