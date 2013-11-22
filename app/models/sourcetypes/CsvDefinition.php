@@ -133,7 +133,7 @@ class CsvDefinition extends SourceType{
         return array(
             'has_header_row' => 'integer|min:0|max:1',
             'start_row' => 'integer',
-            'uri' => 'file|required',
+            'uri' => 'uri|required',
             'description' => 'required',
         );
     }
@@ -182,7 +182,7 @@ class CsvDefinition extends SourceType{
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk == $i)));
+                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
                 }
             }else{
                 \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");

@@ -135,11 +135,13 @@ class DatasetController extends \Controller {
                     $data = $data[$key];
                 }else if(is_numeric($rest_param)){
                     for($i = 0; $i <= $rest_param; $i++){
-                        $data = array_shift($data);
+                        $result = array_shift($data);
                     }
+
+                    $data = $result;
                 }
             }else{
-                \App::abort(452, "No property ($rest_param) has been found.");
+                \App::abort(404, "No property ($rest_param) has been found.");
             }
         }
 
