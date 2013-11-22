@@ -65,7 +65,7 @@ class DefinitionController extends \Controller {
 
         // Check if the uri already exists
         if(self::exists($uri)){
-            \App::abort(452, "This uri already exists, use POST if you wanted to update the definition.");
+            self::deleteDefinition($uri);
         }
 
         // Retrieve the collection uri and resource name
