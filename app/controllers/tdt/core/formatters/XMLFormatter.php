@@ -61,7 +61,8 @@ class XMLFormatter implements IFormatter{
         // if($nameobject == null) $nameobject = 'element';
 
         // Open tag
-        $object = "<$nameobject>";
+        $xml_tag = str_replace(' ', '_', $nameobject);
+        $object = "<$xml_tag>";
 
         if(is_array($data)){
 
@@ -109,7 +110,7 @@ class XMLFormatter implements IFormatter{
         }
 
         // Close tag
-        $object .= "</$nameobject>";
+        $object .= "</$xml_tag>";
 
         return $object;
     }
