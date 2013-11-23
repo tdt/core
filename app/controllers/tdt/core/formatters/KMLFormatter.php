@@ -50,6 +50,12 @@ class KMLFormatter implements IFormatter{
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
+
+        // If no geo property is given, don't bother creating a KML
+        if(empty($dataObj->geo)){
+            \App::abort(400, "Geographical representation is requested, but no geographical properties were identified.");
+        }
+
         return self::getArray($data, $dataObj->geo);
     }
 
