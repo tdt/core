@@ -53,7 +53,7 @@ class KMLFormatter implements IFormatter{
 
         // If no geo property is given, don't bother creating a KML
         if(empty($dataObj->geo)){
-            \App::abort(400, "Geographical representation is requested, but no geographical properties were identified.");
+            \App::abort(400, "Map formatter not available for this resource.");
         }
 
         return self::getArray($data, $dataObj->geo);
