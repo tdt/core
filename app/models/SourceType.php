@@ -58,6 +58,7 @@ class SourceType extends Eloquent{
             'uri' => "The uri provided could not be resolved.",
             'file' => 'The uri provided could not be resolved, if the uri is a system path try putting file:// in front of it.',
             'json' => 'The contents of the uri could not be parsed as JSON, make sure the JSON is valid.',
+            'sparqlquery' => "The query could not be validated, make sure you don't use a limit and/or offset statement and that a select or construct statement is present.",
         );
     }
 }

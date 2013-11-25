@@ -66,4 +66,24 @@ class CustomValidator extends \Illuminate\Validation\Validator {
         }
 
     }
+
+    /**
+     * Check if the SPARQL query is legitimate
+     */
+    public function validateSparqlquery($attribute, $value, $parameters){
+
+        // No LIMIT or OFFSET statement can be given in the query, also a construct or select
+        // statement must be present
+        if(stripos($value, 'limit') !== FALSE || stripos($value, 'offset') !== FALSE){
+
+            return false;
+        }
+
+        if(stripos($value, 'construct') === FALSE && stripos($value, 'select') === FALSE){
+            return false;
+        }
+
+        return true;
+
+    }
 }
