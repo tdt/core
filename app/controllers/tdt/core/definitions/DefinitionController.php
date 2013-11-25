@@ -243,7 +243,7 @@ class DefinitionController extends \Controller {
                 $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
             }
 
-            return self::makeResponse(str_replace('\/', '/', json_encode($defs_props)), 200);
+            return self::makeResponse(str_replace('\/', '/', json_encode($defs_props)));
         }
 
         if(!self::exists($uri)){
