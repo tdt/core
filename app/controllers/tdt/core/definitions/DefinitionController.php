@@ -219,14 +219,14 @@ class DefinitionController extends \Controller {
      * PATCH a definition based on the PATCH parameters and URI.
      */
     private static function updateDefinition($uri){
-
+        \App::abort(500, "Function not yet implemented.");
     }
 
     /**
      * Return the headers of a call made to the uri given.
      */
     private static function headDefinition($uri){
-
+        \App::abort(500, "Function not yet implemented.");
     }
     /*
      * GET a definition based on the uri provided
@@ -297,7 +297,6 @@ class DefinitionController extends \Controller {
         $response = \Response::make($data, 200);
 
         // Set headers
-        $response->header('Access-Control-Allow-Origin', '*');
         $response->header('Content-Type', 'application/json;charset=UTF-8');
 
         return $response;
