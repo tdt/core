@@ -19,7 +19,7 @@
                 <div class='col-md-9'>
                     <h1>500</h1>
                     <h3>Oops, we did something wrong!</h1>
-                    @if(App::environment() == 'local' || App::environment() == 'testing')
+                    @if(Config::get('app.debug'))
                         <div class='row'>
                             <div class='col-lg-2'>
                                 <strong>Message</strong>
