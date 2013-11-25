@@ -15,9 +15,11 @@ class ContentNegotiator extends Pager{
      */
     public static $mime_types_map = array(
         'text/csv' => 'CSV',
+        'text/html' => 'HTML',
         'application/json' => 'JSON',
         'application/xml' => 'XML',
         'application/xslt+xml' => 'XML',
+        'application/xhtml+xml' => 'HTML',
     );
 
     /**
@@ -41,9 +43,9 @@ class ContentNegotiator extends Pager{
             }
 
             // Still nothing? Use default formatter
-            if(!$extension && empty($data->semantic)){
-                // TODO: get default formatter from config
-                $extension = 'HTML';
+            if(empty($extension) && empty($data->semantic)){
+                // Default formatter for non semantic data
+                $extension = 'json';
             }else if(empty($extension) && !empty($data->semantic)){
                 // Default formatter for semantic data is turtle
                 $extension = 'ttl';
