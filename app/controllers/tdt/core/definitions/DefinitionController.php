@@ -109,7 +109,7 @@ class DefinitionController extends \Controller {
                 // by the source type, meaning no relational parameters
                 $validated_params = $definition_type::validate($params);
             }else{
-                \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
+                \App::abort(406, "The requested Content-Type is not supported, look at the discovery document for the supported ontent-types.");
             }
 
             $def_instance = new $definition_type();
