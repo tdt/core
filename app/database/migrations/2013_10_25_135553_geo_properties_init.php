@@ -15,10 +15,10 @@ class GeoPropertiesInit extends Migration {
         Schema::create('geoproperties', function($table){
 
             $table->increments('id');
-            $table->string('source_type', 256);
+            $table->string('source_type', 255);
             $table->integer('source_id');
-            $table->string('path', 256);
-            $table->string('geo_property', 256);
+            $table->string('path', 255);
+            $table->string('geo_property', 255);
 
             // created_at | updated_at DATETIME, are default expected by the Eloquent ORM.
             $table->timestamps();

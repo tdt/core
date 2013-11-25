@@ -116,7 +116,6 @@ class DatasetController extends \Controller {
             }else{
                 \App::abort(404, "The dataset or collection you were looking for could not be found (URI: $uri).");
             }
-
         }
     }
 

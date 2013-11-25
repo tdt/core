@@ -42,7 +42,7 @@ class SparqlDefinition extends SourceType{
             ),
             'query' => array(
                 'required' => true,
-                'description' =>  'The query to be executed.' // TODO check on how this query should be encoded!
+                'description' =>  'The query to be executed.'
             ),
             'endpoint_user' => array(
                 'required' => false,
