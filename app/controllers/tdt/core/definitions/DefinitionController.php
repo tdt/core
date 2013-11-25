@@ -247,7 +247,7 @@ class DefinitionController extends \Controller {
         }
 
         if(!self::exists($uri)){
-            \App::abort(452, "No resource has been found with the uri $uri");
+            \App::abort(404, "No resource has been found with the uri $uri");
         }
 
         // Get Definition object based on the given uri
