@@ -31,7 +31,7 @@ class UserSeeder extends Seeder {
             'permissions' => array(
                 'discovery.view' => 1,
                 'dataset.view' => 1,
-                'info.view' => 0,
+                'info.view' => 1,
                 'definition.create' => 0,
                 'definition.view' => 0,
                 'definition.update' => 0,

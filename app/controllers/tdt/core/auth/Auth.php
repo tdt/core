@@ -70,7 +70,6 @@ class Auth extends \Controller {
     protected static function logIn(){
 
         // Basic auth, TODO: remove check
-
         if(\App::environment() != 'testing'){
             header('WWW-Authenticate: Basic');
             header('HTTP/1.0 401 Unauthorized');

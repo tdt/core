@@ -7,7 +7,7 @@ $('.clickable-row').on('click', function(){
     window.location = url;
 });
 
-// Filter datasets
+// Filter datasets and collections
 $('#dataset-filter').on('keyup', function(){
     var filter = $(this).val();
     $('.empty .panel').addClass('hide');

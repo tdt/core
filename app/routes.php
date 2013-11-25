@@ -17,25 +17,58 @@ App::before(function(){
 });
 
 /*
- * Custom error pages
+ * Propper error handling
  */
 App::error(function($exception, $code)
 {
     // Log error
     Log::error($exception);
 
-    switch ($code)
-    {
-        case 403:
-            return Response::view('errors.403', array('exception' => $exception), 403);
+    // Check Accept-header
+    $accept_header = \Request::header('Accept');
+    $mimes = explode(',', $accept_header);
 
-        case 404:
-            return Response::view('errors.404', array('exception' => $exception), 404);
+    if(in_array('text/html', $mimes) || in_array('application/xhtml+xml', $mimes)){
 
-        case 500:
-            return Response::view('errors.500', array('exception' => $exception), 500);
+        // Create HTML response, seperate templates for status codes
+        switch ($code)
+        {
+            case 403:
+                return Response::view('errors.403', array('exception' => $exception), 403);
 
-        default:
-            return Response::view('errors.default', array('exception' => $exception), $code);
+            case 404:
+                return Response::view('errors.404', array('exception' => $exception), 404);
+
+            case 500:
+                return Response::view('errors.500', array('exception' => $exception), 500);
+
+            default:
+                return Response::view('errors.default', array('exception' => $exception), $code);
+        }
+    }else{
+
+        // Display a JSON error
+        $error_json = new stdClass();
+        $error_json->error = new stdClass();
+
+        // TODO: Set error type based on status code
+        switch ($code) {
+            case 500:
+                $error_json->error->type = 'api_error';
+                break;
+
+            default:
+                $error_json->error->type = 'invalid_request_error';
+                break;
+        }
+
+        $error_json->error->message = $exception->getMessage();
+
+        // Create response
+        $response =  Response::json($error_json);
+        $response->setStatusCode($code);
+
+        return $response;
     }
+
 });
