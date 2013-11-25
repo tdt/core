@@ -16,7 +16,6 @@ class JSONFormatter implements IFormatter{
         $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
-        $response->header('Access-Control-Allow-Origin', '*');
         $response->header('Content-Type', 'application/json;charset=UTF-8');
 
         return $response;

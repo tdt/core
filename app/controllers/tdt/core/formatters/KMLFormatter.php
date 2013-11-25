@@ -18,7 +18,6 @@ class KMLFormatter implements IFormatter{
         $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
-        $response->header('Access-Control-Allow-Origin', '*');
         $response->header('Content-Type', 'application/vnd.google-earth.kml+xml;charset=UTF-8');
 
         return $response;

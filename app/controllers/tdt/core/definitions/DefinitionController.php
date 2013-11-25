@@ -53,7 +53,8 @@ class DefinitionController extends \Controller {
                 return self::headDefinition($uri);
                 break;
             default:
-                \App::abort(400, "The method $method is not supported by the definitions.");
+                // Method not supported
+                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
                 break;
         }
     }

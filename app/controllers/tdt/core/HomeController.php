@@ -13,7 +13,9 @@ class HomeController extends \Controller {
     public static function handle($uri){
         $definitions = \Definition::all();
 
-        return \View::make('home')->with('title', 'The Datatank')
+        $view = \View::make('home')->with('title', 'The Datatank')
                                   ->with('definitions', $definitions);
+
+        return \Response::make($view);
     }
 }

@@ -19,7 +19,8 @@ class DatasetController extends \Controller {
         // Don't allow non-Get requests
         $method = \Request::getMethod();
         if($method != 'GET'){
-            \App::abort(400, "The method $method is not supported for the datasets.");
+            // Method not supported
+            \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
         }
 
         // Set permission

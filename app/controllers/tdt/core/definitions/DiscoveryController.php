@@ -19,15 +19,29 @@ class DiscoveryController extends \Controller {
         // Set permission
         Auth::requirePermissions('discovery.view');
 
-        $dis_document = self::createDiscoveryDocument();
+        // Propagate the request based on the HTTPMethod of the request
+        $method = \Request::getMethod();
 
-        // If the input package is installed, add it to the discovery document
-        if(class_exists('tdt\input\controllers\DiscoveryController')){
-            $discovery_class = 'tdt\input\controllers\DiscoveryController';
-            $dis_document->resources->input = $discovery_class::createDiscoveryDocument();
+        switch($method){
+            case "GET":
+                $discovery_document = self::createDiscoveryDocument();
+
+                // If the input package is installed, add it to the discovery document
+                if(class_exists('tdt\input\controllers\DiscoveryController')){
+                    $discovery_class = 'tdt\input\controllers\DiscoveryController';
+                    $discovery_document->resources->input = $discovery_class::createDiscoveryDocument();
+                }
+
+                return self::makeResponse(str_replace("\/", "/", json_encode($discovery_document)));
+
+                break;
+            default:
+                // Method not supported
+                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
+                break;
         }
 
-        return self::makeResponse(str_replace("\/", "/", json_encode($dis_document)));
+
     }
 
     /**

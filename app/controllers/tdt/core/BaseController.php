@@ -51,6 +51,9 @@ class BaseController extends \Controller {
         \Sentry::logout();
         $cookie = \Cookie::forget('tdt_auth');
 
+        // Make sure cross origin requests are allowed
+        $response->header('Access-Control-Allow-Origin', '*');
+
         return $response->withCookie($cookie);
     }
 }

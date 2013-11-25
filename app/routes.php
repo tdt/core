@@ -68,6 +68,9 @@ App::error(function($exception, $code)
         $response =  Response::json($error_json);
         $response->setStatusCode($code);
 
+        // Make sure cross origin requests are allowed
+        $response->header('Access-Control-Allow-Origin', '*');
+
         return $response;
     }
 

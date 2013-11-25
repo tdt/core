@@ -16,7 +16,6 @@ class HTMLFormatter implements IFormatter{
         $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
-        $response->header('Access-Control-Allow-Origin', '*');
         $response->header('Content-Type', 'text/html; charset=UTF-8');
 
         return $response;
@@ -70,7 +69,6 @@ class HTMLFormatter implements IFormatter{
         }
 
         // Render the view
-
         return \View::make($view)->with('title', 'The Datatank')
                                           ->with('body', $data)
                                           ->with('definition', $dataObj->definition)

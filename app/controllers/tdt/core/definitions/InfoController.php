@@ -20,9 +20,6 @@ class InfoController extends \Controller {
         // Set permission
         Auth::requirePermissions('info.view');
 
-        // Propagate the request based on the HTTPMethod of the request
-        $method = \Request::getMethod();
-
         // Split for an (optional) extension
         preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
 
@@ -32,12 +29,16 @@ class InfoController extends \Controller {
         // Get extension (if set)
         $extension = (!empty($matches[2]))? $matches[2]: null;
 
+        // Propagate the request based on the HTTPMethod of the request
+        $method = \Request::getMethod();
+
         switch($method){
             case "GET":
                 return self::getInfo($uri, $extension);
                 break;
             default:
-                \App::abort(400, "The method $method is not supported by the info resource.");
+                // Method not supported
+                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
                 break;
         }
     }
@@ -221,7 +222,7 @@ class InfoController extends \Controller {
         // Add the info to the collection
         $info[$id] = $definition_info;
 
-        return self::makeResponse(str_replace('\/', '/', json_encode($info)));
+        return self::makeResponse($info);
     }
 
     /**
@@ -230,10 +231,9 @@ class InfoController extends \Controller {
     private static function makeResponse($data){
 
          // Create response
-        $response = \Response::make($data, 200);
+        $response = \Response::make(str_replace('\/','/', json_encode($data)));
 
         // Set headers
-        $response->header('Access-Control-Allow-Origin', '*');
         $response->header('Content-Type', 'application/json;charset=UTF-8');
 
         return $response;
