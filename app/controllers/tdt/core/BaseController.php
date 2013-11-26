@@ -27,6 +27,7 @@ class BaseController extends \Controller {
             // TODO: don't hardcode this part
             case 'api':
                 switch(\Request::segment(2)){
+
                     case 'definitions':
                         // Definitions request
                         $controller = 'tdt\core\definitions\DefinitionController';
@@ -37,7 +38,12 @@ class BaseController extends \Controller {
                         $controller = 'tdt\core\definitions\InfoController';
                         $uri = str_replace('api/info', '', $uri);
                         break;
-                    case 'default':
+                    case 'dcat':
+                        // Dcat request
+                        $controller = 'tdt\core\definitions\DcatController';
+                        $uri = str_replace('api/dcat', '', $uri);
+                        break;
+                    default:
                         \App::abort(404, "Page not found.");
                         break;
                 }

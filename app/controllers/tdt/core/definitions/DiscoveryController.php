@@ -60,6 +60,7 @@ class DiscoveryController extends \Controller {
 
         $discovery_document->resources->definitions = self::createDefinitions();
         $discovery_document->resources->info = self::createInfo();
+        $discovery_document->resources->dcat = self::createDcat();
 
         return $discovery_document;
     }
@@ -182,6 +183,27 @@ class DiscoveryController extends \Controller {
         $info->methods->get->description = "Get a list of all retrievable datasets published on this datatank instance.";
 
         return $info;
+    }
+
+    /**
+     * Create the dcat discovery documentation
+     */
+    private static function createDcat(){
+
+        // Dcat only supports the get method
+        $dcat = new \stdClass();
+
+        // Attach the methods to the dcat object
+        $dcat->methods = new \stdClass();
+        $dcat->methods->get  = new \stdClass();
+
+        $dcat->methods->get->httpMethod = "GET";
+        $dcat->methods->get->path = "/dcat";
+        $dcat->methods->get->description = "Get a list of all retrievable datasets published on this datatank instance in a DCAT vocabulary. In contrast with all the other resources, this data will be returned in a turtle serialization.";
+
+        return $dcat;
+
+
     }
 
     /**
