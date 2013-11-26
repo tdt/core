@@ -48,11 +48,13 @@ body {
     .navbar-brand{
         padding-top: 0px;
         padding-bottom: 0px;
+        margin-right: 20px;
 
         img{
             width: $header-height - 10;
             height: $header-height - 10;
             margin: 3px 0px;
+            margin-right: 10px;
         }
 
         h1{
@@ -257,7 +259,8 @@ footer{
             }
 
             .panel-body{
-                padding-bottom: 4px;
+                padding-bottom: 0px;
+                line-height: 24px;
             }
 
             .btn{
@@ -336,6 +339,24 @@ footer{
         height: 100%;
         border: 0px none;
     }
+}
+
+.modal{
+    .form-group:last-child{
+        margin-bottom: 0px;
+    }
+
+    .modal-footer{
+        margin-top: 0px;
+    }
+}
+
+.modal-backdrop{
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.modal-content {
+    box-shadow: none !important;
 }
 
 @media(max-width:768px){
