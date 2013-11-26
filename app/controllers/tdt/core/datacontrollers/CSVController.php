@@ -26,7 +26,7 @@ class CSVController extends ADataController {
         if (!empty($source_definition->uri)) {
             $uri = $source_definition->uri;
         } else {
-            \App::abort(452, "Can't find URI of the CSV");
+            \App::abort(404, "Cannot retrieve the given location of the uri ( $source_definition->uri ).");
         }
 
         // Get data from definition
@@ -47,7 +47,10 @@ class CSVController extends ADataController {
         }
 
         if(!$columns){
-            \App::abort(452, "Can't find or fetch the columns for this CSV file.");
+            // 500 error because this shouldn't happen in normal conditions
+            // Columns are parsed upon adding a CSV resource and are always present
+            \App::abort(500, "Cannot find the columns of the CSV file, this might be due to a corrupted database or because columns weren't added upon creating the CSV definition.");
+
         }
 
         // Create aliases for the columns
@@ -112,7 +115,7 @@ class CSVController extends ADataController {
             fclose($handle);
 
         } else {
-            \App::abort(452, "Can't get any data from defined URI ($uri) for this resource.");
+            \App::abort(400, "Cannot retrieve any data from the CSV file on location $uri.");
         }
 
         $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);

@@ -35,7 +35,8 @@ class SHPController extends ADataController {
         $tmp_path = sys_get_temp_dir();
 
         if(empty($tmp_path)){
-            \App::abort(452, "The temporary file of the system cannot be found or used.");
+            // If this occurs then the server is not configured correctly, thus a 500 error is thrown
+            \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
         }
 
         // Fetch the tabular columns of the SHP file
@@ -50,7 +51,7 @@ class SHPController extends ADataController {
         }
 
         if(!$columns){
-            \App::abort(452, "Can't find or fetch columns for this SHP file.");
+            \App::abort(500, "Cannot find the columns of the SHP definition.");
         }
 
         // Create an array that maps alias names to column names
@@ -181,7 +182,7 @@ class SHPController extends ADataController {
 
         } catch( Exception $ex) {
 
-            App::abort(452, "Something went wrong while fetching data from the shape file.");
+            \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
     }
 }

@@ -44,7 +44,7 @@ class LDController extends SPARQLController {
 
         // If no graph exists, abort the process
         if(empty($graph)){
-            \App::abort('452', 'No graph entry identified by the name ' . $graph_name . ' has been found.');
+            \App::abort('404', 'No graph with the name ' . $graph_name . ' could be found.');
         }
 
         // TODO Pieter Colpaert needs to fix the mapping in his streamingrdfmapper https://github.com/tdt/input/issues/57
@@ -155,9 +155,9 @@ class LDController extends SPARQLController {
 
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if($response_code == '400'){
-            \App::abort(452, "The SPARQL endpoint returned a 400 error.");
+            \App::abort(400, "The SPARQL endpoint returned a 400 error. The uri that was used to make the SPARQL request is $uri.");
         }else if($response_code == '500'){
-            \App::abort(452, "The SPARQL endpoint returned a 500 error.");
+            \App::abort(400, "The SPARQL endpoint returned a 500 error. The uri that was used to make the SPARQL request is $uri.");
         }
         curl_close($ch);
 

@@ -176,12 +176,12 @@ class XlsDefinition extends SourceType{
                 $worksheet = $php_obj->getSheetByName($this->sheet);
 
             }catch(Exception $ex){
-                \App::abort(452, "Something went wrong whilst retrieving the Excel file from uri $this->uri.");
+                \App::abort(404, "Something went wrong whilst retrieving the Excel file from uri $this->uri.");
             }
 
 
             if(is_null($worksheet)){
-                \App::abort(452, "The sheet with name, $this->sheet, has not been found in the Excel file.");
+                \App::abort(404, "The sheet with name, $this->sheet, has not been found in the Excel file.");
             }
 
             foreach ($worksheet->getRowIterator() as $row) {

@@ -58,7 +58,7 @@ class CsvDefinition extends SourceType{
 
         // If the model has not been saved, abort the workflow and return an error message
         if(empty($this->id)){
-            \App::abort(452, "The csv definition could not be saved after validation, check if the provided properties are still correct.");
+            \App::abort(400, "The CSV definition could not be saved after validation, check if the given properties are still correct. (e.g. uri is still available)");
         }
 
         foreach($columns as $column){
@@ -185,11 +185,11 @@ class CsvDefinition extends SourceType{
                     array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
                 }
             }else{
-                \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
+                \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");
             }
             fclose($handle);
         } else {
-            \App::abort(452, "The columns could not be retrieved from the csv file on location $uri.");
+            \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");
         }
 
         return $columns;

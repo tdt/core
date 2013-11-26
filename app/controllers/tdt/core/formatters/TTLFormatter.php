@@ -44,8 +44,7 @@ class TTLFormatter implements IFormatter{
 
         }
 
-        // Else
-        \App::abort(452, "This resource does not contain semantic information.");
+        \App::abort(400, "This resource doesn't contain semantic (graph) data, a Turtle serialization cannot be provided.");
 
     }
 

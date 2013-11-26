@@ -82,7 +82,7 @@ class TabularColumns extends Eloquent{
             if($validator->fails()){
 
                 $messages = $validator->messages();
-                \App::abort(452, $messages->first());
+                \App::abort(400, $messages->first());
             }
         }
     }

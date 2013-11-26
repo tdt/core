@@ -27,7 +27,7 @@ class CSVFormatter implements IFormatter{
 
         // Only tabular data is allowed
         if(!is_array($dataObj->data)){
-            \App::abort(452, "You can only request a CSV formatter on a tabular datastructure.");
+            \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
         }
 
         // Build the body

@@ -127,7 +127,7 @@ class ShpDefinition extends SourceType{
 
         // Read meta data
         if(!$record){
-            \App::abort(452, "We failed to retrieve a record from the provided shape file on uri $this->uri, make sure the corresponding dbf and shx files are at the same location.");
+            \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $this->uri, make sure the corresponding dbf and shx files are at the same location.");
         }
 
         // Get the dBASE fields
@@ -152,8 +152,8 @@ class ShpDefinition extends SourceType{
             array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
             array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
         }else{
-            \App::abort(452, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported.
-                The supported geometries are Null Shape, Point, PolyLine, Polygon, MultiPoint');
+            \App::abort(400, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported.
+                The supported geometries are Null Shape, Point, PolyLine, Polygon and MultiPoint');
         }
 
         return $columns;
@@ -187,7 +187,7 @@ class ShpDefinition extends SourceType{
 
         // read meta data
         if(!$record){
-            \App::abort(452, "We failed to retrieve a record from the provided shape file on uri $this->uri, make sure the corresponding dbf and shx files are at the same location.");
+            \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $this->uri, make sure the corresponding dbf and shx files are at the same location.");
         }
 
         $shp_data = $record->getShpData();
@@ -204,7 +204,7 @@ class ShpDefinition extends SourceType{
             }else if(strpos($shape_type, 'polygon')){
                 array_push($geo_properties, array('property' => 'polygon', 'path' => 'parts'));
             }else{ // TODO support more types
-                \App::abort(452, 'Provided geometric type ( $shape_type ) is not supported');
+                \App::abort(400, 'Provided geometric type ( $shape_type ) is not supported');
             }
         }else if(isset($shp_data['x'])){
             array_push($geo_properties, array('property' => 'latitude', 'path' => 'x'));
