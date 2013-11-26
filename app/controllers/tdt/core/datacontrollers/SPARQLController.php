@@ -34,7 +34,6 @@ class SPARQLController extends ADataController {
         $matches = array();
         $keyword = "";
 
-        // TODO provide a SPARQL query validator
 
         // If a select statement has been passed, we ask for JSON results
         // If a construct statement has been passed, we ask for RDF/XML
@@ -193,15 +192,19 @@ class SPARQLController extends ADataController {
      */
     private function processParameters($query) {
 
+        // Fetch the request parameters
         $parameters = \Request::all();
 
         $placeholders = array();
+        $used_parameters = array();
 
+        // Filter out the placeholders in the query
         preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders, PREG_SET_ORDER);
 
         for ($i = 0; $i < count($placeholders); $i++) {
 
             $placeholder = trim($placeholders[$i][1]);
+            array_push($used_parameters, $placeholder);
 
             $elements = array();
             //For example ${x.each('?t = $_','||')}
@@ -219,12 +222,12 @@ class SPARQLController extends ADataController {
                 $index = strpos($placeholder, "[");
 
                 if ($index !== false) {
+
                     $placeholder_name = substr($placeholder,0, $index);
                     $placeholder_index = substr($placeholder, $index + 1, -1);
 
                     if (!isset($parameters[$placeholder_name]))
                         \App::abort(400, "The parameter $placeholder_name was not provided");
-
 
                     if (!isset($parameters[$placeholder_name][$placeholder_index]))
                         \App::abort(400, "The index $placeholder_index of parameter $placeholder does not exist.");
@@ -256,6 +259,14 @@ class SPARQLController extends ADataController {
             $placeholder = "\${" . $elements[0][0] . "}";
 
             $query = str_replace($placeholder, $replacement, $query);
+
+        }
+
+        // Log the non used request parameters
+        $parameters = array_except($parameters, $used_parameters);
+
+        foreach($parameters as $key => $value){
+
 
         }
 
