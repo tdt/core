@@ -54,6 +54,9 @@ class Auth extends \Controller {
 
             // Check permissions
             if($user->hasAccess($permissions)){
+
+                // Share user in views
+                \View::share('user', $user);
                 return true;
             }else{
                 \App::abort(403, "The authenticated user hasn't got the permissions for this action.");

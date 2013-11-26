@@ -36,6 +36,14 @@ class UserSeeder extends Seeder {
                 'definition.view' => 0,
                 'definition.update' => 0,
                 'definition.delete' => 0,
+                'admin.dataset.view' => 0,
+                'admin.dataset.create' => 0,
+                'admin.dataset.update' => 0,
+                'admin.dataset.delete' => 0,
+                'admin.user.view' => 0,
+                'admin.user.create' => 0,
+                'admin.user.update' => 0,
+                'admin.user.delete' => 0,
             ),
         ));
 
@@ -58,6 +66,14 @@ class UserSeeder extends Seeder {
                 'definition.view' => 1,
                 'definition.update' => 1,
                 'definition.delete' => 1,
+                'admin.dataset.view' => 1,
+                'admin.dataset.create' => 1,
+                'admin.dataset.update' => 1,
+                'admin.dataset.delete' => 1,
+                'admin.user.view' => 1,
+                'admin.user.create' => 1,
+                'admin.user.update' => 1,
+                'admin.user.delete' => 1,
             ),
         ));
 

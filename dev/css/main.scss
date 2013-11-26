@@ -52,11 +52,26 @@ body {
         img{
             width: $header-height - 10;
             height: $header-height - 10;
-            margin: 5px 0px;
+            margin: 3px 0px;
+        }
+
+        h1{
+            color: #fff;
+            display: inline-block;
+            line-height: $header-height - 10;
+            font-size: 22px;
+            padding-top: 3px;
+            margin: 0px;
+            font-weight: 300;
+            vertical-align: middle;
         }
     }
 
     ul.nav{
+        i{
+            margin-right: 5px;
+        }
+
         li{
             a{
                 padding: 0px 20px;
@@ -99,6 +114,10 @@ body {
         margin-right: 5px;
     }
 
+    i.icon-only{
+        margin-right: 0px;
+    }
+
     &:focus, &:hover{
         background-color: lighten($secondary, 15%);
         border: 1px solid $secondary;
@@ -113,6 +132,10 @@ body {
             background-color: $primary-highlight;
             border: 1px solid darken($primary-highlight, 7%);
         }
+    }
+
+    &.margin-left{
+        margin-left: 10px;
     }
 }
 
@@ -221,6 +244,33 @@ footer{
                 padding: 7px;
             }
 
+        }
+
+        &.button-row{
+
+            .icon{
+                line-height: 24px;
+            }
+
+            h4{
+                line-height: 22px;
+            }
+
+            .panel-body{
+                padding-bottom: 4px;
+            }
+
+            .btn{
+                height: 25px;
+                font-size: 13px;
+                padding: 2px 6px;
+                margin: 0px;
+                margin-right: 3px;
+
+                &:last-child{
+                    margin-right: 0px;
+                }
+            }
         }
 
         a:hover{
