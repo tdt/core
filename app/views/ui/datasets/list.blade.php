@@ -48,13 +48,13 @@
                                 </h4>
                             </div>
                             <div class='col-sm-4 text-right'>
-                                @if($user->hasAccess('dataset.view'))
+                                @if($current_user->hasAccess('dataset.view'))
                                     <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'><i class='fa fa-eye'></i> Data</a>
                                 @endif
-                                @if($user->hasAccess('definition.view'))
-                                    <a href='{{ URL::to('definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'><i class='fa fa-external-link'></i> Definition</a>
+                                @if($current_user->hasAccess('definition.view'))
+                                    <a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'><i class='fa fa-external-link'></i> Definition</a>
                                 @endif
-                                @if($user->hasAccess('admin.dataset.delete'))
+                                @if($current_user->hasAccess('admin.dataset.delete'))
                                     <a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'><i class='fa fa-times icon-only'></i></a>
                                 @endif
                             </div>

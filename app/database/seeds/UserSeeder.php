@@ -44,6 +44,10 @@ class UserSeeder extends Seeder {
                 'admin.user.create' => 0,
                 'admin.user.update' => 0,
                 'admin.user.delete' => 0,
+                'admin.group.view' => 0,
+                'admin.group.create' => 0,
+                'admin.group.update' => 0,
+                'admin.group.delete' => 0,
             ),
         ));
 
@@ -74,6 +78,10 @@ class UserSeeder extends Seeder {
                 'admin.user.create' => 1,
                 'admin.user.update' => 1,
                 'admin.user.delete' => 1,
+                'admin.group.view' => 1,
+                'admin.group.create' => 1,
+                'admin.group.update' => 1,
+                'admin.group.delete' => 1,
             ),
         ));
 
