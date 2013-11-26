@@ -35,6 +35,10 @@ class BaseController extends \Controller {
                 $controller = 'tdt\core\definitions\InfoController';
                 $uri = str_replace('info/', '', $uri);
                 break;
+            case 'discovery':
+                // Discovery document
+                $controller = 'tdt\core\definitions\DiscoveryController';
+                break;
             case '':
                 // Home URL requests
                 $controller = 'tdt\core\HomeController';
@@ -47,13 +51,24 @@ class BaseController extends \Controller {
 
         $response = $controller::handle($uri);
 
-        // Forget authentication and cookie(s)
-        \Sentry::logout();
-        $cookie = \Cookie::forget('tdt_auth');
+        // Check the response type
+        if($response instanceof \Illuminate\Http\RedirectResponse){
 
-        // Make sure cross origin requests are allowed
-        $response->header('Access-Control-Allow-Origin', '*');
+            // Redirect and that's it
+            return $response;
+        }else{
 
-        return $response->withCookie($cookie);
+            // Regular response, add headers and forget Sentry's cookie
+
+            // Forget authentication and cookie(s)
+            \Sentry::logout();
+            $cookie = \Cookie::forget('tdt_auth');
+
+            // Make sure cross origin requests are allowed for GET
+            $response->header('Access-Control-Allow-Origin', '*');
+            $response->header('Access-Control-Allow-Methods', 'GET');
+
+            return $response->withCookie($cookie);
+        }
     }
 }

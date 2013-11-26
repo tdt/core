@@ -6,6 +6,19 @@
 |--------------------------------------------------------------------------
 */
 
+/**
+ * Admin routes
+ */
+Route::group(array('prefix' => 'api/admin'), function(){
+
+    Route::any('', function(){
+        // Redirect default admin page
+        return Redirect::to('api/admin/datasets');
+    });
+
+    Route::controller('datasets', 'tdt\core\ui\DatasetController');
+    Route::controller('users', 'tdt\core\ui\UserController');
+});
 
 /*
  * IMPORTANT!

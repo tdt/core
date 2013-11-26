@@ -14,9 +14,25 @@
         <nav class="navbar navbar-fixed-top">
             <a class="navbar-brand" href="{{ URL::to('') }} ">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
+                <h1>Admin</h1>
             </a>
 
-            @yield('navigation')
+            <ul class="nav navbar-nav navbar-right">
+                @if($user->hasAccess('admin.dataset.view'))
+                    <li @if(Request::segment(3) == '' || Request::segment(3) == 'datasets')  class='active' @endif>
+                        <a href="{{ URL::to('api/admin/datasets') }}">
+                            <i class='fa fa-table'></i> Datasets
+                        </a>
+                    </li>
+                @endif
+                @if($user->hasAccess('admin.user.view'))
+                    <li @if(Request::segment(3) == 'users')  class='active' @endif>
+                        <a href="{{ URL::to('api/admin/users') }}">
+                            <i class='fa fa-users'></i> Users
+                        </a>
+                    </li>
+                @endif
+            </ul>
         </nav>
 
         <div class="wrapper">
@@ -33,5 +49,6 @@
             </div>
         </footer>
         <script src="{{ URL::to("js/script.min.js") }}" type="text/javascript"></script>
+        <script src="{{ URL::to("js/admin.min.js") }}" type="text/javascript"></script>
     </body>
 </html>
