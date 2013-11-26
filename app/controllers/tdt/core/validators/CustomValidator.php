@@ -2,6 +2,12 @@
 
 namespace tdt\core\validators;
 
+/**
+ * A custom validator that provides extra functions
+ * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @license AGPLv3
+ * @author Jan Vansteenlandt <jan@okfn.be>
+ */
 class CustomValidator extends \Illuminate\Validation\Validator {
 
     /**
