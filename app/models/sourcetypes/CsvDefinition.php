@@ -203,29 +203,35 @@ class CsvDefinition extends SourceType{
                 'uri' => array(
                     'required' => true,
                     'description' => 'The location of the CSV file, either a URL or a local file location.',
+                    'type' => 'string',
                 ),
                 'delimiter' => array(
                     'required' => false,
                     'description' => 'The delimiter of the separated value file.',
                     'default_value' => ',',
+                    'type' => 'string',
                 ),
                 'has_header_row' => array(
                     'required' => false,
                     'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
                     'default_value' => 1,
+                    'type' => 'boolean (1|0)',
                 ),
                 'start_row' => array(
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
                     'default_value' => 0,
+                    'type' => 'integer',
                 ),
                 'description' => array(
                     'required' => true,
                     'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                    'type' => 'string',
                 ),
                 'pk' => array(
                     'required' => false,
-                    'description' => 'This is a shortcut to define a primary key of this dataset. The value must be the index of the column you want each row to be mapped on. The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.'
+                    'description' => 'This is a shortcut to define a primary key of this dataset. The value must be the index of the column you want each row to be mapped on. The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
+                    'type' => 'integer',
                 ),
         );
     }

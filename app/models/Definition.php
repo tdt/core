@@ -25,58 +25,72 @@ class Definition extends Eloquent{
                 'title' => array(
                     'required' => false,
                     'description' => 'A name given to the resource.',
+                    'type' => 'string',
                 ),
                 'subject' => array(
                     'required' => false,
                     'description' => 'The topic of the resource.',
+                    'type' => 'string',
                 ),
                 'description' => array(
                     'required' => false,
                     'description' => 'An account of the resource.',
+                    'type' => 'string',
                 ),
                 'publisher' => array(
                     'required' => false,
                     'description' => 'An entity responsible for making the resource available.',
+                    'type' => 'string',
                 ),
                 'contributor' => array(
                     'required' => false,
                     'description' => 'An entity responsible for making contributions to the resource.',
+                    'type' => 'string',
                 ),
                 'date' => array(
                     'required' => false,
-                    'description' => 'A point or period of time associated with an event in the lifecycle of the resource.',
+                    'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
+                    'type' => 'string',
                 ),
                 'type' => array(
                     'required' => false,
                     'description' => 'The nature or genre of the resource.',
+                    'type' => 'string',
                 ),
                 'format' => array(
                     'required' => false,
                     'description' => 'The file format, physical medium, or dimensions of the resource.',
+                    'type' => 'string',
                 ),
                 'identifier' => array(
                     'required' => false,
                     'description' => 'An unambiguous reference to the resource within a given context.',
+                    'type' => 'string',
                 ),
                 'source' => array(
                     'required' => false,
                     'description' => 'A related resource from which the described resource is derived.',
+                    'type' => 'string',
                 ),
                 'language' => array(
                     'required' => false,
                     'description' => 'A language of the resource.',
+                    'type' => 'string',
                 ),
                 'relation' => array(
                     'required' => false,
                     'description' => 'A related resource.',
+                    'type' => 'string',
                 ),
                 'coverage' => array(
                     'required' => false,
                     'description' => 'The spatial or temporal topic of the resource, the spatial applicability of the resource, or the jurisdiction under which the resource is relevant.',
+                    'type' => 'string',
                 ),
                 'rights' => array(
                     'required' => false,
                     'description' => 'Information about rights held in and over the resource.',
+                    'type' => 'string',
                 ),
         );
     }

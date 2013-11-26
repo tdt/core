@@ -40,8 +40,6 @@ class DiscoveryController extends \Controller {
                 \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
                 break;
         }
-
-
     }
 
     /**
@@ -202,8 +200,6 @@ class DiscoveryController extends \Controller {
         $dcat->methods->get->description = "Get a list of all retrievable datasets published on this datatank instance in a DCAT vocabulary. In contrast with all the other resources, this data will be returned in a turtle serialization.";
 
         return $dcat;
-
-
     }
 
     /**

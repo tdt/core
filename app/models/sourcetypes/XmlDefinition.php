@@ -34,10 +34,12 @@ class XmlDefinition extends SourceType{
             'uri' => array(
                 'required' => true,
                 'description' => 'The location of the XML file, this should either be a URL or a local file location.',
+                'type' => 'string',
             ),
             'description' => array(
                 'required' => true,
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                'type' => 'string',
             )
         );
     }

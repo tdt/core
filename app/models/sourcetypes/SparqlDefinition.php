@@ -35,22 +35,27 @@ class SparqlDefinition extends SourceType{
             'endpoint' => array(
                 'required' => true,
                 'description' => 'The uri of the SPARQL end-point (e.g. http://foobar:8890/sparql-auth).',
+                'type' => 'string',
             ),
             'description' => array(
                 'required' => true,
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                'type' => 'string',
             ),
             'query' => array(
                 'required' => true,
-                'description' =>  'The query to be executed.'
+                'description' =>  'The query to be executed.',
+                'type' => 'string',
             ),
             'endpoint_user' => array(
                 'required' => false,
                 'description' => 'Username of the user that has sufficient rights to query the sparql endpoint.',
+                'type' => 'string',
             ),
             'endpoint_password' => array(
                 'required' => false,
                 'description' => 'Password of the provided user to query a sparql endpoint.',
+                'type' => 'string',
             ),
         );
     }

@@ -25,18 +25,22 @@ class TabularColumns extends Eloquent{
             'column_name' => array(
                 'required' => false,
                 'description' => 'The column name that corresponds with the index.',
+                'type' => 'string',
             ),
             'pk' => array(
                 'required' => false,
                 'description' => 'The index of the column that serves as a primary key when data is published. Rows will thus be indexed onto the value of the column which index is represented by the pk value.',
+                'type' => 'integer',
             ),
             'index' => array(
                 'required' => false,
-                'description' => 'The index of the column starting from 0.',
+                'description' => 'The index of the column, starting from 0.',
+                'type' => 'integer',
             ),
             'column_name_alias' => array(
                 'required' => false,
                 'description' => 'Provides an alias for the column name and will be used when data is requested instead of the column_name property.',
+                'type' => 'string',
             ),
         );
     }
