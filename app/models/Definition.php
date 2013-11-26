@@ -102,6 +102,10 @@ class Definition extends Eloquent{
         $properties = array();
         $source_definition = $this->source()->first();
 
+        foreach($this->getFillable() as $key){
+            $properties[$key] = $this->getAttributeValue($key);
+        }
+
         // Add all the properties that are mass assignable
         foreach($source_definition->getFillable() as $key){
             $properties[$key] = $source_definition->getAttributeValue($key);
