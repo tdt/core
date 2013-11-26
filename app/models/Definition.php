@@ -8,8 +8,7 @@
  */
 class Definition extends Eloquent{
 
-    protected $guarded = array('id', 'source_id');
-
+    protected $fillable = array('title','subject','description','publisher','contributor','date','type','format','identifier','source','language','relation','coverage','rights');
     /**
      * Return the poly morphic relationship with a source type.
      */

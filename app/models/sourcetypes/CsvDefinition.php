@@ -170,6 +170,10 @@ class CsvDefinition extends SourceType{
 
             if (($line = fgetcsv($handle, 0, $this->delimiter, '"')) !== FALSE) {
 
+                if(sizeof($line) <= 1){
+                    \App::abort(400, "The delimiter ($this->delimiter) wasn't found, make sure the passed delimiter is the one that is used in the CSV file on location $this->uri.");
+                }
+
                 $index++;
 
                 for ($i = 0; $i < sizeof($line); $i++) {

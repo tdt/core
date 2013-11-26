@@ -38,6 +38,7 @@ class DefinitionController extends \Controller {
                 return self::viewDefinition($uri);
                 break;
             case "POST":
+                \App::abort(400, "The method $method is not supported.");
             case "PATCH":
                 // Set permission
                 Auth::requirePermissions('definition.update');
@@ -80,8 +81,6 @@ class DefinitionController extends \Controller {
         if(empty($collection_uri) || empty($resource_name)){
             \App::abort(400, 'Provide a collection uri and a resource name in order to create a new definition.');
         }
-
-        var_dump($collection_uri);var_dump($resource_name);
 
         // Check if the first collection_uri slug is not part of the occupied uri's
         $collection_parts = explode('/', $collection_uri);
@@ -234,7 +233,57 @@ class DefinitionController extends \Controller {
      * PATCH a definition based on the PATCH parameters and URI.
      */
     private static function updateDefinition($uri){
-        \App::abort(500, "Function not yet implemented.");
+
+        // Check if the uri already exists
+        if(!self::exists($uri)){
+            \App::abort(404, "The given uri ($uri) can't be retrieved as a resource.");
+        }
+
+        $definition = self::get($uri);
+        $definition_params = $definition->getFillable();
+
+        $source_type = $definition->source()->first();
+        $source_params = $source_type->getFillable();
+
+        // Retrieve the parameters of the PUT requests (either a JSON document or a key=value string)
+        $params = \Request::getContent();
+
+        // Is the body passed as JSON, if not try getting the request parameters from the uri
+        if(!empty($params)){
+            $params = json_decode($params, true);
+        }else{
+            $params = \Input::all();
+        }
+
+        $patched_def_params = array_only($params, $definition_params);
+
+        // Set the new keys to the definition, no need to validate as they're all strings
+        foreach($patched_def_params as $key => $value){
+            $definition->$key = $value;
+        }
+
+        $patched_source_params = array_only($params, $source_params);
+
+        // Merge the new params with the old ones, and pass them to the source type for validation
+        foreach($source_params as $key){
+            if(empty($patched_source_params[$key]) && !@is_numeric($patched_source_params[$key])){
+                $patched_source_params[$key] = $source_type->$key;
+            }
+        }
+
+        $validated_params = $source_type::validate($patched_source_params);
+
+        foreach($validated_params as $key => $val){
+            $source_type->$key = $val;
+        }
+
+        $source_type->save();
+        $definition->save();
+
+        $response = \Response::make(null, 200);
+        $response->header('Location', \Request::getHost() . '/' . $uri);
+
+        return $response;
     }
 
     /**
