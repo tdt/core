@@ -265,9 +265,10 @@ class SPARQLController extends ADataController {
         // Log the non used request parameters
         $parameters = array_except($parameters, $used_parameters);
 
+        // Note that the logging of invalid parameters will happen twice, as we construct and execute
+        // the count query as well as the given query
         foreach($parameters as $key => $value){
-
-
+            \Log::warning("The parameters $key with value $value was given as a SPARQL query parameter, but no placeholder in the SPARQL query named $key was found.");
         }
 
         return $query;
