@@ -64,11 +64,11 @@ class INSTALLEDController extends ADataController {
 
 
             }else{
-                \App::abort(400, "Can't find the class '$source_definition->class' in the file for the installed resource ($source_definition->path).");
+                \App::abort(500, "Can't find the class '$source_definition->class' in the file for the installed resource ($source_definition->path).");
             }
 
         }else{
-            \App::abort(400, "Can't find the class for the installed resource ($source_definition->path).");
+            \App::abort(500, "Can't find the file for the installed resource ($source_definition->path).");
         }
     }
 }

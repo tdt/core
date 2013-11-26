@@ -41,8 +41,8 @@ class SPARQLController extends ADataController {
             $keyword = "select";
         }elseif(stripos($query,"construct") === 0){ // CONSTRUCT query
             $keyword = "construct";
-        }else{ // No valid SPARQL keyword has been found.
-            \App::abort(404, "No CONSTRUCT or SELECT statement has been found in the given query: $query");
+        }else{ // No valid SPARQL keyword has been found, is checked during validation
+            \App::abort(500, "No CONSTRUCT or SELECT statement has been found in the given query: $query");
         }
 
         // Prepare the count query for paging purposes
@@ -55,7 +55,7 @@ class SPARQLController extends ADataController {
         }
 
         if(count($matches) < 2){
-            \App::abort(404, "Failed to retrieve the where clause from the query: $query");
+            \App::abort(500, "Failed to retrieve the where clause from the query: $query");
         }
 
         // Only use the where clause
@@ -178,9 +178,9 @@ class SPARQLController extends ADataController {
 
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if($response_code == '400'){
-            \App::abort(400, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
+            \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
         }else if($response_code == '500'){
-            \App::abort(400, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
+            \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
         }
 
         curl_close($ch);

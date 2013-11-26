@@ -115,7 +115,7 @@ class CSVController extends ADataController {
             fclose($handle);
 
         } else {
-            \App::abort(400, "Cannot retrieve any data from the CSV file on location $uri.");
+            \App::abort(500, "Cannot retrieve any data from the CSV file on location $uri.");
         }
 
         $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);

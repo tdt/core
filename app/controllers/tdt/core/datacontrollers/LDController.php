@@ -155,9 +155,9 @@ class LDController extends SPARQLController {
 
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if($response_code == '400'){
-            \App::abort(400, "The SPARQL endpoint returned a 400 error. The uri that was used to make the SPARQL request is $uri.");
+            \App::abort(500, "The SPARQL endpoint returned a 400 error. The uri that was used to make the SPARQL request is $uri.");
         }else if($response_code == '500'){
-            \App::abort(400, "The SPARQL endpoint returned a 500 error. The uri that was used to make the SPARQL request is $uri.");
+            \App::abort(500, "The SPARQL endpoint returned a 500 error. The uri that was used to make the SPARQL request is $uri.");
         }
         curl_close($ch);
 

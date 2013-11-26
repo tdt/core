@@ -69,13 +69,13 @@ class XLSController extends ADataController {
             }
 
             if(empty($php_obj)){
-                \App::abort(404, "The Excel file could not be retrieved from the location $uri.");
+                \App::abort(500, "The Excel file could not be retrieved from the location $uri.");
             }
 
             $worksheet = $php_obj->getSheetByName($sheet);
 
             if(empty($worksheet)){
-                \App::abort(404, "The worksheet $sheet could not be found in the Excel file located on $uri.");
+                \App::abort(500, "The worksheet $sheet could not be found in the Excel file located on $uri.");
             }
 
             // The amount of rows added to the result
@@ -144,7 +144,7 @@ class XLSController extends ADataController {
             return $data_result;
 
         } catch( Exception $ex) {
-            App::abort(404, "Failed to retrieve data from the XLS file on location $uri.");
+            App::abort(500, "Failed to retrieve data from the XLS file on location $uri.");
         }
     }
 
@@ -165,7 +165,7 @@ class XLSController extends ADataController {
         }else if($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
         }else{
-            \App::abort(400, "The given file is not supported, supported file are xls or xlsx files.");
+            \App::abort(500, "The given file is not supported, supported file are xls or xlsx files.");
         }
 
         $objReader->setReadDataOnly(true);
@@ -186,7 +186,7 @@ class XLSController extends ADataController {
             if(!empty($data[$column->index])){
                 $result[$column->column_name_alias] = $data[$column->index];
             }else{
-                \App::abort(404, "The index $column->index could not be found in the XLS file. Index count starts at 0.");
+                \App::abort(500, "The index $column->index could not be found in the XLS file. Index count starts at 0.");
             }
         }
 
