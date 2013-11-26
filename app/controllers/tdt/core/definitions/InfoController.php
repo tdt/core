@@ -34,7 +34,7 @@ class InfoController extends \Controller {
 
         switch($method){
             case "GET":
-                return self::getInfo($uri, $extension);
+                return self::getInfo($uri);
                 break;
             default:
                 // Method not supported
@@ -52,31 +52,20 @@ class InfoController extends \Controller {
 
     /*
      * GET an info document based on the uri provided
-     * TODO add support function get retrieve collections, instead full resources.
      */
-    private static function getInfo($uri, $extension = null){
+    private static function getInfo($uri){
 
-        // We have different informational resources
-        switch($uri){
-            case 'dcat':
-
-                // Default format is ttl for dcat
-                if(empty($extension)){
-                    $extension = 'ttl';
-                }
-
-                $dcat = self::createDcat();
-
-                // Allow content nego. for dcat
-                return ContentNegotiator::getResponse($dcat, $extension);
-                break;
-            case 'api/info':
-                // Return the informational properties and uri's of published datasets
-                return self::getDefinitionsInfo();
-                break;
-            default:
-                break;
+        if(!empty($uri)){
+            if(DefinitionController::exists($uri)){
+                $info = self::createInfoObject(DefinitionController::get($uri));
+                return self::makeResponse($info);
+            }else{
+                \App::abort(404, "The given uri ($uri) couldn't be resolved to a resource.");
+            }
+        }else{
+            return self::getDefinitionsInfo();
         }
+
     }
 
     /**
@@ -174,40 +163,8 @@ class InfoController extends \Controller {
 
         foreach($definitions as $definition){
 
-            $definition_info = new \stdClass();
-
+            $definition_info = self::createInfoObject($definition);
             $id = $definition->collection_uri . '/' .$definition->resource_name;
-            $definition_info->uri = \Request::root() . '/' . $id;
-
-            // Get the available request parameters from the responsible datacontroller
-            $source_type = $definition->source()->first();
-            $definition_info->description = $source_type->description;
-
-            // Installed source types contain their own set of parameters (required and optional)
-            if(strtolower($source_type->getType()) == 'installed'){
-
-                // Include the class
-                $class_file = app_path() . '/../installed/' .  $source_type->path;
-
-                if(file_exists($class_file)){
-
-                    require_once $class_file;
-
-                    $class_name = $source_type->class;
-
-                    // Check if class exists
-                    if(class_exists($class_name)){
-
-                        $installed = new $class_name();
-                        $definition_info->parameters = $installed::getParameters();
-                    }
-                }
-            }else{
-
-                $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->getType() . 'Controller';
-                $params = $datacontroller::getParameters();
-                $definition_info->parameters = $params;
-            }
 
             // Add the info to the collection
             $info[$id] = $definition_info;
@@ -223,6 +180,49 @@ class InfoController extends \Controller {
         $info[$id] = $definition_info;
 
         return self::makeResponse($info);
+    }
+
+    /**
+     * Create an info object from a definition
+     */
+    private static function createInfoObject($definition){
+
+        $definition_info = new \stdClass();
+
+        $id = $definition->collection_uri . '/' .$definition->resource_name;
+        $definition_info->uri = \Request::root() . '/' . $id;
+
+        // Get the available request parameters from the responsible datacontroller
+        $source_type = $definition->source()->first();
+        $definition_info->description = $source_type->description;
+
+        // Installed source types contain their own set of parameters (required and optional)
+        if(strtolower($source_type->getType()) == 'installed'){
+
+            // Include the class
+            $class_file = app_path() . '/../installed/' .  $source_type->path;
+
+            if(file_exists($class_file)){
+
+                require_once $class_file;
+
+                $class_name = $source_type->class;
+
+                // Check if class exists
+                if(class_exists($class_name)){
+
+                    $installed = new $class_name();
+                    $definition_info->parameters = $installed::getParameters();
+                }
+            }
+        }else{
+
+            $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->getType() . 'Controller';
+            $params = $datacontroller::getParameters();
+            $definition_info->parameters = $params;
+        }
+
+        return $definition_info;
     }
 
     /**

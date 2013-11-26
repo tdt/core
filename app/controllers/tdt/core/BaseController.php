@@ -30,12 +30,12 @@ class BaseController extends \Controller {
                     case 'definitions':
                         // Definitions request
                         $controller = 'tdt\core\definitions\DefinitionController';
-                        $uri = str_replace('api/definitions/', '', $uri);
+                        $uri = str_replace('api/definitions', '', $uri);
                         break;
                     case 'info':
                         // Info request
                         $controller = 'tdt\core\definitions\InfoController';
-                        $uri = str_replace('api/info/', '', $uri);
+                        $uri = str_replace('api/info', '', $uri);
                         break;
                     case 'default':
                         \App::abort(404, "Page not found.");

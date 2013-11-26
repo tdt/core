@@ -15,6 +15,9 @@ use tdt\core\datasets\Data;
  */
 class DefinitionController extends \Controller {
 
+    // Don't allow occupied prefixes: api, discovery
+    private static $FORBIDDEN_PREFIX = array('api', 'discovery');
+
     public static function handle($uri){
 
         // Propagate the request based on the HTTPMethod of the request
@@ -73,6 +76,18 @@ class DefinitionController extends \Controller {
         $matches = array();
 
         list($collection_uri, $resource_name) = self::getParts($uri);
+
+        if(empty($collection_uri) || empty($resource_name)){
+            \App::abort(400, 'Provide a collection uri and a resource name in order to create a new definition.');
+        }
+
+        var_dump($collection_uri);var_dump($resource_name);
+
+        // Check if the first collection_uri slug is not part of the occupied uri's
+        $collection_parts = explode('/', $collection_uri);
+        if(in_array( $collection_parts[0], self::$FORBIDDEN_PREFIX)){
+            \App::abort(400, "The collection name, $collection_parts[0], cannot be used as the start of a collection.");
+        }
 
         // Retrieve the content type and parse out the definition type
         $content_type = \Request::header('content_type');
@@ -235,7 +250,7 @@ class DefinitionController extends \Controller {
     private static function viewDefinition($uri){
 
         // TODO make dynamic
-        if($uri == 'definitions'){
+        if(empty($uri)){
             $definitions = \Definition::all();
 
             $defs_props = array();
@@ -262,6 +277,9 @@ class DefinitionController extends \Controller {
      * Get a definition object with the given uri.
      */
     public static function get($uri){
+        // Left trim the uri for a /
+        $uri = ltrim($uri, '/');
+
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->first();
     }
 
