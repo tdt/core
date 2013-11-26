@@ -72,7 +72,7 @@ class GeoProperty extends Eloquent{
             if($validator->fails()){
 
                 $messages = $validator->messages();
-                \App::abort(452, $messages->first());
+                \App::abort(400, $messages->first());
             }
 
             // Checkc if the given type is valid
@@ -81,7 +81,7 @@ class GeoProperty extends Eloquent{
             if(!in_array($type, self::$GEOTYPES)){
 
                 $types = implode(', ', self::$GEOTYPES);
-                \App::abort(452, "The given geo type ($type) is not supported, the supported list is: $types.");
+                \App::abort(400, "The given geo type ($type) is not supported, the supported list is: $types.");
             }
         }
     }

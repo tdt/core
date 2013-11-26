@@ -26,7 +26,7 @@ class JSONPFormatter implements IFormatter{
         // Check if a callback parameter was set
         $callback = \Input::get('callback');
         if(empty($callback)){
-            \App::abort(452, "To request JSONP you need to add a callback parameter (...jsonp?callback=functionname)");
+            \App::abort(400, "To request a JSONP format you need to pass a callback query string parameter (...jsonp?callback=functionname)");
         }
 
         if($dataObj->is_semantic){

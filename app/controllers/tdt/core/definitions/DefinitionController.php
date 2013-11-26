@@ -89,7 +89,7 @@ class DefinitionController extends \Controller {
 
         // If we get empty params, then something went wrong
         if(empty($params)){
-            \App::abort(452, "The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).");
+            \App::abort(400, "The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).");
         }
 
         $params = array_change_key_case($params);
@@ -142,7 +142,7 @@ class DefinitionController extends \Controller {
             return $response;
 
         }else{
-            \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
+            \App::abort(400, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
         }
     }
 
@@ -164,7 +164,7 @@ class DefinitionController extends \Controller {
                 if(!array_key_exists($key, $params)){
 
                     if(!empty($info['required']) && $info['required']){
-                        \App::abort(452, "The parameter $key is required in order to create a defintion but was not provided.");
+                        \App::abort(404, "The parameter $key is required in order to create a defintion but was not provided.");
                     }
 
                     if(!empty($info['default_value'])){
@@ -182,7 +182,7 @@ class DefinitionController extends \Controller {
                         );
 
                         if($validator->fails()){
-                            \App::abort(452, "The validation failed for parameter $key, make sure the value is valid.");
+                            \App::abort(404, "The validation failed for parameter $key, make sure the value is valid.");
                         }
                     }
 
@@ -192,7 +192,7 @@ class DefinitionController extends \Controller {
 
             return $validated_params;
         }else{
-            \App::abort(452, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
+            \App::abort(406, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
         }
     }
 
@@ -206,7 +206,7 @@ class DefinitionController extends \Controller {
         $definition = self::get($uri);
 
         if(empty($definition)){
-            \App::abort(452, "The given uri, $uri, could not be resolved as a resource that can be deleted.");
+            \App::abort(404, "The given uri, $uri, could not be resolved as a resource that can be deleted.");
         }
 
         $definition->delete();
@@ -282,7 +282,7 @@ class DefinitionController extends \Controller {
             $collection_uri = $matches[1];
             $resource_name = @$matches[2];
         }else{
-            \App::abort(452, "The uri should at least have a collection uri and a resource name.");
+            \App::abort(400, "The uri should at least have a collection uri and optionally a resource name.");
         }
 
         return array($collection_uri, $resource_name);

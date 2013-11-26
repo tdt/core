@@ -27,6 +27,6 @@ class JSONController extends ADataController {
             return $data_result;
         }
 
-        \App::abort(452, "Can't get any (json) data from the given URI ($uri).");
+        \App::abort(404, "Cannot retrieve data from the JSON file located on $source_definition->uri.");
     }
 }

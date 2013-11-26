@@ -43,13 +43,12 @@ class NTFormatter implements IFormatter{
             return $ser->getSerializedTriples($dataObj->data->getTriples());
         }
 
-        // Else
-        \App::abort(452, "This resource does not contain semantic information.");
+        // If the data object is not semantic, we cannot provide a semantic serialization
+        \App::abort(400, "This resource doesn't contain semantic (graph) data, an NT serialization cannot be provided.");
 
     }
 
     public static function getDocumentation(){
-        return "Prints the N-triples notation with semantic annotations";
+        return "Formats the graph in the N-triples notation with semantic annotations";
     }
-
 }

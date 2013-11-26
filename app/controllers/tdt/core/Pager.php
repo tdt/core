@@ -24,10 +24,10 @@ class Pager{
             if(!in_array($keyword, self::$PAGING_KEYWORDS)){
 
                 $key_words = implode(', ', self::$PAGING_KEYWORDS);
-                \App::abort(452, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
+                \App::abort(400, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
 
             }else if(count($page_info) != 2){
-                \App::abort(452, "The provided page info did not contain 2 parts, it should only contain a page number and a page size.");
+                \App::abort(400, "The provided page info did not contain 2 parts, it should only contain a page number and a page size.");
             }
 
             $link_value .= \Request::url() . '?page=' . $page_info[0] . '&page_size=' . $page_info[1] . ';rel=' . $keyword . ',';

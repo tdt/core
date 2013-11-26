@@ -30,7 +30,7 @@ class XLSController extends ADataController {
         $columns = $source_definition->tabularColumns()->getResults();
 
         if(!$columns){
-            \App::abort(452, "Can't find or fetch the columns for this Excell file.");
+            \App::abort(500, "Cannot find the columns from the XLS definition.");
         }
 
         // Create aliases for the columns
@@ -53,7 +53,7 @@ class XLSController extends ADataController {
         $tmp_path = sys_get_temp_dir();
 
         if(empty($tmp_path)){
-            \App::abort(452, "The temporary file of the system cannot be found or used.");
+            \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
         }
 
         try {
@@ -63,18 +63,19 @@ class XLSController extends ADataController {
                 $tmpFile = uniqid();
                 file_put_contents($tmp_path . "/" . $tmpFile, file_get_contents($uri));
                 $php_obj = self::loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri), $sheet);
+
             } else {
                 $php_obj = self::loadExcel($uri, $this->getFileExtension($uri), $sheet);
             }
 
             if(empty($php_obj)){
-                \App::abort(452, "The Excel file could not be loaded from $uri.");
+                \App::abort(404, "The Excel file could not be retrieved from the location $uri.");
             }
 
             $worksheet = $php_obj->getSheetByName($sheet);
 
             if(empty($worksheet)){
-                \App::abort(452, "The worksheet $sheet could not be found in the Excel file.");
+                \App::abort(404, "The worksheet $sheet could not be found in the Excel file located on $uri.");
             }
 
             // The amount of rows added to the result
@@ -143,7 +144,7 @@ class XLSController extends ADataController {
             return $data_result;
 
         } catch( Exception $ex) {
-            App::abort(452, "Failed to retrieve data from the XLS file with path $uri.");
+            App::abort(404, "Failed to retrieve data from the XLS file on location $uri.");
         }
     }
 
@@ -185,7 +186,7 @@ class XLSController extends ADataController {
             if(!empty($data[$column->index])){
                 $result[$column->column_name_alias] = $data[$column->index];
             }else{
-                \App::abort(452, "The index $column->index could not be found in the data file. Indices start at 0.");
+                \App::abort(404, "The index $column->index could not be found in the XLS file. Index count starts at 0.");
             }
         }
 

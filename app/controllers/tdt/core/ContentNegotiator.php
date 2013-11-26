@@ -59,7 +59,7 @@ class ContentNegotiator extends Pager{
         $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';
 
         if(!class_exists($formatter_class)){
-            \App::abort(400, "Formatter $extension doesn't exist.");
+            \App::abort(400, "The request formatter, $extension, doesn't exist.");
         }
 
         // Create the response from the designated formatter
