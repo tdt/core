@@ -26,7 +26,7 @@ class CSVController extends ADataController {
         if (!empty($source_definition->uri)) {
             $uri = $source_definition->uri;
         } else {
-            \App::abort(404, "Cannot retrieve the given location of the uri ( $source_definition->uri ).");
+            \App::abort(500, "No location of the CSV file has been passed, this is most likely due to a corrupt CSV definition.");
         }
 
         // Get data from definition

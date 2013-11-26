@@ -165,7 +165,7 @@ class XLSController extends ADataController {
         }else if($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
         }else{
-            \App::abort(452, "The given file is not supported, supported file are xls or xlsx files.");
+            \App::abort(400, "The given file is not supported, supported file are xls or xlsx files.");
         }
 
         $objReader->setReadDataOnly(true);
