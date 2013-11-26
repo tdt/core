@@ -70,7 +70,7 @@ class InfoController extends \Controller {
                 // Allow content nego. for dcat
                 return ContentNegotiator::getResponse($dcat, $extension);
                 break;
-            case 'info':
+            case 'api/info':
                 // Return the informational properties and uri's of published datasets
                 return self::getDefinitionsInfo();
                 break;
