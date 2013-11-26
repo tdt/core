@@ -70,7 +70,7 @@ class SparqlDefinition extends SourceType{
     public static function getCreateValidators(){
         return array(
             'endpoint' => 'required',
-            'query' => 'required',
+            'query' => 'required|sparqlquery',
             'description' => 'required',
         );
     }

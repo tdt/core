@@ -56,6 +56,28 @@ class HTMLFormatter implements IFormatter{
                     $data = self::displayTree(json_decode($ser->getSerializedTriples($dataObj->data->getTriples())));
 
                     break;
+
+                case 'SPARQL':
+
+                    if($dataObj->is_semantic){
+
+                        // This data object is always semantic
+                        $view = 'dataset.code';
+
+                        // Check if a configuration is given
+                        $conf = array();
+                        if(!empty($dataObj->semantic->conf)){
+                            $conf = $dataObj->semantic->conf;
+                        }
+
+                        // Serializer instantiation
+                        $ser = \ARC2::getRDFJSONSerializer($conf);
+
+                        // Use ARC to serialize to JSON (override)
+                        $data = self::displayTree(json_decode($ser->getSerializedTriples($dataObj->data->getTriples())));
+
+                        break;
+                    }
                 default:
                     $view = 'dataset.code';
                     $data = self::displayTree($dataObj->data);
