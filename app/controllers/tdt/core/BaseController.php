@@ -25,15 +25,23 @@ class BaseController extends \Controller {
                 $controller = 'tdt\core\definitions\DiscoveryController';
                 break;
             // TODO: don't hardcode this part
-            case 'definitions':
-                // Definitions request
-                $controller = 'tdt\core\definitions\DefinitionController';
-                $uri = str_replace('definitions/', '', $uri);
-                break;
-            case 'info':
-                // Info request
-                $controller = 'tdt\core\definitions\InfoController';
-                $uri = str_replace('info/', '', $uri);
+            case 'api':
+                switch(\Request::segment(2)){
+                    case 'definitions':
+                        // Definitions request
+                        $controller = 'tdt\core\definitions\DefinitionController';
+                        $uri = str_replace('api/definitions/', '', $uri);
+                        break;
+                    case 'info':
+                        // Info request
+                        $controller = 'tdt\core\definitions\InfoController';
+                        $uri = str_replace('api/info/', '', $uri);
+                        break;
+                    case 'default':
+                        \App::abort(404, "Page not found.");
+                        break;
+                }
+
                 break;
             case '':
                 // Home URL requests
