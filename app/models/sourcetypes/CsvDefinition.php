@@ -91,6 +91,26 @@ class CsvDefinition extends SourceType{
         return true;
     }
 
+    /**
+     * Update the CsvDefinition model
+     */
+    public function update(array $attr = array()){
+
+        // When a new property is given for the CsvDefinition model
+        // revalidate the entire definition, including columns.
+
+        $columns = $this->tabularColumns()->getResults();
+
+        foreach($columns as $column){
+            $column->delete();
+        }
+
+        foreach($attr as $key => $value){
+            $this->$key = $value;
+        }
+
+        $this->save();
+    }
 
     /**
      * Validate the input for this model and related models.
