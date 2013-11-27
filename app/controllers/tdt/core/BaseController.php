@@ -73,16 +73,13 @@ class BaseController extends \Controller {
         }else{
 
             // Regular response, add headers and forget Sentry's cookie
-
-            // Forget authentication and cookie(s)
             \Sentry::logout();
-            $cookie = \Cookie::forget('tdt_auth');
 
             // Make sure cross origin requests are allowed for GET
             $response->header('Access-Control-Allow-Origin', '*');
             $response->header('Access-Control-Allow-Methods', 'GET');
 
-            return $response->withCookie($cookie);
+            return $response;
         }
     }
 }
