@@ -49,14 +49,8 @@ class Auth extends \Controller {
 
         if(\Sentry::check()){
 
-            // Get current user
-            $user = \Sentry::getUser();
-
             // Check permissions
-            if($user->hasAccess($permissions)){
-
-                // Share user in views
-                \View::share('current_user', $user);
+            if(self::hasAccess($permissions)){
                 return true;
             }else{
                 \App::abort(403, "The authenticated user hasn't got the permissions for this action.");
@@ -120,7 +114,7 @@ class Auth extends \Controller {
      */
     protected static function basicAuth(){
 
-        self::$user = \Request::header('PHP_AUTH_USER');
+        self::$user = strtolower(\Request::header('PHP_AUTH_USER'));
         self::$password = \Request::header('PHP_AUTH_PW');
         $auth_header = \Request::header('Authorization');
 
@@ -129,5 +123,23 @@ class Auth extends \Controller {
         }
     }
 
+    public static function hasAccess($permissions){
+
+        // Get current user
+        $user = \Sentry::getUser();
+
+        // Get the superadmin group
+        $superadmin = \Sentry::findGroupByName('superadmin');
+
+        // Check permissions
+        if($user->hasAccess($permissions) || $user->inGroup($superadmin)){
+            // Share user in views
+            \View::share('current_user', $user);
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 
 }

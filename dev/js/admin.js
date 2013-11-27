@@ -33,6 +33,28 @@ $('.btn.edit-user').on('click', function(e){
     modal.modal('show');
 });
 
+// Group edit
+$('.btn.edit-group').on('click', function(e){
+    e.preventDefault();
+
+    // Get variables
+    var row = $(this).parents('.dataset');
+    var id = row.data('id');
+    var name = row.data('name');
+
+    var modal = $('#editGroup');
+    $('#inputEditId').val(id);
+    $('#inputEditName').val(name);
+
+    modal.modal('show');
+});
+
+// Permissions toggle
+$('.permissions').hide();
+$('.edit-permissions').on('click', function(e){
+    $(this).next('.permissions').toggle();
+});
+
 // Tooltips
 $('.hover-help').tooltip();
-$('.hover-help').on('click', function(e){ e.preventDefault(); })
+$('.hover-help').on('click', function(e){ e.preventDefault(); });

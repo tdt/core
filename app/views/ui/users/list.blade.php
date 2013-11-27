@@ -7,7 +7,7 @@
             <h3>Manage your users</h3>
         </div>
         <div class="col-sm-5 text-right">
-            @if($current_user->hasAccess('admin.user.create'))
+            @if(tdt\core\auth\Auth::hasAccess('admin.user.create'))
                 <a href='' class='btn btn-primary pull-right margin-left' data-toggle="modal" data-target="#addUser"><i class='fa fa-plus'></i> Add</a>
             @endif
         </div>
@@ -45,22 +45,20 @@
                                     @if($current_user->email == $user->email)
                                         <i class='fa fa-angle-right'></i>
                                     @endif
-                                    <a href='{{ URL::to('api/admin/users/edit/' . $user->id) }}'>{{ $user->email }}</a>
+                                    {{ $user->email }}
                                 </h4>
                             </div>
                             <div class='col-sm-2'>
                                 <strong>Group:</strong>
-                                @if(true)
-                                    @foreach($user->getGroups() as $group)
-                                        {{ $group->name }}
-                                    @endforeach
-                                @endif
+                                @foreach($user->getGroups() as $group)
+                                    {{ $group->name }}
+                                @endforeach
                             </div>
                             <div class='col-sm-4 text-right'>
-                                @if($current_user->hasAccess('admin.user.update') && $user->id != 1)
+                                @if(tdt\core\auth\Auth::hasAccess('admin.user.update') && $user->id != 1)
                                     <a href='#' class='btn edit-user' title='Edit this user'><i class='fa fa-edit'></i> Edit</a>
                                 @endif
-                                @if($current_user->hasAccess('admin.user.delete') && $user->id > 2)
+                                @if(tdt\core\auth\Auth::hasAccess('admin.user.delete') && $user->id > 2)
                                     <a href='{{ URL::to('api/admin/users/delete/'. $user->id) }}' class='btn delete' title='Delete this user'><i class='fa fa-times icon-only'></i></a>
                                 @endif
                             </div>

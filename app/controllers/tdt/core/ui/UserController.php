@@ -78,7 +78,7 @@ class UserController extends \Controller {
 
             // Create the user
             $user = \Sentry::createUser(array(
-                'email'    => \Input::get('name'),
+                'email'    => strtolower(\Input::get('name')),
                 'password' => \Input::get('password'),
             ));
 
@@ -120,7 +120,7 @@ class UserController extends \Controller {
 
             // Update account
             if($id > 2 && \Input::get('name')){
-                $user->email = \Input::get('name');
+                $user->email = strtolower(\Input::get('name'));
             }
 
             // Update password (not for the everyone account)

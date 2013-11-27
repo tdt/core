@@ -226,6 +226,10 @@ footer{
         }
     }
 
+    hr{
+        margin-top: 5px;
+    }
+
     &.dataset{
         clear: both;
         margin: 0px;
@@ -361,6 +365,24 @@ footer{
 
 .hover-help{
     color: $primary-soft;
+}
+
+.edit-permissions{
+    margin-bottom: 14px !important;
+}
+
+.permissions{
+    margin-bottom: 15px;
+
+    & > div > div{
+        margin-bottom: 10px;
+    }
+
+    label{
+        margin-left: 5px;
+        font-weight: normal;
+        margin-right: 20px;
+    }
 }
 
 @media(max-width:768px){

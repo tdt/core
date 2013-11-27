@@ -26,6 +26,13 @@ class GroupController extends \Controller {
         // Get all groups
         $groups = \Sentry::findAllGroups();
 
+        // Get all permissions
+        $permission_groups = \Config::get('permissions');
+        $input_permission_groups = \Config::get('tdt/input::permissions');
+        if(!empty($input_permission_groups)){
+            $permission_groups = array_merge($permission_groups, $input_permission_groups);
+        }
+
         // Get error
         $error = Flash::get();
 
@@ -33,6 +40,7 @@ class GroupController extends \Controller {
                     ->with('title', 'The Datatank')
                     ->with('users', $users)
                     ->with('groups', $groups)
+                    ->with('permission_groups', $permission_groups)
                     ->with('error', $error);
 
         return \Response::make($view);
@@ -98,35 +106,56 @@ class GroupController extends \Controller {
             if(empty($id)){
                 $id = \Input::get('id');
             }
-            // Find the user using the user id
-            $user = \Sentry::findUserById($id);
+            // Find the user using the group id
+            $group = \Sentry::findGroupById($id);
 
-            // Update account
-            if($id > 2 && \Input::get('name')){
-                $user->email = \Input::get('name');
-            }
+            $permissions_save = \Input::get('btn_save_permissions');
 
-            // Update password (not for the everyone account)
-            if($id > 1 && \Input::get('password')){
-                $resetCode = $user->getResetPasswordCode();
-                $user->attemptResetPassword($resetCode, \Input::get('password'));
-            }
+            if(empty($permissions_save)){
 
-            $user->save();
+                // Update group
+                if($id > 2){
+                    $group->name = \Input::get('name');
+                }
+                $group->save();
+            }else{
 
-            // Find the group using the group id
-            $group = \Sentry::findGroupById(\Input::get('group'));
+                if($group->id != 2){
+                    // Update permissions
+                    $permission_data = \Input::get();
+                    $permissions = array();
 
-            if($id > 2){
-                // Remove user from previous groups
-                foreach($user->getGroups() as $g){
-                    $user->removeGroup($g);
+                    // Unset previous permissions
+                    $group_permissions = $group->getPermissions();
+                    foreach($group_permissions as $p => $value){
+                        $permissions[$p] = 0;
+                    }
+
+                    // Add new ones
+                    foreach($permission_data as $p => $value){
+
+                        // Skip extra information
+                        if($p == 'id' || $p == 'btn_save_permissions'){
+                            continue;
+                        }
+
+                        // Form undo transform
+                        $p = str_replace('_', '.', $p);
+
+                        // Permission set
+                        $permissions[$p] = 1;
+
+                    }
+
+                    // Save permissions
+                    $group->permissions = $permissions;
+                    $group->save();
                 }
 
-                // Assign the group to the user
-                $user->addGroup($group);
             }
 
+        }catch (\Cartalyst\Sentry\Groups\NameRequiredException $e){
+            Flash::set('Name is required');
         }catch (\Cartalyst\Sentry\Users\UserNotFoundException $e){
             // Ignore and redirect back
         }catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e){

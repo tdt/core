@@ -61,28 +61,7 @@ class UserSeeder extends Seeder {
         ));
 
         Sentry::getGroupProvider()->create(array(
-            'name'        => 'admin',
-            'permissions' => array(
-                'discovery.view' => 1,
-                'dataset.view' => 1,
-                'info.view' => 1,
-                'definition.create' => 1,
-                'definition.view' => 1,
-                'definition.update' => 1,
-                'definition.delete' => 1,
-                'admin.dataset.view' => 1,
-                'admin.dataset.create' => 1,
-                'admin.dataset.update' => 1,
-                'admin.dataset.delete' => 1,
-                'admin.user.view' => 1,
-                'admin.user.create' => 1,
-                'admin.user.update' => 1,
-                'admin.user.delete' => 1,
-                'admin.group.view' => 1,
-                'admin.group.create' => 1,
-                'admin.group.update' => 1,
-                'admin.group.delete' => 1,
-            ),
+            'name'        => 'superadmin'
         ));
 
         // Assign user permissions
@@ -92,7 +71,7 @@ class UserSeeder extends Seeder {
         $this->command->info('Succesfully added user "everyone".');
 
         $adminUser  = Sentry::getUserProvider()->findByLogin('admin');
-        $adminGroup = Sentry::getGroupProvider()->findByName('admin');
+        $adminGroup = Sentry::getGroupProvider()->findByName('superadmin');
         $adminUser->addGroup($adminGroup);
         $this->command->info('Succesfully added user "admin".');
 
