@@ -52,17 +52,56 @@ class ShpDefinition extends SourceType{
 
         // If geo properties are passed, then utilize them
         // If they're not parse the SHP file in to search for them automatically
-        $columns = @$options['columns'];
+        $provided_columns = @$options['columns'];
 
-        if(empty($columns)){
-            $columns = $this->parseColumns($options);
+        $columns = $this->parseColumns($options);
+
+         // If columns are provided, check if they exist and have the correct index
+        if(!empty($provided_columns)){
+
+            // Validate the provided columns
+            TabularColumns::validate($provided_columns);
+            $tmp = array();
+
+            // Index the column objects on the column name
+            foreach($provided_columns as $column){
+                $tmp[$column['column_name']] = $column;
+            }
+
+            $tmp_columns = array();
+            foreach($columns as $column){
+                $tmp_columns[$column['column_name']] = $column;
+            }
+
+            // If the column name of a provided column doesn't exist, or an index doesn't match, abort
+            foreach($tmp as $column_name => $column){
+
+                $tmp_column = $tmp_columns[$column_name];
+                if(empty($tmp_column)){
+                    \App::abort(404, "The column name ($column_name) was not found in the CSV file.");
+                }
+
+                if($tmp_column['index'] != $column['index']){
+                    \App::abort(400, "The column name ($column_name) was found, but the index isn't correct.");
+                }
+            }
+
+            // Everything went well, columns are now the provided columns by the user
+            $columns = $provided_columns;
         }
 
-        $geo_properties = @$options['geo'];
+        // Keep track of the column name aliases
+        $column_aliases = array();
 
-        if(empty($geo_properties)){
-            $geo_properties = $this->parseGeoProperty();
+        foreach($columns as $column){
+            array_push($column_aliases, $column['column_name_alias']);
         }
+
+        // Check if geo properties are given by the user
+        $user_geo_properties = @$options['geo'];
+
+
+        $parsed_geo_properties = $this->parseGeoProperty($columns);
 
         parent::save();
 
@@ -79,12 +118,48 @@ class ShpDefinition extends SourceType{
             $tabular_column->save();
         }
 
+        // Delete current geo properties
+        $geo_properties = $this->geoProperties;
+
+        if(!empty($geo_properties)){
+            foreach($geo_properties as $geo_prop){
+                $geo_prop->delete();
+            }
+        }
+
+        // If geo properties are given with the request, check if they're valid
+        if(!empty($user_geo_properties)){
+
+            // Index the parsed geo properties on their column name for validation purposes
+            $tmp = array();
+            foreach($parsed_geo_properties as $parsed_prop){
+                $tmp[$parsed_prop['path']] = $parsed_prop;
+            }
+
+            foreach($user_geo_properties as $geo_property){
+
+                $path = $geo_property['path'];
+                if(!in_array($path, $column_aliases)){
+
+                    \App::abort(404, "Can't find the column $path in the binary shape structure");
+                }
+
+                // It could be that the given property isn't valid, if so, abort
+                $geo = $tmp[$geo_property['path']];
+                if($geo_property['property'] != $geo['property']){
+                    \App::abort(400, "The column, $path, was found but the property didn't match the one we found in the shape file.");
+                }
+            }
+
+            $parsed_geo_properties = $user_geo_properties;
+        }
+
         // Save the GeoProperty
-        foreach($geo_properties as $geo_entry){
+        foreach($parsed_geo_properties as $geo_prop){
 
             $geo_property = new GeoProperty();
-            $geo_property->path = $geo_entry['path'];
-            $geo_property->property = $geo_entry['property'];
+            $geo_property->path = $geo_prop['path'];;
+            $geo_property->property = $geo_prop['property'];
             $geo_property->source_id = $this->id;
             $geo_property->source_type = 'ShpDefinition';
             $geo_property->save();
@@ -92,6 +167,33 @@ class ShpDefinition extends SourceType{
 
         return true;
     }
+
+    /**
+     * Update the CsvDefinition model
+     */
+    public function update(array $attr = array()){
+
+        // When a new property is given for the CsvDefinition model
+        // revalidate the entire definition, including columns.
+        $columns = $this->tabularColumns()->getResults();
+
+        foreach($columns as $column){
+            $column->delete();
+        }
+
+        $parameters = $attr['source'];
+        foreach($parameters as $key => $value){
+            $this->$key = $value;
+        }
+
+        // If columns or geo, etc. are passed, they'll be present in the 'all'
+
+        $params['columns'] = @$attr['all']['columns'];
+        $params['geo'] = @$attr['all']['geo'];
+
+        $this->save($params);
+    }
+
 
     /**
      * Parse the column names out of a SHP file.
@@ -163,7 +265,13 @@ class ShpDefinition extends SourceType{
     /**
      * Parse the geo column names out of a SHP file.
      */
-    private function parseGeoProperty(){
+    private function parseGeoProperty($columns){
+
+        // Make sure the geo property's path is mapped onto the column alias
+        $aliases = array();
+        foreach($columns as $column){
+            $aliases[$column['column_name']] = $column['column_name_alias'];
+        }
 
         $options = array('noparts' => false);
         $is_url = (substr($this->uri , 0, 4) == "http");
@@ -200,15 +308,19 @@ class ShpDefinition extends SourceType{
         // or a lat long pair will be set (identified by x and y)
         if(!empty($shp_data['parts'])) {
             if(strpos($shape_type, 'polyline')){
-                array_push($geo_properties, array('property' => 'polyline', 'path' => 'parts'));
+                $parts = $aliases['parts'];
+                array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
             }else if(strpos($shape_type, 'polygon')){
-                array_push($geo_properties, array('property' => 'polygon', 'path' => 'parts'));
+                $parts = $aliases['parts'];
+                array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
             }else{ // TODO support more types
                 \App::abort(400, 'Provided geometric type ( $shape_type ) is not supported');
             }
         }else if(isset($shp_data['x'])){
-            array_push($geo_properties, array('property' => 'latitude', 'path' => 'x'));
-            array_push($geo_properties, array('property' => 'longitude', 'path' => 'y'));
+            $x = $aliases['x'];
+            $y = $aliases['y'];
+            array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
+            array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
         }
 
         return $geo_properties;

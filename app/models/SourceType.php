@@ -52,10 +52,17 @@ class SourceType extends Eloquent{
 
     /**
      * Update a SourceType
-     * Overwrite the update of the Eloquent Model
-     * defaults to the save() method.
+     * Overwrite the update of the Eloquent Model and
+     * default to the save() method.
      */
     public function update( array $attr = array()){
+
+        $source_params = $attr['source'];
+
+        foreach($source_params as $key => $value){
+            $this->$key = $value;
+        }
+
         $this->save();
     }
 

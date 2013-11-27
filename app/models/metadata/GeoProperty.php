@@ -78,7 +78,6 @@ class GeoProperty extends Eloquent{
             }
 
             // Checkc if the given type is valid
-
             $type = mb_strtolower($geo['property']);
             if(!in_array($type, self::$GEOTYPES)){
 

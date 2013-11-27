@@ -47,10 +47,49 @@ class XlsDefinition extends SourceType{
      */
     public function save(array $options = array()){
 
+        // Check for passed columns
+        $provided_columns = @$options['columns'];
+
         $columns = $this->parseColumns($options);
+
+        // If columns are provided, check if they exist and have the correct index
+        if(!empty($provided_columns)){
+
+            // Validate the provided columns
+            TabularColumns::validate($provided_columns);
+
+            $tmp = array();
+
+            // Index the column objects on the column name
+            foreach($provided_columns as $column){
+                $tmp[$column['column_name']] = $column;
+            }
+
+            $tmp_columns = array();
+            foreach($columns as $column){
+                $tmp_columns[$column['column_name']] = $column;
+            }
+
+            // If the column name of a provided column doesn't exist, or an index doesn't match, abort
+            foreach($tmp as $column_name => $column){
+
+                $tmp_column = $tmp_columns[$column_name];
+                if(empty($tmp_column)){
+                    \App::abort(404, "The column name ($column_name) was not found in the CSV file.");
+                }
+
+                if($tmp_column['index'] != $column['index']){
+                    \App::abort(400, "The column name ($column_name) was found, but the index isn't correct.");
+                }
+            }
+
+            // Everything went well, columns are now the provided columns by the user
+            $columns = $provided_columns;
+        }
 
         // Unset the pk parameter, serves as a shortcut for the columns configuration
         unset($this->pk);
+
         parent::save();
 
         foreach($columns as $column){

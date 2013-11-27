@@ -146,7 +146,9 @@ class SHPController extends ADataController {
                             array_push($parts,implode(" ",$points));
                         }
 
-                        $rowobject->parts = implode(';', $parts);
+                        // Parts only contains 1 shape, thus 1 geo entry
+                        $alias = reset($geo);
+                        $rowobject->$alias = implode(';', $parts);
                     }
 
                     if(isset($shp_data['x'])) {
@@ -163,8 +165,8 @@ class SHPController extends ADataController {
 
                         }
 
-                        $rowobject->x = $x;
-                        $rowobject->y= $y;
+                        $rowobject->$geo['longitude'] = $x;
+                        $rowobject->$geo['latitude'] = $y;
                     }
                     array_push($arrayOfRowObjects,$rowobject);
                 }

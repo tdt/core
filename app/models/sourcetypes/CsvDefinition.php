@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -42,12 +43,50 @@ class CsvDefinition extends SourceType{
     public function save(array $options = array()){
 
         // Check for passed columns
-        $columns = @$options['columns'];
+        $provided_columns = @$options['columns'];
 
-        if(empty($columns)){
+        // Parse the columns of the csv file
+        $columns = $this->parseColumns($options);
 
-            // Parse the columns of the csv file
-            $columns = $this->parseColumns($options);
+        // If columns are provided, check if they exist and have the correct index
+        if(!empty($provided_columns)){
+
+            // Validate the provided columns
+            TabularColumns::validate($provided_columns);
+            $tmp = array();
+
+            // Index the column objects on the column name
+            foreach($provided_columns as $column){
+                $tmp[$column['column_name']] = $column;
+            }
+
+            $tmp_columns = array();
+            foreach($columns as $column){
+                $tmp_columns[$column['column_name']] = $column;
+            }
+
+            // If the column name of a provided column doesn't exist, or an index doesn't match, abort
+            foreach($tmp as $column_name => $column){
+
+                $tmp_column = $tmp_columns[$column_name];
+                if(empty($tmp_column)){
+                    \App::abort(404, "The column name ($column_name) was not found in the CSV file.");
+                }
+
+                if($tmp_column['index'] != $column['index']){
+                    \App::abort(400, "The column name ($column_name) was found, but the index isn't correct.");
+                }
+            }
+
+            // Everything went well, columns are now the provided columns by the user
+            $columns = $provided_columns;
+        }
+
+        // Keep track of the column name aliases
+        $column_aliases = array();
+
+        foreach($columns as $column){
+            array_push($column_aliases, $column['column_name_alias']);
         }
 
         // Unset the pk parameter, serves as a shortcut for the columns configuration
@@ -77,11 +116,31 @@ class CsvDefinition extends SourceType{
         $geo_props = @$options['geo'];
 
         if(!empty($geo_props)){
-            foreach($geo_props as $geo_entry){
+
+            // Validate the geo property paths
+            foreach($geo_props as $geo_prop){
+
+                // Validate the path
+                $path = $geo_prop['path'];
+                if(!in_array($path, $column_aliases)){
+                    \App::abort(400, "The column ($path) that was provided as a geo path, could't be found.");
+                }
+            }
+
+            // Delete current geo properties
+            $geo_properties = $this->geoProperties;
+
+            if(!empty($geo_properties)){
+                foreach($geo_properties as $geo_prop){
+                    $geo_prop->delete();
+                }
+            }
+
+            foreach($geo_props as $geo_prop){
 
                 $geo_property = new GeoProperty();
-                $geo_property->path = $geo_entry['path'];
-                $geo_property->property = $geo_entry['property'];
+                $geo_property->path = $geo_prop['path'];
+                $geo_property->property = $geo_prop['property'];
                 $geo_property->source_id = $this->id;
                 $geo_property->source_type = 'CsvDefinition';
                 $geo_property->save();
@@ -98,18 +157,23 @@ class CsvDefinition extends SourceType{
 
         // When a new property is given for the CsvDefinition model
         // revalidate the entire definition, including columns.
-
         $columns = $this->tabularColumns()->getResults();
 
         foreach($columns as $column){
             $column->delete();
         }
 
-        foreach($attr as $key => $value){
+        $parameters = $attr['source'];
+        foreach($parameters as $key => $value){
             $this->$key = $value;
         }
 
-        $this->save();
+        // If columns or geo, etc. are passed, they'll be present in the 'all'
+
+        $params['columns'] = @$attr['all']['columns'];
+        $params['geo'] = @$attr['all']['geo'];
+
+        $this->save($params);
     }
 
     /**

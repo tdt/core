@@ -51,7 +51,7 @@ class TabularColumns extends Eloquent{
     public static function getCreateValidators(){
         return array(
             'pk' => 'integer',
-            'index' => 'required',
+            'index' => 'integer|required',
             'column_name' => 'required',
             'column_name_alias' => 'required',
         );
@@ -71,8 +71,6 @@ class TabularColumns extends Eloquent{
 
         $create_params = self::getCreateParameters();
         $rules = self::getCreateValidators();
-
-        //array_keys($create_params);
 
         foreach($params as $column_entry){
 

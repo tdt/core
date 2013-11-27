@@ -20,6 +20,8 @@ class DefinitionController extends \Controller {
 
     public static function handle($uri){
 
+        $uri = ltrim($uri, '/');
+
         // Propagate the request based on the HTTPMethod of the request
         $method = \Request::getMethod();
 
@@ -38,8 +40,8 @@ class DefinitionController extends \Controller {
                 return self::viewDefinition($uri);
                 break;
             case "POST":
-                \App::abort(400, "The method $method is not supported.");
             case "PATCH":
+
                 // Set permission
                 Auth::requirePermissions('definition.update');
                 return self::updateDefinition($uri);
@@ -243,7 +245,6 @@ class DefinitionController extends \Controller {
         $definition = self::get($uri);
         $definition_params = $definition->getFillable();
 
-
         // Get the source type and his fillable properties
         $source_type = $definition->source()->first();
         $source_params = $source_type->getFillable();
@@ -256,6 +257,10 @@ class DefinitionController extends \Controller {
             $params = json_decode($params, true);
         }else{
             $params = \Input::all();
+        }
+
+        if(empty($params)){
+            \App::abort(400, 'Failed to parse the parameters, make sure the document is well-formed.');
         }
 
         // Only keep the properties from the parameters that are appropriate for Definition
@@ -274,14 +279,10 @@ class DefinitionController extends \Controller {
         // Validate the parameters of the SourceType
         $validated_params = $source_type::validate($patched_source_params);
 
-        /*foreach($validated_params as $key => $val){
-            $source_type->$key = $val;
-        }*/
+        $source_params = array('source' => $validated_params, 'all' => $params);
 
-        // Delete the tabular columns, they will be read and updated for validation purposes
-        // and will otherwise exists twice
-
-        $source_type->update($validated_params);
+        // Pass along the source type validated parameters, and the original parameter set (may contain columns, geo, ...)
+        $source_type->update($source_params);
         $definition->update($patched_def_params);
 
         $response = \Response::make(null, 200);
@@ -296,6 +297,7 @@ class DefinitionController extends \Controller {
     private static function headDefinition($uri){
         \App::abort(500, "Function not yet implemented.");
     }
+
     /*
      * GET a definition based on the uri provided
      * TODO add support function get retrieve collections, instead full resources.
