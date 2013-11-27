@@ -239,9 +239,12 @@ class DefinitionController extends \Controller {
             \App::abort(404, "The given uri ($uri) can't be retrieved as a resource.");
         }
 
+        // Get the definition and his fillable properties
         $definition = self::get($uri);
         $definition_params = $definition->getFillable();
 
+
+        // Get the source type and his fillable properties
         $source_type = $definition->source()->first();
         $source_params = $source_type->getFillable();
 
@@ -255,13 +258,10 @@ class DefinitionController extends \Controller {
             $params = \Input::all();
         }
 
+        // Only keep the properties from the parameters that are appropriate for Definition
         $patched_def_params = array_only($params, $definition_params);
 
-        // Set the new keys to the definition, no need to validate as they're all strings
-        foreach($patched_def_params as $key => $value){
-            $definition->$key = $value;
-        }
-
+        // Only keep the properties from the parameters that are appropriate for the SourceType
         $patched_source_params = array_only($params, $source_params);
 
         // Merge the new params with the old ones, and pass them to the source type for validation
@@ -271,14 +271,18 @@ class DefinitionController extends \Controller {
             }
         }
 
+        // Validate the parameters of the SourceType
         $validated_params = $source_type::validate($patched_source_params);
 
-        foreach($validated_params as $key => $val){
+        /*foreach($validated_params as $key => $val){
             $source_type->$key = $val;
-        }
+        }*/
 
-        $source_type->save();
-        $definition->save();
+        // Delete the tabular columns, they will be read and updated for validation purposes
+        // and will otherwise exists twice
+
+        $source_type->update($validated_params);
+        $definition->update($patched_def_params);
 
         $response = \Response::make(null, 200);
         $response->header('Location', \Request::getHost() . '/' . $uri);

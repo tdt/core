@@ -51,6 +51,15 @@ class SourceType extends Eloquent{
     }
 
     /**
+     * Update a SourceType
+     * Overwrite the update of the Eloquent Model
+     * defaults to the save() method.
+     */
+    public function update( array $attr = array()){
+        $this->save();
+    }
+
+    /**
      * Retrieve the collection of custom error messages for validation.
      */
     public static function getErrorMessages(){
