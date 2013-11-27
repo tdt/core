@@ -139,6 +139,8 @@ class DatasetController extends \Controller {
                     }
 
                     $data = $result;
+                }else{
+                    \App::abort(404, "No property ($rest_param) has been found.");
                 }
             }else{
                 \App::abort(404, "No property ($rest_param) has been found.");
