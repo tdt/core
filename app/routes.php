@@ -29,11 +29,17 @@ App::before(function(){
     Route::any('{all}', 'tdt\core\BaseController@handleRequest')->where('all', '.*');
 });
 
+App::after(function($request, $response){
+    // Remove cookie(s)
+    $response->headers->removeCookie( 'tdt_auth' );
+    $response->headers->removeCookie( 'laravel_session' );
+});
+
 /*
  * Propper error handling
  */
-App::error(function($exception, $code)
-{
+App::error(function($exception, $code){
+
     // Log error
     Log::error($exception);
 
