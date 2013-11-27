@@ -18,6 +18,7 @@ Route::group(array('prefix' => 'api/admin'), function(){
 
     Route::controller('datasets', 'tdt\core\ui\DatasetController');
     Route::controller('users', 'tdt\core\ui\UserController');
+    Route::controller('groups', 'tdt\core\ui\GroupController');
 });
 
 /*

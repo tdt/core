@@ -31,4 +31,8 @@ $('.btn.edit-user').on('click', function(e){
     }
 
     modal.modal('show');
-})
+});
+
+// Tooltips
+$('.hover-help').tooltip();
+$('.hover-help').on('click', function(e){ e.preventDefault(); })

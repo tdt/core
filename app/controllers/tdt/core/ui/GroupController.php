@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The usercontroller
+ * The group controller
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -11,14 +11,14 @@ namespace tdt\core\ui;
 use tdt\core\auth\Auth;
 use tdt\core\ui\helpers\Flash;
 
-class UserController extends \Controller {
+class GroupController extends \Controller {
 
     /**
-     * Admin.user.view
+     * Admin.group.view
      */
     public function getIndex(){
         // Set permission
-        Auth::requirePermissions('admin.user.view');
+        Auth::requirePermissions('admin.group.view');
 
         // Get all users
         $users = \Sentry::findAllUsers();
@@ -29,7 +29,7 @@ class UserController extends \Controller {
         // Get error
         $error = Flash::get();
 
-        return \View::make('ui.users.list')
+        return \View::make('ui.groups.list')
                     ->with('title', 'The Datatank')
                     ->with('users', $users)
                     ->with('groups', $groups)
@@ -39,77 +39,60 @@ class UserController extends \Controller {
     }
 
     /**
-     * Admin.user.delete
+     * Admin.group.delete
      */
     public function getDelete($id){
 
         // Set permission
-        Auth::requirePermissions('admin.user.delete');
+        Auth::requirePermissions('admin.group.delete');
 
         try{
-            // Find the user using the user id
-            $user = \Sentry::findUserById($id);
+            // Find the group using the group id
+            $group = \Sentry::findGroupById($id);
 
-            if($user->id > 2){
-                // Delete the user
-                $user->delete();
+            if($group->id > 2){
+                // Delete the group
+                $group->delete();
             }
 
-        }catch (\Cartalyst\Sentry\Users\UserNotFoundException $e){
+        }catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e){
             // Ignore and redirect back
         }
 
-        return \Redirect::to('api/admin/users');
+        return \Redirect::to('api/admin/groups');
     }
 
     /**
-     * Admin.user.create
+     * Admin.group.create
      */
     public function postCreate(){
 
         // Set permission
-        Auth::requirePermissions('admin.user.create');
-
+        Auth::requirePermissions('admin.group.create');
 
         try{
 
-            // Find the group using the group id
-            $group = \Sentry::findGroupById(\Input::get('group'));
-
-            // Create the user
-            $user = \Sentry::createUser(array(
-                'email'    => \Input::get('name'),
-                'password' => \Input::get('password'),
+            // Create the group
+            $group = \Sentry::createGroup(array(
+                'name'        => \Input::get('name'),
             ));
 
-            // Activate the user
-            $user->activated = 1;
-            $user->save();
-
-            // Assign the group to the user
-            $user->addGroup($group);
-
-        }catch (\Cartalyst\Sentry\Users\LoginRequiredException $e){
-            Flash::set('Username is required');
-        }catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e){
-            Flash::set('A password is required');
-        }catch (\Cartalyst\Sentry\Users\UserExistsException $e){
-            Flash::set('A user with that username already exists');
-        }catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e){
-            // Illegal group -> ignore
+        }catch (\Cartalyst\Sentry\Groups\NameRequiredException $e){
+            Flash::set('Name is required');
+        }catch (\Cartalyst\Sentry\Groups\GroupExistsException $e){
+            Flash::set('A group with that name already exists');
         }
 
-
-        return \Redirect::to('api/admin/users');
+        return \Redirect::to('api/admin/groups');
     }
 
     /**
-     * Admin.user.update
+     * Admin.group.update
      */
     public function postUpdate($id = null){
 
         // Set permission
-        Auth::requirePermissions('admin.user.update');
+        Auth::requirePermissions('admin.group.update');
 
         try{
             if(empty($id)){
@@ -150,6 +133,6 @@ class UserController extends \Controller {
             // Ignore and redirect back
         }
 
-        return \Redirect::to('api/admin/users');
+        return \Redirect::to('api/admin/groups');
     }
 }

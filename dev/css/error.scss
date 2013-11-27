@@ -1,4 +1,5 @@
 @import "bootstrap";
+@import "font-awesome";
 
 $primary: #183440;
 $primary-highlight: #3C606E;
@@ -82,6 +83,10 @@ a{
     &:focus, &:hover{
         text-decoration: none;
         color: $highlight;
+    }
+
+    i{
+        margin-right: 5px;
     }
 }
 
