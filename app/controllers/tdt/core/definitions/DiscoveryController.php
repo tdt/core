@@ -131,7 +131,7 @@ class DiscoveryController extends \Controller {
                         $put->mediaType->$definition_type = new \stdClass();
                         $put->mediaType->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
 
-                        $all_properties = array_merge($base_properties, $model::getAllParameters());
+                        $all_properties = array_merge($model::getAllParameters(), $base_properties);
                         // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
                         $put->mediaType->$definition_type->parameters = $all_properties;
                     }

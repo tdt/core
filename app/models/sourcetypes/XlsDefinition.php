@@ -117,6 +117,11 @@ class XlsDefinition extends SourceType{
                     'description' => 'The location of the XLS file, either a URL or a local file location.',
                     'type' => 'string',
                 ),
+                'description' => array(
+                    'required' => true,
+                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                    'type' => 'string',
+                ),
                 'sheet' => array(
                     'required' => false,
                     'description' => 'The delimiter of the separated value file.',
@@ -127,18 +132,13 @@ class XlsDefinition extends SourceType{
                     'required' => false,
                     'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
                     'default_value' => 1,
-                    'type' => 'integer',
+                    'type' => 'boolean',
                 ),
                 'start_row' => array(
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
                     'default_value' => 0,
                     'type' => 'integer',
-                ),
-                'description' => array(
-                    'required' => true,
-                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                    'type' => 'string',
                 ),
                 'pk' => array(
                     'required' => false,

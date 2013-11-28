@@ -50,7 +50,6 @@ class CSVController extends ADataController {
             // 500 error because this shouldn't happen in normal conditions
             // Columns are parsed upon adding a CSV resource and are always present
             \App::abort(500, "Cannot find the columns of the CSV file, this might be due to a corrupted database or because columns weren't added upon creating the CSV definition.");
-
         }
 
         // Create aliases for the columns

@@ -348,16 +348,16 @@ class ShpDefinition extends SourceType{
                     'required' => true,
                     'description' => 'The location of the SHP file, either a URL or a local file location.',
                     'type' => 'string',
-                    ),
+                ),
+                'description' => array(
+                    'required' => true,
+                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                    'type' => 'string',
+                ),
                 'epsg' => array(
                     'required' => false,
                     'description' => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
                     'default_value' => 4326,
-                    'type' => 'string',
-                    ),
-                'description' => array(
-                    'required' => true,
-                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
                     'type' => 'string',
                 )
             );

@@ -293,6 +293,11 @@ class CsvDefinition extends SourceType{
                     'description' => 'The location of the CSV file, either a URL or a local file location.',
                     'type' => 'string',
                 ),
+                'description' => array(
+                    'required' => true,
+                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                    'type' => 'string',
+                ),
                 'delimiter' => array(
                     'required' => false,
                     'description' => 'The delimiter of the separated value file.',
@@ -303,18 +308,13 @@ class CsvDefinition extends SourceType{
                     'required' => false,
                     'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
                     'default_value' => 1,
-                    'type' => 'boolean (1|0)',
+                    'type' => 'boolean',
                 ),
                 'start_row' => array(
                     'required' => false,
                     'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
                     'default_value' => 0,
                     'type' => 'integer',
-                ),
-                'description' => array(
-                    'required' => true,
-                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                    'type' => 'string',
                 ),
                 'pk' => array(
                     'required' => false,
