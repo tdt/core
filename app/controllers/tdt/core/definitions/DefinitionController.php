@@ -78,9 +78,10 @@ class DefinitionController extends \Controller {
         // Retrieve the collection uri and resource name
         $matches = array();
 
-        list($collection_uri, $resource_name) = self::getParts($uri);
-
-        if(empty($collection_uri) || empty($resource_name)){
+        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
+            $collection_uri = @$matches[1];
+            $resource_name = @$matches[2];
+        }else{
             \App::abort(400, 'Provide a collection uri and a resource name in order to create a new definition.');
         }
 
@@ -342,19 +343,6 @@ class DefinitionController extends \Controller {
     public static function exists($uri){
         $definition = self::get($uri);
         return !empty($definition);
-    }
-
-    /**
-     * Return the collection uri and resource (if it exists)
-     */
-    private static function getParts($uri){
-
-        if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
-            $collection_uri = @$matches[1];
-            $resource_name = @$matches[2];
-        }
-
-        return array($collection_uri, $resource_name);
     }
 
     /**
