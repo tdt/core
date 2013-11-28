@@ -217,8 +217,6 @@ class DefinitionController extends \Controller {
      */
     private static function deleteDefinition($uri){
 
-        list($collection_uri, $resource_name) = self::getParts($uri);
-
         $definition = self::get($uri);
 
         if(empty($definition)){
@@ -352,10 +350,8 @@ class DefinitionController extends \Controller {
     private static function getParts($uri){
 
         if(preg_match('/(.*)\/([^\/]*)$/', $uri, $matches)){
-            $collection_uri = $matches[1];
+            $collection_uri = @$matches[1];
             $resource_name = @$matches[2];
-        }else{
-            \App::abort(400, "The uri should at least have a collection uri and optionally a resource name.");
         }
 
         return array($collection_uri, $resource_name);
