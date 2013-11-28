@@ -34,7 +34,6 @@ class ShpDefinition extends SourceType{
 
     /**
      * Relationship with the Geo properties model.
-     * TODO find a shape file with different shape types
      * this will probably break the relationship or displaying of the data.
      * If so every line or entry needs to have a geo property, or has to be parsed at runtime.
      */

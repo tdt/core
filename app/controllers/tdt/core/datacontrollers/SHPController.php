@@ -105,7 +105,8 @@ class SHPController extends ADataController {
 
                     foreach ($dbf_data as $property => $value) {
                         $property = strtolower($property);
-                        $rowobject->$property = trim($value);
+                        $property_alias = $columns[$property];
+                        $rowobject->$property_alias = trim($value);
                     }
 
                     // Read the shape data
