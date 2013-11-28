@@ -33,7 +33,7 @@ class XmlDefinition extends SourceType{
         return array(
             'uri' => array(
                 'required' => true,
-                'name' => 'Location',
+                'name' => 'URI',
                 'description' => 'The location of the XML file, this should either be a URL or a local file location.',
                 'type' => 'string',
             ),
