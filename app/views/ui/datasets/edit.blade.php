@@ -36,7 +36,13 @@
                             {{ str_replace('_', ' ', ucfirst($parameter)) }}
                         </label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @if($object->type == 'string')
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @elseif($object->type == 'integer')
+                                <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @elseif($object->type == 'boolean')
+                                <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" @if($source_definition->{$parameter}) checked='checked' @endif/>
+                            @endif
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
@@ -63,7 +69,13 @@
                             {{ str_replace('_', ' ', ucfirst($parameter)) }}
                         </label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @if($object->type == 'string')
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @elseif($object->type == 'integer')
+                                <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @elseif($object->type == 'boolean')
+                                <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" @if($source_definition->{$parameter}) checked='checked' @endif/>
+                            @endif
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
@@ -93,7 +105,7 @@
                             {{ str_replace('_', ' ', ucfirst($parameter)) }}
                         </label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
+                            <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
