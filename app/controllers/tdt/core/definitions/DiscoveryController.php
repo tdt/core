@@ -162,6 +162,48 @@ class DiscoveryController extends \Controller {
      */
     private static function createDefPatchDiscovery(){
 
+        $patch = new \stdClass();
+
+        $patch->httpMethod = "PATCH";
+        $patch->path = "/definitions/{identifier}";
+        $patch->description = "Patch a resource definition identified by the {identifier} value. In contrast to PUT, there's no need to pass the media type in the headers.";
+
+        // Every type of definition is identified by a certain mediatype (source type)
+        $patch->mediaType = new \stdClass();
+
+        // Get the base properties that can be added to every definition
+        $base_properties = \Definition::getCreateParameters();
+
+        // Fetch all the supported definition models by iterating the models directory
+        if ($handle = opendir(app_path() . '/models/sourcetypes')) {
+            while (false !== ($entry = readdir($handle))) {
+
+                if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
+
+                    $model = ucfirst(strtolower($matches[1])) . "Definition";
+
+                    $definition_type = strtolower($matches[1]);
+
+                    if(method_exists($model, 'getAllParameters')){
+
+                        $patch->mediaType->$definition_type = new \stdClass();
+                        $patch->mediaType->$definition_type->description = "Patch an existing definition.";
+
+                        $all_properties = array_merge($model::getAllParameters(), $base_properties);
+
+                        foreach($all_properties as $key => $info){
+                            unset($all_properties[$key]['required']);
+                        }
+
+                        // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
+                        $patch->mediaType->$definition_type->parameters = $all_properties;
+                    }
+                }
+            }
+            closedir($handle);
+        }
+
+        return $patch;
     }
 
     /**
