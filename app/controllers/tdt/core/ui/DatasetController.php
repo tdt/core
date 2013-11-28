@@ -31,6 +31,60 @@ class DatasetController extends \Controller {
     }
 
     /**
+     * Admin.dataset.create
+     */
+    public function getAdd(){
+
+        // Set permission
+        Auth::requirePermissions('admin.dataset.create');
+
+        $discovery = $this->getDiscoveryDocument();
+
+        // Get spec for media types
+        $mediatypes_spec = $discovery->resources->definitions->methods->put->mediaType;
+
+        // Sort parameters for each media type
+        $mediatypes = array();
+        foreach($mediatypes_spec as $mediatype => $type){
+
+            $parameters_required = array();
+            $parameters_optional = array();
+            $parameters_dc = array();
+
+            foreach($type->parameters as $parameter => $object){
+
+                // Filter array type parameters
+
+                if(empty($object->parameters)){
+
+                    // Filter Dublin core parameters
+                    if(!empty($object->group) && $object->group == 'dc'){
+                        $parameters_dc[$parameter] = $object;
+                    }else{
+                        // Fitler optional vs required
+                        if($object->required){
+                            $parameters_required[$parameter] = $object;
+                        }else{
+                            $parameters_optional[$parameter] = $object;
+                        }
+                    }
+                }
+            }
+
+            $mediatypes[$mediatype]['parameters_required'] = $parameters_required;
+            $mediatypes[$mediatype]['parameters_optional'] = $parameters_optional;
+            $mediatypes[$mediatype]['parameters_dc'] = $parameters_dc;
+        }
+
+        return \View::make('ui.datasets.add')
+                    ->with('title', 'The Datatank')
+                    ->with('mediatypes', $mediatypes);
+
+        return \Response::make($view);
+    }
+
+
+    /**
      * Admin.dataset.update
      */
     public function getEdit($id){
@@ -44,12 +98,7 @@ class DatasetController extends \Controller {
             // Get source defintion
             $source_definition = $definition->source()->first();
 
-            // Get discovery document
-            $browser = new \Buzz\Browser();
-            $response = $browser->get(\URL::to('discovery'));
-
-            // Document content
-            $discovery = json_decode($response->getContent());
+            $discovery = $this->getDiscoveryDocument();
 
             // Get spec for media type
             // var_dump($source_definition->getType());
@@ -116,6 +165,17 @@ class DatasetController extends \Controller {
         }
 
         return \Redirect::to('api/admin/datasets');
+    }
+
+    private function getDiscoveryDocument(){
+        // Get discovery document
+        $browser = new \Buzz\Browser();
+        $response = $browser->get(\URL::to('discovery'));
+
+        // Document content
+        $discovery = json_decode($response->getContent());
+
+        return $discovery;
     }
 
 }

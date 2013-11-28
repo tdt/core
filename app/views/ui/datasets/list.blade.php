@@ -7,7 +7,7 @@
             <h3>Manage your data</h3>
         </div>
         <div class="col-sm-5 text-right">
-            <a href='' class='btn btn-primary pull-right margin-left'><i class='fa fa-plus'></i> Add</a>
+            <a href='{{ URL::to('api/admin/datasets/add') }}' class='btn btn-primary pull-right margin-left'><i class='fa fa-plus'></i> Add</a>
 
             <div class="input-group">
                 <input id='dataset-filter' type="text" class="form-control" placeholder='Search for datasets'>

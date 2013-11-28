@@ -101,6 +101,29 @@ body {
     }
 }
 
+.header{
+    line-height: 40px;
+    border-bottom: 1px solid #eee;
+
+    .nav-tabs {
+        border: 0px none;
+
+        li{
+            margin: 0px;
+        }
+
+        a{
+            border: 1px solid transparent;
+            margin: 0px;
+        }
+
+        a:hover{
+            background: transparent;
+            border: 1px solid transparent;
+        }
+    }
+}
+
 h3{
     a.back{
         font-size: 13px;
@@ -230,6 +253,10 @@ footer{
         padding: 0px;
     }
 
+    &.dataset-parameters{
+        padding: 10px 30px;
+    }
+
     &.collection{
         background-color: lighten($primary-soft, 20%);
 
@@ -240,6 +267,7 @@ footer{
 
     hr{
         margin-top: 5px;
+        border-color: #eee;
     }
 
     &.dataset{
@@ -410,6 +438,7 @@ footer{
 
         .nav{
             margin: 0px;
+            margin-top: $header-height;
 
             a{
                 border-radius: 0px;

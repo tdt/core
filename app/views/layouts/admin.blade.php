@@ -56,6 +56,10 @@
                 The DataTank &middot; <a href="//thedatatank.com/" target="_blank">Visit our website</a>
             </div>
         </footer>
+        <script type='text/javascript'>
+            var baseURL = '{{ URL::to('') }}/';
+            var authHeader = '{{ Request::header('Authorization') }}';
+        </script>
         <script src="{{ URL::to("js/script.min.js") }}" type="text/javascript"></script>
         <script src="{{ URL::to("js/admin.min.js") }}" type="text/javascript"></script>
     </body>

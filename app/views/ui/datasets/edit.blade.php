@@ -3,7 +3,7 @@
 @section('content')
 
     <form class="form-horizontal" role="form">
-        <div class='row'>
+        <div class='row header'>
             <div class="col-sm-7">
                 <h3>
                     <a href='{{ URL::to('api/admin/datasets') }}' class='back'>
@@ -17,10 +17,11 @@
             </div>
         </div>
 
-        <div class="col-sm-6">
+        <br/>
+
+        <div class="col-sm-6 panel panel-default dataset-parameters">
 
             @if(!empty($parameters_required))
-                <hr/>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
@@ -30,10 +31,23 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="input_identifier" class="col-sm-2 control-label">
+                        Identifier
+                    </label>
+                    <div class="col-sm-10">
+
+                        <input type="text" class="form-control" id="input_identifier" placeholder="" value="{{  URL::to($definition->collection_uri . '/' . $definition->resource_name) }}" disabled>
+
+                        <div class='help-block'>
+                        </div>
+                    </div>
+                </div>
+
                 @foreach($parameters_required as $parameter => $object)
                     <div class="form-group">
                         <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
-                            {{ str_replace('_', ' ', ucfirst($parameter)) }}
+                            {{ $object->name }}
                         </label>
                         <div class="col-sm-10">
                             @if($object->type == 'string')
@@ -66,7 +80,7 @@
                 @foreach($parameters_optional as $parameter => $object)
                     <div class="form-group">
                         <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
-                            {{ str_replace('_', ' ', ucfirst($parameter)) }}
+                            {{ $object->name }}
                         </label>
                         <div class="col-sm-10">
                             @if($object->type == 'string')
@@ -87,22 +101,20 @@
 
         <div class="col-sm-6">
 
-            <hr/>
-
             @if(!empty($parameters_dc))
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
                     </label>
                     <div class="col-sm-10">
-                        <h4>Dublin Core</h4>
+                        <h4>Describe your data</h4>
                     </div>
                 </div>
 
                 @foreach($parameters_dc as $parameter => $object)
                     <div class="form-group">
                         <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
-                            {{ str_replace('_', ' ', ucfirst($parameter)) }}
+                            {{ $object->name }}
                         </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
