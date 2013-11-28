@@ -115,7 +115,7 @@ class CsvDefinition extends SourceType{
         // Check for passed geo_properties
         $geo_props = @$options['geo'];
 
-        if(!empty($geo_props)){
+        if(!is_null($geo_props)){
 
             // Validate the geo property paths
             foreach($geo_props as $geo_prop){
