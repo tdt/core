@@ -52,16 +52,19 @@ class InstalledDefinition extends SourceType{
         return array(
             'class' => array(
                 'required' => true,
+                'name' => 'Class name',
                 'description' => 'The name of the class',
                 'type' => 'string',
             ),
             'path' => array(
                 'required' => true,
+                'name' => 'Class file path',
                 'description' => 'The location of the class file, relative from the "/installed" folder.',
                 'type' => 'string',
             ),
             'description' => array(
                 'required' => true,
+                'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
                 'type' => 'string',
             )

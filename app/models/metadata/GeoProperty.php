@@ -31,11 +31,13 @@ class GeoProperty extends Eloquent{
         return array(
             'property' => array(
                 'required' => false,
+                'name' => 'Property',
                 'description' => "This must be a string holding one of the following values $geo_type_string.",
                 'type' => 'string',
             ),
             'path' => array(
                 'required' => false,
+                'name' => 'Path',
                 'description' => 'This takes on the path to the value of the property, for tabular data for example this will be the name of the column that holds the property value.',
                 'type' => 'string',
             ),
