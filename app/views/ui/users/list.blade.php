@@ -42,10 +42,13 @@
                         <div class='row'>
                             <div class='col-sm-6'>
                                 <h4 class='dataset-title'>
-                                    @if($current_user->email == $user->email)
-                                        <i class='fa fa-angle-right'></i>
-                                    @endif
                                     {{ $user->email }}
+
+                                    @if($current_user->email == $user->email)
+                                        <small>
+                                            (you)
+                                        </small>
+                                    @endif
                                 </h4>
                             </div>
                             <div class='col-sm-2'>
