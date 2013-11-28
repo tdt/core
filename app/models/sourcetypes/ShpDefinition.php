@@ -346,7 +346,7 @@ class ShpDefinition extends SourceType{
         return array(
                 'uri' => array(
                     'required' => true,
-                    'name' => 'URI',
+                    'name' => 'Location',
                     'description' => 'The location of the SHP file, either a URL or a local file location.',
                     'type' => 'string',
                 ),
