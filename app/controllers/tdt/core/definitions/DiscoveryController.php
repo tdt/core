@@ -161,7 +161,7 @@ class DiscoveryController extends \Controller {
      * Create the patch discovery documentation.
      */
     private static function createDefPatchDiscovery(){
-        return null;
+
     }
 
     /**

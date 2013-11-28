@@ -33,12 +33,6 @@ class Definition extends Eloquent{
                     'type' => 'string',
                     'group' => 'dc',
                 ),
-                'description' => array(
-                    'required' => false,
-                    'description' => 'An account of the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
                 'publisher' => array(
                     'required' => false,
                     'description' => 'An entity responsible for making the resource available.',
