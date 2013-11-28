@@ -53,7 +53,7 @@ class DiscoveryController extends \Controller {
 
         // Create the discovery dument head properties
         $discovery_document->protocol = "rest";
-        $discovery_document->rootUrl = \Request::root() . '/api';
+        $discovery_document->rootUrl = \URL::to('/api');
         $discovery_document->resources = new \stdClass();
 
         $discovery_document->resources->definitions = self::createDefinitions();

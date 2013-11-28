@@ -153,7 +153,7 @@ class DefinitionController extends \Controller {
 
             $definition->save();
 
-            $response = \Response::make(null, 201);
+            $response = \Response::make(null, 200);
             $response->header('Location', \URL::to($collection_uri . '/' . $resource_name));
 
             return $response;
@@ -284,7 +284,7 @@ class DefinitionController extends \Controller {
         $source_type->update($source_params);
         $definition->update($patched_def_params);
 
-        $response = \Response::make(null, 201);
+        $response = \Response::make(null, 200);
         $response->header('Location', \URL::to($collection_uri . '/' . $resource_name));
 
         return $response;
