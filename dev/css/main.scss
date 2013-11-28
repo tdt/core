@@ -24,6 +24,7 @@ html, body{
     height: 100%;
 }
 
+
 body {
     background-color: $secondary-highlight;
     font-family: 'Open Sans', 'Oswald', sans-serif;
@@ -100,9 +101,20 @@ body {
     }
 }
 
+h3{
+    a.back{
+        font-size: 13px;
+        display: inline-block;
+        margin-right: 5px;
+        color: $primary-soft;
+        font-weight: 400;
+    }
+}
+
 #content{
     h3:first-child{
         margin-top: 0px;
+        display: inline-block;
     }
 }
 

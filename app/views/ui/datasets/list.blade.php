@@ -4,7 +4,7 @@
 
     <div class='row'>
         <div class="col-sm-7">
-            <h3>Manage your datasets</h3>
+            <h3>Manage your data</h3>
         </div>
         <div class="col-sm-5 text-right">
             <a href='' class='btn btn-primary pull-right margin-left'><i class='fa fa-plus'></i> Add</a>
@@ -25,7 +25,7 @@
 
         @foreach($definitions as $definition)
 
-            <div class="panel dataset dataset-link button-row panel-default clickable-row" data-href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>
+            <div class="panel dataset dataset-link button-row panel-default  @if(tdt\core\auth\Auth::hasAccess('admin.dataset.update')) clickable-row @endif" data-href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>
                 <div class="panel-body">
                     <div class='icon'>
                         @if($definition->source_type == 'CsvDefinition' or $definition->source_type == 'XlsDefinition')
@@ -44,7 +44,7 @@
                         <div class='row'>
                             <div class='col-sm-8'>
                                 <h4 class='dataset-title'>
-                                    <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}'>{{ $definition->collection_uri . '/' . $definition->resource_name }}</a>
+                                    <a href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>{{ $definition->collection_uri . '/' . $definition->resource_name }}</a>
                                 </h4>
                             </div>
                             <div class='col-sm-4 text-right'>
