@@ -47,7 +47,7 @@ class InfoController extends \Controller {
      * Return the headers of a call made to the uri given.
      */
     private static function headDefinition($uri){
-
+        \App::abort(500, "Method not yet implemented.");
     }
 
     /*
@@ -90,7 +90,7 @@ class InfoController extends \Controller {
         // Add DCAT as a resource
         $definition_info = new \stdClass();
         $definition_info->description = "A DCAT document about the available datasets created by using the DCAT vocabulary.";
-        $id = 'info/dcat';
+        $id = 'dcat';
         $definition_info->uri = \Request::root() . '/' . $id;
 
         // Add the info to the collection
@@ -108,6 +108,11 @@ class InfoController extends \Controller {
 
         $id = $definition->collection_uri . '/' .$definition->resource_name;
         $definition_info->uri = \Request::root() . '/' . $id;
+
+        // Add the dublin core to the info object
+        foreach($definition->getFillable() as $property){
+            $definition_info->$property = $definition->$property;
+        }
 
         // Get the available request parameters from the responsible datacontroller
         $source_type = $definition->source()->first();
