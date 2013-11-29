@@ -285,7 +285,7 @@ class DefinitionController extends \Controller {
         $definition->update($patched_def_params);
 
         $response = \Response::make(null, 200);
-        $response->header('Location', \URL::to($collection_uri . '/' . $resource_name));
+        $response->header('Location', \URL::to($definition->collection_uri . '/' . $definition->resource_name));
 
         return $response;
     }

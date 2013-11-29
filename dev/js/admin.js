@@ -109,3 +109,47 @@ $('.btn-add-dataset').on('click', function(e){
     })
 
 });
+
+// Add dataset
+$('.btn-edit-dataset').on('click', function(e){
+    e.preventDefault();
+
+    // Get form variables
+    var form = $('form.edit-dataset');
+    var mediatype = form.data('mediatype');
+    var identifier = form.data('identifier');
+
+    // Loop through fields
+    var data = new Object();
+    var collection = '';
+    $('input', form).each(function(){
+        if($(this).attr('name')){
+            if($(this).attr('type') == 'checkbox'){
+                data[$(this).attr('name')] = $(this).attr('checked') ? 1 : 0;
+            }else{
+                data[$(this).attr('name')] = $(this).val();
+            }
+        }
+    });
+
+    // Ajax call
+    $.ajax({
+        url: baseURL + 'api/definitions/' + identifier,
+        data: JSON.stringify(data),
+        method: 'POST',
+        headers: {
+            'Authorization': authHeader
+        },
+        success: function(e){
+            // Done, redirect to datets page
+            window.location = baseURL + 'api/admin/datasets';
+        },
+        error: function(e){
+            var error = JSON.parse(e.responseText);
+            if(error.error && error.error.message){
+                $('.error').removeClass('hide').html(error.error.message).show().focus();
+            }
+        }
+    })
+
+});

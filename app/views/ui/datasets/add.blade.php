@@ -131,7 +131,7 @@
                                 <label class="col-sm-2 control-label">
                                 </label>
                                 <div class="col-sm-10">
-                                    <h4>Describe your data</h4>
+                                    <h4><i class='fa fa-info-circle'></i> Describe your data</h4>
                                 </div>
                             </div>
 
@@ -151,7 +151,6 @@
 
                         @endif
                     </div>
-
                 </form>
             </div>
         @endforeach
