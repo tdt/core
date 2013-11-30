@@ -38,7 +38,7 @@ class GeoProperty extends Eloquent{
             'path' => array(
                 'required' => false,
                 'name' => 'Path',
-                'description' => 'This takes on the path to the value of the property, for tabular data for example this will be the name of the column that holds the property value.',
+                'description' => 'This takes on the path to the value of the property, for tabular data for example this will be the alias of the column that holds the property value.',
                 'type' => 'string',
             ),
         );
