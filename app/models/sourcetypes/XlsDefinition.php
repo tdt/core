@@ -108,6 +108,30 @@ class XlsDefinition extends SourceType{
     }
 
     /**
+     * Update the XlsDefinition model
+     */
+    public function update(array $attr = array()){
+
+        // When a new property is given for the CsvDefinition model
+        // revalidate the entire definition, including columns.
+        $columns = $this->tabularColumns()->getResults();
+
+        foreach($columns as $column){
+            $column->delete();
+        }
+
+        $parameters = $attr['source'];
+        foreach($parameters as $key => $value){
+            $this->$key = $value;
+        }
+
+        // If columns are passed, they'll be present in the 'all'
+        $params['columns'] = @$attr['all']['columns'];
+
+        $this->save($params);
+    }
+
+    /**
      * Retrieve the set of create parameters that make up a XLS definition.
      */
     public static function getCreateParameters(){
