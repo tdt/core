@@ -43,7 +43,7 @@ class SHPController extends ADataController {
         $columns = $source_definition->tabularColumns()->getResults();
 
         // Fetch the geo properties of the SHP file
-        $geo_props = $source_definition->geoProperties()->getResults();
+        $geo_props = $source_definition->geo()->getResults();
         $geo = array();
 
         foreach($geo_props as $geo_prop){

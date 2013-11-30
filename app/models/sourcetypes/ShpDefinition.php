@@ -37,7 +37,7 @@ class ShpDefinition extends SourceType{
      * this will probably break the relationship or displaying of the data.
      * If so every line or entry needs to have a geo property, or has to be parsed at runtime.
      */
-    public function geoProperties(){
+    public function geo(){
         return $this->morphMany('GeoProperty', 'source');
     }
 
@@ -96,10 +96,6 @@ class ShpDefinition extends SourceType{
             array_push($column_aliases, $column['column_name_alias']);
         }
 
-        // Check if geo properties are given by the user
-        $user_geo_properties = @$options['geo'];
-
-
         $parsed_geo_properties = $this->parseGeoProperty($columns);
 
         parent::save();
@@ -118,39 +114,12 @@ class ShpDefinition extends SourceType{
         }
 
         // Delete current geo properties
-        $geo_properties = $this->geoProperties;
+        $geo_properties = $this->geo;
 
         if(!empty($geo_properties)){
             foreach($geo_properties as $geo_prop){
                 $geo_prop->delete();
             }
-        }
-
-        // If geo properties are given with the request, check if they're valid
-        if(!empty($user_geo_properties)){
-
-            // Index the parsed geo properties on their column name for validation purposes
-            $tmp = array();
-            foreach($parsed_geo_properties as $parsed_prop){
-                $tmp[$parsed_prop['path']] = $parsed_prop;
-            }
-
-            foreach($user_geo_properties as $geo_property){
-
-                $path = $geo_property['path'];
-                if(!in_array($path, $column_aliases)){
-
-                    \App::abort(404, "Can't find the column $path in the binary shape structure");
-                }
-
-                // It could be that the given property isn't valid, if so, abort
-                $geo = $tmp[$geo_property['path']];
-                if($geo_property['property'] != $geo['property']){
-                    \App::abort(400, "The column, $path, was found but the property didn't match the one we found in the shape file.");
-                }
-            }
-
-            $parsed_geo_properties = $user_geo_properties;
         }
 
         // Save the GeoProperty
@@ -168,7 +137,7 @@ class ShpDefinition extends SourceType{
     }
 
     /**
-     * Update the CsvDefinition model
+     * Update the ShpDefinition model
      */
     public function update(array $attr = array()){
 
@@ -185,19 +154,15 @@ class ShpDefinition extends SourceType{
             $this->$key = $value;
         }
 
-        // If columns or geo, etc. are passed, they'll be present in the 'all'
-
+        // Pass the columns in the all section of the attributes
         $params['columns'] = @$attr['all']['columns'];
-        $params['geo'] = @$attr['all']['geo'];
 
         $this->save($params);
     }
 
 
     /**
-     * Parse the column names out of a SHP file.
-     *
-     * TODO clean up this function a bit.
+     * Parse the column names out of a SHP file
      */
     private function parseColumns($options){
 
@@ -333,9 +298,6 @@ class ShpDefinition extends SourceType{
         $tabular_params = @$params['columns'];
         TabularColumns::validate($tabular_params);
 
-        $geo_params = @$params['geo'];
-        GeoProperty::validate($geo_params);
-
         return parent::validate($params);
     }
 
@@ -377,11 +339,7 @@ class ShpDefinition extends SourceType{
                                             )
         );
 
-        $geo_params = array('geo' => array('description' => 'Geo must be an array of objects of which the template is described in the parameters section.',
-                                            'parameters' => GeoProperty::getCreateParameters(),
-        ));
-
-        return array_merge(self::getCreateParameters(), $column_params, $geo_params);
+        return array_merge(self::getCreateParameters(), $column_params);
     }
 
     /**
@@ -395,7 +353,7 @@ class ShpDefinition extends SourceType{
         );
     }
 
-     /**
+    /**
      * Because we have related models, and non hard defined foreign key relationships
      * we have to delete our related models ourselves.
      */
@@ -409,7 +367,7 @@ class ShpDefinition extends SourceType{
         }
 
         // Get the related geo properties
-        $geo_properties = $this->geoProperties()->getResults();
+        $geo_properties = $this->geo()->getResults();
 
         foreach($geo_properties as $geo_property){
             $geo_property->delete();
