@@ -85,7 +85,7 @@ class CsvDefinition extends SourceType{
         $column_aliases = array();
 
         foreach($columns as $column){
-            array_push($column_aliases, $column['column_name_alias']);
+            $column_aliases[$column['column_name']] = $column['column_name_alias'];
         }
 
         // Unset the pk parameter, serves as a shortcut for the columns configuration
@@ -109,6 +109,7 @@ class CsvDefinition extends SourceType{
             $tabular_column->tabular_type = 'CsvDefinition';
             $tabular_column->tabular_id = $this->id;
             $tabular_column->save();
+
         }
 
         // Check for passed geo_properties
@@ -122,7 +123,7 @@ class CsvDefinition extends SourceType{
                 // Validate the path
                 $path = $geo_prop['path'];
                 if(!in_array($path, $column_aliases)){
-                    \App::abort(400, "The column ($path) that was provided as a geo path, could't be found.");
+                    \App::abort(400, "The column ($path) that was provided as a geo path, could't be found. Make sure it's the same name as the corresponding column name alias, not the original column.");
                 }
             }
 
@@ -144,6 +145,17 @@ class CsvDefinition extends SourceType{
                 $geo_property->source_type = 'CsvDefinition';
                 $geo_property->save();
             }
+        }else{
+
+            // Check if our geo properties are still valid, according to the new columns
+            $geo_properties = $this->geoProperties;
+
+            foreach($geo_properties as $geo_prop){
+                if(!in_array($geo_prop->path, $column_aliases)){
+                    $geo_prop->delete();
+                }
+            }
+
         }
 
         return true;

@@ -91,7 +91,7 @@ class KMLFormatter implements IFormatter{
             // We assume that if longitude exists, latitude does as well if the geometry is a single point
             // A point can either be a single column value, or split up in a latitude and longitude
             $geo_type = 'point';
-            $is_point = (count($geo) > 1);
+            $is_point = (count($geo) > 1) || !empty($geo['point']);
 
             if(!$is_point){
                 $geo_type = key($geo);
@@ -100,36 +100,9 @@ class KMLFormatter implements IFormatter{
 
             if(!empty($entry)) {
 
-                /*$longkey = self::entry_key_exists_nc("long",$entry);
-                if (!$longkey) {
-                    $longkey = self::entry_key_exists_nc("longitude",$entry);
-                }
-                $latkey = self::entry_key_exists_nc("lat",$entry);
-                if (!$latkey) {
-                    $latkey = self::entry_key_exists_nc("latitude",$entry);
-                }
-                $coordskey = self::entry_key_exists_nc("coords",$entry);
-                if (!$coordskey) {
-                    $coordskey = self::entry_key_exists_nc("coordinates",$entry);
-                }*/
-
                 $name = self::xmlgetelement($entry);
                 $extendeddata = self::getExtendedDataElement($entry);
 
-                /*if($longkey && $latkey) {
-                    $long = $entry[$longkey];
-                    $lat = $entry[$latkey];
-                    unset($entry[$longkey]);
-                    unset($entry[$latkey]);
-
-                } else if($coordskey) {
-                    $coords = explode(";",$entry[$coordskey]);
-                    unset($entry[$coordskey]);
-                }
-                else {
-                    $body .= self::getArray($entry);
-                }*/
-                //if(($lat != "" && $long != "") || count($coords) != 0){
                 $body .= "<Placemark><name>". htmlspecialchars($key) ."</name><description>".$name."</description>";
                 $body .= $extendeddata;
                 if($is_point) {
@@ -150,28 +123,14 @@ class KMLFormatter implements IFormatter{
                         }
                         $body .= "</MultiGeometry>";
 
-                    }else if($geo_type == 'multipoint'){
-                            // TODO
                     }else if($geo_type == 'polygon'){
                         $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] ."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                    }else{
+                        \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
                     }
-                        /*if (count($coords) == 1 ) {
-                            $all_coords = explode(" ", $coords[0]);
-
-                            if($all_coords[0] == $all_coords[count($all_coords)-1]){
-                                // Detected ring
-
-                            }else{
-                                // Just a multiline
-                                $body .= "<LineString><coordinates>".$coords[0]."</coordinates></LineString>";
-                            }
-                        } else {
-
-                        }*/
-                    }
-                    $body .= "</Placemark>";
                 }
-            //}
+                $body .= "</Placemark>";
+            }
         }
 
         return $body;
@@ -203,7 +162,7 @@ class KMLFormatter implements IFormatter{
 
 
     public static function getDocumentation(){
-        return "Formatter will search for locations in the entire object and print them as KML points.";
+        return "Returns a KML file with geo properties of the data.";
     }
 
 }
