@@ -8,7 +8,7 @@
  */
 class Definition extends Eloquent{
 
-    protected $fillable = array('title','subject','description','publisher','contributor','date','type','format','identifier','source','language','relation','coverage','rights');
+    protected $fillable = array('title','description','date','type','format','source','language','rights');
     /**
      * Return the poly morphic relationship with a source type.
      */
@@ -25,27 +25,6 @@ class Definition extends Eloquent{
                     'required' => false,
                     'name' => 'Title',
                     'description' => 'A name given to the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'subject' => array(
-                    'required' => false,
-                    'name' => 'Subject',
-                    'description' => 'The topic of the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'publisher' => array(
-                    'required' => false,
-                    'name' => 'Publisher',
-                    'description' => 'An entity responsible for making the resource available.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'contributor' => array(
-                    'required' => false,
-                    'name' => 'Contributor',
-                    'description' => 'An entity responsible for making contributions to the resource.',
                     'type' => 'string',
                     'group' => 'dc',
                 ),
@@ -70,13 +49,6 @@ class Definition extends Eloquent{
                     'type' => 'string',
                     'group' => 'dc',
                 ),
-                'identifier' => array(
-                    'required' => false,
-                    'name' => 'Identifier',
-                    'description' => 'An unambiguous reference to the resource within a given context.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
                 'source' => array(
                     'required' => false,
                     'name' => 'Source',
@@ -88,20 +60,6 @@ class Definition extends Eloquent{
                     'required' => false,
                     'name' => 'Language',
                     'description' => 'A language of the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'relation' => array(
-                    'required' => false,
-                    'name' => 'Relation',
-                    'description' => 'A related resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'coverage' => array(
-                    'required' => false,
-                    'name' => 'Coverage',
-                    'description' => 'The spatial or temporal topic of the resource, the spatial applicability of the resource, or the jurisdiction under which the resource is relevant.',
                     'type' => 'string',
                     'group' => 'dc',
                 ),

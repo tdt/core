@@ -109,18 +109,17 @@ class DcatController extends \Controller {
                 $source_type = $definition->source()->first();
 
                 // Add the dataset link to the catalog
-                $graph->addResource($uri . '/info/dcat', 'dcat:Dataset', $dataset_uri);
+                $graph->addResource($uri . '/info/dcat', 'dcat:dataset', $dataset_uri);
 
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
                 $graph->addLiteral($dataset_uri, 'dct:description', @$source_type->description);
-                $graph->addLiteral($dataset_uri, 'dct:format', strtolower($source_type->getType()));
+                $graph->addLiteral($dataset_uri, 'dc:format', strtolower($source_type->getType()));
                 $graph->addLiteral($dataset_uri, 'dct:identifier', $definition->collection_uri . '/' . $definition->resource_name);
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
             }
         }
-
 
         // Get the triples from our created graph
         $triples = $graph->serialise('turtle');
