@@ -184,8 +184,12 @@ class DatasetController extends \Controller {
     }
 
     private function getDiscoveryDocument(){
+        // Create a CURL client
+        $cURL = new \Buzz\Client\Curl();
+        $cURL->setVerifyPeer(false);
+
         // Get discovery document
-        $browser = new \Buzz\Browser();
+        $browser = new \Buzz\Browser($cURL);
         $response = $browser->get(\URL::to('discovery'));
 
         // Document content

@@ -2,10 +2,8 @@
 <html>
     <head>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="//cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-        <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'>
-        </script>
-        <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+        <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
+        <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
         <style>
             body { margin:0; padding:0; }
             #map { position:absolute; top:0; bottom:0; width:100%; }
