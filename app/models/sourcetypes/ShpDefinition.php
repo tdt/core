@@ -172,21 +172,24 @@ class ShpDefinition extends SourceType{
         $columns = array();
 
         $pk = @$options['pk'];
+        try{
+            if ($is_url) {
 
-        if ($is_url) {
+                // This remains untested
+                $tmp_file = uniqid();
+                file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shp"));
+                file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".dbf"));
+                file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shx"));
 
-            // This remains untested
-            $tmp_file = uniqid();
-            file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shp"));
-            file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".dbf"));
-            file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($this->uri, 0, strlen($this->uri) - 4) . ".shx"));
+                // Along this file the class will use file.shx and file.dbf
+                $shp = new \ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", $options);
+            } else {
 
-            // Along this file the class will use file.shx and file.dbf
-            $shp = new \ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", $options);
-        } else {
-
-            // along this file the class will use file.shx and file.dbf
-            $shp = new \ShapeFile($this->uri, $options);
+               // along this file the class will use file.shx and file.dbf
+                $shp = new \ShapeFile($this->uri, $options);
+            }
+        }catch(Exception $e){
+            \App::abort(400, "The shape contents couldn't be retrieved, make sure the shape file is valid, zipped shape files are not yet supported.");
         }
 
         $record = $shp->getNext();
