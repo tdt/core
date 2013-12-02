@@ -1,0 +1,400 @@
+lon;lat;Unit_Type;Dist_Name;Prov_Name;Dist_ID;Prov_ID
+61.33;32.4;District;Qala-e-Kah;Farah;3106;31
+62.06;32.49;District;Pusht Rod;Farah;3105;31
+61.37;32.11;District;Shib Koh;Farah;3107;31
+62.23;32.24;Provincial_Center;Farah;Farah;3101;31
+61.83;31.32;District;Kang;Nimroz;3402;34
+62.04;30.91;Provincial_Center;Zaranj;Nimroz;3401;34
+62.88;32.21;District;Bakwa;Farah;3102;31
+65.17;30.12;District;Reg;Kandahar;3309;33
+66.17;30.99;District;Spin Boldak;Kandahar;3311;33
+65.16;31.07;District;Panj wayi;Kandahar;3304;33
+64.99;31.58;District;Maywand;Kandahar;3308;33
+65.71;31.51;Provincial_Center;Kandahar;Kandahar;3301;33
+65.4;31.64;District;Zheray;Kandahar;3303;33
+66.55;31.52;District;Arghistan;Kandahar;3312;33
+67.25;31.45;District;Maruf;Kandahar;3316;33
+65.2;32.04;District;Ghorak;Kandahar;3315;33
+65.5;32.01;District;Khakrez;Kandahar;3307;33
+65.64;31.76;District;Arghandab;Kandahar;3302;33
+65.78;31.21;District;Daman;Kandahar;3305;33
+65.71;32.39;District;Nesh;Kandahar;3314;33
+66.01;32.08;District;Shah Wali Kot;Kandahar;3306;33
+66.34;32.38;District;Miyanshin;Kandahar;3313;33
+65.47;32.58;District;Dehrawud;Uruzgan;2304;23
+65.48;32.92;District;Shahid-e-Hassas;Uruzgan;2303;23
+65.92;32.68;Provincial_Center;Tirin Kot;Uruzgan;2301;23
+66.26;32.93;District;Chora;Uruzgan;2302;23
+66.69;33;District;Khas Uruzgan;Uruzgan;2305;23
+66.52;31.91;District;Tarnak Wa Jaldak;Zabul;2404;24
+66.51;32.18;District;Mizan;Zabul;2403;24
+67.39;31.72;District;Atghar;Zabul;2409;24
+66.69;32.61;District;Day chopan;Zabul;2408;24
+66.99;32.51;District;Arghandab;Zabul;2402;24
+67;32.21;Provincial_Center;Qalat;Zabul;2401;24
+69.78;33.32;District;Mando Zayi;Khost;2605;26
+67.18;32.86;District;Kakar;Zabul;2407;24
+67.39;32.5;District;Shah Joy;Zabul;2406;24
+67.16;31.92;District;Shinkay;Zabul;2405;24
+67.57;32.22;District;Naw Bahar;Zabul;2411;24
+67.11;33.52;District;Ajrestan;Ghazni;1116;11
+67.24;33.3;District;Malestan;Ghazni;1117;11
+67.65;32.71;District;Gelan;Ghazni;1118;11
+67.78;32.94;District;Muqur;Ghazni;1114;11
+67.46;33.14;District;Jaghuri;Ghazni;1113;11
+68.06;32.88;District;Ab Band;Ghazni;1115;11
+68.35;33.06;District;Giro;Ghazni;1111;11
+67.99;33.22;District;Qarabagh;Ghazni;1110;11
+68.45;33.31;District;Andar;Ghazni;1105;11
+68.21;33.41;District;Waghaz;Ghazni;1104;11
+68.3;33.56;District;Wali Muhammad-e- Shahid;Ghazni;1103;11
+68.07;33.53;District;Jaghatu;Ghazni;1109;11
+68.15;33.7;District;Rashidan;Ghazni;1108;11
+68.65;33.47;District;Deh Yak;Ghazni;1106;11
+68.44;33.53;Provincial_Center;Ghazni;Ghazni;1101;11
+68.67;33.68;District;Zana Khan;Ghazni;1107;11
+68.42;33.68;District;Khwaja Umari;Ghazni;1102;11
+67.77;31.82;District;Shomulzay;Zabul;2410;24
+67.74;33.85;District;Nawur;Ghazni;1112;11
+67.9;32.33;District;Nawa;Ghazni;1119;11
+68.31;31.91;District;Turwo (Tarwe;Paktika;2519;25
+68.83;31.93;District;Wor Mamay;Paktika;2514;25
+68.33;32.25;District;Waza Khah;Paktika;2513;25
+68.13;32.56;District;Dila;Paktika;2518;25
+68.48;32.85;District;Zarghun Shahr;Paktika;2505;25
+68.48;32.67;District;Jani Khel;Paktika;2512;25
+68.66;32.92;District;Yahya Khel;Paktika;2506;25
+68.81;32.89;District;Omna;Paktika;2507;25
+69.28;32.71;District;Bermel (Burmul;Paktika;2515;25
+69.4;32.98;District;Gian;Paktika;2516;25
+69.19;32.98;District;Urgun;Paktika;2510;25
+69.33;33.16;District;Ziruk;Paktika;2517;25
+69.24;33.21;District;Nika;Paktika;2511;25
+69.04;33.06;District;Sar Hawzeh(Rawzeh;Paktika;2504;25
+68.65;33.05;District;Yosuf Khel;Paktika;2503;25
+68.73;33.2;Provincial_Center;Sharan;Paktika;2501;25
+68.89;33.3;District;Mata Khan;Paktika;2502;25
+69.49;33.16;District;Spera;Khost;2611;26
+69.73;33.19;District;Tani;Khost;2606;26
+69.53;33.31;District;Shamal (Shamul;Khost;2610;26
+69.94;33.2;District;Gurbuz;Khost;2607;26
+70;33.34;Provincial_Center;Khost(Matun;Khost;2601;26
+69.68;33.38;District;Nadir Shah Kot;Khost;2604;26
+70.08;33.53;District;Bak;Khost;2612;26
+70.08;33.64;District;Jaji Maydan;Khost;2613;26
+69.91;33.54;District;Sabri;Khost;2602;26
+69.67;33.57;District;Musa Khel;Khost;2603;26
+69.66;33.49;District;Qalandar;Khost;2609;26
+69.91;33.79;District;Dand wa Patan;Paktya;1211;12
+69.8;33.78;District;Chamkani;Paktya;1210;12
+69.79;33.66;District;Jani Khel;Paktya;1209;12
+69.67;33.98;District;Ali Khel (Jaji;Paktya;1208;12
+69.63;33.82;District;Lija Ahmad Khel;Paktya;1207;12
+69.34;33.77;District;Ahmadaba;Paktya;1203;12
+69.48;33.71;District;Sayed Karam;Paktya;1202;12
+69.41;33.37;District;Zadran;Paktya;1206;12
+69.37;33.45;District;Shawak;Paktya;1205;12
+69.04;33.42;District;Zurmat;Paktya;1204;12
+68.89;33.69;District;Kharwar;Logar;506;5
+69.24;33.6;Provincial_Center;Gardez;Paktya;1201;12
+69.63;34.11;District;Azra;Logar;507;5
+69.27;34;District;Khoshi;Logar;502;5
+68.92;33.82;District;Charkh;Logar;505;5
+68.89;33.93;District;Baraki Barak;Logar;504;5
+69.05;33.97;Provincial_Center;Pul-e- Alam;Logar;501;5
+69.18;34.21;District;Mohammad Agha;Logar;503;5
+68.76;34.32;District;Nerkh;Wardak;403;4
+68.82;34.44;Provincial_Center;Maydan Shahr;Wardak;401;4
+68.58;34.53;District;Jalrez;Wardak;402;4
+68.66;33.92;District;Saydabad;Wardak;407;4
+68.36;33.84;District;Jaghatu;Wardak;409;4
+68.49;34.11;District;Chak;Wardak;406;4
+68.31;34.22;District;Day Mirdad;Wardak;405;4
+68.19;34.53;District;Hesa Awal-e- Behsud;Wardak;404;4
+67.69;34.4;District;Markaz-e-Behsud;Wardak;408;4
+69.77;34.28;District;Hesarak;Nangarhar;610;6
+69.98;34.19;District;Sherzad;Nangarhar;611;6
+70.12;34.23;District;Khowgiani;Nangarhar;604;6
+70.44;34.09;District;Deh Bala;Nangarhar;613;6
+70.37;34.29;District;Chaparhar;Nangarhar;605;6
+70.28;34.39;District;Surkh Rod;Nangarhar;603;6
+70.46;34.42;Provincial_Center;Jalalabad;Nangarhar;601;6
+70.66;34.06;District;Achin;Nangarhar;617;6
+70.6;34.15;District;Kot;Nangarhar;614;6
+70.83;34.06;District;Nazian;Nangarhar;621;6
+70.8;34.21;District;Shinwar;Nangarhar;618;6
+70.57;34.27;District;Rodat;Nangarhar;606;6
+70.96;34.1;District;Dur Baba;Nangarhar;622;6
+71;34.21;District;Muhmand Dara;Nangarhar;619;6
+66.27;33.4;District;Gizab;Daykundi;2205;22
+66.08;33.76;Provincial_Center;Nili;Daykundi;2201;22
+66.94;33.83;District;Miramor;Daykundi;2209;22
+66.47;33.71;District;Shahristan;Daykundi;2206;22
+66.3;34.07;District;Ashtarlay;Daykundi;2202;22
+66.97;34.15;District;Waras;Bamyan;1007;10
+66.93;34.42;District;Panjab;Bamyan;1004;10
+67.68;34.79;Provincial_Center;Bamyan;Bamyan;1001;10
+67.61;35.12;District;Sayghan;Bamyan;1002;10
+68.63;34.77;District;Surkhe Parsa;Parwan;310;3
+68.94;34.55;District;Paghman;Kabul;104;1
+69.07;34.39;District;Chahar Asyab;Kabul;105;1
+69.22;34.37;District;Musayi;Kabul;106;1
+69.15;34.52;Capital;Kabul;Kabul;101;1
+69.34;34.48;District;Bagrami;Kabul;107;1
+69.43;34.37;District;Khak-e- Jabbar;Kabul;112;1
+69.31;34.67;District;Deh Sabz;Kabul;102;1
+69.18;34.76;District;Kalakan;Kabul;109;1
+69.12;34.73;District;Mir Bacha Kot;Kabul;110;1
+69.04;34.66;District;Shakardara;Kabul;103;1
+69;34.75;District;Guldara;Kabul;111;1
+69.02;34.79;District;Farza;Kabul;115;1
+69.02;34.85;District;Estalef;Kabul;114;1
+69.18;34.85;District;Qarabagh;Kabul;108;1
+69.14;34.99;Provincial_Center;Chaharikar;Parwan;301;3
+69.47;34.76;District;Koh-e- Safi;Parwan;308;3
+69.33;34.92;District;Bagram;Parwan;304;3
+69.27;35.05;District;Sayd Khel;Parwan;305;3
+69.19;35.12;District;Jabalussaraj;Parwan;302;3
+69.7;34.53;District;Surobi;Kabul;113;1
+69.34;35.14;District;Hesa Awal-e- Kohestan;Kapisa;207;2
+71.02;34.33;District;Lal Pur;Nangarhar;620;6
+70.87;34.45;District;Goshta;Nangarhar;616;6
+70.51;34.44;District;Behsud;Nangarhar;602;6
+70.66;34.44;District;Kama;Nangarhar;607;6
+70.61;34.56;District;Kuz Kunar;Nangarhar;608;6
+70.59;34.71;District;Dara-e-Nur;Nangarhar;609;6
+69.33;35.07;District;Hisa Duwum-e- Kohestan;Kapisa;204;2
+69.42;35;Provincial_Center;Mahmud-e- Raqi;Kapisa;201;2
+69.47;35.11;District;Koh Band;Kapisa;203;2
+69.65;35.05;District;Nejrab;Kapisa;202;2
+69.68;34.79;District;Tagab;Kapisa;205;2
+69.81;34.93;District;Alasay;Kapisa;206;2
+70;35.04;District;Daulat Shah;Laghman;705;7
+70.08;34.83;District;Alishang;Laghman;702;7
+70.17;34.53;District;Qarghayi;Laghman;703;7
+70.09;34.65;Provincial_Center;Mehtarlam;Laghman;701;7
+70.41;34.82;District;Alingar;Laghman;704;7
+69.41;35.22;District;Onaba(Anawa;Panjsher;806;8
+69.48;35.27;District;Rukha;Panjsher;803;8
+69.77;35.24;District;Dara;Panjsher;804;8
+70.38;35.22;District;Du Ab;Nuristan;1403;14
+70.73;34.69;District;Nurgal;Kunar;1314;13
+70.94;34.61;District;Khas Kunar;Kunar;1309;13
+71.12;34.75;District;Sarkani;Kunar;1304;13
+70.87;34.74;District;Chawkay;Kunar;1308;13
+71;34.8;District;Narang;Kunar;1303;13
+71.23;34.86;District;Marawara;Kunar;1305;13
+70.7;34.96;District;Chapa Dara;Kunar;1313;13
+71.13;34.87;Provincial_Center;Asad Abad;Kunar;1301;13
+70.92;34.95;District;Dara-e-Pech;Kunar;1307;13
+71.08;35;District;Wata Pur;Kunar;1302;13
+71.23;35.04;District;Shigal wa shel tan;Kunar;1306;13
+71.44;35;District;Dangam;Kunar;1310;13
+71.54;35.27;District;Nari;Kunar;1315;13
+71.38;35.07;District;Bar Kunar;Kunar;1311;13
+71.33;35.23;District;Ghazi Abad;Kunar;1312;13
+70.8;35.18;District;Wama;Nuristan;1405;14
+70.47;35.07;District;Nurgaram;Nuristan;1404;14
+71.03;35.23;District;Waygal;Nuristan;1406;14
+71.31;35.48;District;Kamdesh;Nuristan;1407;14
+70.28;34.09;District;Pachier Agam;Nangarhar;612;6
+62.91;31.74;District;Khash Rod;Nimroz;3405;34
+62.44;31.32;District;Chakhansur;Nimroz;3404;34
+62.08;30.16;District;Chahar Burjak;Nimroz;3403;34
+63.17;29.88;District;Deh shu;Hilmand;3213;32
+63.48;30.83;District;Reg(khan Neshin;Hilmand;3212;32
+64.17;30.31;District;Garm Ser;Hilmand;3209;32
+63.79;31.58;District;Nad-e-Ali;Hilmand;3203;32
+64.21;31.33;District;Nawa-e-Barak Zaiy;Hilmand;3204;32
+64.54;31.46;Provincial_Center;Lashkar Gah;Hilmand;3201;32
+63.95;32.1;District;Wa Sher;Hilmand;3208;32
+64.61;31.83;District;Nahr-e-Saraj;Hilmand;3202;32
+64.47;32.47;District;Naw Zad;Hilmand;3207;32
+64.74;32.47;District;Musa Qaleh;Hilmand;3206;32
+65;32.12;District;Sangin;Hilmand;3205;32
+65.04;32.48;District;Kajaki;Hilmand;3210;32
+69.51;35.37;Provincial_Center;Bazarak;Panjsher;801;8
+69.3;35.29;District;Shutul;Panjsher;802;8
+66.04;30.17;District;Shor Abak;Kandahar;3310;33
+68.95;32.39;District;Gomal;Paktika;2508;25
+61.33;31.72;District;Lash-e-Juwayn;Farah;3108;31
+70.19;33.38;District;Tere Zayi;Khost;2608;26
+71.25;35.77;District;Barg-e- Matal;Nuristan;1408;14
+70.8;35.41;Provincial_Center;Poruns;Nuristan;1401;14
+70.25;35.4;District;Mandol;Nuristan;1402;14
+70.04;35.65;District;Parian;Panjsher;807;8
+69.78;35.43;District;Khenj (Hes-e- Awal;Panjsher;805;8
+69.15;35.28;District;Salang;Parwan;306;3
+68.97;35.12;District;Shinwari;Parwan;303;3
+68.79;35.01;District;Syah Gerd;Parwan;307;3
+68.42;34.95;District;Shekh  Ali;Parwan;309;3
+68.04;34.92;District;Shibar;Bamyan;1005;10
+67.78;35.36;District;Kahmard;Bamyan;1006;10
+66.95;34.98;District;Yakawlang;Bamyan;1003;10
+66.27;34.6;District;Lal Wa Sarjangal;Ghor;2108;21
+65.91;34.19;District;Sang-e-Takht;Daykundi;2207;22
+65.75;33.9;District;Khadir;Daykundi;2203;22
+65.72;33.54;District;kiti;Daykundi;2204;22
+65.62;33.21;District;Kajran;Daykundi;2208;22
+65.04;33.01;District;Baghran;Hilmand;3211;32
+62.75;32.77;District;Bala Buluk;Farah;3103;31
+63.59;32.64;District;Gulestan;Farah;3109;31
+62.07;32.76;District;Khak-e-Safed;Farah;3104;31
+61.25;33.01;District;Anar Dara;Farah;3111;31
+69.05;32.75;District;Sarobi;Paktika;2509;25
+70.76;34.29;District;Bati Kot;Nangarhar;615;6
+61.57;35.13;District;Gulran;Hirat;3008;30
+61.17;34.61;District;Kohsan;Hirat;3014;30
+62.24;35;District;Kushk;Hirat;3003;30
+62.63;34.89;District;Kushk-e-Kohna;Hirat;3013;30
+61.15;34.18;District;Ghoryan;Hirat;3009;30
+61.82;34.37;District;Zinda Jan;Hirat;3004;30
+62;33.71;District;Adraskan;Hirat;3010;30
+62.75;34.18;District;Pashtun  Zarghun;Hirat;3006;30
+63.28;33.84;District;Farsi;Hirat;3011;30
+63.25;34.36;District;Obe;Hirat;3012;30
+63.96;34.45;District;Chisht-e-Sharif;Hirat;3016;30
+62.66;34.5;District;Karukh;Hirat;3007;30
+62.18;34.37;Provincial_Center;Hirat;Hirat;3001;30
+62.18;34.47;District;Injil;Hirat;3002;30
+62.04;34.04;District;Guzara;Hirat;3005;30
+63.11;35.17;District;Muqur;Badghis;2902;29
+62.9;34.93;District;Ab Kamari;Badghis;2903;29
+63.58;34.82;District;Qadis;Badghis;2904;29
+64.34;35;District;Jawand;Badghis;2905;29
+63.47;35.47;District;Bala Murghab;Badghis;2906;29
+63.78;35.72;District;Ghormach;Badghis;2907;29
+64.28;35.96;District;Almar;Faryab;2805;28
+64.92;35.33;District;Kohistan;Faryab;2807;28
+65.28;35.63;District;Garziwan;Faryab;2808;28
+65.45;35.88;District;Bil Cheragh;Faryab;2809;28
+64.78;35.81;District;Pashtun kot;Faryab;2803;28
+64.79;35.94;Provincial_Center;Maymana;Faryab;2801;28
+64.97;36.06;District;Khwaja Sabzposh;Faryab;2802;28
+64.82;36.25;District;Shirin Tagab;Faryab;2804;28
+65.06;36.54;District;Dawlat Abad;Faryab;2810;28
+64.96;36.79;District;Qaram Qol;Faryab;2812;28
+64.94;37.04;District;Qorghan;Faryab;2814;28
+65.23;37.11;District;Khan-e-Chahar Bagh;Faryab;2813;28
+65.37;36;District;Darz Ab;Jawzjan;2711;27
+65.36;36.21;District;Qush Tepa;Jawzjan;2704;27
+65.75;36.59;Provincial_Center;Shiberghan;Jawzjan;2701;27
+65.29;36.85;District;Andkhoy;Faryab;2811;28
+65.61;36.95;District;Khwaja Du Koh;Jawzjan;2703;27
+66.13;36.78;District;Khanaqa;Jawzjan;2706;27
+66.33;36.7;District;Fayz Abad;Jawzjan;2705;27
+66.33;37.05;District;Mardyan;Jawzjan;2708;27
+66.21;36.9;District;Aqcha;Jawzjan;2707;27
+65.99;37.06;District;Mingajik;Jawzjan;2702;27
+66.09;37.29;District;Qarqin;Jawzjan;2709;27
+65.72;37.31;District;Khamyab;Jawzjan;2710;27
+63.67;33.58;District;Saghar;Ghor;2110;21
+64.38;33.48;District;Taywarah;Ghor;2106;21
+63.71;34.01;District;Tolak;Ghor;2109;21
+64.34;34.1;District;Shahrak;Ghor;2105;21
+65.01;34.12;District;Du Lina;Ghor;2103;21
+65.12;35.12;District;Chahar Sadra;Ghor;2102;21
+65.33;34.72;Provincial_Center;Chaghcharan;Ghor;2101;21
+65.75;34.58;District;Dawlat Yar;Ghor;2104;21
+66.85;37.26;District;Shor Tepa;Balkh;1803;18
+67.36;37.19;Town;Sharak-e-Hayratan;Balkh;1811;18
+67.55;37.13;District;Kaldar;Balkh;1810;18
+66.8;37.06;District;Dawlat Abad;Balkh;1804;18
+67.74;36.81;District;Khulm;Balkh;1809;18
+67.34;36.63;District;Marmul;Balkh;1808;18
+67.24;36.37;District;Chahar Kent;Balkh;1807;18
+67.01;36.64;District;Deh Dadi;Balkh;1806;18
+66.89;36.82;District;Balkh;Balkh;1805;18
+66.64;36.83;District;Chahar Bolak;Balkh;1812;18
+66.6;36.52;District;Chemtal;Balkh;1813;18
+66.86;36.3;District;Sholgareh;Balkh;1814;18
+66.92;36.01;District;Kishindeh;Balkh;1815;18
+66.73;35.85;District;Zari;Balkh;1816;18
+67.58;36.46;District;Feroz Nakhchir;Samangan;1903;19
+67.28;35.68;District;Darah Suf-e-Bala;Samangan;1905;19
+67.82;35.64;District;Ruy-e-Du Ab;Samangan;1907;19
+68.12;35.99;District;Khuram wa Sarbagh;Samangan;1906;19
+66.06;36.28;Provincial_Center;Sar-e-Pul;Sar-e-Pul;2001;20
+65.71;36.15;District;Sayad;Sar-e-Pul;2002;20
+66.23;36.02;District;Sozma Qala;Sar-e-Pul;2004;20
+66.45;36.06;District;Gosfandi;Sar-e-Pul;2005;20
+66.34;35.84;District;Sang(SanCharak;Sar-e-Pul;2007;20
+66.6;35.46;District;Balkh Ab;Sar-e-Pul;2006;20
+65.94;35.44;District;Kohistanat;Sar-e-Pul;2003;20
+68.36;36.9;District;Qala-e-Zal;Kunduz;1703;17
+68.57;36.65;District;Chahar Darah;Kunduz;1704;17
+68.85;37.11;District;Imam Saheb;Kunduz;1702;17
+69.16;36.96;District;Dasht-e-Archi;Kunduz;1707;17
+68.86;36.8;Provincial_Center;Kunduz;Kunduz;1701;17
+68.88;36.53;District;Ali Abad;Kunduz;1705;17
+69.1;36.6;District;Khan Abad;Kunduz;1706;17
+68.62;36.33;District;Baghlan-e-jadid;Baghlan;902;9
+69.16;36.24;District;Burka;Baghlan;910;9
+68.46;35.82;District;Dahana-e-Ghory;Baghlan;903;9
+68.67;36.01;Provincial_Center;Pul-e- khumri;Baghlan;901;9
+68.67;35.62;District;Dushi;Baghlan;904;9
+69.03;36;District;Nahrin;Baghlan;905;9
+69.29;35.97;District;Khwaja Hejran;Baghlan;909;9
+69.18;35.62;District;Andarab;Baghlan;908;9
+68.97;35.47;District;Khenjan;Baghlan;907;9
+68.38;35.28;District;Tala wa barfak;Baghlan;906;9
+69.57;36.23;District;Guzargah-e- Nur;Baghlan;914;9
+69.68;36.14;District;Firing Wa Gharu;Baghlan;915;9
+69.36;35.74;District;Deh Salah;Baghlan;912;9
+69.39;36.37;District;Ishkamish;Takhar;1615;16
+69.56;36.5;District;Chal;Takhar;1605;16
+69.71;36.47;District;Namak Ab;Takhar;1606;16
+69.96;36.47;District;Farkhar;Takhar;1607;16
+69.34;36.61;District;Bangi;Takhar;1604;16
+69.4;36.83;District;Baharak;Takhar;1603;16
+69.57;36.93;District;Hazar Sumuch;Takhar;1602;16
+69.61;36.74;Provincial_Center;Taloqan;Takhar;1601;16
+69.91;36.79;District;Kalafgan;Takhar;1608;16
+69.82;37.11;District;Rostaq;Takhar;1609;16
+69.5;37.2;District;Dasht-e-Qala;Takhar;1613;16
+69.58;37.34;District;Khwaja Bahawuddin;Takhar;1612;16
+69.5;37.45;District;Darqad;Takhar;1617;16
+69.67;37.46;District;Yangi Qala;Takhar;1611;16
+69.88;37.45;District;Chah Ab;Takhar;1610;16
+70.14;37.34;District;Shahr-e-Buzorg;Badakhshan;1508;15
+70.38;37.53;District;Yawan;Badakhshan;1507;15
+70.67;37.66;District;Raghistan;Badakhshan;1506;15
+70.39;37.84;District;Khwahan;Badakhshan;1517;15
+70.69;37.94;District;Kof Ab;Badakhshan;1516;15
+70.37;37.31;District;Yaftal-e-Sufla;Badakhshan;1502;15
+70.66;37.42;District;Kohistan;Badakhshan;1505;15
+70.65;38.21;District;Shaki;Badakhshan;1525;15
+70.91;38.23;District;Darwaz;Badakhshan;1524;15
+71.15;38.13;District;Darwaz-e-Balla;Badakhshan;1515;15
+71.24;37.6;District;Shighnan;Badakhshan;1514;15
+70.82;37.27;District;Arghanj Khwa;Badakhshan;1504;15
+70.61;37.22;Provincial_Center;Faiz Abad;Badakhshan;1501;15
+71.16;37.1;District;Shuhada;Badakhshan;1513;15
+70.73;36.94;District;Khash;Badakhshan;1511;15
+70.43;37.06;District;Argo;Badakhshan;1503;15
+70.47;36.87;District;Darayem;Badakhshan;1510;15
+70.4;36.77;District;Teshkan;Badakhshan;1509;15
+70.9;37.03;District;Baharak;Badakhshan;1512;15
+71.18;36.76;District;Warduj;Badakhshan;1522;15
+70.91;36.74;District;Jorm;Badakhshan;1521;15
+71.34;36.43;District;Zebak;Badakhshan;1527;15
+71.46;36.85;District;Ishkashem;Badakhshan;1523;15
+73.35;37.06;District;Wakhan;Badakhshan;1528;15
+70.77;35.93;District;Koran wa Monjan;Badakhshan;1526;15
+70.79;36.44;District;Yamgan;Badakhshan;1520;15
+70.13;36.77;District;Keshem;Badakhshan;1518;15
+70.35;36.48;District;Tagab;Badakhshan;1519;15
+69.4;37.02;District;Khwaja Ghar;Takhar;1614;16
+69.67;35.9;District;Khowst wa Fereng;Baghlan;913;9
+69.56;35.58;District;Pul-e-Hesar;Baghlan;911;9
+67.87;36.38;District;Hazrat-e- Sultan;Samangan;1902;19
+67.35;36.03;District;Darah Suf-e- Payin;Samangan;1904;19
+67.99;36.21;Provincial_Center;Aybak;Samangan;1901;19
+70.14;36.1;District;Warsaj;Takhar;1616;16
+63.86;33.14;District;Pur Chaman;Farah;3110;31
+62.38;33.25;District;Shindand;Hirat;3015;30
+63.12;34.81;Provincial_Center;Qala-e-Naw;Badghis;2901;29
+65.09;33.59;District;Pasaband;Ghor;2107;21
+64.28;35.64;District;Qaysar;Faryab;2806;28
+67.12;36.71;Provincial_Center;Mazar-e-Sharif;Balkh;1801;18
+67.18;36.84;District;Nahr-e- Shahi;Balkh;1802;18

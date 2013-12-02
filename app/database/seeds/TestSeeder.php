@@ -5,7 +5,7 @@
  * We use the data from the tests folder as default data sets.
  */
 
-class DefinitionSeeder extends Seeder {
+class TestSeeder extends Seeder {
 
     /**
      * Run the database seeds.

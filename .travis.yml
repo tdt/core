@@ -8,6 +8,7 @@ before_script:
   - mysql -e 'CREATE DATABASE core_test;'
   - sudo hostname test.travis-ci.org
   - composer install
+  - php artisan db:seed --class=TestSeeder
 
 script:
 - phpunit
