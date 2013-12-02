@@ -20,7 +20,7 @@ class CSVController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        list($limit, $offset) = $this->calculateLimitAndOffset();
+        list($limit, $offset) = self::calculateLimitAndOffset();
 
         // Check the given URI
         if (!empty($source_definition->uri)) {
@@ -136,7 +136,7 @@ class CSVController extends ADataController {
 
         foreach($columns as $column){
             if(!empty($data[$column->index]) || is_numeric(@$data[$column->index])){
-                $result[$column->column_name_alias] = @$data[$column->index];
+                $result[$column->column_name_alias] = utf8_encode(@$data[$column->index]);
             }else{
                 \Log::warning("We expected a value for index $column->index, yet no value was given. Filling in an empty value.");
                 $result[$column->column_name_alias] = null;

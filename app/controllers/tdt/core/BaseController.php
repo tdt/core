@@ -44,6 +44,7 @@ class BaseController extends \Controller {
                         $uri = str_replace('api/dcat', '', $uri);
                         break;
                     default:
+                        $test ="j";
                         \App::abort(404, "Page not found.");
                         break;
                 }

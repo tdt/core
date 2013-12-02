@@ -16,7 +16,7 @@ class SPARQLController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        list($limit, $offset) = $this->calculateLimitAndOffset();
+        list($limit, $offset) = self::calculateLimitAndOffset();
 
         // Retrieve the necessary variables to read from a SPARQL endpoint
         $uri = \Request::url();

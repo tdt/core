@@ -16,17 +16,25 @@ class JSONController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        $data = file_get_contents($source_definition->uri);
+        $uri = $source_definition->uri;
 
-        if($data){
-
-            $php_object = json_decode($data);
-
-            $data_result = new Data();
-            $data_result->data = $php_object;
-            return $data_result;
+        // Check for caching
+        if(\Cache::has($uri)){
+            $data = \Cache::get($uri);
+        }else{
+            // Fetch the data
+            $data =@ file_get_contents($uri);
+            if($data){
+                \Cache::put($uri, $data, 1);
+            }else{
+                \App::abort(500, "Cannot retrieve data from the JSON file located on $source_definition->uri.");
+            }
         }
 
-        \App::abort(500, "Cannot retrieve data from the JSON file located on $source_definition->uri.");
+        $php_object = json_decode($data);
+
+        $data_result = new Data();
+        $data_result->data = $php_object;
+        return $data_result;
     }
 }

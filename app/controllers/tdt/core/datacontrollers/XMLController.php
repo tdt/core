@@ -17,10 +17,24 @@ class XMLController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        $xml_ser = $this->xmlstr_to_array(file_get_contents($source_definition->uri));
+        $uri = $source_definition->uri;
+
+        // Check for caching
+        if(\Cache::has($uri)){
+            $data = \Cache::get($uri);
+        }else{
+            // Fetch the data
+            $data =@ file_get_contents($uri);
+            if(!empty($data)){
+                $data = $this->xmlstr_to_array($data);
+                \Cache::put($uri, $data, 1);
+            }else{
+                \App::abort(500, "Cannot retrieve data from the XML file located on $source_definition->uri.");
+            }
+        }
 
         $data_result = new Data();
-        $data_result->data = $xml_ser;
+        $data_result->data = $data;
 
         return $data_result;
     }

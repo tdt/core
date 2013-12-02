@@ -101,9 +101,14 @@ $('.btn-add-dataset').on('click', function(e){
             window.location = baseURL + 'api/admin/datasets';
         },
         error: function(e){
-            var error = JSON.parse(e.responseText);
-            if(error.error && error.error.message){
-                $('.error', tab_pane).removeClass('hide').html(error.error.message).show().focus();
+            if(e.status != 405){
+                var error = JSON.parse(e.responseText);
+                if(error.error && error.error.message){
+                    $('.error', tab_pane).removeClass('hide').html(error.error.message).show().focus();
+                }
+            }else{
+                // Ajax followed location header -> ignore
+                window.location = baseURL + 'api/admin/datasets';
             }
         }
     })
@@ -145,9 +150,14 @@ $('.btn-edit-dataset').on('click', function(e){
             window.location = baseURL + 'api/admin/datasets';
         },
         error: function(e){
-            var error = JSON.parse(e.responseText);
-            if(error.error && error.error.message){
-                $('.error').removeClass('hide').html(error.error.message).show().focus();
+            if(e.status != 405){
+                var error = JSON.parse(e.responseText);
+                if(error.error && error.error.message){
+                    $('.error').removeClass('hide').html(error.error.message).show().focus();
+                }
+            }else{
+                // Ajax followed location header -> ignore
+                window.location = baseURL + 'api/admin/datasets';
             }
         }
     })

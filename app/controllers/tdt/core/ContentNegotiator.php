@@ -70,6 +70,11 @@ class ContentNegotiator extends Pager{
             $response->header('Link', self::getLinkHeader($data->paging));
         }
 
+        // Cache headers
+        $response->header('Cache-Control', 'public, max-age=60, pre-check=60');
+        $response->header('Pragma', 'public');
+        $response->header('Expires', date(DATE_RFC822, strtotime("1 minute")) );
+
         // Return formatted response
         return $response;
     }

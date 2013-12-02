@@ -17,7 +17,7 @@ class XLSController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        list($limit, $offset) = $this->calculateLimitAndOffset();
+        list($limit, $offset) = self::calculateLimitAndOffset();
 
         $uri = $source_definition->uri;
         $sheet = $source_definition->sheet;

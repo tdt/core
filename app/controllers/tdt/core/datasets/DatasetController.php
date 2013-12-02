@@ -5,6 +5,7 @@ namespace tdt\core\datasets;
 use tdt\core\ContentNegotiator;
 use tdt\core\auth\Auth;
 use tdt\core\definitions\DefinitionController;
+use tdt\core\datacontrollers\ADataController;
 
 /**
  * DatasetController
@@ -16,13 +17,6 @@ class DatasetController extends \Controller {
 
     public static function handle($uri){
 
-        // Don't allow non-Get requests
-        $method = \Request::getMethod();
-        if($method != 'GET'){
-            // Method not supported
-            \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
-        }
-
         // Set permission
         Auth::requirePermissions('dataset.view');
 
@@ -32,90 +26,114 @@ class DatasetController extends \Controller {
         // URI is always the first match
         $uri = $matches[1];
 
+        // Don't allow non-Get requests
+        $method = \Request::getMethod();
+        if($method != 'GET'){
+            // Method not supported
+            \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
+        }
+
         // Get extension (if set)
         $extension = (!empty($matches[2]))? $matches[2]: null;
 
-        // Get definition
-        $definition = DefinitionController::get($uri);
+        // Check for caching
+        // Based on: URI / Rest parameters / Query parameters / Paging headers
+        $cache_string = $uri;
+        list($limit, $offset) = ADataController::calculateLimitAndOffset();
+        $cache_string .= '/limit=' . $limit . 'offset=' . $offset;
+        $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
+        $cache_string = sha1($cache_string);
 
-        if($definition){
-
-            // Get source definition
-            $source_definition = $definition->source()->first();
-
-            if($source_definition){
-
-                // Create the right datacontroller
-                $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
-                $data_controller = new $controller_class();
-
-                // Get REST parameters
-                $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
-                $rest_parameters = ltrim($rest_parameters, '/');
-                $rest_parameters = explode('/', $rest_parameters);
-
-                if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
-                    $rest_parameters = array();
-                }
-
-                // Retrieve dataobject from datacontroller
-                $data = $data_controller->readData($source_definition, $rest_parameters);
-                $data->rest_parameters = $rest_parameters;
-
-                // REST filtering
-                if($source_definition->getType() != 'INSTALLED' && count($data->rest_parameters) > 0){
-                    $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
-                }
-
-                // Add definition to the object
-                $data->definition = $definition;
-
-                // Add source definition to the object
-                $data->source_definition = $source_definition;
-
-                // Return the formatted response with content negotiation
-                return ContentNegotiator::getResponse($data, $extension);
-            }else{
-                \App::abort(404, "Source for the definition could not be found.");
-            }
-
+        if(\Cache::has($cache_string)){
+            return ContentNegotiator::getResponse(\Cache::get($cache_string), $extension);
         }else{
 
-            // Coulnd't find a definition, but it might be a collection
-            $resources = \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get();
+            // Get definition
+            $definition = DefinitionController::get($uri);
 
-            if(count($resources) > 0){
+            if($definition){
 
-                $data = new Data();
-                $data->data = new \stdClass();
-                $data->data->datasets = array();
-                $data->data->collections = array();
+                // Get source definition
+                $source_definition = $definition->source()->first();
 
+                if($source_definition){
 
-                foreach ($resources as $res) {
+                    // Create the right datacontroller
+                    $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
+                    $data_controller = new $controller_class();
 
-                    // Check if it's a subcollection or a dataset
-                    $collection_uri = rtrim($res->collection_uri, '/');
-                    if($collection_uri == $uri){
-                        array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
-                    }else{
-                        array_push($data->data->collections, \URL::to($collection_uri));
+                    // Get REST parameters
+                    $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
+                    $rest_parameters = ltrim($rest_parameters, '/');
+                    $rest_parameters = explode('/', $rest_parameters);
+
+                    if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
+                        $rest_parameters = array();
                     }
+
+                    // Retrieve dataobject from datacontroller
+                    $data = $data_controller->readData($source_definition, $rest_parameters);
+                    $data->rest_parameters = $rest_parameters;
+
+                    // REST filtering
+                    if($source_definition->getType() != 'INSTALLED' && count($data->rest_parameters) > 0){
+                        $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
+                    }
+
+                    // Add definition to the object
+                    $data->definition = $definition;
+
+                    // Add source definition to the object
+                    $data->source_definition = $source_definition;
+
+                    // Store in cache
+                    \Cache::put($cache_string, $data, 1);
+
+                    // Return the formatted response with content negotiation
+                    return ContentNegotiator::getResponse($data, $extension);
+                }else{
+                    \App::abort(404, "Source for the definition could not be found.");
                 }
 
-                // Fake a definition
-                $data->definition = new \Definition();
-                $uri_array = explode('/', $uri);
-                $last_chunk = array_pop($uri_array);
-
-                $data->definition->collection_uri = join('/', $uri_array);
-                $data->definition->resource_name = $last_chunk;
-
-                // Return the formatted response with content negotiation
-                return ContentNegotiator::getResponse($data, $extension);
             }else{
-                \App::abort(404, "The dataset or collection you were looking for could not be found (URI: $uri).");
+
+                // Coulnd't find a definition, but it might be a collection
+                $resources = \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get();
+
+                if(count($resources) > 0){
+
+                    $data = new Data();
+                    $data->data = new \stdClass();
+                    $data->data->datasets = array();
+                    $data->data->collections = array();
+
+
+                    foreach ($resources as $res) {
+
+                        // Check if it's a subcollection or a dataset
+                        $collection_uri = rtrim($res->collection_uri, '/');
+                        if($collection_uri == $uri){
+                            array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
+                        }else{
+                            array_push($data->data->collections, \URL::to($collection_uri));
+                        }
+                    }
+
+                    // Fake a definition
+                    $data->definition = new \Definition();
+                    $uri_array = explode('/', $uri);
+                    $last_chunk = array_pop($uri_array);
+
+                    $data->definition->collection_uri = join('/', $uri_array);
+                    $data->definition->resource_name = $last_chunk;
+
+                    // Return the formatted response with content negotiation
+                    return ContentNegotiator::getResponse($data, $extension);
+                }else{
+                    \App::abort(404, "The dataset or collection you were looking for could not be found (URI: $uri).");
+                }
             }
+
         }
     }
 

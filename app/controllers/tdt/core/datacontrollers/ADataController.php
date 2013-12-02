@@ -18,7 +18,7 @@ abstract class ADataController {
     /**
      * Calculate the limit and offset based on the request string parameters.
      */
-    protected function calculateLimitAndOffset(){
+    public static function calculateLimitAndOffset(){
 
         $limit = \Input::get('limit', self::$DEFAULT_PAGE_SIZE);
         $offset = \Input::get('offset', 0);

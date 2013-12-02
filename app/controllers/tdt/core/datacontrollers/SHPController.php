@@ -22,7 +22,7 @@ class SHPController extends ADataController {
         set_time_limit(0);
 
         // Get the limit and offset
-        list($limit, $offset) = $this->calculateLimitAndOffset();
+        list($limit, $offset) = self::calculateLimitAndOffset();
 
         $uri = $source_definition->uri;
 
