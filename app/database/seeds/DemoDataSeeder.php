@@ -57,7 +57,7 @@ class DemoDataSeeder extends Seeder {
                 $csv_def = new CsvDefinition();
                 $csv_def->description = $description;
                 $csv_def->uri = 'file://' . __DIR__ . '/../../storage/data/csv/' . $file . '.csv';
-                $csv_def->delimiter = ',';
+                $csv_def->delimiter = ';';
                 $csv_def->has_header_row = 1;
                 $csv_def->start_row = 0;
                 $csv_def->save();
