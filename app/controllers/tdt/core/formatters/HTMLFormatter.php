@@ -44,23 +44,6 @@ class HTMLFormatter implements IFormatter{
                     $view = 'dataset.map';
                     $data = $dataset_link . '.map';
                     break;
-                case 'LD':
-                    // This data object is always semantic
-                    $view = 'dataset.code';
-
-                    // Check if a configuration is given
-                    $conf = array();
-                    if(!empty($dataObj->semantic->conf)){
-                        $conf = $dataObj->semantic->conf;
-                    }
-
-                    // Serializer instantiation
-                    $ser = \ARC2::getRDFJSONSerializer($conf);
-
-                    // Use ARC to serialize to JSON (override)
-                    $data = self::displayTree(json_decode($ser->getSerializedTriples($dataObj->data->getTriples())));
-
-                    break;
 
                 case 'SPARQL':
 
@@ -76,13 +59,20 @@ class HTMLFormatter implements IFormatter{
                         }
 
                         // Serializer instantiation
-                        $ser = \ARC2::getRDFJSONSerializer($conf);
+                        $ser = \ARC2::getTurtleSerializer($conf);
 
-                        // Use ARC to serialize to JSON (override)
-                        $data = self::displayTree(json_decode($ser->getSerializedTriples($dataObj->data->getTriples())));
+                        // Serialize a triples array
+                        $data = $ser->getSerializedTriples($dataObj->data->getTriples());
 
-                        break;
+                    }else{
+
+                        $view = 'dataset.code';
+                        $data = self::displayTree($dataObj->data);
+
                     }
+
+                    break;
+
                 default:
                     $view = 'dataset.code';
                     $data = self::displayTree($dataObj->data);
