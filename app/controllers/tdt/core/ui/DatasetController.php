@@ -187,6 +187,7 @@ class DatasetController extends \Controller {
         // Create a CURL client
         $cURL = new \Buzz\Client\Curl();
         $cURL->setVerifyPeer(false);
+        $cURL->setTimeout(30);
 
         // Get discovery document
         $browser = new \Buzz\Browser($cURL);
