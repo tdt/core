@@ -32,8 +32,13 @@ class HTMLFormatter implements IFormatter{
             // Check if other views need to be served
             switch($dataObj->source_definition->getType()){
                 case 'CSV':
-                    $view = 'dataset.tabular';
-                    $data = $dataObj->data;
+                    if(empty($dataObj->rest_parameters)){
+                        $view = 'dataset.tabular';
+                        $data = $dataObj->data;
+                    }else{
+                        $view = 'dataset.code';
+                        $data = self::displayTree($dataObj->data);
+                    }
                     break;
                 case 'SHP':
                     $view = 'dataset.map';
