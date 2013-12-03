@@ -14,7 +14,7 @@
                 </h3>
             </div>
             <div class="col-sm-5 text-right">
-                <button type='submit' class='btn btn-primary btn-edit-dataset pull-right margin-left'><i class='fa fa-save'></i> Save</button>
+                <button type='submit' class='btn btn-cta btn-edit-dataset pull-right margin-left'><i class='fa fa-save'></i> Save</button>
             </div>
         </div>
 
@@ -23,8 +23,7 @@
         <div class='row'>
             <div class="col-sm-12">
                 <div class="alert alert-danger alert-dismissable error hide">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <span class='text'></span>
+                    <i class='fa fa-2x fa-exclamation-circle'></i> <span class='text'></span>
                 </div>
             </div>
         </div>

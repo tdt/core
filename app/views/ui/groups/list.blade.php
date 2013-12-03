@@ -107,7 +107,7 @@
                                     @endforeach
 
                                     @if($group->id != 2)
-                                        <input type='submit' name='btn_save_permissions' class='btn' value='Save permissions' />
+                                        <input type='submit' name='btn_save_permissions' class='btn btn-cta' value='Save permissions' />
                                     @endif
                                 </form>
                             </div>
@@ -140,7 +140,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-cta">Add</button>
                     </div>
                 </div>
             </form>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-cta">Save</button>
                     </div>
                 </div>
             </form>

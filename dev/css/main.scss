@@ -16,6 +16,8 @@ $header-height: 60px;
 $footer-height: 60px;
 $footer-border: 2px;
 
+$green: #36ab70;
+
 *{
     outline: none !important;
 }
@@ -141,11 +143,26 @@ h3{
     }
 }
 
+.btn-add-dataset{
+    margin-top: -10px;
+}
+
 .btn{
     background-color: lighten($secondary, 10%);
     border: 1px solid darken($secondary, 7%);
     border-radius: 2px;
     color: #333;
+
+    &.btn-cta{
+        background-color: $green;
+        color: #fff;
+        border: 1px solid darken($green, 7%);
+
+        &:focus, &:hover{
+            background-color: darken($green, 7%);
+            border: 1px solid darken($green, 7%);
+        }
+    }
 
     i{
         margin-right: 5px;
@@ -423,6 +440,33 @@ footer{
         font-weight: normal;
         margin-right: 20px;
     }
+}
+
+.alert{
+    border: 0px none;
+
+    i{
+        margin-right: 5px;
+        vertical-align: middle;
+
+        &.fa-2x{
+            margin-top: -1px;
+            margin-right: 9px;
+        }
+    }
+
+    &.alert-danger{
+        background-color: $primary-soft;
+        color: #fff;
+    }
+}
+
+button.close {
+    text-shadow: none;
+    color: #fff !important;
+    opacity: 0.8;
+    margin-top: -3px;
+    font-weight: normal;
 }
 
 @media(max-width:768px){

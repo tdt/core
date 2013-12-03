@@ -104,7 +104,8 @@ $('.btn-add-dataset').on('click', function(e){
             if(e.status != 405){
                 var error = JSON.parse(e.responseText);
                 if(error.error && error.error.message){
-                    $('.error', tab_pane).removeClass('hide').html(error.error.message).show().focus();
+                    $('.error .text', tab_pane).html(error.error.message)
+                    $('.error', tab_pane).removeClass('hide').show().focus();
                 }
             }else{
                 // Ajax followed location header -> ignore
@@ -153,7 +154,8 @@ $('.btn-edit-dataset').on('click', function(e){
             if(e.status != 405){
                 var error = JSON.parse(e.responseText);
                 if(error.error && error.error.message){
-                    $('.error').removeClass('hide').html(error.error.message).show().focus();
+                    $('.error .text').html(error.error.message)
+                    $('.error').removeClass('hide').show().focus();
                 }
             }else{
                 // Ajax followed location header -> ignore

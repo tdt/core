@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class='col-sm-1 text-right'>
-            <button type='submit' class='btn btn-primary btn-add-dataset margin-left'><i class='fa fa-plus'></i> Add</button>
+            <button type='submit' class='btn btn-cta btn-add-dataset margin-left'><i class='fa fa-plus'></i> Add</button>
         </div>
     </div>
 
@@ -31,9 +31,8 @@
 
                 <div class='row'>
                     <div class="col-sm-12">
-                        <div class="alert alert-danger alert-dismissable error hide">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <span class='text'></span>
+                        <div class="alert alert-danger error hide">
+                            <i class='fa fa-2x fa-exclamation-circle'></i> <span class='text'></span>
                         </div>
                     </div>
                 </div>
