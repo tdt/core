@@ -128,6 +128,11 @@ class Auth extends \Controller {
         // Get current user
         $user = \Sentry::getUser();
 
+        // If user is empty, means that 'everyone has access to the UI -> abort
+        if(empty($user)){
+            return false;
+        }
+
         // Get the superadmin group
         $superadmin = \Sentry::findGroupByName('superadmin');
 

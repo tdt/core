@@ -70,7 +70,7 @@
                             <div class='col-sm-4'>
                                 <a class='btn'>
                                     <i class='fa fa-lock'></i>
-                                    @if($group->id != 2 && tdt\core\auth\Auth::hasAccess('admin.group.update'))
+                                    @if($group->id > 2 && tdt\core\auth\Auth::hasAccess('admin.group.update'))
                                         Edit
                                     @else
                                         View
@@ -100,13 +100,13 @@
                                             <strong>{{ $perm_group }}</strong>
                                             <div class=''>
                                                 @foreach($permissions as $key => $permission)
-                                                    <input type='checkbox' id='input_{{ $group->id . '_' . $key }}' name='{{ $key }}' @if($group->id == 2 ||in_array($key, $group_permissions)) checked='checked' @endif @if($group->id == 2 || !tdt\core\auth\Auth::hasAccess('admin.group.update')) disabled='disabled' @endif/><label for='input_{{ $group->id . '_' . $key }}'>{{ $permission }}</label>
+                                                    <input type='checkbox' id='input_{{ $group->id . '_' . $key }}' name='{{ $key }}' @if($group->id == 2 ||in_array($key, $group_permissions)) checked='checked' @endif @if($group->id <= 2 || !tdt\core\auth\Auth::hasAccess('admin.group.update')) disabled='disabled' @endif/><label for='input_{{ $group->id . '_' . $key }}'>{{ $permission }}</label>
                                                 @endforeach
                                             </div>
                                         </div>
                                     @endforeach
 
-                                    @if($group->id != 2)
+                                    @if($group->id > 2)
                                         <input type='submit' name='btn_save_permissions' class='btn btn-cta' value='Save permissions' />
                                     @endif
                                 </form>

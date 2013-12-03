@@ -120,7 +120,7 @@ class GroupController extends \Controller {
                 $group->save();
             }else{
 
-                if($group->id != 2){
+                if($group->id > 2){
                     // Update permissions
                     $permission_data = \Input::get();
                     $permissions = array();
