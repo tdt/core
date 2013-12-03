@@ -91,7 +91,7 @@ class InfoController extends \Controller {
         $definition_info = new \stdClass();
         $definition_info->description = "A DCAT document about the available datasets created by using the DCAT vocabulary.";
         $id = 'dcat';
-        $definition_info->uri = \Request::root() . '/' . $id;
+        $definition_info->uri = \Request::root() . '/api/' . $id;
 
         // Add the info to the collection
         $info[$id] = $definition_info;
