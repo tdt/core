@@ -89,6 +89,7 @@ class HTMLFormatter implements IFormatter{
         return \View::make($view)->with('title', 'The Datatank')
                                           ->with('body', $data)
                                           ->with('definition', $dataObj->definition)
+                                          ->with('paging', $dataObj->paging)
                                           ->with('source_definition', $dataObj->source_definition)
                                           ->with('dataset_link', $dataset_link);
     }

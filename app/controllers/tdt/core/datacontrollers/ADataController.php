@@ -11,7 +11,7 @@ namespace tdt\core\datacontrollers;
  */
 abstract class ADataController {
 
-    protected static $DEFAULT_PAGE_SIZE = 312;
+    protected static $DEFAULT_PAGE_SIZE = 4;
 
     public abstract function readData($source_definitions, $rest_parameters = null);
 
@@ -56,34 +56,19 @@ abstract class ADataController {
         // Calculate the paging parameters and pass them with the data object
         if($offset + $limit < $total_rows){
 
-            $page = $offset/$limit;
-            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
+            $paging['next'] = array($limit + $offset, $limit);
 
-            if($page == 0){
-                $page = 1;
-            }
-
-            $paging['next'] = array($page + 1, $limit);
-
-            $last_page = round($total_rows / $limit,0);
-
-            if($last_page > $page + 1){
-                $paging['last'] = array($last_page, self::$DEFAULT_PAGE_SIZE);
-            }
+            $last_page = round($total_rows / $limit, 0);
+            $paging['last'] = array(($last_page - 1) * $limit, self::$DEFAULT_PAGE_SIZE);
         }
 
         if($offset > 0 && $total_rows > 0){
-
-            $page = $offset/$limit;
-            $page = round($page, 0, PHP_ROUND_HALF_DOWN);
-
-            if($page == 0){
-
-                // Try to divide the paging into equal pages
-                $page = 2;
+            $previous = $offset - $limit;
+            if($previous < 0){
+                $previous = 0;
             }
 
-            $paging['previous'] = array($page - 1, $limit);
+            $paging['previous'] = array($previous, $limit);
         }
 
         return $paging;

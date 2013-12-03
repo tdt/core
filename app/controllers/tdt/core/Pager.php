@@ -30,7 +30,7 @@ class Pager{
                 \App::abort(400, "The provided page info did not contain 2 parts, it should only contain a page number and a page size.");
             }
 
-            $link_value .= \Request::url() . '?page=' . $page_info[0] . '&page_size=' . $page_info[1] . ';rel=' . $keyword . ',';
+            $link_value .= \Request::url() . '?offset=' . $page_info[0] . '&limit=' . $page_info[1] . ';rel=' . $keyword . ',';
         }
 
         // Trim the most right comma off.
