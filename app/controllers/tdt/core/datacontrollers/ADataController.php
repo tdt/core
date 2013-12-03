@@ -11,7 +11,7 @@ namespace tdt\core\datacontrollers;
  */
 abstract class ADataController {
 
-    protected static $DEFAULT_PAGE_SIZE = 4;
+    protected static $DEFAULT_PAGE_SIZE = 350;
 
     public abstract function readData($source_definitions, $rest_parameters = null);
 
