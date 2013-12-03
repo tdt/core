@@ -8,7 +8,12 @@
         </div>
         <div class="col-sm-5 text-right">
             @if(tdt\core\auth\Auth::hasAccess('admin.user.create'))
-                <a href='' class='btn btn-primary pull-right margin-left' data-toggle="modal" data-target="#addUser"><i class='fa fa-plus'></i> Add</a>
+                <a href='' class='btn btn-primary pull-right margin-left' data-toggle="modal" data-target="#addUser"
+                    data-step='1'
+                    data-intro='Add a new user to the system. <br/><br/>User have a <strong>username</strong> and a <strong>password</strong> used to authenticate on the DataTank, the permissions they have are determined by the group they are in.'
+                    data-position="left">
+                    <i class='fa fa-plus'></i> Add
+                </a>
             @endif
         </div>
     </div>
@@ -34,7 +39,17 @@
                         data-id='{{ $user->id }}'
                         data-name='{{ $user->email }}'
                         data-group='{{ $user_group }}'>
-                <div class="panel-body">
+                <div class="panel-body"
+                    @if($user->id == 1)
+                        data-step='2'
+                        data-intro="This is the <strong>public user</strong>, you can't a set a password, rename, or delete this user."
+                        data-position="bottom"
+                    @elseif($user->id == 2)
+                        data-step='3'
+                        data-intro="This is the <strong>root user</strong>, you can an should <strong>change the password</strong>. Other users can be in the superadmin group as well to assign them every permission."
+                        data-position="bottom"
+                    @endif
+                    >
                     <div class='icon'>
                         <i class='fa fa-male'></i>
                     </div>
@@ -59,7 +74,13 @@
                             </div>
                             <div class='col-sm-4 text-right'>
                                 @if(tdt\core\auth\Auth::hasAccess('admin.user.update') && $user->id != 1)
-                                    <a href='#' class='btn edit-user' title='Edit this user'><i class='fa fa-edit'></i> Edit</a>
+                                    <a href='#' class='btn edit-user' title='Edit this user'
+                                        @if($user->id == 2)
+                                            data-step='4'
+                                            data-intro="Edit a user, you can assign users to other groups to select their permissions (see groups)."
+                                            data-position="left"
+                                        @endif
+                                    ><i class='fa fa-edit'></i> Edit</a>
                                 @endif
                                 @if(tdt\core\auth\Auth::hasAccess('admin.user.delete') && $user->id > 2)
                                     <a href='{{ URL::to('api/admin/users/delete/'. $user->id) }}' class='btn delete' title='Delete this user'><i class='fa fa-times icon-only'></i></a>
@@ -73,9 +94,8 @@
         @endforeach
 
         <br/>
-
-        <a href='#' class='hover-help pull-right' data-toggle="tooltip" data-placement='left' title='User have a username and a password used to authenticate on the DataTank, the permissions they have are determined by the group they are in.'>
-            <i class='fa fa-lg fa-question-circle'></i>
+        <a href='#' class='introjs pull-right'>
+             <i class='fa fa-lg fa-question-circle'></i>
         </a>
     </div>
 

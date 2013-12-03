@@ -8,7 +8,12 @@
         </div>
         <div class="col-sm-5 text-right">
             @if(tdt\core\auth\Auth::hasAccess('admin.group.create'))
-                <a href='' class='btn btn-primary pull-right margin-left' data-toggle="modal" data-target="#addGroup"><i class='fa fa-plus'></i> Add</a>
+                <a href='' class='btn btn-primary pull-right margin-left' data-toggle="modal" data-target="#addGroup"
+                    data-step='1'
+                    data-intro='Add a new group to the system. <br/><br/>Groups have a series of <strong>permissions</strong> to allow or deny them actions.'
+                    data-position="left">
+                    <i class='fa fa-plus'></i> Add
+                </a>
             @endif
         </div>
     </div>
@@ -39,7 +44,17 @@
             <div class="panel dataset dataset-link button-row panel-default"
                         data-id='{{ $group->id }}'
                         data-name='{{ $group->name }}'>
-                <div class="panel-body">
+                <div class="panel-body"
+                        @if($group->id == 1)
+                            data-step='2'
+                            data-intro="This is the <strong>public group</strong>, you can't change permissions for this group."
+                            data-position="bottom"
+                        @elseif($group->id == 2)
+                            data-step='3'
+                            data-intro="This is the <strong>superadmin group</strong>, all the permissions are assigned to users in this group."
+                            data-position="bottom"
+                        @endif
+                    >
                     <div class='icon'>
                         <i class='fa fa-group'></i>
                     </div>
@@ -68,7 +83,13 @@
                         <hr/>
                         <div class='row edit-permissions'>
                             <div class='col-sm-4'>
-                                <a class='btn'>
+                                <a class='btn'
+                                    @if($group->id == 2)
+                                        data-step='4'
+                                        data-intro="View or edit the permissions of a group."
+                                        data-position="right"
+                                    @endif
+                                >
                                     <i class='fa fa-lock'></i>
                                     @if($group->id > 2 && tdt\core\auth\Auth::hasAccess('admin.group.update'))
                                         Edit
@@ -119,6 +140,9 @@
         @endforeach
 
         <br/>
+        <a href='#' class='introjs pull-right'>
+             <i class='fa fa-lg fa-question-circle'></i>
+        </a>
     </div>
 
 

@@ -165,3 +165,9 @@ $('.btn-edit-dataset').on('click', function(e){
     })
 
 });
+
+// IntroJS
+$('.introjs').on('click', function(e){
+    e.preventDefault();
+    introJs().start();
+})
