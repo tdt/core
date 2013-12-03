@@ -113,7 +113,6 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'tdt\input\InputServiceProvider',
         'Cartalyst\Sentry\SentryServiceProvider',
 	),
 
