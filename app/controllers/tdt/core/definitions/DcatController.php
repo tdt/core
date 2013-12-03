@@ -118,6 +118,15 @@ class DcatController extends \Controller {
                 $graph->addLiteral($dataset_uri, 'dct:identifier', $definition->collection_uri . '/' . $definition->resource_name);
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
+
+                // Optional dct terms
+                $optional = array('title', 'date', 'type', 'source', 'language', 'rights');
+
+                foreach($optional as $dc_term){
+                    if(!empty($definition->$dc_term)){
+                        $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition->$dc_term);
+                    }
+                }
             }
         }
 
