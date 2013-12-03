@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/tdt/core.png?branch=development)](https://travis-ci.org/tdt/core)
 
-The DataTank core is the framework in which the main application of The DataTank is built. The DataTank aims at publishing data to URI's in web readeable formats. This means that you provide a nice JSON, XML, PHP, ... serialization on a certain URI from which the data resides somewhere in a CSV, XLS, XML, JSON, SHP, ... file.
+The DataTank core is the framework in which the main application of The DataTank is built. The DataTank aims at publishing data to URI's in web readable formats. This means that you provide a nice JSON, XML, PHP, ... serialization on a certain URI from which the data resides somewhere in a CSV, XLS, XML, JSON, SHP, ... file.
 
 # Read more
 
