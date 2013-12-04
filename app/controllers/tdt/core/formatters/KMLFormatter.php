@@ -55,7 +55,7 @@ class KMLFormatter implements IFormatter{
             \App::abort(400, "Map formatter not available for this resource.");
         }
 
-        return self::getArray($data, $dataObj->geo);
+        return self::getArray($dataObj, $dataObj->geo);
     }
 
     private static function xmlgetelement($value){
@@ -76,9 +76,11 @@ class KMLFormatter implements IFormatter{
      * Create the geo graphical placemarks in kml
      * Currently only properties that are not nested are picked up.
      */
-    private static function getArray($data, $geo){
+    private static function getArray($dataObj, $geo){
 
         $body = "";
+
+        $data = $dataObj->data;
 
         foreach($data as $key => $value) {
 
@@ -103,7 +105,7 @@ class KMLFormatter implements IFormatter{
                 $name = self::xmlgetelement($entry);
                 $extendeddata = self::getExtendedDataElement($entry);
 
-                $body .= "<Placemark><name>". htmlspecialchars($key) ."</name><description>".$name."</description>";
+                $body .= "<Placemark><name><![CDATA[<a href='" . \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key) ."</a>]]></name><description>".$name."</description>";
                 $body .= $extendeddata;
                 if($is_point) {
 
