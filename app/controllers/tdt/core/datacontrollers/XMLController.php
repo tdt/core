@@ -60,51 +60,77 @@ class XMLController extends ADataController {
                 break;
 
             case XML_ELEMENT_NODE:
-                for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+
+                // Check children
+                for ($i = 0; $i < $node->childNodes->length; $i++) {
+
+                    // Get child
                     $child = $node->childNodes->item($i);
-                    $v = $this->domnode_to_array($child);
+
+                    // Recursive fetch child XML
+                    $value = $this->domnode_to_array($child);
+
+                    // Check if child is a tag
                     if(isset($child->tagName)) {
-                        $t = $child->tagName;
-                        if(!isset($output[$t])) {
-                            $output[$t] = array();
+
+                        // Current tag
+                        $tag = $child->tagName;
+
+                        // Check if current tag is already defined
+                        if(!isset($output[$tag])) {
+                            // If not, inititialize array
+                            $output[$tag] = array();
                         }
-                        $output[$t][] = $v;
-                    }
-                    elseif($v) {
-                        $output = (string) $v;
+
+                        // Push the child tag on the array
+                        $output[$tag][] = $value;
+                    }elseif($value) {
+                        // Child is plain text
+                        $output = (string) $value;
                     }
                 }
 
+                // Element is not a text node
                 if(is_array($output)) {
+
+                    // Check if element has attributes
                     if($node->attributes->length) {
-                        $a = array();
-                        foreach($node->attributes as $attrName => $attrNode) {
-                            $a[$attrName] = (string) $attrNode->value;
+                        $attritubes = array();
+                        foreach($node->attributes as $name => $attr) {
+                            $attritubes[$name] = (string) $attr->value;
                         }
-                        $output['@attributes'] = $a;
+                        $output['@attributes'] = $attritubes;
                     }
-                    foreach ($output as $t => $v) {
-                        if(is_array($v) && count($v)==1 && $t!='@attributes') {
-                            $output[$t] = $v[0];
+
+                    // For each of the element's children
+                    foreach ($output as $tag => $value) {
+                        if(is_array($value) && count($value)==1) {
+                            $output[$tag] = $value[0];
                         }
                     }
+
                 }else{
+
+                    // Element is a text node, but can still have attributes
                     $value = $output;
                     $output = array();
+
+                    // Check if element has attributes
                     if($node->attributes->length) {
-                        $a = array();
-                        foreach($node->attributes as $attrName => $attrNode) {
-                            $a[$attrName] = (string) $attrNode->value;
+                        $attritubes = array();
+                        foreach($node->attributes as $name => $attr) {
+                            $attritubes[$name] = (string) $attr->value;
                         }
-                        $output['@attributes'] = $a;
+                        $output['@attributes'] = $attritubes;
                     }
 
                     $output['@value'] = $value;
 
                 }
-
                 break;
         }
+
         return $output;
     }
+
 }

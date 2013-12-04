@@ -8,6 +8,7 @@
         <meta name="DC.title" content="{{ $title }}"/>
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='{{ URL::to("css/main.css") }}' type='text/css'/>
     </head>
 
