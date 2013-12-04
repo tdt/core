@@ -102,10 +102,18 @@ class KMLFormatter implements IFormatter{
 
             if(!empty($entry)) {
 
-                $name = self::xmlgetelement($entry);
+                $name = "";
+                if(!empty($entry['name'])){
+                    $name = $entry['name'];
+                }
                 $extendeddata = self::getExtendedDataElement($entry);
 
-                $body .= "<Placemark><name><![CDATA[<a href='" . \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key) ."</a>]]></name><description>".$name."</description>";
+                $description = "";
+                if(!empty($key) && is_numeric($key)){
+                    $description = "<![CDATA[<a href='" . \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key) ."</a>]]>";
+                }
+
+                $body .= "<Placemark><name>".$name."</name><description>".$description."</description>";
                 $body .= $extendeddata;
                 if($is_point) {
 
