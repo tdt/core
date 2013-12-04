@@ -102,7 +102,7 @@ class KMLFormatter implements IFormatter{
 
             if(!empty($entry)) {
 
-                $name = "";
+                $name = htmlspecialchars($key);
                 if(!empty($entry['name'])){
                     $name = $entry['name'];
                 }
