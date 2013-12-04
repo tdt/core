@@ -53,10 +53,10 @@
     </div>
 
     <div class='col-sm-12 empty'>
-        <div class='panel panel-default @if(!empty($definitions)) hide @endif'>
+        <div class='panel panel-default @if(count($definitions) > 0) hide @endif'>
             <div class="panel-body note">
                 <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
-                @if(empty($definitions))
+                @if(count($definitions) == 0)
                     This datatank is hungry for data, no datasets were added yet.
                 @else
                     No dataset(s) found with the filter <strong>'<span class='dataset-filter'></span>'</strong>
