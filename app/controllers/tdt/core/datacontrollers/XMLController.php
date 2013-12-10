@@ -24,6 +24,7 @@ class XMLController extends ADataController {
             $data = \Cache::get($uri);
         }else{
             // Fetch the data
+
             $data =@ file_get_contents($uri);
             if(!empty($data)){
                 $data = $this->xmlstr_to_array($data);
@@ -105,7 +106,7 @@ class XMLController extends ADataController {
                     // For each of the element's children
                     foreach ($output as $tag => $value) {
                         if(is_array($value) && count($value)==1) {
-                            $output[$tag] = $value[0];
+                            $output[$tag] = @$value[0];
                         }
                     }
 

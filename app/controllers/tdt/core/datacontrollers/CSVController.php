@@ -79,7 +79,7 @@ class CSVController extends ADataController {
         $hits = 0;
         if (($handle = fopen($uri, "r")) !== FALSE) {
 
-            while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
+            while (($data = fgetcsv($handle, 2000000, $delimiter)) !== FALSE) {
 
                 if($total_rows >= $start_row){
 
