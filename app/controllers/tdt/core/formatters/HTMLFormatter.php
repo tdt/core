@@ -31,6 +31,7 @@ class HTMLFormatter implements IFormatter{
         if(!empty($dataObj->source_definition)){
             // Check if other views need to be served
             switch($dataObj->source_definition->getType()){
+                case 'XLS':
                 case 'CSV':
                     if(empty($dataObj->rest_parameters)){
                         $view = 'dataset.tabular';
