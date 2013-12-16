@@ -185,7 +185,7 @@ class XLSController extends ADataController {
 
         foreach($columns as $column){
             if(isset($data[$column->index]) || is_numeric(@$data[$column->index])){
-                $result[$column->column_name_alias] = utf8_encode($data[$column->index]);
+                $result[$column->column_name_alias] = $data[$column->index];
             }else{
                 \App::abort(500, "The index $column->index could not be found in the XLS file. Index count starts at 0.");
             }
