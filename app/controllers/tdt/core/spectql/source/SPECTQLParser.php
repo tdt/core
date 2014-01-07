@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Parser a SPECTQL query and generates a stack of expressions. It throw SPECTQLParseTDTExceptions 
+ * Parser a SPECTQL query and generates a stack of expressions. It throw SPECTQLParseTDTExceptions
  *
  * @package The-Datatank/controllers/spectql
  * @copyright (C) 2011 by OKFN chapter Belgium vzw/asbl
@@ -10,7 +10,7 @@
  * @organisation Hogent
  */
 
-namespace tdt\core\controllers\spectql;
+namespace tdt\core\spectql\source;
 
 use \parse_engine;
 use \spectql;
@@ -59,7 +59,7 @@ class SPECTQLParser {
     public function __construct($querystring) {
         // url decode
         // http://php.net/manual/en/function.urldecode.php
-        // we use a + sign to use order functionality, but decode will translate 
+        // we use a + sign to use order functionality, but decode will translate
         // a + to a whitespace, so lets first translate the + sign to it's urlencoding (%2B)
         $querystring = str_replace("+", "%2B", $querystring);
         $this->querystring = ltrim(urldecode($querystring), "/");
@@ -115,5 +115,3 @@ class SPECTQLParser {
     }
 
 }
-
-?>

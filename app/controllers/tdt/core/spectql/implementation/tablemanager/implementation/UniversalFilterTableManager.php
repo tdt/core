@@ -5,15 +5,15 @@
  *
  * The TableManager makes it easier to view The DataTank as a collection of tables
  *
- * @package The-Datatank/universalfilter/tablemanager
  * @copyright (C) 2012 by iRail vzw/asbl
  * @license AGPLv3
  * @author Jeroen Penninck
+ * @author Jan Vansteenlandt
  */
 
 namespace tdt\core\spectql\implementation\tablemanager\implementation;
 
-use tdt\core\model\ResourcesModel;
+use tdt\core\datasets\DatasetController;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeader;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeaderColumnInfo;
 use tdt\core\spectql\implementation\sourcefilterbinding\ExternallyCalculatedFilterNode;
@@ -21,9 +21,6 @@ use tdt\core\spectql\implementation\tablemanager\IUniversalFilterTableManager;
 use tdt\core\spectql\implementation\tablemanager\implementation\tools\PhpObjectTableConverter;
 use tdt\core\spectql\implementation\tablemanager\implementation\UniversalFilterTableManager;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
-use tdt\core\utility\Config;
-use tdt\exceptions\TDTException;
-use tdt\core\utility\RequestURI;
 
 class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
@@ -34,7 +31,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private $resourcesmodel;
 
     public function __construct() {
-        $this->resourcesmodel = ResourcesModel::getInstance(Config::getConfigArray());
+
     }
 
     /**

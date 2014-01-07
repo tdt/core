@@ -169,6 +169,54 @@ class DatasetController extends \Controller {
     }
 
     /**
+     * Check if a uri resembles a definition, if so return the data
+     */
+    public static function fetchData($uri){
+
+        // Retrieve the definition
+        $definition = DefinitionController::get($uri);
+
+        if($definition){
+
+            // Get the source definition
+            $source_definition = $definition->source()->first();
+
+            if($source_definition){
+
+                // Create the correct datacontroller
+                $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
+                $data_controller = new $controller_class();
+
+                // Get REST parameters
+                $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
+                $rest_parameters = ltrim($rest_parameters, '/');
+                $rest_parameters = explode('/', $rest_parameters);
+
+                if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
+                    $rest_parameters = array();
+                }
+
+                // Retrieve dataobject from datacontroller
+                $data = $data_controller->readData($source_definition, $rest_parameters);
+                $data->rest_parameters = $rest_parameters;
+
+                // REST filtering
+                if($source_definition->getType() != 'INSTALLED' && count($data->rest_parameters) > 0){
+                    $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
+                }
+
+                return $data;
+            }else{
+                \App::abort(404, "Source for the definition could not be found.");
+            }
+        }else{
+            \App::abort(404, "The definition could not be found.");
+        }
+    }
+
+
+
+    /**
      * Case insensitive search for a property of an object
      */
     private static function propertyExists($object, $property){

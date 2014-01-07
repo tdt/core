@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Print the tree...
+ * Print the parsed query tree.
  *
  * @package The-Datatank/universalfilter/interpreter/executers
  * @copyright (C) 2012 by iRail vzw/asbl
@@ -45,7 +45,8 @@ class TreePrinter {
         }
 
         $classname = get_class($tree);
-        $method = "print_" . end(explode("\\", $classname));
+        $class_name = explode("\\", $classname);
+        $method = "print_" . end($class_name);
         //calls the correct clone method and then returns.
         $var = "";
         if (method_exists($this, $method)) {

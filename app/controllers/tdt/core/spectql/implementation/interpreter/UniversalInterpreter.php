@@ -141,7 +141,7 @@ class UniversalInterpreter implements IInterpreterControl {
         if (class_exists($classname)) {
             return new $classname();
         } else {
-            $classname = "tdt\\core\\universalfilter\\interpreter\\executers\\implementations\\" . $this->executers[$filternode->getType()];
+            $classname = "tdt\\core\\spectql\\implementation\\interpreter\\executers\\implementations\\" . $this->executers[$filternode->getType()];
             return new $classname();
         }
     }

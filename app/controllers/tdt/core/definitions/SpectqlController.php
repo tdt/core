@@ -16,11 +16,11 @@ include_once(__DIR__ . "/../spectql/parse_engine.php");
 include_once(__DIR__ . "/../spectql/source/spectql.php");
 include_once(__DIR__ . "/../spectql/implementation/SqlGrammarFunctions.php");
 
-use tdt\core\controllers\spectql\SPECTQLParser;
-use tdt\core\universalfilter\interpreter\UniversalInterpreter;
-use tdt\core\universalfilter\tablemanager\implementation\tools\TableToPhpObjectConverter;
-use tdt\core\universalfilter\tablemanager\implementation\UniversalFilterTableManager;
-use tdt\core\universalfilter\interpreter\debugging\TreePrinter;
+use tdt\core\spectql\source\SPECTQLParser;
+use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
+use tdt\core\spectql\implementation\tablemanager\implementation\tools\TableToPhpObjectConverter;
+use tdt\core\spectql\implementation\tablemanager\implementation\UniversalFilterTableManager;
+use tdt\core\spectql\implementation\interpreter\debugging\TreePrinter;
 
 class SPECTQLController extends \Controller {
 
@@ -95,8 +95,7 @@ class SPECTQLController extends \Controller {
         echo "<pre>";
         echo $tree;
         echo "</pre>";
-        exit();
-
+        //exit();
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
@@ -110,7 +109,7 @@ class SPECTQLController extends \Controller {
         $o = new \stdClass();
         $o->$RESTresource = $object;
         $result = $o;
-
+        var_dump($result);
         // Workaround, the spectql tree doesn't accept null as object to start with
         // It gets it header names from it to continue processing the data.
         // Workaround: return object with headernames, but with every datamember = null.

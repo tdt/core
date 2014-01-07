@@ -38,8 +38,10 @@ class FilterTreeCloner {
      * @return UniversalFilterNode a deep copy of the tree
      */
     public function deepCopyTree(UniversalFilterNode $tree) {
-        $method = "clone_" . end(explode('\\', get_class($tree)));
-        //calls the correct clone method and then returns.
+        $tree_split = explode('\\', get_class($tree));
+        $method = "clone_" . end($tree_split);
+
+        // Calls the correct clone method and then returns.
         return $this->$method($tree);
     }
 

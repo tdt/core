@@ -9,7 +9,7 @@
  * @organisation Hogent
  */
 
-namespace tdt\core\controllers\spectql;
+namespace tdt\core\spectql\source;
 
 use tdt\core\model\ResourcesModel;
 
@@ -115,5 +115,3 @@ class SPECTQLResource {
     }
 
 }
-
-?>

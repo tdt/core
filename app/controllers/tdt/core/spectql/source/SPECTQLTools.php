@@ -10,14 +10,14 @@
  * @organisation Hogent
  */
 
-namespace tdt\core\controllers\spectql;
+namespace tdt\core\spectql\source;
 
 class SPECTQLTools {
 
     /**
      * Adds columns to a relation
      * @param $relation1 passed by reference. The main relation
-     * @param $relation2 passed by reference. All the 
+     * @param $relation2 passed by reference. All the
      */
     static public function catRelation(&$relation1, &$relation2) {
         for ($i = 0; $i < min(array(sizeof($relation1), sizeof($relation2))); $i++) {
@@ -26,5 +26,3 @@ class SPECTQLTools {
     }
 
 }
-
-?>
