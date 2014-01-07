@@ -53,6 +53,11 @@ class BaseController extends \Controller {
                 // Discovery document
                 $controller = 'tdt\core\definitions\DiscoveryController';
                 break;
+            case 'spectql':
+                // SPECTQL request
+                $uri = str_replace('spectql', '', $uri);
+                $controller = 'tdt\core\definitions\SpectqlController';
+                break;
             case '':
                 // Home URL requests
                 $controller = 'tdt\core\HomeController';
