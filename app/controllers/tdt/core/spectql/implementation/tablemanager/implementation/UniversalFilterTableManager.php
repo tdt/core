@@ -14,6 +14,7 @@
 namespace tdt\core\spectql\implementation\tablemanager\implementation;
 
 use tdt\core\datasets\DatasetController;
+use tdt\core\definitions\DefinitionController;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeader;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeaderColumnInfo;
 use tdt\core\spectql\implementation\sourcefilterbinding\ExternallyCalculatedFilterNode;
@@ -28,7 +29,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private static $HIERARCHICALDATESEPARATOR = ":";
     private $requestedTableHeaders = array();
     private $requestedTables = array();
-    private $resourcesmodel;
 
     public function __construct() {
 
@@ -42,7 +42,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     private function getFullResourcePhpObject($package, $resource, $RESTparameters = array()) {
 
-        $model = ResourcesModel::getInstance(Config::getConfigArray());
+        /*$model = ResourcesModel::getInstance(Config::getConfigArray());
 
         $doc = $model->getAllDoc();
         $parameters = array();
@@ -59,15 +59,14 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             $parameters[$parameter] = $RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
             array_shift($RESTparameters);
-        }
-        /**
-         * Pass along limit and offset if given
-         */
-        $ru = RequestURI::getInstance(Config::getConfigArray());
-        $pageURL = $ru->getURI();
-        $matches = array();
+        }*/
 
-        if(preg_match('/.*\.limit\((.*)\).*/',$pageURL,$matches)){
+        /*$ru = RequestURI::getInstance(Config::getConfigArray());
+        $pageURL = $ru->getURI();
+        $matches = array();*/
+
+       // if(preg_match('/.*\.limit\((.*)\).*/',$pageURL,$matches)){
+        /*
             $limit_items = explode(",",$matches[1]);
             $limit = 0;
             $offset = 0;
@@ -82,9 +81,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             $parameters["offset"] = $offset;
         }
 
-        /**
-         * Read the resource from the model
-         */
+
         $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
 
         if(empty($resourceObject)){
@@ -95,8 +92,16 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
                 $obj->$column_name["column_name_alias"] = null;
             }
             array_push($resourceObject,$obj);
-        }
-        return $resourceObject;
+        }*/
+
+
+        //TODO return entire php object
+
+
+
+        $data_result =  DatasetController::fetchData($package . '/' . $resource);
+        return $data_result->data;
+
     }
 
     /**
@@ -122,17 +127,15 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         // The function will throw an exception if a package hasn't been found that matches
         // it will not however throw an exception if no resource has been found.
-        $result = $this->resourcesmodel->processPackageResourceString($packageresourcestring);
 
-        if ($result["resourcename"] == "") {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(452, array("Illegal identifier. Package does not contain a resourcename: "
-                . $globalTableIdentifier),$exception_config);
+        //TODO find out REST parameters
+        $definition = DefinitionController::get($packageresourcestring);
+
+        if(empty($definition)){
+            \App::abort(404, "The resource could not be found.");
         }
 
-        return array($result["packagename"], $result["resourcename"], $result["RESTparameters"], $hierarchicalsubparts);
+        return array($definition->collection_uri, $definition->resource_name, null, $hierarchicalsubparts);
     }
 
     private function loadTable($globalTableIdentifier) {
@@ -174,18 +177,29 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     public function getTableHeader($globalTableIdentifier) {
 
-        $model = ResourcesModel::getInstance(Config::getConfigArray());
+        //$model = ResourcesModel::getInstance(Config::getConfigArray());
         $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
 
-        $column = NULL;
+        // Try fetching column names in case of a tabular resource.
+        $columns = array();
+
         try {
-            $columns = $model->getColumnsFromResource($identifierpieces[0], $identifierpieces[1]);
+
+            $definition = DefinitionController::get($this->getResourceIdentifier($globalTableIdentifier));
+            $source = $definition->source()->first();
+            $columns_collection = $source->tabularColumns()->getResults();
+
+            $columns = array();
+            foreach($columns_collection as $collection_entry){
+                array_push($columns, array("column_name" => $collection_entry["column_name"]));
+            }
 
         } catch (Exception $e) {
-            $columns = NULL;
+            $columns = array();
         }
 
-        if ($columns != NULL && !isset($this->requestedTableHeaders[$globalTableIdentifier])) {
+        if (!empty($columns) && !isset($this->requestedTableHeaders[$globalTableIdentifier])) {
+
             $headerColumns = array();
             foreach ($columns as $column) {
                 $nameParts = array(); //explode(".",$globalTableIdentifier);
@@ -238,10 +252,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return UniversalFilterNode
      */
     function runFilterOnSource(UniversalFilterNode $query, $sourceId) {
-        /*
-         * Check if resource (source) is queryable
-         */
-        $model = ResourcesModel::getInstance(Config::getConfigArray());
 
         $globalTableIdentifier = str_replace("/", ".", $sourceId);
 
@@ -256,13 +266,14 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         // result is the resourceObject on which to call and pass the filter upon if it does
         $result = null;
         try {
-            $result = $model->isResourceIFilter($package, $resource);
+            //TODO check if a filter can be resolved through the strategy itself.
+            //$result = $model->isResourceIFilter($package, $resource);
         } catch (Exception $e) {
             return $query;
         }
 
         if ($result == FALSE) {
-            return $query; //thereExistNoOptimalisationForThatSource
+            return $query;
         } else {
 //            execute partial trees on the source with id $sourceId
 //                     (or the full query, if it can be converted completely)
@@ -426,4 +437,21 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         }
     }
 
+    /**
+     * Get the resource identifier based on the global identifier used in SPECTQL.
+     */
+    private function getResourceIdentifier($globalTableIdentifier){
+
+        $identifierparts = explode(UniversalFilterTableManager::$HIERARCHICALDATESEPARATOR, $globalTableIdentifier);
+        $hierarchicalsubparts = array();
+        if (isset($identifierparts[1]) && strlen($identifierparts[1]) > 0) {
+            $hierarchicalsubparts = explode(".", $identifierparts[1]);
+        }
+
+        $identifierpieces = explode(UniversalFilterTableManager::$IDENTIFIERSEPARATOR, $identifierparts[0]);
+
+        $packageresourcestring = implode("/", $identifierpieces);
+
+        return $packageresourcestring;
+    }
 }

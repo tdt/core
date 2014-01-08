@@ -14,7 +14,6 @@ namespace tdt\core\spectql\implementation\data;
 
 use tdt\core\spectql\implementation\data\UniversalFilterTableContent;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeader;
-use tdt\core\utility\Config;
 
 class UniversalFilterTable {
 

@@ -11,8 +11,6 @@
 
 namespace tdt\core\spectql\source;
 
-use tdt\core\model\ResourcesModel;
-
 class SPECTQLResource {
 
     private $packagename, $resourcename, $RESTparameters;
@@ -27,14 +25,12 @@ class SPECTQLResource {
         $resourcename = $this->resourcename;
 
         //Get an instance of our model
+        \App::abort(500, "Not implemented yet.");
         $model = ResourcesModel::getInstance(Config::getConfigArray());
         //ask the model for our documentation: access to all packages and resources!
         $doc = $model->getAllDoc();
         if (!isset($doc->$packagename) || !isset($doc->$packagename->$resourcename)) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(404, array(Config::get("general", "hostname") . Config::get("general", "subdir") . "spectql/$packagename/$resourcename"), $exception_config);
+            \App::abort(404, Config::get("general", "hostname") . Config::get("general", "subdir") . "spectql/$packagename/$resourcename"), $exception_config);
         }
 
         //check for required parameters
@@ -43,10 +39,8 @@ class SPECTQLResource {
         foreach ($doc->$packagename->$resourcename->requiredparameters as $parameter) {
             //set the parameter of the method
             if (!isset($this->RESTparameters[0])) {
-                $exception_config = array();
-                $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(452, array("Invalid parameter given: " . $parameter), $exception_config);
+
+                \App::abort(452, "Invalid parameter given: " . $parameter), $exception_config);
             }
             $parameters[$parameter] = $this->RESTparameters[0];
             //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
@@ -66,10 +60,8 @@ class SPECTQLResource {
                 } else if (is_array($resource) && isset($resource[$restparam])) {
                     $resource = $resource[$restparam];
                 } else {
-                    $exception_config = array();
-                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                    throw new TDTException(452, array($restparam), $exception_config);
+
+                    \App::abort(452, $restparam), $exception_config);
                 }
                 $lastfilter = $restparam;
             }
@@ -93,10 +85,7 @@ class SPECTQLResource {
         if (is_object($resource)) {
             $resource = get_object_vars($resource);
         } else if (!is_array($resource)) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("SPECTQLController - The resource is not an object or an array."), $exception_config);
+            \App::abort(500, "SPECTQLController - The resource is not an object or an array."), $exception_config);
         }
         foreach ($resource as &$row) {//by reference!
             if (is_object($row)) {

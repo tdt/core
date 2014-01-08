@@ -231,7 +231,4 @@ class UniversalInterpreter implements IInterpreterControl {
         //CLEANUP -> when you don't need the data anymore
         //$content->tryDestroyTable();
     }
-
 }
-
-?>

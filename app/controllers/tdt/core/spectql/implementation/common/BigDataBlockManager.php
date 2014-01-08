@@ -16,8 +16,10 @@
 
 namespace tdt\core\spectql\implementation\common;
 
-use tdt\core\controllers\SPECTQLController;
+use tdt\core\definitions\SPECTQLController;
 
+
+//TODO make this obsolete, if a resource it too big to handle, throw an error.
 class BigDataBlockManager {
 
     //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec

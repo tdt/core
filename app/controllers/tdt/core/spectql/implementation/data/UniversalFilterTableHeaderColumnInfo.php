@@ -11,7 +11,7 @@
 
 namespace tdt\core\spectql\implementation\data;
 
-use tdt\core\utility\Config;
+
 
 class UniversalFilterTableHeaderColumnInfo {
 
@@ -68,10 +68,8 @@ class UniversalFilterTableHeaderColumnInfo {
             $oldName = array_pop($this->completeColumnNameParts);
             $this->completeColumnNameParts[] = $newColumName;
         } else {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array($newColumnName . " is an illegal alias."), $exception_config);
+
+            \App::abort(500, $newColumnName . " is an illegal alias.");
         }
     }
 

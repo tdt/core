@@ -46,10 +46,8 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
 
         //build new environment
         if (!$oldtable->getHeader()->isSingleRowByConstruction()) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("Illegal location for ColumnSelectionFilter or FilterByExpressionFilter"), $exception_config);
+
+            \App::abort(500, "Illegal location for ColumnSelectionFilter or FilterByExpressionFilter");
         }
 
         for ($oldtablecolumn = 0; $oldtablecolumn < $oldtable->getHeader()->getColumnCount(); $oldtablecolumn++) {

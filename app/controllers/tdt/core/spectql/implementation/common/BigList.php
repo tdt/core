@@ -11,8 +11,6 @@
 
 namespace tdt\core\spectql\implementation\common;
 
-use tdt\exceptions\TDTException;
-
 class BigList {
 
     public static $BLOCKSIZE = 50;
@@ -26,7 +24,7 @@ class BigList {
 
     public function setIndex($index, $data) {
         if ($index >= $this->size) {
-            throw new TDTException("BigList: Index out of bounds: " . $index);
+            \App::abort(500, "BigList: Index out of bounds: " . $index);
         }
         $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index / (BigList::$BLOCKSIZE));
@@ -42,7 +40,7 @@ class BigList {
 
     public function getIndex($index) {
         if ($index >= $this->size) {
-            throw new TDTException("BigList: Index out of bounds " . $index);
+            \App::abort(500, "BigList: Index out of bounds " . $index);
         }
         $inst = BigDataBlockManager::getInstance();
         $blockindex = floor($index / (BigList::$BLOCKSIZE));
@@ -78,5 +76,3 @@ class BigList {
     }
 
 }
-
-?>

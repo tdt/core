@@ -107,10 +107,8 @@ class SPECTQLParser {
             }
             return $this->parser->eat_eof();
         } catch (Exception $e) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("SPECTQLParser - $e->getMessage()"), $exception_config);
+
+            \App::abort(500, "Something went wrong while parsing the query: $e->getMessage()");
         }
     }
 

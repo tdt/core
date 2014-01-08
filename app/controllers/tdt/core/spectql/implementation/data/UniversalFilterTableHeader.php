@@ -12,7 +12,7 @@
 namespace tdt\core\spectql\implementation\data;
 
 use tdt\exceptions\TDTException;
-use tdt\core\utility\Config;
+
 
 class UniversalFilterTableHeader {
 
@@ -51,10 +51,8 @@ class UniversalFilterTableHeader {
                     $found = true;
                     $id = $column->getId();
                 } else {
-                    $exception_config = array();
-                    $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                    $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                    throw new TDTException(500, array("The identifier  $columnName is not unique."), $exception_config);
+
+                    \App::abort(500, "The identifier  $columnName is not unique.");
                 }
             }
         }
@@ -81,7 +79,7 @@ class UniversalFilterTableHeader {
             try {
                 $this->getColumnIdByName($name);
             } catch (Exception $e) {
-                //hmmm....
+
                 $name = $name . " (" . $info->getId() . ")";
             }
         }
@@ -112,10 +110,7 @@ class UniversalFilterTableHeader {
                 return $column;
             }
         }
-        $exception_config = array();
-        $exception_config["log_dir"] = Config::get("general", "logging", "path");
-        $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-        throw new TDTException(500, array("TableHeader - ColumnInformation not found for id: " . $id . ""), $exception_config);
+        \App::abort(500, "TableHeader - ColumnInformation not found for id: " . $id . "");
     }
 
     /**
@@ -159,10 +154,8 @@ class UniversalFilterTableHeader {
      */
     public function getColumnId() {
         if (!$this->isSingleColumnByConstruction()) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("TableHeader - Not a single column."), $exception_config);
+
+            \App::abort(500, "TableHeader - Not a single column.");
         }
         return $this->getColumnIdByIndex(0);
     }
@@ -172,10 +165,8 @@ class UniversalFilterTableHeader {
      */
     public function checkCell() {
         if (!$this->isSingleCellByConstruction()) {
-            $exception_config = array();
-            $exception_config["log_dir"] = Config::get("general", "logging", "path");
-            $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-            throw new TDTException(500, array("TableHeader - Not a single value"), $exception_config);
+
+            \App::abort(500, "TableHeader - Not a single value");
         }
     }
 
@@ -193,5 +184,3 @@ class UniversalFilterTableHeader {
     }
 
 }
-
-?>

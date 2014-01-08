@@ -18,8 +18,6 @@ use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\interpreter\sourceusage\SourceUsageData;
 use tdt\core\spectql\implementation\sourcefilterbinding\ExpectedHeaderNamesAttachment;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
-use tdt\exceptions\TDTException;
-use tdt\core\utility\Config;
 
 class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -27,17 +25,19 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
     private $executer;
 
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
-        // save the filter
+
+        // Save the filter
         $this->filter = $filter;
 
-        // get executer for source
+        // Get executer for source
         $source = $this->filter->getSource();
         $this->executer = $interpreter->findExecuterFor($source);
         $this->executer->initExpression($source, $topenv, $interpreter, $preferColumn);
 
-        // the original header
+        // The original header
         $originalheader = $this->executer->getExpressionHeader();
-        // get the expected column names
+
+        // Get the expected column names
 
 
         /*
@@ -82,11 +82,6 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
                     }
                     $givenColumnsString.="" . $columnNameGivenTable . "";
                 }
-
-                $exception_config = array();
-                $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                //throw new TDTException(500, array("Illegal external calculation. The returned table should contain a column with name " . $givenName . ", but no column with that name found. Found columnNames: " . $givenColumnsString . "."), $exception_config);
             }
 
             $newHeaderColumn = $columnInfo->cloneColumnWithId($givenColumnId);

@@ -24,8 +24,7 @@ use tdt\core\spectql\implementation\interpreter\executers\base\AbstractUniversal
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\interpreter\sourceusage\SourceUsageData;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
-use tdt\exceptions\TDTException;
-use tdt\core\utility\Config;
+
 
 class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
 
@@ -49,11 +48,9 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             $this->isColumn = true;
             $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());
             if ($this->header === null) {
-                $exception_config = array();
-                $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(500,array("The identifier " . $this->filter->getIdentifierString() . " can not be found. It is not a column."),$exception_config);
+                \App::abort(500, "The identifier " . $this->filter->getIdentifierString() . " cannot be found - it's not a column.");
             }
+
             if (!$this->isColumn) {
                 $this->singlevaluecolumnheader = $this->header->getColumnInformationById($this->header->getColumnId());
                 $this->header = new UniversalFilterTableHeader(array($this->singlevaluecolumnheader->cloneColumnNewId()), true, true);
@@ -64,11 +61,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             $tableName = $filter->getIdentifierString();
             try {
                 $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
-            } catch (TDTException $rce) {
-                $exception_config = array();
-                $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(500, array("IdentifierExecuter - The identifier " . $tableName . " can not be found. It is not a table."), $exception_config);
+            } catch (Exception $e) {
+                \App::abort(500, "The identifier $tableName cannot be found.");
             }
         }
     }
@@ -197,5 +191,3 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
 }
-
-?>
