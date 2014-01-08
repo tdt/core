@@ -25,7 +25,6 @@ use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\interpreter\sourceusage\SourceUsageData;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-
 class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
 
     private $interpreter;
@@ -115,7 +114,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
 
                 if ($columninfo->matchName(explode(".", $fullid))) {
                     if ($foundheader != null) {
-                        throw new Exception("Ambiguos identifier: " . $fullid . ". Please use aliases to remove the ambiguity."); //can only occured in nested querys or joins
+                        throw new Exception("Ambiguous identifier: " . $fullid . ". Please use aliases to remove the ambiguity."); //can only occured in nested queries or joins
                     }
                     $this->singlevalueindex = $index;
                     $foundheader = new UniversalFilterTableHeader(array($columninfo), true, true);
@@ -126,7 +125,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             //check single values for another match (to give an exception)
             for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
                 if ($topenv->getSingleValueHeader($index)->matchName(explode(".", $fullid))) {
-                    throw new Exception("Ambiguos identifier: " . $fullid . ". Please use aliases to remove the ambiguity."); //can only occured in nested querys or joins
+                    throw new Exception("Ambiguos identifier: " . $fullid . ". Please use aliases to remove the ambiguity."); //can only occured in nested queries or joins
                 }
             }
 

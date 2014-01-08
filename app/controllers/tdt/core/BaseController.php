@@ -15,6 +15,9 @@ class BaseController extends \Controller {
      */
     public function handleRequest($uri){
 
+        // Save the original uri for controllers who don't want the uri lowercased
+        $original_uri = rtrim($uri, '/');
+
         // Introduce case insensitivity and trim right '/'
         $uri = strtolower(rtrim($uri, '/'));
 
@@ -55,7 +58,7 @@ class BaseController extends \Controller {
                 break;
             case 'spectql':
                 // SPECTQL request
-                $uri = str_replace('spectql', '', $uri);
+                $uri = str_ireplace('spectql', '', $original_uri);
                 $controller = 'tdt\core\definitions\SpectqlController';
                 break;
             case '':

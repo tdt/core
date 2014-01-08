@@ -96,12 +96,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
 
         //TODO return entire php object
-
-
-
         $data_result =  DatasetController::fetchData($package . '/' . $resource);
         return $data_result->data;
-
     }
 
     /**
@@ -177,7 +173,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     public function getTableHeader($globalTableIdentifier) {
 
-        //$model = ResourcesModel::getInstance(Config::getConfigArray());
         $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
 
         // Try fetching column names in case of a tabular resource.
@@ -239,6 +234,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         if (!isset($this->requestedTables[$globalTableIdentifier])) {
             $this->loadTableWithHeader($globalTableIdentifier, $header);
         }
+
         return $this->requestedTables[$globalTableIdentifier]->getContent();
     }
 

@@ -133,8 +133,11 @@ class PhpObjectTableConverter {
         return $phpObj;
     }
 
+    //TODO after final refactoring, remove this function, strtolower is no longer necessary, require
+    // users to pass along the case sensitive correct identifier in a spectql query
     private function parseColumnName($name) {
-        return strtolower(preg_replace("/[^A-Za-z0-9]/", "_", $name));
+        //return strtolower(preg_replace("/[^A-Za-z0-9]/", "_", $name));
+        return $name;
     }
 
     private function getPhpObjectTableHeader($nameOfTable, $objects) {
@@ -180,13 +183,14 @@ class PhpObjectTableConverter {
     }
 
     public function getPhpObjectTableContent($header, $nameOfTable, $objects) {
+
         $rows = new UniversalFilterTableContent();
 
         $subObjectIndex = array();
 
-        //optimalisation: build name->id map
         $idMap = array();
         for ($index = 0; $index < $header->getColumnCount(); $index++) {
+
             $columnId = $header->getColumnIdByIndex($index);
             $columnName = $header->getColumnNameById($columnId);
 
@@ -194,6 +198,7 @@ class PhpObjectTableConverter {
         }
 
         foreach ($objects as $index => $data) {
+
             $parentindex = $data["parentindex"];
             $obj = $data["object"];
 
@@ -202,24 +207,31 @@ class PhpObjectTableConverter {
             $found = array();
 
             foreach ($arr_obj as $key => $value) {
+
                 $columnName = $this->parseColumnName($key);
 
                 if(!empty($idMap[$columnName])){
-                    $columnId = $idMap[$columnName]; //$header->getColumnIdByName($columnName);
+
+                    $columnId = $idMap[$columnName];
 
                     if (is_array($value) || is_object($value)) {
-                        //we have a subobject
-                        //what's it index?
+
+                        // we have a subobject
+                        // what's it index?
                         $subObjIndex = 0;
+
                         if (isset($subObjectIndex[$columnName])) {
+
                             $subObjectIndex[$columnName]++;
                             $subObjIndex = $subObjectIndex[$columnName];
+
                         } else {
                             $subObjectIndex[$columnName] = 0;
                         }
 
                         $id = "id_" . $subObjIndex;
-                        //FOR NOW: just display "object" (TODO)  As the id and key field do not exist anymore...
+
+                        // Just display "object" (TODO)  As the id and key field do not exist anymore...
                         $id = "<<object>>";
 
                         $currentrow->defineValueId($columnId, $id);
