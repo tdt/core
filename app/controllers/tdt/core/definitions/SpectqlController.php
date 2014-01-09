@@ -89,8 +89,10 @@ class SPECTQLController extends \Controller {
         $uri_query_string = \Request::query();
 
         foreach($uri_query_string as $key => $val){
-            $filter .= $key;
+            $filter .= $key . '&';
         }
+
+        $filter = rtrim($filter, '&');
 
         if(!empty($uri_query_string)){
             $filter = '?' . $filter;
