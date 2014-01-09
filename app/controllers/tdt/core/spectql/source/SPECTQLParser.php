@@ -106,6 +106,7 @@ class SPECTQLParser {
                 }
             }
             return $this->parser->eat_eof();
+
         } catch (Exception $e) {
 
             \App::abort(500, "Something went wrong while parsing the query: $e->getMessage()");

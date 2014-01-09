@@ -28,7 +28,7 @@ class SPECTQLController extends \Controller {
 
     public static $TMP_DIR = "";
 
-    // TODO review
+    // TODO make sure we don't need a tmp dir to store any spectql related stuff anymore
     public function __construct() {
         parent::__construct();
         SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
@@ -81,13 +81,24 @@ class SPECTQLController extends \Controller {
             $pageURL = rtrim($pageURL, "/");
         }
 
-        // Fetch the original uri including filtering and sorting statements which aren't picked up by our routing component.
-        $full_url = \Request::fullUrl();
+        // Fetch the original uri, which is a hassle since our spectql format allows for a ? - character
+        // identify the start of a filter, the Request class sees this is the start of query string parameters
+        // and fails to parse them as they only contain keys, but never values ( our spectql filter syntax is nowhere near
+        // the same as a query string parameter sequence). Therefore, we need to build our spectql uri manually.
+        $filter = "";
+        $uri_query_string = \Request::query();
 
-        $root = \Request::root();
+        foreach($uri_query_string as $key => $val){
+            $filter .= $key;
+        }
 
-        // Strip the root url, added with the spectql slug
-        $query_uri = str_replace($root . '/spectql', '', $full_url);
+        if(!empty($uri_query_string)){
+            $filter = '?' . $filter;
+        }
+
+        $query_uri = \Request::path() . $filter;
+
+        $query_uri = str_replace('spectql', '', $query_uri);
 
         $parser = new SPECTQLParser($query_uri);
 
