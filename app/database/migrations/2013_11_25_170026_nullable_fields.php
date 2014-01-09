@@ -19,8 +19,6 @@ class NullableFields extends Migration {
 		\DB::statement('ALTER TABLE sparqldefinitions MODIFY COLUMN endpoint VARCHAR(255) NULL');
 
 		\DB::statement('ALTER TABLE sparqldefinitions MODIFY COLUMN description VARCHAR(255) NULL');
-		\DB::statement('ALTER TABLE sparqldefinitions MODIFY COLUMN description VARCHAR(255) NULL');
-		\DB::statement('ALTER TABLE sparqldefinitions MODIFY COLUMN description VARCHAR(255) NULL');
 	}
 
 	/**
@@ -30,7 +28,7 @@ class NullableFields extends Migration {
 	 */
 	public function down()
 	{
-		// No rollback necessary
+		// No rollback necessary since 256 is an illegal or non-accepted varchar size
 
 	}
 
