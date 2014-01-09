@@ -81,21 +81,27 @@ class SPECTQLController extends \Controller {
             $pageURL = rtrim($pageURL, "/");
         }
 
-        $parser = new SPECTQLParser($uri);
+        // Fetch the original uri including filtering and sorting statements which aren't picked up by our routing component.
+        $full_url = \Request::fullUrl();
+
+        $root = \Request::root();
+
+        // Strip the root url, added with the spectql slug
+        $query_uri = str_replace($root . '/spectql', '', $full_url);
+
+        $parser = new SPECTQLParser($query_uri);
 
         $context = array(); // array of context variables
 
         $universalquery = $parser->interpret($context);
 
-
         // Display the query tree, uncomment in case of debugging
-        /*
-        $treePrinter = new TreePrinter();
+
+        /*$treePrinter = new TreePrinter();
         $tree = $treePrinter->treeToString($universalquery);
         echo "<pre>";
         echo $tree;
-        echo "</pre>";
-        exit();*/
+        echo "</pre>";*/
 
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
@@ -105,57 +111,6 @@ class SPECTQLController extends \Controller {
         $object = $converter->getPhpObjectForTable($result);
 
         $rootname = "spectqlquery";
-
-        // Adjust the paging Link HTTP headers to SPECTQL uri's.
-        //TODO
-        /*
-        foreach(headers_list() as $header){
-            if(substr($header,0,4) == "Link"){
-                $ru = RequestURI::getInstance(Config::getConfigArray());
-                $pageURL = $ru->getURI();
-                $new_link_header= "Link:";
-
-                // cut off the format, position = position of the ':' before the format
-                $position = strrpos($pageURL,":");
-                $base_url = substr($pageURL,0,$position);
-
-                // Cut off the limit() clause if present.
-                $base_url = preg_replace('/(\.limit\(.*\))/','',$base_url);
-
-
-                // Next page link.
-                $matches = array();$*/
-                //if(preg_match('/page=(.*)&page_size=(.*);rel=next.*/',$header,$matches)){
-/*
-                    $offset = ($matches[1] - 1) * $matches[2];
-                    $limit = $matches[2];
-                    $next_url = $base_url . ".limit(" . $offset . "," . $limit . "):" . $format;
-                    $new_link_header.= $next_url . ";rel=next, ";
-                }
-
-                // Previous page link.
-                $matches = array();*/
-                //if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=previous.*/',$header,$matches)){
-                  /*  $offset = ($matches[1] - 1) * $matches[2];
-                    $limit = $matches[2];
-                    $previous_url = $base_url . ".limit(" . $offset . "," . $limit . "):" . $format;
-                    $new_link_header.= $previous_url . ";rel=previous, ";
-                }
-
-                // Last page link.
-                $matches = array();*/
-                //if(preg_match('/page=(\d{1,})&page_size=(\d{1,});rel=last.*/',$header,$matches)){
-                  /*  $offset = ($matches[1] - 1) * $matches[2];
-                    $limit = $matches[2];
-                    $last_url = $base_url . ".limit(" . $offset . "," . $limit . "):" . $format;
-                    $new_link_header.= $last_url . ";rel=last, ";
-                }
-
-                $new_link_header = rtrim($new_link_header,", ");
-                header($new_link_header);
-            }
-        }*/
-        // Return the formatted response with content negotiation
 
         // Get REST parameters
         $definition_uri = preg_match('/(.*?)\{.*/', $uri, $matches);

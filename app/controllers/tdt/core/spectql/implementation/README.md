@@ -26,7 +26,7 @@ For this example we assume we have a resource "gentsefeesten/dag15" in The DataT
 ### Requesting the data...
 Assume the user wants the titles and the description of all events from day 15 of the Gentse Feesten where the title starts with 'Bloem'
 
-In SQL this is: 
+In SQL this is:
 
     SELECT Titel, Omschrijving FROM genstefeesten.dag15 WHERE Titel LIKE 'Bloem%'
 
@@ -47,9 +47,9 @@ Surf to this url and you get back the data you want.
 ### The flow this query follows inside The-DataTank ( same flow for SQL or SPECTQL )
 When the request enters The-DataTank, it first enters the router. In the router the request gets send to the SPECTQLController.
 The SPECTQLController creates an SPECTQLParser and asks it to parse the SPECTQL-query. That's where the conversion from string to Filter Syntax Tree happens. I will go deeper into this in the next paragraph.
-The SPECTQLParser returns a Syntax Tree. 
+The SPECTQLParser returns a Syntax Tree.
 
-The SPECTQLController makes a new UniversalInterpreter and calls the method interpret($tree) on it. This method returns the dataset in the intern representation of the Abstract Filter Layer (but that's not really important). 
+The SPECTQLController makes a new UniversalInterpreter and calls the method interpret($tree) on it. This method returns the dataset in the intern representation of the Abstract Filter Layer (but that's not really important).
 Now the SPECTQLController creates a new TableToPhpObjectConverter and asks it to convert the table to a php object as it is used by The DataTank.
 
 Now, you can use the formatters to format the data. Filtering done...
@@ -64,7 +64,7 @@ If you need examples for the parsing: both SQL and spectql use the lime-parser a
 The Filter Syntax Tree (also Universal Filter Tree)
 ---------------------------------------------------
 
-This section describes what a query can be build of. 
+This section describes what a query can be build of.
 All the possible nodes are defined in one file for ease of use: "universalfilters/UniversalFilters.php".
 
 You should really check out that file for the kinds of filters you can use.
@@ -84,7 +84,7 @@ Please note that I use "." as separator and not "/". So it's "package.resource.c
 Another very basic filter is the Constant. It returns a column which contains the given constant.
 
 #### Filter: ColumnSelectionFilter
-If you need to select columns or build a new table from existing or calculated columns, you use a ColumnSelectionFilter. It needs a source (the filter that is executed before) and an array of ColumnSelectionFilerColumns which contain a filter that return a column and an optional alias. 
+If you need to select columns or build a new table from existing or calculated columns, you use a ColumnSelectionFilter. It needs a source (the filter that is executed before) and an array of ColumnSelectionFilerColumns which contain a filter that return a column and an optional alias.
 
 #### Filter: SortFieldsFilter
 Used to sort the table.
@@ -99,25 +99,25 @@ Keeps a certain amount of rows from a certain offset.
 Groups data on the given fields. You probably want to use aggregator functions after you did the grouping.
 
 #### UnaryFunctions
-Input: one column of the data.  
+Input: one column of the data.
 Output: a new column (the unary function applied)
 
 Supported unary functions: "to uppercase", "to lowercase", "string length", "round number", "check if null", "boolean not", "sin", "cos", "tan", "asin", "acos", "atan", "sqrt", "abs", "floor", "ceil", "exp", "log", "datetime_parse", "datetime_datepart".
 
 #### BinaryFunctions
-Input: two columns of the data.  
+Input: two columns of the data.
 Output: a new column
 
 Supported Binary functions: "+", "-", "*", "/", "<", ">", "<=", ">=", "=", "!=", "OR", "AND", "match regex" (does arg1 matches arg2 where arg2 is a regular expression in php), "atan2", "log", "pow", "string concatenation", "datetime_parse", "datetime_extract", "datetime_format".
 
 #### TernaryFunctions
-Input: three columns of data.  
+Input: three columns of data.
 Output: a new column
 
 Supported Ternary functions: "substring", "regex replace".
 
 #### Aggregators
-Input: A table or a column or a grouped column  
+Input: A table or a column or a grouped column
 Output: A row or a cell or a column
 
 Aggregators combine multiple rows in one row. They can be used on a full table (eg. Count(*)) or on columns, or on grouped columns.
@@ -161,34 +161,26 @@ Passing the Abstract Filter Tree to execute directly to the source
 ------------------------------------------------------------------
 
 If your source is a database or something else that can execute some kind of query's,
-it can be usefull to execute those queries directly on the source 
+it can be usefull to execute those queries directly on the source
 instead of letting the interpreter download the full resource and then executing the query in php...
 
-The UniversalInterpreter has support for this approach. 
-See the README.md in the folder universalfilter/sourcefilterbinding and 
+The UniversalInterpreter has support for this approach.
+See the README.md in the folder universalfilter/sourcefilterbinding and
 the README in the folder universalfilter/tablemanager about how to implement the tablemanager to support this.
 
+Compiling the lime file
+-----------------------
 
-Future development
-------------------
+Download [lime php from sourceforge](http://sourceforge.net/projects/lime-php/), and recompile the lime\_scan\_tokens file as explained in their HOWTO. Then after compiling the lime file, make sure you add the necessary php use statements, otherwise upon execution PHP will not know how to load the classes defined in the lime parser. The following list of statements has to be passed, if you have adjusted the lime file with other classes, do not forget to add their path as well.
 
-If you want to implement new kinds of filters in the Abstract Filter Layer:
-see the documentation of the interpreter in universalfilters/interpreter (for a global overview)
-and the documentation about the executers in universalfilters/interpreter/executers.
+use tdt\core\spectql\implementation\universalfilters\BinaryFunction;
+use tdt\core\spectql\implementation\universalfilters\ColumnSelectionFilter;
+use tdt\core\spectql\implementation\universalfilters\ColumnSelectionFilterColumn;
+use tdt\core\spectql\implementation\universalfilters\Constant;
+use tdt\core\spectql\implementation\universalfilters\DataGrouper;
+use tdt\core\spectql\implementation\universalfilters\FilterByExpressionFilter;
+use tdt\core\spectql\implementation\universalfilters\Identifier;
+use tdt\core\spectql\implementation\universalfilters\LimitFilter;
+use tdt\core\spectql\implementation\universalfilters\SortFieldsFilter;
+use tdt\core\spectql\implementation\universalfilters\SortFieldsFilterColumn;
 
-### Other future developments:
-- there are no datatypes. It can be usefull to keep information about the datatype in the tree, so that booleans can be used as numbers, and date's can be compared but also printed without problem. You will also need functions to convert datatypes if you implement this.
-
-### Memory optimalisation for big datasets(*):
-The Aggregators are NOT optimized for big datasets(*) (except for count). 
-They first convert a column to an array and use build-in phpfunctions. (but arrays are kept completely in memory)
-
-BigDataBlockManager could be implemented more efficiently...
-
-(*) big datasets = Datasets that do not fit in memory
-
-See the README in universalfilters/common for more information about BigDataBlockManager.  
-See universalfilters/interpreter/executers/implementations/AggregatorFunctionExecuters.class.php if you want to optimize the Aggregators.
-
-### Query optimalisation:
-See README in universalfilters/interpreter/optimizer if you think about implemening that.
