@@ -52,7 +52,14 @@ class KMLFormatter implements IFormatter{
 
         // If no geo property is given, don't bother creating a KML
         if(empty($dataObj->geo)){
-            \App::abort(400, "Map formatter not available for this resource.");
+
+            $placemarks = "";
+            ob_start();
+            self::printArray($dataObj->data, $placemarks);
+            $placemarks = ob_get_contents();
+            ob_end_clean();
+
+            return $placemarks;
         }
 
         return self::getArray($dataObj, $dataObj->geo);
@@ -70,6 +77,90 @@ class KMLFormatter implements IFormatter{
         $result = "<ExtendedData>";
         $result .= "</ExtendedData>";
         return $result;
+    }
+
+    private static function printArray($val, $placemarks){
+
+        foreach($val as $key => $value) {
+
+            $long = "";
+            $lat = "";
+            $coords = array();
+
+            if(is_array($value)) {
+                $array = $value;
+            }
+            if (is_object($value)) {
+                $array = get_object_vars($value);
+            }
+
+            if(!empty($array)) {
+
+                $longkey = self::array_key_exists_nc("long",$array);
+
+                if (!$longkey) {
+                    $longkey = self::array_key_exists_nc("longitude",$array);
+                }
+
+                $latkey = self::array_key_exists_nc("lat",$array);
+
+                if (!$latkey) {
+                    $latkey = self::array_key_exists_nc("latitude",$array);
+                }
+
+                $coordskey = self::array_key_exists_nc("coords",$array);
+
+                if (!$coordskey) {
+                    $coordskey = self::array_key_exists_nc("coordinates",$array);
+                }
+
+                if($longkey && $latkey) {
+
+                    $long = $array[$longkey];
+                    $lat = $array[$latkey];
+                    unset($array[$longkey]);
+                    unset($array[$latkey]);
+                    $name = self::xmlgetelement($array);
+                    $extendeddata = self::getExtendedDataElement($array);
+                } else if($coordskey) {
+
+                    $coords = explode(";",$array[$coordskey]);
+                    unset($array[$coordskey]);
+                    $name = self::xmlgetelement($array);
+                    $extendeddata = self::getExtendedDataElement($array);
+                }else {
+                    self::printArray($array, $placemarks);
+                }
+
+                if(($lat != "" && $long != "") || count($coords) != 0){
+
+                    echo "<Placemark><name>". htmlspecialchars($key) ."</name><Description>".$name."</Description>";
+                    echo $extendeddata;
+                    if($lat != "" && $long != "") {
+                        $lat_val = reset($lat);
+                        $lon_val = reset($long);
+                        echo "<Point><coordinates>".$lon_val.",".$lat_val."</coordinates></Point>";
+
+                    }
+
+                    if (count($coords)  > 0) {
+                        if (count($coords)  == 1) {
+                            echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                        } else {
+                            echo "<MultiGeometry>";
+                            foreach($coords as $coord) {
+                                echo "<LineString><coordinates>".$coord."</coordinates></LineString>";
+                            }
+                            echo "</MultiGeometry>";
+                        }
+                    }
+                    echo "</Placemark>";
+
+                }
+            }
+        }
+
+        //return $placemarks;
     }
 
     /**
@@ -155,13 +246,17 @@ class KMLFormatter implements IFormatter{
      * @return string|false
      */
     private static function array_key_exists_nc($key, $search) {
+
         if (array_key_exists($key, $search)) {
             return $key;
         }
+
         if (!(is_string($key) && is_array($search) && count($search))) {
             return false;
         }
+
         $key = strtolower($key);
+
         foreach ($search as $k => $v) {
             if (strtolower($k) == $key) {
                 return $k;
