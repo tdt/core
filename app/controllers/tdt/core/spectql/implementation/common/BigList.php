@@ -23,6 +23,7 @@ class BigList {
     }
 
     public function setIndex($index, $data) {
+
         if ($index >= $this->size) {
             \App::abort(500, "BigList: Index out of bounds: " . $index);
         }
@@ -39,6 +40,7 @@ class BigList {
     }
 
     public function getIndex($index) {
+
         if ($index >= $this->size) {
             \App::abort(500, "BigList: Index out of bounds " . $index);
         }

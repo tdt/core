@@ -42,62 +42,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     private function getFullResourcePhpObject($package, $resource, $RESTparameters = array()) {
 
-        /*$model = ResourcesModel::getInstance(Config::getConfigArray());
+        $data_result = DatasetController::fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
+        $data = $data_result->data;
 
-        $doc = $model->getAllDoc();
-        $parameters = array();
-
-        foreach ($doc->$package->$resource->requiredparameters as $parameter) {
-            //set the parameter of the method
-
-            if (!isset($RESTparameters[0])) {
-                $exception_config = array();
-                $exception_config["log_dir"] = Config::get("general", "logging", "path");
-                $exception_config["url"] = Config::get("general", "hostname") . Config::get("general", "subdir") . "error";
-                throw new TDTException(452, "Invalid parameter given: " . $parameter, $exception_config);
-            }
-            $parameters[$parameter] = $RESTparameters[0];
-            //removes the first element and reindex the array - this way we'll only keep the object specifiers (RESTful filtering) in this array
-            array_shift($RESTparameters);
-        }*/
-
-        /*$ru = RequestURI::getInstance(Config::getConfigArray());
-        $pageURL = $ru->getURI();
-        $matches = array();*/
-
-       // if(preg_match('/.*\.limit\((.*)\).*/',$pageURL,$matches)){
-        /*
-            $limit_items = explode(",",$matches[1]);
-            $limit = 0;
-            $offset = 0;
-
-            if(count($limit_items) == 2){
-                $offset = array_shift($limit_items);
-                $limit = array_shift($limit_items);
-            }else{
-                $limit = array_shift($limit_items);
-            }
-            $parameters["limit"] = $limit;
-            $parameters["offset"] = $offset;
-        }
-
-
-        $resourceObject = $model->readResource($package, $resource, $parameters, $RESTparameters);
-
-        if(empty($resourceObject)){
-            $column_names = $model->getColumnsFromResource($package,$resource);
-            $resourceObject = array();
-            $obj = new \stdClass();
-            foreach($column_names as $key => $column_name){
-                $obj->$column_name["column_name_alias"] = null;
-            }
-            array_push($resourceObject,$obj);
-        }*/
-
-
-        //TODO return entire php object
-        $data_result =  DatasetController::fetchData($package . '/' . $resource);
-        return $data_result->data;
+        return $data;
     }
 
     /**
@@ -111,29 +59,39 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     private function splitIdentifier($globalTableIdentifier) {
 
+        // Fetch the parts of the identifier, split them by using the hierarchical separator as the delimiter
+        // TODO analyse if this is actually used
         $identifierparts = explode(UniversalFilterTableManager::$HIERARCHICALDATESEPARATOR, $globalTableIdentifier);
+
+        // TODO isn't used?
         $hierarchicalsubparts = array();
         if (isset($identifierparts[1]) && strlen($identifierparts[1]) > 0) {
             $hierarchicalsubparts = explode(".", $identifierparts[1]);
         }
 
+        // Retrieve the pieces of the uri that identify the resource
         $identifierpieces = explode(UniversalFilterTableManager::$IDENTIFIERSEPARATOR, $identifierparts[0]);
 
         $packageresourcestring = implode("/", $identifierpieces);
 
-        // The function will throw an exception if a package hasn't been found that matches
-        // it will not however throw an exception if no resource has been found.
-
-        //TODO find out REST parameters
         $definition = DefinitionController::get($packageresourcestring);
 
+        // Retrieve the REST parameters of the identifier
+        $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $packageresourcestring);
+        $rest_parameters = ltrim($rest_parameters, '/');
+        $rest_parameters = explode('/', $rest_parameters);
+
+        // Tell the user the resource could not be found when no definition is fetched
         if(empty($definition)){
             \App::abort(404, "The resource could not be found.");
         }
 
-        return array($definition->collection_uri, $definition->resource_name, null, $hierarchicalsubparts);
+        return array($definition->collection_uri, $definition->resource_name, $rest_parameters, $hierarchicalsubparts);
     }
 
+    /**
+     * Create a UniversalTable out of the PHP object identifed by $globalTableIdentifier
+     */
     private function loadTable($globalTableIdentifier) {
 
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
@@ -142,11 +100,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $resource = $this->getFullResourcePhpObject($splitedId[0], $splitedId[1], $splitedId[2]);
 
+        // Convert the PHP object into a UniversalTable
         $table = $converter->getPhpObjectTable($splitedId, $resource);
-
         $this->requestedTables[$globalTableIdentifier] = $table;
 
-        $table->getContent()->tableNeeded(); //do not destroy content... it's cached...
+        // Tell the table content it can't be destroyed just yet
+        $table->getContent()->tableNeeded();
     }
 
     private function loadTableWithHeader($globalTableIdentifier, $header) {
@@ -165,8 +124,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     }
 
     /**
-     * The UniversalInterpreter found a identifier for a table.
-     * Can you give me the header of the table?
+     * Return the UniversalFilterTableHeader based on the identifier of the table
      *
      * @param string $globalTableIdentifier
      * @return UniversalFilterTableHeader
@@ -182,7 +140,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
             $definition = DefinitionController::get($this->getResourceIdentifier($globalTableIdentifier));
             $source = $definition->source()->first();
-            $columns_collection = $source->tabularColumns()->getResults();
+
+            $columns_collection = array();
+
+            if(method_exists($source, 'tabularColumns')){
+                $columns_collection = $source->tabularColumns()->getResults();
+            }
 
             $columns = array();
             foreach($columns_collection as $collection_entry){
@@ -231,6 +194,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      * @return UniversalTableContent
      */
     public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header) {
+
         if (!isset($this->requestedTables[$globalTableIdentifier])) {
             $this->loadTableWithHeader($globalTableIdentifier, $header);
         }
@@ -361,27 +325,18 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
                             break;
                         case "groupby":
                             if ($type == "DATAGROUPER") {
-                                /*
-                                 * replace the query node
-                                 */
                                 $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
                                 $replaced = TRUE;
                             }
                             break;
                         case "select":
                             if ($type == "FILTERCOLUMN") {
-                                /*
-                                 * replace the query node
-                                 */
                                 $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
                                 $replaced = TRUE;
                             }
                             break;
                         case "limit":
                             if ($type == "FILTERLIMIT") {
-                                /*
-                                 * replace the query node
-                                 */
                                 $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
                                 $replaced = TRUE;
                             }
@@ -416,13 +371,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     }
 
     /*
-     * Replaces a node in the tree.
+     * Replaces a node in the AST
      */
 
     private function replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode) {
-        /*
-         * replace the query node
-         */
+
+        // Replace the node in the AST
         if ($phpObject != "") {
             $converter = new PhpObjectTableConverter();
             $table = $converter->getPhpObjectTable($identifierpieces, $phpObject);

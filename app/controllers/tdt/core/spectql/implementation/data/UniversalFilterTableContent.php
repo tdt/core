@@ -21,9 +21,7 @@ class UniversalFilterTableContent {
     private $needed;
 
     public function __construct() {
-//        echo "<pre>";
-//        var_dump(debug_backtrace());
-//        echo "</pre>";
+
         $this->rows = new BigList();
         $this->size = 0;
         $this->needed = 0;
@@ -44,7 +42,7 @@ class UniversalFilterTableContent {
     }
 
     /**
-     * Tell this table: "I need this table"
+     * Tell this table that it still has a raison d'être
      */
     public function tableNeeded() {
         $this->needed++;
@@ -70,6 +68,7 @@ class UniversalFilterTableContent {
      * @param UniversalFilterTableContentRow $row
      */
     public function setRow($index, $row) {
+
         if ($index < $this->size) {
             $this->rows->setIndex($index, $row);
         } else {

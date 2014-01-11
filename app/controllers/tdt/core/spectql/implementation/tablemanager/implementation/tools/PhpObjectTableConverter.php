@@ -34,16 +34,20 @@ class PhpObjectTableConverter {
      * @param type $path
      */
     private function findTablePhpArray($root, $path, $parentitemindex) {
+
         if (count($path) == 1) {
             $parentitemindex++;
         }
 
         if (!empty($path)) {
+
             $oldpath = $path;
             $fieldToSearch = array_shift($path);
 
             if (is_array($root) || is_object($root)) {
+
                 $fieldvalue = null;
+
                 if (is_array($root)) {
 
                     if (true /* SEE NOTE */ || $this->is_assoc($root)) {
@@ -78,46 +82,55 @@ class PhpObjectTableConverter {
                 return array();
             }
         } else {
+
             if (is_object($root)) {
-                //return array(array("object" => $root, "parentindex" => $parentitemindex));
-                //NOTE: we do save the indices... it's a object.......
-                $rootarr = array();
-                foreach ($root as $i => $ritem) {
+
+                $obj_arr = array();
+
+                foreach ($root as $key => $property) {
+
                     $obj = new \stdClass();
-                    $obj->index = $i;
-                    $obj->value = $ritem;
-                    array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
+                    $obj->index = $key;
+                    $obj->value = $property;
+
+                    array_push($obj_arr, array("object" => $obj, "parentindex" => $parentitemindex));
                 }
-                return $rootarr;
+
+                return $obj_arr;
+
             } else if (is_array($root)) {
-                //NOTE: we don't save the indices... it's an array.......
-                // (unless we find nonNumericIndices)
-                $foundNonNumericIndices = $this->is_assoc($root);
+
+                $is_assoc = $this->is_assoc($root);
 
                 $rootarr = array();
-                foreach ($root as $i => $ritem) {
-                    if (is_object($ritem)) {//this row is a object = ok
-                        //ok!
-                    } else if (is_array($ritem)) {//this row is an array = need conversion
+
+                foreach ($root as $i => $property) {
+
+                    if (is_array($property)) {//this row is an array = need conversion
+
                         $obj = new \stdClass();
-                        foreach ($ritem as $a => $aitem) {
+
+                        foreach ($property as $key => $obj_property) {
+
                             $obj = new \stdClass();
-                            $index = "index_" . $a;
-                            $obj->$index = $aitem;
+                            $index = $key;//"index_" . $key;
+                            $obj->$index = $obj_property;
                             array_push($rootarr, array("object" => $obj, "parentindex" => $parentitemindex));
                         }
-                        $ritem = $obj;
-                    } else {//this row is a value...
+                        $property = $obj;
+
+                    } else if(!is_object($property)){
+
                         $obj = new \stdClass();
-                        $obj->value = $ritem;
-                        $ritem = $obj;
+                        $obj->value = $property;
+                        $property = $obj;
                     }
 
-                    if ($foundNonNumericIndices) {
-                        $ritem->index = $i;
+                    if ($is_assoc) {
+                        $property->index = $i;
                     }
 
-                    array_push($rootarr, array("object" => $ritem, "parentindex" => $parentitemindex));
+                    array_push($rootarr, array("object" => $property, "parentindex" => $parentitemindex));
                 }
                 return $rootarr;
             } else {
@@ -133,10 +146,8 @@ class PhpObjectTableConverter {
         return $phpObj;
     }
 
-    //TODO after final refactoring, remove this function, strtolower is no longer necessary, require
-    // users to pass along the case sensitive correct identifier in a spectql query
+    // TODO refactor and remove function
     private function parseColumnName($name) {
-        //return strtolower(preg_replace("/[^A-Za-z0-9]/", "_", $name));
         return $name;
     }
 
@@ -182,6 +193,11 @@ class PhpObjectTableConverter {
         return $header;
     }
 
+    /**
+     * Get the table content based on the passed PHP objects
+     *
+     * @return $rows UniversalFilterTableContent
+     */
     public function getPhpObjectTableContent($header, $nameOfTable, $objects) {
 
         $rows = new UniversalFilterTableContent();
@@ -197,6 +213,7 @@ class PhpObjectTableConverter {
             $idMap[$columnName] = $columnId;
         }
 
+        // For every object, create a row in the conversion table
         foreach ($objects as $index => $data) {
 
             $parentindex = $data["parentindex"];
@@ -204,20 +221,20 @@ class PhpObjectTableConverter {
 
             $arr_obj = get_object_vars($obj);
             $currentrow = new UniversalFilterTableContentRow();
+
             $found = array();
 
             foreach ($arr_obj as $key => $value) {
 
                 $columnName = $this->parseColumnName($key);
 
-                if(!empty($idMap[$columnName])){
+                if(isset($idMap[$columnName])){
 
                     $columnId = $idMap[$columnName];
 
                     if (is_array($value) || is_object($value)) {
 
-                        // we have a subobject
-                        // what's it index?
+                        // Retrieve the index of the subobject
                         $subObjIndex = 0;
 
                         if (isset($subObjectIndex[$columnName])) {
@@ -234,7 +251,8 @@ class PhpObjectTableConverter {
                         // Just display "object" (TODO)  As the id and key field do not exist anymore...
                         $id = "<<object>>";
 
-                        $currentrow->defineValueId($columnId, $id);
+                        // old: $currentrow->defineValueId($columnId, $id);
+                        $currentrow->defineValueId($columnId, $value);
                     } else {
                         $currentrow->defineValue($columnId, $value); //what if we have a combination of the two?
                     }
@@ -264,7 +282,11 @@ class PhpObjectTableConverter {
         return $rows;
     }
 
+    /**
+     * Return a UniversalTable based on the passed PHP objects
+     */
     public function getPhpObjectTable($splitedId, $objects) {
+
         $objects = $this->getPhpObjectsByIdentifier($splitedId, $objects);
 
         $nameOfTable = $splitedId[1];
@@ -273,18 +295,16 @@ class PhpObjectTableConverter {
         }
 
         $header = $this->getPhpObjectTableHeader($nameOfTable, $objects);
-
-        //var_dump($header);
-
         $body = $this->getPhpObjectTableContent($header, $nameOfTable, $objects);
-
-        //echo "<br><br>";
-        //var_dump($body);
 
         return new UniversalFilterTable($header, $body);
     }
 
+    /**
+     * Return a UniversalTable based on the passed PHP objects, given a UniversalHeader
+     */
     public function getPhpObjectTableWithHeader($splitedId, $objects, $header) {
+
         $objects = $this->getPhpObjectsByIdentifier($splitedId, $objects);
 
         $nameOfTable = $splitedId[1];
