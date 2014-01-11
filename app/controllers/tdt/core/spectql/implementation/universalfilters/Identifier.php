@@ -26,13 +26,16 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  */
 class Identifier extends UniversalFilterNode {
 
-    private $value; //type:String
+    private $value;
 
     public function __construct($value) {
+
         parent::__construct("IDENTIFIER");
 
-        //Trim the value, identifiers itself will always be replaced by underscores in case of whitespaces
-        $this->value = trim($value);
+        if(!is_object($value) && !is_array($value)){
+            //Trim the value, identifiers itself will always be replaced by underscores in case of whitespaces
+            $this->value = trim($value);
+        }
     }
 
     public function getIdentifierString() {

@@ -106,7 +106,7 @@ class PhpObjectTableConverter {
 
                 foreach ($root as $i => $property) {
 
-                    if (is_array($property)) {//this row is an array = need conversion
+                    if (is_array($property)) {
 
                         $obj = new \stdClass();
 
@@ -132,15 +132,17 @@ class PhpObjectTableConverter {
 
                     array_push($rootarr, array("object" => $property, "parentindex" => $parentitemindex));
                 }
+
                 return $rootarr;
             } else {
-                //should be in the parent table, as a field
+
                 return array();
             }
         }
     }
 
     private function getPhpObjectsByIdentifier($splitedId, $resource) {
+
         $phpObj = $this->findTablePhpArray($resource, isset($splitedId[3]) ? $splitedId[3] : null, -1);
 
         return $phpObj;
@@ -205,6 +207,7 @@ class PhpObjectTableConverter {
         $subObjectIndex = array();
 
         $idMap = array();
+
         for ($index = 0; $index < $header->getColumnCount(); $index++) {
 
             $columnId = $header->getColumnIdByIndex($index);

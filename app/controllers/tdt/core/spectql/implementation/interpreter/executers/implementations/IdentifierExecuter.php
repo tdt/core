@@ -45,7 +45,10 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
             $this->isNewTable = false;
 
             $this->isColumn = true;
-            $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());
+
+            $column_ids = explode('.', $this->filter->getIdentifierString());
+
+            $this->header = $this->getColumnDataHeader($topenv, $column_ids[0]);
             if ($this->header === null) {
                 \App::abort(500, "The identifier " . $this->filter->getIdentifierString() . " cannot be found - it's not a column.");
             }
@@ -71,31 +74,37 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
     public function evaluateAsExpression() {
+
         if ($this->isNewTable) {
+
             $tableName = $this->filter->getIdentifierString();
             return $this->interpreter->getTableManager()->getTableContent($tableName, $this->header);
         } else {
+
             if (!$this->isColumn) {
+
                 $newRow = new UniversalFilterTableContentRow();
                 $value = $this->topenv->getSingleValue($this->singlevalueindex)->copyValueTo($newRow, $this->singlevaluecolumnheader->getId(), $this->header->getColumnId());
+
                 $content = new UniversalFilterTableContent();
                 $content->addRow($newRow);
+
                 return $content;
             } else {
+
+                $column_ids = explode('.', $this->filter->getIdentifierString());
                 return $this->getColumnDataContent($this->topenv->getTable(), $this->filter->getIdentifierString(), $this->header);
             }
         }
     }
 
-    /*
-     * TOOL METHODS:
-     */
-
     /**
      * Get a single column from the data (header)
+     *
      * @return UniversalFilterTableHeader
      */
     private function getColumnDataHeader(Environment $topenv, $fullid) {
+
         if ($fullid == "*") {
             //special case => current table
             return $topenv->getTable()->getHeader()->cloneHeader();
@@ -105,6 +114,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
         $columnid = $originalheader->getColumnIdByName($fullid);
 
         if ($columnid === null) {
+
             $this->isColumn = false; //it's a single value...
 
             $foundheader = null;
@@ -140,16 +150,16 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
 
     /**
      * Get a column from the data (content)
+     *
      * @param UniversalFilterTableHeader $header
      * @return UniversalFilterTableContent
      */
-    private function getColumnDataContent($table, $fullid, $header) {//get a single column from the table
+    private function getColumnDataContent($table, $fullid, $header) {
+
         $content = $table->getContent();
 
         if ($fullid == "*") {
-            //special case
-            //have to copy because of ->tryDestroyTable on this one would otherwise also affect the full table...
-            //TODO: while we are copying anyway, we could also change the id's!!! (only matters in one case: select *, * from ...)
+
             $contentCopy = new UniversalFilterTableContent();
 
             for ($rowindex = 0; $rowindex < $content->getRowCount(); $rowindex++) {
@@ -160,19 +170,39 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
         }
 
         $oldheader = $table->getHeader();
-        $oldcolumnid = $oldheader->getColumnIdByName($fullid);
 
+        $column_ids = explode('.', $fullid);
+
+        $oldcolumnid = $oldheader->getColumnIdByName($column_ids[0]);
         $newcolumnid = $header->getColumnId();
-
-        //copyFields
-        //$oldcolumnid -> $newcolumnid
 
         $newContent = new UniversalFilterTableContent();
         $rows = array();
+
         for ($index = 0; $index < $content->getRowCount(); $index++) {
+
             $oldRow = $content->getRow($index);
+
+            // If a hierarhical column identifier is passed, identified with '.'
+            // process the value of the column with the rest of the identifiers.
+            // Note that each column is identified by the high level name e.g. "top"
+            // If top.person.name is passed, then we get the value from the cell identified with "top"
+            // and process the value with person.name, assuming that the path exists in the value of the cell.
             $newRow = new UniversalFilterTableContentRow();
-            $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
+
+            if(count($column_ids) > 1){
+
+                // Remove the column identifier from the total identifier for it already identifies the entire object
+                // now we just need the lower properties of the value.
+                $copy_ids = $column_ids;
+                array_shift($copy_ids);
+
+                $old_value = $oldRow->getCellValue($oldcolumnid);
+                $data = $this->applyFilter($old_value, $copy_ids);
+                $newRow->defineValue($newcolumnid, $data);
+            }else{
+                $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
+            }
 
             $newContent->addRow($newRow);
         }
@@ -181,12 +211,73 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
     public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+
         if (!$this->isNewTable) {
             return array();
         } else {
             $sourceId = $this->interpreter->getTableManager()->getSourceIdFromIdentifier($this->filter->getIdentifierString());
             return array(new SourceUsageData($this->filter, $parentNode, $parentIndex, $sourceId));
         }
+    }
+
+    /**
+     * Apply path filtering on the data
+     * @return mixed filtered object
+     */
+    private static function applyFilter($data, $path){
+
+        foreach($path as $property){
+
+            if(is_object($data) && $key = self::propertyExists($data, $property)){
+                $data = $data->$key;
+            }elseif(is_array($data)){
+
+                if($key = self::keyExists($data, $property)){
+                    $data = $data[$key];
+                }else if(is_numeric($property)){
+                    for($i = 0; $i <= $property; $i++){
+                        $result = array_shift($data);
+                    }
+
+                    $data = $result;
+                }else{
+                    return null;
+                }
+            }else{
+                return null;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Case insensitive search for a property of an object
+     */
+    private static function propertyExists($object, $property){
+
+        $vars = get_object_vars($object);
+        foreach($vars as $key => $value) {
+            if(strtolower($property) == strtolower($key)) {
+                return $key;
+                break;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Case insensitive search for a key in an array
+     */
+    private static function keyExists($array, $property){
+
+        foreach($array as $key => $value) {
+            if(strtolower($property) == strtolower($key)) {
+                return $key;
+                break;
+            }
+        }
+        return false;
     }
 
 }

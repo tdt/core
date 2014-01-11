@@ -13,7 +13,6 @@ namespace tdt\core\spectql\implementation\data;
 
 use tdt\exceptions\TDTException;
 
-
 class UniversalFilterTableHeader {
 
     private $columns; //array of UniversalFilterTableHeaderColumnInfo
@@ -21,6 +20,7 @@ class UniversalFilterTableHeader {
     private $isSingleColumnByConstruction;
 
     public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction) {
+
         $this->columns = $columns;
         $this->isSingleRowByConstruction = $isSingleRowByConstruction;
         $this->isSingleColumnByConstruction = $isSingleColumnByConstruction;
@@ -42,6 +42,7 @@ class UniversalFilterTableHeader {
      * @return string
      */
     public function getColumnIdByName($columnName) {
+
         $columnNameParts = explode(".", $columnName);
         $found = false;
         $id = null;

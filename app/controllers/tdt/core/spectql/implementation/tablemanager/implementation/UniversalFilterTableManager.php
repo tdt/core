@@ -30,10 +30,6 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private $requestedTableHeaders = array();
     private $requestedTables = array();
 
-    public function __construct() {
-
-    }
-
     /**
      * Gets the resource as a php object
      * @param type $package
@@ -160,8 +156,10 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
             $headerColumns = array();
             foreach ($columns as $column) {
+
                 $nameParts = array(); //explode(".",$globalTableIdentifier);
                 array_push($nameParts, $column["column_name"]);
+
                 $headerColumn = new UniversalFilterTableHeaderColumnInfo($nameParts);
                 array_push($headerColumns, $headerColumn);
             }
@@ -173,6 +171,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
             $this->requestedTableHeaders[$globalTableIdentifier] = $tableHeader;
             return $tableHeader;
+
         } elseif (isset($this->requestedTableHeaders[$globalTableIdentifier])) {
             return $this->requestedTableHeaders[$globalTableIdentifier];
         }

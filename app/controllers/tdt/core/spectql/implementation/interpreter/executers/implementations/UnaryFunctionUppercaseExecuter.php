@@ -3,14 +3,14 @@
 namespace tdt\core\spectql\implementation\interpreter\executers\implementations;
 
 use tdt\core\spectql\implementation\interpreter\executers\implementations\UnaryFunctionExecuter;
-use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTimeTools;
-use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
-/* upercase */
+/* Uppercase */
 class UnaryFunctionUppercaseExecuter extends UnaryFunctionExecuter {
+
     public function getName($name) {
         return "uppercase_" . $name;
     }
+
     public function doUnaryFunction($value) {
         if ($value === null)
             return null;

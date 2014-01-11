@@ -132,11 +132,6 @@ class UniversalInterpreter implements IInterpreterControl {
 
     public function findExecuterFor(UniversalFilterNode $filternode) {
 
-        /*
-         * First look for the class in the default namespace
-         * This is because some classes are defined in php files where loose functions are also placed
-         * and no namespace has been declared.
-         */
         $classname = "\\" . $this->executers[$filternode->getType()];
         if (class_exists($classname)) {
             return new $classname();
@@ -206,18 +201,15 @@ class UniversalInterpreter implements IInterpreterControl {
             $filterParentNode->setSource($newQuery, $filterParentSourceIndex);
         }
 
-
         $tree = $rootDummyFilter->getSource();
-
 
         //EXECUTE (for real this time)
         $executer = $this->findExecuterFor($tree);
         $executer->initExpression($tree, $emptyEnv, $this, false);
-        get_class($executer);
+        //get_class($executer);
 
         //get the table, in two steps
         $header = $executer->getExpressionHeader();
-
         $content = $executer->evaluateAsExpression();
 
         // externallycal. doesn't do anything on clean up so it doesn't need it

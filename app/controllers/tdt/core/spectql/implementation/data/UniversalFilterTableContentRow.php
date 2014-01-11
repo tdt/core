@@ -28,9 +28,11 @@ class UniversalFilterTableContentRow {
      * @param ? $value What value?
      */
     public function defineValue($idOfField, $value) {
+
         if ($idOfField == "") {
             \App::abort(500, "Not a valid fieldname...");
         }
+
         $this->data->$idOfField = array("value" => $value);
     }
 
@@ -42,10 +44,11 @@ class UniversalFilterTableContentRow {
      * @param ? $value
      */
     public function defineValueId($idOfField, $value) {
-        if ($idOfField == "") {
 
+        if ($idOfField == "") {
             \App::abort(500, "Not a valid fieldname...");
         }
+
         $this->data->$idOfField = array("id" => $value);
     }
 
@@ -56,33 +59,36 @@ class UniversalFilterTableContentRow {
      * @param UniversalTableContent $groupedColumnValues where each row has only one field "data" and is not grouped itself
      */
     public function defineGroupedValue($idOfField, $groupedColumnValues) {
-        if ($idOfField == "") {
 
+        if ($idOfField == "") {
             \App::abort(500, "Not a valid fieldname...");
         }
+
         $this->data->$idOfField = array("grouped" => $groupedColumnValues);
     }
 
     /**
-     * returns the value of a field in the table
+     * Returns the value of a field in the table
      *
-     * Note: the value can be null. BUT you have to explicitlly allow null-values.
-     * (To be sure you know you can get back null)
+     * Note: the value can be null. BUT you have to explicitally allow null-values
      */
     public function getCellValue($idOfField, $allowNull = false) {
+
         if (isset($this->data->$idOfField)) {
+
             $obj = $this->data->$idOfField;
+
             if (isset($obj["value"])) {
-                //var_dump($obj["value"]);
+
                 return $obj["value"];
             } else {
+
                 if (isset($obj["id"])) {
                     return $obj["id"];
                 } else {
                     if (isset($obj["grouped"])) {
+
                         debug_print_backtrace();
-
-
                         \App::abort(500, "Error: Can not execute this operation on a grouped field!");
                     } else {
                         // The value or id is null

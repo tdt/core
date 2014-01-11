@@ -27,6 +27,7 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     private $header1;
 
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+
         $this->filter = $filter;
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource());
@@ -55,6 +56,7 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
     public function evaluateAsExpression() {
+
         $table1content = $this->executer1->evaluateAsExpression();
 
         $idA = $this->header1->getColumnId();
@@ -64,14 +66,15 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
 
         $size = $table1content->getRowCount();
 
-        //loop through all rows and evaluate the expression
+        // Loop through all rows and evaluate the expression
         for ($i = 0; $i < $size; $i++) {
+
             $row = new UniversalFilterTableContentRow();
 
-            //get the value for index i
+            // Get the value for index i
             $valueA = $table1content->getValue($idA, $i, true);
 
-            //evaluate
+            // Evaluate
             $value = $this->doUnaryFunction($valueA);
 
             $row->defineValue($finalid, $value);
@@ -113,5 +116,3 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
 }
-
-?>

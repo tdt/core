@@ -26,5 +26,3 @@ interface IInterpreterControl {
      */
     public function getTableManager();
 }
-
-?>

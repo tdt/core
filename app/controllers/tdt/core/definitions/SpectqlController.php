@@ -125,7 +125,8 @@ class SPECTQLController extends \Controller {
 
         $rootname = "spectqlquery";
 
-        // Get REST parameters
+
+        // Get the required properties for the Data object
         $definition_uri = preg_match('/(.*?)\{.*/', $uri, $matches);
         $definition_uri = $matches[1];
         $definition = DefinitionController::get($definition_uri);
@@ -153,7 +154,6 @@ class SPECTQLController extends \Controller {
 
         // Return the formatted response with content negotiation
         return ContentNegotiator::getResponse($data, 'json');
-
     }
 
     /**

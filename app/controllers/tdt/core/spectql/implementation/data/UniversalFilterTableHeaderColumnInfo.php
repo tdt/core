@@ -11,8 +11,6 @@
 
 namespace tdt\core\spectql\implementation\data;
 
-
-
 class UniversalFilterTableHeaderColumnInfo {
 
     private $completeColumnNameParts; //array(package, package, resource, subtable, ...)
@@ -23,6 +21,7 @@ class UniversalFilterTableHeaderColumnInfo {
     private $linkedTableKey;
 
     public function __construct(array $completeColumnName, $isLinked = false, $linkedTable = null, $linkedTableKey = null, $isGrouped = false) {
+
         $this->completeColumnNameParts = $completeColumnName;
         $this->isLinked = $isLinked;
         $this->linkedTable = $linkedTable;
@@ -90,18 +89,24 @@ class UniversalFilterTableHeaderColumnInfo {
      * @return boolean Do we have a match?
      */
     public static function algorithmMatchName(array $fullNameParts, array $nameParts) {
+
         $completeCount = count($fullNameParts);
+
         $partCount = count($nameParts);
+
         if ($partCount > $completeCount) {
             return false;
         }
+
         for ($index = 0; $index < $partCount; $index++) {
+
             $completePart = $fullNameParts[$completeCount - 1 - $index];
             $partialPart = $nameParts[$partCount - 1 - $index];
             if ($completePart != $partialPart) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -170,5 +175,3 @@ class UniversalFilterTableHeaderColumnInfo {
     }
 
 }
-
-?>

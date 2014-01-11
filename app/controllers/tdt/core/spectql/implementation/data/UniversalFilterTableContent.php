@@ -92,7 +92,8 @@ class UniversalFilterTableContent {
      * @param int $index
      */
     public function getValue($name, $index, $allowNull = false) {
-        return $this->getRow($index)->getCellValue($name, $allowNull);
+        $row = $this->getRow($index);
+        return $row->getCellValue($name, $allowNull);
     }
 
     /**

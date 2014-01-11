@@ -77,5 +77,3 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
 }
-
-?>
