@@ -72,15 +72,15 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $definition = DefinitionController::get($packageresourcestring);
 
-        // Retrieve the REST parameters of the identifier
-        $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $packageresourcestring);
-        $rest_parameters = ltrim($rest_parameters, '/');
-        $rest_parameters = explode('/', $rest_parameters);
-
         // Tell the user the resource could not be found when no definition is fetched
         if(empty($definition)){
             \App::abort(404, "The resource could not be found.");
         }
+
+        // Retrieve the REST parameters of the identifier
+        $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $packageresourcestring);
+        $rest_parameters = ltrim($rest_parameters, '/');
+        $rest_parameters = explode('/', $rest_parameters);
 
         return array($definition->collection_uri, $definition->resource_name, $rest_parameters, $hierarchicalsubparts);
     }

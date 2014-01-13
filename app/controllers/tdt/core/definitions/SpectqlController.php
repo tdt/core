@@ -43,6 +43,7 @@ class SPECTQLController extends \Controller {
         $method = \Request::getMethod();
 
         switch($method){
+
             case "GET":
 
                 $uri = ltrim($uri, '/');
@@ -59,27 +60,6 @@ class SPECTQLController extends \Controller {
      * Perform the SPECTQL query.
      */
     private static function performQuery($uri){
-
-        // Failsafe, for when datablocks don't get deleted by the BigDataBlockManager.
-        // TODO remove this failsafe, cut the bigdatablockmanager loose from the functionality
-        // If a file is too big to handle, return a 500 error.
-        $tmpdir = SPECTQLController::$TMP_DIR . "*";
-
-        $query = "/";
-
-        // Split off the format of the SPECTQL query
-        $format = "";
-
-        if (preg_match("/:[a-zA-Z]+/", $query, $matches)) {
-            $format = ltrim($matches[0], ":");
-        }
-
-        if ($format == "") {
-
-            // Get the current URL
-            $pageURL = \Request::path();
-            $pageURL = rtrim($pageURL, "/");
-        }
 
         // Fetch the original uri, which is a hassle since our spectql format allows for a ? - character
         // identify the start of a filter, the Request class sees this is the start of query string parameters
@@ -99,14 +79,20 @@ class SPECTQLController extends \Controller {
         }
 
         $query_uri = \Request::path() . $filter;
-
         $query_uri = str_replace('spectql', '', $query_uri);
 
+        // Fetch the format of the query
+        if (preg_match("/:[a-zA-Z]+/", $query_uri, $matches)) {
+            $format = ltrim($matches[0], ":");
+        }
+
+        // Initialize the parser with our query string
         $parser = new SPECTQLParser($query_uri);
 
         $context = array(); // array of context variables
 
         $universalquery = $parser->interpret($context);
+
 
         // Display the query tree, uncomment in case of debugging
 
@@ -153,7 +139,7 @@ class SPECTQLController extends \Controller {
         $data->source_definition = $source_definition;
 
         // Return the formatted response with content negotiation
-        return ContentNegotiator::getResponse($data, 'json');
+        return ContentNegotiator::getResponse($data, $format);
     }
 
     /**
