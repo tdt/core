@@ -43,7 +43,8 @@ class UniversalFilterTableHeaderColumnInfo {
      * @return string
      */
     public function getName() {
-        return $this->completeColumnNameParts[count($this->completeColumnNameParts) - 1]; //last
+        return $this->getFullName();
+        //return $this->completeColumnNameParts[count($this->completeColumnNameParts) - 1]; //last
     }
 
     public function getFullName($separator = ".") {
@@ -59,10 +60,18 @@ class UniversalFilterTableHeaderColumnInfo {
     }
 
     /**
+     * Set the nameparts of the column
+     */
+    public function setNameParts($parts = array()){
+        $this->completeColumnNameParts = $parts;
+    }
+
+    /**
      * renames this column
      * @param type $newColumName
      */
     public function aliasColumn($newColumName) {
+
         if (strpos($newColumName, ".") != -1) {
             $oldName = array_pop($this->completeColumnNameParts);
             $this->completeColumnNameParts[] = $newColumName;

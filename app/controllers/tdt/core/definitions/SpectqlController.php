@@ -91,7 +91,6 @@ class SPECTQLController extends \Controller {
 
 
         // Display the query tree, uncomment in case of debugging
-
         /*$treePrinter = new TreePrinter();
         $tree = $treePrinter->treeToString($universalquery);
         echo "<pre>";
@@ -101,9 +100,16 @@ class SPECTQLController extends \Controller {
         $interpreter = new UniversalInterpreter(new UniversalFilterTableManager());
         $result = $interpreter->interpret($universalquery);
 
+        // Convert the resulting table object to a php object
         $converter = new TableToPhpObjectConverter();
-
         $object = $converter->getPhpObjectForTable($result);
+
+        // Perform a clean-up, every property that is empty can be thrown away
+        foreach($object as $index => $property){
+            if(self::isArrayNull($property)){
+                unset($object[$index]);
+            }
+        }
 
         $rootname = "spectqlquery";
 
@@ -144,10 +150,9 @@ class SPECTQLController extends \Controller {
      */
     private static function isArrayNull($array){
 
-        foreach($array as $arr){
-            foreach($arr as $key => $value){
-                if(!is_null($value))
-                    return false;
+        foreach($array as $entry){
+            if(!empty($entry)){
+                return false;
             }
         }
 

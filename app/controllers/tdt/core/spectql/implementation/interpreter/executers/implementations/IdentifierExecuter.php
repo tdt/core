@@ -42,13 +42,15 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
         $this->topenv = $topenv;
 
         if ($preferColumn) {
+
             $this->isNewTable = false;
 
             $this->isColumn = true;
 
             $column_ids = explode('.', $this->filter->getIdentifierString());
 
-            $this->header = $this->getColumnDataHeader($topenv, $column_ids[0]);
+            $this->header = $this->getColumnDataHeader($topenv, $this->filter->getIdentifierString());//$column_ids[0]);
+
             if ($this->header === null) {
                 \App::abort(500, "The identifier " . $this->filter->getIdentifierString() . " cannot be found - it's not a column.");
             }
@@ -58,9 +60,11 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 $this->header = new UniversalFilterTableHeader(array($this->singlevaluecolumnheader->cloneColumnNewId()), true, true);
             }
         } else {
+
             $this->isNewTable = true;
             // load new table
             $tableName = $filter->getIdentifierString();
+
             try {
                 $this->header = $interpreter->getTableManager()->getTableHeader($tableName);
             } catch (Exception $e) {
@@ -92,7 +96,6 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 return $content;
             } else {
 
-                $column_ids = explode('.', $this->filter->getIdentifierString());
                 return $this->getColumnDataContent($this->topenv->getTable(), $this->filter->getIdentifierString(), $this->header);
             }
         }
@@ -105,42 +108,47 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
      */
     private function getColumnDataHeader(Environment $topenv, $fullid) {
 
+        // There's 1 special identifier of a column, * = everything
         if ($fullid == "*") {
-            //special case => current table
             return $topenv->getTable()->getHeader()->cloneHeader();
         }
 
+        // Retrieve the data
+        $id_parts = explode('.', $fullid);
         $originalheader = $topenv->getTable()->getHeader();
-        $columnid = $originalheader->getColumnIdByName($fullid);
+        $columnid = $originalheader->getColumnIdByName($id_parts[0]);
 
-        if ($columnid === null) {
+        if (empty($columnid)) {
 
-            $this->isColumn = false; //it's a single value...
+            $this->isColumn = false;
 
             $foundheader = null;
 
             for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
+
                 $columninfo = $topenv->getSingleValueHeader($index);
 
                 if ($columninfo->matchName(explode(".", $fullid))) {
                     if ($foundheader != null) {
                         throw new Exception("Ambiguous identifier: " . $fullid . ". Please use aliases to remove the ambiguity."); //can only occured in nested queries or joins
                     }
+
                     $this->singlevalueindex = $index;
                     $foundheader = new UniversalFilterTableHeader(array($columninfo), true, true);
                 }
             }
             return $foundheader; //if null: identifier not found
         } else {
-            //check single values for another match (to give an exception)
+
+            // Check single values for another match (to give an exception)
             for ($index = 0; $index < $topenv->getSingleValueCount(); $index++) {
                 if ($topenv->getSingleValueHeader($index)->matchName(explode(".", $fullid))) {
-                    throw new Exception("Ambiguos identifier: " . $fullid . ". Please use aliases to remove the ambiguity."); //can only occured in nested queries or joins
+                    throw new Exception("Ambiguous identifier: " . $fullid . ". Please use aliases to remove the ambiguity."); //can only occured in nested queries or joins
                 }
             }
 
-            //return
             $newHeaderColumn = $originalheader->getColumnInformationById($columnid)->cloneColumnNewId();
+            $newHeaderColumn->setNameParts($id_parts);
 
             $columnHeader = new UniversalFilterTableHeader(array($newHeaderColumn), $originalheader->isSingleRowByConstruction(), true);
 
@@ -200,6 +208,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
                 $old_value = $oldRow->getCellValue($oldcolumnid);
                 $data = $this->applyFilter($old_value, $copy_ids);
                 $newRow->defineValue($newcolumnid, $data);
+
             }else{
                 $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
             }

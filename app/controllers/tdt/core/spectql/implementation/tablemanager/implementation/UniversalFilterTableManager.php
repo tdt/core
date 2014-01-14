@@ -56,10 +56,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private function splitIdentifier($globalTableIdentifier) {
 
         // Fetch the parts of the identifier, split them by using the hierarchical separator as the delimiter
-        // TODO analyse if this is actually used
         $identifierparts = explode(UniversalFilterTableManager::$HIERARCHICALDATESEPARATOR, $globalTableIdentifier);
 
-        // TODO isn't used?
         $hierarchicalsubparts = array();
         if (isset($identifierparts[1]) && strlen($identifierparts[1]) > 0) {
             $hierarchicalsubparts = explode(".", $identifierparts[1]);

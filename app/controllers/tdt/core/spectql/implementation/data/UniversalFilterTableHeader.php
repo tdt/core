@@ -46,17 +46,21 @@ class UniversalFilterTableHeader {
         $columnNameParts = explode(".", $columnName);
         $found = false;
         $id = null;
+
         foreach ($this->columns as $column) {
             if ($column->matchName($columnNameParts)) {
+
                 if (!$found) {
+
                     $found = true;
                     $id = $column->getId();
                 } else {
-
-                    \App::abort(500, "The identifier  $columnName is not unique.");
+                    $id = $column->getId();
+                    //\App::abort(500, "The identifier $columnName is not unique.");
                 }
             }
         }
+
         return $id;
     }
 
@@ -71,16 +75,19 @@ class UniversalFilterTableHeader {
      * Gets the unique columnName for a given id
      */
     public function getColumnUniqueNameById($id) {
+
         $info = $this->getColumnInformationById($id);
         $name = $info->getName();
+
         try {
             $this->getColumnIdByName($name);
         } catch (Exception $e) {
+
             $name = $info->getFullName();
+
             try {
                 $this->getColumnIdByName($name);
             } catch (Exception $e) {
-
                 $name = $name . " (" . $info->getId() . ")";
             }
         }
@@ -95,14 +102,14 @@ class UniversalFilterTableHeader {
     }
 
     /**
-     * get a certain column id
+     * Get a certain column id
      */
     public function getColumnIdByIndex($index) {
         return $this->columns[$index]->getId();
     }
 
     /**
-     * get columnInformation
+     * Get columnInformation
      * @return UniversalFilterTableHeaderColumnInfo
      */
     public function getColumnInformationById($id) {
@@ -115,7 +122,7 @@ class UniversalFilterTableHeader {
     }
 
     /**
-     * get columnInformation
+     * Get columnInformation
      * @return UniversalFilterTableHeaderColumnInfo
      */
     public function getColumnInformationByIndex($index) {

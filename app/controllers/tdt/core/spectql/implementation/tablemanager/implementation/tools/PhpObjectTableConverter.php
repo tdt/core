@@ -154,6 +154,7 @@ class PhpObjectTableConverter {
     }
 
     private function getPhpObjectTableHeader($nameOfTable, $objects) {
+
         $columns = array();
         $columnNames = array();
 
@@ -166,8 +167,10 @@ class PhpObjectTableConverter {
                 $columnName = $this->parseColumnName($key);
 
                 if (!in_array($columnName, $columnNames)) {
+
                     //new field: add header
                     array_push($columnNames, $columnName);
+
                     $isLinked = false;
                     $linkedTable = null;
                     $linkedTableKey = null;

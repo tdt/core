@@ -37,6 +37,7 @@ abstract class AbstractUniversalFilterNodeExecuter {
         $expectedheadernames = array();
         $header = $this->getExpressionHeader();
         for ($index = 0; $index < $header->getColumnCount(); $index++) {
+
             $columnId = $header->getColumnIdByIndex($index);
             $columnInformation = $header->getColumnInformationById($columnId);
             array_push($expectedheadernames, $columnInformation->getFullName("_"));

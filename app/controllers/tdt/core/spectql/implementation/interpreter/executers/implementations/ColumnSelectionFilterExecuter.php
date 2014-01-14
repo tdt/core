@@ -32,9 +32,10 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     private $giveToColumnsEnvironment;
 
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+
         $this->filter = $filter;
 
-//get source environment header
+        //get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer = $executer;
 
@@ -42,37 +43,33 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         $this->childEnvironmentData = $this->initChildEnvironment($filter, $topenv, $interpreter, $executer, false);
         $this->giveToColumnsEnvironment = $this->getChildEnvironment($this->childEnvironmentData);
 
-
-//
-// BUILD OWN HEADER
-//
-        //get the columns to filter
+        // Get the columns to filter
         $this->columnInterpreters = $filter->getColumnData();
 
-//header information
+        //header information
         $this->returnsSingleRow = true;
         $this->returnsSingleColumn = true;
         $this->columnExecuters = array();
 
-// the columns for the returned table:
+        // the columns for the returned table:
         $columns = array();
 
 
-//loop all column-interpreters
+        //loop all column-interpreters
         foreach ($this->columnInterpreters as $column) {
-//this column
+            //this column
             $filterColumn = $column->getColumn();
-//find something to evaluate it
+            //find something to evaluate it
             $exprexec = $interpreter->findExecuterFor($filterColumn);
 
-//save the executer
+            //save the executer
             array_push($this->columnExecuters, $exprexec);
 
-//init expression
+            //init expression
             $exprexec->initExpression($filterColumn, $this->giveToColumnsEnvironment, $interpreter, true);
             $header = $exprexec->getExpressionHeader();
 
-//header info
+            //header info
             if (!$header->isSingleRowByConstruction()) {
                 $this->returnsSingleRow = false;
             }
@@ -80,31 +77,32 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 $this->returnsSingleColumn = false;
             }
 
-//the name for the column
+            //the name for the column
             $columnAlias = $column->getAlias();
 
-//all columns
+            //all columns
             for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
-//column information
+                //column information
                 $columnId = $header->getColumnIdByIndex($resultColumnIndex);
                 $columnInfo = $header->getColumnInformationById($columnId)->cloneColumnInfo();
 
-//set column alias
+
+                //set column alias
                 if ($columnAlias != null) {
                     if ($header->isSingleColumnByConstruction()) {
                         $columnInfo->aliasColumn($columnAlias);
                     } else {
-//crashes if more than one column given...
-                        throw new Exception("Column-alias not supported for *!");
+                        //crashes if more than one column given...
+                        throw new \Exception("Column-alias not supported for * - token");
                     }
                 }
 
-//add the new column
+                //add the new column
                 array_push($columns, $columnInfo);
             }
         }
 
-//create the new header
+            //create the new header
         $this->header = new UniversalFilterTableHeader($columns, $this->returnsSingleRow, count($this->columnInterpreters) == 1 && $this->returnsSingleColumn);
     }
 
@@ -208,5 +206,3 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     }
 
 }
-
-?>
