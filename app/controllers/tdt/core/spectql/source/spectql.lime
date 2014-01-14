@@ -141,20 +141,20 @@ filterlist = filter { $$ = $1; }
 | '(' filterlist/list ')' { $$ = $list;}
 .
 
-filter = name/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
-| name/a '<' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
-| name/a '>' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
-| name/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
-| name/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
-| name/a EQ string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
-| name/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); }
-| name/a NE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
-| name/a NE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
-| name/a GE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| name/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| name/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| name/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| name/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (ternary function)*/ }
+filter = filterargument/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a '<' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a '>' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a EQ string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); }
+| filterargument/a NE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a NE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a GE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (ternary function)*/ }
 .
 
 
@@ -165,7 +165,7 @@ selector = selectargument/arg { $$ = $1; }
                                     $$ = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); }
 .
 
-selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectionFilterColumn($arg,null)), "sorts" => array(), "identifiers" => array(new Identifier($arg))); }
+selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),null)), "sorts" => array(), "identifiers" => array(new Identifier($arg))); }
 | argument/arg order/order {
 
 $$ =  array( "filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),null)),
@@ -183,16 +183,17 @@ order = '+' { /* SORT BY ascending */ $$ = SortFieldsFilterColumn::$SORTORDER_AS
 | '-' { /* SORT BY descending  */ $$ = SortFieldsFilterColumn::$SORTORDER_DESCENDING; }
 .
 
-argument = name/name { $$ = $name;/*$$ = new Identifier($name);*/ }
+argument = name { $$ = $1;}
 | argument '.' name  { $$ = $1 . "." . $3; }
 | argument '.' num  { $$ = $1 . "." . $3; }
-| link
 | '*' { $$ = new Identifier('*'); }
 | function { $$ = $1;}
 | num {$$ = new Constant($1);}
 .
 
-link = name LN resourceid '.' name { /* joined resource */ }
+filterargument = name { $$ = $1;}
+| filterargument '.' name  { $$ = $1 . "." . $3; }
+| filterargument '.' num  { $$ = $1 . "." . $3; }
 .
 
 format = name { /* do nothing, format isn't used in the query tree*/ }

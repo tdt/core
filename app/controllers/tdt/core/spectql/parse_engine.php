@@ -219,6 +219,7 @@ class parse_engine {
                 // The rest of the algorithm will make it happen.
             }
         }
+
         throw new parse_premature_eof();
     }
 

@@ -65,21 +65,17 @@ class SPECTQLController extends \Controller {
         // identify the start of a filter, the Request class sees this is the start of query string parameters
         // and fails to parse them as they only contain keys, but never values ( our spectql filter syntax is nowhere near
         // the same as a query string parameter sequence). Therefore, we need to build our spectql uri manually.
+        // Furthermore, after the ? - character dots are replaced with underscores by PHP itself. http://ca.php.net/variables.external
+        // This is another reason why we build the query string to be passed to the parser ourselves.
         $filter = "";
-        $uri_query_string = \Request::query();
+        $original_uri = \Request::fullUrl();
+        $root = \Request::root();
 
-        foreach($uri_query_string as $key => $val){
-            $filter .= $key . '&';
+        if(preg_match("%$root\/spectql\/(.*)%", $original_uri, $matches)){
+            $query_uri = $matches[1];
         }
 
-        $filter = rtrim($filter, '&');
-
-        if(!empty($uri_query_string)){
-            $filter = '?' . $filter;
-        }
-
-        $query_uri = \Request::path() . $filter;
-        $query_uri = str_replace('spectql', '', $query_uri);
+        $format = "";
 
         // Fetch the format of the query
         if (preg_match("/:[a-zA-Z]+/", $query_uri, $matches)) {
@@ -144,9 +140,10 @@ class SPECTQLController extends \Controller {
     }
 
     /**
-     * Check if the object is actually null
+     * Check if the property is actually null
      */
     private static function isArrayNull($array){
+
         foreach($array as $arr){
             foreach($arr as $key => $value){
                 if(!is_null($value))
