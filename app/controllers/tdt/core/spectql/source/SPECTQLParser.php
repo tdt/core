@@ -72,22 +72,19 @@ class SPECTQLParser {
     /*
      * Check if the token is a keyword
      */
-
     private function is_keyword($token) {
         return in_array(strtoupper($token), SPECTQLParser::$keywords);
     }
 
+    /**
+     * Interpret the query by parsing the tokens
+     */
     public function interpret() {
+
         $querystring = $this->querystring;
         $tokenizer = new SPECTQLTokenizer($querystring, array_keys(self::$symbols));
         $this->parser = new parse_engine(new spectql());
 
-        if (!strlen($querystring)) {
-            //give an error, but in javascript, redirect to our index.html
-            header("HTTP1.1 491 No parse string");
-            echo "<script>window.location = \"index.html\";</script>";
-            exit(0);
-        }
         try {
             while ($tokenizer->hasNext()) {
                 $t = $tokenizer->pop();
@@ -108,9 +105,15 @@ class SPECTQLParser {
             }
             return $this->parser->eat_eof();
 
-        } catch (Exception $e) {
-
-            \App::abort(500, "Something went wrong while parsing the query: $e->getMessage()");
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            \App::abort(500, "Something went wrong while parsing the query: $message");
+        } catch(parse_error $e){
+            $message = $e->getMessage();
+            \App::abort(500, "Something went wrong while parsing the query: $message");
+        }catch(parse_bug $e){
+            $message = $e->getMessage();
+            \App::abort(500, "Something went wrong while parsing the query: $message");
         }
     }
 

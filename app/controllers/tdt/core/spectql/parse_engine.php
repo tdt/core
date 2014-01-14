@@ -20,17 +20,17 @@
 define('LIME_CALL_PROTOCOL', '$tokens, &$result');
 
 abstract class lime_parser {
-    
+
 }
 
-class parse_error extends Exception {
-    
+class parse_error extends \Exception {
+
 }
 
 # If this happens, the input doesn't match the grammar.
 
-class parse_bug extends Exception {
-    
+class parse_bug extends \Exception {
+
 }
 
 # If this happens, I made a mistake.
@@ -278,7 +278,7 @@ class parse_engine {
                         $this->eat($type, $semantic);
                 } else {
                     # If that didn't work, give up:
-                    throw new parse_error("Parse Error: ($type)($semantic) not expected");
+                    throw new parse_error("The token $semantic with type $type was not expected");
                 }
                 break;
 
