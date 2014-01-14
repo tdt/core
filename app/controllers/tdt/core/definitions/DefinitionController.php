@@ -79,8 +79,8 @@ class DefinitionController extends \Controller {
         }
 
         // The resource identifier can only contain whitespaces and alphanumerical characters
-        if(preg_match('/[^a-z0-9 \/]/i', $uri, $matches)){
-            \App::abort(400, "Only alphanumerical characters are allowed as resource identifier parts.");
+        if(preg_match('/[^a-z0-9 \/_]/i', $uri, $matches)){
+            \App::abort(400, "Only alphanumerical characters are allowed as resource identifier parts. Given uri: $uri.");
         }
 
         // Retrieve the collection uri and resource name
