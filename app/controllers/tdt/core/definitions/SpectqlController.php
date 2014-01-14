@@ -128,6 +128,7 @@ class SPECTQLController extends \Controller {
         if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
             $rest_parameters = array();
         }
+
         $data = new Data();
         $data->data = $object;
         $data->rest_parameters = $rest_parameters;

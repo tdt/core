@@ -105,6 +105,7 @@ class DcatController extends \Controller {
 
                 // Create the dataset uri
                 $dataset_uri = $uri . "/" . $definition->collection_uri . "/" . $definition->resource_name;
+                $dataset_uri = str_replace(' ', '%20', $dataset_uri);
 
                 $source_type = $definition->source()->first();
 
