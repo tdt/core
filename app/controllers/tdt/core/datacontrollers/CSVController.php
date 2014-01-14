@@ -57,6 +57,7 @@ class CSVController extends ADataController {
         $pk = null;
 
         foreach($columns as $column){
+
             $aliases[$column->column_name] = $column->column_name_alias;
 
             if(!empty($column->is_pk)){

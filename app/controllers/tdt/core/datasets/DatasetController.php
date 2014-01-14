@@ -28,6 +28,7 @@ class DatasetController extends \Controller {
 
         // Don't allow non-Get requests
         $method = \Request::getMethod();
+
         if($method != 'GET'){
             // Method not supported
             \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
@@ -106,7 +107,6 @@ class DatasetController extends \Controller {
                     $data->data = new \stdClass();
                     $data->data->datasets = array();
                     $data->data->collections = array();
-
 
                     foreach ($resources as $res) {
 
