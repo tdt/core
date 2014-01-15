@@ -67,19 +67,31 @@ class SPECTQLController extends \Controller {
         // the same as a query string parameter sequence). Therefore, we need to build our spectql uri manually.
         // Furthermore, after the ? - character dots are replaced with underscores by PHP itself. http://ca.php.net/variables.external
         // This is another reason why we build the query string to be passed to the parser ourselves.
+
+        // The Request class also seems to have an issue with evaluating a semi-colon in the query string
+        // It puts the semi-colon and what follows next to the first query string parameter, IF there are multiple
+        // query string parameters (lon>5&lon<10), since this isn't really supported by PHP, Request from Symfony tries
+        // apparently a best effort at fixing this.
+
         $filter = "";
+
         $original_uri = \Request::fullUrl();
         $root = \Request::root();
 
+
         if(preg_match("%$root\/spectql\/(.*)%", $original_uri, $matches)){
-            $query_uri = $matches[1];
+            $query_uri = urldecode($matches[1]);
         }
 
         $format = "";
 
         // Fetch the format of the query
-        if (preg_match("/:[a-zA-Z]+/", $query_uri, $matches)) {
-            $format = ltrim($matches[0], ":");
+        if(preg_match("/.*(:[a-zA-Z]+)&?(.*?)/", $query_uri, $matches)){
+            $format = ltrim($matches[1], ":");
+        }
+
+        if(!empty($format)){
+            $query_uri = str_replace(':' . $format, '', $query_uri);
         }
 
         // Initialize the parser with our query string
@@ -88,7 +100,6 @@ class SPECTQLController extends \Controller {
         $context = array(); // array of context variables
 
         $universalquery = $parser->interpret($context);
-
 
         // Display the query tree, uncomment in case of debugging
         /*$treePrinter = new TreePrinter();

@@ -11,6 +11,7 @@ use tdt\core\spectql\implementation\universalfilters\LimitFilter;
 use tdt\core\spectql\implementation\universalfilters\SortFieldsFilter;
 use tdt\core\spectql\implementation\universalfilters\SortFieldsFilterColumn;
 
+
 /*
 
 DON'T EDIT THIS FILE!
@@ -1453,7 +1454,7 @@ function reduce_49_argument_4($tokens, &$result) {
 # (49) argument :=  '*'
 #
 $result = reset($tokens);
- $result = new Identifier('*');
+ $result = '*';
 }
 
 function reduce_50_argument_5($tokens, &$result) {

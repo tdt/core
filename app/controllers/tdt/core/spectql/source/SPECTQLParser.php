@@ -52,21 +52,18 @@ class SPECTQLParser {
         "'" => "SQ"
     );
 
-    /**
-     * An $expression is a string containing all information after a /
-     * For instance: http://datatank.demo.ibbt.be/spectql/Belgium{Zonenr,count(Zonenaam), avg(PostNr)}
-     */
     public function __construct($querystring) {
+
         // url decode
         // http://php.net/manual/en/function.urldecode.php
         // we use a + sign to use order functionality, but decode will translate
         // a + to a whitespace, so lets first translate the + sign to it's urlencoding (%2B)
         $querystring = str_replace('+', '%2B', $querystring);
+        $querystring = str_replace('%26', '&', $querystring);
 
         $this->querystring = ltrim(urldecode($querystring), "/");
     }
 
-    // TODO add this to the symbols array
     private static $keywords = array("LIMIT");
 
     /*
@@ -99,7 +96,6 @@ class SPECTQLParser {
                 } else if ($this->is_keyword($t)) {
                     $this->parser->eat(strtoupper($t), null);
                 } else {
-                    //echo "$t is a symbol: $t is translated into " . self::$symbols[$t] . " ||| ";
                     $this->parser->eat(self::$symbols[$t], null);
                 }
             }

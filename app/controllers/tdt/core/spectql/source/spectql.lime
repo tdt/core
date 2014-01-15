@@ -157,7 +157,6 @@ filter = filterargument/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction
 | filterargument/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (ternary function)*/ }
 .
 
-
 selector = selectargument/arg { $$ = $1; }
 | selector ',' selectargument/arg { $filters = array_merge($1["filters"],$3["filters"]);
                                     $sorts   = array_merge($1["sorts"],$3["sorts"]);
@@ -186,7 +185,7 @@ order = '+' { /* SORT BY ascending */ $$ = SortFieldsFilterColumn::$SORTORDER_AS
 argument = name { $$ = $1;}
 | argument '.' name  { $$ = $1 . "." . $3; }
 | argument '.' num  { $$ = $1 . "." . $3; }
-| '*' { $$ = new Identifier('*'); }
+| '*' { $$ = '*'; }
 | function { $$ = $1;}
 | num {$$ = new Constant($1);}
 .

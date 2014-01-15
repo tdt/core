@@ -279,7 +279,7 @@ class parse_engine {
                         $this->eat($type, $semantic);
                 } else {
                     # If that didn't work, give up:
-                    throw new parse_error("The token $semantic with type $type was not expected");
+                    throw new parse_error("The token ($semantic) with type ($type) was not expected");
                 }
                 break;
 
