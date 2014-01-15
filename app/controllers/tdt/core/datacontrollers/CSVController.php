@@ -17,7 +17,6 @@ class CSVController extends ADataController {
     // Amount of characters in one row that can be read
     private static $MAX_LINE_LENGTH = 0;
 
-
     public function readData($source_definition, $rest_parameters = array()){
 
         list($limit, $offset) = self::calculateLimitAndOffset();

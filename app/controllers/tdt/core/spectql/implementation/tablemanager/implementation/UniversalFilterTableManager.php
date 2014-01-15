@@ -39,7 +39,25 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
     private function getFullResourcePhpObject($package, $resource, $RESTparameters = array()) {
 
         $data_result = DatasetController::fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
+        $definition = DefinitionController::get($package . '/' . $resource);
+
         $data = $data_result->data;
+
+        // If the data is tabular, it might occur that a primary key is being used
+        // In spectql we don't take these into consideration and we'll have to throw them away
+        $source_type = $definition->source()->first();
+
+        if(method_exists($source_type, 'tabularColumns')){
+            if(!empty($data[0]) && (is_array($data[0]) || is_object($data[0]))){
+
+                $new_data = array();
+                foreach($data as $pk => $content){
+                    array_push($new_data, $content);
+                }
+
+                $data = $new_data;
+            }
+        }
 
         return $data;
     }
