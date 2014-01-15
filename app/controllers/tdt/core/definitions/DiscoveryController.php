@@ -108,10 +108,10 @@ class DiscoveryController extends \Controller {
         $put->httpMethod = "PUT";
         $put->path = "/definitions/{identifier}";
         $put->description = "Add a resource definition identified by the {identifier} value, and of the type identified by the content type header value {mediaType}. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors)";
-        $put->contentType = "application/tdt.{mediaType}";
+        $put->contentType = "application/tdt.definition+json";
 
         // Every type of definition is identified by a certain mediatype
-        $put->mediaType = new \stdClass();
+        $put->put = new \stdClass();
 
         // Get the base properties that can be added to every definition
         $base_properties = \Definition::getCreateParameters();
@@ -128,12 +128,24 @@ class DiscoveryController extends \Controller {
 
                     if(method_exists($model, 'getAllParameters')){
 
-                        $put->mediaType->$definition_type = new \stdClass();
-                        $put->mediaType->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
+                        $put->put->$definition_type = new \stdClass();
+                        $put->put->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
 
-                        $all_properties = array_merge($model::getAllParameters(), $base_properties);
+                        // Add the required type parameter
+                        $type = array(
+                            'type' => array(
+                                'required' => true,
+                                'name' => 'type',
+                                'description' => 'The type of the data source.',
+                                'type' => 'string',
+                                'value' => $definition_type
+                            )
+                        );
+
+                        $all_properties = array_merge($type, $model::getAllParameters(), $base_properties);
+
                         // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
-                        $put->mediaType->$definition_type->parameters = $all_properties;
+                        $put->put->$definition_type->parameters = $all_properties;
                     }
                 }
             }
@@ -169,7 +181,7 @@ class DiscoveryController extends \Controller {
         $patch->description = "Patch a resource definition identified by the {identifier} value. In contrast to PUT, there's no need to pass the media type in the headers.";
 
         // Every type of definition is identified by a certain mediatype (source type)
-        $patch->mediaType = new \stdClass();
+        $patch->type = new \stdClass();
 
         // Get the base properties that can be added to every definition
         $base_properties = \Definition::getCreateParameters();
@@ -186,8 +198,8 @@ class DiscoveryController extends \Controller {
 
                     if(method_exists($model, 'getAllParameters')){
 
-                        $patch->mediaType->$definition_type = new \stdClass();
-                        $patch->mediaType->$definition_type->description = "Patch an existing definition.";
+                        $patch->type->$definition_type = new \stdClass();
+                        $patch->type->$definition_type->description = "Patch an existing definition.";
 
                         $all_properties = array_merge($model::getAllParameters(), $base_properties);
 
@@ -196,7 +208,7 @@ class DiscoveryController extends \Controller {
                         }
 
                         // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
-                        $patch->mediaType->$definition_type->parameters = $all_properties;
+                        $patch->type->$definition_type->parameters = $all_properties;
                     }
                 }
             }

@@ -31,11 +31,12 @@ class CsvTest extends TestCase{
                 'description' => "A CSV publication from the $file csv file.",
                 'delimiter' => ',',
                 'uri' => 'file://' . __DIR__ . "/data/csv/$file.csv",
+                'type' => 'csv'
                 );
 
             // Set the headers.
             $headers = array(
-                'Content-Type' => 'application/tdt.csv'
+                'Content-Type' => 'application/tdt.definition+json'
             );
 
             $this->updateRequest('PUT', $headers, $data);

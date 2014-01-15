@@ -23,11 +23,12 @@ class XmlTest extends TestCase{
             $data = array(
                 'description' => "A xml publication from the $file xml file.",
                 'uri' => __DIR__ . "/data/xml/$file.xml",
+                'type' => 'xml'
             );
 
             // Set the headers.
             $headers = array(
-                'Content-Type' => 'application/tdt.xml'
+                'Content-Type' => 'application/tdt.definition+json'
             );
 
             $this->updateRequest('PUT', $headers, $data);

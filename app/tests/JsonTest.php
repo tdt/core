@@ -24,11 +24,12 @@ class JsonTest extends TestCase{
                 'description' => "A json publication from the $file json file.",
                 'delimiter' => ',',
                 'uri' => 'file://' . __DIR__ . "/data/json/$file.json",
+                'type' => 'json'
                 );
 
             // Set the headers.
             $headers = array(
-                'Content-Type' => 'application/tdt.json'
+                'Content-Type' => 'application/tdt.definition+json'
             );
 
             $this->updateRequest('PUT', $headers, $data);
