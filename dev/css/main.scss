@@ -196,7 +196,7 @@ h3{
     }
 }
 
-input{
+input, textarea{
     box-shadow: none !important;
 
     &:focus{
@@ -204,6 +204,10 @@ input{
         border: 1px solid $secondary !important;
         border-bottom: 1px solid $highlight !important;
     }
+}
+
+textarea{
+    resize: vertical;
 }
 
 .input-group-btn:last-child{
