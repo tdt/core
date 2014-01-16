@@ -45,7 +45,7 @@ class HTMLFormatter implements IFormatter{
                     $data = $dataset_link . '.map';
                     break;
 
-                case 'SPARQL':
+                default:
 
                     if($dataObj->is_semantic){
 
@@ -71,11 +71,6 @@ class HTMLFormatter implements IFormatter{
 
                     }
 
-                    break;
-
-                default:
-                    $view = 'dataset.code';
-                    $data = self::displayTree($dataObj->data);
                     break;
             }
         }else{
