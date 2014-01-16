@@ -115,7 +115,10 @@ class DatasetController extends \Controller {
                         if($collection_uri == $uri){
                             array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
                         }else{
-                            array_push($data->data->collections, \URL::to($collection_uri));
+                            // Push the subcollection if it's not already in the array
+                            if(!in_array(\URL::to($collection_uri), $data->data->collections)){
+                                array_push($data->data->collections, \URL::to($collection_uri));
+                            }
                         }
                     }
 
