@@ -24,8 +24,15 @@ class HTMLFormatter implements IFormatter{
     public static function getBody($dataObj){
 
         $dataset_link  = \URL::to($dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
+        // Append rest parameters
         if(!empty($dataObj->rest_parameters)){
             $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
+        }
+
+        // Query parameters
+        $query_string = '';
+        if(!empty($_GET)){
+            $query_string = '?' . http_build_query(\Input::all());
         }
 
         if(!empty($dataObj->source_definition)){
@@ -43,7 +50,7 @@ class HTMLFormatter implements IFormatter{
                     break;
                 case 'SHP':
                     $view = 'dataset.map';
-                    $data = $dataset_link . '.map';
+                    $data = $dataset_link . '.map' . $query_string;
                     break;
 
                 case 'SPARQL':
@@ -92,7 +99,8 @@ class HTMLFormatter implements IFormatter{
                                           ->with('definition', $dataObj->definition)
                                           ->with('paging', $dataObj->paging)
                                           ->with('source_definition', $dataObj->source_definition)
-                                          ->with('dataset_link', $dataset_link);
+                                          ->with('dataset_link', $dataset_link)
+                                          ->with('query_string', $query_string);
     }
 
     public static function getDocumentation(){

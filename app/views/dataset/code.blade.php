@@ -22,8 +22,8 @@
     </div>
 
     <div class="col-sm-3">
-        <a href="{{ $dataset_link }}.json" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
-        <a href="{{ $dataset_link }}.xml" class="btn btn-block"><i class='fa fa-code'></i> View as XML</a>
+        <a href="{{ $dataset_link }}.json{{ $query_string }}" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
+        <a href="{{ $dataset_link }}.xml{{ $query_string }}" class="btn btn-block"><i class='fa fa-code'></i> View as XML</a>
 
 
         <br/>
