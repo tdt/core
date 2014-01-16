@@ -103,8 +103,11 @@ class HTMLFormatter implements IFormatter{
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
-
-        $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if(defined('JSON_PRETTY_PRINT')){
+            $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }else {
+            $formattedJSON = json_encode($data);
+        }
 
         return str_replace("\/","/", $formattedJSON);
     }
