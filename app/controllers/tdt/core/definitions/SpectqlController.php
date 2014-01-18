@@ -157,7 +157,9 @@ class SPECTQLController extends \Controller {
     }
 
     /**
-     * Check if the property is actually null
+     * Check if the property contains data
+     *
+     *
      */
     private static function isArrayNull($array){
 

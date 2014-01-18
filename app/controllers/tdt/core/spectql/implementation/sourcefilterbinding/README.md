@@ -13,8 +13,8 @@ Executing a query directly on the source can be useful in the case of a database
 
 The Abstract Filter Layer allows you to do that by looking at the query and giving the piece of the query that can be executed on one source to the UniversalTableManager.
 If the UniversalTableManager does not want/can not to execute this query on the source, he can just return the query.
-If he decides he can execute parts of the query directly on the source, 
-he can convert those parts of the query to for example SQL, execute them on the database, 
+If he decides he can execute parts of the query directly on the source,
+he can convert those parts of the query to for example SQL, execute them on the database,
 convert the answers back to the intern representation and replace the parts of the query he executed by ``ExternallyCalculatedFilterNode``s.
 
 If the interpreter then later finds a ExternallyCalculatedFilterNode in the query he will use the anwser saved in that node instead of asking the full table and calculating that part of the query himself.
@@ -24,8 +24,8 @@ So, if you pre-calculated all parts of the query (or at least all parts that con
 ----------------------------------------
 So this method gets the part of the query that can be executed completelly on the source with id $sourceId.
 
-So, it get called for every source (at least once). 
-But how does the interpreter knows which tables are in the same source? 
+So, it get called for every source (at least once).
+But how does the interpreter knows which tables are in the same source?
 (Because, as said in ``universalfilter/tablemanager/README.md`` the interpreter does not care about how tablenames look...)
 
 Well, he calls the method ``getSourceIdFromIdentifier``. If it returns the same string, the tables are in the same source.
@@ -33,7 +33,7 @@ Well, he calls the method ``getSourceIdFromIdentifier``. If it returns the same 
 The return id is also given to the method ``runFilterOnSource`` (``$sourceId``)
 
 #### ``ExpectedHeaderNamesAttachment``
-If you decide to run the filter on the source, and you get back some data. 
+If you decide to run the filter on the source, and you get back some data.
 You need to convert it to a table... (so far, nothing new)
 
 But, as the universalfilter needs to know which columns contains which data, you need to name the columns as described in the ``ExpectedHeaderNamesAttachment``.
@@ -46,8 +46,3 @@ You can ask it by doing: ``$filter->getAttachment(ExpectedHeaderNamesAttachment:
 ``getSourceIdFromIdentifier($globalTableIdentifier)``
 -----------------------------------------------------
 This method gives back some kind of identifier for the source the table in ``$globalTableIdentifier`` is in.
-
-
-Looks easy, I just have to implement runFilterOnSource...
----------------------------------------------------------
-Yes, but it is not easy. Converting an Universal Syntax Tree to for example SQL can be quite challenging :)
