@@ -311,13 +311,7 @@ class DefinitionController extends \Controller {
 
         // TODO make dynamic
         if(empty($uri)){
-            $definitions = \Definition::all();
-
-            $defs_props = array();
-            foreach($definitions as $definition){
-                $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
-            }
-
+            $defs_props = self::getAllDefinitions();
             return self::makeResponse(str_replace('\/', '/', json_encode($defs_props)));
         }
 
@@ -349,6 +343,21 @@ class DefinitionController extends \Controller {
     public static function exists($uri){
         $definition = self::get($uri);
         return !empty($definition);
+    }
+
+    /**
+     * Get all of the resource definitions and their properties
+     */
+    public static function getAllDefinitions(){
+
+        $definitions = \Definition::all();
+
+        $defs_props = array();
+        foreach($definitions as $definition){
+            $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
+        }
+
+        return $defs_props;
     }
 
     /**
