@@ -107,7 +107,7 @@ class DiscoveryController extends \Controller {
 
         $put->httpMethod = "PUT";
         $put->path = "/definitions/{identifier}";
-        $put->description = "Add a resource definition identified by the {identifier} value, and of the type identified by the content type header value {mediaType}. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors)";
+        $put->description = "Add a resource definition identified by the {identifier} value,. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors). Valid characters that can be used are alphanumerical, underscores and whitespaces.";
         $put->contentType = "application/tdt.definition+json";
 
         // Every type of definition is identified by a certain mediatype
