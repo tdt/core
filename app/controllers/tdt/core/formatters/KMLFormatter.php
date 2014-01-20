@@ -139,8 +139,10 @@ class KMLFormatter implements IFormatter{
                     if($lat != "" && $long != "") {
                         $lat_val = reset($lat);
                         $lon_val = reset($long);
-                        echo "<Point><coordinates>".$lon_val.",".$lat_val."</coordinates></Point>";
 
+                        if($lat_val != 0 || $lon_val != 0){
+                            echo "<Point><coordinates>".$lon_val.",".$lat_val."</coordinates></Point>";
+                        }
                     }
 
                     if (count($coords)  > 0) {
