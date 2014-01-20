@@ -103,6 +103,7 @@ class SPARQLController extends ADataController {
 
         // Prepare the query with proper encoding for the request
 
+        $query = str_replace('%23', '#', $query);
         $q = urlencode($query);
         $q = str_replace("+", "%20", $q);
 
@@ -178,7 +179,7 @@ class SPARQLController extends ADataController {
 
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if($response_code == '400'){
-            \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $curl_err.");
+            \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $response.");
         }else if($response_code == '500'){
             \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
         }

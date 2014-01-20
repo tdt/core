@@ -23,9 +23,21 @@ class HTMLFormatter implements IFormatter{
 
     public static function getBody($dataObj){
 
+        // Create the link to the dataset
         $dataset_link  = \URL::to($dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
+
         if(!empty($dataObj->rest_parameters)){
             $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
+        }
+
+        // Pass the query string parameters to the dataset link
+        $request_params = \Request::all();
+        $request_params = array_except($request_params, array('limit', 'offset'));
+        $request_string = '';
+
+        if(!empty($request_params)){
+            $request_string = http_build_query($request_params);
+            $request_string = '&' . $request_string;
         }
 
         if(!empty($dataObj->source_definition)){
@@ -92,7 +104,8 @@ class HTMLFormatter implements IFormatter{
                                           ->with('definition', $dataObj->definition)
                                           ->with('paging', $dataObj->paging)
                                           ->with('source_definition', $dataObj->source_definition)
-                                          ->with('dataset_link', $dataset_link);
+                                          ->with('dataset_link', $dataset_link)
+                                          ->with('request_string', $request_string);
     }
 
     public static function getDocumentation(){
