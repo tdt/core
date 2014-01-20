@@ -12,6 +12,10 @@ namespace tdt\core\formatters;
  */
 class KMLFormatter implements IFormatter{
 
+
+    private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude');
+    private static $LATITUDE_PREFIXES = array('lat', 'latitude');
+
     public static function createResponse($dataObj){
 
         // Create response
@@ -87,25 +91,34 @@ class KMLFormatter implements IFormatter{
             $lat = "";
             $coords = array();
 
-            if(is_array($value)) {
+            if(is_array($value)){
                 $array = $value;
             }
-            if (is_object($value)) {
+            if(is_object($value)){
                 $array = get_object_vars($value);
             }
 
-            if(!empty($array)) {
+            if(!empty($array)){
 
-                $longkey = self::array_key_exists_nc("long",$array);
+                $longkey = false;
+                $latkey = false;
 
-                if (!$longkey) {
-                    $longkey = self::array_key_exists_nc("longitude",$array);
+                foreach(self::$LONGITUDE_PREFIXES as $prefix){
+
+                    $longkey = self::array_key_exists_nc($prefix, $array);
+
+                    if($longkey){
+                        break;
+                    }
                 }
 
-                $latkey = self::array_key_exists_nc("lat",$array);
+                foreach(self::$LATITUDE_PREFIXES as $prefix){
 
-                if (!$latkey) {
-                    $latkey = self::array_key_exists_nc("latitude",$array);
+                    $latkey = self::array_key_exists_nc($prefix, $array);
+
+                    if($latkey){
+                        break;
+                    }
                 }
 
                 $coordskey = self::array_key_exists_nc("coords",$array);
@@ -118,6 +131,7 @@ class KMLFormatter implements IFormatter{
 
                     $long = $array[$longkey];
                     $lat = $array[$latkey];
+
                     unset($array[$longkey]);
                     unset($array[$latkey]);
                     $name = self::xmlgetelement($array);
@@ -136,9 +150,21 @@ class KMLFormatter implements IFormatter{
 
                     echo "<Placemark><name>". htmlspecialchars($key) ."</name><Description>".$name."</Description>";
                     echo $extendeddata;
+
                     if($lat != "" && $long != "") {
-                        $lat_val = reset($lat);
-                        $lon_val = reset($long);
+
+                        // For data read from XML latitude and longitude will be an array of @value = 3.342...
+
+                        if(is_array($lat))
+                            $lat_val = reset($lat);
+                        else
+                            $lat_val = $lat;
+
+
+                        if(is_array($long))
+                            $lon_val = reset($long);
+                        else
+                            $lon_val = $long;
 
                         if($lat_val != 0 || $lon_val != 0){
                             echo "<Point><coordinates>".$lon_val.",".$lat_val."</coordinates></Point>";
