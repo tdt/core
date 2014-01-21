@@ -131,6 +131,7 @@ class Export extends Command {
                 file_put_contents($filename, $file_content);
             }catch(Exception $e){
                 $this->error("The contents could not be written to the file ($filename).");
+                die;
             }
 
             $this->info("The export has been written to $filename.");

@@ -80,14 +80,16 @@ class Import extends Command {
                         if($status_code == 200){
                             $this->info("A new definition with identifier ($identifier) was succesfully added.");
                         }else{
-                            $this->error("A status of $status_code was returned, check the logs for indications of what may have gone wrong.");
+                            $this->error("A status of $status_code was returned when adding $identifier, check the logs for indications of what may have gone wrong.");
                         }
                     }
                 }else{
                     $this->error("The given file contents couldn't be json decoded.");
+                    die;
                 }
             }else{
                 $this->error("The given file ($file) can't be found on the system.");
+                die;
             }
         }
     }
