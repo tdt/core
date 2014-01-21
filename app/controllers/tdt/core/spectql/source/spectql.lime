@@ -160,22 +160,95 @@ filter = filterargument/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction
 selector = selectargument/arg { $$ = $1; }
 | selector ',' selectargument/arg { $filters = array_merge($1["filters"],$3["filters"]);
                                     $sorts   = array_merge($1["sorts"],$3["sorts"]);
-				    $identifiers = array_merge($1["identifiers"],$3["identifiers"]);
+				                    $identifiers = array_merge($1["identifiers"],$3["identifiers"]);
                                     $$ = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); }
 .
 
-selectargument = argument/arg { $$ = array("filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),null)), "sorts" => array(), "identifiers" => array(new Identifier($arg))); }
+selectargument = argument/arg {
+
+// A column can be a string which indicates we need to wrap it in an Identifier
+// or it can be a function, in which case we just have to pass it with the ColumnSelectionFilterColumn
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, null)),
+        "sorts" => array(),
+        "identifiers" => array($column)
+    );
+}
 | argument/arg order/order {
 
-$$ =  array( "filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),null)),
-             "sorts" => array(new SortFieldsFilterColumn(new Identifier($arg), $order)),
-             "identifiers" => array(new Identifier($arg)));}
-| name ALIAS argument/arg  {$$ = array("filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),$1)), "sorts" => array(), "identifiers" => array(new Identifier($arg)));}
-| name ALIAS argument/arg order {$$ = array("filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),$1)), "sorts" => array(new SortFieldsFilterColumn(new Identifier($arg), $order)), "identifiers" => array(new Identifier($arg)));}
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ =  array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, null)),
+        "sorts" => array(new SortFieldsFilterColumn($column, $order)),
+        "identifiers" => array($column)
+    );
+}
+| name ALIAS argument/arg  {
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, $1)),
+        "sorts" => array(),
+        "identifiers" => array($column),
+    );
+}
+| name ALIAS argument/arg order {
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, $1)),
+        "sorts" => array(new SortFieldsFilterColumn($column, $order)),
+        "identifiers" => array($column)
+    );
+}
 .
 
-function = name '(' argument ')' { $$ = getUnaryFilterForSQLFunction($1, new Identifier($3)); }
-| name '(' argument/arg1 ',' argument/arg2 ',' argument/arg3 ')' {$$ = getTertairyFunctionForSQLFunction($1,new Identifier($arg1),new Identifier($arg2),new Identifier($arg3));}
+function = name '(' argument/arg ')' {
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = getUnaryFilterForSQLFunction($1, $column);
+}
+| name '(' argument/arg1 ',' argument/arg2 ',' argument/arg3 ')' {
+
+$column1 = $arg1;
+
+if(!is_object($column1))
+    $column1 = new Identifier($arg1);
+
+$column2 = $arg2;
+
+if(!is_object($column2))
+    $column2 = new Identifier($arg2);
+
+$column3 = $arg3;
+
+if(!is_object($column3))
+    $column3 = new Identifier($arg3);
+
+$$ = getTertairyFunctionForSQLFunction($1, $column1, $column2, $column3);
+}
 .
 
 order = '+' { /* SORT BY ascending */ $$ = SortFieldsFilterColumn::$SORTORDER_ASCENDING; }

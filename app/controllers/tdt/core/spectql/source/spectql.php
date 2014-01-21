@@ -1,5 +1,6 @@
 <?php
 
+
 use tdt\core\spectql\implementation\universalfilters\BinaryFunction;
 use tdt\core\spectql\implementation\universalfilters\ColumnSelectionFilter;
 use tdt\core\spectql\implementation\universalfilters\ColumnSelectionFilterColumn;
@@ -10,7 +11,6 @@ use tdt\core\spectql\implementation\universalfilters\Identifier;
 use tdt\core\spectql\implementation\universalfilters\LimitFilter;
 use tdt\core\spectql\implementation\universalfilters\SortFieldsFilter;
 use tdt\core\spectql\implementation\universalfilters\SortFieldsFilterColumn;
-
 
 /*
 
@@ -1345,7 +1345,7 @@ $result = reset($tokens);
 $arg =& $tokens[2];
  $filters = array_merge($tokens[0]["filters"],$tokens[2]["filters"]);
                                     $sorts   = array_merge($tokens[0]["sorts"],$tokens[2]["sorts"]);
-				    $identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
+				                    $identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
                                     $result = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers);
 }
 
@@ -1355,7 +1355,22 @@ function reduce_38_selectargument_1($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[0];
- $result = array("filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),null)), "sorts" => array(), "identifiers" => array(new Identifier($arg)));
+
+
+// A column can be a string which indicates we need to wrap it in an Identifier
+// or it can be a function, in which case we just have to pass it with the ColumnSelectionFilterColumn
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$result = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, null)),
+        "sorts" => array(),
+        "identifiers" => array($column)
+    );
+
 }
 
 function reduce_39_selectargument_2($tokens, &$result) {
@@ -1367,9 +1382,17 @@ $arg =& $tokens[0];
 $order =& $tokens[1];
 
 
-$result =  array( "filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),null)),
-             "sorts" => array(new SortFieldsFilterColumn(new Identifier($arg), $order)),
-             "identifiers" => array(new Identifier($arg)));
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$result =  array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, null)),
+        "sorts" => array(new SortFieldsFilterColumn($column, $order)),
+        "identifiers" => array($column)
+    );
+
 }
 
 function reduce_40_selectargument_3($tokens, &$result) {
@@ -1378,7 +1401,19 @@ function reduce_40_selectargument_3($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
-$result = array("filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),$tokens[0])), "sorts" => array(), "identifiers" => array(new Identifier($arg)));
+
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$result = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, $tokens[0])),
+        "sorts" => array(),
+        "identifiers" => array($column),
+    );
+
 }
 
 function reduce_41_selectargument_4($tokens, &$result) {
@@ -1387,7 +1422,19 @@ function reduce_41_selectargument_4($tokens, &$result) {
 #
 $result = reset($tokens);
 $arg =& $tokens[2];
-$result = array("filters" => array(new ColumnSelectionFilterColumn(new Identifier($arg),$tokens[0])), "sorts" => array(new SortFieldsFilterColumn(new Identifier($arg), $order)), "identifiers" => array(new Identifier($arg)));
+
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$result = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, $tokens[0])),
+        "sorts" => array(new SortFieldsFilterColumn($column, $order)),
+        "identifiers" => array($column)
+    );
+
 }
 
 function reduce_42_function_1($tokens, &$result) {
@@ -1395,7 +1442,16 @@ function reduce_42_function_1($tokens, &$result) {
 # (42) function :=  name  '('  argument  ')'
 #
 $result = reset($tokens);
- $result = getUnaryFilterForSQLFunction($tokens[0], new Identifier($tokens[2]));
+$arg =& $tokens[2];
+
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$result = getUnaryFilterForSQLFunction($tokens[0], $column);
+
 }
 
 function reduce_43_function_2($tokens, &$result) {
@@ -1406,7 +1462,25 @@ $result = reset($tokens);
 $arg1 =& $tokens[2];
 $arg2 =& $tokens[4];
 $arg3 =& $tokens[6];
-$result = getTertairyFunctionForSQLFunction($tokens[0],new Identifier($arg1),new Identifier($arg2),new Identifier($arg3));
+
+
+$column1 = $arg1;
+
+if(!is_object($column1))
+    $column1 = new Identifier($arg1);
+
+$column2 = $arg2;
+
+if(!is_object($column2))
+    $column2 = new Identifier($arg2);
+
+$column3 = $arg3;
+
+if(!is_object($column3))
+    $column3 = new Identifier($arg3);
+
+$result = getTertairyFunctionForSQLFunction($tokens[0], $column1, $column2, $column3);
+
 }
 
 function reduce_44_order_1($tokens, &$result) {

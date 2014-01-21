@@ -74,8 +74,10 @@ function getNularyFilterForSQLFunction($SQLname) {
 /**
  * Gets the universal name (and filter) for a unary SQLFunction
  */
-function getUnaryFilterForSQLFunction($SQLname, $arg1) {
-    $SQLname = strtoupper($SQLname);
+function getUnaryFilterForSQLFunction($sqlname, $arg1) {
+
+    $sqlname = trim($sqlname);
+    $sqlname = strtoupper($sqlname);
 
     $unarymap = array(
         "UCASE" => UnaryFunction::$FUNCTION_UNARY_UPPERCASE,
@@ -103,6 +105,7 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1) {
         "DATEPART" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART,
         "DATE" => UnaryFunction::$FUNCTION_UNARY_DATETIME_DATEPART
     );
+
     $unaryaggregatormap = array(
         "AVG" => AggregatorFunction::$AGGREGATOR_AVG,
         "COUNT" => AggregatorFunction::$AGGREGATOR_COUNT,
@@ -112,6 +115,7 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1) {
         "MIN" => AggregatorFunction::$AGGREGATOR_MIN,
         "SUM" => AggregatorFunction::$AGGREGATOR_SUM
     );
+
     $formatshortcuts = array(
         "DAY" => array("j"),
         "DAYOFMONTH" => array("j"),
@@ -130,26 +134,32 @@ function getUnaryFilterForSQLFunction($SQLname, $arg1) {
     );
 
 
-    if (isset($formatshortcuts[$SQLname])) {
-        $functioninfo = $formatshortcuts[$SQLname];
+    if (isset($formatshortcuts[$sqlname])) {
+
+        $functioninfo = $formatshortcuts[$sqlname];
         $funct = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_DATETIME_FORMAT, $arg1, new Constant($functioninfo[0]));
+
         if (count($functioninfo) > 1) {
+
             $extraoperations = $functioninfo[1];
             $addcount = $extraoperations["add"];
             $funct = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_PLUS, $funct, new Constant($addcount));
+
             if (isset($extraoperations["max"]) && isset($extraoperations["min"])) {
+
                 $max = new Constant($extraoperations["max"]);
                 $min = new Constant($extraoperations["min"]);
                 $funct = CombinedFilterGenerators::makeWrapInRangeFilter($funct, $min, $max);
             }
         }
+
         return $funct;
-    } else if (isset($unarymap[$SQLname])) {
-        return new UnaryFunction($unarymap[$SQLname], $arg1);
-    } else if (isset($unaryaggregatormap[$SQLname])) {
-        return new AggregatorFunction($unaryaggregatormap[$SQLname], $arg1);
+    } else if (isset($unarymap[$sqlname])) {
+        return new UnaryFunction($unarymap[$sqlname], $arg1);
+    } else if (isset($unaryaggregatormap[$sqlname])) {
+        return new AggregatorFunction($unaryaggregatormap[$sqlname], $arg1);
     } else {
-        throw new Exception("That unary function does not exist... (" . $SQLname . ")");
+        throw new \Exception("The unary function name ($sqlname) does not exist.");
     }
 }
 

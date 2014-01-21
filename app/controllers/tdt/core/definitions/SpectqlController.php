@@ -124,7 +124,6 @@ class SPECTQLController extends \Controller {
 
         $rootname = "spectqlquery";
 
-
         // Get the required properties for the Data object
         $definition_uri = preg_match('/(.*?)\{.*/', $uri, $matches);
         $definition_uri = $matches[1];
