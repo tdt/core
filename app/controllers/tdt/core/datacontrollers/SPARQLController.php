@@ -51,6 +51,8 @@ class SPARQLController extends ADataController {
 
         // Make a distinction between select and construct since
         // construct will be followed by a {} sequence, whereas select will not
+        $prefix = '';
+        $filter = '';
 
         if($keyword == 'select'){
             if(stripos($query,"where") === FALSE){
@@ -62,17 +64,24 @@ class SPARQLController extends ADataController {
             if(count($matches) < 2){
                 \App::abort(500, "Failed to retrieve the where clause from the query: $query");
             }
+
+            $prefix = $matches[1];
+            $filter = $matches[2];
+
         }else{
+
             if(stripos($query,"where") === FALSE){
-                preg_match("/(.*)$keyword.*?({.*}).*?/i",$query,$matches);
+                preg_match("/(.*)$keyword(\s*\{.+\})\s*({.*}).*?/i",$query,$matches);
             }else{
-                preg_match("/(.*)$keyword.*?(where\s*{.*}).*?/i",$query,$matches);
+                preg_match("/(.*)$keyword(\s*\{.+\}).*?(where\s*{.*}).*?/i",$query,$matches);
             }
 
             if(count($matches) < 2){
                 \App::abort(500, "Failed to retrieve the where clause from the query: $query");
             }
 
+            $prefix = $matches[1];
+            $filter = $matches[2];
         }
 
         // Prepare the query to count results
@@ -158,8 +167,15 @@ class SPARQLController extends ADataController {
             $columns = \Ontology::getColumns();
 
             $ontologies = \Ontology::all($columns)->toArray();
+
+            $prefixes = array();
+
+            foreach($ontologies as $ontology){
+                $prefixes[$ontology["prefix"]] = $ontology["uri"];
+            }
+
             $data->semantic = new \stdClass();
-            $data->semantic->conf = array('ns' => $ontologies);
+            $data->semantic->conf = array('ns' => $prefixes);
         }
 
         return $data;

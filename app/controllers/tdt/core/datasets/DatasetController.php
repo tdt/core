@@ -45,7 +45,7 @@ class DatasetController extends \Controller {
         $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
         $cache_string = sha1($cache_string);
 
-        if(\Cache::has($cache_string)){
+        if(false && \Cache::has($cache_string)){
             return ContentNegotiator::getResponse(\Cache::get($cache_string), $extension);
         }else{
 
