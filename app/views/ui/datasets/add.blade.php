@@ -67,6 +67,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label for="input_identifier" class="col-sm-2 control-label">
+                                    Type
+                                </label>
+                                <div class="col-sm-10">
+
+                                    <input type="text" class="form-control" id="input_type" name="type" placeholder="" disabled value='{{ $mediatype }}'/>
+
+                                    <div class='help-block'>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             @foreach($type['parameters_required'] as $parameter => $object)
                                 <div class="form-group">
                                     <label for="input_{{ $parameter }}" class="col-sm-2 control-label">

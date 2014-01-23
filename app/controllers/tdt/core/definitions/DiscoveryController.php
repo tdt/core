@@ -135,7 +135,7 @@ class DiscoveryController extends \Controller {
                         $type = array(
                             'type' => array(
                                 'required' => true,
-                                'name' => 'type',
+                                'name' => 'Type',
                                 'description' => 'The type of the data source.',
                                 'type' => 'string',
                                 'value' => $definition_type
