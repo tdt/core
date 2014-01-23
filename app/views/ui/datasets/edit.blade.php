@@ -8,13 +8,13 @@
             <div class="col-sm-7">
                 <h3>
                     <a href='{{ URL::to('api/admin/datasets') }}' class='back'>
-                        <i class='fa fa-angle-left'></i> Back
+                        <i class='fa fa-angle-left'></i>
                     </a>
                     Edit a dataset
                 </h3>
             </div>
             <div class="col-sm-5 text-right">
-                <button type='submit' class='btn btn-cta btn-edit-dataset pull-right margin-left'><i class='fa fa-save'></i> Save</button>
+                <button type='submit' class='btn btn-cta btn-edit-dataset margin-left'><i class='fa fa-save'></i> Save</button>
             </div>
         </div>
 

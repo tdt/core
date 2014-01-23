@@ -16,13 +16,14 @@
         <nav class="navbar navbar-fixed-top">
             <a class="navbar-brand" href="{{ URL::to('') }} ">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
+                <h1>&nbsp;</h1>
             </a>
 
             @yield('navigation')
         </nav>
 
         <div class="wrapper">
-            <div id='content' class='row'>
+            <div id='content' class='row content-wrapper'>
                 @yield('content')
             </div>
 

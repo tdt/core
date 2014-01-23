@@ -6,7 +6,7 @@
         <div class="col-sm-3">
             <h3>
                 <a href='{{ URL::to('api/admin/datasets') }}' class='back'>
-                    <i class='fa fa-angle-left'></i> Back
+                    <i class='fa fa-angle-left'></i>
                 </a>
                 Add a dataset
             </h3>
