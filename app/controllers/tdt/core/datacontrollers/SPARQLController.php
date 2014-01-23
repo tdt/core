@@ -46,20 +46,34 @@ class SPARQLController extends ADataController {
         }
 
         // Prepare the count query for paging purposes
-        //$query = preg_replace("/((.*?)$keyword\s*{.*?})/i", '', $query);
+        // This implies the removal of the select or construct statement
+        // and only using the where statement
 
-        if(stripos($query,"where") === FALSE){
-            preg_match("/(.*)$keyword.*?({.*}).*?/i",$query,$matches);//preg_match('/({.*}).*/i',$query,$matches);
+        // Make a distinction between select and construct since
+        // construct will be followed by a {} sequence, whereas select will not
+
+        if($keyword == 'select'){
+            if(stripos($query,"where") === FALSE){
+                preg_match("/(.*)$keyword.*?({.*}).*?/i",$query,$matches);
+            }else{
+                preg_match("/(.*)$keyword.*?(where\s*{.*}).*?/i",$query,$matches);
+            }
+
+            if(count($matches) < 2){
+                \App::abort(500, "Failed to retrieve the where clause from the query: $query");
+            }
         }else{
-            preg_match("/(.*)$keyword.*?(where\s*{.*}).*?/i",$query,$matches);//preg_match('/(where\s*{.*}).*/i',$query,$matches);
-        }
+            if(stripos($query,"where") === FALSE){
+                preg_match("/(.*)$keyword.*?({.*}).*?/i",$query,$matches);
+            }else{
+                preg_match("/(.*)$keyword.*?(where\s*{.*}).*?/i",$query,$matches);
+            }
 
-        if(count($matches) < 2){
-            \App::abort(500, "Failed to retrieve the where clause from the query: $query");
-        }
+            if(count($matches) < 2){
+                \App::abort(500, "Failed to retrieve the where clause from the query: $query");
+            }
 
-        // Only use the where clause
-        //$query = $matches[1];
+        }
 
         // Prepare the query to count results
         $count_query = $matches[1] . ' SELECT count(*) AS ?count ' . $matches[2];
@@ -136,6 +150,17 @@ class SPARQLController extends ADataController {
         $data->data = $result;
         $data->paging = $paging;
         $data->is_semantic = $is_semantic;
+
+        if($is_semantic){
+
+            // Fetch the available namespaces and pass
+            // them as a configuration of the semantic data result
+            $columns = \Ontology::getColumns();
+
+            $ontologies = \Ontology::all($columns)->toArray();
+            $data->semantic = new \stdClass();
+            $data->semantic->conf = array('ns' => $ontologies);
+        }
 
         return $data;
     }

@@ -56,6 +56,11 @@ class BaseController extends \Controller {
                         $controller = 'tdt\core\definitions\LicenseController';
                         $uri = str_replace('api/licenses', '', $uri);
                         break;
+                    case 'prefixes':
+                        // Supported prefixes request
+                        $controller = 'tdt\core\definitions\OntologyController';
+                        $uri = str_replace('api/prefixes', '', $uri);
+                        break;
                     default:
                         \App::abort(404, "Page not found.");
                         break;

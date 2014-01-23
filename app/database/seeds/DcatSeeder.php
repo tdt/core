@@ -79,6 +79,8 @@ class DcatSeeder extends Seeder {
                 'name' => $language->name,
             ]);
         }
+
+        $this->command->info('Added the languages.');
     }
 
 }

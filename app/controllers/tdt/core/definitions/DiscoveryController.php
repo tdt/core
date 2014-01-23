@@ -62,6 +62,7 @@ class DiscoveryController extends \Controller {
         $discovery_document->resources->dcat = self::createDcat();
         $discovery_document->resources->languages = self::createLanguages();
         $discovery_document->resources->licenses = self::createLicenses();
+        $discovery_document->resources->prefixes = self::createPrefixes();
 
         return $discovery_document;
     }
@@ -283,6 +284,25 @@ class DiscoveryController extends \Controller {
         $licenses->methods->get->description = 'Get a list of supported licenses that are made available to use as DCAT meta-data.';
 
         return $licenses;
+    }
+
+    /**
+     * Create the prefixes discovery documentation
+     */
+    private static function createPrefixes(){
+
+        // Prefixes only supports the get method
+        $prefixes = new \stdClass();
+
+        // Attach the discovery information
+        $prefixes->methods = new \stdClass();
+        $prefixes->methods->get = new \stdClass();
+
+        $prefixes->methods->get->httpMethod = 'GET';
+        $prefixes->methods->get->path = '/prefixes';
+        $prefixes->methods->get->description = "Get a list of supported prefixes and uri's that are used to pass along with semantic data results.";
+
+        return $prefixes;
     }
 
     /**
