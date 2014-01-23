@@ -46,6 +46,16 @@ class BaseController extends \Controller {
                         $controller = 'tdt\core\definitions\DcatController';
                         $uri = str_replace('api/dcat', '', $uri);
                         break;
+                    case 'languages':
+                        // Supported languages request
+                        $controller = 'tdt\core\definitions\LanguageController';
+                        $uri = str_replace('api/languages', '', $uri);
+                        break;
+                    case 'licenses':
+                        // Supported licenses request
+                        $controller = 'tdt\core\definitions\LicenseController';
+                        $uri = str_replace('api/licenses', '', $uri);
+                        break;
                     default:
                         \App::abort(404, "Page not found.");
                         break;
