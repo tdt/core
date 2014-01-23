@@ -93,7 +93,7 @@ $('.btn-add-dataset').on('click', function(e){
         data: JSON.stringify(data),
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/tdt.' + mediatype,
+            'Content-Type': 'application/tdt.definition+json',
             'Authorization': authHeader
         },
         success: function(e){

@@ -107,11 +107,11 @@ class DiscoveryController extends \Controller {
 
         $put->httpMethod = "PUT";
         $put->path = "/definitions/{identifier}";
-        $put->description = "Add a resource definition identified by the {identifier} value, and of the type identified by the content type header value {mediaType}. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors)";
-        $put->contentType = "application/tdt.{mediaType}";
+        $put->description = "Add a resource definition identified by the {identifier} value,. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors). Valid characters that can be used are alphanumerical, underscores and whitespaces.";
+        $put->contentType = "application/tdt.definition+json";
 
         // Every type of definition is identified by a certain mediatype
-        $put->mediaType = new \stdClass();
+        $put->body = new \stdClass();
 
         // Get the base properties that can be added to every definition
         $base_properties = \Definition::getCreateParameters();
@@ -128,12 +128,24 @@ class DiscoveryController extends \Controller {
 
                     if(method_exists($model, 'getAllParameters')){
 
-                        $put->mediaType->$definition_type = new \stdClass();
-                        $put->mediaType->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
+                        $put->body->$definition_type = new \stdClass();
+                        $put->body->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
 
-                        $all_properties = array_merge($model::getAllParameters(), $base_properties);
+                        // Add the required type parameter
+                        $type = array(
+                            'type' => array(
+                                'required' => true,
+                                'name' => 'Type',
+                                'description' => 'The type of the data source.',
+                                'type' => 'string',
+                                'value' => $definition_type
+                            )
+                        );
+
+                        $all_properties = array_merge($type, $model::getAllParameters(), $base_properties);
+
                         // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
-                        $put->mediaType->$definition_type->parameters = $all_properties;
+                        $put->body->$definition_type->parameters = $all_properties;
                     }
                 }
             }
@@ -169,7 +181,7 @@ class DiscoveryController extends \Controller {
         $patch->description = "Patch a resource definition identified by the {identifier} value. In contrast to PUT, there's no need to pass the media type in the headers.";
 
         // Every type of definition is identified by a certain mediatype (source type)
-        $patch->mediaType = new \stdClass();
+        $patch->body = new \stdClass();
 
         // Get the base properties that can be added to every definition
         $base_properties = \Definition::getCreateParameters();
@@ -186,8 +198,8 @@ class DiscoveryController extends \Controller {
 
                     if(method_exists($model, 'getAllParameters')){
 
-                        $patch->mediaType->$definition_type = new \stdClass();
-                        $patch->mediaType->$definition_type->description = "Patch an existing definition.";
+                        $patch->body->$definition_type = new \stdClass();
+                        $patch->body->$definition_type->description = "Patch an existing definition.";
 
                         $all_properties = array_merge($model::getAllParameters(), $base_properties);
 
@@ -196,7 +208,7 @@ class DiscoveryController extends \Controller {
                         }
 
                         // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
-                        $patch->mediaType->$definition_type->parameters = $all_properties;
+                        $patch->body->$definition_type->parameters = $all_properties;
                     }
                 }
             }

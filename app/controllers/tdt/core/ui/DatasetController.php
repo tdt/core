@@ -41,7 +41,7 @@ class DatasetController extends \Controller {
         $discovery = $this->getDiscoveryDocument();
 
         // Get spec for media types
-        $mediatypes_spec = $discovery->resources->definitions->methods->put->mediaType;
+        $mediatypes_spec = $discovery->resources->definitions->methods->put->body;
 
         // Sort parameters for each media type
         $mediatypes = array();
@@ -65,7 +65,10 @@ class DatasetController extends \Controller {
                     }else{
                         // Fitler optional vs required
                         if($object->required){
-                            $parameters_required[$parameter] = $object;
+                            // Filter the type paramter
+                            if($parameter != 'type'){
+                                $parameters_required[$parameter] = $object;
+                            }
                         }else{
                             $parameters_optional[$parameter] = $object;
                         }
@@ -122,10 +125,10 @@ class DatasetController extends \Controller {
 
             // Get spec for media type
             // var_dump($source_definition->getType());
-            if(empty($discovery->resources->definitions->methods->patch->mediaType->{strtolower($source_definition->getType())} )){
+            if(empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->getType())} )){
                 \App::abort('500', 'There is no definition of the media type of this dataset in the discovery document.');
             }
-            $mediatype = $discovery->resources->definitions->methods->patch->mediaType->{strtolower($source_definition->getType())};
+            $mediatype = $discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->getType())};
 
             // Sort parameters
             $parameters_required = array();

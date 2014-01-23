@@ -53,7 +53,7 @@ class HTMLFormatter implements IFormatter{
                     $data = $dataset_link . '.map' . $query_string;
                     break;
 
-                case 'SPARQL':
+                default:
 
                     if($dataObj->is_semantic){
 
@@ -79,11 +79,6 @@ class HTMLFormatter implements IFormatter{
 
                     }
 
-                    break;
-
-                default:
-                    $view = 'dataset.code';
-                    $data = self::displayTree($dataObj->data);
                     break;
             }
         }else{
@@ -112,8 +107,11 @@ class HTMLFormatter implements IFormatter{
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
-
-        $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if(defined('JSON_PRETTY_PRINT')){
+            $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }else {
+            $formattedJSON = json_encode($data);
+        }
 
         return str_replace("\/","/", $formattedJSON);
     }

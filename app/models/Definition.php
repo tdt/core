@@ -20,6 +20,7 @@ class Definition extends Eloquent{
      * Return the properties ( = column fields ) for this model.
      */
     public static function getCreateParameters(){
+
         return array(
                 'title' => array(
                     'required' => false,
@@ -32,13 +33,6 @@ class Definition extends Eloquent{
                     'required' => false,
                     'name' => 'Date',
                     'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'type' => array(
-                    'required' => false,
-                    'name' => 'Type',
-                    'description' => 'The nature or genre of the resource.',
                     'type' => 'string',
                     'group' => 'dc',
                 ),
@@ -127,6 +121,8 @@ class Definition extends Eloquent{
 
             $properties['geo'] = $geo_props_arr;
         }
+
+        $properties['type'] = strtolower($source_definition->getType());
 
         return $properties;
     }
