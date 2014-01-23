@@ -36,13 +36,6 @@ class Definition extends Eloquent{
                     'type' => 'string',
                     'group' => 'dc',
                 ),
-                'format' => array(
-                    'required' => false,
-                    'name' => 'Format',
-                    'description' => 'The file format, physical medium, or dimensions of the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
                 'source' => array(
                     'required' => false,
                     'name' => 'Source',

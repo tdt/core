@@ -95,6 +95,7 @@ class DcatController extends \Controller {
         $definitions = \Definition::query()->orderBy('updated_at', 'desc')->get();
 
         if(count($definitions) > 0){
+
             $last_mod_def = $definitions->first();
 
             // Add the last modified timestamp in ISO8601
@@ -105,6 +106,7 @@ class DcatController extends \Controller {
 
                 // Create the dataset uri
                 $dataset_uri = $uri . "/" . $definition->collection_uri . "/" . $definition->resource_name;
+                $dataset_uri = str_replace(' ', '%20', $dataset_uri);
 
                 $source_type = $definition->source()->first();
 
@@ -118,8 +120,13 @@ class DcatController extends \Controller {
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
 
+                // Add the source resource if it's a URI
+                if (filter_var($definition->source, FILTER_VALIDATE_URL) !== FALSE) {
+                    $graph->addResource($dataset_uri, 'dct:source', $definition->source);
+                }
+
                 // Optional dct terms
-                $optional = array('title', 'date', 'type', 'source', 'language', 'rights');
+                $optional = array('title', 'date', 'language', 'rights');
 
                 foreach($optional as $dc_term){
                     if(!empty($definition->$dc_term)){

@@ -30,10 +30,33 @@ class Pager{
                 \App::abort(400, "The provided page info did not contain 2 parts, it should only contain a page number and a page size.");
             }
 
-            $link_value .= \Request::url() . '?offset=' . $page_info[0] . '&limit=' . $page_info[1] . ';rel=' . $keyword . ',';
+            $request_string = self::buildQuerystring();
+
+            $link_value .= \Request::url() . '?offset=' . $page_info[0] . '&limit=' . $page_info[1] . $request_string .';rel=' . $keyword . ',';
         }
 
         // Trim the most right comma off.
         return rtrim($link_value, ",");
     }
+
+    /**
+     * Build the query string from the request
+     *
+     * If not empty, will return &a=b&c=d
+     *
+     * @return string
+     */
+    private static function buildQuerystring(){
+
+        $request_params = \Request::all();
+        $request_params = array_except($request_params, array('limit', 'offset'));
+        $request_string = '';
+
+        if(!empty($request_params)){
+            $request_string = http_build_query($request_params);
+            $request_string = '&' . $request_string;
+        }
+
+        return $request_string;
+   }
 }

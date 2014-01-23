@@ -18,6 +18,9 @@ class DefinitionController extends \Controller {
     // Don't allow occupied prefixes: api, discovery
     private static $FORBIDDEN_PREFIX = array('api', 'discovery');
 
+    // The amount of definitions that are returned by default with one call.
+    private static $PAGE_SIZE = 30;
+
     public static function handle($uri){
 
         $uri = ltrim($uri, '/');
@@ -73,6 +76,11 @@ class DefinitionController extends \Controller {
         // Check if the uri already exists
         if(self::exists($uri)){
             self::deleteDefinition($uri);
+        }
+
+        // The resource identifier can only contain whitespaces and alphanumerical characters
+        if(preg_match('/[^a-z0-9 \/_]/i', $uri, $matches)){
+            \App::abort(400, "Only alphanumerical characters are allowed as resource identifier parts. Given uri: $uri.");
         }
 
         // Retrieve the collection uri and resource name
@@ -311,6 +319,7 @@ class DefinitionController extends \Controller {
 
         // TODO make dynamic
         if(empty($uri)){
+
             $definitions = \Definition::all();
 
             $defs_props = array();

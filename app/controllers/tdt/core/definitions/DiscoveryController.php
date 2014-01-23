@@ -23,6 +23,7 @@ class DiscoveryController extends \Controller {
         $method = \Request::getMethod();
 
         switch($method){
+
             case "GET":
                 $discovery_document = self::createDiscoveryDocument();
 
@@ -59,6 +60,9 @@ class DiscoveryController extends \Controller {
         $discovery_document->resources->definitions = self::createDefinitions();
         $discovery_document->resources->info = self::createInfo();
         $discovery_document->resources->dcat = self::createDcat();
+        $discovery_document->resources->languages = self::createLanguages();
+        $discovery_document->resources->licenses = self::createLicenses();
+        $discovery_document->resources->prefixes = self::createPrefixes();
 
         return $discovery_document;
     }
@@ -254,6 +258,63 @@ class DiscoveryController extends \Controller {
         $dcat->methods->get->description = "Get a list of all retrievable datasets published on this datatank instance in a DCAT vocabulary. In contrast with all the other resources, this data will be returned in a turtle serialization.";
 
         return $dcat;
+    }
+
+    /**
+     * Create the languages discovery documentation
+     */
+    private static function createLanguages(){
+
+        // Languages only supports the get method
+        $languages = new \stdClass();
+
+        // Attach the discovery information
+        $languages->methods = new \stdClass();
+        $languages->methods->get = new \stdClass();
+
+        $languages->methods->get->httpMethod = 'GET';
+        $languages->methods->get->path = '/languages';
+        $languages->methods->get->description = 'Get a list of supported languages that are made available to use as DCAT meta-data.';
+
+        return $languages;
+    }
+
+    /**
+     * Create the licenses discovery documentation
+     */
+    private static function createLicenses(){
+
+        // Licenses only supports the get method
+        $licenses = new \stdClass();
+
+        // Attach the discovery information
+        $licenses->methods = new \stdClass();
+        $licenses->methods->get = new \stdClass();
+
+        $licenses->methods->get->httpMethod = 'GET';
+        $licenses->methods->get->path = '/licenses';
+        $licenses->methods->get->description = 'Get a list of supported licenses that are made available to use as DCAT meta-data.';
+
+        return $licenses;
+    }
+
+    /**
+     * Create the prefixes discovery documentation
+     */
+    private static function createPrefixes(){
+
+        // Prefixes only supports the get method
+        $prefixes = new \stdClass();
+
+        // Attach the discovery information
+        $prefixes->methods = new \stdClass();
+        $prefixes->methods->get = new \stdClass();
+
+        $prefixes->methods->get->httpMethod = 'GET';
+        $prefixes->methods->get->path = '/prefixes';
+        $prefixes->methods->get->description = "Get a list of supported prefixes and uri's that are used to pass along with semantic data results.";
+
+        return $prefixes;
     }
 
     /**

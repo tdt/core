@@ -23,7 +23,9 @@ class HTMLFormatter implements IFormatter{
 
     public static function getBody($dataObj){
 
+        // Create the link to the dataset
         $dataset_link  = \URL::to($dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
+
         // Append rest parameters
         if(!empty($dataObj->rest_parameters)){
             $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
@@ -33,6 +35,21 @@ class HTMLFormatter implements IFormatter{
         $query_string = '';
         if(!empty($_GET)){
             $query_string = '?' . http_build_query(\Input::all());
+        }
+
+        // Links to pages
+        $prev_link = '';
+        $next_link = '';
+        if(!empty($dataObj->paging)){
+            $input_array = array_except(\Input::all(), array('limit', 'offset'));
+
+            if(!empty($paging['previous'])){
+                $prev_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['previous'][0] . '&limit=' . $dataObj->paging['previous'][1];
+            }
+
+            if(!empty($paging['next'])){
+                $next_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['next'][0] . '&limit=' . $dataObj->paging['next'][1];
+            }
         }
 
         if(!empty($dataObj->source_definition)){
@@ -95,6 +112,8 @@ class HTMLFormatter implements IFormatter{
                                           ->with('paging', $dataObj->paging)
                                           ->with('source_definition', $dataObj->source_definition)
                                           ->with('dataset_link', $dataset_link)
+                                          ->with('prev_link', $prev_link)
+                                          ->with('next_link', $next_link)
                                           ->with('query_string', $query_string);
     }
 

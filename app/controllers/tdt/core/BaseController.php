@@ -15,6 +15,9 @@ class BaseController extends \Controller {
      */
     public function handleRequest($uri){
 
+        // Save the original uri for controllers who don't want the uri lowercased
+        $original_uri = rtrim($uri, '/');
+
         // Introduce case insensitivity and trim right '/'
         $uri = strtolower(rtrim($uri, '/'));
 
@@ -43,6 +46,21 @@ class BaseController extends \Controller {
                         $controller = 'tdt\core\definitions\DcatController';
                         $uri = str_replace('api/dcat', '', $uri);
                         break;
+                    case 'languages':
+                        // Supported languages request
+                        $controller = 'tdt\core\definitions\LanguageController';
+                        $uri = str_replace('api/languages', '', $uri);
+                        break;
+                    case 'licenses':
+                        // Supported licenses request
+                        $controller = 'tdt\core\definitions\LicenseController';
+                        $uri = str_replace('api/licenses', '', $uri);
+                        break;
+                    case 'prefixes':
+                        // Supported prefixes request
+                        $controller = 'tdt\core\definitions\OntologyController';
+                        $uri = str_replace('api/prefixes', '', $uri);
+                        break;
                     default:
                         \App::abort(404, "Page not found.");
                         break;
@@ -52,6 +70,11 @@ class BaseController extends \Controller {
             case 'discovery':
                 // Discovery document
                 $controller = 'tdt\core\definitions\DiscoveryController';
+                break;
+            case 'spectql':
+                // SPECTQL request
+                $uri = str_ireplace('spectql', '', $original_uri);
+                $controller = 'tdt\core\definitions\SpectqlController';
                 break;
             case '':
                 // Home URL requests

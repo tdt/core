@@ -35,6 +35,7 @@ class ContentNegotiator extends Pager{
 
             $mimes = explode(',', $accept_header);
             foreach($mimes as $mime){
+
                 if(!empty(ContentNegotiator::$mime_types_map[$mime])){
                     // Matched mime type
                     $extension = ContentNegotiator::$mime_types_map[$mime];
