@@ -128,10 +128,27 @@ Implementation of the Interpreter
 ---------------------------------
 To understand the implementation of the Interpreter, see the README.md in the folder universalfilter/interpreter to start.
 
+Visualizing the syntax
+-----------------------
 
-Using this library outside of The DataTank
-------------------------------------------
-You can use the entire set of PHP classes for your own purpose, outside of The DataTank.
+For those of you who want to visualize our backus-naur notation, can use the following code:
 
-There is only one interface you have to re-implement: IUniversalTableManager.
-For more information on how to implement this interface, see the README.md in the folder universalfiler/tablemanager.
+segment             ::= resource '{' ( selector | '*') '}' ('?' filter)? (':' format)? END
+
+resource             ::= collection '/' resource_name
+selector              ::= argument ( ',' argument )*
+filter                   ::= comparison (('&' | '|') comparison) *
+format                ::= 'json' | 'xml' | 'php'
+
+collection            ::= literal ('/' literal)*
+resource_name   ::= literal
+
+argument            ::= (function '(' path ')' | path )
+
+function              ::= 'avg' | 'count' | 'first' | 'last' | 'max' | 'min' | 'sum' | 'ucase' | 'upper' | 'lcase' | 'lower' | 'len'
+path                   ::= literal ( '.' literal )*
+
+comparison        ::= path ( '~'  | '<=' | '<' | '>=' |  '>' | '==' | '!=' ) "'" literal "'"
+
+identifier            ::= NAME
+literal                 ::= STRING | NUMBER
