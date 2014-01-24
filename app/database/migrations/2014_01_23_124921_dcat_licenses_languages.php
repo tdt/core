@@ -28,10 +28,10 @@ class DcatLicensesLanguages extends Migration {
             $table->boolean('domain_data');
             $table->boolean('domain_software');
             $table->string('family', 255)->nullable();
-            $table->boolean('license_id', 255);
-            $table->boolean('is_generic', 255)->nullable();
-            $table->boolean('is_okd_compliant', 255);
-            $table->boolean('is_osi_compliant', 255);
+            $table->string('license_id', 255);
+            $table->boolean('is_generic')->nullable();
+            $table->boolean('is_okd_compliant');
+            $table->boolean('is_osi_compliant');
             $table->string('maintainer', 255)->nullable();
             $table->string('status', 255);
             $table->string('title', 255);

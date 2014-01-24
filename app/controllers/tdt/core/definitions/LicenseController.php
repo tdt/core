@@ -51,8 +51,19 @@ class LicenseController extends \Controller {
         // Fetch the columns that can be shown in the result
         $columns = \License::getColumns();
 
-        return self::makeResponse(\License::all($columns)->toArray());
+        $licenses = array();
 
+        // Translate 0 and 1 to json booleans
+        foreach(\License::all($columns) as $license){
+
+            $tmp = array();
+            foreach($columns as $column){
+                $tmp[$column] = $license->$column;
+            }
+            array_push($licenses, $tmp);
+        }
+
+        return self::makeResponse($licenses);
     }
 
     /**
@@ -61,7 +72,7 @@ class LicenseController extends \Controller {
     private static function makeResponse($data){
 
          // Create response
-        $response = \Response::make(str_replace('\/','/', json_encode($data)));
+        $response = \Response::make(str_replace('\/','/', json_encode($data, true)));
 
         // Set headers
         $response->header('Content-Type', 'application/json;charset=UTF-8');

@@ -56,7 +56,6 @@ class UniversalFilterTableHeader {
                     $id = $column->getId();
                 } else {
                     $id = $column->getId();
-                    //\App::abort(500, "The identifier $columnName is not unique.");
                 }
             }
         }
@@ -158,9 +157,10 @@ class UniversalFilterTableHeader {
     }
 
     /**
-     * returns the only columnId (if a column)
+     * Returns the only columnId (if a column)
      */
     public function getColumnId() {
+
         if (!$this->isSingleColumnByConstruction()) {
 
             \App::abort(500, "TableHeader - Not a single column.");

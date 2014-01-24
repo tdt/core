@@ -23,14 +23,11 @@ class AggregatorFunction extends NormalFilterNode {
     public static $AGGREGATOR_SUM = "AGGREGATOR_SUM";
 
     public function __construct($kind, UniversalFilterNode $column = null) {
+
         parent::__construct($kind);
+
         if ($column != null)
             $this->setSource($column);
     }
 
 }
-
-/*
- *  Other specific functions
- */
-

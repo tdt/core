@@ -8,6 +8,8 @@
  */
 class License extends Eloquent{
 
+    protected $boolean_values = array('domain_content', 'domain_data', 'is_generic', 'is_okd_compliant', 'is_osi_compliant');
+
     protected $fillable = array(
                             'domain_content',
                             'domain_data',
@@ -37,5 +39,20 @@ class License extends Eloquent{
             'title',
             'url'
         );
+    }
+
+    /**
+     * Since MySQL doesn't have the notion of boolean values true and false
+     * provide a translation for these 0 and 1 values to PHP booleans
+     *
+     * @return mixed
+     */
+    public function __get($name){
+
+        if(in_array($name, $this->boolean_values)){
+            return parent::__get($name) == 1 ? TRUE : FALSE;
+        }
+
+        return parent::__get($name);
     }
 }

@@ -107,12 +107,16 @@ class UniversalFilterTableContentRow {
     }
 
     /**
-     * returns the grouped value of a field in the table
+     * Returns the grouped value of a field in the table
+     *
      * @return array
      */
     public function getGroupedValue($idOfField) {
+
         if (isset($this->data->$idOfField)) {
+
             $obj = $this->data->$idOfField;
+
             if (isset($obj["grouped"])) {
                 return $obj["grouped"];
             } else {
