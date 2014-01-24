@@ -26,7 +26,7 @@ class Export extends Command {
      *
      * @var string
      */
-    protected $name = 'core:export';
+    protected $name = 'datatank:export';
 
     /**
      * The console command description.
@@ -157,8 +157,8 @@ class Export extends Command {
     protected function getOptions()
     {
         return array(
-            array('users', 'u', InputOption::VALUE_NONE, 'Export the users', null),
-            array('file', 'f', InputOption::VALUE_OPTIONAL, 'Write the export data to this file.', null),
+            array('users', 'u', InputOption::VALUE_NONE, 'Export the users, if this option is not given the command will export the definitions.', null),
+            array('file', 'f', InputOption::VALUE_OPTIONAL, 'Write the export data to this file. Default value is the file definition_export.json located in the app/commands folder.', null),
         );
     }
 

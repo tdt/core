@@ -13,7 +13,7 @@ class Import extends Command {
      *
      * @var string
      */
-    protected $name = 'core:import';
+    protected $name = 'datatank:import';
 
     /**
      * The console command description.
