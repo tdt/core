@@ -57,6 +57,7 @@ class LicenseController extends \Controller {
         foreach(\License::all($columns) as $license){
 
             $tmp = array();
+
             foreach($columns as $column){
                 $tmp[$column] = $license->$column;
             }

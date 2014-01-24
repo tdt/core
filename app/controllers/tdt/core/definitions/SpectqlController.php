@@ -126,6 +126,12 @@ class SPECTQLController extends \Controller {
 
         // Get the required properties for the Data object
         $definition_uri = preg_match('/(.*?)\{.*/', $uri, $matches);
+
+        // If no selection statement is given, abort the processing of the query
+        if(empty($matches)){
+            \App::abort(400, "Please provide a select statement with the SPECTQL query (e.g. { column_1, column_2 }).");
+        }
+
         $definition_uri = $matches[1];
         $definition = DefinitionController::get($definition_uri);
 
