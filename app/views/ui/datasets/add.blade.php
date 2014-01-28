@@ -163,7 +163,7 @@
                                         @elseif($object->type == 'list')
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}">
                                                 @foreach($object->list as $option)
-                                                    <option>{{ $option }}</option>
+                                                    <option @if(strtolower($option) == 'english'){{ 'selected="selected"' }}@endif>{{ $option }}</option>
                                                 @endforeach
                                             </select>
                                         @endif
