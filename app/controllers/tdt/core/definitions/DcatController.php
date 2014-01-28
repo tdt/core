@@ -116,13 +116,13 @@ class DcatController extends \Controller {
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
                 $graph->addLiteral($dataset_uri, 'dct:description', @$source_type->description);
-                $graph->addLiteral($dataset_uri, 'dct:identifier', $definition->collection_uri . '/' . $definition->resource_name);
+                $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition->collection_uri . '/' . $definition->resource_name));
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
 
                 // Add the source resource if it's a URI
                 if (filter_var($definition->source, FILTER_VALIDATE_URL) !== FALSE) {
-                    $graph->addResource($dataset_uri, 'dct:source', $definition->source);
+                    $graph->addResource($dataset_uri, 'dct:source', urlencode($definition->source));
                 }
 
                 // Optional dct terms
