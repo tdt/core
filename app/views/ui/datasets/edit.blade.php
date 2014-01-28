@@ -107,7 +107,15 @@
                             {{ $object->name }}
                         </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
+                            @if($object->type == 'string')
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
+                            @elseif($object->type == 'list')
+                                <select id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                    @foreach($object->list as $option)
+                                        <option @if( $definition->{$parameter} == $option){{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            @endif
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>

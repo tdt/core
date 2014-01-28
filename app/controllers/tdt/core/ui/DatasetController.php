@@ -45,6 +45,7 @@ class DatasetController extends \Controller {
 
         // Sort parameters for each media type
         $mediatypes = array();
+        $lists = array();
         foreach($mediatypes_spec as $mediatype => $type){
 
             $parameters_required = array();
@@ -61,7 +62,32 @@ class DatasetController extends \Controller {
 
                     // Filter Dublin core parameters
                     if(!empty($object->group) && $object->group == 'dc'){
+
+                        // Fetch autocomplete DC fields
+                        if($object->type == 'list'){
+                            $uri = $object->list;
+
+                            // Check list cache
+                            if(empty($lists[$uri])){
+                                $data = json_decode($this->getDocument($uri));
+                                $data_set = array();
+
+                                foreach($data as $o){
+                                    if(!empty($o->{$object->list_option})){
+                                        $data_set[] = $o->{$object->list_option};
+                                    }
+                                }
+
+                                $lists[$uri] = $data_set;
+                            }
+
+                            $object->list = $lists[$uri];
+
+                        }
+
+
                         $parameters_dc[$parameter] = $object;
+
                     }else{
                         // Fitler optional vs required
                         if($object->required){
@@ -134,6 +160,7 @@ class DatasetController extends \Controller {
             $parameters_required = array();
             $parameters_optional = array();
             $parameters_dc = array();
+            $lists = array();
             foreach($mediatype->parameters as $parameter => $object){
 
                 // Filter array type parameters
@@ -142,6 +169,29 @@ class DatasetController extends \Controller {
 
                     // Filter Dublin core parameters
                     if(!empty($object->group) && $object->group == 'dc'){
+
+                        // Fetch autocomplete DC fields
+                        if($object->type == 'list'){
+                            $uri = $object->list;
+
+                            // Check list cache
+                            if(empty($lists[$uri])){
+                                $data = json_decode($this->getDocument($uri));
+                                $data_set = array();
+
+                                foreach($data as $o){
+                                    if(!empty($o->{$object->list_option})){
+                                        $data_set[] = $o->{$object->list_option};
+                                    }
+                                }
+
+                                $lists[$uri] = $data_set;
+                            }
+
+                            $object->list = $lists[$uri];
+
+                        }
+
                         $parameters_dc[$parameter] = $object;
                     }else{
                         // Fitler optional vs required
@@ -200,6 +250,20 @@ class DatasetController extends \Controller {
         $discovery = json_decode($response->getContent());
 
         return $discovery;
+    }
+
+    private function getDocument($uri){
+        // Create a CURL client
+        $cURL = new \Buzz\Client\Curl();
+        $cURL->setVerifyPeer(false);
+        $cURL->setTimeout(30);
+
+        // Get discovery document
+        $browser = new \Buzz\Browser($cURL);
+        $response = $browser->get(\URL::to($uri));
+
+        // Document content
+        return $response->getContent();
     }
 
 }
