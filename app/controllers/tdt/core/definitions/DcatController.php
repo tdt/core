@@ -130,7 +130,22 @@ class DcatController extends \Controller {
 
                 foreach($optional as $dc_term){
                     if(!empty($definition->$dc_term)){
-                        $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition->$dc_term);
+
+                        // TODO decide dynamically based on the declaration of DCAT properties
+                        if($dc_term == 'rights'){
+                            $license = @\License::where('title', '=', $definition->$dc_term)->first()->toArray();
+
+                            if(!empty($license) && !empty($license['url'])){
+                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
+                            }
+                        }elseif($dc_term == 'language'){
+                            $lang = @\Language::where('name', '=', $definition->$dc_term)->first()->toArray();
+                            if(!empty($lang)){
+                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+                            }
+                        }else{
+                            $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition->$dc_term);
+                        }
                     }
                 }
             }
