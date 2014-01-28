@@ -121,8 +121,8 @@ class DcatController extends \Controller {
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
 
                 // Add the source resource if it's a URI
-                if (filter_var($definition->source, FILTER_VALIDATE_URL) !== FALSE) {
-                    $graph->addResource($dataset_uri, 'dct:source', urlencode($definition->source));
+                if (strpos($definition->source, 'http://') !== false || strpos($definition->source, 'https://')){
+                    $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition->source));
                 }
 
                 // Optional dct terms
