@@ -31,5 +31,7 @@ class Data {
 
     public $is_semantic = false;
 
+    public $is_spectql = false;
+
     public $semantic;
 }

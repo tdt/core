@@ -149,6 +149,10 @@ class SPECTQLController extends \Controller {
 
         $data = new Data();
         $data->data = $object;
+
+        // Specify it's a SPECTQL result
+        $data->is_spectql = true;
+
         $data->rest_parameters = $rest_parameters;
 
         // Add definition to the object
