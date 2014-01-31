@@ -10,8 +10,59 @@ namespace tdt\commands\ie;
  */
 class Users implements IImportExport {
 
-    public static function import($data){
+    public static function import($users){
 
+        $messages = array();
+
+        foreach($users as $user){
+            $groups = $user['groups'];
+            $primary_group = array_shift($groups);
+
+            // Unset the unnecessary fields
+            unset($user['id']);
+            unset($user['groups']);
+
+            try
+            {
+                // Create the user
+                $created_user = \Sentry::createUser($user);
+
+                // Manually update password
+                \DB::table('users')
+                    ->where('id', $created_user->id)
+                    ->update(array('password' => $user['password']));
+
+                // Try adding user to groups
+                try
+                {
+                    // Find the group using the group name
+                    $group = \Sentry::findGroupByName($primary_group);
+
+                    // Assign the group to the user
+                    $created_user->addGroup($group);
+                }
+                catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e)
+                {
+                    echo "Group '$primary_group' was not found.";
+                }
+
+                $messages[$user['email']] = true;
+            }
+            catch (\Cartalyst\Sentry\Users\LoginRequiredException $e)
+            {
+                $messages[$user['email']] = false;
+            }
+            catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e)
+            {
+                $messages[$user['email']] = false;
+            }
+            catch (\Cartalyst\Sentry\Users\UserExistsException $e)
+            {
+                $messages[$user['email']] = false;
+            }
+        }
+
+        return $messages;
     }
 
     public static function export($identifier = null){
@@ -34,11 +85,11 @@ class Users implements IImportExport {
             // Add password hash
             $u['password'] = $password;
 
-            // Add group IDs
+            // Add group names
             $u['groups'] = array();
 
             foreach($sentry_groups as $g){
-                array_push($u['groups'], $g->id);
+                array_push($u['groups'], $g->name);
             }
 
             array_push($users, $u);

@@ -6,7 +6,10 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Filesystem\Filesystem;
-use tdt\core\definitions\DefinitionController;
+
+use tdt\commands\ie\Definitions;
+use tdt\commands\ie\Users;
+use tdt\commands\ie\Groups;
 
 class Import extends Command {
 
@@ -22,7 +25,7 @@ class Import extends Command {
      *
      * @var string
      */
-    protected $description = 'Import functionality for definition and user configuration. By default it assumes that the given json file is a definition configuration.';
+    protected $description = 'CLI import functionality for the datatank configuration.';
 
     /**
      * Create a new command instance.
@@ -42,57 +45,83 @@ class Import extends Command {
     public function fire()
     {
 
-        if($this->option('users')){
+        // Fetch the json file from the arguments
+        $file = $this->argument('file');
 
-            $this->error("Not yet implemented.");
-            die;
+        // Check if the file exists
+        if(\File::exists($file)){
 
-        }else{
+            // JSON decode
+            $content = json_decode(\File::get($file), true);
 
-            // Fetch the json file from the arguments
-            $file = $this->argument('input');
+            if($content){
 
-            // Check if the file exists
-            if(File::exists($file)){
+                // Check for user & groups
+                if(!empty($content['users']) && is_array($content['users'])
+                    && !empty($content['groups']) && is_array($content['groups'])){
 
-                $content = json_decode(File::get($file), true);
+                    $this->info("\n——————————————————————————————————");
+                    $this->info("Users & groups found, importing...");
+                    $this->info("——————————————————————————————————");
 
-                if($content){
+                    // Import groups
+                    $messages = Groups::import($content['groups']);
+
+                    foreach($messages as $group => $status){
+                        if($status){
+                            $this->info("• Group '$group' succesfully added.");
+                        }else{
+                            $this->error("• Group '$group' already existed, ignored.");
+                        }
+                    }
+
+                    // Import users
+                    $messages = Users::import($content['users']);
+
+                    foreach($messages as $user => $status){
+                        if($status){
+                            $this->info("• User '$user' succesfully added.");
+                        }else{
+                            $this->error("• User '$user' already existed, ignored.");
+                        }
+                    }
+                }
+
+                // Check for definitions
+                if(!empty($content['definitions']) && is_array($content['definitions'])){
+
+                    $this->info("———————————————————————————————");
+                    $this->info("Definitions found, importing...");
+                    $this->info("———————————————————————————————");
 
                     // Ask for a set of credentials that have definition-create permissions
                     $username = $this->ask("Enter a username that has permission to create definitions: ");
                     $password = $this->secret("Enter the corresponding password: ");
 
-                    $auth_header = "Basic " . base64_encode($username . ":" . $password);
+                    $data = array();
+                    $data['username'] = $username;
+                    $data['password'] = $password;
+                    $data['definitions'] = $content['definitions'];
 
-                    foreach($content as $identifier => $definition_params){
+                    $messages = Definitions::import($data);
 
-                        $headers = array(
-                                        'Content-Type' => 'application/tdt.definition+json',
-                                        'Authorization' => $auth_header,
-                                    );
-
-                        $this->updateRequest('PUT', $headers, $definition_params);
-
-                        // Add the new definition
-                        $response = DefinitionController::handle($identifier);
-
-                        $status_code = $response->getStatusCode();
-
-                        if($status_code == 200){
-                            $this->info("A new definition with identifier ($identifier) was succesfully added.");
+                    foreach($messages as $identifier => $status){
+                        if($status){
+                            $this->info("• Definition with '$identifier' succesfully added.");
                         }else{
-                            $this->error("A status of $status_code was returned when adding $identifier, check the logs for indications of what may have gone wrong.");
+                            $this->error("Something went wrong when trying to adding the definition '$identifier', check the logs for indications of what may have gone wrong.");
                         }
                     }
-                }else{
-                    $this->error("The given file contents doesn't contain valid JSON.");
-                    die;
                 }
+
+                $this->info("\nCompleted task");
             }else{
-                $this->error("The given file ($file) can't be found on the system.");
-                die;
+                $this->error("The given file doesn't contain valid JSON.");
+                die();
             }
+        }else{
+            $this->error("The given file '$file' can't be found on the system.");
+            die();
         }
     }
 
@@ -104,7 +133,7 @@ class Import extends Command {
     protected function getArguments()
     {
         return array(
-            array("input", InputArgument::REQUIRED, "The absolute path to the JSON file.", null),
+            array("file", InputArgument::REQUIRED, "The path to the JSON export file.", null),
         );
     }
 
@@ -116,25 +145,7 @@ class Import extends Command {
     protected function getOptions()
     {
         return array(
-            array("users", "u" ,InputOption::VALUE_NONE, "Import users.", null),
         );
-    }
-
-    /**
-     * Custom API call function
-     */
-    public function updateRequest($method, $headers = array(), $data = array()){
-
-        // Set the custom headers.
-        \Request::getFacadeRoot()->headers->replace($headers);
-
-        // Set the custom method.
-        \Request::setMethod($method);
-
-        // Set the content body.
-        if(is_array($data)){
-            \Input::merge($data);
-        }
     }
 
 }
