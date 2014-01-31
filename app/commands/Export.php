@@ -1,25 +1,16 @@
 <?php
 
+namespace tdt\commands;
+
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use tdt\core\definitions\DefinitionController;
+
+use tdt\commands\ie\Definitions;
+use tdt\commands\ie\Users;
+use tdt\commands\ie\Groups;
 
 class Export extends Command {
-
-    /**
-     * The default filename to export definitions to.
-     *
-     * @var string
-     */
-    protected $definition_file = "definition_export.json";
-
-    /**
-     * The default filename to export users to.
-     *
-     * @var string
-     */
-    protected $user_file = "user_export.json";
 
     /**
      * The console command name.
@@ -33,7 +24,7 @@ class Export extends Command {
      *
      * @var string
      */
-    protected $description = 'Export functionality for the definition and user configuration. By default it exports the all of the definitions.';
+    protected $description = 'Export functionality for the datatank configuration. By default it exports all the data.';
 
     /**
      * Create a new command instance.
@@ -43,11 +34,6 @@ class Export extends Command {
     public function __construct()
     {
         parent::__construct();
-
-        // Assign the command directory to be the default directory to put the
-        // export definitions and users in
-        $this->definition_file = app_path() . "/commands/" . $this->definition_file;
-        $this->users_file = app_path() . "/commands/" . $this->user_file;
     }
 
     /**
@@ -62,80 +48,79 @@ class Export extends Command {
      */
     public function fire()
     {
-
+        // Check for filename
         $filename = $this->option('file');
 
-        // Check which export functionality is chosen,
-        // by default opt to export definitions
-        if($this->option('users')){
+        // Get the optional identifier
+        $identifier = $this->argument('identifier');
 
-            $this->error("Not yet implemented.");
-            die;
+        // Create new object for the export data;
+        $export_data = new \stdClass();
 
-            // Ask if all of the user need to be exported or a specific one
-            if($this->confirm("Do you want to export all of the users? [yes|no]")){
 
-                $users = \Sentry::findAllUsers();
+        if($this->option('definitions')){
 
-            }else{
+            $export_data->definitions = Definitions::export($identifier);
 
-                // Ask for the name of a specific user
-                $users = "";
+            if(!empty($identifier)){
+
+                // When the identifier doesn't check out, give the user another chance to fill it out
+                while(empty($export_data->definitions)){
+
+                    $this->error("The resource with identifier '$identifier' could not be found.");
+
+                    // Prompt new indentifier
+                    $identifier = $this->ask('Provide the full identifier of the definition you want (e.g. csv/cities): ');
+
+                    // Check if the resource id is legit
+                    $export_data->definitions = Definitions::export($identifier);
+                }
             }
+
+        }elseif($this->option('users')){
+
+            // Export users
+            $export_data->users = Users::export();
+            // Export groups
+            $export_data->groups = Groups::export();
 
         }else{
 
-            $file_content = "";
+            // Export definitions
+            $export_data->definitions = Definitions::export();
 
-            // Ask if all definitions can be exported or only a specific one
-            if($this->confirm("Do you want to export all of the definitions? [yes|no]")){
-
-                // Request all of the definitions
-                $definitions = DefinitionController::getAllDefinitions();
-                $file_content = str_replace('\/', '/', json_encode($definitions));
-
-            }else{
-
-                $resource_id = $this->ask('Provide the full identifier of the definition you want (e.g. foo/foobar/bar): ');
-
-                // Check if the resource id is legit
-                $definition = DefinitionController::get($resource_id);
-
-                // If the resource_id doesn't check out, give the user another chance to pass it along
-                while(empty($definition)){
-
-                    $this->error("The given resource identifier ($resource_id) could not be found.");
-
-                    $resource_id = $this->ask('Provide the full identifier of the definition you want (e.g. foo/foobar/bar): ');
-
-                    // Check if the resource id is legit
-                    $definition = DefinitionController::get($resource_id);
-                }
-
-                $def_props = $definition->getAllParameters();
-
-                // These definition properties are put into a single array
-                // we still need to map it to its corresponding identifier
-                $def_props = array($resource_id => $def_props);
-                $file_content = str_replace('\/', '/', json_encode($def_props));
-
-            }
-
-            // If the fetched filename was empty, assign the default file name
-            // and the default path
-            if(empty($filename)){
-                $filename = $this->definition_file;
-            }
-
-            try{
-                file_put_contents($filename, $file_content);
-            }catch(Exception $e){
-                $this->error("The contents could not be written to the file ($filename).");
-                die;
-            }
-
-            $this->info("The export has been written to $filename.");
+            // Export users
+            $export_data->users = Users::export();
+            // Export groups
+            $export_data->groups = Groups::export();
         }
+
+
+        // JSON encode
+        if (defined('JSON_PRETTY_PRINT')) {
+            $export_data = json_encode($export_data, JSON_PRETTY_PRINT);
+        }else{
+            $export_data = json_encode($export_data);
+        }
+        // JSON_UNESCAPED_SLASHES only available in PHP 5.4
+        $export_data = str_replace('\/', '/', $export_data);
+
+
+        // Output
+        if(empty($filename)){
+            // Print to console
+            echo $export_data;
+        }else{
+            try{
+                // Write to file
+                file_put_contents($filename, $export_data);
+                $this->info("The export has been written to the file '$filename'.");
+            }catch(Exception $e){
+                $this->error("The contents could not be written to the file '$filename'.");
+                die();
+            }
+        }
+
     }
 
     /**
@@ -146,6 +131,7 @@ class Export extends Command {
     protected function getArguments()
     {
         return array(
+            array('identifier', InputArgument::OPTIONAL, 'If you specify the option -d, you can export a single definition by specifying the indentifier of that definition (e.g. csv/cities)'),
         );
     }
 
@@ -157,8 +143,9 @@ class Export extends Command {
     protected function getOptions()
     {
         return array(
-            array('users', 'u', InputOption::VALUE_NONE, 'Export the users, if this option is not given the command will export the definitions.', null),
-            array('file', 'f', InputOption::VALUE_OPTIONAL, 'Write the export data to this file. Default value is the file definition_export.json located in the app/commands folder.', null),
+            array('definitions', 'd', InputOption::VALUE_NONE, 'Only export the definitions, if you specify an identifier only that definition will be exported.', null),
+            array('users', 'u', InputOption::VALUE_NONE, 'Only export the users.', null),
+            array('file', 'f', InputOption::VALUE_OPTIONAL, 'Write the export data to a file.', null),
         );
     }
 

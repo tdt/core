@@ -1,5 +1,7 @@
 <?php
 
+namespace tdt\commands;
+
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -84,7 +86,7 @@ class Import extends Command {
                         }
                     }
                 }else{
-                    $this->error("The given file contents couldn't be json decoded.");
+                    $this->error("The given file contents doesn't contain valid JSON.");
                     die;
                 }
             }else{
@@ -102,7 +104,7 @@ class Import extends Command {
     protected function getArguments()
     {
         return array(
-            array("input", InputArgument::REQUIRED, "The absolute path to the json file.", null),
+            array("input", InputArgument::REQUIRED, "The absolute path to the JSON file.", null),
         );
     }
 
