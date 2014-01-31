@@ -5,6 +5,7 @@ namespace tdt\core\datacontrollers;
 use tdt\core\datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
 
+
 /**
  * SPARQL Controller
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
@@ -54,11 +55,13 @@ class SPARQLController extends ADataController {
         $prefix = '';
         $filter = '';
 
+        $where_clause = '(.*?(FROM.+?{.+})|.*?({.+})).*?';
+
         if($keyword == 'select'){
             if(stripos($query,"where") === FALSE){
-                preg_match("/(.*)$keyword.*?({.*}).*?/i",$query,$matches);
+                preg_match("/(.*)$keyword.*?$where_clause/i", $query, $matches);
             }else{
-                preg_match("/(.*)$keyword.*?(where\s*{.*}).*?/i",$query,$matches);
+                preg_match("/(.*)$keyword.*?$where_clause/i", $query, $matches);
             }
 
             if(count($matches) < 2){
@@ -66,14 +69,14 @@ class SPARQLController extends ADataController {
             }
 
             $prefix = $matches[1];
-            $filter = $matches[2];
+            $filter = end($matches);
 
         }else{
 
             if(stripos($query,"where") === FALSE){
-                preg_match("/(.*)$keyword(\s*\{.+\})\s*({.*}).*?/i",$query,$matches);
+                preg_match("/(.*)$keyword(\s*\{.+\})$where_clause/i", $query, $matches);
             }else{
-                preg_match("/(.*)$keyword(\s*\{.+\}).*?(where\s*{.*}).*?/i",$query,$matches);
+                preg_match("/(.*)$keyword(\s*\{.+\})$where_clause/i", $query, $matches);
             }
 
             if(count($matches) < 2){
@@ -81,11 +84,12 @@ class SPARQLController extends ADataController {
             }
 
             $prefix = $matches[1];
-            $filter = $matches[2];
+            $filter = end($matches);
         }
 
         // Prepare the query to count results
-        $count_query = $matches[1] . ' SELECT count(*) AS ?count ' . $matches[2];
+        $count_query = $matches[1] . ' SELECT (count(*) AS ?count) ' . end($matches);
+
 
         $count_query = urlencode($count_query);
         $count_query = str_replace("+", "%20", $count_query);
