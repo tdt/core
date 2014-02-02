@@ -48,7 +48,7 @@ class SparqlDefinition extends SourceType{
                 'required' => true,
                 'name' => 'SPARQL query',
                 'description' =>  'The query to be executed.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'endpoint_user' => array(
                 'required' => false,
