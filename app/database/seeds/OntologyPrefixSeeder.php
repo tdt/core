@@ -31,10 +31,10 @@ class OntologyPrefixSeeder extends Seeder {
 
         foreach($prefixes as $prefix => $uri)
         {
-            \Ontology::create([
+            \Ontology::create(array(
                 'prefix' => $prefix,
                 'uri' => $uri,
-            ]);
+            ));
         }
 
         $this->command->info("Added the prefixes and corresponding uri's.");

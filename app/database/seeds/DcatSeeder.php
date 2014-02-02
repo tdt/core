@@ -39,7 +39,7 @@ class DcatSeeder extends Seeder {
 
         foreach($licenses as $license)
         {
-            \License::create([
+            \License::create(array(
                 'domain_content' => $license->domain_content,
                 'domain_data' => $license->domain_data,
                 'domain_software' => $license->domain_software,
@@ -52,7 +52,7 @@ class DcatSeeder extends Seeder {
                 'status' => $license->status,
                 'title' => $license->title,
                 'url' => $license->url
-            ]);
+            ));
         }
 
         $this->command->info('Added the licenses.');
@@ -73,14 +73,13 @@ class DcatSeeder extends Seeder {
 
         foreach($languages as $language)
         {
-            \Language::create([
+            \Language::create(array(
                 'lang_id' => $language->id,
                 'lang_code' =>$language->lang_code,
                 'name' => $language->name,
-            ]);
+            ));
         }
 
         $this->command->info('Added the languages.');
     }
-
 }
