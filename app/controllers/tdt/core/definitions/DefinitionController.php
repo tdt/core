@@ -78,8 +78,8 @@ class DefinitionController extends \Controller {
             self::deleteDefinition($uri);
         }
 
-        // The resource identifier can only contain whitespaces and alphanumerical characters
-        if(preg_match('/[^a-z0-9 \/_]/i', $uri, $matches)){
+        // The resource identifier can only contain whitespaces, hyphens and alphanumerical characters
+        if(preg_match('/[^a-z0-9 \/_-]/i', $uri, $matches)){
             \App::abort(400, "Only alphanumerical characters are allowed as resource identifier parts. Given uri: $uri.");
         }
 

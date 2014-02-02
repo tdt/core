@@ -22,7 +22,7 @@ class Export extends Command {
      *
      * @var string
      */
-    protected $description = 'Export functionality for the datatank configuration. By default it exports all the data.';
+    protected $description = 'Export functionality for the datatank configuration. By default it exports all of the users and definitions in JSON.';
 
     /**
      * Create a new command instance.

@@ -23,7 +23,7 @@ class Import extends Command {
      *
      * @var string
      */
-    protected $description = 'CLI import functionality for the datatank configuration.';
+    protected $description = 'Import functionality for a datatank configuration, can import users and resources passed in a JSON file.';
 
     /**
      * Create a new command instance.
