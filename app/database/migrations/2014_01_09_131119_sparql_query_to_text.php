@@ -11,8 +11,6 @@ class SparqlQueryToText extends Migration {
 	 */
 	public function up()
 	{
-		// Set the type of a sparql query to text, from varchar(255)
-		\DB::statement('ALTER TABLE sparqldefinitions MODIFY COLUMN query TEXT NULL');
 	}
 
 	/**

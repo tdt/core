@@ -16,7 +16,7 @@ class SparqlDefinitionInit extends Migration {
 
             $table->increments('id');
             $table->string('endpoint', 255)->nullable();
-            $table->string('query', '255')->nullable();
+            $table->text('query', '255')->nullable();
             $table->string('endpoint_user', 255)->nullable();
             $table->string('endpoint_password', 255)->nullable();
             $table->string('description', 255)->nullable();
