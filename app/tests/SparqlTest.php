@@ -1,30 +1,25 @@
 <?php
 
-
 use tdt\core\definitions\DefinitionController;
 use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-class JsonTest extends TestCase{
+include(__DIR__ . '/data/sparql/SparqlQueries.php');
 
-    // This array holds the names of the files that can be used
-    // to test the json definitions.
-    private $test_data = array(
-                'complex_persons',
-                'simple_persons',
-            );
+class SparqlTest extends TestCase{
 
     public function test_put_api(){
 
-        // Publish each json file in the test json data folder.
-        foreach($this->test_data as $file){
+        // PUT the sparql definitions via the API
+        foreach(\SparqlQueries::$queries as $name => $query){
 
             // Set the definition parameters.
             $data = array(
-                'description' => "A JSON publication from the $file json file.",
-                'uri' => 'file://' . __DIR__ . "/data/json/$file.json",
-                'type' => 'json'
-                );
+                'description' => "A SPARQL query publication.",
+                'endpoint' => 'http://dbpedia.org/sparql',
+                'query' => $query,
+                'type' => 'sparql'
+            );
 
             // Set the headers.
             $headers = array(
@@ -34,7 +29,7 @@ class JsonTest extends TestCase{
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("json/$file");
+            $response = DefinitionController::handle("sparql/$name");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -44,12 +39,12 @@ class JsonTest extends TestCase{
     public function test_get_api(){
 
         // Request the data for each of the test json files.
-        foreach($this->test_data as $file){
+        foreach(\SparqlQueries::$queries as $name => $query){
 
-            $file = 'json/'. $file .'.json';
+            $name = 'sparql/'. $name .'.json';
             $this->updateRequest('GET');
 
-            $response = DatasetController::handle($file);
+            $response = DatasetController::handle($name);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
@@ -57,19 +52,19 @@ class JsonTest extends TestCase{
     public function test_delete_api(){
 
         // Delete the published definition for each test json file.
-        foreach($this->test_data as $file){
+        foreach(\SparqlQueries::$queries as $name => $query){
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("json/$file");
+            $response = DefinitionController::handle("sparql/$name");
             $this->assertEquals(200, $response->getStatusCode());
         }
 
         // Check if everything is deleted properly.
         $definitions_count = Definition::all()->count();
-        $json_count = JsonDefinition::all()->count();
+        $sparql_count = SparqlDefinition::all()->count();
 
-        $this->assertTrue($json_count == 0);
+        $this->assertTrue($sparql_count == 0);
         $this->assertTrue($definitions_count == 0);
     }
 }

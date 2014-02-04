@@ -55,41 +55,43 @@ class SPARQLController extends ADataController {
         $prefix = '';
         $filter = '';
 
-        $where_clause = '(.*?(FROM.+?{.+})|.*?({.+})).*?';
+        $where_clause = '(.*?(FROM.+?{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
+        $matches = array();
 
         if($keyword == 'select'){
-            if(stripos($query,"where") === FALSE){
-                preg_match("/(.*)$keyword.*?$where_clause/i", $query, $matches);
-            }else{
-                preg_match("/(.*)$keyword.*?$where_clause/i", $query, $matches);
-            }
 
-            if(count($matches) < 2){
-                \App::abort(500, "Failed to retrieve the where clause from the query: $query");
-            }
+            $regex = $keyword . $where_clause;
 
-            $prefix = $matches[1];
-            $filter = end($matches);
+            preg_match_all("/(.*)$regex/msi", $query, $matches);
 
         }else{
 
-            if(stripos($query,"where") === FALSE){
-                preg_match("/(.*)$keyword(\s*\{.+\})$where_clause/i", $query, $matches);
-            }else{
-                preg_match("/(.*)$keyword(\s*\{.+\})$where_clause/i", $query, $matches);
-            }
+            preg_match_all("/(.*)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
 
-            if(count($matches) < 2){
-                \App::abort(500, "Failed to retrieve the where clause from the query: $query");
-            }
+        }
 
-            $prefix = $matches[1];
-            $filter = end($matches);
+        $prefix = $matches[1][0];
+        $filter = "";
+
+        // Preg match all has 3 entries for the where clause, pick the first hit
+        if(!empty($matches[3][0])){
+            $filter = $matches[3][0];
+        }
+
+        if(!empty($matches[4][0])){
+            $filter = $matches[4][0];
+        }
+
+        if(!empty($matches[5][0])){
+            $filter = $matches[5][0];
+        }
+
+        if(empty($filter)){
+            \App::abort(500, "Failed to retrieve the where clause from the query: $query");
         }
 
         // Prepare the query to count results
-        $count_query = $matches[1] . ' SELECT (count(*) AS ?count) ' . end($matches);
-
+        $count_query = $matches[1][0] . ' SELECT (count(*) AS ?count) ' . $filter;
 
         $count_query = urlencode($count_query);
         $count_query = str_replace("+", "%20", $count_query);
@@ -224,9 +226,9 @@ class SPARQLController extends ADataController {
 
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if($response_code == '400'){
-            \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $response.");
+            \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $response. The URI was: $uri");
         }else if($response_code == '500'){
-            \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
+            \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The URI was: $uri");
         }
 
         curl_close($ch);
