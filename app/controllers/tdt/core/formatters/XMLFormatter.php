@@ -28,7 +28,7 @@ class XMLFormatter implements IFormatter{
     public static function getBody($dataObj){
 
         // Rootname equals resource name
-        $rootname = $dataObj->definition->resource_name;
+        $rootname = 'root';
 
         // Check for semantic source
         if($dataObj->is_semantic){
