@@ -162,8 +162,9 @@
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
                                         @elseif($object->type == 'list')
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                                <option></option>
                                                 @foreach($object->list as $option)
-                                                    <option @if(strtolower($option) == 'english'){{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                                    <option>{{ $option }}</option>
                                                 @endforeach
                                             </select>
                                         @endif
