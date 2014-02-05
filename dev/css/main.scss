@@ -301,6 +301,7 @@ h4{
 
 input, textarea{
     box-shadow: none !important;
+    font-size: 12px;
 
     &:focus{
         box-shadow: none !important;
@@ -311,6 +312,11 @@ input, textarea{
 
 textarea{
     resize: vertical;
+}
+
+.form-control, .input-group-addon{
+    font-size: 12px;
+    padding: 6px 8px;
 }
 
 .input-group-btn:last-child{
