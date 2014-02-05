@@ -30,7 +30,7 @@ class UserController extends \Controller {
         $error = Flash::get();
 
         $view =  \View::make('ui.users.list')
-                    ->with('title', 'The Datatank')
+                    ->with('title', 'User management | The Datatank')
                     ->with('users', $users)
                     ->with('groups', $groups)
                     ->with('error', $error);

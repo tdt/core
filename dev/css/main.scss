@@ -13,7 +13,7 @@ $third: #90AB9C;
 $highlight: #90AB9C;
 
 $header-height: 60px;
-$footer-height: 60px;
+$footer-height: 40px;
 $footer-border: 1px;
 
 $green: #36ab70;
@@ -32,7 +32,7 @@ html, body{
 body {
     background-color: $secondary-highlight;
     font-family: 'Open Sans', 'Oswald', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     color: #3C606E;
     padding-top: $header-height;
 }
@@ -59,6 +59,10 @@ body {
         padding-bottom: 0px;
         margin-right: 20px;
         font-family: 'Varela Round';
+
+        &.admin{
+            margin-right: 50px;
+        }
 
         img{
             width: $header-height - 25;
@@ -109,17 +113,67 @@ body {
             }
         }
     }
+
+    .search{
+        height: $header-height;
+        max-width: 300px;
+        display: inline-block;
+        margin: ($header-height - 30px) / 2;
+        position: relative;
+
+        input{
+            height: 30px;
+            padding: 5px 15px;
+            padding-right: 35px;
+            border: 0px none;
+            border-radius: 30px;
+            background: $primary-highlight;
+            color: #fff;
+
+            &:focus, &:hover{
+                border: 0px none !important;
+                box-shadow: none;
+                outline: 0;
+            }
+
+            &::-webkit-input-placeholder {
+               color: desaturate(lighten($primary-highlight, 20%), 10%);
+            }
+
+           & :-moz-placeholder { /* Firefox 18- */
+               color: desaturate(lighten($primary-highlight, 20%), 10%);
+            }
+
+            &::-moz-placeholder {  /* Firefox 19+ */
+               color: desaturate(lighten($primary-highlight, 20%), 10%);
+            }
+
+           & :-ms-input-placeholder {
+               color: desaturate(lighten($primary-highlight, 20%), 10%);
+            }
+        }
+
+        i{
+            position: absolute;
+            right: 15px;
+            top: 0px;
+            height: 30px;
+            line-height: 30px;
+            color: #fff;
+        }
+    }
 }
 
 .header{
     line-height: 60px;
     height: 60px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
     background: #fff;
 
     h3{
         margin: 0px;
         line-height: 60px;
+        font-size: 16px;
     }
 
     .nav-tabs {
@@ -166,14 +220,23 @@ body {
 }
 
 h3{
-    font-size: 21px;
+    font-size: 20px;
+    font-weight: 600;
 
     a.back{
-        font-size: 24px;
+        font-size: 22px;
         margin-right: 10px;
         display: inline-block;
         color: $primary-soft;
         font-weight: 400;
+    }
+}
+
+h4{
+    font-size: 16px;
+
+    i{
+        margin-right: 5px;
     }
 }
 
@@ -193,6 +256,7 @@ h3{
     border: 1px solid darken($secondary, 7%);
     border-radius: 2px;
     color: #333;
+    font-size: 13px;
 
     &.btn-cta{
         background-color: $green;
@@ -222,6 +286,7 @@ h3{
         background-color: $primary;
         color: #fff;
         border: 1px solid darken($primary, 7%);
+        font-weight: bold;
 
         &:focus, &:hover{
             background-color: $primary-highlight;
@@ -337,6 +402,7 @@ footer{
         box-shadow: none !important;
         cursor: pointer;
         margin-top: -1px;
+        font-size: 12px;
 
         &.dataset-link{
             .icon{
@@ -393,13 +459,15 @@ footer{
         h4{
             margin-top: 0px;
             margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .icon{
             width: 5%;
             height: 100%;
             float:left;
-            line-height: 42px;
+            line-height: 36px;
             text-align: center;
             margin-left: -15px;
 
@@ -449,6 +517,10 @@ footer{
 .modal{
     .form-group:last-child{
         margin-bottom: 0px;
+    }
+
+    h4{
+        font-size: 16px;
     }
 
     .modal-footer{
@@ -519,6 +591,20 @@ button.close {
     font-weight: normal;
 }
 
+.list-group{
+    font-size: 12px;
+
+    h5{
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+}
+
+.help-block{
+    color: $primary-soft;
+}
+
 @media(max-width:768px){
 
     body{
@@ -537,6 +623,10 @@ button.close {
             a{
                 border-radius: 0px;
             }
+        }
+
+        .search{
+            height: auto;
         }
     }
 
@@ -561,4 +651,17 @@ button.close {
         }
     }
 
+}
+
+
+@media(max-width:500px){
+    .navbar{
+        .search{
+            width: 80%;
+
+            input{
+                width: 100%;
+            }
+        }
+    }
 }

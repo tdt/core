@@ -6,16 +6,7 @@
         <div class="col-sm-7">
             <h3>Manage your data</h3>
         </div>
-        <div class='col-sm-4 text-right'>
-            <div class="input-group"
-                data-step='2'
-                data-intro='Start typing here to <strong>search</strong> for a dataset.'
-                data-position="bottom"
-                >
-                <input id='dataset-filter' type="text" class="form-control" placeholder='Search for datasets' />
-            </div>
-        </div>
-        <div class="col-sm-1 text-right">
+        <div class="col-sm-5 text-right">
             <a href='{{ URL::to('api/admin/datasets/add') }}' class='btn btn-primary margin-left'
                 data-step='1'
                 data-intro='Add a new dataset to the system.'
@@ -122,6 +113,15 @@
                 @endif
             </div>
         </div>
+    </div>
+
+@stop
+
+@section('navigation')
+
+    <div class="search pull-right">
+        <input id='dataset-filter' type="text" placeholder='Search for datasets' spellcheck='false'>
+        <i class='fa fa-search'></i>
     </div>
 
 @stop

@@ -121,8 +121,9 @@ class HTMLFormatter implements IFormatter{
         }
 
         // Render the view
-        return \View::make($view)->with('title', 'The Datatank')
+        return \View::make($view)->with('title', 'Dataset: '. $dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name . ' | The Datatank')
                                  ->with('body', $data)
+                                 ->with('page_title', $dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name)
                                  ->with('definition', $dataObj->definition)
                                  ->with('paging', $dataObj->paging)
                                  ->with('source_definition', $dataObj->source_definition)

@@ -24,7 +24,7 @@ class DatasetController extends \Controller {
         $definitions = \Definition::all();
 
         return \View::make('ui.datasets.list')
-                    ->with('title', 'The Datatank')
+                    ->with('title', 'Dataset management | The Datatank')
                     ->with('definitions', $definitions);
 
         return \Response::make($view);
@@ -126,7 +126,7 @@ class DatasetController extends \Controller {
         }
 
         return \View::make('ui.datasets.add')
-                    ->with('title', 'The Datatank')
+                    ->with('title', 'Add a dataset | The Datatank')
                     ->with('mediatypes', $mediatypes);
 
         return \Response::make($view);
@@ -202,7 +202,7 @@ class DatasetController extends \Controller {
             }
 
             return \View::make('ui.datasets.edit')
-                        ->with('title', 'The Datatank')
+                        ->with('title', 'Edit a dataset | The Datatank')
                         ->with('definition', $definition)
                         ->with('mediatype', $mediatype)
                         ->with('parameters_required', $parameters_required)

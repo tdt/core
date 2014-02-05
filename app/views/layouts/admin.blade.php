@@ -13,12 +13,12 @@
 
     <body>
         <nav class="navbar navbar-fixed-top">
-            <a class="navbar-brand" href="{{ URL::to('api/admin') }} ">
+            <a class="navbar-brand admin" href="{{ URL::to('api/admin') }} ">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
-                <h1>DataTank &middot; Admin</h1>
+                <h1>Admin</h1>
             </a>
 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 @if(tdt\core\auth\Auth::hasAccess('admin.dataset.view'))
                     <li @if(Request::segment(3) == '' || Request::segment(3) == 'datasets')  class='active' @endif>
                         <a href="{{ URL::to('api/admin/datasets') }}">
@@ -41,6 +41,8 @@
                     </li>
                 @endif
             </ul>
+
+            @yield('navigation')
         </nav>
 
         <div class="wrapper">
@@ -53,7 +55,7 @@
 
         <footer>
             <div class="col-lg-12">
-                The DataTank &middot; <a href="//thedatatank.com/" target="_blank">Visit our website</a>
+                Powered by <a href="//thedatatank.com/" target="_blank">The DataTank</a>
             </div>
         </footer>
         <script type='text/javascript'>
