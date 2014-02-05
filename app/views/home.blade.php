@@ -3,15 +3,6 @@
 @section('content')
 
     <div class="col-sm-12">
-        <h3>All datasets</h3>
-        <div class="input-group">
-            <input id='dataset-filter' type="text" class="form-control" placeholder='Search for datasets'>
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" disabled>Filter</button>
-            </span>
-        </div>
-
-        <br/>
 
         @foreach($definitions as $definition)
 
@@ -63,6 +54,15 @@
                 @endif
             </div>
         </div>
+    </div>
+
+@stop
+
+@section('navigation')
+
+    <div class="search pull-right">
+        <input id='dataset-filter' type="text" placeholder='Search for datasets' spellcheck='false'>
+        <i class='fa fa-search'></i>
     </div>
 
 @stop

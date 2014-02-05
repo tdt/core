@@ -13,6 +13,12 @@ class DatabaseSeeder extends Seeder {
 
 		// Call the user seeder
 		$this->call('UserSeeder');
+
+		// Call the DcatSeeder
+		$this->call('DcatSeeder');
+
+		// Call the OntologyPrefixSeeder
+		$this->call('OntologyPrefixSeeder');
 	}
 
 }

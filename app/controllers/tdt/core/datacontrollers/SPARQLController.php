@@ -5,6 +5,7 @@ namespace tdt\core\datacontrollers;
 use tdt\core\datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
 
+
 /**
  * SPARQL Controller
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
@@ -37,32 +38,60 @@ class SPARQLController extends ADataController {
 
         // If a select statement has been passed, we ask for JSON results
         // If a construct statement has been passed, we ask for RDF/XML
-        if(stripos($query,"select") === 0){ // SELECT query
+        if(stripos($query,"select") !== FALSE){ // SELECT query
             $keyword = "select";
-        }elseif(stripos($query,"construct") === 0){ // CONSTRUCT query
+        }elseif(stripos($query,"construct") !== FALSE){ // CONSTRUCT query
             $keyword = "construct";
         }else{ // No valid SPARQL keyword has been found, is checked during validation
             \App::abort(500, "No CONSTRUCT or SELECT statement has been found in the given query: $query");
         }
 
         // Prepare the count query for paging purposes
-        $query = preg_replace("/($keyword\s*{.*?})/i",'',$query);
+        // This implies the removal of the select or construct statement
+        // and only using the where statement
 
-        if(stripos($query,"where") === FALSE){
-            preg_match('/({.*}).*/i',$query,$matches);
+        // Make a distinction between select and construct since
+        // construct will be followed by a {} sequence, whereas select will not
+        $prefix = '';
+        $filter = '';
+
+        $where_clause = '(.*?(FROM.+?{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
+        $matches = array();
+
+        if($keyword == 'select'){
+
+            $regex = $keyword . $where_clause;
+
+            preg_match_all("/(.*)$regex/msi", $query, $matches);
+
         }else{
-            preg_match('/(where\s*{.*}).*/i',$query,$matches);
+
+            preg_match_all("/(.*)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
+
         }
 
-        if(count($matches) < 2){
+        $prefix = $matches[1][0];
+        $filter = "";
+
+        // Preg match all has 3 entries for the where clause, pick the first hit
+        if(!empty($matches[3][0])){
+            $filter = $matches[3][0];
+        }
+
+        if(!empty($matches[4][0])){
+            $filter = $matches[4][0];
+        }
+
+        if(!empty($matches[5][0])){
+            $filter = $matches[5][0];
+        }
+
+        if(empty($filter)){
             \App::abort(500, "Failed to retrieve the where clause from the query: $query");
         }
 
-        // Only use the where clause
-        $query = $matches[1];
-
         // Prepare the query to count results
-        $count_query = 'SELECT count(*) AS ?count ' . $query;
+        $count_query = $matches[1][0] . ' SELECT (count(*) AS ?count) ' . $filter;
 
         $count_query = urlencode($count_query);
         $count_query = str_replace("+", "%20", $count_query);
@@ -103,6 +132,7 @@ class SPARQLController extends ADataController {
 
         // Prepare the query with proper encoding for the request
 
+        $query = str_replace('%23', '#', $query);
         $q = urlencode($query);
         $q = str_replace("+", "%20", $q);
 
@@ -135,6 +165,24 @@ class SPARQLController extends ADataController {
         $data->data = $result;
         $data->paging = $paging;
         $data->is_semantic = $is_semantic;
+
+        if($is_semantic){
+
+            // Fetch the available namespaces and pass
+            // them as a configuration of the semantic data result
+            $columns = \Ontology::getColumns();
+
+            $ontologies = \Ontology::all($columns)->toArray();
+
+            $prefixes = array();
+
+            foreach($ontologies as $ontology){
+                $prefixes[$ontology["prefix"]] = $ontology["uri"];
+            }
+
+            $data->semantic = new \stdClass();
+            $data->semantic->conf = array('ns' => $prefixes);
+        }
 
         return $data;
     }
@@ -178,9 +226,9 @@ class SPARQLController extends ADataController {
 
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if($response_code == '400'){
-            \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
+            \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $response. The URI was: $uri");
         }else if($response_code == '500'){
-            \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter.");
+            \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The URI was: $uri");
         }
 
         curl_close($ch);

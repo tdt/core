@@ -34,11 +34,12 @@ class ShpTest extends TestCase{
                 'description' => "A shp publication from the $file shp file.",
                 'epsg' => '4326',
                 'uri' => __DIR__ . "/data/shp/$file.shp",
+                'type' => 'shp'
                 );
 
             // Set the headers.
             $headers = array(
-                'Content-Type' => 'application/tdt.shp'
+                'Content-Type' => 'application/tdt.definition+json'
             );
 
             $this->updateRequest('PUT', $headers, $data);

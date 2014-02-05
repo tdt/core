@@ -28,7 +28,7 @@ class XMLFormatter implements IFormatter{
     public static function getBody($dataObj){
 
         // Rootname equals resource name
-        $rootname = $dataObj->definition->resource_name;
+        $rootname = 'root';
 
         // Check for semantic source
         if($dataObj->is_semantic){
@@ -90,6 +90,8 @@ class XMLFormatter implements IFormatter{
                 // Check for special keys, then add elements recursively
                 if($key === '@value'){
                     $object .= self::getXMLString($value);
+                }elseif($key == '@attributes'){
+                    $object .= self::transformToXML($value, 'attributes');
                 }elseif(is_numeric($key)){
                     $object .= self::transformToXML($value, 'element');
                 }else{

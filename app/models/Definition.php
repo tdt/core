@@ -20,6 +20,7 @@ class Definition extends Eloquent{
      * Return the properties ( = column fields ) for this model.
      */
     public static function getCreateParameters(){
+
         return array(
                 'title' => array(
                     'required' => false,
@@ -35,20 +36,6 @@ class Definition extends Eloquent{
                     'type' => 'string',
                     'group' => 'dc',
                 ),
-                'type' => array(
-                    'required' => false,
-                    'name' => 'Type',
-                    'description' => 'The nature or genre of the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'format' => array(
-                    'required' => false,
-                    'name' => 'Format',
-                    'description' => 'The file format, physical medium, or dimensions of the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
                 'source' => array(
                     'required' => false,
                     'name' => 'Source',
@@ -60,14 +47,18 @@ class Definition extends Eloquent{
                     'required' => false,
                     'name' => 'Language',
                     'description' => 'A language of the resource.',
-                    'type' => 'string',
+                    'type' => 'list',
+                    'list' => 'api/languages',
+                    'list_option' => 'name',
                     'group' => 'dc',
                 ),
                 'rights' => array(
                     'required' => false,
                     'name' => 'Rights',
+                    'type' => 'list',
+                    'list' => 'api/licenses',
+                    'list_option' => 'title',
                     'description' => 'Information about rights held in and over the resource.',
-                    'type' => 'string',
                     'group' => 'dc',
                 ),
         );
@@ -127,6 +118,8 @@ class Definition extends Eloquent{
 
             $properties['geo'] = $geo_props_arr;
         }
+
+        $properties['type'] = strtolower($source_definition->getType());
 
         return $properties;
     }

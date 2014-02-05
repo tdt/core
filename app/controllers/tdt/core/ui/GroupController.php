@@ -37,7 +37,7 @@ class GroupController extends \Controller {
         $error = Flash::get();
 
         return \View::make('ui.groups.list')
-                    ->with('title', 'The Datatank')
+                    ->with('title', 'Group management | The Datatank')
                     ->with('users', $users)
                     ->with('groups', $groups)
                     ->with('permission_groups', $permission_groups)

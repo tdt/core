@@ -94,6 +94,14 @@ class XlsDefinition extends SourceType{
 
         foreach($columns as $column){
 
+            // Shortcut to define the primary key is to pass the index with the definition
+            // instead of passing it with the columns-part of the definition
+            $is_pk = false;
+
+            if(isset($options['pk']) && $column['index'] == $options['pk']){
+                $column['is_pk'] = true;
+            }
+
             $tabular_column = new TabularColumns();
             $tabular_column->index = $column['index'];
             $tabular_column->column_name = $column['column_name'];
@@ -127,6 +135,7 @@ class XlsDefinition extends SourceType{
 
         // If columns are passed, they'll be present in the 'all'
         $params['columns'] = @$attr['all']['columns'];
+        $params['pk'] = @$attr['all']['pk'];
 
         $this->save($params);
     }
@@ -176,6 +185,32 @@ class XlsDefinition extends SourceType{
                     'type' => 'integer',
                 ),
         );
+    }
+
+    /**
+     * Overwrite the magic __get function to retrieve the primary key
+     * parameter. This isn't a real parameter but a derived one from the tabularcolumns
+     * relation.
+     */
+    public function __get($name){
+
+        if($name == 'pk'){
+
+            // Retrieve the primary key from the columns
+            // Get the related columns
+            $columns = $this->tabularColumns()->getResults();
+
+            foreach($columns as $column){
+                if($column->is_pk){
+                    return $column->index;
+                }
+            }
+
+            return null;
+
+        }
+
+        return parent::__get($name);
     }
 
      /**

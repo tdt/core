@@ -72,7 +72,7 @@ $('.btn-add-dataset').on('click', function(e){
     // Loop through fields
     var data = new Object();
     var collection = '';
-    $('input', form).each(function(){
+    $('input, textarea, select', form).each(function(){
         if($(this).attr('name')){
             if($(this).attr('name') == 'collection'){
                 collection = $(this).val();
@@ -93,7 +93,7 @@ $('.btn-add-dataset').on('click', function(e){
         data: JSON.stringify(data),
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/tdt.' + mediatype,
+            'Content-Type': 'application/tdt.definition+json',
             'Authorization': authHeader
         },
         success: function(e){
@@ -128,7 +128,7 @@ $('.btn-edit-dataset').on('click', function(e){
     // Loop through fields
     var data = new Object();
     var collection = '';
-    $('input', form).each(function(){
+    $('input, textarea, select', form).each(function(){
         if($(this).attr('name')){
             if($(this).attr('type') == 'checkbox'){
                 data[$(this).attr('name')] = $(this).attr('checked') ? 1 : 0;

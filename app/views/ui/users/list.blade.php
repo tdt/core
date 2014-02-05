@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <div class='row'>
+    <div class='row header'>
         <div class="col-sm-7">
             <h3>Manage your users</h3>
         </div>
         <div class="col-sm-5 text-right">
             @if(tdt\core\auth\Auth::hasAccess('admin.user.create'))
-                <a href='' class='btn btn-primary pull-right margin-left' data-toggle="modal" data-target="#addUser"
+                <a href='' class='btn btn-primary margin-left' data-toggle="modal" data-target="#addUser"
                     data-step='1'
                     data-intro='Add a new user to the system. <br/><br/>User have a <strong>username</strong> and a <strong>password</strong> used to authenticate on the DataTank, the permissions they have are determined by the group they are in.'
                     data-position="left">

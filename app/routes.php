@@ -37,7 +37,7 @@ App::after(function($request, $response){
 });
 
 /*
- * Propper error handling
+ * Proper error handling
  */
 App::error(function($exception, $code){
 

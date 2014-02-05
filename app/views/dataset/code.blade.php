@@ -7,14 +7,14 @@
 
         @if(!empty($paging))
             <ul class="pager">
-                @if(!empty($paging['previous']))
+                @if(!empty($prev_link))
                     <li class="previous">
-                        <a href="{{ URL::to($dataset_link . '?offset=' . $paging['previous'][0] . '&limit=' . $paging['previous'][1]  ) }}">&larr; Previous</a>
+                        <a href="{{ URL::to($dataset_link . $prev_link ) }}">&larr; Previous</a>
                     </li>
                 @endif
-                @if(!empty($paging['next']))
+                @if(!empty($next_link))
                     <li class="next">
-                        <a href="{{ URL::to($dataset_link . '?offset=' . $paging['next'][0] . '&limit=' . $paging['next'][1]  ) }}">Next &rarr;</a>
+                        <a href="{{ URL::to($dataset_link . $next_link) }}">Next &rarr;</a>
                     <li>
                 @endif
             </ul>
@@ -22,8 +22,8 @@
     </div>
 
     <div class="col-sm-3">
-        <a href="{{ $dataset_link }}.json" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
-        <a href="{{ $dataset_link }}.xml" class="btn btn-block"><i class='fa fa-code'></i> View as XML</a>
+        <a href="{{ $dataset_link }}.json{{ $query_string }}" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
+        <a href="{{ $dataset_link }}.xml{{ $query_string }}" class="btn btn-block"><i class='fa fa-code'></i> View as XML</a>
 
 
         <br/>
