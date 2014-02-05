@@ -27,21 +27,6 @@
                 @endforeach
             </tbody>
         </table>
-
-        @if(!empty($paging))
-            <ul class="pager">
-                @if(!empty($paging['previous']))
-                    <li class="previous">
-                        <a href="{{ URL::to($dataset_link . '?offset=' . $paging['previous'][0] . '&limit=' . $paging['previous'][1]  ) }}">&larr; Previous</a>
-                    </li>
-                @endif
-                @if(!empty($paging['next']))
-                    <li class="next">
-                        <a href="{{ URL::to($dataset_link . '?offset=' . $paging['next'][0] . '&limit=' . $paging['next'][1]  ) }}">Next &rarr;</a>
-                    <li>
-                @endif
-            </ul>
-        @endif
     </div>
 
     <div class="col-sm-3">
@@ -89,4 +74,8 @@
         }
     </style>
 
+@stop
+
+@section('navigation')
+    @include('dataset/partials/pagination')
 @stop

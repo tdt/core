@@ -162,6 +162,33 @@ body {
             color: #fff;
         }
     }
+
+    .pagination{
+        height: $header-height;
+        max-width: 300px;
+        display: inline-block;
+        margin: ($header-height - 30px) / 2;
+        position: relative;
+        float: right;
+
+        li{
+            padding-left: 10px;
+            display: inline-block;
+            height: 30px;
+            color: #fff;
+        }
+
+        a{
+            border: 0px none;
+            background: $primary-highlight;
+            color: #fff;
+            height: 30px;
+
+            &:focus, &:hover{
+                background: lighten($primary-highlight, 10%);
+            }
+        }
+    }
 }
 
 .header{
