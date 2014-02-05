@@ -95,6 +95,7 @@ class DcatController extends \Controller {
         $definitions = \Definition::query()->orderBy('updated_at', 'desc')->get();
 
         if(count($definitions) > 0){
+
             $last_mod_def = $definitions->first();
 
             // Add the last modified timestamp in ISO8601
@@ -105,6 +106,7 @@ class DcatController extends \Controller {
 
                 // Create the dataset uri
                 $dataset_uri = $uri . "/" . $definition->collection_uri . "/" . $definition->resource_name;
+                $dataset_uri = str_replace(' ', '%20', $dataset_uri);
 
                 $source_type = $definition->source()->first();
 
@@ -114,16 +116,36 @@ class DcatController extends \Controller {
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
                 $graph->addLiteral($dataset_uri, 'dct:description', @$source_type->description);
-                $graph->addLiteral($dataset_uri, 'dct:identifier', $definition->collection_uri . '/' . $definition->resource_name);
+                $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition->collection_uri . '/' . $definition->resource_name));
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
 
+                // Add the source resource if it's a URI
+                if (strpos($definition->source, 'http://') !== false || strpos($definition->source, 'https://')){
+                    $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition->source));
+                }
+
                 // Optional dct terms
-                $optional = array('title', 'date', 'type', 'source', 'language', 'rights');
+                $optional = array('title', 'date', 'language', 'rights');
 
                 foreach($optional as $dc_term){
                     if(!empty($definition->$dc_term)){
-                        $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition->$dc_term);
+
+                        // TODO decide dynamically based on the declaration of DCAT properties
+                        if($dc_term == 'rights'){
+                            $license = @\License::where('title', '=', $definition->$dc_term)->first()->toArray();
+
+                            if(!empty($license) && !empty($license['url'])){
+                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
+                            }
+                        }elseif($dc_term == 'language'){
+                            $lang = @\Language::where('name', '=', $definition->$dc_term)->first()->toArray();
+                            if(!empty($lang)){
+                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+                            }
+                        }else{
+                            $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition->$dc_term);
+                        }
                     }
                 }
             }

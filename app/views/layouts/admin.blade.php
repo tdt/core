@@ -15,7 +15,7 @@
         <nav class="navbar navbar-fixed-top">
             <a class="navbar-brand" href="{{ URL::to('api/admin') }} ">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
-                <h1>Admin</h1>
+                <h1>DataTank &middot; Admin</h1>
             </a>
 
             <ul class="nav navbar-nav navbar-right">

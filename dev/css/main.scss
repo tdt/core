@@ -14,7 +14,7 @@ $highlight: #90AB9C;
 
 $header-height: 60px;
 $footer-height: 60px;
-$footer-border: 2px;
+$footer-border: 1px;
 
 $green: #36ab70;
 
@@ -34,7 +34,7 @@ body {
     font-family: 'Open Sans', 'Oswald', sans-serif;
     font-size: 13px;
     color: #3C606E;
-    padding-top: $header-height + 20;
+    padding-top: $header-height;
 }
 
 .wrapper{
@@ -42,6 +42,10 @@ body {
     height: auto !important;
     height: 100%;
     margin-bottom: -$footer-height;
+}
+
+.content-wrapper{
+    padding-top: 20px;
 }
 
 .navbar {
@@ -57,9 +61,9 @@ body {
         font-family: 'Varela Round';
 
         img{
-            width: $header-height - 15;
-            height: $header-height - 15;
-            margin: 4px 0px;
+            width: $header-height - 25;
+            height: $header-height - 25;
+            margin: 7px 0px;
             margin-right: 10px;
             margin-bottom: 10px;
             display: inline-block;
@@ -70,6 +74,7 @@ body {
             display: inline-block;
             font-size: 16px;
             color: #fff;
+            line-height:  $header-height;
             font-weight: 100;
             text-transform: uppercase;
         }
@@ -107,33 +112,66 @@ body {
 }
 
 .header{
-    line-height: 40px;
+    line-height: 60px;
+    height: 60px;
     border-bottom: 1px solid #eee;
+    background: #fff;
+
+    h3{
+        margin: 0px;
+        line-height: 60px;
+    }
 
     .nav-tabs {
         border: 0px none;
 
         li{
             margin: 0px;
+
+            &.active{
+                a{
+                    border-top: 0px none;
+                    background: $secondary-highlight;
+                    z-index: 99;
+                }
+            }
         }
 
         a{
             border: 1px solid transparent;
             margin: 0px;
+            height: 60px;
+            line-height: 60px;
+            padding: 0px 20px;
+            border-top: 0px none;
+            margin-left: -1px;
         }
 
         a:hover{
             background: transparent;
-            border: 1px solid transparent;
+            border: 1px solid #ededed;
+            border-top: 0px none;
+            border-bottom: 0px none;
+            color: inherit;
         }
+    }
+
+    .btn{
+        margin-top: -4px;
+    }
+
+    .input-group{
+        display: block;
     }
 }
 
 h3{
+    font-size: 21px;
+
     a.back{
-        font-size: 13px;
+        font-size: 24px;
+        margin-right: 10px;
         display: inline-block;
-        margin-right: 5px;
         color: $primary-soft;
         font-weight: 400;
     }
@@ -196,7 +234,7 @@ h3{
     }
 }
 
-input{
+input, textarea{
     box-shadow: none !important;
 
     &:focus{
@@ -204,6 +242,10 @@ input{
         border: 1px solid $secondary !important;
         border-bottom: 1px solid $highlight !important;
     }
+}
+
+textarea{
+    resize: vertical;
 }
 
 .input-group-btn:last-child{
@@ -245,7 +287,6 @@ a{
 
 // .active {
 //     color: #FF2C4C;
-
 // }
 
 footer{
@@ -461,6 +502,12 @@ footer{
     &.alert-danger{
         background-color: $primary-soft;
         color: #fff;
+    }
+}
+
+.introjs{
+    i{
+        margin-bottom: 20px;
     }
 }
 

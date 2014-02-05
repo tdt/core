@@ -2,29 +2,26 @@
 
 @section('content')
 
-    <div class='row'>
+    <div class='row header'>
         <div class="col-sm-7">
             <h3>Manage your data</h3>
         </div>
-        <div class="col-sm-5 text-right">
-            <a href='{{ URL::to('api/admin/datasets/add') }}' class='btn btn-primary pull-right margin-left'
-                    data-step='1'
-                    data-intro='Add a new dataset to the system.'
-                    data-position="left">
-                <i class='fa fa-plus'></i> Add
-            </a>
-
+        <div class='col-sm-4 text-right'>
             <div class="input-group"
                 data-step='2'
                 data-intro='Start typing here to <strong>search</strong> for a dataset.'
                 data-position="bottom"
                 >
-                <input id='dataset-filter' type="text" class="form-control" placeholder='Search for datasets'>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" disabled>Filter</button>
-                </span>
+                <input id='dataset-filter' type="text" class="form-control" placeholder='Search for datasets' />
             </div>
-
+        </div>
+        <div class="col-sm-1 text-right">
+            <a href='{{ URL::to('api/admin/datasets/add') }}' class='btn btn-primary margin-left'
+                data-step='1'
+                data-intro='Add a new dataset to the system.'
+                data-position="left">
+                <i class='fa fa-plus'></i> Add
+            </a>
         </div>
     </div>
 

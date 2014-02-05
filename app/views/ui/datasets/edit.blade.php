@@ -8,13 +8,13 @@
             <div class="col-sm-7">
                 <h3>
                     <a href='{{ URL::to('api/admin/datasets') }}' class='back'>
-                        <i class='fa fa-angle-left'></i> Back
+                        <i class='fa fa-angle-left'></i>
                     </a>
                     Edit a dataset
                 </h3>
             </div>
             <div class="col-sm-5 text-right">
-                <button type='submit' class='btn btn-cta btn-edit-dataset pull-right margin-left'><i class='fa fa-save'></i> Save</button>
+                <button type='submit' class='btn btn-cta btn-edit-dataset margin-left'><i class='fa fa-save'></i> Save</button>
             </div>
         </div>
 
@@ -73,6 +73,8 @@
                         <div class="col-sm-10">
                             @if($object->type == 'string')
                                 <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @elseif($object->type == 'text')
+                                <textarea class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}">{{ $source_definition->{$parameter} }}</textarea>
                             @elseif($object->type == 'integer')
                                 <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'boolean')
@@ -105,7 +107,15 @@
                             {{ $object->name }}
                         </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
+                            @if($object->type == 'string')
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
+                            @elseif($object->type == 'list')
+                                <select id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                    @foreach($object->list as $option)
+                                        <option @if( $definition->{$parameter} == $option){{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                            @endif
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>

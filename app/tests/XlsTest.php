@@ -31,11 +31,12 @@ class XlsTest extends TestCase{
                 'description' => "An xls publication from the $file xls file.",
                 'sheet' => $sheet,
                 'uri' => __DIR__ . "/data/xls/$file" . '.' . $extension,
+                'type' => 'xls'
             );
 
             // Set the headers.
             $headers = array(
-                'Content-Type' => 'application/tdt.xls'
+                'Content-Type' => 'application/tdt.definition+json'
             );
 
             $this->updateRequest('PUT', $headers, $data);

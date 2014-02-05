@@ -1,0 +1,272 @@
+%class spectql
+%start stmt
+
+%left ':'
+%left '.'
+%left '?'
+%left LN
+%left '&'
+%left '|'
+%left '+' '-'
+%left '*' '/'
+%left '>' EQ LE GE '<' '~' NE
+stmt = flow
+| flow ':' format
+.
+
+flow = expression
+| expression/e '.' LIMIT '(' num/offset ',' num/limit ')' {
+
+    $limit = new LimitFilter($e,$offset,$limit);
+    $$ = $limit;
+ }
+| expression/e '.' LIMIT '(' num/limit ')' {
+    $limit = new LimitFilter($e,0,$limit);
+    $$ = $limit;
+}
+.
+
+expression = resource {$$ = $1;}
+
+.
+resource = resourceid '{' selector/sel '}' {
+
+		// Process the FROM statement
+        $totalfilter = new Identifier($tokens[0]);
+
+		// Process the GROUP statement
+        $groupby = array();
+        $aggregate = false;
+
+        // Find out if there's an aggregation function passed, marking a GROUP statement
+        foreach ($sel["identifiers"] as $identifier) {
+
+            $identifier_class = explode('\\', get_class($identifier));
+            if (end($identifier_class) == "AggregatorFunction") {
+                $aggregate = true;
+            } else {
+
+                // The identifier could be a unairy or tertiary function like substring or ucase
+                $identifier_class = explode('\\', get_class($identifier));
+                if (end($identifier_class) != "Identifier") {
+                    array_push($groupby, $identifier->getSource());
+                } else {
+                    array_push($groupby, $identifier);
+                }
+            }
+        }
+
+        // If there's an aggregation, create an aggregation node in our query tree
+        if ($aggregate) {
+            $datagrouper = new DataGrouper($groupby);
+            $totalfilter = putFilterAfterIfExists($totalfilter, $datagrouper);
+        }
+
+		// Process the SELECT statement
+        $selecttables = new ColumnSelectionFilter($sel["filters"]);
+        $totalfilter = putFilterAfterIfExists($totalfilter, $selecttables);
+
+
+		// Process the ORDER statement
+        $orderby = new SortFieldsFilter($sel["sorts"]);
+        if (!empty($sel["sorts"])) {
+            $totalfilter = putFilterAfterIfExists($totalfilter, $orderby);
+        }
+
+        $$ = $totalfilter;
+}
+
+| resourceid '{' selector/sel '}' '?' filterlist/fl {
+
+
+$totalfilter = new Identifier($tokens[0]);
+
+		// Process the WHERE statement
+        $expressionFilter = new FilterByExpressionFilter($fl);
+        $totalfilter = putFilterAfterIfExists($totalfilter, $expressionFilter);
+
+        // Process the GROUP statement
+        $groupby = array();
+        $aggregate = false;
+
+        // Check if there's an aggregation functionality, marking a GROUP statement
+        foreach ($sel["identifiers"] as $identifier) {
+
+            $identifier_class = explode('\\', get_class($identifier));
+            if (end($identifier_class) == "AggregatorFunction") {
+                $aggregate = true;
+            } else {
+                array_push($groupby, $identifier);
+            }
+        }
+
+		// If there's an aggregation function, pass this to our query tree
+        if ($aggregate) {
+            $datagrouper = new DataGrouper($groupby);
+            $totalfilter = putFilterAfterIfExists($totalfilter, $datagrouper);
+        }
+
+		// Process the SELECT statement
+        $selecttables = new ColumnSelectionFilter($sel["filters"]);
+        $totalfilter = putFilterAfterIfExists($totalfilter, $selecttables);
+
+		// Process the ORDER statement
+        $orderby = new SortFieldsFilter($sel["sorts"]);
+        if (!empty($sel["sorts"])) {
+            $totalfilter = putFilterAfterIfExists($totalfilter, $orderby);
+        }
+
+        $$ = $totalfilter;
+}
+
+| resourceid { $$ = new Identifier($1); }
+| resourceid '?' filterlist { $$ = new FilterByExpressionFilter($3); $$->setSource(new Identifier($1)); }
+.
+
+resourceid = name '/' name  { $$ = $1 . "." . $3; }
+| num '/' num { $$ = $1 . "." . $3;}
+| name '/' num { $$ = $1 . "." . $3;}
+| num '/' name { $$ = $1 . "." . $3;}
+| resourceid '/' name { $$ = $1 . "." . $3; }
+| resourceid '/' num { $$ = $1 . "." . $3; }
+.
+
+num = num '.' num { $$ = new Constant((double) ($1 . "." . $3));  }
+|
+.
+
+filterlist = filter { $$ = $1; }
+| filterlist '&' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,$1,$3); }
+| filterlist '|' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR,$1,$3); }
+| '(' filterlist/list ')' { $$ = $list;}
+.
+
+filter = filterargument/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a '<' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a '>' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
+| filterargument/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a EQ string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); }
+| filterargument/a NE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a NE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
+| filterargument/a GE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
+| filterargument/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (ternary function)*/ }
+.
+
+selector = selectargument/arg { $$ = $1; }
+| selector ',' selectargument/arg { $filters = array_merge($1["filters"],$3["filters"]);
+                                    $sorts   = array_merge($1["sorts"],$3["sorts"]);
+				                    $identifiers = array_merge($1["identifiers"],$3["identifiers"]);
+                                    $$ = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); }
+.
+
+selectargument = argument/arg {
+
+// A column can be a string which indicates we need to wrap it in an Identifier
+// or it can be a function, in which case we just have to pass it with the ColumnSelectionFilterColumn
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, null)),
+        "sorts" => array(),
+        "identifiers" => array($column)
+    );
+}
+| argument/arg order/order {
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ =  array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, null)),
+        "sorts" => array(new SortFieldsFilterColumn($column, $order)),
+        "identifiers" => array($column)
+    );
+}
+| name ALIAS argument/arg  {
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, $1)),
+        "sorts" => array(),
+        "identifiers" => array($column),
+    );
+}
+| name ALIAS argument/arg order {
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, $1)),
+        "sorts" => array(new SortFieldsFilterColumn($column, $order)),
+        "identifiers" => array($column)
+    );
+}
+.
+
+function = name '(' argument/arg ')' {
+
+$column = $arg;
+
+if(!is_object($column))
+    $column = new Identifier($arg);
+
+$$ = getUnaryFilterForSQLFunction($1, $column);
+}
+| name '(' argument/arg1 ',' argument/arg2 ',' argument/arg3 ')' {
+
+$column1 = $arg1;
+
+if(!is_object($column1))
+    $column1 = new Identifier($arg1);
+
+$column2 = $arg2;
+
+if(!is_object($column2))
+    $column2 = new Identifier($arg2);
+
+$column3 = $arg3;
+
+if(!is_object($column3))
+    $column3 = new Identifier($arg3);
+
+$$ = getTertairyFunctionForSQLFunction($1, $column1, $column2, $column3);
+}
+.
+
+order = '+' { /* SORT BY ascending */ $$ = SortFieldsFilterColumn::$SORTORDER_ASCENDING; }
+| '-' { /* SORT BY descending  */ $$ = SortFieldsFilterColumn::$SORTORDER_DESCENDING; }
+.
+
+argument = name { $$ = $1;}
+| argument '.' name  { $$ = $1 . "." . $3; }
+| argument '.' num  { $$ = $1 . "." . $3; }
+| '*' { $$ = '*'; }
+| function { $$ = $1;}
+| num {$$ = new Constant($1);}
+.
+
+filterargument = name { $$ = $1;}
+| filterargument '.' name  { $$ = $1 . "." . $3; }
+| filterargument '.' num  { $$ = $1 . "." . $3; }
+.
+
+format = name { /* do nothing, format isn't used in the query tree*/ }
+.

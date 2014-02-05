@@ -18,6 +18,9 @@ class DefinitionController extends \Controller {
     // Don't allow occupied prefixes: api, discovery
     private static $FORBIDDEN_PREFIX = array('api', 'discovery');
 
+    // The amount of definitions that are returned by default with one call.
+    private static $PAGE_SIZE = 30;
+
     public static function handle($uri){
 
         $uri = ltrim($uri, '/');
@@ -75,6 +78,11 @@ class DefinitionController extends \Controller {
             self::deleteDefinition($uri);
         }
 
+        // The resource identifier can only contain whitespaces, hyphens and alphanumerical characters
+        if(preg_match('/[^a-z0-9 \/_-]/i', $uri, $matches)){
+            \App::abort(400, "Only alphanumerical characters are allowed as resource identifier parts. Given uri: $uri.");
+        }
+
         // Retrieve the collection uri and resource name
         $matches = array();
 
@@ -91,8 +99,12 @@ class DefinitionController extends \Controller {
             \App::abort(400, "The collection name, $collection_parts[0], cannot be used as the start of a collection.");
         }
 
-        // Retrieve the content type and parse out the definition type
+        // Retrieve the content type if given, and see if it's something we can handle
         $content_type = \Request::header('content_type');
+
+        if(!empty($content_type) && $content_type != 'application/tdt.definition+json'){
+            \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
+        }
 
         // Retrieve the parameters of the PUT requests (either a JSON document or a key=value string)
         $params = \Request::getContent();
@@ -109,58 +121,60 @@ class DefinitionController extends \Controller {
             \App::abort(400, "The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).");
         }
 
+        // Change all of the parameters to lowercase
         $params = array_change_key_case($params);
 
         $matches = array();
 
-        // If the source type exists, validate the given properties and if all is well, create the new definition with
-        // the provide source type
-        if(preg_match('/application\/tdt\.(.*)/', $content_type, $matches)){
+        // If the source type exists, validate the given properties and if all is well,
+        // create the new definition with the provide source type
+        // Note that we expect it to be passed as a json body
+        $type = @$params['type'];
 
-            $type = $matches[1];
-            $definition_type = ucfirst($type) . "Definition";
-
-            if(class_exists($definition_type)){
-                // Validate the given parameters based on the given definition_type
-                // The validated parameters should only contain properties that are defined
-                // by the source type, meaning no relational parameters
-                $validated_params = $definition_type::validate($params);
-            }else{
-                \App::abort(406, "The requested Content-Type is not supported, look at the discovery document for the supported content-types.");
-            }
-
-            $def_instance = new $definition_type();
-
-            // Assign the properties of the new definition_type
-            foreach($validated_params as $key => $value){
-                $def_instance->$key = $value;
-            }
-
-            $def_instance->save($params);
-
-            // Create the definition associated with the new definition instance
-            $definition = new \Definition();
-            $definition->collection_uri = $collection_uri;
-            $definition->resource_name = $resource_name;
-            $definition->source_id = $def_instance->id;
-            $definition->source_type = ucfirst($type) . 'Definition';
-
-            // Add the create parameters of description to the new description object
-            $def_params = array_only($params, array_keys(\Definition::getCreateParameters()));
-            foreach($def_params as $property => $value){
-                $definition->$property = $value;
-            }
-
-            $definition->save();
-
-            $response = \Response::make(null, 200);
-            $response->header('Location', \URL::to($collection_uri . '/' . $resource_name));
-
-            return $response;
-
-        }else{
-            \App::abort(400, "The content-type provided was not recognized, look at the discovery document for the supported content-types.");
+        if(empty($type)){
+            \App::abort(400, "No definition type was found in the request, pass along a correct source type with the request.");
         }
+
+        $definition_type = ucfirst($type) . "Definition";
+
+        if(class_exists($definition_type)){
+            // Validate the given parameters based on the given definition_type
+            // The validated parameters should only contain properties that are defined
+            // by the source type, meaning no relational parameters
+            $validated_params = $definition_type::validate($params);
+        }else{
+            \App::abort(406, "The requested type is not supported, look at the discovery document for the supported content-types.");
+        }
+
+        $def_instance = new $definition_type();
+
+        // Assign the properties of the new definition_type
+        foreach($validated_params as $key => $value){
+            $def_instance->$key = $value;
+        }
+
+        $def_instance->save($params);
+
+        // Create the definition associated with the new definition instance
+        $definition = new \Definition();
+        $definition->collection_uri = $collection_uri;
+        $definition->resource_name = $resource_name;
+        $definition->source_id = $def_instance->id;
+        $definition->source_type = ucfirst($type) . 'Definition';
+
+        // Add the create parameters of description to the new description object
+        $def_params = array_only($params, array_keys(\Definition::getCreateParameters()));
+        foreach($def_params as $property => $value){
+            $definition->$property = $value;
+        }
+
+        $definition->save();
+
+        $response = \Response::make(null, 200);
+        $response->header('Location', \URL::to($collection_uri . '/' . $resource_name));
+
+        return $response;
+
     }
 
     /**
@@ -343,6 +357,21 @@ class DefinitionController extends \Controller {
     public static function exists($uri){
         $definition = self::get($uri);
         return !empty($definition);
+    }
+
+    /**
+     * Get all of the resource definitions and their properties
+     */
+    public static function getAllDefinitions(){
+
+        $definitions = \Definition::all();
+
+        $defs_props = array();
+        foreach($definitions as $definition){
+            $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
+        }
+
+        return $defs_props;
     }
 
     /**

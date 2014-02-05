@@ -8,7 +8,8 @@ use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
 
 /**
- * InfoController
+ * InfoController: Controller that handles info requests and returns informational data about the datatank.
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>

@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <div class='row'>
+    <div class='row header'>
         <div class="col-sm-7">
             <h3>Manage your groups <small>and permissions</small></h3>
         </div>
         <div class="col-sm-5 text-right">
             @if(tdt\core\auth\Auth::hasAccess('admin.group.create'))
-                <a href='' class='btn btn-primary pull-right margin-left' data-toggle="modal" data-target="#addGroup"
+                <a href='' class='btn btn-primary margin-left' data-toggle="modal" data-target="#addGroup"
                     data-step='1'
                     data-intro='Add a new group to the system. <br/><br/>Groups have a series of <strong>permissions</strong> to allow or deny them actions.'
                     data-position="left">

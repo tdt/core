@@ -17,6 +17,7 @@ class ShpDefinitionInit extends Migration {
             $table->increments('id');
             $table->string('uri', 255);
             $table->string('epsg', 25);
+            $table->string('description', 1024);
 
             // created_at | updated_at DATETIME, are default expected by the Eloquent ORM.
             $table->timestamps();
