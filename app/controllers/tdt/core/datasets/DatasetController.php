@@ -2,8 +2,9 @@
 
 namespace tdt\core\datasets;
 
-use tdt\core\ContentNegotiator;
 use tdt\core\auth\Auth;
+use tdt\core\cache\Cache;
+use tdt\core\ContentNegotiator;
 use tdt\core\definitions\DefinitionController;
 use tdt\core\datacontrollers\ADataController;
 
@@ -45,8 +46,8 @@ class DatasetController extends \Controller {
         $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
         $cache_string = sha1($cache_string);
 
-        if(\Cache::has($cache_string)){
-            return ContentNegotiator::getResponse(\Cache::get($cache_string), $extension);
+        if(Cache::has($cache_string)){
+            return ContentNegotiator::getResponse(Cache::get($cache_string), $extension);
         }else{
 
             // Get definition
@@ -88,7 +89,7 @@ class DatasetController extends \Controller {
                     $data->source_definition = $source_definition;
 
                     // Store in cache
-                    \Cache::put($cache_string, $data, 1);
+                    Cache::put($cache_string, $data, $source_definition->getCacheExpiration());
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
