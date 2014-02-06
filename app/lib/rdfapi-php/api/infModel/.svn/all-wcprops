@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/infModel
+END
+InfModel.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/api/infModel/InfModel.php
+END
+InfModelP.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/infModel/InfModelP.php
+END
+InfModelB.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/api/infModel/InfModelB.php
+END
+InfStatement.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/infModel/InfStatement.php
+END
+InfModelF.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/infModel/InfModelF.php
+END
+InfRule.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/api/infModel/InfRule.php
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/perf
+END
+perf-db2.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/perf/perf-db2.inc.php
+END
+perf-informix.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/perf/perf-informix.inc.php
+END
+perf-mssql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/perf/perf-mssql.inc.php
+END
+perf-oci8.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/perf/perf-oci8.inc.php
+END
+perf-mysql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/perf/perf-mysql.inc.php
+END
+perf-postgres.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/perf/perf-postgres.inc.php
+END

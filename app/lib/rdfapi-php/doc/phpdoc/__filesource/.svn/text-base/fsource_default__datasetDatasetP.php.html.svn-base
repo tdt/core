@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>File Source for DatasetP.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<h1>Source for file DatasetP.php</h1>
+<p>Documentation is available at <a href="../default/_dataset---DatasetP.php.html">DatasetP.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a><span class="src-comm">//&nbsp;----------------------------------------------------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-comm">//&nbsp;dataset&nbsp;Package</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-comm">//&nbsp;----------------------------------------------------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-comm">//</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-comm">//&nbsp;Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;dataset&nbsp;package</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-comm">//</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-comm">//&nbsp;Author:&nbsp;Daniel&nbsp;Westphal&nbsp;&nbsp;&nbsp;&nbsp;&lt;http://www.d-westphal.de&gt;</span></div></li>
+<li><div class="src-line"><a name="a9"></a><span class="src-comm">//</span></div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-comm">//&nbsp;----------------------------------------------------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a11"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-comm">//&nbsp;Include&nbsp;ResModel&nbsp;classes</span></div></li>
+<li><div class="src-line"><a name="a13"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/Dataset.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a14"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/DatasetMem.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a15"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/DatasetDb.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a16"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/NamedGraphMem.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a17"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/NamedGraphDb.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a18"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/IteratorAllGraphsMem.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a19"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/IteratorAllGraphsDb.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a20"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/Quad.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a21"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/IteratorFindQuadsMem.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a22"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'dataset/IteratorFindQuadsDb.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a23"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'syntax/TriXParser.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a24"></a><span class="src-inc">require_once</span><span class="src-sym">(&nbsp;</span><span class="src-id">RDFAPI_INCLUDE_DIR&nbsp;</span>.&nbsp;<span class="src-str">'syntax/TriXSerializer.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a25"></a><span class="src-php">?&gt;</span></div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 01 May 2007 16:43:32 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</body>
+</html>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page FilterFunctions.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name">/sparql/FilterFunctions.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">List of functions used to evaluate the FILTER statements in  SPARQL queries.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gauss &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: _sparql---FilterFunctions.php.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">filesource:</span> <a href="../__filesource/fsource_sparql__sparqlFilterFunctions.php.html">Source Code for this file</a></li>
+			</ul>
+		
+			</div>
+</div>
+		
+
+	
+	
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functiondateTime" id="functiondateTime"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">dateTime</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlFilterFunctions.php.html#a46">46</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Evaluates the dateTime() function.Tries to convert a date string into  a unix timestamp.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the corresponding unix timestamp</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			dateTime
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$string</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$string</span><span class="var-description">: the date string</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionlang" id="functionlang"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">lang</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlFilterFunctions.php.html#a122">122</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Evaluates the lang() function. Returns lang tag of a Literal.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the lang tag or false if there is no language tag.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">String</span>
+		<span class="method-name">
+			lang
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$string</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$string</span><span class="var-description">: the string.</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionlangMatches" id="functionlangMatches"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">langMatches</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlFilterFunctions.php.html#a66">66</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Evaluates the langMatches() function. Return true if the lang tag matches false if not.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			langMatches
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$lang_range</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$lang_tag</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$lang_range</span><span class="var-description">: the string.</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$lang_tag</span><span class="var-description">: the regex pattern</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionregex" id="functionregex"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">regex</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlFilterFunctions.php.html#a23">23</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Evaluates the regex() function. Returns true if the regex is matched false if not.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			regex
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$string</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$pattern</span>, [<span class="var-type">String</span>&nbsp;<span class="var-name">$flags</span> = <span class="var-default">&#039;&#039;</span>])
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$string</span><span class="var-description">: the string which has to be evaluated</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$pattern</span><span class="var-description">: the regex pattern</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$flags</span><span class="var-description">: additional flags like &quot;i&quot;</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionstr" id="functionstr"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">str</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlFilterFunctions.php.html#a99">99</a></span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Evaluates the str() function. Returns the string representation of a  variable or RDF term.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			str
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$string</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$string</span><span class="var-description">: the string</span>			</li>
+				</ul>
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:49:02 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

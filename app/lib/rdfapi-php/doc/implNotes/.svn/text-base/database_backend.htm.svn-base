@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Implementation Notes: Database Backend</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="../phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP V0.9.3</H3>
+<h1>Implementation Notes: Database Backend</h1>
+<br> 
+
+<p>Radoslaw Oldakowski &lt;<a href="mailto:radol@gmx.de">radol@gmx.de</a>&gt; 
+  <br>
+  October 2003</p>
+<p>&nbsp;</p>
+<p><u>This document is meant for developers who are interested in further work on RDF API for PHP.</u>
+  I will disclose here some implementation issues of the new developed 
+  Database Backend for RAP V0.6. However, my intention is not to describe each 
+  method one by one but to explain some general concepts instead.
+  </p>
+<p>&nbsp;</p>
+<h3>Database Schema</h3>
+<p>One of the most fundamental decisions I was faced with as the developer of 
+  the database backend for RAP was the choice of a suitable database schema. Among 
+  various RDF APIs, there are different approaches to storing RDF data in a relational 
+  database stretching from pain layouts, where statements are stored in one table 
+  in a form resembling N-Triples, to highly normalized schemas consisting of several 
+  tables enabling efficient implementation of sophisticated RDF capabilities (cf. 
+  [<a href="http://www.w3.org/2001/sw/Europe/reports/scalable_rdbms_mapping_report/">Beckett 
+  2003</a>], [<a href="http://www-db.stanford.edu/~melnik/rdf/db.html">Melnik 2001</a>]).</p>
+<p>The goal for RAP's database backend was to provide an optimized for speed, 
+  portable solution that would support all RAP's features and fitt into its internal 
+  structure. Accordingly, the database layout should reflect all these requirements 
+  as well.</p>
+<p>At the beginning I designed a normalized database schema with the main table 
+  <i>rdf_statements</i> which stored only numerical identifiers pointing to the 
+  corresponding entries in tables: <i>rdf_models</i>, <i>rdf_resources</i>, and 
+  <i>rdf_literals</i>. For this database layout I further developed a prototype 
+  of RAP's database backend. Although this solution met all requirements of a 
+  proper normalization, in practice it turned out to be definitely too slow. As 
+  the result of that experience I developed another prototype, this time, using 
+  a denormalized database schema, where all resources and literals were written 
+  in full in table <i>statements</i>. Subsequently, to compare the performance 
+  of both solutions, I did some benchmark tests with two databases: MsAccess 2000 
+  and MySQL 3.23. These tests resulted in a finding that the simple model was 
+  2-3 times faster than the explicit model and the advantage was rising with the 
+  increasing number of statements. Moreover, the trade-off between better performance 
+  and increased database size turned out to be acceptable, especially since RAP 
+  mostly targets manipulating medium-sized RDF models (up to 100.000 statements). 
+  After some minor changes and improvements (e.g. joint indexing on subject and 
+  predicate) the denormalized layout has become the final RAP's database schema. 
+  Its description can be found in the <a href="../database_schema.html">database 
+  schema</a> provided with the API documentation.</p>
+<p>&nbsp;</p>
+<h3>Internal Structure of RAP's Database Backend</h3>
+<p>The core of RAP's database backend is built by two classes: <code>DbStore</code> 
+  and <code>DbModel</code>. The former is used to create, store, list, and retrieve 
+  persited models, whereas the latter provides methods for manipulating these 
+  models. Furthermore RAP V0.8 utilizes <a href="http://adodb.sourceforge.net/">ADOdb 
+  Library for PHP V4.52</a> to connect to multiple databases in a portable manner. 
+</p>
+<p>Incorporating of the newly developed classes into RDF API for PHP entailed 
+  a reorganization of RAP's class tree (i.e. renaming of the former class <code>Model</code> 
+  to <code>MemModel</code> and creating of the parent class <code>Model</code>) 
+  and moreover required a customization of numerous existing methods. Consequently, 
+  the constructor of class <code>BlankNode</code> was made able to generate unique 
+  identifiers for persisted models as well, and several methods of class <code>MemModel</code> 
+  like: <code>containsAny()</code>, <code>containsAll()</code>, <code>equals()</code>, 
+  <code>unite()</code>, <code>subtract()</code>, <code>intersect()</code>, <code>addModel()</code> 
+  were adapted for receiving both MemModels and DbModels as a parameter.</p>
+<p>In order to work with persisted models, at first, an instance of class <code>DbStore</code> 
+  representing the database has to be created. Given the passed parameters, the 
+  constructor method creates an <code>ADOConnection</code> object which performs 
+  the connection to the database and is responsible for executing SQL statements. 
+  This object is represented by the class internal variable <code>$dbConn</code>. 
+</p>
+<p>When a method <code>getModel()</code> or <code>getNewModel()</code> is called 
+  on a database object, an instance of <code>DbModel</code> is returned. Every 
+  object representing a persisted model stores four variables. The first two: 
+  <code>$modelURI</code> and <code>$baseURI</code> (inherited from the parent 
+  class <code>Model</code>) can be accessed from outside the object. The remaining 
+  ones: <code>$modelID</code> and <code>$dbConn</code> are private variables. 
+  The former is the database internal identifier for the model. It is used to 
+  avoid SQL joins on tables: <i>statements</i> and <i>models</i>, which results 
+  in increased query performance. The latter is a reference pointer to the ADOConnection 
+  object of the corresponding database object. The binding of a persisted model 
+  to the specific database connection allows us to simultaneously work with various 
+  models stored in multiple databases. </p>
+<p>Note that RDF statements of a persisted model are not loaded into memory while 
+  a <code>DbModel</code> is created. Most of the methods of this class are able 
+  to query and manipulate the triples directly in the database, for example: <code>size()</code>, 
+  <code>add()</code>, <code>remove()</code>, <code>contains()</code>, <code>containsAny()</code>, 
+  <code>find()</code>, <code>rdqlQuery()</code>, <code>replace()</code>, <code>equals()</code>, 
+  <code>addModel()</code>, etc. Delegating some tasks to the database management 
+  system saves server resources and reduces the CPU usage. Only few functions 
+  require all the statements to be loaded into memory for further processing. 
+  These methods are, for instance: <code>saveAs()</code>, <code>unite()</code>, 
+  <code>toStringIncludingTriples()</code>, <code>writeAsHtmlTable()</code>, <code>findRegex()</code>, 
+  etc.</p>
+<p>&nbsp;</p>
+<h3>Portability</h3>
+<p>One of the great advantages of RAP's database backend is the ability to support 
+  multiple databases. On the other hand the portability has also its price. As 
+  most database vendors practice product lock-in, the fastest way to query a certain 
+  database is to use its proprietary extensions to SQL which are not standardized. 
+  Moreover, even many widespread and very useful features like auto-incrementing 
+  columns or binding variables in an SQL statement are not supported by all databases 
+  (in this case the former has to be emulated by the method <code>_createUniqueModelID()</code> 
+  of class <code>DbStore</code>, the latter unfortunately could not have been 
+  implemented). All of this required writing portable SQL that would perform well 
+  under all conditions.</p>
+<p>Furthermore, handling of data types and indexes is also an area where differences 
+  among various database vendors may occur. Therefore, RAP provides methods automatically 
+  creating tables only for those two databases that have been tested - MsAccess 
+  and MySQL. If you want to use other databases, you will have to create tables 
+  manually according to RAP's abstract <a href="../database_schema.html">database 
+  schema</a>.</p>
+<p>&nbsp;</p>
+<h3>Error and Transaction Handling</h3>
+<p>RAP's database backend offers an extensive error checking. In the case of public 
+  methods all objects passed as parameters are checked whether or not they are 
+  instances of the desired class. If not, an error message is shown on the screen. 
+  Moreover, the user is informed if an error occurs while connecting to the database 
+  or executing an SQL statement. Furthermore, transactions consisting of several 
+  SQL statements, for instance, creating tables (<code>createTables()</code>), 
+  adding (<code>add()</code>) or deleting an entire model (<code>delete()</code>), 
+  are also being monitored for SQL errors. If an error occurs, the whole transaction 
+  will be rolled back.</p>
+<p>Additionally, the user is also given the possibility to turn the debugging 
+  on, that will display all SQL statements before execution. To activate this 
+  feature you have to edit the script <code>constants.php</code> and set the constant 
+  <code>ADO_DEBUG_MODE</code> to &quot;<code>1</code>&quot;, as shown below: </p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td bgcolor=#e7e7ef> 
+      <p><code> define(&quot;ADODB_DEBUG_MODE&quot;, &quot;1&quot;);</code></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</BODY>
+</HTML>

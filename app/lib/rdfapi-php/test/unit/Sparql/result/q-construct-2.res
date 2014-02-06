@@ -1,0 +1,1 @@
+$result = new NamedGraphMem("resultGraph");

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class ResContainer</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class ResContainer</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|													<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">An RDF Container.</p>
+<p class="description"><p>This Class defines methods for accessing RDF container resources.  These methods operate on the RDF statements contained in a model.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal &lt;<a href="mailto:mail">at d-westphal dot de mail at d-westphal dot de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: ResContainer.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_resModel---ResContainer.php.html">/resModel/ResContainer.php</a> (line <span class="field"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a18">18</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --<a href="../model/Node.html">Node</a>
+      |
+      --<a href="../model/Resource.html">Resource</a>
+         |
+         --<a href="../resModel/ResResource.html">ResResource</a>
+            |
+            --ResContainer</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../resModel/ResAlt.html">ResAlt</a></td>
+					<td>
+											This interface defines methods for accessing RDF Alternative resources.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../resModel/ResBag.html">ResBag</a></td>
+					<td>
+											This interface defines methods for accessing RDF Bag resources.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../resModel/ResSeq.html">ResSeq</a></td>
+					<td>
+											This interface defines methods for accessing RDF Sequence resources.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																						
+				<div class="method-definition">
+											<span class="method-result">ResContainer</span>
+										<a href="#ResContainer" title="details" class="method-name">ResContainer</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#add" title="details" class="method-name">add</a>
+											(<span class="var-type">object ResResource/ResLiteral</span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#contains" title="details" class="method-name">contains</a>
+											(<span class="var-type">obejct</span>&nbsp;<span class="var-name">$resResource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getMembers" title="details" class="method-name">getMembers</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isAlt" title="details" class="method-name">isAlt</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isBag" title="details" class="method-name">isBag</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isSeq" title="details" class="method-name">isSeq</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#remove" title="details" class="method-name">remove</a>
+											(<span class="var-type">obejct</span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#size" title="details" class="method-name">size</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodResContainer" id="ResContainer"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor ResContainer</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a35">35</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  You can supply a URI</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">ResContainer</span>
+		<span class="method-name">
+			ResContainer
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodadd" id="add"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">add</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a47">47</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a new value to a container.</p>
+<p class="description"><p>The new value is added as the last element of the container.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			add
+		</span>
+					(<span class="var-type">object ResResource/ResLiteral</span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource/ResLiteral</span>
+				<span class="var-name">$object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontains" id="contains"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">contains</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a65">65</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine whether the container contains a value</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			contains
+		</span>
+					(<span class="var-type">obejct</span>&nbsp;<span class="var-name">$resResource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">obejct</span>
+				<span class="var-name">$resResource</span><span class="var-description">: ResResource/ResLiteral    $resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetMembers" id="getMembers"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getMembers</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a120">120</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get an array of all resources that are values of this container</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getMembers
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodisAlt" id="isAlt"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isAlt</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a87">87</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true, if this resource is a container from type rdf:Alt</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isAlt
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodisBag" id="isBag"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isBag</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a98">98</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true, if this resource is a container from type rdf:Bag</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isBag
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodisSeq" id="isSeq"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isSeq</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a109">109</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true, if this resource is a container from type rdf:Seq</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isSeq
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodremove" id="remove"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">remove</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a143">143</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove a value from the container.</p>
+<p class="description"><p>Once removed, the values in the container with a higher ordinal value are renumbered.  The renumbering algorithm depends on the type of container.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			remove
+		</span>
+					(<span class="var-type">obejct</span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">obejct</span>
+				<span class="var-name">$object</span><span class="var-description">: ResResource/ResLiteral    $resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsize" id="size"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">size</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResContainer.php.html#a178">178</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the number values in the container.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			size
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../resModel/ResResource.html">ResResource</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodResResource">ResResource::ResResource()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodaddProperty">ResResource::addProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodequals">ResResource::equals()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetAssociatedModel">ResResource::getAssociatedModel()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetIsAnon">ResResource::getIsAnon()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetProperty">ResResource::getProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodhasProperty">ResResource::hasProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodlistProperties">ResResource::listProperties()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodremoveAll">ResResource::removeAll()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodremoveProperties">ResResource::removeProperties()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetAssociatedModel">ResResource::setAssociatedModel()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetIsAnon">ResResource::setIsAnon()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetURI">ResResource::setURI()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../model/Resource.html">Resource</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../model/Resource.html#methodResource">Resource::Resource()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodequals">Resource::equals()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetLabel">Resource::getLabel()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetLocalName">Resource::getLocalName()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetNamespace">Resource::getNamespace()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetURI">Resource::getURI()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodtoString">Resource::toString()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:51:23 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

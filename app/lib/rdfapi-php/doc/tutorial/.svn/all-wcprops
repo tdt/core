@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/tutorial
+END
+netapi.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/netapi.html
+END
+usingtheSparqlEngine.htm
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/tutorial/usingtheSparqlEngine.htm
+END
+usingNamedGraphs.htm
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/usingNamedGraphs.htm
+END
+usingtheModelAPI.htm
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/usingtheModelAPI.htm
+END
+rdql_tutorial.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/rdql_tutorial.php.txt
+END
+model1.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tutorial/model1.rdf
+END
+db_utils.htm
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/db_utils.htm
+END
+usingtheSparqlClient.htm
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/322/trunk/rdfapi-php/doc/tutorial/usingtheSparqlClient.htm
+END
+database_persistence.htm
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/database_persistence.htm
+END
+grddl_parser.htm
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/grddl_parser.htm
+END
+model1.n3
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tutorial/model1.n3
+END
+usingtheResModelAPI.htm
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/usingtheResModelAPI.htm
+END
+vocabularies.htm
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/vocabularies.htm
+END
+sparqlTestcases.htm
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/sparqlTestcases.htm
+END
+rap_tutorial.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/rap_tutorial.php.txt
+END
+usingtheOntModelAPI.htm
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/usingtheOntModelAPI.htm
+END
+visualization_tutorial.htm
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/visualization_tutorial.htm
+END
+rdql_tutorial.htm
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/rdql_tutorial.htm
+END
+employees.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tutorial/employees.rdf
+END
+introductionToRAP.htm
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/doc/tutorial/introductionToRAP.htm
+END

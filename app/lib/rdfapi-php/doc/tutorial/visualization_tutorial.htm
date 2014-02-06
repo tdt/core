@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+
+  <title>Graph Visualization</title><meta content="text/html; charset=windows-1252" http-equiv="Content-Type">
+  <link href="../phpdoc.CSS" rel="stylesheet" type="text/css"></head>
+
+<body style="background-color: rgb(255, 255, 255);">
+<h3>RDF API for PHP </h3>
+<h1>Tutorial: Graph Visualization</h1>
+<p>This turorial is part of the <a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<br>
+<p>Anton K&ouml;stlbacher &lt;<a href="mailto:ak@semaweb.org">ak@semaweb.org</a>&gt;
+<br>
+April 2005</p>
+<p>&nbsp;</p>
+<p>This is a short Tutorial on how to use <a href="http://www.graphviz.org">GraphViz</a> <i>dot</i> within RAP to
+easily generate visualizations of models in several file formats like png, svg or jpeg.</p>
+<p>&nbsp;</p>
+
+<h3>Introduction</h3>
+<p>The visualization tool for RAP V0.9.1 mainly consists of the method <code>RDFUtil::visualizeGraph()</code>. It prepares a so called dot-file, which is afterwards processed by the <i>dot</i>-application.
+GraphViz <i>dot</i> is freely available under the Common Public License. The (binary or ascii) output of the <i>dot</i>-application is directly passed back to the browser. A working demo can be found in the RAP distribution (/rdfapi-php/test/custom_test_viz.php).</p>
+<p>&nbsp;</p>
+
+
+<h3>Installation</h3>
+<p> The graph visualization features will be included as a standard package into the next RAP release. In order to use them now already, you have to download a current <a href="http://sourceforge.net/cvs/?group_id=63257">CVS</a> snapshot   or download <a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/graph_visualization.zip">this</a> package and unzip it to your RAP directory.</p>
+<p>Before we get started we need to download and install GraphViz <i>dot</i> into a directory on the machine, on which RAP is running. GraphViz <i>dot</i> is available as source code and binaries for several operating systems at <a href="http://www.graphviz.org">http://www.graphviz.org</a>. Additionally we need to set up a directory for temporary files which is read- and writeable by the webserver-software. Take care of security issues, if you are using RAP on a publicly accessible machine!</p>
+<p>&nbsp;</p>
+
+<h3>Configuration</h3>
+<p>At first we have to make sure, that the webserver (which runs RAP) can access the
+<a href="http://www.graphviz.org">GraphViz</a> <i>dot</i>-binary, otherwise we can
+only generate dot-files and use them for manual input to the Graphviz standalone application.
+For immidiate generation of images we need to set the following parameters in
+</p>
+<b>constants.php</b>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+      <p><code><pre>
+// ----------------------------------------------------------------------------------
+// GRAPHVIZ
+// ----------------------------------------------------------------------------------
+
+// path to the dot binary
+define('GRAPHVIZ_PATH', 'C:\/Programme\/ATT\/Graphviz\/bin\/dot.exe');
+
+// directory for temporary files
+// Attention: must be write-/readable by the webserver
+define('GRAPHVIZ_TEMP', 'C:\/');
+
+// display statistical data in generated images
+// currently only number of statements drawn
+define('GRAPHVIZ_STAT', TRUE);
+
+// allowed file formats
+// for security reasons (to prevent code injection)
+define('GRAPHVIZ_FORMAT', 'svg, dot, jpg, png, gif, vrml');
+
+// enable clickable URIs
+// only supported by certain formats (e.g. SVG)
+define('GRAPHVIZ_URI', FALSE);
+
+// define parameters for the graphical output
+// if a paramter is undefined, the default value of graphviz is used
+// for further information see: http://www.graphviz.org/Documentation.php
+$graphviz_param = array(
+   GRAPH_STYLE     => 'rankdir="LR"',
+   RESOURCE_STYLE  => 'style="filled",color="#FFD800",fontname="Courier",fontsize="10"',
+   LITERAL_STYLE   => 'shape="box",style="filled",color="#B7FFAF",fontname="Courier",fontsize="10"',
+   PREDICATE_STYLE => 'fontname="Courier",fontsize="10"',
+   INFERRED_STYLE  => 'style="dotted",fontname="Courier",fontsize="10"',
+   BLANKNODE_STYLE => 'style="filled",color="#DDDDDD",fontname="Courier",fontsize="10"',
+   BOX_STYLE       => 'fontname="Courier",fontsize="8",color="#BBBBBB"'
+);</pre></code></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p><a href="http://www.graphviz.org/cvs/doc/info/attrs.html">Here</a> you may find detailed explanations about the STYLE-paramters.
+Or you simply try to carefully change the above given values.<br>
+The supported file formats can be found <a href="http://www.graphviz.org/cvs/doc/info/output.html">here</a>.</p>
+<p>&nbsp;</p>
+
+<h3>Visualizing Models</h3>
+<p>Now we are keen on generating our first graph visualization and here we go:</p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+      <p><code>
+<pre>
+// Include RAP
+define("RDFAPI_INCLUDE_DIR", "./../api/");
+include(RDFAPI_INCLUDE_DIR . "RDFAPI.php");
+
+// Filename of an RDF document
+$base="example1.rdf";
+
+// Create a new MemModel
+$model = ModelFactory::getDefaultModel();
+
+// Load and parse document
+$model->load($base);
+
+// Visualize model
+header('Content-type: image/gif');
+$model->visualize('gif');
+</pre>
+</code></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p> As you see above, there is an alias for <code>RDFUtil::visualizeGraph()</code> in the model-class, which makes usage really convenient. Note that the code above will instantly return binary data, so we have to set the correct header for the output file: <code>header('Content-type: image/gif');</code>. If you choose to generate, for example svg, which is a xml-based format, you would need to set the header to <code>header('Content-type: image/svg+xml');</code>.<br>
+Note: Do not send any headers before. Headers are sent automatically, if there are for example whitespaces before: <code>&lt;?php</code>. To prevent problems with headers, turn on <a href="http://www.php.net/manual/en/ref.outcontrol.php#ini.output-buffering">output_buffering</a> in your php.ini or use <a href="http://www.php.net/manual/en/ref.outcontrol.php">output-buffering manually</a>.</p>
+
+<img src="img/graph1.gif" width="1122" height="271" border="0" alt="">
+
+<p>This is in fact almost everything you need to know to visualize a model. But we should have a short look at the parameters we can pass to the method:</p>
+
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+        <p><code><pre>
+// Visualize model
+$model->visualize('gif', FALSE);
+</pre></code></p></td>
+    </tr>
+  </tbody>
+</table>
+<p>Adding FALSE as second argument will disable the detection of Namespaces and you get fully qualified URIs as you see below:</p>
+<img src="img/graph2.gif" width="1844" height="207" border="0" alt="">
+
+<p>&nbsp;</p>
+<h3>Performance and Alternative Visualization Engines</h3>
+<p>The implemented Method in RAP itself can handle very large Models, but visualizing large and/or complex models can take a few minutes, because of the dot-application. The duration depends, as you might assume, on factors like the power of your machine, the size and/or complexity of the model and the chosen output format. I recommend to use XML-based formats like SVG for large models and set an additional header, that forces a 'save as...' window:</p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+        <p><code><pre>
+// Visualize model
+header('Content-type: image/gif');
+header('Content-Disposition: attachment; filename=example1.gif');
+$model->visualize('gif');</pre></code></p></td>
+    </tr>
+  </tbody>
+</table>
+<p>You can also get the original dot-file and pass it for example to the gui-version of Graphviz:</p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+        <p><code><pre>
+// Visualize model
+header('Content-type: text');
+$model->visualize('input_dot');</pre></code></p></td>
+    </tr>
+  </tbody>
+</table>
+<p>In future versions there will eventually be integrated support for alternative visualization engines like <a href="http://www.tulip-software.org">Tulip</a>. At present you can use the dot-file and import it manually to your preferred visualizer. Most of the visualizers support the dot-format. See: <a href="http://directory.google.com/Top/Science/Math/Combinatorics/Software/Graph_Drawing">http://directory.google.com/Top/Science/Math/Combinatorics/Software/Graph_Drawing/</a></p>
+</body></html>

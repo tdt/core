@@ -1,0 +1,6 @@
+<?php
+// Include Syntax classes
+// $Id$
+require_once( RDFAPI_INCLUDE_DIR . 'syntax/JsonParser.php' );
+require_once( RDFAPI_INCLUDE_DIR . 'syntax/JsonSerializer.php' );
+?>

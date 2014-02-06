@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class RdfSerializer</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class RdfSerializer</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">An RDF seralizer.</p>
+<p class="description"><p>Seralizes models to RDF syntax. It supports the xml:base, xml:lang, rdf:datatype and  rdf:nodeID directive.  You can choose between different output syntaxes by using the configuration methods  or changing the configuration default values in constants.php.  This class is based on the java class edu.unika.aifb.rdf.api.syntax.RDFSerializer by Boris Motik.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Chris Bizer &lt;<a href="mailto:chris@bizer.de">chris@bizer.de</a>&gt;, Boris Motik &lt;motik@fzi.de&gt;, Daniel Westphal &lt;dawe@gmx.de&gt;, Leandro Mariano Lopez &lt;llopez@xinergiaargentina.com&gt;</li>
+				<li><span class="field">version:</span> $Id: RdfSerializer.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_syntax---RdfSerializer.php.html">/syntax/RdfSerializer.php</a> (line <span class="field"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a23">23</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --RdfSerializer</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																																																																																																																								<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_attributeStatements" title="details" class="var-name">$m_attributeStatements</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_baseURI" title="details" class="var-name">$m_baseURI</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_contentStatements" title="details" class="var-name">$m_contentStatements</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_currentSubject" title="details" class="var-name">$m_currentSubject</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_defaultNamespaces" title="details" class="var-name">$m_defaultNamespaces</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_groupTypeStatement" title="details" class="var-name">$m_groupTypeStatement</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_namespaces" title="details" class="var-name">$m_namespaces</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_nextAutomaticPrefixIndex" title="details" class="var-name">$m_nextAutomaticPrefixIndex</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_out" title="details" class="var-name">$m_out</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_rdfAboutElementText" title="details" class="var-name">$m_rdfAboutElementText</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_rdfIDElementText" title="details" class="var-name">$m_rdfIDElementText</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_rdfResourceElementText" title="details" class="var-name">$m_rdfResourceElementText</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$m_statements" title="details" class="var-name">$m_statements</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$rdf_qnames" title="details" class="var-name">$rdf_qnames</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$rdf_qname_prefix" title="details" class="var-name">$rdf_qname_prefix</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$sort_model" title="details" class="var-name">$sort_model</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$use_attributes" title="details" class="var-name">$use_attributes</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$use_entities" title="details" class="var-name">$use_entities</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$use_xml_declaration" title="details" class="var-name">$use_xml_declaration</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																						
+				<div class="method-definition">
+											<span class="method-result">RdfSerializer</span>
+										<a href="#RdfSerializer" title="details" class="method-name">RdfSerializer</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addNamespacePrefix" title="details" class="method-name">addNamespacePrefix</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$namespace</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#configSortModel" title="details" class="method-name">configSortModel</a>
+											(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#configUseAttributes" title="details" class="method-name">configUseAttributes</a>
+											(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#configUseEntities" title="details" class="method-name">configUseEntities</a>
+											(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#configUseQnames" title="details" class="method-name">configUseQnames</a>
+											(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#configUseXmlDeclaration" title="details" class="method-name">configUseXmlDeclaration</a>
+											(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#saveAs" title="details" class="method-name">saveAs</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">String</span>&nbsp;<span class="var-name">$encoding</span> = <span class="var-default">DEFAULT_ENCODING</span>], <span class="var-type">object MemModel</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#serialize" title="details" class="method-name">&amp;serialize</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$xml_default_namespace</span> = <span class="var-default">NULL</span>], [<span class="var-type">String</span>&nbsp;<span class="var-name">$encoding</span> = <span class="var-default">DEFAULT_ENCODING</span>], <span class="var-type">object MemModel</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$m_attributeStatements" id="$m_attributeStatements"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_attributeStatements</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a44">44</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_baseURI" id="$m_baseURI"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_baseURI</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a37">37</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_contentStatements" id="$m_contentStatements"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_contentStatements</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a45">45</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_currentSubject" id="$m_currentSubject"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_currentSubject</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a39">39</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_defaultNamespaces" id="$m_defaultNamespaces"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_defaultNamespaces</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a33">33</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_groupTypeStatement" id="$m_groupTypeStatement"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_groupTypeStatement</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a43">43</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_namespaces" id="$m_namespaces"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_namespaces</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a34">34</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_nextAutomaticPrefixIndex" id="$m_nextAutomaticPrefixIndex"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_nextAutomaticPrefixIndex</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a35">35</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_out" id="$m_out"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_out</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a36">36</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_rdfAboutElementText" id="$m_rdfAboutElementText"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_rdfAboutElementText</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a41">41</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_rdfIDElementText" id="$m_rdfIDElementText"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_rdfIDElementText</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a40">40</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_rdfResourceElementText" id="$m_rdfResourceElementText"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_rdfResourceElementText</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a42">42</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$m_statements" id="$m_statements"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$m_statements</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a38">38</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$rdf_qnames" id="$rdf_qnames"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$rdf_qnames</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a29">29</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$rdf_qname_prefix" id="$rdf_qname_prefix"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$rdf_qname_prefix</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a46">46</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$sort_model" id="$sort_model"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$sort_model</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a28">28</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$use_attributes" id="$use_attributes"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$use_attributes</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a27">27</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$use_entities" id="$use_entities"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$use_entities</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a26">26</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$use_xml_declaration" id="$use_xml_declaration"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$use_xml_declaration</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a30">30</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodRdfSerializer" id="RdfSerializer"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor RdfSerializer</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a53">53</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">RdfSerializer</span>
+		<span class="method-name">
+			RdfSerializer
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodaddNamespacePrefix" id="addNamespacePrefix"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addNamespacePrefix</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a143">143</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a new prefix/namespace combination.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addNamespacePrefix
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$namespace</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$prefix</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$namespace</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodconfigSortModel" id="configSortModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">configSortModel</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Serializer congiguration: Sort Model  Flag if the serializer should sort the model by subject before serializing.</p>
+<p class="description"><p>TRUE makes the RDF code more compact.  TRUE is default. Default can be changed in constants.php.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			configSortModel
+		</span>
+					(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bool</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodconfigUseAttributes" id="configUseAttributes"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">configUseAttributes</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a105">105</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Serializer congiguration: Use Attributes  Flag if the serializer should serialize triples as XML attributes where possible.</p>
+<p class="description"><p>TRUE makes the RDF code more compact.  FALSE is default. Default can be changed in constants.php.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			configUseAttributes
+		</span>
+					(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bool</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodconfigUseEntities" id="configUseEntities"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">configUseEntities</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a92">92</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Serializer congiguration: Use Entities  Flag if the serializer should use entities for URIs.</p>
+<p class="description"><p>TRUE makes the RDF code more compact.  FALSE is default. Default can be changed in constants.php.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			configUseEntities
+		</span>
+					(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bool</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodconfigUseQnames" id="configUseQnames"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">configUseQnames</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a118">118</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Serializer congiguration: Use Qnames  Flag if the serializer should use qualified names for RDF reserved words.</p>
+<p class="description"><p>TRUE makes the RDF code more compact.  TRUE is default. Default can be changed in constants.php.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			configUseQnames
+		</span>
+					(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bool</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodconfigUseXmlDeclaration" id="configUseXmlDeclaration"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">configUseXmlDeclaration</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a131">131</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Serializer congiguration: Use XML Declaration  Flag if the serializer should start documents with the xml declaration  &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;.</p>
+<p class="description"><p>TRUE is default. Default can be changed in constants.php.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			configUseXmlDeclaration
+		</span>
+					(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$bool</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$bool</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsaveAs" id="saveAs"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">saveAs</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a287">287</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Serializes a model and saves it into a file.</p>
+<p class="description"><p>Returns FALSE if the model couldn't be saved to the file.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			saveAs
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">String</span>&nbsp;<span class="var-name">$encoding</span> = <span class="var-default">DEFAULT_ENCODING</span>], <span class="var-type">object MemModel</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object MemModel</span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$encoding</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$filename</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodserialize" id="serialize"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">serialize</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxRdfSerializer.php.html#a161">161</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Serializes a model to RDF syntax.</p>
+<p class="description"><p>RDF syntax can be changed by config_use_attributes($boolean), config_use_entities($boolean),  config_sort_model($boolean).  NOTE: There is only one default namespace allowed within an XML document.        Therefore if SER_RDF_QNAMES in constants.php is set to FALSE and you pass        another $xml_default_namespace as parameter, the model will be serialized        as if SER_RDF_QNAMES were set to TRUE.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			&amp;serialize
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$xml_default_namespace</span> = <span class="var-default">NULL</span>], [<span class="var-type">String</span>&nbsp;<span class="var-name">$encoding</span> = <span class="var-default">DEFAULT_ENCODING</span>], <span class="var-type">object MemModel</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object MemModel</span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$encoding</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$xml_default_namespace</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:50:50 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

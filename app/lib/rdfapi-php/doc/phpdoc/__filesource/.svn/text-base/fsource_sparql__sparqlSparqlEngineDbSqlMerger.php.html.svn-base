@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>File Source for SqlMerger.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<h1>Source for file SqlMerger.php</h1>
+<p>Documentation is available at <a href="../sparql/_sparql---SparqlEngineDb---SqlMerger.php.html">SqlMerger.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-doc">/**</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-doc">*&nbsp;&nbsp;&nbsp;Creates&nbsp;an&nbsp;sql&nbsp;string&nbsp;from&nbsp;an&nbsp;sql&nbsp;array</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-doc">*</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-doc">*&nbsp;&nbsp;&nbsp;</span><span class="src-doc-coretag">@author</span><span class="src-doc">&nbsp;Christian&nbsp;Weiske&nbsp;&lt;cweiske@cweiske.de&gt;</span></div></li>
+<li><div class="src-line"><a name="a7"></a><span class="src-doc">*</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-doc">*&nbsp;&nbsp;&nbsp;</span><span class="src-doc-coretag">@package</span><span class="src-doc">&nbsp;sparql</span></div></li>
+<li><div class="src-line"><a name="a9"></a><span class="src-doc">*/</span></div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-key">class&nbsp;</span><a href="../sparql/SparqlEngineDb_SqlMerger.html">SparqlEngineDb_SqlMerger</a></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a12"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">static&nbsp;</span><span class="src-key">function&nbsp;</span><a href="../sparql/SparqlEngineDb_SqlMerger.html#methodgetSelect">getSelect</a><span class="src-sym">(</span><span class="src-id">Query&nbsp;</span><span class="src-var">$query</span><span class="src-sym">,&nbsp;</span><span class="src-var">$arSqls</span><span class="src-sym">,&nbsp;</span><span class="src-var">$strAdditional&nbsp;</span>=&nbsp;<span class="src-str">''</span><span class="src-sym">)</span></div></li>
+<li><div class="src-line"><a name="a13"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a14"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><a href="http://www.php.net/count">count</a><span class="src-sym">(</span><span class="src-var">$arSqls</span><span class="src-sym">)&nbsp;</span>==&nbsp;<span class="src-num">1</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a15"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><a href="http://www.php.net/implode">implode</a><span class="src-sym">(</span><span class="src-str">''</span><span class="src-sym">,&nbsp;</span><span class="src-var">$arSqls</span><span class="src-sym">[</span><span class="src-num">0</span><span class="src-sym">]</span><span class="src-sym">)&nbsp;</span>.&nbsp;<span class="src-var">$strAdditional</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a16"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a17"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a18"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//union</span></div></li>
+<li><div class="src-line"><a name="a19"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$strUnion&nbsp;</span>=&nbsp;<span class="src-str">'UNION'&nbsp;</span>.</div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">(</span><span class="src-var">$query</span><span class="src-sym">-&gt;</span><span class="src-id">getResultForm</span><span class="src-sym">(</span><span class="src-sym">)&nbsp;</span>==&nbsp;<span class="src-str">'select&nbsp;distinct'&nbsp;</span>?&nbsp;<span class="src-str">''&nbsp;</span>:&nbsp;<span class="src-str">'&nbsp;ALL'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a21"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$ar&nbsp;</span>=&nbsp;<span class="src-key">array</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">foreach&nbsp;</span><span class="src-sym">(</span><span class="src-var">$arSqls&nbsp;</span><span class="src-key">as&nbsp;</span><span class="src-var">$arSql</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$ar</span><span class="src-sym">[</span><span class="src-sym">]&nbsp;</span>=&nbsp;<a href="http://www.php.net/implode">implode</a><span class="src-sym">(</span><span class="src-str">''</span><span class="src-sym">,&nbsp;</span><span class="src-var">$arSql</span><span class="src-sym">)&nbsp;</span>.&nbsp;<span class="src-var">$strAdditional</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a24"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a25"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-str">'('&nbsp;</span>.&nbsp;<a href="http://www.php.net/implode">implode</a><span class="src-sym">(</span><span class="src-str">')&nbsp;'&nbsp;</span>.&nbsp;<span class="src-var">$strUnion&nbsp;</span>.&nbsp;<span class="src-str">'&nbsp;('</span><span class="src-sym">,&nbsp;</span><span class="src-var">$ar</span><span class="src-sym">)&nbsp;</span>.&nbsp;<span class="src-str">')'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a26"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span><span class="src-comm">//public&nbsp;static&nbsp;function&nbsp;getSelect(Query&nbsp;$query,&nbsp;$arSqls,&nbsp;$strAdditional&nbsp;=&nbsp;'')</span></div></li>
+<li><div class="src-line"><a name="a27"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a28"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a29"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a30"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">public&nbsp;</span><span class="src-key">static&nbsp;</span><span class="src-key">function&nbsp;</span><a href="../sparql/SparqlEngineDb_SqlMerger.html#methodgetCount">getCount</a><span class="src-sym">(</span><span class="src-id">Query&nbsp;</span><span class="src-var">$query</span><span class="src-sym">,&nbsp;</span><span class="src-var">$arSqls</span><span class="src-sym">,&nbsp;</span><span class="src-var">$strAdditional&nbsp;</span>=&nbsp;<span class="src-str">''</span><span class="src-sym">)</span></div></li>
+<li><div class="src-line"><a name="a31"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a32"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(</span><a href="http://www.php.net/count">count</a><span class="src-sym">(</span><span class="src-var">$arSqls</span><span class="src-sym">)&nbsp;</span>==&nbsp;<span class="src-num">1</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a33"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-str">'SELECT&nbsp;COUNT(*)&nbsp;as&nbsp;count&nbsp;'&nbsp;</span>.&nbsp;<span class="src-var">$arSqls</span><span class="src-sym">[</span><span class="src-num">0</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'from'</span><span class="src-sym">]&nbsp;</span>.&nbsp;<span class="src-var">$arSqls</span><span class="src-sym">[</span><span class="src-num">0</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'where'</span><span class="src-sym">]&nbsp;</span>.&nbsp;<span class="src-var">$strAdditional</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a34"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a35"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a36"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$ar&nbsp;</span>=&nbsp;<span class="src-key">array</span><span class="src-sym">(</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a37"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">foreach&nbsp;</span><span class="src-sym">(</span><span class="src-var">$arSqls&nbsp;</span><span class="src-key">as&nbsp;</span><span class="src-var">$arSql</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a38"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$ar</span><span class="src-sym">[</span><span class="src-sym">]&nbsp;</span>=&nbsp;<a href="http://www.php.net/implode">implode</a><span class="src-sym">(</span><span class="src-str">''</span><span class="src-sym">,&nbsp;</span><span class="src-var">$arSql</span><span class="src-sym">)&nbsp;</span>.&nbsp;<span class="src-var">$strAdditional</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a39"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">return&nbsp;</span><span class="src-str">'SELECT&nbsp;('&nbsp;</span>.&nbsp;<a href="http://www.php.net/implode">implode</a><span class="src-sym">(</span><span class="src-str">')&nbsp;+&nbsp;('</span><span class="src-sym">,&nbsp;</span><span class="src-var">$ar</span><span class="src-sym">)&nbsp;</span>.&nbsp;<span class="src-str">')&nbsp;as&nbsp;count'</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span><span class="src-comm">//public&nbsp;static&nbsp;function&nbsp;getCount(Query&nbsp;$query,&nbsp;$arSqls,&nbsp;$strAdditional&nbsp;=&nbsp;'')</span></div></li>
+<li><div class="src-line"><a name="a42"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a43"></a><span class="src-sym">}</span><span class="src-comm">//class&nbsp;SparqlEngineDb_SqlMerger</span></div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a45"></a><span class="src-php">?&gt;</span></div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:52:25 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</body>
+</html>

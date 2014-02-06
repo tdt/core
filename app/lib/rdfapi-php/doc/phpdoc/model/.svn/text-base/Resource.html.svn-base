@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class Resource</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class Resource</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|													<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">An RDF resource.</p>
+<p class="description"><p>Every RDF resource must have a URIref.  URIrefs are treated as logical constants, i.e. as names which denote something  (the things are called 'resources', but no assumptions are made about the nature of resources.)  Many RDF resources are pieces of vocabulary. They typically have a namespace  and a local name. In this case, a URI is composed as a  concatenation of the namespace and the local name.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Chris Bizer &lt;<a href="mailto:chris@bizer.de">chris@bizer.de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id$</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_model---Resource.php.html">/model/Resource.php</a> (line <span class="field"><a href="../__filesource/fsource_model__modelResource.php.html#a25">25</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --<a href="../model/Node.html">Node</a>
+      |
+      --Resource</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../model/BlankNode.html">BlankNode</a></td>
+					<td>
+											An RDF blank node.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../resModel/ResResource.html">ResResource</a></td>
+					<td>
+											An RDF Resource.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																						
+				<div class="method-definition">
+											<span class="method-result">Resource</span>
+										<a href="#Resource" title="details" class="method-name">Resource</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$namespace_or_uri</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$localName</span> = <span class="var-default">NULL</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#equals" title="details" class="method-name">equals</a>
+											(<span class="var-type">object resource</span>&nbsp;<span class="var-name">$that</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLabel" title="details" class="method-name">getLabel</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLocalName" title="details" class="method-name">getLocalName</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getNamespace" title="details" class="method-name">getNamespace</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getURI" title="details" class="method-name">getURI</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#toString" title="details" class="method-name">toString</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodResource" id="Resource"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor Resource</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelResource.php.html#a43">43</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  Takes an URI or a namespace/localname combination</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">Resource</span>
+		<span class="method-name">
+			Resource
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$namespace_or_uri</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$localName</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$namespace_or_uri</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$localName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodequals" id="equals"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">equals</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelResource.php.html#a111">111</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if the resource equals another resource.</p>
+<p class="description"><p>Two resources are equal, if they have the same URI</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			equals
+		</span>
+					(<span class="var-type">object resource</span>&nbsp;<span class="var-name">$that</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object resource</span>
+				<span class="var-name">$that</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../model/BlankNode.html#methodequals">BlankNode::equals()</a>
+								: Checks if two blank nodes are equal.
+							</li>
+					<li>
+				<a href="../resModel/ResResource.html#methodequals">ResResource::equals()</a>
+								: Checks if the resource equals another resource.
+							</li>
+				</ul>
+	</div>
+<a name="methodgetLabel" id="getLabel"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLabel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelResource.php.html#a66">66</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the label of the resource, which is the URI of the resource.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLabel
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../model/BlankNode.html#methodgetLabel">BlankNode::getLabel()</a>
+								: Returns the ID of the blank node.
+							</li>
+				</ul>
+	</div>
+<a name="methodgetLocalName" id="getLocalName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLocalName</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelResource.php.html#a87">87</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the local name of the resource.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLocalName
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetNamespace" id="getNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelResource.php.html#a75">75</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the namespace of the resource. May return null.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getNamespace
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetURI" id="getURI"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getURI</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelResource.php.html#a57">57</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the URI of the resource.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getURI
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtoString" id="toString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">toString</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelResource.php.html#a99">99</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Dumps resource.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			toString
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../utility/Object.html#methodtoString">Object::toString()</a></dt>
+						<dd>Serializes a object into a string</dd>
+					</dl>
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../model/BlankNode.html#methodtoString">BlankNode::toString()</a>
+								: Dumps bNode.
+							</li>
+				</ul>
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:51:37 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

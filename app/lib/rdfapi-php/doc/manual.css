@@ -1,0 +1,34 @@
+
+h1, h2, h3, h4, h5, h6 {
+    color : Navy;
+}
+
+.varname {
+    background-color: #FFB;
+    font-weight: bold;
+}
+
+.classname {
+    color: #A00;
+}
+
+.function, .methodname {
+    color: #0A0;
+}
+
+.navheader, .navfooter {
+    background-color: #EEF;
+}
+
+.programlisting {
+    border: 2px solid gray;
+    border-style: groove;
+    padding: 2px;
+    background-color: #e7e7ef;
+}
+
+.screen {
+    border: 2px solid gray;
+    border-style: groove;
+    padding: 5px;
+}

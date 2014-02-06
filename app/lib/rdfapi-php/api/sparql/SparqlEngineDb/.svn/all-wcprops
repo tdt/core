@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/554/trunk/rdfapi-php/api/sparql/SparqlEngineDb
+END
+QuerySimplifier.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/465/trunk/rdfapi-php/api/sparql/SparqlEngineDb/QuerySimplifier.php
+END
+FilterGenerator.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/476/trunk/rdfapi-php/api/sparql/SparqlEngineDb/FilterGenerator.php
+END
+Preparator.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/465/trunk/rdfapi-php/api/sparql/SparqlEngineDb/Preparator.php
+END
+TypeSorter.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/536/trunk/rdfapi-php/api/sparql/SparqlEngineDb/TypeSorter.php
+END
+Offsetter.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/465/trunk/rdfapi-php/api/sparql/SparqlEngineDb/Offsetter.php
+END
+SqlMerger.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/465/trunk/rdfapi-php/api/sparql/SparqlEngineDb/SqlMerger.php
+END
+ResultRenderer.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/465/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultRenderer.php
+END
+SqlGeneratorException.php
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/rdfapi-php/!svn/ver/465/trunk/rdfapi-php/api/sparql/SparqlEngineDb/SqlGeneratorException.php
+END
+ResultConverter.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/485/trunk/rdfapi-php/api/sparql/SparqlEngineDb/ResultConverter.php
+END
+SqlGenerator.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/472/trunk/rdfapi-php/api/sparql/SparqlEngineDb/SqlGenerator.php
+END
+PreparedStatement.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/465/trunk/rdfapi-php/api/sparql/SparqlEngineDb/PreparedStatement.php
+END

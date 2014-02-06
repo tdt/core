@@ -1,0 +1,41 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/api/util/magpie/scripts/smarty_plugin
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2006-05-24T07:48:26.000000Z
+274
+tgauss
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+modifier.rss_date_parse.php
+file
+
+
+
+
+2008-02-29T14:57:49.396349Z
+8fa557dbe3ce6957e6263af16506e50b
+2006-05-24T07:48:26.000000Z
+274
+tgauss
+has-props
+

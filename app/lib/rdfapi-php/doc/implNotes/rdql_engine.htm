@@ -1,0 +1,583 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Implementation Notes: RDQL Engine</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="../phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP V0.9.3</H3>
+<h1>Implementation Notes: RDQL Engine</h1>
+<br> 
+
+<p>Radoslaw Oldakowski &lt;<a href="mailto:radol@gmx.de">radol@gmx.de</a>&gt; 
+  <br>
+  October 2003</p>
+<p>&nbsp;</p>
+<p><u>This document is meant for developers who are interested in further work on RDF API for PHP.</u>
+  I will explain here some general concepts behind the RDQL implementation. 
+  A thorough description of functions and variables used within the RDQL package 
+  can be found in the detailed <a href="../index.html#packages">method reference</a>. 
+  For a more profound understanding of every single part of the query execution 
+  consult the commented source code. </p>
+<p>&nbsp;</p>
+<h3>Contents</h3>
+<table>
+  <tr>
+    <td align="right">1.</td>
+    <td><a href="#s1">Introduction</a></td>
+  </tr>
+  <tr>
+    <td align="right">2.</td>
+    <td><a href="#s2">Query Parser</a></td>
+  </tr>
+  <tr>
+    <td align="right">3.</td>
+    <td><a href="#s3">RDQL Memory Engine</a></td>
+  </tr>
+  <tr>
+    <td align="right">4.</td>
+    <td><a href="#s4">RDQL Database Engine</a></td>
+  </tr>
+  <tr>
+</table>
+<p>&nbsp;</p>
+<h3><a name="s1">1. Introduction</a></h3>
+<p>The execution of an RDQL query in RDF API for PHP V0.8 consists of four main
+   steps. At first, the query string is parsed into an in-memory structure represented
+  
+  by a PHP array using the class <code>RdqlParser</code>. Subsequently, depending
+   on the storage mechanism of the model the query is performed on, this array
+  
+  is passed to the corresponding engine (RdqlMemEngine for MemModels and RdqlDbEngine
+   for DbModels). In the second step, the query engine searches for triples matching
+  
+  all patterns from the <code>WHERE</code> clause of the RDQL query and returns
+   a set of variable bindings. Next, this result set is filtered by evaluating
+  
+  Boolean expressions specified in the <code>AND</code> clause. The last step
+   is the processing of the final result, i.e. creating of RAP objects (<code>Resource</code>, 
+  <code>BlankNode</code>, <code>Literal</code>) or their plain text serialization
+   as values of the query variables, according to the desired format. In case
+  of 
+  the former, the returned objects can be used for model update or other API
+  calls,  or simply printed out using the method <code>writeQueryResultsAsHtmlTable()</code> 
+  of class <code>RdqlEngine</code>.</p>
+<p>&nbsp;</p>
+<h3><a name="s2">2. Query Parser</a></h3>
+<p>Although there had already been an RDQL parser written in PHP [<a href="http://phpxmlclasses.sourceforge.net/">PHPxmlClasses</a>] 
+  available, it did not meet all requirements of RAP's RDQL grammar. Hence, I 
+  have decided to develop a completely new parser from scratch.</p>
+<p>The output of the RDQL parser used in RDF API for PHP V0.8 is a multi-dimensional 
+  array (described in <a href="#Figure1">Figure 1</a>) representing every clause 
+  of the parsed query. In this section I will briefly explain how this structure 
+  is generated.</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td bgcolor=#e7e7ef> 
+      <p><code> <a name="Figure1"> array ['selectVars'][] = ?VARNAME<br>
+      </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;['sources'][]{['value']} = URI | QName<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{['is_qname'] = boolean}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;['patterns'][]['subject']['value'] = VARorURI<br>		
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{['is_qname'] = boolean}<br>		
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		['predicate']['value'] = VARorURI<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{['is_qname'] = boolean}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['object']['value'] = VARorURIorLiterl<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		{['is_qname'] = boolean}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['is_literal'] = boolean<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+        ['l_lang'] = string<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+        ['l_dtype'] = string<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+        {['l_dtype_is_qname'] = boolean}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;['filters'][]['string'] = string<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['evalFilterStr'] = string<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+        ['reqexEqExprs'][]['var'] = ?VARNAME<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['operator'] = (eq | ne)<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['regex'] = string<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['strEqExprs'][]['var'] = ?VARNAME<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['operator'] = (eq | ne)<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['value'] = string<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['value_type'] = ('variable' | 'URI' | 'QName' | 'Literal')<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['value_lang'] = string<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['value_dtype'] = string<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        {['value_dtype_is_qname'] = boolean}<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+        ['numExpr']['vars'][] = ?VARNAME<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{['ns'][PREFIX] = NAMESPACE}</code></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<table width="580" border="0" align="center" cellspacing="10">
+  <tr>
+    <td width="67" valign="top"><b>Figure 1:</b></td>
+    <td align="center" width="489">
+      <div align="left">An abstract description of the PHP array representing
+         an RDQL query produced by RAP's RDQL parser ( [ ] stands for an integer
+        
+        index 0..N, {} are only used within the parser class and are not passed
+        to the query engine).</div>
+    </td>
+  </tr>
+</table>
+<p>After the query string has been passed to the method <code>parseQuery()</code> 
+  called on an object <code>RdqlParser</code>, the function <code>removeComments()</code> 
+  is used by the parser to clear all comments. Subsequently, the string is divided 
+  into small tokens (<code>tokenize()</code>). Each token is either a special 
+  character (e.g. '<code>(</code>' , '<code>,</code>' , '<code> </code>') or a 
+  character string (e.g. <code>?variable</code>) saved in the class internal variable 
+  <code>$tokens</code> of type array. Parsing is nothing but analyzing these tokens 
+  one by one, in the order of their appearance in the query string.</p>
+<p>The process is initiated by the method <code>parseSelect()</code> which recognizes 
+  tokens representing query variables from the <code>SELECT</code> clause and 
+  stores them in the array <code>$parsedQuery['selectVars']</code> (according 
+  to <a href="#Figure1">Figure1</a>). When this function encounters a token holding 
+  the keyword introducing a subsequent clause of the RDQL query (i.e. <code>FROM</code> 
+  / <code>SOURCE</code> or <code>WHERE</code>) the next method <code>parseFrom()</code> 
+  or <code>parseWhere()</code> is called respectively.</p>
+<p>As explained in the <a href="../tutorial/rdql_tutorial.htm">RDQL tutorial</a>, 
+  there is no need to specify the source while calling the method <code>rdqlQuery()</code> 
+  on an active object <code>MemModel </code>or<code> DbModel</code>. However, 
+  RAP's RdqlParser is able to parse the <code>FROM</code> clause and can be used, 
+  for instance, together with the RDQL engine to carry out a query on multiple 
+  documents specified by URLs, as shown in <a href="#example1">example 1</a>.</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code><a name="example1">// Some RDQL query with two input documents</a><br>
+        $query = '<br>
+        SELECT *<br>
+        FROM &lt;http://example.org/doc1.rdf&gt;, &lt;http://somewhere.edu/doc2.rdf&gt;<br>
+        WHERE (?x, vcard:FN, ?z)<br>
+        USING vcard FOR &lt;http://www.w3.org/2001/vcard-rdf/3.0#&gt;';</code></p>
+      <p><code>// Create the parser object and parse the query string<br>
+        $parser = new RdqlParser();<br>
+        $parsedQuery = $parser-&gt;parseQuery($query);</code></p>
+      <p><code>// Create a new RDQL engine for models stored in memory <br>
+        $rdqlMemEngine = new RdqlMemEngine();</code></p>
+      <p><code>// Set the variable for the merged query result<br>
+        $mergedResult = array();</code></p>
+      <p><code>// Iterate through all sources specified in the FROM clause<br>
+        foreach ($parsedQuery['sources'] as $url) {</code></p>
+      <p><code>&nbsp;&nbsp;&nbsp;// Load each document into a memory Model<br>
+        &nbsp;&nbsp;&nbsp;$model = new MemModel();<br>
+        &nbsp;&nbsp;&nbsp;$model-&gt;load($url);<br>
+        <br>
+        &nbsp;&nbsp;&nbsp;// Execute the RDQL query on the Model just created<br>
+        &nbsp;&nbsp;&nbsp;$queryResult = $rdqlMemEngine-&gt;queryModel($model, $parsedQuery);</code></p>
+      <p><code>&nbsp;&nbsp;&nbsp;// Merge all query results<br>
+        &nbsp;&nbsp;&nbsp;$mergedResult = array_merge($mergedResult, $queryResult);<br>
+        }</code></p>
+      <p><code>// Print the merged result of the query on multiple documents<br>
+        RdqlEngine::writeQueryResultAsHtmlTable($mergedResult);</code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<table width="366" border="0" align="center" cellspacing="10">
+  <tr> 
+    <td width="82" valign="top"><b>Example 1:</b></td>
+    <td align="center" width="240"> 
+      <div align="left">RDQL query on multiple documents.</div>
+    </td>
+  </tr>
+</table>
+<p>When the parsing of the <code>SELECT</code> and <code>FROM</code> clauses is 
+  completed, the method <code>parseWhere()</code> is called as next and all patterns 
+  are transformed into the array <code>$parsedQuery['patterns']</code> (see <a href="#Figure1">Figure 
+  1</a>). If the object of a pattern is a literal, additional information about 
+  its language and datatype is recorded. A token indicating the beginning of the 
+  <code>AND</code> or the <code>USING</code> clause causes the corresponding method 
+  <code>parseAnd()</code> or <code>parseUsing()</code> to be called. </p>
+<p>The processing of <a href="../tutorial/rdql_tutorial.htm#and">query filters</a> 
+  is one of the most complex tasks the RdqlParser has to accomplish. In the <code>AND</code> 
+  clause the tokens of each filter are combined to form a complete filter string
+   in order to examine the filter as a whole. At first, the parser searches inside
+  
+  the string for <A HREF="http://www.php.net/manual/en/reference.pcre.pattern.syntax.php">regular
+   expression</A> patterns (e.g. <code>?x ~~ &quot;/\.html$/i&quot;</code>) and
+    serializes their corresponding parts into the array described in <a href="#Figure1">Figure
+     1</a> (in this example: <code>['var'] = ?x</code>, <code>['operator'] =
+     'eq'</code>, 
+  <code>['regex'] = '/\.html$/i'</code>). Additionally, it replaces each pattern
+   inside the original filter string (<code>['string']</code>) with a placeholder
+    (i.e. <code>##RegEx_$i##</code> where <code>$i</code> is a numerical index)
+     and stores this transformed string in the array (<code>['evalFilterStr']</code>).
+      Subsequently, the parser looks for three different kinds of string equality
+     
+  expressions in the form of <code>?variable (eq | ne) VALUE</code>, where <code>VALUE</code> 
+  can be: <code>?variable</code>, <code>&lt;uri&gt;</code> or <code>&quot;literal&quot;@lang^^&lt;datatypeURI</code>&gt;.
+   Similarly, in this case, all parts of an expression are serialized into the
+  
+  array (see <a href="#Figure1">Figure 1</a>) and each expression inside the
+  already  once transformed filter (<code>['evalFilterStr']</code>) is replaced
+  with a  placeholder (i.e. <code>##strEqExpr_$i##</code>). The processed filter
+  string  now only contains numerical expressions and placeholders (e.g. <code>?x &gt; 
+  5 &amp;&amp; ##strEqExpr_0##</code>). Finally the parser finds all variables
+   of the numerical expressions and stores them in the array as well.</p>
+<p>Given this structure saved in an array, the RDL query engine will be able to 
+  determine the Boolean value of each single <i>regex</i> and string equality 
+  expression for a certain set of variable bindings, replace the corresponding 
+  placeholders, and insert the values of numerical variables. An example filter 
+  string representation for a query result to be filtered might be: (<code>7 &gt; 
+  5 &amp;&amp; TRUE</code>). After having evaluated this condition, the query 
+  engine will accept this particular set of variable bindings.</p>
+<p>If all filters have been parsed and the query contains a <code>USING</code> 
+  clause, the method <code>parseUsing()</code> is called. It writes all prefixes 
+  with their corresponding namespaces into the array described in <a href="#Figure1">Figure 
+  1</a>. However, this part of the array will not be returned by the parser but 
+  will be only used internally to replace prefixes used in the <code>WHERE</code> 
+  and <code>AND</code> clause. All URIs contained in the in-memory representation 
+  of the parsed query passed to the query engine will be therefore stored in full.</p>
+<p>An advantageous and helpful feature of RAP's RdqlParser worth mentioning is 
+  its extensive error checking. The parser is not only able to find a syntax error, 
+  but moreover to return a message pointing to the spot in the query where the 
+  error occurred. This is even more important since there exist several syntactically 
+  different RDQL implementations. <a href="#Example2">Example 2</a> presents some 
+  RDQL clauses containing syntax errors and the corresponding error message returned 
+  by the parser.</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td bgcolor=#e7e7ef> 
+      <p><code><a name="Example2">SELECT ?city, ?givenN@me, ?age</a></code></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br><b>Output:</b>
+<table border=1 cellpadding=5 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td> 
+      <p>RDQL error in the SELECT clause: '?givenN@me' variable name contains 
+        illegal characters</p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td bgcolor=#e7e7ef> 
+      <p><code>WHERE (?x, ?y, &quot;some Literal&quot;), (&lt;http://www.example.org, 
+        ?a, ?b)</code></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br><b>Output:</b>
+<table border=1 cellpadding=5 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td> 
+      <p>RDQL error in the WHERE clause: '&lt;http://www.example.org,' - illegal 
+        input: ',' - '&gt;' missing</p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td bgcolor=#e7e7ef> 
+      <p><code>AND ?x ~~ /\.thml$/</code></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br><b>Output:</b>
+<table border=1 cellpadding=5 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td> 
+      <p>RDQL error in the AND clause: '?x ~~ /\.thml$/ ' - regular expressions 
+        must be quoted</p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td bgcolor=#e7e7ef> 
+      <p><code>USING ?dc FOR &lt;http://www.purl.org/dc/elements/1.1/&gt;</code></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br><b>Output:</b>
+<table border=1 cellpadding=5 cellspacing=0 width="100%">
+  <tbody>
+  <tr valign=top>
+    <td> 
+      <p>RDQL error in the USING clause: '?dc' - illegal input, namespace prefix 
+        expected</p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<table width="426" border="0" align="center" cellspacing="10">
+  <tr> 
+    <td width="87" valign="top"><b>Example 2:</b></td>
+    <td align="center" width="305"> 
+      <div align="left">Error messages returned by the RDQL parser.</div>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h3><a name="s3">3. RDQL Memory Engine</a></h3>
+<p>If an RDQL query is performed on an in-memory model, an instance of the object 
+  <code>RdqlMemEngine</code> has to be created. The query execution is initiated 
+  by calling the method <code>queryModel()</code> with two parameters being passed 
+  by reference: the object <code>MemModel</code> itself and the array representation 
+  of the query, generated by the RdqlParser.</p>
+<p>The RdqlMemEngine begins the execution of a query with searching for tuples 
+  matching all patterns specified in the <code>WHERE</code> clause, by calling 
+  the corresponding method <code>findTuplesMatchingAllPatterns()</code>. This 
+  process is divided into a sequence of two steps carried out in a loop. Initially 
+  the result for one single pattern is found (<code>findTuplesMatchingOnePattern()</code>). 
+  Subsequently, it is joined with the set of tuples matching the previously examined 
+  patterns (<code>joinTuples()</code>).</p>
+<p>The execution of both steps is rather complex. In the case of the first one, 
+  the RdqlMemEngine analyzes all parts of the statement pattern (subject, predicate, 
+  object) and additionally determines internal bindings (e.g. <code>?x, &lt;uri&gt;, 
+  ?x</code>). Given all the information, the method <code>findTriplesMatchingPattern()</code> 
+  searches the queried model for statements fitting into the pattern also considering 
+  the nuances of the RDQL specification. The result of this function is then converted 
+  into an array holding variable bindings that represents a set of tuples matching 
+  one pattern.</p>
+<p>The join operation performed on two result sets is nothing else than a PHP 
+  implementation of the SQL-like Inner Join. Furthermore, applying it within the 
+  loop (compared to the approach where the results for each pattern are first 
+  determined and then joined altogether) enables the engine to significantly reduce 
+  memory consumption.</p>
+<p>In this way the query engine has found all tuples matching the patterns from 
+  the <code>WHERE</code> clause. If the RDQL query being processed additionally 
+  contains filter expressions (<code>AND</code> clause), the result set determined 
+  so far is passed to the method <code>filterTuples()</code>. This function, taken 
+  one by one for each tuple, substitutes the placeholders inside the filter string 
+  with the Boolean values of the evaluated filter <i>regex</i> and string equality 
+  expressions; subsequently it inserts the values of the numerical variables and 
+  evaluates the entire filter string as a PHP expression . </p>
+<p>For a better understanding I will explain the filtering process with an example. 
+  Consider the tuple consisting of two variable bindings: <code>?age = 26</code>, 
+  <code>?name = &quot;Radoslaw&quot;</code> and the <code>AND</code> clause of 
+  an RDQL query: <code>(?age &lt; 25) &amp;&amp; (?name eq &quot;Radoslaw&quot;)</code>. 
+  The in-memory representation of this particular filter returned by the RdqlParser 
+  is shown in <a href="#Example3">Example 3</a> (compare to <a href="#Figure1">Figure 
+  1</a>).</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code><a name="Example3">array</a> ['filters'][0]['string'] = '(?age &lt; 25) &amp;&amp; (?name 
+        == &quot;Radoslaw&quot;)'<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		['evalFilterStr'] = '(?age &lt; 25) &amp;&amp; (##strEqExpr_0##)'<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['strEqExprs'][0]['var'] = ?name<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['operator'] = 'eq'<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['value'] = 'Radoslaw'<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['value_type'] = 'Literal'<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['value_lang'] = NULL<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['value_dtype'] = NULL<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ['numExpr']['vars'][0] = ?age</code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<table width="455" border="0" align="center" cellspacing="10">
+  <tr> 
+    <td width="87" valign="top"><b>Example 3:</b></td>
+    <td align="center" width="334"> 
+      <div align="left">The in-memory representation of the AND clause: <br>
+        <code><div align="center">(?age &lt; 30) &amp;&amp; (?name eq &quot;Radoslaw&quot;).</div></code> 
+      </div>
+    </td>
+  </tr>
+</table>
+<p>Given the structure described in <a href="#Example3">Example 3</a>, the query 
+  engine at first evaluates the string equality expression by checking if the 
+  value of the variable <code>?name</code> (i.e. <code>&quot;Radoslaw&quot;</code>) 
+  is a literal with the label equal &quot;Radoslaw&quot; and no specified language 
+  or datatype. In this case it is one, so the query engine replaces the placeholder 
+  (i.e. <code>##strEqExpr_0##</code>) with <code>TRUE</code>, what results in 
+  the filter string: <code>(?age &lt; 25) &amp;&amp; (TRUE)</code>. Next, the 
+  query engine inserts the value of the numerical variable <code>?age</code> and 
+  determines the Boolean value of the whole filter <code>(26 &lt; 25) &amp;&amp; 
+  (TRUE)</code>. In this example the output is <code>FALSE </code>( <code>(26 
+  &lt; 25) &amp;&amp; (TRUE) =&gt; (FALSE) &amp;&amp; (TRUE) = FALSE </code>); 
+  consequently this particular tuple will be removed from the final result.</p>
+<p>This was just an example of a very simple filter. RAP RDQL query engine is 
+  able to handle much more complex <code>AND</code> clauses consisting of several 
+  filters where each of them can be built of different kinds of expressions combined 
+  together by using logical operators. Even the process of evaluating one single 
+  string equality expression becomes more complicated if the literal has specified 
+  datatype and language. </p>
+<p>In the last step, after having filtered all tuples, the query engine removes 
+  the filter variables (which have not been specified in the <code>SELECT</code> 
+  clause) from the result set. Since the engine has been working with RAP objects 
+  all the time, it can now return the final query result with no further processing, 
+  unless the parameter <code>$returnNodes</code> passed to the object <code>RdqlMemEngine</code> 
+  has been set to <code>FALSE</code>. In this case the values of all query variables 
+  are still to be serialized to string.</p>
+<p>&nbsp;</p>
+<h3><a name="s4">4. RDQL Database Engine</a></h3>
+<p>Similarly to the case of a MemModel, an RDQL query performed on a persistent 
+  model (DbModel) is initiated by calling the method <code>queryModel()</code> 
+  on an object <code>RdqlDbEngine</code> with two parameters being passed by reference: 
+  the DbModel itself and the in-memory representation of the parsed query. Though, 
+  from this point on the internal execution of the query takes a different course. 
+  The searching for tuples matching all patterns from the <code>WHERE</code> clause 
+  is this time delegated to the database management system. Moreover instead of 
+  calling the database for the result set matching each single pattern and then 
+  joining them in memory, the RdqlDbEngine translates almost the entire RDQL query 
+  into an SQL statement and sends it to the database for execution. This approach 
+  enables the machine to use the database indexing and optimization capabilities.</p>
+<p>The algorithm used for the query rewriting is relatively simple. Every single 
+  statement pattern is treated as a separate virtual database table (<i>statements</i>). 
+  If the subject, predicate, or object of each pattern is a URI or a literal, 
+  it is bound to its value. Otherwise, in the case that it is a variable, an identity 
+  relationship between all occurrences of this variable is created. The variables 
+  to be returned are indicated in the <code>SELECT</code> clause of the SQL statement 
+  being generated.</p>
+<p><a href="#Example4">Example 4</a> provides a sample RDQL query and its corresponding 
+  translation into SQL produced by the RdqlDbEngine. The first two lines in the 
+  <code>SELECT</code> clause of the SQL statement describe the variable <code>?someone</code>. 
+  Due to its mapping to the subject (of the first triple), it can either be a 
+  resource or a Blank Node. To find this out we need to know the value of the 
+  corresponding table column (<i>subject_is</i>). In the case of the next variable 
+  <code>?name</code> mapped to the object of the second triple, it can additionally 
+  be a literal as well, so that the information about its language and datatype 
+  must also be returned. The <code>FROM</code> clause indicates three virtual 
+  tables (<i>statements</i>) each representing a pattern of the RDQL query. In 
+  the <code>WHERE</code> clause of the SQL statement there are constraints specified 
+  for every part of a triple. Respectively, the subject in the first table (<code>s1.subject</code>) 
+  representing the variable <code>?someone</code> is bound to the subject in the 
+  second table (<code>s2.subject</code>) holding the same variable; the predicate 
+  (<code>s1.predicate</code>) and object (<code>s1.object</code>) are equated 
+  to the string they are supposed to match. Since RAP supports storing of multiple 
+  models in a database, each pattern has to be bound to the <code>modelID</code> 
+  of the model the query is performed on. Note that variables <code>?name</code> 
+  and <code>?y</code> occur only once so that they are not constrained by any 
+  binding and can therefore match anything. Furthermore, the value of the variable 
+  <code>?name</code> must be returned by the database even if it is not specified 
+  in the <code>SELECT</code> clause of the RDQL query. It will be needed to evaluate 
+  the filter expressions (<code>?name EQ &quot;Brian&quot; || ?name EQ &quot;Carl&quot;</code>), 
+  which will be carried out in main memory. However, this variable will only be 
+  used internally within the RdqlQueryEngine and will not be included in the returned 
+  final result set.</p>
+<b><a name="Example4">RDQL query:</a></b>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code>SELECT ?someone, ?name<br>
+        WHERE (?someone, &lt;http://ex.org/vocab/isFirendOf&gt;, &lt;http://ex.org/John&gt;),<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(?someone, &lt;http://ex.org/vocab/name&gt;, ?name),<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(?someone, ?y, &quot;35&quot;^^http://www.w3.org/2001/XMLSchema#integer)<br>
+        AND (?name EQ &quot;Brian&quot; || ?name EQ &quot;Carl&quot;)</code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<br><b>The corresponding SQL-Statement:</b>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code>SELECT s1.subject as _someone , <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1.subject_is , </code></p>
+      <p><code> 
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2.object as _name , <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2.object_is , <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2.l_language , <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2.l_datatype </code></p>
+      <p><code>FROM statements s1 , <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statements s2 , <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statements s3 </code></p>
+      <p><code>WHERE s1.modelID=39 <br>
+        AND s1.subject=s2.subject <br>
+        AND s1.predicate='http://ex.org/vocab/isFirendOf' <br>
+        AND s1.object='http://ex.org/John' </code></p>
+      <p><code>AND s2.modelID=39 <br>
+        AND s2.subject=s3.subject<br>
+        AND s2.predicate='http://ex.org/vocab/name' </code></p>
+      <p><code>AND s3.modelID=39 <br>
+        AND s3.object='35' <br>
+        AND s3.object_is='l' <br>
+        AND s3.l_datatype='http://www.w3.org/2001/XMLSchema#integer</code> </p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<table width="499" border="0" align="center" cellspacing="10">
+  <tr> 
+    <td width="87" valign="top"><b>Example 4:</b></td>
+    <td align="center" width="378"> 
+      <div align="left">An example query and its corresponding SQL translation.
+      </div>
+    </td>
+  </tr>
+</table>
+<p>The technique used for the query rewriting is very similar to Matt Biddulp's 
+  algorithm for translating rdfDB-style queries into SQL ([<a href="http://www.picdiary.com/triplequerying">Biddulph 
+  2002</a>], [<a href="http://rdfweb.org/2002/02/java/squish2sql/doc/inkling-query-rewriter.html">Miller 2002</a>]). 
+  It has been extended in order to 
+  additionally retrieve variable bindings for filter variables used in the <code>AND</code> 
+  clause of an RDQL query and adapted to RAP's database layout.</p>
+<p>RdqlDbEngine uses <a href="http://adodb.sourceforge.net/">ADOdb</a> abstraction 
+  layer for SQL query execution. Thus, the result of every successful database 
+  query is returned in the form of an object <code>ADORecordSet</code> holding 
+  the found database records in the form of an array, where the values of each 
+  single record field are associated with integer keys. However, because of the 
+  fact that SQL statements are generated dynamically, the mapping of these indexes 
+  to the query variables is different for every RDQL query. Fortunately, RdqlDbEngine 
+  provides a solution to this problem: while generating an SQL statement it associates 
+  each RDQL query variable with the corresponding index of the <code>ADORecordSet-&gt;fields</code> 
+  array. This information is stored in the class private variable <code>$rsIndexes</code>. 
+  This approach allows the query engine to emulate indexing by variable name while 
+  retrieving SQL query results.</p>
+<p>The filtering of the tuples matching all patterns specified in the <code>WHERE</code> 
+  clause of the RDQL query is carried out in memory. The process is very similar 
+  to the one performed by the RdqlMemEngine with the major difference being that 
+  the RdqlDbEngine does not operate on RAP objects (<code>Resource</code>, <code>Literal</code>, 
+  <code>BlankNode</code>), but on the object <code>ADORecordSet</code> returned 
+  by the database. Finally in the last step the values of the variable bindings 
+  have to be converted either to RAP objects or to their string serialization 
+  according to the desired format of the RDQL query result set.</p>
+</BODY>
+</HTML>

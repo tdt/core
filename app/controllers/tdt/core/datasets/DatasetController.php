@@ -40,7 +40,9 @@ class DatasetController extends \Controller {
         // Check for caching
         // Based on: URI / Rest parameters / Query parameters / Paging headers
         $cache_string = $uri;
+
         list($limit, $offset) = ADataController::calculateLimitAndOffset();
+
         $cache_string .= '/limit=' . $limit . 'offset=' . $offset;
         $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
         $cache_string = sha1($cache_string);

@@ -1,0 +1,167 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary
+END
+VocabularyClass.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/VocabularyClass.php
+END
+GEOURL.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/vocabulary/GEOURL.php
+END
+RDFS.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RDFS.php
+END
+VCARD.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/VCARD.php
+END
+DC_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/DC_RES.php
+END
+RDFS_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RDFS_C.php
+END
+VCARD_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/VCARD_C.php
+END
+OWL.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/OWL.php
+END
+ATOM_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/ATOM_C.php
+END
+OWL_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/OWL_C.php
+END
+Vocabulary.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/Vocabulary.php
+END
+RSS.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RSS.php
+END
+RDFS_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RDFS_RES.php
+END
+VCARD_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/VCARD_RES.php
+END
+RSS_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RSS_C.php
+END
+ATOM_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/ATOM_RES.php
+END
+OWL_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/OWL_RES.php
+END
+RDF.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RDF.php
+END
+FOAF.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/FOAF.php
+END
+FOAF_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/FOAF_C.php
+END
+RDF_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RDF_C.php
+END
+RSS_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RSS_RES.php
+END
+VocabularyRes.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/VocabularyRes.php
+END
+FOAF_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/FOAF_RES.php
+END
+RDF_RES.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/RDF_RES.php
+END
+DC.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/vocabulary/DC.php
+END
+DC_C.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/431/trunk/rdfapi-php/api/vocabulary/DC_C.php
+END

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title></title>
+			<link rel="stylesheet" href="media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<!-- Start of Class Data -->
+<H2>
+	
+</H2>
+<h2>Root class Dataset</h2>
+<ul>
+<li><a href="dataset/Dataset.html">Dataset</a><ul>
+<li><a href="dataset/DatasetDb.html">DatasetDb</a></li><li><a href="dataset/DatasetMem.html">DatasetMem</a></li></ul></li>
+</ul>
+
+<h2>Root class IteratorAllGraphsDb</h2>
+<ul>
+<li><a href="dataset/IteratorAllGraphsDb.html">IteratorAllGraphsDb</a></li></ul>
+
+<h2>Root class IteratorAllGraphsMem</h2>
+<ul>
+<li><a href="dataset/IteratorAllGraphsMem.html">IteratorAllGraphsMem</a></li></ul>
+
+<h2>Root class IteratorFindQuadsDb</h2>
+<ul>
+<li><a href="dataset/IteratorFindQuadsDb.html">IteratorFindQuadsDb</a></li></ul>
+
+<h2>Root class IteratorFindQuadsMem</h2>
+<ul>
+<li><a href="dataset/IteratorFindQuadsMem.html">IteratorFindQuadsMem</a></li></ul>
+
+<h2>Root class NamedGraphDb</h2>
+<ul>
+<li><a href="model/DbModel.html">DbModel</a> <b>(Different package)</b><ul><li><a href="dataset/NamedGraphDb.html">NamedGraphDb</a></li></ul></li></ul>
+
+<h2>Root class NamedGraphMem</h2>
+<ul>
+<li><a href="model/MemModel.html">MemModel</a> <b>(Different package)</b><ul><li><a href="dataset/NamedGraphMem.html">NamedGraphMem</a></li></ul></li></ul>
+
+<h2>Root class Quad</h2>
+<ul>
+<li><a href="dataset/Quad.html">Quad</a></li></ul>
+
+<h2>Root class TriXParser</h2>
+<ul>
+<li><a href="dataset/TriXParser.html">TriXParser</a></li></ul>
+
+<h2>Root class TriXSerializer</h2>
+<ul>
+<li><a href="dataset/TriXSerializer.html">TriXSerializer</a></li></ul>
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:48:29 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</body>
+</html>

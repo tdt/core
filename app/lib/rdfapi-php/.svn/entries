@@ -1,0 +1,46 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2008-01-22T10:52:48.041272Z
+556
+fusel2k
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+test
+dir
+
+netapi
+dir
+
+tools
+dir
+
+rap-pubby
+dir
+
+doc
+dir
+
+api
+dir
+

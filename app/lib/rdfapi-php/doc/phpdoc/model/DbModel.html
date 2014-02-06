@@ -1,0 +1,1628 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DbModel</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class DbModel</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This class provides methods for manipulating DbModels from DbStore.</p>
+<p class="description"><p>A DbModel is an RDF Model, which is persistently stored in a relational database.  This Class uses the ADOdb Database Abstraction Library for PHP (http://adodb.sourceforge.net/).</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Radoslaw Oldakowski &lt;<a href="mailto:radol@gmx.de">radol@gmx.de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: DbModel.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_model---DbModel.php.html">/model/DbModel.php</a> (line <span class="field"><a href="../__filesource/fsource_model__modelDbModel.php.html#a22">22</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --<a href="../model/Model.html">Model</a>
+      |
+      --DbModel</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-vars">Vars</a>
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></td>
+					<td>
+											Persistent NamedGraph implementation that extends a <a href="../model/DbModel.html">DbModel</a>.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																																																																														
+				<div class="method-definition">
+											<span class="method-result">DbModel</span>
+										<a href="#DbModel" title="details" class="method-name">DbModel</a>
+											(<span class="var-type">object ADOConnection</span>&nbsp;<span class="var-name">&$dbConnection</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$modelURI</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$modelID</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">NULL</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">mixed</span>
+										<a href="#add" title="details" class="method-name">add</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addModel" title="details" class="method-name">addModel</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addNamespace" title="details" class="method-name">addNamespace</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$nmsp</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$prefix,</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addParsedNamespaces" title="details" class="method-name">addParsedNamespaces</a>
+											(<span class="var-type">Array</span>&nbsp;<span class="var-name">$newNs</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addWithoutDuplicates" title="details" class="method-name">addWithoutDuplicates</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#close" title="details" class="method-name">close</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#contains" title="details" class="method-name">contains</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsAll" title="details" class="method-name">containsAll</a>
+											(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsAny" title="details" class="method-name">containsAny</a>
+											(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#delete" title="details" class="method-name">delete</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#equals" title="details" class="method-name">equals</a>
+											(<span class="var-type">object model</span>&nbsp;<span class="var-name">&$that</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#find" title="details" class="method-name">find</a>
+											(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#findCount" title="details" class="method-name">findCount</a>
+											(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/Statement.html">object Statement</a></span>
+										<a href="#findFirstMatchingStatement" title="details" class="method-name">findFirstMatchingStatement</a>
+											(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">-1</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#findRegex" title="details" class="method-name">findRegex</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$subject_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$predicate_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$object_regex</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#findVocabulary" title="details" class="method-name">findVocabulary</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$vocabulary</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">ADOdb</span>
+										<a href="#getDbConn" title="details" class="method-name">&amp;getDbConn</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#getMemModel" title="details" class="method-name">&amp;getMemModel</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#getModelID" title="details" class="method-name">getModelID</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">Array</span>
+										<a href="#getParsedNamespaces" title="details" class="method-name">getParsedNamespaces</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#intersect" title="details" class="method-name">&amp;intersect</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isEmpty" title="details" class="method-name">isEmpty</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object FindIterator</span>
+										<a href="#iterFind" title="details" class="method-name">&amp;iterFind</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$sub</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$pred</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#rdqlQuery" title="details" class="method-name">rdqlQuery</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object RdqlResultIterator</span>
+										<a href="#rdqlQueryAsIterator" title="details" class="method-name">rdqlQueryAsIterator</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#reify" title="details" class="method-name">&amp;reify</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#remove" title="details" class="method-name">remove</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#removeNamespace" title="details" class="method-name">removeNamespace</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#replace" title="details" class="method-name">replace</a>
+											(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$replacement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#saveAs" title="details" class="method-name">saveAs</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'rdf'</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setBaseURI" title="details" class="method-name">setBaseURI</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#size" title="details" class="method-name">size</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#subtract" title="details" class="method-name">&amp;subtract</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#toString" title="details" class="method-name">toString</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#toStringIncludingTriples" title="details" class="method-name">toStringIncludingTriples</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#unite" title="details" class="method-name">&amp;unite</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#writeAsHtml" title="details" class="method-name">writeAsHtml</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#writeAsHtmlTable" title="details" class="method-name">writeAsHtmlTable</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#writeRdfToString" title="details" class="method-name">writeRdfToString</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../model/Model.html">Model</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../model/Model.html#var$queryParser">Model::$queryParser</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodDbModel" id="DbModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor DbModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a65">65</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  Do not call this directly.</p>
+<p class="description"><p>Use the method getModel,getNewModel or putModel of the Class DbStore instead.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">DbModel</span>
+		<span class="method-name">
+			DbModel
+		</span>
+					(<span class="var-type">object ADOConnection</span>&nbsp;<span class="var-name">&$dbConnection</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$modelURI</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$modelID</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ADOConnection</span>
+				<span class="var-name">&$dbConnection</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$modelURI</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$modelID</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodadd" id="add"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">add</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a131">131</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a new triple to this DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true on success, false if the statement is already in the model,                  error message (string) on failure</li>
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			add
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">&$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddModel" id="addModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a881">881</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add the given model to this DbModel.</p>
+<p class="description"><p>This function monitors for SQL errors, and will commit if no errors have occured,  otherwise it will rollback.  If any statement of the model to be added to this model contains a blankNode  with an identifier already existing in this model, a new blankNode is generated.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addModel
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddNamespace" id="addNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a1194">1194</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a namespace and prefix to the model.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addNamespace
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$nmsp</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$prefix,</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$prefix,</span><span class="var-description">: String $nmsp</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$prefix</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$nmsp</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddParsedNamespaces" id="addParsedNamespaces"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addParsedNamespaces</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a1179">1179</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds the namespaces to the model. This method is called by  the parser. !!!! addParsedNamespaces() not overwrites manual  added namespaces in the model !!!!</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addParsedNamespaces
+		</span>
+					(<span class="var-type">Array</span>&nbsp;<span class="var-name">$newNs</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">Array</span>
+				<span class="var-name">$newNs</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddWithoutDuplicates" id="addWithoutDuplicates"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addWithoutDuplicates</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a183">183</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Alias for the method add().</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addWithoutDuplicates
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">&$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodclose" id="close"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">close</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a953">953</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Close this DbModel</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			close
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcontains" id="contains"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">contains</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a345">345</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check if the DbModel contains the given statement.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			contains
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">&$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontainsAll" id="containsAll"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsAll</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a366">366</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if all of the statements in the given model are also contained in this DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsAll
+		</span>
+					(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontainsAny" id="containsAny"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsAny</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a399">399</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if any of the statements in the given model are also contained in this DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsAny
+		</span>
+					(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddelete" id="delete"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">delete</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a933">933</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove this DbModel from database and clean up.</p>
+<p class="description"><p>This function monitors for SQL errors, and will commit if no errors have occured,  otherwise it will rollback.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			delete
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodequals" id="equals"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">equals</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a747">747</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check if two models are equal.</p>
+<p class="description"><p>Two models are equal if and only if the two RDF graphs they represent are isomorphic.</p><p>Warning: This method doesn't work correct with models where the same blank node has different  identifiers in the two models. We will correct this in a future version.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			equals
+		</span>
+					(<span class="var-type">object model</span>&nbsp;<span class="var-name">&$that</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object model</span>
+				<span class="var-name">&$that</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfind" id="find"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">find</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a439">439</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">General method to search for triples in the DbModel.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;find( NULL, NULL, $node );            Finds all triples with $node as object.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			find
+		</span>
+					(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindCount" id="findCount"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">findCount</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a588">588</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Search for triples and return the number of matches.</p>
+<p class="description"><p>NULL input for any parameter will match anything.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			findCount
+		</span>
+					(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindFirstMatchingStatement" id="findFirstMatchingStatement"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">findFirstMatchingStatement</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a542">542</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Search for triples and return the first matching statement.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Return an NULL if nothing is found.  You can set an search offset with $offset.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/Statement.html">object Statement</a></span>
+		<span class="method-name">
+			findFirstMatchingStatement
+		</span>
+					(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">-1</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$offset</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindRegex" id="findRegex"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">findRegex</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a489">489</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Method to search for triples using Perl-style regular expressions.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;find_regex( NULL, NULL, $regex );            Finds all triples where the label of the object node matches the regular expression.  Return an empty MemModel if nothing is found.  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  WARNING: Mhis method loads a DbModel into memory and performs the search           on a MemModel, which can be slow with large models.  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			findRegex
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$subject_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$predicate_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$object_regex</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$subject_regex</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$predicate_regex</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$object_regex</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindVocabulary" id="findVocabulary"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">findVocabulary</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a509">509</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return all tripels of a certain vocabulary.</p>
+<p class="description"><p>$vocabulary is the namespace of the vocabulary inluding a # : / char at the end.  e.g. http://www.w3.org/2000/01/rdf-schema#  Return an empty model if nothing is found.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			findVocabulary
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$vocabulary</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$vocabulary</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDbConn" id="getDbConn"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDbConn</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a273">273</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the database connection object</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Database object</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">ADOdb</span>
+		<span class="method-name">
+			&amp;getDbConn
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetMemModel" id="getMemModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getMemModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a246">246</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a MemModel containing all the triples of the current DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;getMemModel
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetModelID" id="getModelID"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getModelID</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a260">260</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the model id</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Model id number</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			getModelID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetParsedNamespaces" id="getParsedNamespaces"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getParsedNamespaces</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a1154">1154</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the models namespaces.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">Array</span>
+		<span class="method-name">
+			getParsedNamespaces
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodintersect" id="intersect"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">intersect</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a850">850</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return a new MemModel containing all the statements which are in both  this model and the given model.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;intersect
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmpty" id="isEmpty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isEmpty</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a113">113</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Check if this DbModel is empty.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isEmpty
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoditerFind" id="iterFind"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">iterFind</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a1244">1244</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a FindIterator for traversing the MemModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object FindIterator</span>
+		<span class="method-name">
+			&amp;iterFind
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$sub</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$pred</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sub</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$pred</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$obj</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrdqlQuery" id="rdqlQuery"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">rdqlQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a629">629</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Perform an RDQL query on this DbModel.</p>
+<p class="description"><p>This method returns an associative array of variable bindings.  The values of the query variables can either be RAP's objects (instances of Node)  if $returnNodes set to TRUE, or their string serialization.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> [][?VARNAME] = object Node  (if $returnNodes = TRUE)       OR  array   [][?VARNAME] = string</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			rdqlQuery
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$queryString</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$returnNodes</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrdqlQueryAsIterator" id="rdqlQueryAsIterator"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">rdqlQueryAsIterator</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a663">663</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Perform an RDQL query on this DBModel.</p>
+<p class="description"><p>This method returns an RdqlResultIterator of variable bindings.  The values of the query variables can either be RAP's objects (instances of Node)  if $returnNodes set to TRUE, or their string serialization.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> = with values as object Node  (if $returnNodes = TRUE)       OR  object RdqlResultIterator = with values as strings if (if $returnNodes = FALSE)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object RdqlResultIterator</span>
+		<span class="method-name">
+			rdqlQueryAsIterator
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$queryString</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$returnNodes</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodreify" id="reify"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">reify</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a919">919</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Reify the DbModel.</p>
+<p class="description"><p>Return a new MemModel that contains the reifications of all statements of this DbModel.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;reify
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodremove" id="remove"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">remove</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a197">197</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove the given triple from this DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			remove
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">&$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveNamespace" id="removeNamespace"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a1259">1259</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">removes a single namespace from the model</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			removeNamespace
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$nmsp</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodreplace" id="replace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">replace</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a684">684</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">General method to replace nodes of a DbModel.</p>
+<p class="description"><p>NULL input for any parameter will match nothing.  Example:  $m-&gt;replace($resource, NULL, $node, $replacement);            Replaces all $node objects beeing subject or object in            any triple of the model with the $replacement node.  Throw an error in case of a paramter mismatch.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			replace
+		</span>
+					(<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">object Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$replacement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">object Resource</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$replacement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsaveAs" id="saveAs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">saveAs</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a330">330</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Saves the RDF,N3 or N-Triple serialization of the DbModel to a file.</p>
+<p class="description"><p>You can decide to which format the model should be serialized by using a  corresponding suffix-string as $type parameter. If no $type parameter  is placed this method will serialize the model to XML/RDF format.  Returns FALSE if the DbModel couldn't be saved to the file.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			saveAs
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'rdf'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$filename</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetBaseURI" id="setBaseURI"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setBaseURI</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a82">82</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set a base URI for the DbModel.</p>
+<p class="description"><p>Affects creating of new resources and serialization syntax.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SqlError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setBaseURI
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsize" id="size"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">size</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a99">99</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return the number of statements in this DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			size
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodsubtract" id="subtract"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">subtract</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a819">819</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return a new MemModel that is the subtraction of another model from this DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;subtract
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodtoString" id="toString"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">toString</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a220">220</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short dump of the DbModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			toString
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../utility/Object.html#methodtoString">Object::toString()</a></dt>
+						<dd>Serializes a object into a string</dd>
+					</dl>
+			
+	</div>
+<a name="methodtoStringIncludingTriples" id="toStringIncludingTriples"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">toStringIncludingTriples</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a232">232</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Dump of the DbModel including all triples.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			toStringIncludingTriples
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodunite" id="unite"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">unite</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a788">788</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return a new MemModel that is the set-union the model with another model.</p>
+<p class="description"><p>The result of taking the set-union of two or more RDF graphs (i.e. sets of triples)  is another graph, which we will call the merge of the graphs.  Each of the original graphs is a subgraph of the merged graph. Notice that when forming  a merged graph, two occurrences of a given uriref or literal as nodes in two different  graphs become a single node in the union graph (since by definition they are the same  uriref or literal) but blank nodes are not 'merged' in this way; and arcs are of course  never merged. In particular, this means that every blank node in a merged graph can be  identified as coming from one particular graph in the original set of graphs.</p><p>Notice that one does not, in general, obtain the merge of a set of graphs by concatenating  their corresponding N-triples documents and constructing the graph described by the merged  document, since if some of the documents use the same node identifiers, the merged document  will describe a graph in which some of the blank nodes have been 'accidentally' merged.  To merge Ntriples documents it is necessary to check if the same nodeID is used in two or  more documents, and to replace it with a distinct nodeID in each of them, before merging the  documents. (Not implemented yet !!!!!!!!!!!)</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;unite
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwriteAsHtml" id="writeAsHtml"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeAsHtml</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a285">285</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Write the RDF serialization of the _DbModel as HTML.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			writeAsHtml
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodwriteAsHtmlTable" id="writeAsHtmlTable"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeAsHtmlTable</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a297">297</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Write the RDF serialization of the DbModel as HTML table.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			writeAsHtmlTable
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodwriteRdfToString" id="writeRdfToString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeRdfToString</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelDbModel.php.html#a310">310</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Write the RDF serialization of the DbModel to string.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			writeRdfToString
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../model/Model.html">Model</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../model/Model.html#methodModel">Model::Model()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodfindForward">Model::findForward()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetBaseURI">Model::getBaseURI()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetMemModelByRDQL">Model::getMemModelByRDQL()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetOntModel">Model::getOntModel()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetResModel">Model::getResModel()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodload">Model::load()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodsparqlPrepare">Model::sparqlPrepare()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodsparqlQuery">Model::sparqlQuery()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodvisualize">Model::visualize()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#method_parseSparqlQuery">Model::_parseSparqlQuery()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#method_prepareSparql">Model::_prepareSparql()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:48:48 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

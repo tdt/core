@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops
+END
+query-mul-1.rq
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/query-mul-1.rq
+END
+query-unminus-1.rq
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/query-unminus-1.rq
+END
+result-ge-1.srx
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/result-ge-1.srx
+END
+result-minus-1.srx
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/result-minus-1.srx
+END
+query-le-1.rq
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/query-le-1.rq
+END
+result-mul-1.srx
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/result-mul-1.srx
+END
+result-unminus-1.srx
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/result-unminus-1.srx
+END
+result-le-1.srx
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/result-le-1.srx
+END
+manifest.ttl.bak
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/manifest.ttl.bak
+END
+query-plus-1.rq
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/query-plus-1.rq
+END
+manifest.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/manifest.ttl
+END
+query-unplus-1.rq
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/query-unplus-1.rq
+END
+result-plus-1.srx
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/result-plus-1.srx
+END
+result-unplus-1.srx
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/result-unplus-1.srx
+END
+data.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/data.ttl
+END
+query-minus-1.rq
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/query-minus-1.rq
+END
+query-ge-1.rq
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/expr-ops/query-ge-1.rq
+END

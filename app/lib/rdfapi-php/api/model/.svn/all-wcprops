@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/rdfapi-php/!svn/ver/551/trunk/rdfapi-php/api/model
+END
+Literal.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/497/trunk/rdfapi-php/api/model/Literal.php
+END
+Blanknode.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/453/trunk/rdfapi-php/api/model/Blanknode.php
+END
+DBase.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/model/DBase.php
+END
+MemModel.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/425/trunk/rdfapi-php/api/model/MemModel.php
+END
+Model.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/rdfapi-php/!svn/ver/551/trunk/rdfapi-php/api/model/Model.php
+END
+ModelP.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/287/trunk/rdfapi-php/api/model/ModelP.php
+END
+DbStore.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/560/trunk/rdfapi-php/api/model/DbStore.php
+END
+Statement.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/model/Statement.php
+END
+Node.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/rdfapi-php/!svn/ver/348/trunk/rdfapi-php/api/model/Node.php
+END
+DbModel.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/533/trunk/rdfapi-php/api/model/DbModel.php
+END
+Resource.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/453/trunk/rdfapi-php/api/model/Resource.php
+END
+ModelFactory.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/524/trunk/rdfapi-php/api/model/ModelFactory.php
+END

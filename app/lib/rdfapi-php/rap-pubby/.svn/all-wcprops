@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby
+END
+metadata.n3
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/metadata.n3
+END
+RAPpubbyDataset.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/RAPpubbyDataset.php
+END
+prefixes.n3
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/prefixes.n3
+END
+RAPpubbyResDescr.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/RAPpubbyResDescr.php
+END
+RAPpubbyHTMLSer.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/RAPpubbyHTMLSer.php
+END
+rap_pubby.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/rap_pubby.php
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/.htaccess
+END
+config.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/config.php
+END
+RAPpubbyURIrewriter.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/557/trunk/rdfapi-php/rap-pubby/RAPpubbyURIrewriter.php
+END

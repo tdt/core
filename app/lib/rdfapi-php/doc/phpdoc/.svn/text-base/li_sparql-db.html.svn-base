@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title></title>
+			<link rel="stylesheet" href="media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<div class="package-title">sparql-db</div>
+<div class="package-details">
+
+	<dl class="tree">
+		
+		<dt class="folder-title">Description</dt>
+		<dd>
+			<a href='classtrees_sparql-db.html' target='right'>Class trees</a><br />
+			<a href='elementindex_sparql-db.html' target='right'>Index of elements</a><br />
+					</dd>
+	
+							
+							
+													<dt class="folder-title">Interfaces</dt>
+										   										   										   										   										   										   										   										   										   										   										   										   																		<dt class="folder-title">Classes</dt>
+										   						<dd><a href='sparql-db/SparqlEngineDb_FilterGenerator.html' target='right'>SparqlEngineDb_FilterGenerator</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_FilterGenerator_Value.html' target='right'>SparqlEngineDb_FilterGenerator_Value</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_Offsetter.html' target='right'>SparqlEngineDb_Offsetter</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_Preparator.html' target='right'>SparqlEngineDb_Preparator</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_PreparedStatement.html' target='right'>SparqlEngineDb_PreparedStatement</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_ResultConverter.html' target='right'>SparqlEngineDb_ResultConverter</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_ResultRenderer_Default.html' target='right'>SparqlEngineDb_ResultRenderer_Default</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_ResultRenderer_HTML.html' target='right'>SparqlEngineDb_ResultRenderer_HTML</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_ResultRenderer_XML.html' target='right'>SparqlEngineDb_ResultRenderer_XML</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_SqlGenerator.html' target='right'>SparqlEngineDb_SqlGenerator</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_SqlMerger.html' target='right'>SparqlEngineDb_SqlMerger</a></dd>
+					   										   						<dd><a href='sparql-db/SparqlEngineDb_TypeSorter.html' target='right'>SparqlEngineDb_TypeSorter</a></dd>
+					   																						<dt class="folder-title">Files</dt>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---ResultRenderer---Default.php.html' target='right'>Default.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---FilterGenerator.php.html' target='right'>FilterGenerator.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---ResultRenderer---HTML.php.html' target='right'>HTML.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---Offsetter.php.html' target='right'>Offsetter.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---Preparator.php.html' target='right'>Preparator.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---PreparedStatement.php.html' target='right'>PreparedStatement.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---ResultConverter.php.html' target='right'>ResultConverter.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---SqlGenerator.php.html' target='right'>SqlGenerator.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---SqlMerger.php.html' target='right'>SqlMerger.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---TypeSorter.php.html' target='right'>TypeSorter.php</a></dd>
+											<dd><a href='sparql-db/_sparql---SparqlEngineDb---ResultRenderer---XML.php.html' target='right'>XML.php</a></dd>
+																	
+						
+			</dl>
+</div>
+<p class="notes"><a href="http://www.phpdoc.org" target="_blank">phpDocumentor v <span class="field">1.3.2</span></a></p>
+</BODY>
+</HTML>

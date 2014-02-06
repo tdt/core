@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>RDF Net API</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="../phpdoc.css" rel=stylesheet type=text/css>
+<style type="text/css">
+<!--
+.Stil1 {color: #FF0000}
+-->
+</style>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP </H3>
+<h1>RAP NetAPI - An RDF Server for PHP</h1>
+<p>This document is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<p>Phil Dawes &lt;<a
+		  href="mailto:pdawes@users.sf.net">pdawes@users.sf.net</a>&gt;<br>
+  Chris Bizer &lt;<a
+		  href="mailto:chris@bizer.de">chris@bizer.de</a>&gt; <br>
+  Tobias Gauss &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt; <br>
+  Jan 2006</p>
+<br>
+
+<h2>About</h2>
+<p> The RAP NetAPI is a server for publishing RDF models on the web. Models have 
+  URLs and they can be accessed by query using HTTP GET. </p>
+<p>The RAP NetAPI provides an subset implementation of the W3C member submission 
+  <a href="http://www.w3.org/Submission/2003/SUBM-rdf-netapi-20031002/" target="_blank">RDF 
+  NetAPI</a> and of a subset of the <a href="http://www.w3.org/TR/rdf-sparql-protocol/">SPARQL Protocol</a>. The NetAPI allows you to run  an RDF server, with similar functionality as the 
+  <a href="http://www.joseki.org/" target="_blank">Joseki RDF server</a>, on web 
+  servers that provide PHP support. It is a simple alternative to Joseki that 
+  can be used in on cheap public webspace. </p>
+<p> The RAP NetAPI implementation supports:</p>
+<ul>
+  <li> Serving multiple database or file backed RDF models </li>
+  <li>SPARQL queries using HTTP GET </li>
+  <li>RDQL queries using HTTP GET</li>
+  <li> FETCH queries using HTTP GET</li>
+  <li>SPO queries using HTTP GET</li>
+  <li> ADD operation using HTTP POST</li>
+  <li> REMOVE operation using HTTP POST</li>
+  <li>bNode closure for RDQL, FETCH and SPO</li>
+  <li>query result content negotiation (RDF/XML, N3 or N-Triples)</li>
+</ul>
+<p>&nbsp;</p>
+<h2>Installing the NetAPI</h2>
+
+<p> 
+<ol>
+  <li>The first thing you need to do is get mod-rewrite to redirect model queries 
+    to the netapi.php handler script. To do this you need to make sure that the 
+    rewrite module is enabled in the Apache configuration file &quot;httpd.conf&quot;:<br>
+    <br>
+    <table border=1 cellpadding=3 cellspacing=0 width="60%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>LoadModule rewrite_module modules/mod_rewrite.so</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    And to make sure that output buffering is turned on in the PHP configuration 
+    file &quot;php.ini&quot;:<br>
+    <br>
+    <table border=1 cellpadding=3 cellspacing=0 width="60%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>output_buffering = On</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </li>
+  <li>You need to edit the .htaccess file in the netapi directory. Change the 
+    'RewriteBase' bit to reflect the URI base of the netapi directory. E.g.<br>
+    <br>
+    <table border=1 cellpadding=3 cellspacing=0 width="60%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p> <code>RewriteEngine on<br>
+              RewriteBase /path/to/rdfapi-php/netapi/ #<---- Edit this <br>
+              RewriteRule ^[^\.]+$ netapi.php</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </li>
+  <li> If you want to serve models that are stored in a RAP database, then you 
+    must edit the config.inc file in the netapi directory to reflect your database 
+    connection parameters. More Information about creating a RAP database and 
+    connecting to it is found in the <a href="database_persistence.htm">Tutorial: 
+    Database Persistence</a>.<br>
+    <br>
+    <table border=1 cellpadding=3 cellspacing=0 width="60%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p> <code>$DB_DRIVER = 'MySQL'; <br>
+              $DB_HOST = 'localhost'; <br>
+              $DB_DB = 'testrapdb'; <br>
+              $DB_USER = 'myuser'; <br>
+              $DB_PASS = 'mypass';</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </li>
+  <li>Finally, you need to edit the $modelmap array in the netapi/config.inc file. 
+    This array maps model names to model URIs, and is used in order to convert 
+    web URIs to model URIs in the database or local file names. 
+    <p> E.g. if you have a model in the RAP database with the following URI: 
+    <pre>http://example.com/2004/testmodel1</pre>
+    and you want to access it via the netapi endpoint at the following web URI: 
+    <br/>
+    <pre>http://myhostedwebspace.net/rdfapi-php/netapi/testmodel</pre>
+    You need to change the $modelmap array to contain the following entry: <br>
+    <br>
+    <table border=1 cellpadding=3 cellspacing=0 width="60%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p> <code>$modelmap = array( <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "testmodel" 
+              => "db:http://example.com/2004/testmodel1" <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; );</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <p> The db: prefix indicates that the model is stored in the RAP database.</p>
+    <p>If you want to serve a RDF model that is stored in a local file in a netapi 
+      subdirectory: 
+    <pre>subdirectory/testmodel2.rdf</pre>
+    and you want to access it via the netapi endpoint at the following web URI: 
+    <br/>
+    <pre>http://myhostedwebspace.net/rdfapi-php/netapi/testmodel2</pre>
+    You need to change the modelmap to contain the following entry: <br>
+    <br>
+    <table border=1 cellpadding=3 cellspacing=0 width="60%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>$modelmap = array( <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "testmodel2" 
+              => "file:subdirectory/testmodel2.rdf" <br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; );</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The file: prefix indicates that the model is stored in a local file. </p>
+    <p></p>
+  </li>
+</ol>
+
+<h2>Using the NetAPI</h2>
+
+<h3></p> </h3>
+<h3>Querying</h3>
+<p><strong>1. Downloading whole models</strong></p>
+<p>The easiest way to get started is to point an html browser at the URI endpoint 
+  for the model. E.g. for the above example, use </p>
+<table border=1 cellpadding=3 cellspacing=0 width="60%">
+  <tbody>
+    <tr valign=top> 
+      <td bgcolor=#e7e7ef> <p><code>GET http://myhostedwebspace.net/rdfapi-php/netapi/testmodel2 
+          HTTP/1.1 </code></p></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p><strong>2. SPARQL Queries</strong></p>
+<p>The default query language of the RAP NetApi is SPARQL. So, if no additional lang parameter is given, the netapi will assume that the query uses the SPARQL query language. See also: <a href="usingtheSparqlEngine.htm">RAP SPARQL tutorial</a>.</p>
+<table border="1" cellpadding="3" cellspacing="0">
+  <tr>
+    <th>Parameter Name</th>
+    <th>Parameter Type/Value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>query
+      (required)</td>
+    <td>The query, as %encoded string</td>
+    <td>
+      <p style="text-align: left">The SPARQL query to be executed.&nbsp; The NetAPI supports SELECT, DESCRIBE, ASK and CONSTRUCT queries. </td>
+  </tr>
+</table>
+<p>Example SPARQL query:</p>
+<table border=1 cellpadding=3 cellspacing=0 width="70%">
+  <tbody>
+    <tr valign=top>
+      <td bgcolor=#e7e7ef>
+        <p><code>GET http://myhostedwebspace.net/rdfapi-php/netapi/testmodel2?query=SELECT%20?name%20WHERE{?s%20%3Chttp://xmlns.com/foaf/0.1/name%3E%20?name}<br>
+        HTTP/1.1 </code></p></td>
+    </tr>
+  </tbody>
+</table>
+<p>The result of this query is returned in the <a href="http://www.w3.org/TR/rdf-sparql-XMLres/">SPARQL Query Results XML Format</a> if it is a SELECT or an ASK query. If it is a CONSTRUCT or DESCRIBE query, the result is a serialisation of the corresponding graph and <a href="#contenttype">content type negotiation</a> is used to determine the desired format..</p>
+<p><strong>3. Fetch Queries</strong></p>
+<p>The fetch query language returns all known information about a URIref. A query 
+  consists of single "r" parameter, whose value is the URIref. The exact extent 
+  of the RDF returned is dependent on the server. The NetAPI searches for all 
+  statements with the resource as subject, then calculates the bNode closure of 
+  all objects of these statements. </p>
+<table border="1" cellpadding="3" cellspacing="0">
+  <tr> 
+    <th><p>Parameter Name</p></th>
+    <th><p>Parameter Value</p></th>
+    <th><p>Description</p></th>
+  </tr>
+  <tr> 
+    <td>lang<br>
+      (required)</td>
+    <td>Id. of query language </td>
+    <td> <p style="text-align: left">URI: <a href="http://jena.hpl.hp.com/2003/07/query/fetch">http://jena.hpl.hp.com/2003/07/query/fetch</a><br>
+        Short forms: &quot;fetch&quot;</td>
+  </tr>
+  <tr> 
+    <td>r<br>
+      (required)</td>
+    <td>URIref</td>
+    <td> <p style="text-align: left"> URIref of the resource</p></td>
+  </tr>
+</table>
+<br>
+Example fetch query:<br>
+<br>
+<table border=1 cellpadding=3 cellspacing=0 width="70%">
+  <tbody>
+    <tr valign=top> 
+      <td bgcolor=#e7e7ef> <p><code>GET http://myhostedwebspace.net/rdfapi-php/netapi/testmodel2?lang=fetch&amp;r=http://example.com/employees/BillParker/ 
+          HTTP/1.1 </code></p></td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<p><strong>4. RDQL Queries</strong></p>
+<p> See also: <a href="rdql_tutorial.htm">The RAP RDQL Tutorial</a></p>
+<table border="1" cellpadding="3" cellspacing="0">
+  <tr> 
+    <th>Parameter Name</th>
+    <th>Parameter Type/Value</th>
+    <th>Description</th>
+  </tr>
+  <tr> 
+    <td>lang<br>
+      (required)</td>
+    <td>Id. of query language </td>
+    <td> <p style="text-align: left">URI: <a href="http://jena.hpl.hp.com/2003/07/query/RDQL">http://jena.hpl.hp.com/2003/07/query/RDQL</a><br>
+        Short forms: &quot;RDQL&quot;, &quot;rdql&quot;</td>
+  </tr>
+  <tr> 
+    <td>query<br>
+      (required)</td>
+    <td>The query, as %encoded string</td>
+    <td> <p style="text-align: left">The RDQL query to be executed.&nbsp; As with 
+        all parameter values, this must be %-encoded.</td>
+  </tr>
+  <tr> 
+    <td>closure<br>
+      (optional)</td>
+    <td>&quot;true&quot; or &quot;false&quot;</td>
+    <td> <p style="text-align: left"> For each binding of a variable, which is 
+        bound to a bNode, the graph is augmented with the bNode closure from this 
+        point.</td>
+  </tr>
+</table>
+
+<p>Example RDQL query:</p>
+<table border=1 cellpadding=3 cellspacing=0 width="70%">
+  <tbody>
+    <tr valign=top> 
+      <td bgcolor=#e7e7ef> <p><code>GET http://myhostedwebspace.net/rdfapi-php/netapi/testmodel2?lang=rdql&amp;<br>
+          query=SELECT%20*%20WHERE%20(?x,&lt;http://www.w3.org/2001/vcard-rdf/3.0/EMAIL&gt;,?y)(?y,?z,&quot;M.Murphy@example.com&quot;)<br>
+          &amp;closure=true HTTP/1.1 </code></p></td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<p><strong>5. SPO Queries</strong></p>
+<p>SPO (also known as "Triples" or &quot;find(SPO)&quot;) is an experimental minimal 
+  query language. An SPO query is a single triple pattern, with optional subject 
+  (parameter "s"), predicate (parameter "p"), and object (parameter "o", if a 
+  URIref, parameter "v" for a string literal). Absence of a parameter implies 
+  "any" for matching that slot of the triple pattern.</p>
+
+<table border="1" cellpadding="3" cellspacing="0">
+  <tr>
+<th>Parameter Name</th>
+<th>Parameter Value</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>lang<br>
+(required)</td>
+<td>Id. of query language </td>
+<td style="text-align: left">
+<p style="text-align: left">URI: <a href="http://jena.hpl.hp.com/2003/07/query/SPO">http://jena.hpl.hp.com/2003/07/query/SPO</a><br>
+Short forms: &quot;SPO&quot;, &quot;spo&quot;</td>
+</tr>
+<tr>
+<td>s<br>
+(optional)</td>
+<td>URIref</td>
+<td style="text-align: left">
+URIref of the subject of the triple pattern.<br>
+Absence implies a wildcard match.</td>
+</tr>
+<tr>
+<td>p<br>
+(optional)</td>
+<td>URIref</td>
+    <td style="text-align: left">URIref of the predicate of the triple pattern.<br>
+Absence implies a wildcard match.</td>
+</tr>
+<tr>
+<td>o<br>
+(optional)</td>
+<td>URIref</td>
+    <td style="text-align: left">URIref of the object of the triple pattern.<br>
+Only one of &quot;o&quot; and &quot;v&quot; may be given</td>
+</tr>
+<tr>
+<td>v<br>
+(optional)</td>
+<td>String</td>
+<td style="text-align: left">Literal value as a string.<br>
+Absence or &quot;o&quot; and&quot;v&quot; implies a wildcard match.</td>
+</tr>
+<tr>
+<td>closure<br>
+(optional)</td>
+<td>&quot;true&quot; or &quot;false&quot;</td>
+<td style="text-align: left">Calculate the bNode closure of the matched subgraph.</td>
+</tr>
+</table></p>
+<p>Example SPO query:</p>
+<table border=1 cellpadding=3 cellspacing=0 width="70%">
+  <tbody>
+    <tr valign=top> 
+      <td bgcolor=#e7e7ef> <p><code>GET http://myhostedwebspace.net/rdfapi-php/netapi/testmodel2?lang=spo<br>
+          </code><code>&amp; p=http://www.w3.org/2001/vcard-rdf/3.0/Family<br>
+          &amp; v=Parker<br>
+          </code><code>&amp; closure=true HTTP/1.1</code></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3><a name="contenttype"></a>Serialization Formats and Content Type Negotiation </h3>
+<p> The netapi supports content type negotiation to determine the output RDF serialization 
+  format. E.g. to get the results of a fetch query in n3 format, do: 
+<pre>
+GET /rdfapi-php/netapi/testmodel?lang=fetch&r=http://example.com/myterm HTTP/1.0
+Accept: application/n3
+</pre>
+The current implementation supports the following content mime types: 
+<ul>
+  <li>application/rdf+xml</li>
+  <li>application/n3</li>
+  <li>application/n-triples</li>
+  <li>text/xml</li>
+</ul>
+<p>Note: A SPARQL query retuns an <a href="http://www.w3.org/TR/rdf-sparql-XMLres/">SPARQL Query Results XML Format</a> document if it is a SELECT or ASK query or a serialisiation of the corresponding graph if it is a CONSTRUCT or DESCRIBE query.</p>
+<p>&nbsp;</p>
+<h3>Adding and Removing Subgraphs</h3>
+<p>
+To add and remove subgraphs from the store you need to send POST
+requests with an 'op' argument of 'add' or 'remove' and the rdf to
+add/remove in the body of the request. E.g.:
+
+<pre>
+POST /rdfapi-php/netapi/testmodel?op=remove
+Content-type: application/n-triples
+Content-length: 353
+...RDF...
+</pre>
+<p>N.B. most http apis will add the content-length header for you, but you'll 
+  need to set the Content-type to be one of the above mime types.</p>
+<p>Add and remove can be enabled in the config.inc by setting NETAPI_ALLOW_ADD 
+  and NETAPI_ALLOW_REMOVE to true. They are disabled by delault.</p>
+<p>&nbsp;</p>
+</BODY>
+</HTML>
+
+------=e

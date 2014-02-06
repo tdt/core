@@ -1,0 +1,312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Test Set Database Connection</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP V0.9.3</H3>
+<h1>Test: Manipulate DbModel</h1>
+<p><br>
+This example is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<br>
+<h3>1. Connect to rdf database (e.g. Access via ODBC)</h3>
+<p>Set the system DSN for the particular database file (control pannel -> administrative 
+  tools -> data sources (odbc) -> system DSN).<br>
+</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code>// Include RAP<br>
+        define(&quot;RDFAPI_INCLUDE_DIR&quot;, &quot;./../api/&quot;);<br>
+        include(RDFAPI_INCLUDE_DIR . &quot;RDFAPI.php&quot;);<br>
+        &nbsp;<br>
+        // Connect to MsAccess database (rdf_db DSN) <br>
+		// using connection settings defined in constants.php :<br>
+        $rdf_database = ModelFactory::getDbStore();
+	  </code></p>    </td>
+  </tr>
+  </tbody> 
+</table>
+<p>Read more about <a href="Test_Set_Database_Connection.htm">Setting Database Connection</a>.</p>
+<br>
+<h3>2. Load and show a DbModel</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code>
+	    // Load the model with modelURI "example1.rdf"<br>
+	    $dbModel = $rdf_database->getModel("example1.rdf"); <br>
+		<br>
+	    // Output the model as HTML table<br>
+        $dbModel->writeAsHtmlTable();
+	  </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<br>
+<table width="100%">
+  <tr> 
+    <td width="30" valign="top"><b>Note: </b></td>
+    <td width="3">&nbsp;</td>
+    <td>getModel() loads into memory only the modelURI and a database internal 
+      modelID, it also sets a database connection for the DbModel. This saves 
+      main memory and allows to gain advantage of database's indexing capabilities.</td>
+  </tr>
+</table>
+
+<p><b>Output:</b><br>
+<br>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+   <tr bgcolor="#FFFFFF">
+      <td td width="68%" colspan="3"><p><b>Base URI:</b> http://www.w3.org/Home/Lassila.rdf#</p></td>
+      <td width="32%"><p><b>Size:</b> 4</p></td>
+   </tr>   <tr bgcolor="#FFFFFF">
+      <td width="4%"><p align=center><b>No.</b></p></td>
+      <td width="32%"><p><b>Subject</b></p></td>
+      <td width="32%"><p><b>Predicate</b></p></td>
+      <td width="32%"><p><b>Object</b></p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>1.</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Creator</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>2.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#CCFFCC"><p>RDF Node: http://www.w3.org/1999/02/22-rdf-syntax-ns#type</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Person</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>3.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Name</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: Ora Lassila <b>(rdf:datatype="http://www.w3.org/TR/xmlschema-2#string") </b> </p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>4.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Email</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: lassila@w3.org</p></td>
+   </tr>
+</table>
+<br>
+<br>
+<h3>3. Add a statement to the DbModel</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> // Ceate a new statement<br>
+        $statement = new Statement(new Resource("http://www.w3.org/Home/Lassila"),<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        new Resource("http://description.org/schema/Description"),<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        new Literal(&quot;Lassilas pers&ouml;nliche Homepage&quot;, &quot;de&quot;));<br>
+        <br>
+        // Add the statement to the DbModel<br>
+        $dbModel->add($statement);<br>
+        <br>
+        // Output the string serialization of the DbModel<br>
+        echo $dbModel->toStringIncludingTriples(); </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+<p>MemModel[baseURI=http://www.w3.org/Home/Lassila.rdf#; size=5] Triple(Resource(&quot;http://www.w3.org/Home/Lassila&quot;), 
+  Resource(&quot;http://description.org/schema/Creator&quot;), bNode(&quot;b85740&quot;)) 
+  Triple(bNode(&quot;b85740&quot;), Resource(&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&quot;), 
+  Resource(&quot;http://description.org/schema/Person&quot;)) Triple(bNode(&quot;b85740&quot;), 
+  Resource(&quot;http://example.org/stuff/1.0/Name&quot;), Literal(&quot;Ora Lassila&quot;, 
+  datatype=&quot;http://www.w3.org/TR/xmlschema-2#string&quot;)) Triple(bNode(&quot;b85740&quot;), 
+  Resource(&quot;http://example.org/stuff/1.0/Email&quot;), Literal(&quot;lassila@w3.org&quot;)) 
+  Triple(Resource(&quot;http://www.w3.org/Home/Lassila&quot;), Resource(&quot;http://description.org/schema/Description&quot;), 
+  Literal(&quot;Lassilas pers&ouml;nliche Homepage&quot;, lang=&quot;de&quot;)) 
+</p>
+<br>
+<h3>4. Search statements</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> // Search for statements having object $literal<br>
+        $literal = new Literal(&quot;Lassilas pers&ouml;nliche Homepage&quot;, 
+        &quot;de&quot;);<br>
+        $res = $dbModel->find(NULL, NULL, $literal);<br>
+        <br>
+        // Output the result<br>
+        $res->writeAsHtmlTable(); </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+   <tr bgcolor="#FFFFFF">
+      <td td width="68%" colspan="3"><p><b>Base URI:</b> http://www.w3.org/Home/Lassila.rdf#</p></td>
+      <td width="32%"><p><b>Size:</b> 1</p></td>
+   </tr>   <tr bgcolor="#FFFFFF">
+      <td width="4%"><p align=center><b>No.</b></p></td>
+      <td width="32%"><p><b>Subject</b></p></td>
+      <td width="32%"><p><b>Predicate</b></p></td>
+      <td width="32%"><p><b>Object</b></p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>1.</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Description</p></td>
+      <td bgcolor="#E7E7EF">
+      <p>Literal: Lassilas pers&ouml;nliche Homepage <b>(xml:lang=&quot;de&quot;)</b></p>
+    </td>
+   </tr>
+</table>
+<br>
+<br>
+<h3>5. Replace nodes and serialize the DbModel to XML/RDF</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> 
+	  // replace a literal<bR>
+      $dbModel->replace(NULL, NULL, new Literal("Lassilas persönliche Homepage", "de"),<br>
+                                               &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                          
+                                    new Literal ("Lassila's personal Homepage", "en"));<br>
+      <br>
+      // Serialize to RDF<br>
+      $dbModel->writeAsHtml();
+	  </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+
+<p><b>Output:</b></p>
+&lt;?xml&nbsp;version=&#039;1.0&#039;&nbsp;encoding=&#039;UTF-8&#039;?&gt;<br />
+&lt;rdf:RDF<br />
+&nbsp;&nbsp;&nbsp;xml:base=&quot;http://www.w3.org/Home/Lassila.rdf#&quot;<br />
+&nbsp;&nbsp;&nbsp;xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;<br />
+&nbsp;&nbsp;&nbsp;xmlns:rdfs=&quot;http://www.w3.org/2000/01/rdf-schema#&quot;<br />
+&nbsp;&nbsp;&nbsp;xmlns:ns1=&quot;http://description.org/schema/&quot;<br />
+&nbsp;&nbsp;&nbsp;xmlns:ns2=&quot;http://example.org/stuff/1.0/&quot;&gt;<br />
+<br />
+&lt;ns1:Person&nbsp;rdf:nodeID=&quot;b85740&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;ns2:Email&gt;lassila@w3.org&lt;/ns2:Email&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;ns2:Name&nbsp;rdf:datatype=&quot;http://www.w3.org/TR/xmlschema-2#string&quot;&gt;Ora&nbsp;Lassila&lt;/ns2:Name&gt;<br />
+&lt;/ns1:Person&gt;<br />
+<br />
+&lt;rdf:Description&nbsp;rdf:about=&quot;http://www.w3.org/Home/Lassila&quot;&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;ns1:Creator&nbsp;rdf:nodeID=&quot;b85740&quot;/&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;ns1:Description&nbsp;xml:lang=&quot;en&quot;&gt;Lassila&#039;s&nbsp;personal&nbsp;Homepage&lt;/ns1:Description&gt;<br />
+&lt;/rdf:Description&gt;<br />
+<br />
+&lt;/rdf:RDF&gt;<br>
+<br><br>
+<h3>6. Remove a statement</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> $dbModel->remove(new Statement (new Resource("http://www.w3.org/Home/Lassila"),<br>
+                                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                               new Resource("http://description.org/schema/Description"), <br>
+                                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new 
+                                               Literal("Lassila's personal Homepage", "en")));<br>
+				<br>							   
+			    // Output the DbModel <br>
+               $dbModel->writeAsHtmlTable(); 
+      </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+
+<p><b>Output:</b></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+   <tr bgcolor="#FFFFFF">
+      <td td width="68%" colspan="3"><p><b>Base URI:</b> http://www.w3.org/Home/Lassila.rdf#</p></td>
+      <td width="32%"><p><b>Size:</b> 4</p></td>
+   </tr>   <tr bgcolor="#FFFFFF">
+      <td width="4%"><p align=center><b>No.</b></p></td>
+      <td width="32%"><p><b>Subject</b></p></td>
+      <td width="32%"><p><b>Predicate</b></p></td>
+      <td width="32%"><p><b>Object</b></p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>1.</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Creator</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>2.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#CCFFCC"><p>RDF Node: http://www.w3.org/1999/02/22-rdf-syntax-ns#type</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Person</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>3.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Name</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: Ora Lassila <b>(rdf:datatype="http://www.w3.org/TR/xmlschema-2#string") </b> </p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>4.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Email</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: lassila@w3.org</p></td>
+   </tr>
+</table>
+<br>
+<br>
+<h3>7. Generate a MemModel and compare both models</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> // Generate a MemModel<br>
+         $memModel = $dbModel->getMemModel();<br>
+         <br> 
+         // Compare this DbModel withe the generated MemModel<br>
+         $res = $dbModel->equals($memModel);<br>
+         <br>
+         // Output the result<br>		 
+         if ($res)<br>&nbsp;&nbsp;
+         echo "models are equal";<br>
+         else<br>&nbsp;&nbsp;		 
+         echo "models are different"; 
+      </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+<p>models are equal</p>
+<br>
+<h3>8. Save DbModel to file</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+      <td bgcolor=#e7e7ef> <p><code> // Save model to file (XML/RDF)<br>
+          $dbModel->saveAs("Output.rdf");<br>
+          <br>
+          // Save model to file (N3)<br>
+          $dbModel->saveAs("Output.n3");<br>
+          <br>
+          // close the DbModel<br>
+          $dbModel->close(); </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<br>
+<p><b>Output:</b></p>
+Files: Output.rdf<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Output.n3 
+</BODY></HTML>

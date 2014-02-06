@@ -1,0 +1,133 @@
+8
+
+dir
+557
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/rap-pubby
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+
+svn:special svn:externals svn:needs-lock
+
+metadata.n3
+file
+
+
+
+
+2008-02-29T13:34:46.719287Z
+52fcdd022d671b1fb911623d75145fbb
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+RAPpubbyDataset.php
+file
+
+
+
+
+2007-12-19T15:30:25.609375Z
+fd919f9042175d622b5e7f903bccb880
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+templ
+dir
+
+prefixes.n3
+file
+
+
+
+
+2008-02-29T14:25:48.358968Z
+5bfc6532488b6f5a6a4538ee8da77ca7
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+doc
+dir
+
+RAPpubbyResDescr.php
+file
+
+
+
+
+2007-12-19T15:30:32.593750Z
+83703afb23a4967c5ae2c05cbf410fb0
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+rap_pubby.php
+file
+
+
+
+
+2007-12-19T15:30:00.171875Z
+780709499ea6389cb94bb6229d22b37b
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+RAPpubbyHTMLSer.php
+file
+
+
+
+
+2007-12-19T15:30:45.890625Z
+b5cb52db7d145ec68dd23827190d1536
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+.htaccess
+file
+
+
+
+
+2008-02-29T14:24:26.781365Z
+2cf37ad1632036e56205591cc0b96edc
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+config.php
+file
+
+
+
+
+2008-02-29T14:07:43.756535Z
+f1f48aa7e27d6b97a395cc38d8775bf9
+2008-02-29T15:03:46.371483Z
+557
+cax
+
+example
+dir
+
+RAPpubbyURIrewriter.php
+file
+
+
+
+
+2007-12-19T15:30:39.281250Z
+ffb7b2d7cdb80e78ba4dcf8112c5b3f4
+2008-02-29T15:03:46.371483Z
+557
+cax
+

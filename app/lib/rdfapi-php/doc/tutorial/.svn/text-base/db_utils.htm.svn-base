@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Tutorial: RDF DB Utils</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="../phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP </H3>
+<h1>Tutorial: RDF DB Utils </h1>
+<p>This turorial is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<br> 
+<p>RDF DB Utils  is a new graphical user interface written by Gunnar AAstrand Grimnes for dealing with DbModels. </p>
+<p>
+<h3>Contents:</h3>
+<table>
+  <tbody>
+  <tr>
+    <td align="right">1.</td>
+    <td><a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/tutorial/db_utils.htm#s1">Configuration</a></td></tr>
+  <tr>
+    <td align="right">2.</td>
+    <td><a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/tutorial/db_utils.htm#s2">Connecting to a Database</a></td></tr>
+  <tr>
+    <td align="right">3.</td>
+    <td><a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/tutorial/db_utils.htm#s3">Browse through a model</a></td></tr>
+  <tr>
+    <td align="right">4.</td>
+    <td><a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/tutorial/db_utils.htm#s4">Querying a model</a></td></tr>
+  <tr>
+    <td align="right">5.</td>
+    <td><a href="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/tutorial/db_utils.htm#s5">Adding statements/models</a></td></tr>
+  </tbody></table>
+</p>
+<h3><a name="s1">1. Configuration</a></h3>
+<p>The tool can be found in the tools directory under rdfdb-utils. You can specify your database settings in <code>config.inc.php</code>.
+Currently we support mysql and MsAccess databases. Example: use the settings </p>
+<table dwcopytype="CopyTableRow" border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+  <tr valign="top">
+    <td bgcolor="#e7e7ef"><p><code>$i=0; <br>
+  $_DB[$i][&quot;type&quot;]=&quot;mysql&quot;;<br>
+  $_DB[$i][&quot;host&quot;]=&quot;localhost&quot;;<br>
+  $_DB[$i][&quot;port&quot;]=&quot;&quot;; <br>
+  $_DB[$i][&quot;dbName&quot;]=&quot;rdf_db&quot;; <br>
+  $_DB[$i][&quot;username&quot;]=&quot;root&quot;;<br>
+  $_DB[$i][&quot;password&quot;]=&quot;&quot;;</code></p></td></tr></tbody></table>
+<p>for the mysql-database <code>rdf_db</code> running on <code>localhost</code>. </p>
+<h3><a name="s2">2. Connecting to a Database</a> </h3>
+<p>You can create a new database connection or choose a connection that is specified in <code>config.inc.php</code>.</p>
+<p><img src="img/ScreenShot001.JPG" width="516" height="501"> </p>
+<h3><a name="s3">3. Browse through a model</a></h3>
+ <p>You can browse through a selected model to view edit or delete statements.</p>
+<p><img src="img/ScreenShot003.JPG" width="776" height="432"></p>
+<h3><a name="s4">4. Querying a model</a></h3>
+<p>To search in a model you can use RDQL or enter parts of the statement directly.</p>
+<p><img src="img/ScreenShot002.JPG" width="708" height="468"></p>
+<h3><a name="s5">5. Adding statements/models </a></h3>
+<p>To add statements or models You can insert them manually or upload RDF files.</p>
+<p><img src="img/ScreenShot004.JPG" width="706" height="502"> </p>
+<p>&nbsp;</p>
+</body>
+</html>

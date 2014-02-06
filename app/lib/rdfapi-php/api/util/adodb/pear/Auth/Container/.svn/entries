@@ -1,0 +1,41 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/api/util/adodb/pear/Auth/Container
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2007-03-12T10:55:13.000000Z
+350
+cweiske
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+ADOdb.php
+file
+
+
+
+
+2008-02-29T14:57:50.130517Z
+da6b477880ec9f41dd11a2a45cda67d5
+2007-03-12T10:55:13.000000Z
+350
+cweiske
+has-props
+

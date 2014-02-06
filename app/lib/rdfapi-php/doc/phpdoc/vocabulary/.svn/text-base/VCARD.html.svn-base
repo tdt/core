@@ -1,0 +1,1297 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class VCARD</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class VCARD</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">vCard profile defined by RFC 2426 - Vocabulary (Resource)</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal (dawe@gmx.de)</li>
+				<li><span class="field">version:</span> $Id$</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_vocabulary---VCARD_C.php.html">/vocabulary/VCARD_C.php</a> (line <span class="field"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a16">16</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ADR" title="details" class="method-name">ADR</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ADRPROPERTIES" title="details" class="method-name">ADRPROPERTIES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ADRTYPES" title="details" class="method-name">ADRTYPES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#AGENT" title="details" class="method-name">AGENT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#BDAY" title="details" class="method-name">BDAY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#CATEGORIES" title="details" class="method-name">CATEGORIES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#COUNTRY" title="details" class="method-name">COUNTRY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#EMAIL" title="details" class="method-name">EMAIL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#EMAILTYPES" title="details" class="method-name">EMAILTYPES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#EXTADD" title="details" class="method-name">EXTADD</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#FAMILY" title="details" class="method-name">FAMILY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#FN" title="details" class="method-name">FN</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#GEO" title="details" class="method-name">GEO</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#GIVEN" title="details" class="method-name">GIVEN</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#GROUP" title="details" class="method-name">GROUP</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#KEY" title="details" class="method-name">KEY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#LABEL" title="details" class="method-name">LABEL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#LOCALITY" title="details" class="method-name">LOCALITY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MAILER" title="details" class="method-name">MAILER</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#N" title="details" class="method-name">N</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#NAME" title="details" class="method-name">NAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#NICKNAME" title="details" class="method-name">NICKNAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#NPROPERTIES" title="details" class="method-name">NPROPERTIES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ORGNAME" title="details" class="method-name">ORGNAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ORGPROPERTIES" title="details" class="method-name">ORGPROPERTIES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ORGUNIT" title="details" class="method-name">ORGUNIT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#OTHER" title="details" class="method-name">OTHER</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PCODE" title="details" class="method-name">PCODE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PHOTO" title="details" class="method-name">PHOTO</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#POBOX" title="details" class="method-name">POBOX</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PREFIX" title="details" class="method-name">PREFIX</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PRODID" title="details" class="method-name">PRODID</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#REGION" title="details" class="method-name">REGION</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#REV" title="details" class="method-name">REV</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ROLE" title="details" class="method-name">ROLE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SORT_STRING" title="details" class="method-name">SORT_STRING</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SOUND" title="details" class="method-name">SOUND</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SOURCE" title="details" class="method-name">SOURCE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#STREET" title="details" class="method-name">STREET</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SUFFIX" title="details" class="method-name">SUFFIX</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TEL" title="details" class="method-name">TEL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TELTYPES" title="details" class="method-name">TELTYPES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TITLE" title="details" class="method-name">TITLE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TZ" title="details" class="method-name">TZ</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TZTYPES" title="details" class="method-name">TZTYPES</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#UID" title="details" class="method-name">UID</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#VCARD_CLASS" title="details" class="method-name">VCARD_CLASS</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodADR" id="ADR"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ADR</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a157">157</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ADR
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodADRPROPERTIES" id="ADRPROPERTIES"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ADRPROPERTIES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a55">55</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ADRPROPERTIES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodADRTYPES" id="ADRTYPES"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ADRTYPES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a31">31</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ADRTYPES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodAGENT" id="AGENT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">AGENT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a73">73</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			AGENT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodBDAY" id="BDAY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">BDAY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a85">85</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			BDAY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCATEGORIES" id="CATEGORIES"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">CATEGORIES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a109">109</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CATEGORIES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCOUNTRY" id="COUNTRY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">COUNTRY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a217">217</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			COUNTRY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodEMAIL" id="EMAIL"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">EMAIL</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a187">187</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			EMAIL
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodEMAILTYPES" id="EMAILTYPES"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">EMAILTYPES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a43">43</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			EMAILTYPES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodEXTADD" id="EXTADD"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">EXTADD</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a175">175</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			EXTADD
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodFAMILY" id="FAMILY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">FAMILY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a193">193</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			FAMILY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodFN" id="FN"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">FN</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a139">139</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			FN
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGEO" id="GEO"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">GEO</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a169">169</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GEO
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGIVEN" id="GIVEN"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">GIVEN</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a271">271</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GIVEN
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGROUP" id="GROUP"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">GROUP</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a181">181</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GROUP
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodKEY" id="KEY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">KEY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a259">259</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			KEY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodLABEL" id="LABEL"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">LABEL</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a277">277</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			LABEL
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodLOCALITY" id="LOCALITY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">LOCALITY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a247">247</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			LOCALITY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMAILER" id="MAILER"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">MAILER</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a235">235</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MAILER
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodN" id="N"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">N</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a115">115</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			N
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodNAME" id="NAME"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">NAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a205">205</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			NAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodNICKNAME" id="NICKNAME"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">NICKNAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a289">289</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			NICKNAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodNPROPERTIES" id="NPROPERTIES"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">NPROPERTIES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a37">37</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			NPROPERTIES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodORGNAME" id="ORGNAME"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ORGNAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a103">103</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ORGNAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodORGPROPERTIES" id="ORGPROPERTIES"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ORGPROPERTIES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a25">25</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ORGPROPERTIES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodORGUNIT" id="ORGUNIT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ORGUNIT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a211">211</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ORGUNIT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodOTHER" id="OTHER"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">OTHER</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a241">241</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			OTHER
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPCODE" id="PCODE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">PCODE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a121">121</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PCODE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPHOTO" id="PHOTO"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PHOTO</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a133">133</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PHOTO
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPOBOX" id="POBOX"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">POBOX</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a253">253</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			POBOX
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPREFIX" id="PREFIX"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PREFIX</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a127">127</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PREFIX
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPRODID" id="PRODID"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">PRODID</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a265">265</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PRODID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodREGION" id="REGION"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">REGION</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a163">163</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			REGION
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodREV" id="REV"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">REV</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a91">91</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			REV
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodROLE" id="ROLE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ROLE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a295">295</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ROLE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSORT_STRING" id="SORT_STRING"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SORT_STRING</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a97">97</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SORT_STRING
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSOUND" id="SOUND"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">SOUND</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a223">223</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SOUND
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSOURCE" id="SOURCE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SOURCE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SOURCE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSTREET" id="STREET"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">STREET</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a67">67</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			STREET
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSUFFIX" id="SUFFIX"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SUFFIX</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a145">145</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SUFFIX
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTEL" id="TEL"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">TEL</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a283">283</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TEL
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTELTYPES" id="TELTYPES"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">TELTYPES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a49">49</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TELTYPES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTITLE" id="TITLE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">TITLE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a229">229</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TITLE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTZ" id="TZ"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">TZ</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a199">199</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TZ
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTZTYPES" id="TZTYPES"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">TZTYPES</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a61">61</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TZTYPES
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodUID" id="UID"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">UID</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a19">19</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			UID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodVCARD_CLASS" id="VCARD_CLASS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">VCARD_CLASS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html#a151">151</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			VCARD_CLASS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:52:39 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

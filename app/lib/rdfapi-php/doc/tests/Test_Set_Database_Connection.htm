@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Test Set Database Connection</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="../phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP V0.9.3</H3>
+<h1>Test: Set Database Connection</h1>
+<p><br>
+This example is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<table width="100%" dwcopytype="CopyTableRow">
+  <tr> 
+    <td width="30" valign="top"><b>Note: </b></td>
+    <td width="3">&nbsp;</td>
+    <td>RAP uses ADOdb Library for PHP V4.52 (<a href="http://adodb.sourceforge.net/">http://adodb.sourceforge.net/</a>), 
+      which allows you to connect to multiple databases in a portable manner. 
+      For a list of supported databases see the <a href="http://phplens.com/lens/adodb/docs-adodb.htm" target="_blank">ADOdb 
+      documentation</a>.</td>
+  </tr>
+</table>
+<br><br>
+<h3>1. Connect to MsAccess database (via ODBC) and create tables.</h3>
+<p>Set the system DSN for the particular database file (control pannel -> administrative 
+  tools -> data sources (odbc) -> system DSN).</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+ <tbody>
+  <tr valign=top>           
+    <td bgcolor=#e7e7ef> 
+      <p> <code> // Include RAP<br>
+        define(&quot;RDFAPI_INCLUDE_DIR&quot;, &quot;./../api/&quot;);<br>
+        include(RDFAPI_INCLUDE_DIR . &quot;RDFAPI.php&quot;);<br>
+        &nbsp;<br>
+        // Connect to MsAccess database (rdf_db DSN) using connection settings<br>
+        // defined in constants.php :<br>
+        // -------------------------------------------------------<br>
+        // Database<br>
+        // -------------------------------------------------------<br>
+        // define("ADODB_DB_DRIVER", "odbc");<br>
+        // define("ADODB_DB_HOST", "rdf_db");<br>
+        // define("ADODB_DB_NAME", "");<br>
+        // define("ADODB_DB_USER", "");<br>
+        // define("ADODB_DB_PASSWORD", "");<br>
+        $rdf_database = ModelFactory::getDbStore();<br>
+        &nbsp;<br>
+        // Create tables for MsAccess<br>
+        $rdf_database->createTables('MsAccess'); </code> </p>    </td>
+  </tr>
+ </tbody>
+</table>
+<br>
+<br>
+<h3>2. Connect to MySQL database and create tables.</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+ <tbody>
+  <tr valign=top>         
+    <td bgcolor=#e7e7ef> 
+      <p>
+	    <code>
+		  // Connect to MySQL database with user defined connection settings<br>
+          $rdf_database = ModelFactory::getDbStore('MySQL', 'host', 'db_name', 'user_name', 'password');<br>
+          &nbsp;<br>     
+          // Create tables for MySQL<br>
+        $mysql_database->createTables('MySQL'); </code> </p>    </td>
+  </tr>
+ </tbody>
+</table>
+<br>
+<br>
+<h3>3. Connect to other databases</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+ <tbody>
+  <tr valign=top>         
+    <td bgcolor=#e7e7ef> 
+      <p>
+	    <code>
+		  // Example:<br> 
+		  // Connect to Oracle database with user defined connection settings<br>
+          $oracle_database = ModelFactory::getDbStore('Oracle', FALSE, 'db_name', 'username', 'password' );
+		</code>
+	  </p>    </td>
+  </tr>
+ </tbody>
+</table>
+<br>
+<table width="100%">
+  <tr> 
+    <td width="30" valign="top"><b>Note: </b></td>
+    <td width="3">&nbsp;</td>
+    <td>Method createTables() currently supports only MySQL, MS SQL Server, and MsAccess.<br>
+      If you want to use other databases, you will have to create tables by yourself 
+      according to the abstract <a href="../database_schema.html">database schema</a> 
+      provided with the API documentation. </td>
+  </tr>
+</table>
+<br>
+<br>
+<h3>4. Close the database connection</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+ <tbody>
+  <tr valign=top>         
+    <td bgcolor=#e7e7ef> 
+      <p>
+	    <code>
+          // Close the connection <br>
+          $rdf_database->close();
+		</code>
+	  </p>
+    </td>
+  </tr>
+ </tbody>
+</table>
+<br>
+<table width="100%" dwcopytype="CopyTableRow">
+  <tr> 
+    <td width="70" valign="top"><b>Warning: </b></td>
+    <td width="3">&nbsp;</td>
+    <td>If you close the rdf database all active instances of DbModel from this 
+      DbStore will lose their database connection !!!</td>
+  </tr>
+</table>
+
+
+</BODY></HTML>

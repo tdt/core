@@ -1,0 +1,257 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc
+END
+classtrees_default.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/classtrees_default.html
+END
+classtrees_dataset.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_dataset.html
+END
+classtrees_sparql-db.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/classtrees_sparql-db.html
+END
+classtrees_syntax.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_syntax.html
+END
+packages.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/packages.html
+END
+elementindex.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex.html
+END
+li_model.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_model.html
+END
+classtrees_infModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_infModel.html
+END
+li_rdql.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_rdql.html
+END
+elementindex_syntax.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_syntax.html
+END
+blank.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/blank.html
+END
+classtrees_sparql.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_sparql.html
+END
+classtrees_utility.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_utility.html
+END
+elementindex_infModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_infModel.html
+END
+li_resModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_resModel.html
+END
+classtrees_vocabulary.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_vocabulary.html
+END
+todolist.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/310/trunk/rdfapi-php/doc/phpdoc/todolist.html
+END
+elementindex_model.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_model.html
+END
+elementindex_sparql.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_sparql.html
+END
+li_default.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/li_default.html
+END
+elementindex_vocabulary.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_vocabulary.html
+END
+li_sparql-db.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/li_sparql-db.html
+END
+classtrees_ontModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_ontModel.html
+END
+li_dataset.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_dataset.html
+END
+li_syntax.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_syntax.html
+END
+errors.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/errors.html
+END
+li_infModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_infModel.html
+END
+elementindex_ontModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_ontModel.html
+END
+elementindex_default.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/elementindex_default.html
+END
+li_sparql.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_sparql.html
+END
+elementindex_dataset.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_dataset.html
+END
+elementindex_sparql-db.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/elementindex_sparql-db.html
+END
+li_utility.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_utility.html
+END
+classtrees_model.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_model.html
+END
+classtrees_rdql.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_rdql.html
+END
+li_vocabulary.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_vocabulary.html
+END
+classtrees_resModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/classtrees_resModel.html
+END
+elementindex_rdql.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_rdql.html
+END
+elementindex_utility.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_utility.html
+END
+li_ontModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/li_ontModel.html
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/index.html
+END
+elementindex_resModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/elementindex_resModel.html
+END

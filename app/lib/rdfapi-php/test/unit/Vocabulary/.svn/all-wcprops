@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/Vocabulary
+END
+voc_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/Vocabulary/voc_tests.php
+END
+vocs.dat
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/Vocabulary/vocs.dat
+END
+fks.dat
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/Vocabulary/fks.dat
+END

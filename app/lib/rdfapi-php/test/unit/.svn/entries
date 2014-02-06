@@ -1,0 +1,253 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/test/unit
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2007-12-11T20:27:34.710933Z
+555
+p_frischmuth
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+Namespaces
+dir
+
+emptyResource.rdf
+file
+
+
+
+
+2008-02-29T14:57:26.012311Z
+dfe955540f815ddaf311483f7373c727
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+sparqldbTests.php
+file
+
+
+
+
+2008-02-29T14:57:26.027931Z
+e11fbd4c204dc651c05c55437fe37eed
+2007-03-12T10:08:02.000000Z
+349
+cweiske
+has-props
+
+allTests.php
+file
+
+
+
+
+2008-02-29T14:57:26.012311Z
+9a0c507683f40c598066c6b6caa018f7
+2007-11-23T09:12:11.140388Z
+552
+p_frischmuth
+has-props
+
+OntModel
+dir
+
+show_passes.php
+file
+
+
+
+
+2008-02-29T14:57:26.027931Z
+1c6275c2f19619305758dc1fe2366e5d
+2006-06-14T13:15:32.000000Z
+285
+tgauss
+has-props
+
+Syntax
+dir
+
+example1.rdf
+file
+
+
+
+
+2008-02-29T14:57:26.043552Z
+033f3ebdde0e1aea8d342a781e79291d
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+sparqlParserTests.php
+file
+
+
+
+
+2008-02-29T14:57:26.043552Z
+4b669be34e4f2bcc57ae352457cb80a4
+2007-08-13T14:12:38.259343Z
+513
+cweiske
+
+Namedgraphs
+dir
+
+multipleTypes.rdf
+file
+
+
+
+
+2008-02-29T14:57:26.059173Z
+ed1792ee0464dfde65209faec520173b
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+emptyResource_serialized.rdf
+file
+
+
+
+
+2008-02-29T14:57:26.059173Z
+11949050de81a97dd7602247a1387d82
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+EarlReporter.php
+file
+
+
+
+
+2008-02-29T14:57:26.074793Z
+2520a74fa466d55e68a25c5513f41478
+2007-08-13T15:17:42.618486Z
+514
+cweiske
+
+InfModel
+dir
+
+Model
+dir
+
+Sparql
+dir
+
+runAnyTest.php
+file
+
+
+
+
+2008-02-29T14:57:26.074793Z
+fe4b926ceac4e20530d74ccb5c41ef90
+2007-10-09T16:24:08.620955Z
+544
+cweiske
+
+utility
+dir
+
+InfModelTests.php
+file
+
+
+
+
+2008-02-29T14:57:26.090414Z
+6474e895b485aa069be8d7e019953336
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+Vocabulary
+dir
+
+ResModel
+dir
+
+RDF
+dir
+
+README.txt
+file
+
+
+
+
+2008-02-29T14:57:26.090414Z
+4de9837e4a154b7260882372eb2e28b6
+2007-10-09T16:24:08.620955Z
+544
+cweiske
+has-props
+
+mt1.rdf
+file
+
+
+
+
+2008-02-29T14:57:26.106034Z
+d6b9c6d80a86b1524c2d3e342576f7ac
+2007-05-01T13:32:10.000000Z
+426
+cweiske
+has-props
+
+sparqlTests.php
+file
+
+
+
+
+2008-02-29T14:57:26.106034Z
+20dcd1433226059d34cc30b34debadef
+2007-03-12T10:08:02.000000Z
+349
+cweiske
+has-props
+
+employees.rdf
+file
+
+
+
+
+2008-02-29T14:57:26.121655Z
+1cc5bff8927b532de67355a24281b010
+2006-01-13T09:54:04.000000Z
+248
+tgauss
+has-props
+

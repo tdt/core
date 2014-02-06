@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class RDFS</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class RDFS</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">RDF Vocabulary Description Language 1.0: RDF Schema (RDFS) Vocabulary (Resource)</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal (dawe@gmx.de)</li>
+				<li><span class="field">version:</span> $Id$</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_vocabulary---RDFS_C.php.html">/vocabulary/RDFS_C.php</a> (line <span class="field"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a16">16</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#COMMENT" title="details" class="method-name">COMMENT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#CONTAINER" title="details" class="method-name">CONTAINER</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#CONTAINER_MEMBERSHIP_PROPERTY" title="details" class="method-name">CONTAINER_MEMBERSHIP_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DATATYPE" title="details" class="method-name">DATATYPE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DOMAIN" title="details" class="method-name">DOMAIN</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#IS_DEFINED_BY" title="details" class="method-name">IS_DEFINED_BY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#LABEL" title="details" class="method-name">LABEL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#LITERAL" title="details" class="method-name">LITERAL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MEMBER" title="details" class="method-name">MEMBER</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#RANGE" title="details" class="method-name">RANGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#RDFS_CLASS" title="details" class="method-name">RDFS_CLASS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#RESOURCE" title="details" class="method-name">RESOURCE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SEEALSO" title="details" class="method-name">SEEALSO</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SUB_CLASS_OF" title="details" class="method-name">SUB_CLASS_OF</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SUB_PROPERTY_OF" title="details" class="method-name">SUB_PROPERTY_OF</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodCOMMENT" id="COMMENT"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">COMMENT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a84">84</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			COMMENT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCONTAINER" id="CONTAINER"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">CONTAINER</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a42">42</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CONTAINER
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCONTAINER_MEMBERSHIP_PROPERTY" id="CONTAINER_MEMBERSHIP_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">CONTAINER_MEMBERSHIP_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a48">48</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CONTAINER_MEMBERSHIP_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDATATYPE" id="DATATYPE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">DATATYPE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a36">36</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DATATYPE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDOMAIN" id="DOMAIN"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DOMAIN</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a66">66</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DOMAIN
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodIS_DEFINED_BY" id="IS_DEFINED_BY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">IS_DEFINED_BY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a102">102</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IS_DEFINED_BY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodLABEL" id="LABEL"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">LABEL</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a78">78</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			LABEL
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodLITERAL" id="LITERAL"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">LITERAL</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a24">24</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			LITERAL
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMEMBER" id="MEMBER"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">MEMBER</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a90">90</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MEMBER
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodRANGE" id="RANGE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">RANGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a72">72</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			RANGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodRDFS_CLASS" id="RDFS_CLASS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">RDFS_CLASS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a30">30</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			RDFS_CLASS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodRESOURCE" id="RESOURCE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">RESOURCE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a18">18</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			RESOURCE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSEEALSO" id="SEEALSO"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">SEEALSO</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a96">96</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SEEALSO
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSUB_CLASS_OF" id="SUB_CLASS_OF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SUB_CLASS_OF</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a54">54</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SUB_CLASS_OF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSUB_PROPERTY_OF" id="SUB_PROPERTY_OF"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">SUB_PROPERTY_OF</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html#a60">60</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SUB_PROPERTY_OF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:50:52 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

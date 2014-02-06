@@ -1,0 +1,893 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource
+END
+fsource_model__modelModel.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelModel.php.html
+END
+fsource_default__syntaxSyntaxN3.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__syntaxSyntaxN3.php.html
+END
+fsource_sparql__sparqlSparqlParserException.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlParserException.php.html
+END
+fsource_sparql__sparqlSparqlEngineDb.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDb.php.html
+END
+fsource_model__modelDbStore.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelDbStore.php.html
+END
+fsource_vocabulary__vocabularyFOAF_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyFOAF_RES.php.html
+END
+fsource_sparql__sparqlSparqlEngineResultRendererXML.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineResultRendererXML.php.html
+END
+fsource_syntax__syntaxRdfParser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_syntax__syntaxRdfParser.php.html
+END
+fsource_default__modelModelP.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__modelModelP.php.html
+END
+fsource_model__sparqlSPARQL.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/310/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__sparqlSPARQL.php.html
+END
+fsource_sparql__sparqlSparqlClient.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlClient.php.html
+END
+fsource_default__utilmagpiescriptsmagpie_simple.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpiescriptsmagpie_simple.php.html
+END
+fsource_default__utilmagpieextlibSnoopy.class.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpieextlibSnoopy.class.inc.html
+END
+fsource_sparql__sparqlSparqlEngineDbResultRendererHTML.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbResultRendererHTML.php.html
+END
+fsource_default__syntaxSyntaxGRDDL.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__syntaxSyntaxGRDDL.php.html
+END
+fsource_dataset__datasetNamedGraphMem.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetNamedGraphMem.php.html
+END
+fsource_sparql__sparqlFilterFunctions.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlFilterFunctions.php.html
+END
+fsource_vocabulary__vocabularyVocabulary.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyVocabulary.php.html
+END
+fsource_resModel__resModelResSeq.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResSeq.php.html
+END
+fsource_model__modelModelFactory.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelModelFactory.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbResultRenderer.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbResultRenderer.php.html
+END
+fsource_default__syntaxSyntaxSparqlRes.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__syntaxSyntaxSparqlRes.php.html
+END
+fsource_default__infModelInfModelP.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__infModelInfModelP.php.html
+END
+fsource_vocabulary__vocabularyVocabularyRes.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyVocabularyRes.php.html
+END
+fsource_vocabulary__vocabularyRDF_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRDF_RES.php.html
+END
+fsource_model__modelDbModel.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelDbModel.php.html
+END
+fsource_default__utilmagpierss_parse.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpierss_parse.inc.html
+END
+fsource_resModel__resModelResList.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResList.php.html
+END
+fsource_vocabulary__vocabularyRDFS_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRDFS_C.php.html
+END
+fsource_default__constants.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__constants.php.html
+END
+fsource_default__vocabularyDC.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__vocabularyDC.php.html
+END
+fsource_sparql__sparqlSparqlParser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlParser.php.html
+END
+fsource_model__modelNode.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelNode.php.html
+END
+fsource_utility__utilObject.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_utility__utilObject.php.html
+END
+fsource_dataset__datasetNamedGraphDb.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetNamedGraphDb.php.html
+END
+fsource_infModel__infModelInfModel.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_infModel__infModelInfModel.php.html
+END
+fsource_vocabulary__vocabularyRSS_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRSS_C.php.html
+END
+fsource_default__resModelResModelP.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__resModelResModelP.php.html
+END
+fsource_model__modelLiteral.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelLiteral.php.html
+END
+fsource_resModel__resModelResModel.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResModel.php.html
+END
+fsource_sparql__sparqlGraphPattern.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlGraphPattern.php.html
+END
+fsource_sparql__sparqlSparqlEnginePreparedStatement.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEnginePreparedStatement.php.html
+END
+fsource_default__utilUtility.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilUtility.php.html
+END
+fsource_dataset__datasetDatasetDb.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/310/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetDatasetDb.php.html
+END
+fsource_ontModel__ontModelOntProperty.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelOntProperty.php.html
+END
+fsource_syntax__syntaxN3Parser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_syntax__syntaxN3Parser.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbOffsetter.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbOffsetter.php.html
+END
+fsource_default__utilmagpiescriptssimple_smarty.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpiescriptssimple_smarty.php.html
+END
+fsource_vocabulary__vocabularyRDFS_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRDFS_RES.php.html
+END
+fsource_vocabulary__vocabularyATOM_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyATOM_RES.php.html
+END
+fsource_resModel__resModelResBag.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResBag.php.html
+END
+fsource_model__modelResource.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelResource.php.html
+END
+fsource_default__syntaxSyntaxRSS.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__syntaxSyntaxRSS.php.html
+END
+fsource_default__sparqlSPARQL.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__sparqlSPARQL.php.html
+END
+fsource_ontModel__ontModelRdfsVocabulary.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelRdfsVocabulary.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html
+END
+fsource_sparql__sparqlQueryTriple.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlQueryTriple.php.html
+END
+fsource_ontModel__ontModelIndividual.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelIndividual.php.html
+END
+fsource_dataset__syntaxTriXSerializer.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__syntaxTriXSerializer.php.html
+END
+fsource_infModel__infModelInfStatement.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_infModel__infModelInfStatement.php.html
+END
+fsource_sparql__sparqlSparqlEngine.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngine.php.html
+END
+fsource_dataset__datasetIteratorAllGraphsMem.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetIteratorAllGraphsMem.php.html
+END
+fsource_default__utilmagpiescriptssmarty_pluginmodifier.rss_date_parse.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpiescriptssmarty_pluginmodifier.rss_date_parse.php.html
+END
+fsource_dataset__datasetIteratorAllGraphsDb.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetIteratorAllGraphsDb.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbResultRendererXML.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbResultRendererXML.php.html
+END
+fsource_ontModel__ontModelOntResource.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelOntResource.php.html
+END
+fsource_utility__utilFindIterator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_utility__utilFindIterator.php.html
+END
+fsource_resModel__resModelResAlt.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResAlt.php.html
+END
+fsource_vocabulary__vocabularyVCARD_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyVCARD_C.php.html
+END
+fsource_vocabulary__vocabularyOWL.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyOWL.php.html
+END
+fsource_vocabulary__vocabularyRSS.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRSS.php.html
+END
+fsource_syntax__syntaxGRDDLParser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_syntax__syntaxGRDDLParser.php.html
+END
+fsource_syntax__syntaxN3Serializer.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_syntax__syntaxN3Serializer.php.html
+END
+fsource_sparql__sparqlSparqlEngineResultRendererDefault.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineResultRendererDefault.php.html
+END
+fsource_ontModel__ontModelOntClass.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelOntClass.php.html
+END
+fsource_infModel__infModelInfModelB.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_infModel__infModelInfModelB.php.html
+END
+fsource_model__modelBlanknode.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelBlanknode.php.html
+END
+fsource_default__utilmagpierss_utils.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpierss_utils.inc.html
+END
+fsource_model__modelMemModel.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelMemModel.php.html
+END
+fsource_default__utilmagpierss_cache.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpierss_cache.inc.html
+END
+fsource_syntax__syntaxRssParser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_syntax__syntaxRssParser.php.html
+END
+fsource_default__utilmagpiescriptsmagpie_slashbox.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpiescriptsmagpie_slashbox.php.html
+END
+fsource_default__modelDBase.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__modelDBase.php.html
+END
+fsource_ontModel__ontModelOntModelP.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelOntModelP.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html
+END
+fsource_vocabulary__vocabularyDC_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyDC_C.php.html
+END
+fsource_dataset__datasetIteratorFindQuadsDb.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetIteratorFindQuadsDb.php.html
+END
+fsource_sparql__sparqlQuery.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlQuery.php.html
+END
+fsource_default__datasetDatasetP.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__datasetDatasetP.php.html
+END
+fsource_resModel__resModelResContainer.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResContainer.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbSqlMerger.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbSqlMerger.php.html
+END
+fsource_vocabulary__vocabularyOWL_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html
+END
+fsource_default__rdqlRDQL.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__rdqlRDQL.php.html
+END
+fsource_sparql__sparqlConstraint.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlConstraint.php.html
+END
+fsource_vocabulary__vocabularyFOAF_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html
+END
+fsource_vocabulary__vocabularyRSS_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRSS_RES.php.html
+END
+fsource_dataset__datasetIteratorFindQuadsMem.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetIteratorFindQuadsMem.php.html
+END
+fsource_rdql__rdqlRdqlDbEngine.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_rdql__rdqlRdqlDbEngine.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbPreparator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbPreparator.php.html
+END
+fsource_model__modelStatement.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_model__modelStatement.php.html
+END
+fsource_dataset__datasetQuad.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetQuad.php.html
+END
+fsource_sparql__syntaxSparqlResultParser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__syntaxSparqlResultParser.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbPreparedStatement.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbPreparedStatement.php.html
+END
+fsource_vocabulary__vocabularyRDFS.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRDFS.php.html
+END
+fsource_vocabulary__vocabularyVCARD.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyVCARD.php.html
+END
+fsource_vocabulary__vocabularyDC_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyDC_RES.php.html
+END
+fsource_dataset__syntaxTriXParser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__syntaxTriXParser.php.html
+END
+fsource_vocabulary__vocabularyATOM_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyATOM_C.php.html
+END
+fsource_vocabulary__vocabularyOWL_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyOWL_C.php.html
+END
+fsource_syntax__syntaxRdfSerializer.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_syntax__syntaxRdfSerializer.php.html
+END
+fsource_resModel__resModelResProperty.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResProperty.php.html
+END
+fsource_utility__utilIterFind.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_utility__utilIterFind.php.html
+END
+fsource_resModel__resModelResIterator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResIterator.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbResultConverter.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbResultConverter.php.html
+END
+fsource_ontModel__ontModelOntVocabulary.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelOntVocabulary.php.html
+END
+fsource_vocabulary__vocabularyRDF_C.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRDF_C.php.html
+END
+fsource_utility__utilStatementIterator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_utility__utilStatementIterator.php.html
+END
+fsource_default__datasetDatasetDb.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__datasetDatasetDb.php.html
+END
+fsource_utility__utilModelComparator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_utility__utilModelComparator.php.html
+END
+fsource_rdql__rdqlRdqlParser.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_rdql__rdqlRdqlParser.php.html
+END
+fsource_sparql__sparqlSparqlEngineResultConverter.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineResultConverter.php.html
+END
+fsource_resModel__resModelResResource.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResResource.php.html
+END
+fsource_vocabulary__vocabularyVCARD_RES.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyVCARD_RES.php.html
+END
+fsource_vocabulary__vocabularyFOAF.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyFOAF.php.html
+END
+fsource_default__syntaxSyntaxRDF.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__syntaxSyntaxRDF.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbResultRendererDefault.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbResultRendererDefault.php.html
+END
+fsource_infModel__infModelInfRule.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_infModel__infModelInfRule.php.html
+END
+fsource_dataset__datasetDataset.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetDataset.php.html
+END
+fsource_default__utilmagpiescriptsmagpie_debug.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpiescriptsmagpie_debug.php.html
+END
+fsource_sparql__sparqlSparqlEngineResultRendererHTML.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineResultRendererHTML.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbSqlGeneratorException.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGeneratorException.php.html
+END
+fsource_sparql__sparqlClientQuery.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlClientQuery.php.html
+END
+fsource_default__RdfAPI.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__RdfAPI.php.html
+END
+fsource_vocabulary__vocabularyVocabularyClass.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyVocabularyClass.php.html
+END
+fsource_sparql__sparqlSparqlEngineDbFilterGenerator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineDbFilterGenerator.php.html
+END
+fsource_rdql__rdqlRdqlResultIterator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_rdql__rdqlRdqlResultIterator.php.html
+END
+fsource_sparql__sparqlSparqlEngineResultRenderer.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_sparql__sparqlSparqlEngineResultRenderer.php.html
+END
+fsource_syntax__syntaxNTripleSerializer.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_syntax__syntaxNTripleSerializer.php.html
+END
+fsource_ontModel__ontModelOntModel.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelOntModel.php.html
+END
+fsource_default__utilmagpierss_fetch.inc.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/430/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_default__utilmagpierss_fetch.inc.html
+END
+fsource_utility__utilRdfUtil.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_utility__utilRdfUtil.php.html
+END
+fsource_vocabulary__vocabularyRDF.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_vocabulary__vocabularyRDF.php.html
+END
+fsource_resModel__resModelResLiteral.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_resModel__resModelResLiteral.php.html
+END
+fsource_rdql__rdqlRdqlMemEngine.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_rdql__rdqlRdqlMemEngine.php.html
+END
+fsource_ontModel__ontModelOWLVocabulary.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_ontModel__ontModelOWLVocabulary.php.html
+END
+fsource_rdql__rdqlRdqlEngine.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_rdql__rdqlRdqlEngine.php.html
+END
+fsource_infModel__infModelInfModelF.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svnroot/rdfapi-php/!svn/ver/443/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_infModel__infModelInfModelF.php.html
+END
+fsource_dataset__datasetDatasetMem.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/doc/phpdoc/__filesource/fsource_dataset__datasetDatasetMem.php.html
+END

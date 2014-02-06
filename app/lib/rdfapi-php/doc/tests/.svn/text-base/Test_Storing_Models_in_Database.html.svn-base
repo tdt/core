@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Test Set Database Connection</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP V0.9.3</H3>
+<h1>Test: Storing Models in Database</h1>
+<p><br>
+This example is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<br>
+<h3>1. Connect to rdf database (e.g. Access via ODBC)</h3>
+<p>Set the system DSN for the particular database file (control pannel -> administrative 
+  tools -> data sources (odbc) -> system DSN).<br>
+  If you want to use other databases read: <a href="Test_Set_Database_Connection.htm">Set 
+  Database Connection</a>.</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code>// Include RAP<br>
+        define(&quot;RDFAPI_INCLUDE_DIR&quot;, &quot;./../api/&quot;);<br>
+        include(RDFAPI_INCLUDE_DIR . &quot;RDFAPI.php&quot;);<br>
+        &nbsp;<br>
+        // Connect to MsAccess database (rdf_db DSN) <br>
+		// using connection settings defined in constants.php :<br>
+        $rdf_database = ModelFactory::getDbStore();
+	  </code></p>    </td>
+  </tr>
+  </tbody> 
+</table>
+<br>
+<br>
+<h3>2. Store a memory model in rdf database</h3>
+<p>Load an RDF-Documtent into a memory model</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code>// Filename of an RDF document<br>
+         $base="example1.rdf";<br>
+         <br>
+        // Create a new memory model <br>
+        $memModel = ModelFactory::getDefaultModel();<br>
+         <br>
+         // Load and parse document<br>
+        $memModel->load($base); </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p>Now store the model in database</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> // An unique modelURI will be generated<br>
+        $rdf_database->putModel($memModel);<br>
+        <br>
+        // You can also provide an URI for the model to be stored<br>
+        $modelURI = "example1.rdf";<br>
+		<br>
+        // But then you must check if there already is a model with the same modelURI<br>
+        // otherwise the method putModel() will return FALSE<br>
+        if ($rdf_database->modelExists($modelURI)) <br>
+        &nbsp;&nbsp; echo "Model with the same URI: '$modelURI' already exists";	
+        <br>
+		else<br>
+        &nbsp;&nbsp; $rdf_database->putModel($memModel, $modelURI); </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<br>
+<br>
+<h3>3. Create a new database Model</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> $modelURI = "newDbModel";<br>
+	    <br>
+        // Base URI of the new model (optional)<br>
+        $baseURI = "baseURIofMyNewDbModel#";<br>
+		<br>
+        // Get a new DbModel<br>
+        if ($rdf_database->modelExists($modelURI)) <br>
+        &nbsp;&nbsp; echo "Model with the same URI: '$modelURI' already exists";	
+        <br>
+		else<br>
+        &nbsp;&nbsp; $dbModel = $rdf_database->getNewModel($modelURI, $baseURI); 
+        </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<br>
+<br>
+<h3>4. List all models stored in rdf database</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%" dwcopytype="CopyTableRow">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code> // Get an array with modelURI and baseURI of all models stored 
+        in rdf database<br>
+        $list = $rdf_database->listModels();<br>
+        <br>
+        // Show the database contents<br>
+        foreach ($list as $model) {<br>
+        &nbsp;&nbsp; echo "modelURI: " .$model['modelURI'] .&quot;&lt;BR&gt;&quot;;<br>
+        &nbsp;&nbsp; echo "baseURI : " .$model['baseURI'] .&quot;&lt;BR&gt;&lt;BR&gt;&quot;;<br>
+        } </code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b><br>
+<br>
+modelURI: DbModel-1<br>
+baseURI : http://www.w3.org/Home/Lassila.rdf#<br>
+<br>
+modelURI: example1.rdf<br>
+baseURI : http://www.w3.org/Home/Lassila.rdf#<br>
+<br>
+modelURI: newDbModel<br>
+baseURI : baseURIofMyNewDbModel#
+</p>
+
+
+</BODY></HTML>

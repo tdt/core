@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/xsl
+END
+convert-0.1-0.3.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/xsl/convert-0.1-0.3.xsl
+END
+remove-0.2.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/util/adodb/xsl/remove-0.2.xsl
+END
+convert-0.2-0.3.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/xsl/convert-0.2-0.3.xsl
+END
+remove-0.3.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/xsl/remove-0.3.xsl
+END
+convert-0.1-0.2.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/xsl/convert-0.1-0.2.xsl
+END
+convert-0.2-0.1.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/util/adodb/xsl/convert-0.2-0.1.xsl
+END

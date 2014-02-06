@@ -1,0 +1,1640 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class SparqlParser</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class SparqlParser</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a SPARQL Query string and returns a Query Object.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Christian Weiske &lt;<a href="mailto:cweiske@cweiske.de">cweiske@cweiske.de</a>&gt;</li>
+				<li><span class="field">author:</span> Tobias Gauss &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: SparqlParser.html 443 2007-06-01 16:25:38Z cax $</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_sparql---SparqlParser.php.html">/sparql/SparqlParser.php</a> (line <span class="field"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a21">21</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --SparqlParser</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+												<div class="var-title">
+					static <span class="var-type">array</span>
+					<a href="#$operatorPrecedence" title="details" class="var-name">$operatorPrecedence</a>
+				</div>
+																																<div class="var-title">
+					static <span class="var-type">array</span>
+					<a href="#$sops" title="details" class="var-name">$sops</a>
+				</div>
+																																												<div class="var-title">
+					<span class="var-type"><a href="../sparql/Query.html">Query</a></span>
+					<a href="#$query" title="details" class="var-name">$query</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">string</span>
+					<a href="#$querystring" title="details" class="var-name">$querystring</a>
+				</div>
+																								<div class="var-title">
+					<span class="var-type">int</span>
+					<a href="#$tmp" title="details" class="var-name">$tmp</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$tokens" title="details" class="var-name">$tokens</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																		
+				<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#balanceTree" title="details" class="method-name">balanceTree</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$tree</span>)
+									</div>
+																																														
+				<div class="method-definition">
+					static 						<span class="method-result">void</span>
+										<a href="#fixNegationInFuncName" title="details" class="method-name">fixNegationInFuncName</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>)
+									</div>
+																																																																																																																																																																																																																																																																										
+				<div class="method-definition">
+											<span class="method-result">SparqlParser</span>
+										<a href="#SparqlParser" title="details" class="method-name">SparqlParser</a>
+										()
+									</div>
+																						
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#bNodeCheck" title="details" class="method-name">bNodeCheck</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#checkDtypeLang" title="details" class="method-name">checkDtypeLang</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$node</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$node</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#dtypeCheck" title="details" class="method-name">dtypeCheck</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$node</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$node</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">String</span>
+										<a href="#error" title="details" class="method-name">error</a>
+											(<span class="var-type">SparqlException</span>&nbsp;<span class="var-name">$e</span>)
+									</div>
+																						
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#iriCheck" title="details" class="method-name">iriCheck</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#literalCheck" title="details" class="method-name">literalCheck</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../sparql/Query.html">Query</a></span>
+										<a href="#parse" title="details" class="method-name">parse</a>
+											([<span class="var-type">String</span>&nbsp;<span class="var-name">$queryString</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseAsk" title="details" class="method-name">parseAsk</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$form</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseBase" title="details" class="method-name">parseBase</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseBrackettedExpression" title="details" class="method-name">parseBrackettedExpression</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$constraint</span>, <span class="var-type"><a href="../sparql/Constraint.html">Constraint</a></span>&nbsp;<span class="var-name">$constraint</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/Node.html">Node</a></span>
+										<a href="#parseCollection" title="details" class="method-name">parseCollection</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$trp</span>, <span class="var-type">TriplePattern</span>&nbsp;<span class="var-name">$trp</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseConstraint" title="details" class="method-name">parseConstraint</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$pattern</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$outer</span>, <span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$pattern</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#parseConstraintTree" title="details" class="method-name">parseConstraintTree</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$nLevel</span> = <span class="var-default">0</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$bParameter</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseConstruct" title="details" class="method-name">parseConstruct</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseDescribe" title="details" class="method-name">parseDescribe</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseExpression" title="details" class="method-name">parseExpression</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$constraint</span>, <span class="var-type"><a href="../sparql/Constraint.html">Constraint</a></span>&nbsp;<span class="var-name">$constrain</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseFrom" title="details" class="method-name">parseFrom</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseGraph" title="details" class="method-name">parseGraph</a>
+											(<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$pattern</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseGraphPattern" title="details" class="method-name">parseGraphPattern</a>
+											([<span class="var-type">int</span>&nbsp;<span class="var-name">$optional</span> = <span class="var-default">false</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$union</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$graph</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$constr</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$external</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseLiteral" title="details" class="method-name">parseLiteral</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$node</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$sep</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$node</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseModifier" title="details" class="method-name">parseModifier</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/Node.html">Node</a></span>
+										<a href="#parseNode" title="details" class="method-name">parseNode</a>
+											([<span class="var-type">String</span>&nbsp;<span class="var-name">$node</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseOrderCondition" title="details" class="method-name">parseOrderCondition</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parsePrefix" title="details" class="method-name">parsePrefix</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseQuery" title="details" class="method-name">parseQuery</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseSelect" title="details" class="method-name">parseSelect</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseTriplePattern" title="details" class="method-name">parseTriplePattern</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$pattern</span>, <span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$pattern</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parseWhere" title="details" class="method-name">parseWhere</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#prepare" title="details" class="method-name">prepare</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#qnameCheck" title="details" class="method-name">qnameCheck</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#tokenize" title="details" class="method-name">tokenize</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$queryString</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">String</span>
+										<a href="#uncomment" title="details" class="method-name">uncomment</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$queryString</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#varCheck" title="details" class="method-name">varCheck</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_fastForward" title="details" class="method-name">_fastForward</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#_rewind" title="details" class="method-name">_rewind</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$operatorPrecedence" id="$operatorPrecedence"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type">array</span>
+			<span class="var-name">$operatorPrecedence</span>
+			 = <span class="var-default">array(
+<br />        '||'    =&gt; 0,
+<br />        '&amp;&amp;'    =&gt; 1,
+<br />        '='     =&gt; 2,
+<br />        '!='    =&gt; 3,
+<br />        '&lt;'     =&gt; 4,
+<br />        '&gt;'     =&gt; 5,
+<br />        '&lt;='    =&gt; 6,
+<br />        '&gt;='    =&gt; 7,
+<br />        '*'     =&gt; 0,
+<br />        '/'     =&gt; 0,
+<br />        '+'     =&gt; 0,
+<br />        '-'     =&gt; 0,
+<br />    )</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a69">69</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Which order operators are to be treated.</p>
+<p class="description"><p>(11.3 Operator Mapping)</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$sops" id="$sops"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type">array</span>
+			<span class="var-name">$sops</span>
+			 = <span class="var-default">array(
+<br />        'regex',
+<br />        'bound',
+<br />        'isuri',
+<br />        'isblank',
+<br />        'isliteral',
+<br />        'str',
+<br />        'lang',
+<br />        'datatype',
+<br />        'langmatches'
+<br />    )</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a52">52</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Operators introduced by sparql</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+
+<a name="var$query" id="$query"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type"><a href="../sparql/Query.html">Query</a></span>
+			<span class="var-name">$query</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a28">28</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The query Object</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$querystring" id="$querystring"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$querystring</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a34">34</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The Querystring</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$tmp" id="$tmp"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">int</span>
+			<span class="var-name">$tmp</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a46">46</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Last parsed graphPattern</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$tokens" id="$tokens"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$tokens</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a40">40</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">The tokenized Query</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodbalanceTree" id="balanceTree"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static balanceTree</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a960">960</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">&quot;Balances&quot; the filter tree in the way that operators on the same    level are nested according to their precedence defined in    $operatorPrecedence array.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">void</span>
+		<span class="method-name">
+			balanceTree
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$tree</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$tree</span><span class="var-description">: Tree to be modified</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$tree</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfixNegationInFuncName" id="fixNegationInFuncName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static fixNegationInFuncName</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a983">983</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">void</span>
+		<span class="method-name">
+			fixNegationInFuncName
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$tree</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$tree</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodSparqlParser" id="SparqlParser"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor SparqlParser</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a89">89</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor of SparqlParser</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">SparqlParser</span>
+		<span class="method-name">
+			SparqlParser
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodbNodeCheck" id="bNodeCheck"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">bNodeCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a478">478</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if $token is a Blanknode.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> TRUE if the token is BNode false if not</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			bNodeCheck
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$token</span><span class="var-description">: The token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcheckDtypeLang" id="checkDtypeLang"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">checkDtypeLang</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1287">1287</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if there is a datatype given and appends it to the node.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			checkDtypeLang
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$node</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$node</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$node</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$node</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoddtypeCheck" id="dtypeCheck"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">dtypeCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1338">1338</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if the Node is a typed Literal.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> TRUE if typed FALSE if not</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			dtypeCheck
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$node</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$node</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$node</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$node</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoderror" id="error"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">error</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1399">1399</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Error reporting.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">String</span>
+		<span class="method-name">
+			error
+		</span>
+					(<span class="var-type">SparqlException</span>&nbsp;<span class="var-name">$e</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">SparqlException</span>
+				<span class="var-name">$e</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodiriCheck" id="iriCheck"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">iriCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a464">464</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if $token is an IRI.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> TRUE if the token is an IRI false if not</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			iriCheck
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$token</span><span class="var-description">: The token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodliteralCheck" id="literalCheck"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">literalCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a517">517</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if $token is a Literal.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> TRUE if the token is a Literal false if not</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			literalCheck
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$token</span><span class="var-description">: The token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparse" id="parse"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parse</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a102">102</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Main function of SparqlParser. Parses a query string.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The query object</li>
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../sparql/Query.html">Query</a></span>
+		<span class="method-name">
+			parse
+		</span>
+					([<span class="var-type">String</span>&nbsp;<span class="var-name">$queryString</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$queryString</span><span class="var-description">: The SPARQL query</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseAsk" id="parseAsk"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseAsk</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a368">368</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets result form to 'ASK' and 'COUNT'.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseAsk
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$form</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$form</span><span class="var-description">: if it's an ASK or COUNT query</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseBase" id="parseBase"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseBase</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a246">246</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses the BASE part of the query.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseBase
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseBrackettedExpression" id="parseBrackettedExpression"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseBrackettedExpression</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1006">1006</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a bracketted expression.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseBrackettedExpression
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$constraint</span>, <span class="var-type"><a href="../sparql/Constraint.html">Constraint</a></span>&nbsp;<span class="var-name">$constraint</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/Constraint.html">Constraint</a></span>
+				<span class="var-name">$constraint</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$constraint</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseCollection" id="parseCollection"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseCollection</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1376">1376</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses an RDF collection.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The first parsed label</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/Node.html">Node</a></span>
+		<span class="method-name">
+			parseCollection
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$trp</span>, <span class="var-type">TriplePattern</span>&nbsp;<span class="var-name">$trp</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">TriplePattern</span>
+				<span class="var-name">$trp</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$trp</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseConstraint" id="parseConstraint"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseConstraint</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a728">728</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a value constraint.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseConstraint
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$pattern</span>, <span class="var-type">boolean</span>&nbsp;<span class="var-name">$outer</span>, <span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$pattern</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>
+				<span class="var-name">$pattern</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$outer</span><span class="var-description">: If the constraint is an outer one.</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$pattern</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseConstraintTree" id="parseConstraintTree"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseConstraintTree</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a788">788</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a constraint string recursively.</p>
+<p class="description"><p>The result array is one &quot;element&quot; which may contain subelements.    All elements have one key &quot;type&quot; that determines which other    array keys the element array has. Valid types are: <ul><li>&quot;value&quot;:
+       Just a plain value with a value key, nothing else</li><li>&quot;function&quot;
+       A function has a name and an array of parameter(s). Each parameter
+       is an element.</li><li>&quot;equation&quot;
+       An equation has an operator, and operand1 and operand2 which
+       are elements themselves</li></ul>   Any element may have the &quot;negated&quot; value set to true, which means    that is is - negated (!).</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Nested tree array representing the filter</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			parseConstraintTree
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$nLevel</span> = <span class="var-default">0</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$bParameter</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$nLevel</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$bParameter</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseConstruct" id="parseConstruct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseConstruct</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a413">413</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses the CONSTRUCT clause.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseConstruct
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseDescribe" id="parseDescribe"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseDescribe</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a347">347</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a new variable to the query and sets result form to 'DESCRIBE'.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseDescribe
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseExpression" id="parseExpression"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseExpression</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1046">1046</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses an expression.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseExpression
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$constraint</span>, <span class="var-type"><a href="../sparql/Constraint.html">Constraint</a></span>&nbsp;<span class="var-name">$constrain</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/Constraint.html">Constraint</a></span>
+				<span class="var-name">$constrain</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$constraint</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseFrom" id="parseFrom"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseFrom</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a383">383</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses the FROM clause.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseFrom
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseGraph" id="parseGraph"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseGraph</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1076">1076</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a GRAPH clause.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseGraph
+		</span>
+					(<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$pattern</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>
+				<span class="var-name">$pattern</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseGraphPattern" id="parseGraphPattern"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseGraphPattern</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a559">559</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a graph pattern.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseGraphPattern
+		</span>
+					([<span class="var-type">int</span>&nbsp;<span class="var-name">$optional</span> = <span class="var-default">false</span>], [<span class="var-type">int</span>&nbsp;<span class="var-name">$union</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$graph</span> = <span class="var-default">false</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$constr</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$external</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$optional</span><span class="var-description">: Optional graph pattern</span>			</li>
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$union</span><span class="var-description">: Union graph pattern</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$graph</span><span class="var-description">: Graphname</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$constr</span><span class="var-description">: TRUE if the pattern is a construct pattern</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$external</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseLiteral" id="parseLiteral"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseLiteral</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1323">1323</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a literal.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseLiteral
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$node</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$sep</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$node</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$node</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$sep</span><span class="var-description">: used separator &quot; or '</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$node</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseModifier" id="parseModifier"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseModifier</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1102">1102</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses the solution modifiers of a query.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseModifier
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseNode" id="parseNode"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseNode</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1194">1194</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a String to an RDF node.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The parsed RDF node</li>
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/Node.html">Node</a></span>
+		<span class="method-name">
+			parseNode
+		</span>
+					([<span class="var-type">String</span>&nbsp;<span class="var-name">$node</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$node</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseOrderCondition" id="parseOrderCondition"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseOrderCondition</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a1136">1136</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses order conditions of a query.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseOrderCondition
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparsePrefix" id="parsePrefix"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parsePrefix</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a270">270</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a new namespace prefix to the query object.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parsePrefix
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseQuery" id="parseQuery"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a196">196</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Starts parsing the tokenized SPARQL Query.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseQuery
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseSelect" id="parseSelect"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseSelect</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a297">297</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses the SELECT part of a query.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseSelect
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodparseTriplePattern" id="parseTriplePattern"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseTriplePattern</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a619">619</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses a triple pattern.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseTriplePattern
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$pattern</span>, <span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$pattern</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>
+				<span class="var-name">$pattern</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$pattern</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparseWhere" id="parseWhere"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parseWhere</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a432">432</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Parses the WHERE clause.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parseWhere
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodprepare" id="prepare"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">prepare</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a133">133</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set all internal variables to a clear state    before we start parsing.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			prepare
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodqnameCheck" id="qnameCheck"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">qnameCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a493">493</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if $token is a qname.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> TRUE if the token is a qname false if not</li>
+				<li><span class="field">throws:</span> SparqlParserException</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			qnameCheck
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$token</span><span class="var-description">: The token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodtokenize" id="tokenize"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">tokenize</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a152">152</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tokenizes the querystring.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			tokenize
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$queryString</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$queryString</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoduncomment" id="uncomment"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">uncomment</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a181">181</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes comments in the query string. Comments are  indicated by '#'.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> The uncommented query string</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">String</span>
+		<span class="method-name">
+			uncomment
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$queryString</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$queryString</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodvarCheck" id="varCheck"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">varCheck</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a449">449</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if $token is a variable.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> TRUE if the token is a variable false if not</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			varCheck
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$token</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$token</span><span class="var-description">: The token</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method_fastForward" id="_fastForward"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">_fastForward</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a529">529</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">FastForward until next token which is not blank.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_fastForward
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="method_rewind" id="_rewind"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">_rewind</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlParser.php.html#a542">542</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Rewind until next token which is not blank.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			_rewind
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:52:17 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

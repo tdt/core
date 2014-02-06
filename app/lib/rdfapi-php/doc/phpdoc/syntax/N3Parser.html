@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class N3Parser</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class N3Parser</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">PHP Notation3 Parser</p>
+<p class="description"><p>This parser can parse a subset of n3, reporting triples to a callback function  or constructing a RAP Model ( http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi )</p><p>Supported N3 features:  <ul><li>Standard things, repeated triples ( ; and , ), blank nodes using [ ], self-reference ('&lt;&gt;')</li><li>@prefix mappings</li><li>= maps to owl#sameAs</li><li>a maps to rdf-syntax-ns#type</li><li>Literal datytype- and xmlLanguageTag support</li></ul>  Un-supported N3 Features include:  <ul><li>Reification using { }</li><li>. and ^ operators for tree traversal</li><li>Any log operators, like log:forAll etc.</li></ul></p><p>This parser is based on n3.py from Epp released 2nd March, 2002.  by Sean B. Palmer  ( http://infomesh.net/2002/eep/20020302-013802/n3.py )</p><p>This parser is released under the GNU GPL license.  ( http://www.gnu.org/licenses/gpl.txt )</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Sean B. Palmer &lt;<a href="mailto:sean@mysterylights.com">sean@mysterylights.com</a>&gt;, Gunnar AA. Grimnes &lt;ggrimnes@csd.abdn.ac.uk&gt;, Daniel Westphal &lt;mail@d-westphal.de&gt;</li>
+				<li><span class="field">version:</span> $Id: N3Parser.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_syntax---N3Parser.php.html">/syntax/N3Parser.php</a> (line <span class="field"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a48">48</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --N3Parser</pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																																																																																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$bNode" title="details" class="var-name">$bNode</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$DAML_NS" title="details" class="var-name">$DAML_NS</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$debug" title="details" class="var-name">$debug</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$OWL_NS" title="details" class="var-name">$OWL_NS</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$parsedNamespaces" title="details" class="var-name">$parsedNamespaces</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$parseError" title="details" class="var-name">$parseError</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$RDF_NS" title="details" class="var-name">$RDF_NS</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$Tokens" title="details" class="var-name">$Tokens</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																						
+				<div class="method-definition">
+											<span class="method-result">N3Parser</span>
+										<a href="#N3Parser" title="details" class="method-name">N3Parser</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object MemModel</span>
+										<a href="#generateModel" title="details" class="method-name">&amp;generateModel</a>
+											(<span class="var-type">$path</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$dummy</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$model</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getPovs" title="details" class="method-name">getPovs</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$list</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#parse" title="details" class="method-name">parse</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object Model</span>
+										<a href="#parse2model" title="details" class="method-name">parse2model</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$model</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setFixBnodes" title="details" class="method-name">setFixBnodes</a>
+											(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$set</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#uparse" title="details" class="method-name">uparse</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$func</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+<a name="var$bNode" id="$bNode"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$bNode</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a54">54</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$DAML_NS" id="$DAML_NS"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$DAML_NS</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a55">55</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$debug" id="$debug"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$debug</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a56">56</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$OWL_NS" id="$OWL_NS"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$OWL_NS</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a55">55</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$parsedNamespaces" id="$parsedNamespaces"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$parsedNamespaces</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a58">58</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$parseError" id="$parseError"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$parseError</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a57">57</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$RDF_NS" id="$RDF_NS"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$RDF_NS</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a55">55</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+<a name="var$Tokens" id="$Tokens"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$Tokens</span>
+						(line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a53">53</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodN3Parser" id="N3Parser"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor N3Parser</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a66">66</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">N3Parser</span>
+		<span class="method-name">
+			N3Parser
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgenerateModel" id="generateModel"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">generateModel</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a209">209</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generate a new MemModel from an URI or file.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object MemModel</span>
+		<span class="method-name">
+			&amp;generateModel
+		</span>
+					(<span class="var-type">$path</span>&nbsp;<span class="var-name">$path</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$dummy</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$model</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">$path</span>
+				<span class="var-name">$path</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$dummy</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPovs" id="getPovs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPovs</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a646">646</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Gets a list of triples with same subject  e.g. :Gunnar :firstname &quot;Gunnar&quot; ; :lastname &quot;Grimnes.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getPovs
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$list</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$list</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparse" id="parse"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">parse</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a119">119</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This parses a N3 string and prints out the triples</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			parse
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$s</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodparse2model" id="parse2model"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">parse2model</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a176">176</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This parses a N3 string and returns a memmodel</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Model</span>
+		<span class="method-name">
+			parse2model
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$model</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$s</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetFixBnodes" id="setFixBnodes"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setFixBnodes</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a108">108</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets, if BlankNode labels should be replaced by the generic label from the constants.php file</p>
+<p class="description"><p>default is &quot;false&quot; -&gt; the used label in n3 is parsed to the model</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setFixBnodes
+		</span>
+					(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$set</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$set</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methoduparse" id="uparse"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">uparse</span> (line <span class="line-number"><a href="../__filesource/fsource_syntax__syntaxN3Parser.php.html#a147">147</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">This parses a N3 string and calls func($subject, $predicate, $object) with each trioke</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			uparse
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$s</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$func</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$s</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$func</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:49:59 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

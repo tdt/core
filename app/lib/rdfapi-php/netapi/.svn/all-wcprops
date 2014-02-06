@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/rdfapi-php/!svn/ver/341/trunk/rdfapi-php/netapi
+END
+fetch.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/netapi/fetch.php
+END
+config.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/341/trunk/rdfapi-php/netapi/config.inc.php
+END
+remove.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/netapi/remove.php
+END
+simple.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/netapi/simple.rdf
+END
+netapi.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/341/trunk/rdfapi-php/netapi/netapi.php
+END
+spo.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/netapi/spo.php
+END
+rdql.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/netapi/rdql.php
+END
+sparql.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/284/trunk/rdfapi-php/netapi/sparql.php
+END
+.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/netapi/.htaccess
+END
+model1.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/netapi/model1.rdf
+END
+employees.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/netapi/employees.rdf
+END
+apache.htaccess
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/netapi/apache.htaccess
+END
+config.inc
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/netapi/config.inc
+END
+add.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/netapi/add.php
+END

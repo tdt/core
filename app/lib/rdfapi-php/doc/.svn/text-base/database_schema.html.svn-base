@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Test Set Database Connection</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP </H3>
+<h1>Database Schema</h1>
+<h5>RAP uses a denormalized database layout for increased performance.</h5>
+<br>
+<br>
+<br>
+<h2>Table models</h2>
+<table width="100%" border="1" cellpadding="3">
+  <tr align="center" bgcolor="#DDDDFF"> 
+    <td width="20%"><b>Column name</b></td>
+    <td width="20%"><b>Type</b></td>
+    <td bgcolor="#DDDDFF"><b>Comments</b></td>
+  </tr>
+  <tr> 
+    <td width="20%">modelID</td>
+    <td width="20%">id-ref, indexed</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="20%">modelURI</td>
+    <td width="20%">varchar</td>
+    <td>used at reopening a persistent model</td>
+  </tr>
+  <tr> 
+    <td width="20%">baseURI</td>
+    <td width="20%">varchar</td>
+    <td>affects creating of new resources and serialization syntax</td>
+  </tr>
+</table>
+<br>
+<br>
+<br>
+<h2>Table statements</h2>
+<table width="100%" border="1" cellpadding="3">
+  <tr align="center" bgcolor="#DDDDFF"> 
+    <td width="20%"><b>Column name</b></td>
+    <td width="20%"><b>Type</b></td>
+    <td><b>Comments</b></td>
+  </tr>
+  <tr> 
+    <td width="20%">modelID</td>
+    <td width="20%">id-ref, indexed</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="20%">subject</td>
+    <td width="20%">varchar, indexed</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="20%">predicate</td>
+    <td width="20%">varchar, indexed</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="20%">object</td>
+    <td width="20%">blob, indexed</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="20%">l_language</td>
+    <td width="20%">varchar</td>
+    <td>only if object is a literal, otherwise NULL</td>
+  </tr>
+  <tr> 
+    <td width="20%">l_datatype</td>
+    <td width="20%">varchar</td>
+    <td>only if object is a literal, otherwise NULL</td>
+  </tr>
+  <tr> 
+    <td width="20%">subject_is</td>
+    <td width="20%">varchar(1)</td>
+    <td>flags whether subject is a resource or blankNode</td>
+  </tr>
+  <tr> 
+    <td width="20%">object_is</td>
+    <td width="20%">varchar(1)</td>
+    <td>flags whether object is a resource, blankNode or literal</td>
+  </tr>
+</table>
+<br>
+<br>
+<br>
+<h2>Table namespaces</h2>
+<table width="100%" border="1" cellpadding="3">
+  <tr align="center" bgcolor="#DDDDFF"> 
+    <td width="20%"><b>Column name</b></td>
+    <td width="20%"><b>Type</b></td>
+    <td bgcolor="#DDDDFF"><b>Comments</b></td>
+  </tr>
+  <tr> 
+    <td width="20%">modelID</td>
+    <td width="20%">id-ref, indexed</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="20%">namespace</td>
+    <td width="20%">varchar</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr> 
+    <td width="20%">prefix</td>
+    <td width="20%">varchar</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<h5>For best performance we recommend joint indexing on subject and predicate.</h5>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Table datasets </h2>
+<table width="100%" border="1" cellpadding="3">
+  <tr align="center" bgcolor="#DDDDFF">
+    <td width="20%"><b>Column name</b></td>
+    <td width="20%"><b>Type</b></td>
+    <td bgcolor="#DDDDFF"><b>Comments</b></td>
+  </tr>
+  <tr>
+    <td width="20%">datasetName</td>
+    <td width="20%"> varchar </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="20%">defaultModelUri</td>
+    <td width="20%">varchar</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p><br>
+  </br>
+</p>
+<h2>Table dataset_model </h2>
+<table width="100%" border="1" cellpadding="3">
+  <tr align="center" bgcolor="#DDDDFF">
+    <td width="20%"><b>Column name</b></td>
+    <td width="20%"><b>Type</b></td>
+    <td bgcolor="#DDDDFF"><b>Comments</b></td>
+  </tr>
+  <tr>
+    <td width="20%">datasetName</td>
+    <td width="20%">varchar</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="20%">modelID</td>
+    <td width="20%">int</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="20%">graphURI</td>
+    <td width="20%">varchar</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp; </p>
+</BODY></HTML>
+

@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>RDF Net API</title>
+
+<meta content="text/html; charset=windows-1252" http-equiv="Content-Type">
+<link href="phpdoc.css" rel="stylesheet" type="text/css">
+</head>
+<body bgcolor="#ffffff">
+
+<h3>RDF API for PHP </h3>
+<h1>RAP_Pubby - 
+
+
+ A Linked Data Frontend for RAP </h1>
+<p>This document is part of the <a href="http://sites.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<p>Radoslaw Oldakowski &lt;<a href="mailto:radol@gmx.de">radol@gmx.de</a>&gt;<br>
+Jan 2008</p>
+<br>
+
+<h2>About</h2>
+<p><strong>RAP_Pubby</strong> can be used to add <strong>Linked Data interfaces</strong> to RAP models.</p>
+<p> <a href="http://linkeddata.org/">Linked Data </a> is a style of publishing data on the Semantic Web that makes it easy to interlink, discover and consume data on the Semantic Web. It allows a wide variety of existing RDF browsers (e.g. <a href="http://sites.wiwiss.fu-berlin.de/suhl/bizer/ng4j/disco/">Disco </a>, <a href="http://www.w3.org/2005/ajar/tab">Tabulator </a>, <a href="http://demo.openlinksw.com/DAV/JS/rdfbrowser/index.html">OpenLink Browser </a>), RDF crawlers (e.g. <a href="http://www.swse.org/">SWSE </a>, <a href="http://swoogle.umbc.edu/">Swoogle </a>), and query agents (e.g. <a href="http://sites.wiwiss.fu-berlin.de/suhl/bizer/ng4j/semwebclient/">SemWeb Client Library </a>, <a href="http://moustaki.org/swic/">SWIC </a>) to access the data. </p>
+<p>RAP_Pubby was orignially inspired by <a href="http://www4.wiwiss.fu-berlin.de/pubby/">Pubby - A Linked Data Frontend for SPARQL Endpoints</a>. </p>
+<h3> Features:</h3>
+<ul>
+  <li> Provides a <strong>linked data interface</strong> to RAP RDF models (file or database backed) </li>
+  <li> Provides <strong>dereferenceable URIs</strong> by rewriting URIs found in the exposed dataset into the RAP_Pubby server's namespace </li>
+  <li> Provides a simple template-based <strong>HTML interface</strong> showing the data available about each resource </li>
+  <li> Takes care of handling <strong>303 redirects and content negotiation</strong> </li>
+</ul>
+<p>&nbsp;</p>
+<h2>How It Works </h2>
+<p>In RDF, resources are identified by URIs. The URIs used in most RDF datasets are not dereferenceable , meaning they cannot be accessed in a Semantic Web browser, but return 404 Not Found errors instead, or use non-dereferenceable URI schemes, as in the fictional URI tag:dbpedia.org,2007:Berlin . </p>
+<p>When setting up a RAP_Pubby server for your RDF data, you will configure a mapping that translates those URIs to dereferenceable URIs handled by RAP_Pubby. If your server is running at http://myserver.org:8080/rap-pubby/ , then the Berlin URI above might be mapped to http://myserver.org:8080/rap-pubby/Berlin . </p>
+<p>RAP_Pubby will handle requests to the mapped URIs by asking the underlying RAP model for information about the original URI, and passing back the results to the client. It also handles various details of the HTTP interaction , such as the 303 redirect required by Web Architecture, and content negotiation between HTML, RDF/XML and N3 descriptions of the same resource. </p>
+<p>&nbsp;</p>
+<h2>Installation</h2>
+
+<p> 
+</p><ol><li>The first thing you need to do is to get mod-rewrite to redirect requests 
+    to the rap_pubby.php handler script. To do this you need to make sure that the 
+    rewrite module is enabled in the Apache configuration file "httpd.conf":<br>
+    <br>
+    <table border="1" cellpadding="3" cellspacing="0" width="60%">
+      <tbody>
+        <tr valign="top"> 
+          <td bgcolor="#e7e7ef"> <p><code>LoadModule rewrite_module modules/mod_rewrite.so</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    And to make sure that output buffering is turned on in the PHP configuration 
+    file "php.ini":<br>
+    <br>
+    <table border="1" cellpadding="3" cellspacing="0" width="60%">
+      <tbody>
+        <tr valign="top"> 
+          <td bgcolor="#e7e7ef"> <p><code>output_buffering = on</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+  </li>
+  <li>You need to edit the &quot;.htaccess&quot; file in the rap-pubby directory. Change the 
+    'RewriteBase' bit to reflect the URI base of the rap-pubbyi directory relative to the htdocs directory of your Apache server. E.g.<br>
+    <br>
+    <table border="1" cellpadding="3" cellspacing="0" width="60%">
+      <tbody>
+        <tr valign="top"> 
+          <td bgcolor="#e7e7ef"> <p> <code>RewriteEngine on<br>
+              RewriteBase /rdfapi-php/rap-pubby/ #&lt;---- Edit this <br>
+              RewriteRule ^[^\.]*$ rap_pubby.php</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+	<br>
+	<b>Note:</b> the AllowOverride parameter in "httpd.conf" must be set to allow the use of an .htaccess file in the rap-pubby directory.
+	<br>
+    <br>
+  </li>
+  <li> Modify the &quot;config.php&quot; file in rap-pubby directory according to your needs (see next section).<br><br>
+  </li>
+  </ol>
+<h2>Configuration</h2>
+<h3>Include RAP Classes</h3>
+<ul>
+  <li>
+    <h6><strong>    RDFAPI_INCLUDE_DIR</strong></h6>
+  </li>
+</ul>
+<p> <strong>!!! Required !!!</strong> Modify this if your rap-pubby is not installed in RAP subdirectory.</p>
+<br>
+<h3>RAP_Pubby Server Configuration</h3>
+<ul>
+  <li>
+    <h6><strong>    PUBBY_WEBBASE</strong></h6>
+  </li>
+</ul>
+<p> <strong>!!! Required !!!</strong> The root URL where the RAP_Pubby web application is installed, e.g. http://myserver/mydataset/.</p>
+<ul>
+  <li>
+    <h6><strong>    PUBBY_INDEX_RESOURCE</strong></h6>
+  </li>
+</ul>
+<p> The URI of a resource which description will be displayed as the home page of the RAP_Pubby installation. <br>
+NOTE: you have to specify a dataset URI, not a mapped web URI.</p>
+<p>&nbsp;</p>
+<h3>RAP_Pubby Database Configuration</h3>
+<p>Note: in order to serve a DbModel the $_PUBBY_DATASET['loadRDF'] parameter must be set to &quot;&quot;. </p>
+<ul>
+  <li>
+    <h6>PUBBY_DB_DRIVER, PUBBY_DB_HOST, PUBBY_DB_DB, PUBBY_DB_USER, PUBBY_DB_PASS</h6>
+  </li>
+</ul>
+<p>Database connection setting </p>
+<ul>
+  <li>
+    <h6>PUBBY_DBMODEL</h6>
+  </li>
+</ul>
+<p>Name of the RAP DbModel to be served by RAP_Pubby </p>
+<h3>RAP_Pubby Dataset Configuration</h3>
+<ul>
+  <li>
+    <h6>$_PUBBY_DATASET[''loadRDF'']</h6>
+  </li>
+</ul>
+<p>Load an RDF document from the Web or the file system and use it as the data source. If specified, the database connection configured above will be ignored.</p>
+<ul>
+  <li>
+    <h6>$_PUBBY_DATASET['datasetBase']</h6>
+  </li>
+</ul>
+<p><strong>!!! Required !!!</strong> The common URI prefix of the resource identifiers in the served dataset. <br>
+NOTE: Only resources with this prefix will be mapped and made available by RAP_Pubby</p>
+<ul>
+  <li>
+    <h6>$_PUBBY_DATASET['datasetURIPattern']</h6>
+  </li>
+</ul>
+<p>If present, only dateset URIs matching this regular expression will be mapped and made available by RAP_Pubby.  The regular expression must match everything after the $_PUBBY_DATASET['datasetBase'] part of the URI.  For example: datasetBase = 'http://example.org/' and datasetURIPattern = '/(users|documents)\/.*/' This will publish the dataset URI http://example.org/users/alice,  but not http://example.org/invoices/5395842 because the URI part invoices/5395842 does not match the regular expression. default value = ''.</p>
+<ul>
+  <li>
+    <h6>$_PUBBY_DATASET['webResourcePrefix']</h6>
+  </li>
+</ul>
+<p>If present, this string will be prefixed to the mapped web URIs. This is useful if you have to avoid potential name clashes  with URIs already used by the server itself. For example, if the dataset includes a URI http://mydataset/page,  and the dataset prefix is http://mydataset/, then there would be a clash after mapping because RAP_Pubby reserves  the mapped URI http://myserver/mydataset/page for its own use. In this case, you may specify a prefix like &quot;resource/&quot;,  which will result in a mapped URI of http://myserver/mydataset/resource/page.<br>
+NOTE: the prefix must end with &quot;/&quot;</p>
+<ul>
+  <li>
+    <h6>$_PUBBY_DATASET['usePrefixesFrom']</h6>
+  </li>
+</ul>
+<p>Links to an RDF document whose prefix declarations will be used in output. You can use the file prefixes.n3 in rap-pubby directory as template. If not specified the prefixes from the input RAP model will be used.</p>
+<ul>
+  <li>
+    <h6>$_PUBBY_DATASET['rdfDocumentMetadata']</h6>
+  </li>
+</ul>
+<p>All statements inside the metadata file will be added as metadata to the RDF documents published  for this dataset. This feature can be used for instance to add licensing information to your published documents. You can use the file metadata.n3 in rap-pubby directory as template. </p>
+<ul>
+  <li>
+    <h6>$_PUBBY_DATASET['addSameAsStatements']</h6>
+  </li>
+</ul>
+<p>If set to true, an owl:sameAs statement of the form &lt;web_uri&gt; owl:sameAs &lt;dataset_uri&gt; will be present in Linked Data output.</p>
+<p>&nbsp;</p>
+<h3>Pubby HTML Output Setting</h3>
+<ul>
+  <li>
+    <h6>PUBBY_HTML_SER__TEMPLATE</h6>
+  </li>
+</ul>
+<p>URL of the template file used in HTML output</p>
+<ul>
+  <li>
+    <h6>PUBBY_HTML_SER__TEMPLATE_404</h6>
+  </li>
+</ul>
+<p>URL of the template file rendering '404 - Not Found' information used in HTML output</p>
+<ul>
+  <li>
+    <h6>PUBBY_HTML_SER__TEMPL_INCL_DIR</h6>
+  </li>
+</ul>
+<p>Link to directory where template includes (css-files, scripts, images) are located</p>
+<ul>
+  <li>
+    <h6>PUBBY_HTML_SER__PROJECT_NAME</h6>
+  </li>
+</ul>
+<p>The name of the project, for display in page titles</p>
+<ul>
+  <li>
+    <h6>PUBBY_HTML_SER__PROJECT_HOMEPAGE</h6>
+  </li>
+</ul>
+<p>A project homepage or similar URL, for linking in page titles</p>
+<ul>
+  <li>
+    <h6>PUBBY_HTML_SER__DEFAULT_LANG</h6>
+  </li>
+</ul>
+<p>Default language for resource label and short description </p>
+<ul>
+  <li>
+    <h6>$_PUBBY_HTML_SER['labelProperty']</h6>
+  </li>
+</ul>
+<p>The value of these RDF properties, if present in the dataset, will be used as labels and page titles for resources. <br> 
+  NOTE: If multiple properties are present only the first one found (in default language, if specified) will be showed.</p>
+<ul>
+  <li>
+    <h6>$_PUBBY_HTML_SER['commentProperty']</h6>
+  </li>
+</ul>
+<p>The value of these RDF properties, if present in the dataset, will be used as short textual description for resources. <br>
+NOTE: If multiple properties are present only the first one found (in default language, if specified) will be showed.</p>
+<ul>
+  <li>
+    <h6>$_PUBBY_HTML_SER['imageProperty']</h6>
+  </li>
+</ul>
+<p>The value of these RDF properties, if present in the dataset, will be used as an image URL to show a depiction of the item.<br>
+NOTE: If multiple properties are present only the first one found will be showed.<br></p><br>
+<h2>Using Your Own HTML Templates </h2>
+<p>In RAP_Pubby you can use your own HTML templates. RAPpubbyHTMLserializer loads an html template file specified in the config.php and replaces the placeholders inside a template with dynamically generated content. Following placeholders are allowed:</p>
+<ul>
+  <li>
+    <h6>##_templInclDirURL_##</h6>
+  </li>
+</ul>
+Will be  replaced with PUBBY_HTML_SER__TEMPL_INCL_DIR constant from config.php
+<ul>
+  <li>
+    <h6>##_projetName_##</h6>
+  </li>
+</ul>
+Will be  replaced with PUBBY_HTML_SER__PROJECT_NAME constant from config.php 
+<ul>
+  <li>
+    <h6>##_projectHomepage_##</h6>
+  </li>
+</ul>
+<p>Will be  replaced with PUBBY_HTML_SER__PROJECT_HOMEPAGE constant from config.php </p>
+<ul>
+  <li>
+    <h6>##_resURI_##</h6>
+  </li>
+</ul>
+<p>Will be  replaced with the URI of the resource beeing described </p>
+<ul>
+  <li>
+    <h6>##_repURIdata_##</h6>
+  </li>
+</ul>
+<p>Will be replaced with the URI of the resource representation in RDF/XML format. (For URIs of the resource representation in n3 place ##_repURIdata_##?output=n3)</p>
+<ul>
+  <li>
+    <h6>##_resourceLabel_##</h6>
+  </li>
+</ul>
+<p>Will be  replaced with the value of the label property of the URI beeing described, according to $_PUBBY_HTML_SER['labelProperty'] in config.php
+</p>
+<ul>
+  <li>
+    <h6>##_shortDescription_##</h6>
+  </li>
+</ul>
+<p>Will be  replaced with the value of the comment property of the URI beeing described, according to  $_PUBBY_HTML_SER['commentProperty'] in config.php</p>
+<ul>
+  <li>
+    <h6>##_imgLink_##</h6>
+  </li>
+</ul>
+<p>Will be  replaced with the value of the image property of the URI beeing described, according to $_PUBBY_HTML_SER['imageProperty'] in config.php</p>
+<ul>
+  <li>
+    <h6>##_prop_tableRows_## </h6>
+  </li>
+</ul>
+<p>Will be  replaced with table rows containing 'property - property value' pairs of the resource beeing described. The styling of odd and even table rows can be altered in your css file by defining 'odd' and 'even' classes respectively. </p>
+<p>&nbsp;</p>
+<h2>Use Case Example</h2>
+<p>RAP_Pubby distribution contains a small use case example showing information about the Web-based Systems Group @ Freie Universität Berlin. To run this example: 
+<li>install RAP_Pubby (see installation section)</li>
+<li>open config.php and modify the paramters RDFAPI_INCLUDE_DIR and PUBBY_WEBBASE</li> 
+<li>type the PUBBY_WEBBASE-URL into the address bar of your web browser</li>
+</p>
+<br>
+</body></html>

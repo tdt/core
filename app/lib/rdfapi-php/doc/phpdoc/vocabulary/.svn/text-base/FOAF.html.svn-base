@@ -1,0 +1,1713 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class FOAF</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class FOAF</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Friend of a Friend (FOAF) Vocabulary (Resource)</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gauß (tobias.gauss@web.de)</li>
+				<li><span class="field">version:</span> $Id$</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_vocabulary---FOAF_C.php.html">/vocabulary/FOAF_C.php</a> (line <span class="field"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a16">16</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ACCOUNT_NAME" title="details" class="method-name">ACCOUNT_NAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ACCOUNT_SERVICE_HOMEPAGE" title="details" class="method-name">ACCOUNT_SERVICE_HOMEPAGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#AGENT" title="details" class="method-name">AGENT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#AIM_CHAT_ID" title="details" class="method-name">AIM_CHAT_ID</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#BASED_NEAR" title="details" class="method-name">BASED_NEAR</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#CURRENT_PROJECT" title="details" class="method-name">CURRENT_PROJECT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DEPICTION" title="details" class="method-name">DEPICTION</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DEPICTS" title="details" class="method-name">DEPICTS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DNA_CHECKSUM" title="details" class="method-name">DNA_CHECKSUM</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DOCUMENT" title="details" class="method-name">DOCUMENT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#FAMILY_NAME" title="details" class="method-name">FAMILY_NAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#FIRST_NAME" title="details" class="method-name">FIRST_NAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#FUNDED_BY" title="details" class="method-name">FUNDED_BY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#GEEKCODE" title="details" class="method-name">GEEKCODE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#GENDER" title="details" class="method-name">GENDER</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#GIVENNAME" title="details" class="method-name">GIVENNAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#GROUP" title="details" class="method-name">GROUP</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#HOLDS_ACCOUNT" title="details" class="method-name">HOLDS_ACCOUNT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#HOMEPAGE" title="details" class="method-name">HOMEPAGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ICQ_CHAT_ID" title="details" class="method-name">ICQ_CHAT_ID</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#IMAGE" title="details" class="method-name">IMAGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#IMG" title="details" class="method-name">IMG</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#INTEREST" title="details" class="method-name">INTEREST</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#JABBER_ID" title="details" class="method-name">JABBER_ID</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#KNOWS" title="details" class="method-name">KNOWS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#LOGO" title="details" class="method-name">LOGO</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MADE" title="details" class="method-name">MADE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MAKER" title="details" class="method-name">MAKER</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MBOX" title="details" class="method-name">MBOX</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MBOX_SHA1SUM" title="details" class="method-name">MBOX_SHA1SUM</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MEMBER" title="details" class="method-name">MEMBER</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MEMBERSHIP_CLASS" title="details" class="method-name">MEMBERSHIP_CLASS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MSN_CHAT_ID" title="details" class="method-name">MSN_CHAT_ID</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MYERS_BRIGGS" title="details" class="method-name">MYERS_BRIGGS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#NAME" title="details" class="method-name">NAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#NICK" title="details" class="method-name">NICK</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ONLINE_ACCOUNT" title="details" class="method-name">ONLINE_ACCOUNT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ONLINE_CHAT_ACCOUNT" title="details" class="method-name">ONLINE_CHAT_ACCOUNT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ONLINE_ECOMMERCE_ACCOUNT" title="details" class="method-name">ONLINE_ECOMMERCE_ACCOUNT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ONLINE_GAMING_ACCOUNT" title="details" class="method-name">ONLINE_GAMING_ACCOUNT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ORGANIZATION" title="details" class="method-name">ORGANIZATION</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PAGE" title="details" class="method-name">PAGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PAST_PROJECT" title="details" class="method-name">PAST_PROJECT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PERSON" title="details" class="method-name">PERSON</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PERSONAL_PROFILE_DOCUMENT" title="details" class="method-name">PERSONAL_PROFILE_DOCUMENT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PHONE" title="details" class="method-name">PHONE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PLAN" title="details" class="method-name">PLAN</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PRIMARY_TOPIC" title="details" class="method-name">PRIMARY_TOPIC</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PROJECT" title="details" class="method-name">PROJECT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PUBLICATIONS" title="details" class="method-name">PUBLICATIONS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SCHOOL_HOMEPAGE" title="details" class="method-name">SCHOOL_HOMEPAGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SHA1" title="details" class="method-name">SHA1</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SURNAME" title="details" class="method-name">SURNAME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#THEME" title="details" class="method-name">THEME</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#THUMBNAIL" title="details" class="method-name">THUMBNAIL</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TIPJAR" title="details" class="method-name">TIPJAR</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TITLE" title="details" class="method-name">TITLE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TOPIC" title="details" class="method-name">TOPIC</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TOPIC_INTEREST" title="details" class="method-name">TOPIC_INTEREST</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#WEBLOG" title="details" class="method-name">WEBLOG</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#WORKPLACE_HOMEPAGE" title="details" class="method-name">WORKPLACE_HOMEPAGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#WORK_INFO_HOMEPAGE" title="details" class="method-name">WORK_INFO_HOMEPAGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#YAHOO_CHAT_ID" title="details" class="method-name">YAHOO_CHAT_ID</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodACCOUNT_NAME" id="ACCOUNT_NAME"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ACCOUNT_NAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a91">91</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ACCOUNT_NAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodACCOUNT_SERVICE_HOMEPAGE" id="ACCOUNT_SERVICE_HOMEPAGE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ACCOUNT_SERVICE_HOMEPAGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a97">97</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ACCOUNT_SERVICE_HOMEPAGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodAGENT" id="AGENT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">AGENT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a19">19</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			AGENT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodAIM_CHAT_ID" id="AIM_CHAT_ID"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">AIM_CHAT_ID</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a103">103</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			AIM_CHAT_ID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodBASED_NEAR" id="BASED_NEAR"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">BASED_NEAR</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a109">109</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			BASED_NEAR
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCURRENT_PROJECT" id="CURRENT_PROJECT"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">CURRENT_PROJECT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a115">115</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CURRENT_PROJECT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDEPICTION" id="DEPICTION"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">DEPICTION</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a121">121</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DEPICTION
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDEPICTS" id="DEPICTS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DEPICTS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a127">127</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DEPICTS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDNA_CHECKSUM" id="DNA_CHECKSUM"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">DNA_CHECKSUM</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a133">133</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DNA_CHECKSUM
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDOCUMENT" id="DOCUMENT"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DOCUMENT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a25">25</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DOCUMENT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodFAMILY_NAME" id="FAMILY_NAME"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">FAMILY_NAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a139">139</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			FAMILY_NAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodFIRST_NAME" id="FIRST_NAME"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">FIRST_NAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a145">145</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			FIRST_NAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodFUNDED_BY" id="FUNDED_BY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">FUNDED_BY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a151">151</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			FUNDED_BY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGEEKCODE" id="GEEKCODE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">GEEKCODE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a157">157</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GEEKCODE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGENDER" id="GENDER"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">GENDER</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a163">163</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GENDER
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGIVENNAME" id="GIVENNAME"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">GIVENNAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a169">169</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GIVENNAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodGROUP" id="GROUP"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">GROUP</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a31">31</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			GROUP
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodHOLDS_ACCOUNT" id="HOLDS_ACCOUNT"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">HOLDS_ACCOUNT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a175">175</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			HOLDS_ACCOUNT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodHOMEPAGE" id="HOMEPAGE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">HOMEPAGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a181">181</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			HOMEPAGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodICQ_CHAT_ID" id="ICQ_CHAT_ID"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ICQ_CHAT_ID</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a187">187</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ICQ_CHAT_ID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodIMAGE" id="IMAGE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">IMAGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a37">37</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IMAGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodIMG" id="IMG"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">IMG</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a193">193</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IMG
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodINTEREST" id="INTEREST"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">INTEREST</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a199">199</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			INTEREST
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodJABBER_ID" id="JABBER_ID"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">JABBER_ID</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a205">205</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			JABBER_ID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodKNOWS" id="KNOWS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">KNOWS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a211">211</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			KNOWS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodLOGO" id="LOGO"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">LOGO</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a217">217</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			LOGO
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMADE" id="MADE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">MADE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a223">223</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MADE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMAKER" id="MAKER"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">MAKER</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a229">229</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MAKER
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMBOX" id="MBOX"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">MBOX</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a235">235</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MBOX
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMBOX_SHA1SUM" id="MBOX_SHA1SUM"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">MBOX_SHA1SUM</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a241">241</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MBOX_SHA1SUM
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMEMBER" id="MEMBER"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">MEMBER</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a247">247</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MEMBER
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMEMBERSHIP_CLASS" id="MEMBERSHIP_CLASS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">MEMBERSHIP_CLASS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a253">253</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MEMBERSHIP_CLASS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMSN_CHAT_ID" id="MSN_CHAT_ID"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">MSN_CHAT_ID</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a259">259</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MSN_CHAT_ID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMYERS_BRIGGS" id="MYERS_BRIGGS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">MYERS_BRIGGS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a265">265</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MYERS_BRIGGS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodNAME" id="NAME"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">NAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a271">271</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			NAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodNICK" id="NICK"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">NICK</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a277">277</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			NICK
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodONLINE_ACCOUNT" id="ONLINE_ACCOUNT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ONLINE_ACCOUNT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a43">43</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ONLINE_ACCOUNT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodONLINE_CHAT_ACCOUNT" id="ONLINE_CHAT_ACCOUNT"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ONLINE_CHAT_ACCOUNT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a49">49</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ONLINE_CHAT_ACCOUNT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodONLINE_ECOMMERCE_ACCOUNT" id="ONLINE_ECOMMERCE_ACCOUNT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ONLINE_ECOMMERCE_ACCOUNT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a55">55</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ONLINE_ECOMMERCE_ACCOUNT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodONLINE_GAMING_ACCOUNT" id="ONLINE_GAMING_ACCOUNT"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ONLINE_GAMING_ACCOUNT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a61">61</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ONLINE_GAMING_ACCOUNT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodORGANIZATION" id="ORGANIZATION"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ORGANIZATION</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a67">67</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ORGANIZATION
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPAGE" id="PAGE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PAGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a283">283</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PAGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPAST_PROJECT" id="PAST_PROJECT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">PAST_PROJECT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a289">289</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PAST_PROJECT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPERSON" id="PERSON"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PERSON</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a73">73</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PERSON
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPERSONAL_PROFILE_DOCUMENT" id="PERSONAL_PROFILE_DOCUMENT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">PERSONAL_PROFILE_DOCUMENT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PERSONAL_PROFILE_DOCUMENT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPHONE" id="PHONE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PHONE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a295">295</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PHONE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPLAN" id="PLAN"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">PLAN</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a301">301</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PLAN
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPRIMARY_TOPIC" id="PRIMARY_TOPIC"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PRIMARY_TOPIC</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a307">307</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PRIMARY_TOPIC
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPROJECT" id="PROJECT"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">PROJECT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a85">85</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PROJECT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPUBLICATIONS" id="PUBLICATIONS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PUBLICATIONS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a313">313</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PUBLICATIONS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSCHOOL_HOMEPAGE" id="SCHOOL_HOMEPAGE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SCHOOL_HOMEPAGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a319">319</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SCHOOL_HOMEPAGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSHA1" id="SHA1"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">SHA1</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a325">325</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SHA1
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSURNAME" id="SURNAME"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SURNAME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a331">331</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SURNAME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTHEME" id="THEME"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">THEME</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a337">337</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			THEME
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTHUMBNAIL" id="THUMBNAIL"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">THUMBNAIL</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a343">343</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			THUMBNAIL
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTIPJAR" id="TIPJAR"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">TIPJAR</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a349">349</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TIPJAR
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTITLE" id="TITLE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">TITLE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a355">355</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TITLE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTOPIC" id="TOPIC"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">TOPIC</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a361">361</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TOPIC
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTOPIC_INTEREST" id="TOPIC_INTEREST"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">TOPIC_INTEREST</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a367">367</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TOPIC_INTEREST
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodWEBLOG" id="WEBLOG"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">WEBLOG</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a373">373</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			WEBLOG
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodWORKPLACE_HOMEPAGE" id="WORKPLACE_HOMEPAGE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">WORKPLACE_HOMEPAGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a385">385</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			WORKPLACE_HOMEPAGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodWORK_INFO_HOMEPAGE" id="WORK_INFO_HOMEPAGE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">WORK_INFO_HOMEPAGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a379">379</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			WORK_INFO_HOMEPAGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodYAHOO_CHAT_ID" id="YAHOO_CHAT_ID"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">YAHOO_CHAT_ID</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyFOAF_C.php.html#a391">391</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			YAHOO_CHAT_ID
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:49:12 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

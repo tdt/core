@@ -1,0 +1,155 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel
+END
+InfModelF_BasicOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelF_BasicOperations_tests.php
+END
+RDFSF_BasicOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSF_BasicOperations_tests.php
+END
+InfModelB_SetOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelB_SetOperations_tests.php
+END
+RDFSB_SetOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSB_SetOperations_tests.php
+END
+InfModelF_SetOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelF_SetOperations_tests.php
+END
+RDFSF_SetOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSF_SetOperations_tests.php
+END
+InfModelB_search_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelB_search_tests.php
+END
+RDFSB_search_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSB_search_tests.php
+END
+InfModelB_index_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelB_index_tests.php
+END
+InfModelB_jena_rdfs_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelB_jena_rdfs_test.php
+END
+RDFSB_index_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSB_index_tests.php
+END
+RDFSB_jena_rdfs_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSB_jena_rdfs_test.php
+END
+InfModelF_search_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelF_search_tests.php
+END
+RDFSF_search_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSF_search_tests.php
+END
+InfModelF_index_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelF_index_tests.php
+END
+InfModelF_jena_rdfs_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelF_jena_rdfs_test.php
+END
+RDFSF_index_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSF_index_tests.php
+END
+RDFS_entailment_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFS_entailment_test.php
+END
+InfModelB_entailment_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelB_entailment_test.php
+END
+RDFSF_jena_rdfs_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSF_jena_rdfs_test.php
+END
+RDFSB_entailment_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSB_entailment_test.php
+END
+InfModelF_entailment_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelF_entailment_test.php
+END
+RDFSF_entailment_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSF_entailment_test.php
+END
+InfModelB_BasicOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/InfModelB_BasicOperations_tests.php
+END
+RDFSB_BasicOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/rdfapi-php/!svn/ver/321/trunk/rdfapi-php/test/unit/InfModel/RDFSB_BasicOperations_tests.php
+END

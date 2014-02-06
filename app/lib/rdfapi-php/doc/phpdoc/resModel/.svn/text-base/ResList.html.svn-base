@@ -1,0 +1,835 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class ResList</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class ResList</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Implementation of an rdf:Collection (rdf:List)  Provides a convenience encapsulation for lists formed from  chains of RDF statements arranged to form a head/tail cons-cell  structure.</p>
+<p class="description"><p>A well-formed list has cells that are made up of three statements:  one denoting the rdf:type of the list cell, one denoting the link  to the value of the list at that point, and one pointing to the  list tail. If a list cell is not well-formed, list operations may  fail in unpredictable ways. However, to explicitly check that the  list is well-formed at all times is expensive, but you can call  the isValid() method to manually check, if the list is well formed.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal &lt;<a href="mailto:mail">at d-westphal dot de mail at d-westphal dot de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id$</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_resModel---ResList.php.html">/resModel/ResList.php</a> (line <span class="field"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a28">28</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --<a href="../model/Node.html">Node</a>
+      |
+      --<a href="../model/Resource.html">Resource</a>
+         |
+         --<a href="../resModel/ResResource.html">ResResource</a>
+            |
+            --ResList</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">ResList</span>
+										<a href="#ResList" title="details" class="method-name">ResList</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#add" title="details" class="method-name">add</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$resource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+										<a href="#append" title="details" class="method-name">append</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$resList</span>, <span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$ResList</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#concatenate" title="details" class="method-name">concatenate</a>
+											(<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$ResList</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+										<a href="#cons" title="details" class="method-name">cons</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#contains" title="details" class="method-name">contains</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+										<a href="#copy" title="details" class="method-name">copy</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">ResResource</span>
+										<a href="#get" title="details" class="method-name">get</a>
+											(<span class="var-type">integer</span>&nbsp;<span class="var-name">$position</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getContentInArray" title="details" class="method-name">getContentInArray</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">ResResource</span>
+										<a href="#getHead" title="details" class="method-name">getHead</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+										<a href="#getTail" title="details" class="method-name">getTail</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#indexOf" title="details" class="method-name">indexOf</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$resource</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#isEmpty" title="details" class="method-name">isEmpty</a>
+											(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isValid" title="details" class="method-name">isValid</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+										<a href="#remove" title="details" class="method-name">remove</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResList.html">ResList</a></span>
+										<a href="#removeHead" title="details" class="method-name">removeHead</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#removeList" title="details" class="method-name">removeList</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResResource.html">object ResResource</a></span>
+										<a href="#replace" title="details" class="method-name">replace</a>
+											(<span class="var-type">integer</span>&nbsp;<span class="var-name">$index</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$resource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#sameListAs" title="details" class="method-name">sameListAs</a>
+											(<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$resList</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">ResResource</span>
+										<a href="#setHead" title="details" class="method-name">setHead</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object Reslist</span>
+										<a href="#setTail" title="details" class="method-name">setTail</a>
+											(<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$resList</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodResList" id="ResList"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor ResList</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a59">59</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  You can supply a URI</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">ResList</span>
+		<span class="method-name">
+			ResList
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodadd" id="add"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">add</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a99">99</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add the given value to the end of the list.</p>
+<p class="description"><p>it is only defined if this is not the empty list.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			add
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$resource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$resource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodappend" id="append"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">append</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a377">377</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer a new list that is formed by adding each element of</p>
+<p class="description"><p>this list to the head of the given list. This is a non  side-effecting operation on either this list or the given  list, but generates a copy of this list. For a more storage  efficient alternative, see concatenate</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+		<span class="method-name">
+			append
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$resList</span>, <span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$ResList</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>
+				<span class="var-name">$ResList</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$resList</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodconcatenate" id="concatenate"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">concatenate</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a356">356</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Change the tail of this list to point to the given list, so that this list  becomes the list of the concatenation of the elements of  both lists. This is a side-effecting operation on this list;  for a non side-effecting alternative, see append.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			concatenate
+		</span>
+					(<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$ResList</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>
+				<span class="var-name">$ResList</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcons" id="cons"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">cons</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a420">420</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return a reference to a new list cell whose head is value  and whose tail is this list.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+		<span class="method-name">
+			cons
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontains" id="contains"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">contains</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a249">249</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer true if the given node appears as the value of a value  of any of the cells of this list.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			contains
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcopy" id="copy"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">copy</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a399">399</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer a list that contains all of the elements of this  list in the same order, but is a duplicate copy in the  underlying model.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+		<span class="method-name">
+			copy
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodget" id="get"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">get</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a76">76</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the value of the list element at the specified position or null.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">ResResource</span>
+		<span class="method-name">
+			get
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$position</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$position</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetContentInArray" id="getContentInArray"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getContentInArray</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a320">320</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get all values in the list as an array of ResResources</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getContentInArray
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetHead" id="getHead"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getHead</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a158">158</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the value that is associated with the head of the list.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">ResResource</span>
+		<span class="method-name">
+			getHead
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetTail" id="getTail"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getTail</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a262">262</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the list that is the tail of this list.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+		<span class="method-name">
+			getTail
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodindexOf" id="indexOf"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">indexOf</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a197">197</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Get the Position of the first occurrence of the given value in the list,  or -1 if the value is not in the list.</p>
+<p class="description"><p>You can supply an offset to search for values. (First element has offset 0)  Default is 0</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			indexOf
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$resource</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$resource</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$offset</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmpty" id="isEmpty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isEmpty</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a309">309</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true, if this list is empty</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			isEmpty
+		</span>
+					(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Statement</span>
+				<span class="var-name">$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisValid" id="isValid"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isValid</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a541">541</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer true if the list is well-formed, by checking that each  node is correctly typed, and has a head and tail pointer from  the correct vocabulary</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isValid
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodremove" id="remove"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">remove</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a502">502</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove the given value from this list.</p>
+<p class="description"><p>If value does not occur in the list, no action is taken. Since removing the  head of the list will invalidate the list head cell, in  general the list must return the list that results from  this operation. However, in many cases the return value  will be the same as the object that this method is invoked  on.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResList.html">object ResList</a></span>
+		<span class="method-name">
+			remove
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveHead" id="removeHead"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeHead</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a171">171</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove the head of the list. The tail of the list   remains in the model. Note that no changes are made to   list cells that point to this list cell as their tail.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResList.html">ResList</a></span>
+		<span class="method-name">
+			removeHead
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodremoveList" id="removeList"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeList</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a280">280</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove all of the components of this list from the model.</p>
+<p class="description"><p>Note that this is operation is only removing the list cells  themselves, not the resources referenced by the list -  unless being the object of an rdf:first  statement is the  only mention of that resource in the model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			removeList
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodreplace" id="replace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">replace</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a227">227</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Replace the value at the i'th position in the list with the given value</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResResource.html">object ResResource</a></span>
+		<span class="method-name">
+			replace
+		</span>
+					(<span class="var-type">integer</span>&nbsp;<span class="var-name">$index</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$resource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$index</span>			</li>
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$resource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsameListAs" id="sameListAs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">sameListAs</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a467">467</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer true if this list has the same elements in the  same order as the given list. Note that the standard equals  test just tests for equality of two given list cells.</p>
+<p class="description"><p>While such a test is sufficient for many purposes, this  test provides a broader equality definition, but is  correspondingly more expensive to test.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			sameListAs
+		</span>
+					(<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$resList</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>
+				<span class="var-name">$resList</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetHead" id="setHead"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setHead</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a138">138</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Update the head of the list to have the given value,   and return the previous value.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">ResResource</span>
+		<span class="method-name">
+			setHead
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetTail" id="setTail"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setTail</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResList.php.html#a442">442</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Update the list cell at the front of the list to have the  given list as tail. The old tail is returned, and remains  in the model.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Reslist</span>
+		<span class="method-name">
+			setTail
+		</span>
+					(<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>&nbsp;<span class="var-name">$resList</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResList.html">object ResList</a></span>
+				<span class="var-name">$resList</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../resModel/ResResource.html">ResResource</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodResResource">ResResource::ResResource()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodaddProperty">ResResource::addProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodequals">ResResource::equals()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetAssociatedModel">ResResource::getAssociatedModel()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetIsAnon">ResResource::getIsAnon()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetProperty">ResResource::getProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodhasProperty">ResResource::hasProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodlistProperties">ResResource::listProperties()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodremoveAll">ResResource::removeAll()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodremoveProperties">ResResource::removeProperties()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetAssociatedModel">ResResource::setAssociatedModel()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetIsAnon">ResResource::setIsAnon()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetURI">ResResource::setURI()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../model/Resource.html">Resource</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../model/Resource.html#methodResource">Resource::Resource()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodequals">Resource::equals()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetLabel">Resource::getLabel()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetLocalName">Resource::getLocalName()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetNamespace">Resource::getNamespace()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetURI">Resource::getURI()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodtoString">Resource::toString()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:51:29 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

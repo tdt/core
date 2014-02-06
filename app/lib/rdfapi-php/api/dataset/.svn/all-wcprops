@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/rdfapi-php/!svn/ver/486/trunk/rdfapi-php/api/dataset
+END
+Quad.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/api/dataset/Quad.php
+END
+DatasetDb.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/486/trunk/rdfapi-php/api/dataset/DatasetDb.php
+END
+NamedGraphDb.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/api/dataset/NamedGraphDb.php
+END
+IteratorAllGraphsDb.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/dataset/IteratorAllGraphsDb.php
+END
+IteratorFindQuadsDb.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/api/dataset/IteratorFindQuadsDb.php
+END
+DatasetMem.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/432/trunk/rdfapi-php/api/dataset/DatasetMem.php
+END
+Dataset.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/344/trunk/rdfapi-php/api/dataset/Dataset.php
+END
+DatasetP.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/340/trunk/rdfapi-php/api/dataset/DatasetP.php
+END
+NamedGraphMem.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/425/trunk/rdfapi-php/api/dataset/NamedGraphMem.php
+END
+IteratorAllGraphsMem.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/290/trunk/rdfapi-php/api/dataset/IteratorAllGraphsMem.php
+END
+IteratorFindQuadsMem.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/432/trunk/rdfapi-php/api/dataset/IteratorFindQuadsMem.php
+END

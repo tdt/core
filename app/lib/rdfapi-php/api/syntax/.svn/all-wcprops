@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/rdfapi-php/!svn/ver/556/trunk/rdfapi-php/api/syntax
+END
+N3Parser.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/517/trunk/rdfapi-php/api/syntax/N3Parser.php
+END
+TriXParser.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/syntax/TriXParser.php
+END
+JsonSerializer.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/555/trunk/rdfapi-php/api/syntax/JsonSerializer.php
+END
+SyntaxGRDDL.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/syntax/SyntaxGRDDL.php
+END
+RdfSerializer.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/316/trunk/rdfapi-php/api/syntax/RdfSerializer.php
+END
+NTripleSerializer.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/syntax/NTripleSerializer.php
+END
+GRDDLParser.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/syntax/GRDDLParser.php
+END
+N3Serializer.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/556/trunk/rdfapi-php/api/syntax/N3Serializer.php
+END
+SparqlResultParser.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/442/trunk/rdfapi-php/api/syntax/SparqlResultParser.php
+END
+SyntaxRSS.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/syntax/SyntaxRSS.php
+END
+TriXSerializer.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/syntax/TriXSerializer.php
+END
+SyntaxJSON.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/552/trunk/rdfapi-php/api/syntax/SyntaxJSON.php
+END
+SyntaxRDF.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/syntax/SyntaxRDF.php
+END
+SyntaxSparqlRes.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/syntax/SyntaxSparqlRes.php
+END
+RssParser.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/301/trunk/rdfapi-php/api/syntax/RssParser.php
+END
+JsonParser.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/555/trunk/rdfapi-php/api/syntax/JsonParser.php
+END
+SyntaxN3.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/syntax/SyntaxN3.php
+END
+RdfParser.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/493/trunk/rdfapi-php/api/syntax/RdfParser.php
+END

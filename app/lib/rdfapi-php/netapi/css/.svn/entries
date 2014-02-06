@@ -1,0 +1,54 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/netapi/css
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+style_new.css
+file
+
+
+
+
+2008-02-29T14:57:26.808961Z
+d49a14dfd60ad95347aef5a4750c5030
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+kb.css
+file
+
+
+
+
+2008-02-29T14:57:26.824582Z
+d60b2bd31d7836f2250b576d69722302
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+

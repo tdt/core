@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>RAP - Rdf API for PHP</title>
+			<link rel="stylesheet" href="media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+</head>
+<body>
+<div align="center"><h1>RAP - Rdf API for PHP</h1></div>
+<p>RAP is a software package for parsing, searching, manipulating, serializing and serving RDF models. <BR>
+</p>
+<P>Its features include: </P>
+<UL>
+  <LI><a href="../tutorial/usingtheModelAPI.htm" target="_top">statement-centric methods</a><font color="#FF0000"> </font>for manipulating an RDF model as a set of RDF triples 
+  <LI><a href="../tutorial/usingtheResModelAPI.htm" target="_top">resource-centric methods</a> for manipulating an RDF model as a set of resources 
+  <LI><a href="../tutorial/usingtheOntModelAPI.htm" target="_top">ontology-centric methods</a> for manipulating an RDF model through vocabulary specific methods  
+  <LI><a href="../tutorial/usingNamedGraphs.htm" target="_top">quad- and named graph-centric Dataset API</a>    
+  <LI>integrated RDF/XML, N3 and N-TRIPLE parser 
+  <LI>integrated RDF/XML, N3 and N-TRIPLE serializer 
+  <LI>in-memory or database model storage 
+  <LI>support for the RDQL query language
+  <LI>inference engine supporting RDF-Schema reasoning and some OWL entailments </LI>
+           <LI>integrated <a href="../tutorial/netapi.html" target="_top">RDF server</a> providing similar functionality as the <a href="http://www.joseki.org/" target="_blank">Joseki 
+          RDF server</a></LI>
+        <LI><a href="../tutorial/db_utils.htm" target="_top">graphical user-interface</a> for managing 
+          database-backed RDF models </LI>
+        <LI>support for common <a href="../tutorial/vocabularies.htm" target="_top">vocabularies</a></LI>
+        <LI>drawing <a href="../tutorial/visualization_tutorial.htm" target="_top">graph visualizations</a></LI>
+		<LI><a href="../tutorial/usingtheSparqlEngine.htm" target="_top">SPARQL support</a></LI>
+      </UL>
+<p>Tutorials can be found <a href="../tests.html" target="_top">here</a>. </p>
+</body>
+</html>

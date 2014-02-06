@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY test 'http://www.hpl.hp.com/semweb/2003/query_tester#'>
+    <!ENTITY rdf  'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+]>
+
+<rdf:RDF xmlns:rdf="&rdf;" xmlns="&test;">
+
+  <Test rdf:about="test1">
+    <description>RDFS reasoner: range test, wildcard</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data1.rdf</data>
+    <query>rdfs/query-res.nt</query>
+    <result>rdfs/result1.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test2">
+    <description>RDFS reasoner: range test, ground</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data1.rdf</data>
+    <query>rdfs/query2.nt</query>
+    <result>rdfs/result2.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test3">
+    <description>RDFS reasoner: simple subProp case, wildcard</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data2.rdf</data>
+    <query>rdfs/query3.nt</query>
+    <result>rdfs/result3.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test4">
+    <description>RDFS reasoner: simple subProp case, ground subject</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data2.rdf</data>
+    <query>rdfs/query4.nt</query>
+    <result>rdfs/result4.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test5">
+    <description>RDFS reasoner: simple subProp case, ground object</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data2.rdf</data>
+    <query>rdfs/query5.nt</query>
+    <result>rdfs/result4.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test6">
+    <description>RDFS reasoner: range test, ground, with subProp</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data2.rdf</data>
+    <query>rdfs/query2.nt</query>
+    <result>rdfs/result2.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test7">
+    <description>RDFS reasoner: domain test, ground, with subProp</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data2.rdf</data>
+    <query>rdfs/query7.nt</query>
+    <result>rdfs/result7.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test8">
+    <description>RDFS reasoner: domain test, wildcard, with subProp</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data2.rdf</data>
+    <query>rdfs/query8.nt</query>
+    <result>rdfs/result8.rdf</result>
+  </Test>
+   
+  <Test rdf:about="test9">
+    <description>RDFS reasoner: range test, ground, with subProp and subClass</description>
+    <tbox>rdfs/tbox1.rdf</tbox>
+    <data>rdfs/data2.rdf</data>
+    <query>rdfs/query9.nt</query>
+    <result>rdfs/result9.rdf</result>
+  </Test>
+   
+
+  
+</rdf:RDF>

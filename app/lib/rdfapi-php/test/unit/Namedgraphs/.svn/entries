@@ -1,0 +1,41 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/test/unit/Namedgraphs
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2006-05-17T05:33:15.000000Z
+270
+tgauss
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+Namedgraphs_tests.php
+file
+
+
+
+
+2008-02-29T14:57:02.315861Z
+bc2b02d566e438762b498ee36eb1a3e6
+2006-05-17T05:33:15.000000Z
+270
+tgauss
+has-props
+

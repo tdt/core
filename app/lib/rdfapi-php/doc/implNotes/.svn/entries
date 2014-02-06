@@ -1,0 +1,54 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/doc/implNotes
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2006-01-13T09:54:04.000000Z
+248
+tgauss
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+database_backend.htm
+file
+
+
+
+
+2008-02-29T14:57:30.573526Z
+333c6db14ded4579e86b40d448d9e874
+2006-01-13T09:54:04.000000Z
+248
+tgauss
+has-props
+
+rdql_engine.htm
+file
+
+
+
+
+2008-02-29T14:57:30.589147Z
+577228a1c7bea98caa9f4ae98d125f28
+2006-01-13T09:54:04.000000Z
+248
+tgauss
+has-props
+

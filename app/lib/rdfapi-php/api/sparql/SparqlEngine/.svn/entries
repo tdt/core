@@ -1,0 +1,70 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/api/sparql/SparqlEngine
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2007-08-12T11:33:13.029340Z
+484
+cweiske
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+ResultRenderer
+dir
+
+ResultRenderer.php
+file
+
+
+
+
+2008-02-29T14:57:45.475578Z
+3931687e275d501be758875979380b0f
+2007-06-27T16:47:57.067358Z
+465
+cweiske
+has-props
+
+ResultConverter.php
+file
+
+
+
+
+2008-02-29T14:57:45.475578Z
+ad3a44eccfa94ffb613bc7274648b2ad
+2007-08-12T11:33:13.029340Z
+484
+cweiske
+has-props
+
+PreparedStatement.php
+file
+
+
+
+
+2008-02-29T14:57:45.491199Z
+4dd6460f65bfabc61f5af876f45fc164
+2007-06-27T16:47:57.067358Z
+465
+cweiske
+has-props
+

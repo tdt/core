@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class OntClass</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class OntClass</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Class that represents an ontology node characterising a class description.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal &lt;<a href="mailto:mail">at d-westphal dot de mail at d-westphal dot de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: OntClass.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_ontModel---OntClass.php.html">/ontModel/OntClass.php</a> (line <span class="field"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a18">18</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --<a href="../model/Node.html">Node</a>
+      |
+      --<a href="../model/Resource.html">Resource</a>
+         |
+         --<a href="../resModel/ResResource.html">ResResource</a>
+            |
+            --<a href="../ontModel/OntResource.html">OntResource</a>
+               |
+               --OntClass</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">OntClass</span>
+										<a href="#OntClass" title="details" class="method-name">OntClass</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#addSubClass" title="details" class="method-name">addSubClass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#addSuperClass" title="details" class="method-name">addSuperClass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../ontModel/Individual.html">object Individual</a></span>
+										<a href="#createInstance" title="details" class="method-name">createInstance</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../ontModel/OntClass.html">object OntClass</a></span>
+										<a href="#getSubClass" title="details" class="method-name">getSubClass</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../ontModel/OntClass.html">object OntClass</a></span>
+										<a href="#getSuperClass" title="details" class="method-name">getSuperClass</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#hasSubclass" title="details" class="method-name">hasSubclass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#hasSuperClass" title="details" class="method-name">hasSuperClass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object ResIterator</span>
+										<a href="#listInstances" title="details" class="method-name">listInstances</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#listSubClasses" title="details" class="method-name">listSubClasses</a>
+											([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#listSuperClasses" title="details" class="method-name">listSuperClasses</a>
+											([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#removeSubClass" title="details" class="method-name">removeSubClass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#removeSuperClass" title="details" class="method-name">removeSuperClass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setSubClass" title="details" class="method-name">setSubClass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setSuperClass" title="details" class="method-name">setSuperClass</a>
+											(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodOntClass" id="OntClass"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor OntClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a27">27</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  You can supply a uri</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">OntClass</span>
+		<span class="method-name">
+			OntClass
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddSubClass" id="addSubClass"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addSubClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a39">39</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a sub-class of this class.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			addSubClass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddSuperClass" id="addSuperClass"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addSuperClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a51">51</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add a super-class of this class.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			addSuperClass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateInstance" id="createInstance"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">createInstance</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a278">278</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer a resource that represents an instance of this OntClass and Individual  node in this model.</p>
+<p class="description"><p>If a resource with the given uri exists in the model, it will be re-used.  If not, a new one is created in the updateable sub-model of the ontology model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../ontModel/Individual.html">object Individual</a></span>
+		<span class="method-name">
+			createInstance
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSubClass" id="getSubClass"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSubClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a63">63</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer a class that is the sub-class of this class.</p>
+<p class="description"><p>If there is more than one such class, an arbitrary selection is made.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> or NULL</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../ontModel/OntClass.html">object OntClass</a></span>
+		<span class="method-name">
+			getSubClass
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetSuperClass" id="getSuperClass"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSuperClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer a class that is the super-class of this class.</p>
+<p class="description"><p>If there is more than one such class, an arbitrary selection is made.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> or NULL</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../ontModel/OntClass.html">object OntClass</a></span>
+		<span class="method-name">
+			getSuperClass
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodhasSubclass" id="hasSubclass"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">hasSubclass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a94">94</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer true if the given class is a sub-class of this class.</p>
+<p class="description"><p>$direct - If true, only search the classes that are directly  adjacent to this class in the class hierarchy.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			hasSubclass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$direct</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodhasSuperClass" id="hasSuperClass"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">hasSuperClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a113">113</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer true if the given class is a super-class of this class.</p>
+<p class="description"><p>$direct - If true, only search the classes that are directly  adjacent to this class in the class hierarchy.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			hasSuperClass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$direct</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodlistInstances" id="listInstances"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">listInstances</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a129">129</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer an ResIterator over the individuals in the model that have this class  among their types.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object ResIterator</span>
+		<span class="method-name">
+			listInstances
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodlistSubClasses" id="listSubClasses"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">listSubClasses</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a160">160</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer an array over the classes that are declared to be sub-classes of this class.</p>
+<p class="description"><p>Each element of the array will be an OntClass.  $direct - If true, only search the classes that are directly  adjacent to this class in the class hierarchy.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			listSubClasses
+		</span>
+					([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$direct</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodlistSuperClasses" id="listSuperClasses"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">listSuperClasses</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a195">195</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer an array over the classes that are declared to be super-classes of this class.</p>
+<p class="description"><p>Each element of the array will be an OntClass.  $direct - If true, only search the classes that are directly  adjacent to this class in the class hierarchy.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			listSuperClasses
+		</span>
+					([<span class="var-type">boolean</span>&nbsp;<span class="var-name">$direct</span> = <span class="var-default">true</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$direct</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveSubClass" id="removeSubClass"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeSubClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a223">223</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove the given class from the sub-classes of this class.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			removeSubClass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveSuperClass" id="removeSuperClass"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeSuperClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a235">235</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Remove the given class from the super-classes of this class.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			removeSuperClass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetSubClass" id="setSubClass"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setSubClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a247">247</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Assert that this class is super-class of the given class.</p>
+<p class="description"><p>Any existing statements for subClassOf on prop will be removed.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setSubClass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetSuperClass" id="setSuperClass"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setSuperClass</span> (line <span class="line-number"><a href="../__filesource/fsource_ontModel__ontModelOntClass.php.html#a263">263</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Assert that this class is sub-class of the given class.</p>
+<p class="description"><p>Any existing statements for subClassOf on prop will be removed.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setSuperClass
+		</span>
+					(<span class="var-type">object ResResource</span>&nbsp;<span class="var-name">$resResource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object ResResource</span>
+				<span class="var-name">$resResource</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../ontModel/OntResource.html">OntResource</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodOntResource">OntResource::OntResource()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodaddComment">OntResource::addComment()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodaddIsDefinedBy">OntResource::addIsDefinedBy()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodaddLabelProperty">OntResource::addLabelProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodaddProperty">OntResource::addProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodaddRDFType">OntResource::addRDFType()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodaddSeeAlso">OntResource::addSeeAlso()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodasClass">OntResource::asClass()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodasIndividual">OntResource::asIndividual()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodasOntProperty">OntResource::asOntProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetComment">OntResource::getComment()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetInstanceRdfType">OntResource::getInstanceRdfType()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetIsDefinedBy">OntResource::getIsDefinedBy()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetLabelProperty">OntResource::getLabelProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetPropertyValue">OntResource::getPropertyValue()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetRDFType">OntResource::getRDFType()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetSeeAlso">OntResource::getSeeAlso()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodgetVocabulary">OntResource::getVocabulary()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodhasComment">OntResource::hasComment()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodhasLabelProperty">OntResource::hasLabelProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodhasRDFType">OntResource::hasRDFType()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodhasSeeAlso">OntResource::hasSeeAlso()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodisDefinedBy">OntResource::isDefinedBy()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodlistComments">OntResource::listComments()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodlistIsDefinedBy">OntResource::listIsDefinedBy()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodlistLabelProperties">OntResource::listLabelProperties()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodlistProperty">OntResource::listProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodlistRDFTypes">OntResource::listRDFTypes()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodlistSeeAlso">OntResource::listSeeAlso()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodremoveComment">OntResource::removeComment()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodremoveDefinedBy">OntResource::removeDefinedBy()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodremoveLabelProperty">OntResource::removeLabelProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodremoveProperty">OntResource::removeProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodremoveRDFType">OntResource::removeRDFType()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodremoveSeeAlso">OntResource::removeSeeAlso()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetComment">OntResource::setComment()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetInstanceRdfType">OntResource::setInstanceRdfType()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetIsDefinedBy">OntResource::setIsDefinedBy()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetLabelProperty">OntResource::setLabelProperty()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetPropertyValue">OntResource::setPropertyValue()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetRDFType">OntResource::setRDFType()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetSeeAlso">OntResource::setSeeAlso()</a></span><br>
+													<span class="method-name"><a href="../ontModel/OntResource.html#methodsetVocabulary">OntResource::setVocabulary()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../resModel/ResResource.html">ResResource</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodResResource">ResResource::ResResource()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodaddProperty">ResResource::addProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodequals">ResResource::equals()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetAssociatedModel">ResResource::getAssociatedModel()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetIsAnon">ResResource::getIsAnon()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodgetProperty">ResResource::getProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodhasProperty">ResResource::hasProperty()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodlistProperties">ResResource::listProperties()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodremoveAll">ResResource::removeAll()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodremoveProperties">ResResource::removeProperties()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetAssociatedModel">ResResource::setAssociatedModel()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetIsAnon">ResResource::setIsAnon()</a></span><br>
+													<span class="method-name"><a href="../resModel/ResResource.html#methodsetURI">ResResource::setURI()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../model/Resource.html">Resource</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../model/Resource.html#methodResource">Resource::Resource()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodequals">Resource::equals()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetLabel">Resource::getLabel()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetLocalName">Resource::getLocalName()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetNamespace">Resource::getNamespace()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodgetURI">Resource::getURI()</a></span><br>
+													<span class="method-name"><a href="../model/Resource.html#methodtoString">Resource::toString()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:50:06 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

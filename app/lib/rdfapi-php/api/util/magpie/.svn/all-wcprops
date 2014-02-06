@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie
+END
+rss_utils.inc
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/rss_utils.inc
+END
+rss_cache.inc
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/rss_cache.inc
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/AUTHORS
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/INSTALL
+END
+cookbook
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/cookbook
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/ChangeLog
+END
+TROUBLESHOOTING
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/TROUBLESHOOTING
+END
+CHANGES
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/CHANGES
+END
+rss_fetch.inc
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/rss_fetch.inc
+END
+rss_parse.inc
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/rss_parse.inc
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/NEWS
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/274/trunk/rdfapi-php/api/util/magpie/README
+END

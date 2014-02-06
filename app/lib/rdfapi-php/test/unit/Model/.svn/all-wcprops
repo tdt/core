@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/rdfapi-php/!svn/ver/533/trunk/rdfapi-php/test/unit/Model
+END
+ModelFactory_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/522/trunk/rdfapi-php/test/unit/Model/ModelFactory_tests.php
+END
+mm_SetOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/Model/mm_SetOperations_tests.php
+END
+modelEquals_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/Model/modelEquals_test.php
+END
+blanknode_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/test/unit/Model/blanknode_test.php
+END
+getModelByRDQL_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/test/unit/Model/getModelByRDQL_tests.php
+END
+mm_BasicOperations_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/Model/mm_BasicOperations_tests.php
+END
+mm_search_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/Model/mm_search_tests.php
+END
+literals_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/test/unit/Model/literals_tests.php
+END
+Model_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/522/trunk/rdfapi-php/test/unit/Model/Model_tests.php
+END
+mm_index_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/Model/mm_index_tests.php
+END
+dBModel_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/533/trunk/rdfapi-php/test/unit/Model/dBModel_test.php
+END

@@ -1,0 +1,496 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Using RAP's Ontology-Centric OntModel API</title>
+    
+    <link rev="made" href="mailto:ian.dickinson@hp.com">
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+    <meta name="generator" content="NoteTab Pro 4.95">
+    <meta name="author" content="Ian Dickinson">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!--
+      CVS: $Id: usingtheOntModelAPI.htm 290 2006-06-22 12:23:24Z tgauss $
+     (c) Copyright 2003, 2004, Hewlett-Packard Development Company LP
+    -->
+    <link href="../phpdoc.CSS" rel="stylesheet" type="text/css" />
+</head>
+
+  <body id="content">
+  <H3>RDF API for PHP </H3>
+    <h1 class="sectionHeading">
+      Using RAP's Ontology-Centric OntModel API</h1>
+    <p class="sectionHeading">This turorial is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+    <p class="sectionHeading"><a href="http://www.wiwiss.fu-berlin.de/suhl/ueber_uns/team/daniel_westphal.htm" target="_blank">Daniel Westphal</a>, <a href="http://www.wiwiss.fu-berlin.de/suhl/ueber_uns/team/chris_bizer.htm" target="_blank">Chris Bizer</a><br />
+October 2004</p>
+<p> This tutorial is based on the <a href="http://jena.sourceforge.net/ontology" target="_blank">Jena 
+  Ontology API tutorial</a><em>.</em></p>
+<h2> Table of Contents </h2>
+    <ol>
+  <li> <a href="#generalConcepts">Introduction</a></li>
+  <li> <a href="#cameraExample">Running example: the camera ontology</a> </li>
+  <li> <a href="#creatingModels">Creating ontology models</a> </li>
+  <li> <a href="#ontResource">The generic ontology type: OntResource</a> </li>
+  <li> <a href="#classesBasic">Handling ontology components: basic class expressions</a> 
+  </li>
+  <li> <a href="#properties">Handling ontology components: properties</a> </li>
+  <li> <a href="#instances">Instances (individuals)</a></li>
+</ol>
+<p>&nbsp; </p>
+<h2 id="generalConcepts"> Introduction</h2>
+<p>This tutorial describes RAP's ontology API, and covers a range of common tasks. 
+  Not all details of the API are covered here: Please refer to the <a href="../phpdoc/index.html">RAP PHPDoc</a>  to get the full details of 
+ the capabilities of the API. </p>
+<p>The ontology model is an extended version of RAP's ResModel API. OntModel extends 
+  ResModel by adding direct support for the kinds of objects expected to be in 
+  an ontology: classes (in a class hierarchy), properties (in a property hierarchy) 
+  and individuals. The properties defined in the ontology language map to accessor 
+  methods. For example, an <code>OntClass</code> has a method to list its super-classes, 
+  which corresponds to the values of the <code>subClassOf</code> property. This 
+  point is worth emphasizing: no information is stored in the <code>OntClass</code> 
+  object itself. When the OntClass <code>listSuperClasses()</code> method is called, 
+  the information is retrieved from the underlying RDF model. Similarly adding 
+  a subclass to an <code>OntClass</code> asserts an additional RDF statement into 
+  the model. </p>
+    <p class="centered">
+      <img src="img/ontmodel.png" alt="image of layering of graphs in model">
+    </p>
+<p class="centered"> OntModel just provides a more convenient API for working 
+  with ontology models, but doesn't do any inference by itself. If you also 
+  need inference you have to combine OntModel with an underlying InfModelF or 
+  InfModelB. If you don't need inference you can combine OntModel with an underlying 
+  MemModel or DbModel. </p>
+<p>&nbsp; </p>
+    <h2 id="cameraExample">
+      Running example: the camera ontology
+    </h2>
+    
+<p> To illustrate the principles of using the Ontology API, we use examples drawn 
+  from a Roger Costello's camera ontology. The camera ontology contains a set 
+  of classes describing some aspects of the domain of still-picture cameras, as 
+  shown below: </p>
+    <p class="centered">
+      <img src="img/Camera-classes.png" alt="image of class hierarchy" height="346" width="607">
+    </p>
+<p class="caption"> We will only use some of the elements from this ontology to 
+  illustrate the ontology API throughout this tutorial. </p>
+    <h2 id="creatingModels"> Creating Ontology Models </h2>
+    
+<p> RAP's OntModel  is an extension of  RAP's ResModel that provides extra 
+  capabilities for handling ontology data sources. Ontology models are created 
+  through the RAP <code>ModelFactory.</code> 
+  The simplest way to create an ontology model is as follows: <br />
+</p>
+<table width="100%" border="1" cellpadding="3" cellspacing="0">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+      <p>$ontModel = ModelFactory::getOntModel(MEMMODEL,RDFS_VOCABULARY);</p></td>
+    </tr>
+  </tbody>
+</table>
+<p> It uses RDFS as the ontology language and assumes that all of the ontology 
+  data will be stored in-memory (MemModel). Actually only  RDFS vocabulary is supported. An OWL vocabulary will be implemented 
+
+ 
+  in the near future  </p>
+<p> <b>Note:</b> it is the choice of reasoner, <b>not</b> the choice of language 
+  profile that determines if entailed statements are seen through the ontology 
+  API. The following example creates an ontology model with RDFS entailment in 
+  backward-chaining mode:</p>
+    
+    <table width="100%" border="1" cellpadding="3" cellspacing="0">
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#e7e7ef">
+            <p>$ontModel = ModelFactory::getOntModel(INFMODELB,RDFS_VOCABULARY);</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2 id="ontResource"> The Generic Ontology Type: OntResource </h2>
+    
+<p> All of the classes in the ontology API that represent ontology values have 
+  <code>OntResource</code> as a common super-class. This makes <code>OntResource</code> 
+  a good place to put shared functionality for all such classes, and makes a handy 
+  common return value for general methods. The <code>OntResource</code> extends 
+  the <code>ResResource</code> class, so any general method that accepts a resource 
+  or an <code>RDFNode</code><font color="#FF0000"> </font>will also 
+  accept an <code>OntResource</code>, and consequently, any other ontology value. 
+</p>
+    <p>
+      Some of the common attributes of ontology resources that are expressed through methods on OntResource are shown below:
+    </p>
+    <table border="1" cellpadding="1" cellspacing="1" width="445">
+      <tbody><tr>
+        <th width="132">
+          Attribute
+        </th>
+        <th width="300">
+          Meaning
+        </th>
+      </tr>
+      <tr>
+        <td width="132">
+          <div align="left">
+            comment
+          </div>
+        </td>
+        <td width="300">
+          <div align="left">
+            A general comment associated with this value
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="132">
+          <div align="left">
+            label
+          </div>
+        </td>
+        <td width="300">
+          <div align="left">
+            A human-readable label
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="132">
+          <div align="left">
+            seeAlso
+          </div>
+        </td>
+        <td width="300">
+          <div align="left">
+            Another web location to consult for more information about this resource
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="132">
+          <div align="left">
+            isDefinedBy
+          </div>
+        </td>
+        <td width="300">
+          <div align="left">
+            A specialization of seeAlso that is intended to supply a definition of this resource
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="132">
+          <div align="left">
+            sameAs
+          </div>
+        </td>
+        <td width="300">
+          <div align="left">
+            Denotes another resource that this resource is equivalent to
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>
+      For each of these properties, there is a standard pattern of available methods:
+    </p>
+    <table border="1" cellpadding="1" cellspacing="1" width="445">
+      <tbody><tr>
+        <th width="141">
+          Method
+        </th>
+        <th width="291">
+          Effect
+        </th>
+      </tr>
+      <tr>
+        <td width="141">
+          <div align="left">
+            add&lt;property&gt;
+          </div>
+        </td>
+        <td width="291">
+          <div align="left">
+            Add an additional value for the given property
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="141">
+          <div align="left">
+            set&lt;property&gt;
+          </div>
+        </td>
+        <td width="291">
+          <div align="left">
+            Remove any existing values for the property, then add the given value
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="141">
+          <div align="left">
+            list&lt;property&gt;
+          </div>
+        </td>
+        <td width="291">
+          <div align="left">
+            Return an iterator ranging over the values of the property
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="141">
+          <div align="left">
+            get&lt;property&gt;
+          </div>
+        </td>
+        <td width="291">
+          <div align="left">
+Return the value for the given property, if the resource has one. If
+not, return null. If it has more than one value, an arbitrary selection
+is made. </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="141">
+          <div align="left">
+            has&lt;property&gt;
+          </div>
+        </td>
+        <td width="291">
+          <div align="left">
+Return true if there is at least one value for the given property.
+Depending on the name of the property, this is sometimes
+is&lt;property&gt; </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="141">
+          <div align="left">
+            remove&lt;property&gt;
+          </div>
+        </td>
+        <td width="291">
+          <div align="left">
+Removes a given value from the values of the property on this resource.
+Has no effect if the resource does not have that value. </div>
+        </td>
+      </tr>
+    </tbody></table>
+<p> Example: <code>addSameAs(&nbsp;$ResResource&nbsp;)</code>, or <code>isSameAs(&nbsp;$ResResource&nbsp;)</code>. 
+</p>
+<p>For full details of the individual methods, please consult the <a href="../phpdoc/index_ontmodel.html">PHPDoc</a>. </p>
+    <p>
+      <code>OntResource</code>
+defines some other general utility methods.  To get or set the value
+of a given property, use <code>addPropertyValue(&nbsp;$property,&nbsp;$value&nbsp;)</code> or <code>getPropertyValue(&nbsp;$property&nbsp;)</code>. Similarly the values of a named property can be listed or removed.
+    </p>
+    <p>
+      Finally, <code>OntResource</code>
+provides methods for listing, getting and setting the RDF types of a
+resource. The rdf:type property is one for which many entailment rules
+are defined in the semantic models of the various ontology languages.
+Therefore, the values that <code>listRDFTypes()</code> returns is more
+than usually dependent on the actual reasoner bound to the ontology
+model. For example, suppose we have class A, class B which is a
+subclass of A, and resource x whose asserted <code>rdf:type</code> is
+B. With no reasoner, listing x's RDF types will return only B. If the
+reasoner is able to calculate the closure of the subclass hierarchy
+(InfModelF and InfmodelB can), X's RDF types would also include A.</p>
+    <p>
+For some tasks, getting a complete list of the RDF types of a resource
+is exactly what is needed. For other tasks, this is not the case. An
+ontology editor, for example, might want to distinguish in its display
+between inferred and asserted types. In the above example, only <code>x&nbsp;rdf:type&nbsp;B</code>
+is asserted, everything else is inferred. One way to make this
+distinction is to make use of the base model. Getting
+the x resource from the base model and listing the type properties
+there would return only the asserted values. </p>
+    <p>
+      To list the RDF types of a resource, use:
+        <br />
+  </p>
+    <table width="100%" border="1" cellpadding="3" cellspacing="0">
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#e7e7ef">
+            <p>listRDFTypes() // assumes not-direct <br />
+          listRDFTypes( true ) // if true, show only direct relationships</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Related methods allow the <code>rdf:type</code> to be tested, set and returned.    </p>
+    <h2 id="classesBasic"> Handling Ontology Components: Basic Class Expressions </h2>
+    
+<p> Classes are the basic building blocks of an ontology. A simple class is represented 
+  in RAP by an OntClass 
+  object. You can get an OntClass by calling <code>getOntClass()</code> on the ontology 
+  model:</p>
+<table width="100%" border="1" cellpadding="3" cellspacing="0">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+      <p>$camera = $ontModel-&gt;createOntClass( &quot;camNS&quot;."Camera" );</p></td>
+    </tr>
+  </tbody>
+</table>
+<p> Once we have the ontology class object, we can begin processing it through 
+  the methods defined on <code>OntClass</code>. The attributes of a class are 
+  handled in a similar way to the attributes of OntResource, above, with a collection 
+  of methods to set, add, get, test, list and remove values. Class properties 
+  that are handled in this way are: </p>
+<table border="1" cellpadding="1" cellspacing="1" width="445">
+      <tbody><tr>
+        <th width="130">
+          Attribute
+        </th>
+        <th width="302">
+          Meaning
+        </th>
+      </tr>
+      <tr>
+        <td width="130">
+          <div align="left">
+            subClass
+          </div>
+        </td>
+        <td width="302">
+          <div align="left">
+            A subclass of this class, i.e. those classes that are declared <code>subClassOf</code> this class.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="130">
+          <div align="left">
+            superClass
+          </div>
+        </td>
+        <td width="302">
+          <div align="left">
+            A super-class of this class, i.e. a class that this class is a <code>subClassOf</code>.
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>
+      Thus, in our example ontology, we can print a list the subclasses of Camera as follows:
+        <br />
+  </p>
+    
+    <table width="100%" border="1" cellpadding="3" cellspacing="0">
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#e7e7ef">
+            <p>$camera = $model-&gt;createOntClass( &quot;camNS:&quot; . "Camera" ); <br />
+              foreach ($camera-&gt;listSubClasses() as $resResource) <br />
+              {<br />
+&nbsp;&nbsp;&nbsp;echo $resResource-&gt;getLabel();<br />
+}</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      OntClass has some other commonly used utilities. To show all of the instances that mention this class as their <code>rdf:type</code> (or one of them), use <code>listInstances()</code>.</p>
+<h2 id="properties"> Handling Ontology Components: Properties </h2>
+    
+<p> OntProperty is an extension of <code>OntResource</code> and allows access to the additional information 
+  that can be asserted about properties in an ontology language Again, using the 
+  pattern of add, set, get, list, has, and remove methods, we can access the following 
+  attributes of an <code>OntProperty</code>: </p>
+    <table border="1" cellpadding="1" cellspacing="1" width="445">
+      <tbody><tr>
+        <th width="125">
+          Attribute
+        </th>
+        <th width="307">
+          Meaning
+        </th>
+      </tr>
+      <tr>
+        <td width="125">
+          <div align="left">
+            subProperty
+          </div>
+        </td>
+        <td width="307">
+          <div align="left">
+            A sub property of this property; i.e. a property which is declared to be a <code>subPropertyOf</code> this property. If p is a sub property of q, and we know that <code>A&nbsp;p&nbsp;B</code> is true, we can infer that <code>A&nbsp;q&nbsp;B</code> is also true.
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="125">
+          <div align="left">
+            superProperty
+          </div>
+        </td>
+        <td width="307">
+          <div align="left">
+            A super property of this property, i.e. a property that this property is a <code>subPropertyOf</code>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="125">
+          <div align="left">
+            domain
+          </div>
+        </td>
+        <td width="307">
+          <div align="left">
+Denotes the class or classes that form the domain of this property.
+Multiple domain values are interpreted as a conjunction. The domain
+denotes the class of value the property maps from. </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="125">
+          <div align="left">
+            range
+          </div>
+        </td>
+        <td width="307">
+          <div align="left">
+Denotes the class or classes that form the range of this property.
+Multiple range values are interpreted as a conjunction. The range
+denotes the class of values the property maps to. </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>
+In the example camera ontology, the property body is a sub-property of
+part, and has domain Camera and range Body (that is, it maps from
+instances of cameras to instances of camera bodies). We can reconstruct
+this definition in an empty ontology model as follows:  </p>
+    <table width="100%" border="1" cellpadding="3" cellspacing="0">
+      <tbody>
+        <tr valign="top">
+          <td bgcolor="#e7e7ef">
+            <p>$newM = ModelFactory::getOntModel(MEMMODEL,RDFS_VOCABULARY); <br />
+          $camera = $newM-&gt;createOntClass( &quot;camNS:&quot;. "Camera" ); <br />
+          $body = $newM-&gt;createOntClass(&quot;camNS:&quot; . "Body" ); <br />
+          <br />
+          $part = $newM-&gt;createOntProperty(&quot;camNS:&quot;. "part" ); <br />
+          $body = $newM-&gt;createOntProperty(&quot;camNS:&quot;. "body" ); <br />
+          <br />
+          $body-&gt;addSuperProperty( $part ); <br />
+          $body-&gt;addDomain( $camera ); $body-&gt;addRange( $body );</p></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2 id="instances"> Instances (Individuals) </h2>
+    
+<p> RAP supports a simple notion of an <code>Individual, </code>which is essentially 
+  an alias for ResResource. </p>
+<table width="100%" border="1" cellpadding="3" cellspacing="0">
+  <tbody>
+    <tr valign="top">
+      <td bgcolor="#e7e7ef">
+      <p>$camera = $newM-&gt;createOntClass( &quot;camNS:&quot;. "Camera" ); <br /> 
+      $instance = $camera-&gt;createInstance(&quot;camNS:&quot;. "CANJI JXP3");</p></td>
+    </tr>
+  </tbody>
+</table>
+<p> In the above example, the individual is named, but this is not necessary. 
+  The method call <code>createInstance()</code> creates an anonymous individual 
+  belonging to the given class. </p>
+</body></html>

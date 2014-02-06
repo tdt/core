@@ -1,0 +1,149 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests
+END
+test_TraverseModel.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_TraverseModel.php.txt
+END
+test_ManipulateMemModel.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_ManipulateMemModel.php.txt
+END
+test_ManipulateModel.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_ManipulateModel.php.txt
+END
+Test_Set_Database_Connection.htm
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_Set_Database_Connection.htm
+END
+Test_Set_Operations.htm
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_Set_Operations.htm
+END
+test_SerializerOptions.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_SerializerOptions.php.txt
+END
+test_ManipulateDbModel.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_ManipulateDbModel.php.txt
+END
+test_rdqlQuery.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_rdqlQuery.php.txt
+END
+test_NamedGraphsMem.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/241/trunk/rdfapi-php/doc/tests/test_NamedGraphsMem.php.txt
+END
+test_infmodel.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/test_infmodel.html
+END
+test_infmodel.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_infmodel.php.txt
+END
+test_setoperations.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_setoperations.php.txt
+END
+Test_TraverseModel.htm
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_TraverseModel.htm
+END
+test_SetDatabaseConnection.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_SetDatabaseConnection.php.txt
+END
+Test_Storing_Models_in_Database.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_Storing_Models_in_Database.html
+END
+phpdoc.CSS
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/phpdoc.CSS
+END
+Test_Manipulate_MemModel.htm
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_Manipulate_MemModel.htm
+END
+test_StoringModelsInDatabase.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_StoringModelsInDatabase.php.txt
+END
+Test_Serializer_Options.htm
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_Serializer_Options.htm
+END
+Test_Manipulate_DbModel.htm
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_Manipulate_DbModel.htm
+END
+test_ResModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/test_ResModel.html
+END
+test_ResModel.php.txt
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/doc/tests/test_ResModel.php.txt
+END
+Test_RDQL_Query.htm
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/Test_RDQL_Query.htm
+END
+test_NamedGraphsMem.htm
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/doc/tests/test_NamedGraphsMem.htm
+END

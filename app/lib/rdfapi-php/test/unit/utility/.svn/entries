@@ -1,0 +1,54 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/test/unit/utility
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2006-11-21T09:38:51.000000Z
+320
+tgauss
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+ut_FindIterator_tests.php
+file
+
+
+
+
+2008-02-29T14:57:25.637416Z
+ff52f7389a29de56a8af3f0d7b816130
+2006-05-17T05:33:15.000000Z
+270
+tgauss
+has-props
+
+ut_it_tests.php
+file
+
+
+
+
+2008-02-29T14:57:25.637416Z
+05957f139c405ada760e1bc27af22afe
+2006-11-21T09:38:51.000000Z
+320
+tgauss
+has-props
+

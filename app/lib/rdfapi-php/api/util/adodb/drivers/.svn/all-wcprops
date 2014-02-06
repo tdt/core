@@ -1,0 +1,293 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/375/trunk/rdfapi-php/api/util/adodb/drivers
+END
+adodb-mssql_n.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-mssql_n.inc.php
+END
+adodb-pdo_oci.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-pdo_oci.inc.php
+END
+adodb-odbtp_unicode.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-odbtp_unicode.inc.php
+END
+adodb-ldap.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-ldap.inc.php
+END
+adodb-postgres64.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-postgres64.inc.php
+END
+adodb-ado_mssql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-ado_mssql.inc.php
+END
+adodb-ibase.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-ibase.inc.php
+END
+adodb-borland_ibase.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-borland_ibase.inc.php
+END
+adodb-firebird.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-firebird.inc.php
+END
+adodb-sybase.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-sybase.inc.php
+END
+adodb-pdo_pgsql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-pdo_pgsql.inc.php
+END
+adodb-sapdb.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-sapdb.inc.php
+END
+adodb-csv.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-csv.inc.php
+END
+adodb-postgres7.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-postgres7.inc.php
+END
+adodb-postgres8.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-postgres8.inc.php
+END
+adodb-mssql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-mssql.inc.php
+END
+adodb-sqlitepo.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-sqlitepo.inc.php
+END
+adodb-pdo_mssql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-pdo_mssql.inc.php
+END
+adodb-access.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-access.inc.php
+END
+adodb-oci8po.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-oci8po.inc.php
+END
+adodb-ado.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-ado.inc.php
+END
+adodb-mysql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-mysql.inc.php
+END
+adodb-postgres.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-postgres.inc.php
+END
+adodb-pdo_mysql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-pdo_mysql.inc.php
+END
+adodb-fbsql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-fbsql.inc.php
+END
+adodb-db2.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-db2.inc.php
+END
+adodb-oci805.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-oci805.inc.php
+END
+adodb-sybase_ase.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-sybase_ase.inc.php
+END
+adodb-mysqli.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/375/trunk/rdfapi-php/api/util/adodb/drivers/adodb-mysqli.inc.php
+END
+adodb-netezza.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-netezza.inc.php
+END
+adodb-proxy.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-proxy.inc.php
+END
+adodb-pdo.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-pdo.inc.php
+END
+adodb-ado_access.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-ado_access.inc.php
+END
+adodb-odbc_mssql.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-odbc_mssql.inc.php
+END
+adodb-ado5.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-ado5.inc.php
+END
+adodb-mysqlt.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-mysqlt.inc.php
+END
+adodb-informix.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-informix.inc.php
+END
+adodb-vfp.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-vfp.inc.php
+END
+adodb-odbc_oracle.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-odbc_oracle.inc.php
+END
+adodb-odbc_db2.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/drivers/adodb-odbc_db2.inc.php
+END
+adodb-mssqlpo.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-mssqlpo.inc.php
+END
+adodb-sqlite.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-sqlite.inc.php
+END
+adodb-oci8.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-oci8.inc.php
+END
+adodb-sqlanywhere.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-sqlanywhere.inc.php
+END
+adodb-informix72.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-informix72.inc.php
+END
+adodb-oracle.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-oracle.inc.php
+END
+adodb-odbc.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-odbc.inc.php
+END
+adodb-odbtp.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/drivers/adodb-odbtp.inc.php
+END

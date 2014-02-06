@@ -1,0 +1,1025 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/478/trunk/rdfapi-php/test/unit/Sparql/result
+END
+test-3-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-3-02.res
+END
+test-3-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-3-04.res
+END
+test-7-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-7-01.res
+END
+test-3-06.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-3-06.res
+END
+test-7-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-7-03.res
+END
+q-select-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-select-2.res
+END
+q-uri-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-uri-1.res
+END
+test-2-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-02.res
+END
+ex11.2.3.1_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.1_0.res
+END
+ask-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/438/trunk/rdfapi-php/test/unit/Sparql/result/ask-02.res
+END
+test-2-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-04.res
+END
+ex2-3a.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex2-3a.res
+END
+ex3.res
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex3.res
+END
+q-opt-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-opt-2.res
+END
+test-6-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-6-01.res
+END
+ex11.2.3.5_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.5_0.res
+END
+test-2-06.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-06.res
+END
+test-6-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-6-03.res
+END
+test-2-08.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-08.res
+END
+q-str-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/q-str-2.res
+END
+query-eq-graph-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-graph-2.res
+END
+q-str-4.res
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/q-str-4.res
+END
+query-eq-graph-4.res
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-graph-4.res
+END
+res1.res
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/298/trunk/rdfapi-php/test/unit/Sparql/result/res1.res
+END
+res3.res
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/298/trunk/rdfapi-php/test/unit/Sparql/result/res3.res
+END
+test-B-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-02.res
+END
+expr-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/expr-2.res
+END
+res5.res
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/306/trunk/rdfapi-php/test/unit/Sparql/result/res5.res
+END
+test-B-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-04.res
+END
+test-B-08.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-08.res
+END
+bound1.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/bound1.res
+END
+LimitOff_2.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/LimitOff_2.res
+END
+test-1-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-1-02.res
+END
+ex11_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/ex11_0.res
+END
+test-1-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-1-04.res
+END
+graphset1.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/graphset1.res
+END
+test-5-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-5-01.res
+END
+test-1-06.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-1-06.res
+END
+graphset3.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/graphset3.res
+END
+test-5-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-5-03.res
+END
+test-1-08.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-1-08.res
+END
+test-9-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-9-02.res
+END
+customUnion2.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/customUnion2.res
+END
+query-eq-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-2.res
+END
+count-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/438/trunk/rdfapi-php/test/unit/Sparql/result/count-02.res
+END
+query-eq-4.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-4.res
+END
+query-bev-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-bev-1.res
+END
+test-B-11.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-11.res
+END
+query-bev-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-bev-3.res
+END
+test-B-13.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-13.res
+END
+q-construct-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-construct-1.res
+END
+query-bev-5.res
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-bev-5.res
+END
+dawg-tp-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-tp-01.res
+END
+q-reif-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-reif-1.res
+END
+test-B-15.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-15.res
+END
+q-langMatches-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-langMatches-1.res
+END
+dawg-tp-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-tp-03.res
+END
+dawg-query-001.res
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-query-001.res
+END
+q-blank-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-blank-1.res
+END
+test-B-17.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/474/trunk/rdfapi-php/test/unit/Sparql/result/test-B-17.res
+END
+q-langMatches-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-langMatches-3.res
+END
+dawg-query-003.res
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-query-003.res
+END
+test-B-19.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-19.res
+END
+test-0-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-0-02.res
+END
+test-0-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-0-04.res
+END
+test-4-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-4-01.res
+END
+ex11.2.3.2_1.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.2_1.res
+END
+test-4-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-4-03.res
+END
+ex11.2.3.4_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.4_0.res
+END
+q-base-prefix-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-base-prefix-1.res
+END
+test-4-05.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-4-05.res
+END
+q-base-prefix-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-base-prefix-3.res
+END
+test-4-07.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-4-07.res
+END
+q-base-prefix-5.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-base-prefix-5.res
+END
+q-datatype-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-datatype-1.res
+END
+sort1.res
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/sort1.res
+END
+sort3.res
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/sort3.res
+END
+regex-query-001.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/347/trunk/rdfapi-php/test/unit/Sparql/result/regex-query-001.res
+END
+sort5.res
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/sort5.res
+END
+test-B-20.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-20.res
+END
+regex-query-003.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/347/trunk/rdfapi-php/test/unit/Sparql/result/regex-query-003.res
+END
+test-3-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-3-01.res
+END
+ex2-2a.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex2-2a.res
+END
+test-3-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-3-03.res
+END
+test-3-05.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-3-05.res
+END
+test-7-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-7-02.res
+END
+test-3-07.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-3-07.res
+END
+test-7-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-7-04.res
+END
+q-select-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-select-1.res
+END
+q-select-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-select-3.res
+END
+query-eq2-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-eq2-1.res
+END
+ask-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/438/trunk/rdfapi-php/test/unit/Sparql/result/ask-01.res
+END
+test-2-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-01.res
+END
+q-opt-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-opt-1.res
+END
+ex11.2.3.1_1.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.1_1.res
+END
+test-2-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-03.res
+END
+ex11.2.3.3_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.3_0.res
+END
+test-2-05.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-2-05.res
+END
+test-6-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-6-02.res
+END
+test-2-07.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-07.res
+END
+test-6-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-6-04.res
+END
+ex11.2.3.7_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.7_0.res
+END
+q-str-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/q-str-1.res
+END
+test-2-09.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-09.res
+END
+query-eq-graph-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-graph-1.res
+END
+q-str-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/q-str-3.res
+END
+query-eq-graph-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-graph-3.res
+END
+res2.res
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/298/trunk/rdfapi-php/test/unit/Sparql/result/res2.res
+END
+test-B-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-01.res
+END
+expr-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/expr-1.res
+END
+res4.res
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/298/trunk/rdfapi-php/test/unit/Sparql/result/res4.res
+END
+test-B-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-03.res
+END
+expr-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/expr-3.res
+END
+res6.res
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/306/trunk/rdfapi-php/test/unit/Sparql/result/res6.res
+END
+test-B-05.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-05.res
+END
+test-B-09.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-09.res
+END
+LimitOff_1.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/LimitOff_1.res
+END
+LimitOff1.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/LimitOff1.res
+END
+LimitOff_3.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/LimitOff_3.res
+END
+test-1-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-1-01.res
+END
+test-2-10.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-2-10.res
+END
+test-1-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-1-03.res
+END
+ex11_1.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/ex11_1.res
+END
+query-survey-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/478/trunk/rdfapi-php/test/unit/Sparql/result/query-survey-1.res
+END
+graphset2.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/graphset2.res
+END
+test-1-05.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-1-05.res
+END
+test-5-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-5-02.res
+END
+ex2-4a.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex2-4a.res
+END
+test-1-07.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-1-07.res
+END
+graphset4.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/graphset4.res
+END
+test-5-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-5-04.res
+END
+test-1-09.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-1-09.res
+END
+test-9-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-9-01.res
+END
+customUnion1.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/customUnion1.res
+END
+query-eq-1.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-1.res
+END
+count-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/438/trunk/rdfapi-php/test/unit/Sparql/result/count-01.res
+END
+query-eq-3.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-3.res
+END
+query-eq-5.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-eq-5.res
+END
+test-B-10.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-10.res
+END
+query-bev-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-bev-2.res
+END
+test-B-12.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-B-12.res
+END
+query-bev-4.res
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-bev-4.res
+END
+sort-datetime.res
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/448/trunk/rdfapi-php/test/unit/Sparql/result/sort-datetime.res
+END
+q-construct-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-construct-2.res
+END
+query-bev-6.res
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/403/trunk/rdfapi-php/test/unit/Sparql/result/query-bev-6.res
+END
+dawg-tp-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-tp-02.res
+END
+q-reif-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-reif-2.res
+END
+q-langMatches-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-langMatches-2.res
+END
+dawg-tp-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-tp-04.res
+END
+dawg-query-002.res
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-query-002.res
+END
+test-B-18.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/475/trunk/rdfapi-php/test/unit/Sparql/result/test-B-18.res
+END
+q-langMatches-4.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-langMatches-4.res
+END
+dawg-query-004.res
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/dawg-query-004.res
+END
+test-0-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-0-01.res
+END
+test-1-10.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-1-10.res
+END
+test-0-03.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-0-03.res
+END
+ex2-1a.res
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex2-1a.res
+END
+ex11.2.3.2_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.2_0.res
+END
+test-4-02.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-4-02.res
+END
+test-4-04.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/test-4-04.res
+END
+ex11.2.3.6_0.res
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/401/trunk/rdfapi-php/test/unit/Sparql/result/ex11.2.3.6_0.res
+END
+q-base-prefix-2.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-base-prefix-2.res
+END
+test-4-06.res
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/419/trunk/rdfapi-php/test/unit/Sparql/result/test-4-06.res
+END
+q-base-prefix-4.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/q-base-prefix-4.res
+END
+sort2.res
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/sort2.res
+END
+sort4.res
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/sort4.res
+END
+regex-query-002.res
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/410/trunk/rdfapi-php/test/unit/Sparql/result/regex-query-002.res
+END
+sort6.res
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/sort6.res
+END
+sort8.res
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/383/trunk/rdfapi-php/test/unit/Sparql/result/sort8.res
+END
+query-01.res
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/Sparql/result/query-01.res
+END

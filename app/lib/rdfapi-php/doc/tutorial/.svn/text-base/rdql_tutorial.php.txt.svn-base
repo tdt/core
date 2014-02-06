@@ -1,0 +1,113 @@
+<?php
+
+// ----------------------------------------------------------------------------------
+// PHPScript: rdql_tutorial.php
+// ----------------------------------------------------------------------------------
+
+/**
+ * RDQL tutorial.
+ *
+ * @author   Radoslaw Oldakowski <radol@gmx.de>
+ */
+
+echo "<h1>RAP Tutorial</h1>";
+
+// Include all RAP classes
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!! This has to reflect your own installation !!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+define("RDFAPI_INCLUDE_DIR", "C:/Apache/rdf_api/api/");
+include(RDFAPI_INCLUDE_DIR . "RdfAPI.php");
+
+// Create a new MemModel and load the document
+$employees = ModelFactory::getDefaultModel();
+$employees->load("employees.rdf");
+
+// Show the input model
+echo "<b>Show the RDF model to be queried:</b><p>";
+$employees->writeAsHtmlTable();
+echo "<p>";
+
+// Query string: "find the full name of all employees"
+$query1 = '
+SELECT ?fullName
+WHERE (?x, vcard:FN, ?fullName)
+USING vcard FOR <http://www.w3.org/2001/vcard-rdf/3.0#>';
+
+// Execute the query
+$result1 = $employees->rdqlQuery($query1);
+
+// Display the query result as HTML table
+echo "<br><b>Query1:</b> '<i>find the full name of all employees'</i>. <b>Output:</b><p>";
+RdqlEngine::writeQueryResultAsHtmlTable($result1);
+
+// This will return no objects, but their string serialization instead
+$result2 = $employees->rdqlQuery($query1, FALSE);
+
+echo "<p>";
+
+// Another query: "find the given name and age of all employees over 30"
+$query2 = '
+SELECT ?givenName, ?age
+WHERE (?x, vcard:N, ?blank),
+      (?blank, vcard:Given, ?givenName),
+      (?x, v:age, ?age)
+AND ?age > 30
+USING vcard FOR <http://www.w3.org/2001/vcard-rdf/3.0#>
+      v FOR <http://sampleVocabulary.org/1.3/People#>';
+
+// Execute the query
+$result3 = $employees->rdqlQuery($query2);
+
+// Display the query result as HTML table
+echo "<br><b>Query2</b>: '<i>find the given name and age of all employees over 30</i>.' <b>Output:</b><p>";
+RdqlEngine::writeQueryResultAsHtmlTable($result3);
+
+echo "<p>";
+
+// Yet another query: "find the private telephone number of the person
+// whose office number is '+1 111 2222 668' and return additionally his given name and age"
+$query3 = '
+SELECT ?givenName ?age ?telNumberHome
+WHERE (?person vcard:N ?blank1)
+      (?blank1 vcard:Given ?givenName)
+      (?person v:age ?age)
+      (?person vcard:TEL ?blank2)
+      (?blank2 rdf:value ?telNumberHome)
+      (?blank2 rdf:type vcard:home)
+      (?person vcard:TEL ?blank3)
+      (?blank3 rdf:value ?telNumberOffice)
+      (?blank3 rdf:type vcard:work)
+AND ?telNumberOffice eq "+1 111 2222 668"
+USING vcard FOR <http://www.w3.org/2001/vcard-rdf/3.0#>
+      v FOR <http://sampleVocabulary.org/1.3/People#>';
+
+// Execute the query
+$result4 = $employees->rdqlQuery($query3);
+
+// Display the query result as HTML table
+echo "<br><b>Query3:</b> <i>'find the private telephone number of the person whose office number is '+1 111 2222 668' and return additionally his given name and age'</i>. <b>Output:</b><p>";
+RdqlEngine::writeQueryResultAsHtmlTable($result4);
+
+echo "<p>";
+
+
+// Next query: find the resources which represent employees whose family name starts with 'M' and return additionally the corresponding office email address
+$query4 = '
+SELECT ?resource, ?email
+WHERE (?resource, vcard:N, ?blank1)
+      (?blank1, vcard:Family, ?familyName)
+      (?resource, vcard:EMAIL, ?blank2)
+      (?blank2, rdf:value, ?email)
+      (?blank2, rdf:type, vcard:work)
+AND ?familyName ~~ "/^M/"
+USING vcard FOR <http://www.w3.org/2001/vcard-rdf/3.0#>';
+
+// Execute the query
+$result5 = $employees->rdqlQuery($query4);
+
+// Display the query result as HTML table
+echo "<br><b>Query4:</b> '<i>find the resources which represent employees whose family name starts with \"M\" and return additionally the corresponding office email address</i>'. <b>Output:</b><p>";
+RdqlEngine::writeQueryResultAsHtmlTable($result5);
+
+?>

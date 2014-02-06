@@ -1,0 +1,94 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Tutorial: GRDDL Parser</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="../phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<H3>RDF API for PHP </H3>
+<h1>Tutorial: GRDDL Parser </h1>
+<p>This turorial is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> 
+  documentation.</p>
+<p>The RAP GRDDL parser allows you to extract RDF-data from XHTML documents. </p>
+<p>The GRDDL parser requires PHP 5.1 or later, because it uses PHP5's build in 
+  xslt-processor.</p>
+<p>There a several approaches to extract RDF-data from XHTML documents and there 
+  is a <a href="http://www.w3.org/2003/08/rdf-in-xhtml-charter.html" target="_blank">W3C 
+  best-practice &quot;RDF in XHTML Taskforce&quot;</a> looking at the issue. RAP 
+  provides an implementation of the GRDDL proposal, currently discussed by the 
+  working group. GRDDL stands for &quot;<a href="http://www.w3.org/TR/grddl/" target="_blank">Gleaning 
+  Resource Description from Dialects of Languages</a>&quot; and uses XSLT to extract 
+  RDF-data from XHTML. </p>
+</br><p align="center"><img src="img/dc-extract.png" width="580" height="306"></p>
+<p align="center"> (<a href="http://www.w3.org/TR/grddl/">http://www.w3.org/TR/grddl/</a>)
+<p></p> 
+<h3><a name="s1">1. XHTML Input Document </a></h3>
+<p>The Input document has to contain at least one reference to an XSLT stylesheet 
+  which describes how your rdf-data is encoded in the XHTML document. For example, 
+  this document</p>
+<code>
+<pre>&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head profile="http://www.w3.org/2003/g/data-view"&gt;
+    &lt;title&gt;Some Document&lt;/title&gt;
+
+    &lt;link rel="transformation"
+       href="http://www.w3.org/2000/06/dc-extract/dc-extract.xsl" /&gt;
+    &lt;meta name="DC.Subject"
+       content="ADAM; Simple Search; Index+; prototype" /&gt;
+    ...
+  &lt;/head&gt;
+  ...
+&lt;/html&gt;</pre>
+</code></p>refers to the dc-extract.xsl stylesheet and contains the following 
+RDF statements:<br>
+
+<code>
+<pre>
+
+&lt;rdf:RDF
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  &gt;
+  &lt;rdf:Description rdf:about=""&gt;
+    &lt;dc:subject&gt;ADAM; Simple Search; Index+; prototype&lt;/dc:subject&gt;
+  &lt;/rdf:Description&gt;
+&lt;/rdf:RDF&gt;
+</pre>
+</code> 
+<p>The stylesheet is located at <a href="http://www.w3.org/2000/06/dc-extract/dc-extract.xsl">http://www.w3.org/2000/06/dc-extract/dc-extract.xsl</a><br>
+  &nbsp;</p> </p>
+<h3><a name="s2">2. Using RAP's GRDDL Parser</a></h3>
+<p>To parse an rdf-data containing xhtml document, simply use the <code>load()</code> 
+  function of any RAP model<code></code>. If the file extension of your XHTML 
+  file is &quot;.html&quot; or&quot;.htm&quot; then RAP uses the GRDDL parser 
+  automatically. Otherwise you have to explicitly specifiy the parser in the load 
+  call <code>$model-&gt;load('doc.html', &quot;GRDDL&quot;);</code></p>
+<table dwcopytype="CopyTableRow" border="1" cellpadding="3" cellspacing="0" width="100%">
+  <tbody>
+  <tr valign="top">
+    <td bgcolor="#e7e7ef"><p> <code>define("RDFAPI_INCLUDE_DIR", "C:/Apache/htdocs/rdf_api/api/"); <br>
+  include(RDFAPI_INCLUDE_DIR . "RdfAPI.php"); </code></p>
+      <p><code>$model = new MemModel();<br>
+        $model-&gt;load('doc.html');</code></p>
+      </td></tr></tbody></table>
+<p>&nbsp;</p>
+<h3>3. Further Information about GRDDL</h3>
+<p>For further information and examples see </p>
+<ul>
+  <li><a href="http://www.w3.org/TR/grddl/">Gleaning Resource Descriptions from 
+    Dialects of Languages (GRDDL)</a> </li>
+  <li><a href="http://www.w3.org/2003/g/data-view">GRDDL Data Views: Getting Started, 
+    Learning More</a></li>
+  <li><a href="http://www.w3.org/2003/08/rdf-in-xhtml-charter.html" target="_blank">RDF 
+    in XHTML Taskforce</a></li>
+</ul>
+<p>Some Stylesheets for commonly known vocabularies are: </p>
+<ul>
+  <li><a href="http://geourl.org/add.html">GeoURL markup</a> and <a
+        href="http://www.w3.org/2003/12/rdf-in-xhtml-xslts/grokGeoURL.xsl">grokGeoURL.xsl</a></li>
+  <li><a href="http://www.w3.org/2000/08/w3c-synd/#RSS">RDF Site Summaries in 
+    XHTML</a>, using <a href="http://www.w3.org/2000/08/w3c-synd/home2rss.xsl">home2rss.xsl</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class RDFUtil</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class RDFUtil</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Useful utility methods.</p>
+<p class="description"><p>Static class.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Chris Bizer &lt;<a href="mailto:chris@bizer.de">chris@bizer.de</a>&gt;, Daniel Westphal &lt;dawe@gmx.de&gt;</li>
+				<li><span class="field">author:</span> Anton Köstlbacher &lt;<a href="mailto:anton1@koestlbacher.de">anton1@koestlbacher.de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id$</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_util---RdfUtil.php.html">/util/RdfUtil.php</a> (line <span class="field"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a17">17</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --RDFUtil</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																														
+				<div class="method-definition">
+											<span class="method-result">object Resource</span>
+										<a href="#createOrd" title="details" class="method-name">createOrd</a>
+											(<span class="var-type">Integer</span>&nbsp;<span class="var-name">$num</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">String</span>
+										<a href="#escapeValue" title="details" class="method-name">escapeValue</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$textValue</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLocalName" title="details" class="method-name">getLocalName</a>
+											(<span class="var-type"><a href="../utility/Object.html">Object</a></span>&nbsp;<span class="var-name">$resource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getNamespace" title="details" class="method-name">getNamespace</a>
+											(<span class="var-type"><a href="../utility/Object.html">Object</a></span>&nbsp;<span class="var-name">$resource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">Integer</span>
+										<a href="#getOrd" title="details" class="method-name">getOrd</a>
+											(<span class="var-type">object Resource</span>&nbsp;<span class="var-name">$resource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getPrefix" title="details" class="method-name">getPrefix</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$uri</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#guessName" title="details" class="method-name">guessName</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$uri</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#guessNamespace" title="details" class="method-name">guessNamespace</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$uri</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string,</span>
+										<a href="#guessPrefix" title="details" class="method-name">guessPrefix</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isRDF" title="details" class="method-name">isRDF</a>
+											(<span class="var-type"><a href="../utility/Object.html">Object</a></span>&nbsp;<span class="var-name">$resource</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string,</span>
+										<a href="#visualizeGraph" title="details" class="method-name">visualizeGraph</a>
+											(<span class="var-type">object Model</span>&nbsp;<span class="var-name">&$model</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$format</span> = <span class="var-default">&quot;input_dot&quot;</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$short_prefix</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#writeHTMLTable" title="details" class="method-name">writeHTMLTable</a>
+											(<span class="var-type">object MemModel</span>&nbsp;<span class="var-name">&$model</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcreateOrd" id="createOrd"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createOrd</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a162">162</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates ordinal RDF resource out of an integer.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Resource</span>
+		<span class="method-name">
+			createOrd
+		</span>
+					(<span class="var-type">Integer</span>&nbsp;<span class="var-name">$num</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">Integer</span>
+				<span class="var-name">$num</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodescapeValue" id="escapeValue"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">escapeValue</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a127">127</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Escapes &lt; &gt; and &amp;</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">String</span>
+		<span class="method-name">
+			escapeValue
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$textValue</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$textValue</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetLocalName" id="getLocalName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLocalName</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a60">60</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Delivers the Localname (without the namespace prefix) out of the URI of a Resource.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLocalName
+		</span>
+					(<span class="var-type"><a href="../utility/Object.html">Object</a></span>&nbsp;<span class="var-name">$resource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../utility/Object.html">Object</a></span>
+				<span class="var-name">$resource</span><span class="var-description">: Resource    $resource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetNamespace" id="getNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a49">49</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Extracts the namespace prefix out of the URI of a Resource.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getNamespace
+		</span>
+					(<span class="var-type"><a href="../utility/Object.html">Object</a></span>&nbsp;<span class="var-name">$resource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../utility/Object.html">Object</a></span>
+				<span class="var-name">$resource</span><span class="var-description">: Resource    $resource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetOrd" id="getOrd"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOrd</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a144">144</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Converts an ordinal RDF resource to an integer.</p>
+<p class="description"><p>e.g. Resource(RDF:_1) =&gt; 1</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">Integer</span>
+		<span class="method-name">
+			getOrd
+		</span>
+					(<span class="var-type">object Resource</span>&nbsp;<span class="var-name">$resource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Resource</span>
+				<span class="var-name">$resource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPrefix" id="getPrefix"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPrefix</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a87">87</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short Prefix for known Namespaces by given URI</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getPrefix
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$uri</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodguessName" id="guessName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">guessName</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a38">38</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Delivers the name out of the URI (without the namespace prefix).</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			guessName
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$uri</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodguessNamespace" id="guessNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">guessNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a26">26</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Extracts the namespace prefix out of a URI.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			guessNamespace
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$uri</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodguessPrefix" id="guessPrefix"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">guessPrefix</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a337">337</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short Prefix for known and/or parsed Namespaces by given URI and Model  Uses $default_prefixes defined in constants.php and getParsedNamespaces()  Returns FALSE if no matching prefix is found</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> boolean</li>
+				<li><span class="field">author:</span> Anton Köstlbacher &lt;<a href="mailto:anton1@koestlbacher.de">anton1@koestlbacher.de</a>&gt;</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string,</span>
+		<span class="method-name">
+			guessPrefix
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+					<li>
+				<span class="var-type">object</span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisRDF" id="isRDF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isRDF</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a116">116</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tests if the URI of a resource belongs to the RDF syntax/model namespace.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isRDF
+		</span>
+					(<span class="var-type"><a href="../utility/Object.html">Object</a></span>&nbsp;<span class="var-name">$resource</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../utility/Object.html">Object</a></span>
+				<span class="var-name">$resource</span><span class="var-description">: Resource    $resource</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodvisualizeGraph" id="visualizeGraph"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">visualizeGraph</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a382">382</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Generates a dot-file for drawing graphical output with the</p>
+<p class="description"><p>graphviz-application which can be downloaded at http://www.graphviz.org  If the graphviz-application is installed and its path is set to the  correct value in constants.php we can directly generate any  file format graphviz supports, e.g. SVG, PNG  Parameters: model to visualize, output format, use prefixes</p><p>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  WARNING: Graphviz can be slow with large models.  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> binary</li>
+				<li><span class="field">author:</span> Anton Köstlbacher &lt;<a href="mailto:anton1@koestlbacher.de">anton1@koestlbacher.de</a>&gt;</li>
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string,</span>
+		<span class="method-name">
+			visualizeGraph
+		</span>
+					(<span class="var-type">object Model</span>&nbsp;<span class="var-name">&$model</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$format</span> = <span class="var-default">&quot;input_dot&quot;</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$short_prefix</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$format</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$short_prefix</span>			</li>
+					<li>
+				<span class="var-type">object Model</span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwriteHTMLTable" id="writeHTMLTable"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeHTMLTable</span> (line <span class="line-number"><a href="../__filesource/fsource_utility__utilRdfUtil.php.html#a173">173</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Prints a MemModel as HTML table.</p>
+<p class="description"><p>You can change the colors in the configuration file.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			writeHTMLTable
+		</span>
+					(<span class="var-type">object MemModel</span>&nbsp;<span class="var-name">&$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object MemModel</span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:50:57 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/rdfapi-php/!svn/ver/555/trunk/rdfapi-php/test/unit/Syntax
+END
+n3Serializer_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/535/trunk/rdfapi-php/test/unit/Syntax/n3Serializer_test.php
+END
+rdf_Parser_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/Syntax/rdf_Parser_tests.php
+END
+n3Parser_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/501/trunk/rdfapi-php/test/unit/Syntax/n3Parser_test.php
+END
+jsonSerializer_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/555/trunk/rdfapi-php/test/unit/Syntax/jsonSerializer_test.php
+END
+jsonParser_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/rdfapi-php/!svn/ver/555/trunk/rdfapi-php/test/unit/Syntax/jsonParser_test.php
+END
+rdf_Serializer_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/Syntax/rdf_Serializer_tests.php
+END

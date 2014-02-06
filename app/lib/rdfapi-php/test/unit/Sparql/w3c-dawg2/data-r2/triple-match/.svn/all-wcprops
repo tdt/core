@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match
+END
+result-tp-01.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/result-tp-01.ttl
+END
+result-tp-02.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/result-tp-02.ttl
+END
+result-tp-03.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/result-tp-03.ttl
+END
+result-tp-04.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/result-tp-04.ttl
+END
+data-01.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/data-01.ttl
+END
+data-02.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/data-02.ttl
+END
+data-03.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/data-03.ttl
+END
+dawg-tp-01.rq
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/dawg-tp-01.rq
+END
+dawg-tp-02.rq
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/dawg-tp-02.rq
+END
+manifest.ttl.bak
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/manifest.ttl.bak
+END
+dawg-tp-03.rq
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/dawg-tp-03.rq
+END
+dawg-tp-04.rq
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/dawg-tp-04.rq
+END
+dawg-tp-05.rq
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/dawg-tp-05.rq
+END
+manifest.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/manifest.ttl
+END
+dawg-data-01.ttl
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svnroot/rdfapi-php/!svn/ver/540/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2/triple-match/dawg-data-01.ttl
+END

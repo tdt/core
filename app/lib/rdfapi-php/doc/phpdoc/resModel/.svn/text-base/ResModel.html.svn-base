@@ -1,0 +1,1674 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class ResModel</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class ResModel</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|													<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A ResModel provides an resource centric view on an underlying RDF model.</p>
+<p class="description"><p>ResModels show information not as statements but as resources with  properties, similar to Jena models. ResModels may create Resources [URI  nodes and bnodes]. Creating a Resource does not make the Resource visible to  the model; Resources are only &quot;in&quot; Models if Statements about them are added  to the Model. Similarly the only way to &quot;remove&quot; a Resource from a Model is  to remove all the Statements that mention it.</p><p>When a Resource or Literal is created by a Model, the Model is free to re-use an existing  Resource or Literal object with the correct values, or it may create a fresh one.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal &lt;<a href="mailto:mail">at d-westphal dot de mail at d-westphal dot de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id$</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_resModel---ResModel.php.html">/resModel/ResModel.php</a> (line <span class="field"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a26">26</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../ontModel/OntModel.html">OntModel</a></td>
+					<td>
+											Enhanced view of the model that is known to contain ontology data, under a
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">ResModel</span>
+										<a href="#ResModel" title="details" class="method-name">ResModel</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object model</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#add" title="details" class="method-name">add</a>
+											(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addModel" title="details" class="method-name">addModel</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addNamespace" title="details" class="method-name">addNamespace</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$namespace</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$prefix,</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addParsedNamespaces" title="details" class="method-name">addParsedNamespaces</a>
+											(<span class="var-type">Array</span>&nbsp;<span class="var-name">$newNs</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#addWithoutDuplicates" title="details" class="method-name">addWithoutDuplicates</a>
+											(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#contains" title="details" class="method-name">contains</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$statement</span>, <span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsAll" title="details" class="method-name">containsAll</a>
+											(<span class="var-type">object Model</span>&nbsp;<span class="var-name">&$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsAny" title="details" class="method-name">containsAny</a>
+											(<span class="var-type">object Model</span>&nbsp;<span class="var-name">&$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsResource" title="details" class="method-name">containsResource</a>
+											(<span class="var-type">object Node</span>&nbsp;<span class="var-name">&$node</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+										<a href="#createAlt" title="details" class="method-name">createAlt</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+										<a href="#createBag" title="details" class="method-name">createBag</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+										<a href="#createList" title="details" class="method-name">createList</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResLiteral.html">object ResLiteral</a></span>
+										<a href="#createLiteral" title="details" class="method-name">createLiteral</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$languageTag</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+										<a href="#createProperty" title="details" class="method-name">createProperty</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResResource.html">object ResResource</a></span>
+										<a href="#createResource" title="details" class="method-name">createResource</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+										<a href="#createSeq" title="details" class="method-name">createSeq</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResLiteral.html">object ResLiteral</a></span>
+										<a href="#createTypedLiteral" title="details" class="method-name">createTypedLiteral</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dtype</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#equals" title="details" class="method-name">equals</a>
+											(<span class="var-type">object model</span>&nbsp;<span class="var-name">&$that</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#find" title="details" class="method-name">find</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object Statement</span>
+										<a href="#findFirstMatchingStatement" title="details" class="method-name">findFirstMatchingStatement</a>
+											(<span class="var-type">object Node</span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type">object Node</span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type">object Node</span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getBaseURI" title="details" class="method-name">getBaseURI</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object Model</span>
+										<a href="#getModel" title="details" class="method-name">&amp;getModel</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">Array</span>
+										<a href="#getParsedNamespaces" title="details" class="method-name">getParsedNamespaces</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object Statement</span>
+										<a href="#getProperty" title="details" class="method-name">getProperty</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$property</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object MemModel</span>
+										<a href="#intersect" title="details" class="method-name">&amp;intersect</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isEmpty" title="details" class="method-name">isEmpty</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+										<a href="#listObjects" title="details" class="method-name">listObjects</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+										<a href="#listObjectsOfProperty" title="details" class="method-name">listObjectsOfProperty</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+										<a href="#listSubjects" title="details" class="method-name">listSubjects</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+										<a href="#listSubjectsWithProperty" title="details" class="method-name">listSubjectsWithProperty</a>
+											(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#load" title="details" class="method-name">load</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">NULL</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$stream</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#rdqlQuery" title="details" class="method-name">&amp;rdqlQuery</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object RdqlResultIterator</span>
+										<a href="#rdqlQueryAsIterator" title="details" class="method-name">rdqlQueryAsIterator</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#remove" title="details" class="method-name">remove</a>
+											(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#removeNamespace" title="details" class="method-name">removeNamespace</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#saveAs" title="details" class="method-name">saveAs</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'rdf'</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setBaseURI" title="details" class="method-name">setBaseURI</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#size" title="details" class="method-name">size</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object MemModel</span>
+										<a href="#subtract" title="details" class="method-name">subtract</a>
+											(<span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object MemModel</span>
+										<a href="#unite" title="details" class="method-name">&amp;unite</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#writeAsHTMLTable" title="details" class="method-name">writeAsHTMLTable</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#writeRdfToString" title="details" class="method-name">writeRdfToString</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodResModel" id="ResModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor ResModel</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a44">44</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  You have to supply a memmodel/dbmodel/infmodel to save the statements.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">ResModel</span>
+		<span class="method-name">
+			ResModel
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object model</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object model</span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodadd" id="add"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">add</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a197">197</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a new triple to the Model without checking if the statement is already in the Model.</p>
+<p class="description"><p>So if you want a duplicate free Model use the addWithoutDuplicates() function (which is slower then add())  Expects a statements with ResResources(ResLiterals)</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			add
+		</span>
+					(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Statement</span>
+				<span class="var-name">$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddModel" id="addModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addModel</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a508">508</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds another model to this MemModel.</p>
+<p class="description"><p>Duplicate statements are not removed.  If you don't want duplicates, use unite().  If any statement of the model to be added to this model contains a blankNode  with an identifier already existing in this model, a new blankNode is generated.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addModel
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Model</span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddNamespace" id="addNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a853">853</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a namespace and prefix to the model.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gauß &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addNamespace
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$namespace</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$prefix,</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$prefix,</span><span class="var-description">: String $nmsp</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$prefix</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$namespace</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddParsedNamespaces" id="addParsedNamespaces"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addParsedNamespaces</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a841">841</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds the namespaces to the model. This method is called by  the parser. !!!! addParsedNamespaces() not overwrites manual  added namespaces in the model !!!!</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gauß &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addParsedNamespaces
+		</span>
+					(<span class="var-type">Array</span>&nbsp;<span class="var-name">$newNs</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">Array</span>
+				<span class="var-name">$newNs</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddWithoutDuplicates" id="addWithoutDuplicates"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addWithoutDuplicates</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a216">216</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if a new statement is already in the Model and adds the statement, if it is not in the Model.</p>
+<p class="description"><p>addWithoutDuplicates() is significantly slower then add().  Retruns TRUE if the statement is added.  FALSE otherwise.  Expects a statements with ResResources(ResLiterals)</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			addWithoutDuplicates
+		</span>
+					(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Statement</span>
+				<span class="var-name">$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontains" id="contains"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">contains</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a234">234</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tests if the Model contains the given statement.</p>
+<p class="description"><p>TRUE if the statement belongs to the model;  FALSE otherwise.  Expects a statement of ResResources(ResLiterals)</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			contains
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$statement</span>, <span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Statement</span>
+				<span class="var-name">$statement</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontainsAll" id="containsAll"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsAll</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a251">251</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if all of the statements in a model are also contained in this model.</p>
+<p class="description"><p>True if all of the statements in $model are also contained in this model and false otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsAll
+		</span>
+					(<span class="var-type">object Model</span>&nbsp;<span class="var-name">&$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Model</span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontainsAny" id="containsAny"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsAny</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a267">267</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if any of the statements in a model are also contained in this model.</p>
+<p class="description"><p>True if any of the statements in $model are also contained in this model and false otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsAny
+		</span>
+					(<span class="var-type">object Model</span>&nbsp;<span class="var-name">&$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Model</span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontainsResource" id="containsResource"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsResource</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a281">281</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if the node (ResResource / ResLiteral) $node appears in any statement of this model.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsResource
+		</span>
+					(<span class="var-type">object Node</span>&nbsp;<span class="var-name">&$node</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Node</span>
+				<span class="var-name">&$node</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateAlt" id="createAlt"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createAlt</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a527">527</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new RDF Container from type rdf:Alt  This method may return an existing container with the correct URI and model,  or it may construct a fresh one, as it sees fit.</p>
+<p class="description"><p>Subsequent operations on the returned Container may modify this model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+		<span class="method-name">
+			createAlt
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateBag" id="createBag"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">createBag</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a547">547</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new RDF Container from type rdf:Bag  This method may return an existing container with the correct URI and model,  or it may construct a fresh one, as it sees fit.</p>
+<p class="description"><p>Subsequent operations on the returned Container may modify this model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+		<span class="method-name">
+			createBag
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateList" id="createList"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createList</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a587">587</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new RDF Collection from type rdf:List  This method may return an existing container with the correct URI and model,  or it may construct a fresh one, as it sees fit.</p>
+<p class="description"><p>Subsequent operations on the returned Container may modify this model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+		<span class="method-name">
+			createList
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateLiteral" id="createLiteral"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">createLiteral</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a111">111</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create an untyped literal from a String value with a specified language.</p>
+<p class="description"><p>If you want to type this literal, you have to set a datatype before  adding it to the model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResLiteral.html">object ResLiteral</a></span>
+		<span class="method-name">
+			createLiteral
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$label</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$languageTag</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$label</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$languageTag</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateProperty" id="createProperty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createProperty</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a91">91</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new Property associated with this model.</p>
+<p class="description"><p>This method may return an existing property with the correct URI and model,  or it may construct a fresh one, as it sees fit.</p><p>Subsequent operations on the returned property may modify this model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+		<span class="method-name">
+			createProperty
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateResource" id="createResource"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">createResource</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a69">69</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new resource associated with this model.</p>
+<p class="description"><p>If the uri string isn't set, this creates a bnode.  Otherwise it creates a URI node.  A URI resource is .equals() to any other URI Resource with the same URI  (even in a different model - be warned).</p><p>This method may return an existing Resource with the correct URI and model,  or it may construct a fresh one, as it sees fit.</p><p>Operations on the result Resource may change this model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResResource.html">object ResResource</a></span>
+		<span class="method-name">
+			createResource
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateSeq" id="createSeq"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createSeq</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a567">567</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a new RDF Container from type rdf:Seq  This method may return an existing container with the correct URI and model,  or it may construct a fresh one, as it sees fit.</p>
+<p class="description"><p>Subsequent operations on the returned Container may modify this model.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResProperty.html">object ResProperty</a></span>
+		<span class="method-name">
+			createSeq
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateTypedLiteral" id="createTypedLiteral"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">createTypedLiteral</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a300">300</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Create a literal from a String value with the $dtype Datatype  An existing literal of the right value may be returned, or a fresh one created.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResLiteral.html">object ResLiteral</a></span>
+		<span class="method-name">
+			createTypedLiteral
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$value</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$dtype</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$value</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dtype</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodequals" id="equals"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">equals</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a321">321</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if two models are equal.</p>
+<p class="description"><p>Two models are equal if and only if the two RDF graphs they represent are isomorphic.</p><p>Warning: This method doesn't work correct with models where the same blank node has different  identifiers in the two models. We will correct this in a future version.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			equals
+		</span>
+					(<span class="var-type">object model</span>&nbsp;<span class="var-name">&$that</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object model</span>
+				<span class="var-name">&$that</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfind" id="find"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">find</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a133">133</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">General method to search for triples.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;find( NULL, NULL, $node );  Finds all Statements with $node as object.  Returns an array of statements with ResResources.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			find
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindFirstMatchingStatement" id="findFirstMatchingStatement"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">findFirstMatchingStatement</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a168">168</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Searches for triples and returns the first matching statement.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;findFirstMatchingStatement( NULL, NULL, $node );  Returns the first statement with ResResources of the Model where the object equals $node.  Returns an NULL if nothing is found.  You can define an offset to search.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Statement</span>
+		<span class="method-name">
+			findFirstMatchingStatement
+		</span>
+					(<span class="var-type">object Node</span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type">object Node</span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type">object Node</span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Node</span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type">object Node</span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type">object Node</span>
+				<span class="var-name">$object</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$offset</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetBaseURI" id="getBaseURI"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getBaseURI</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a644">644</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Return current baseURI.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getBaseURI
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetModel" id="getModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getModel</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a602">602</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a reference to the underlying model (Mem/DB/InfModel) that contains the statements</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Model</span>
+		<span class="method-name">
+			&amp;getModel
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetParsedNamespaces" id="getParsedNamespaces"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getParsedNamespaces</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a826">826</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the models namespaces.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gauß &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">Array</span>
+		<span class="method-name">
+			getParsedNamespaces
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetProperty" id="getProperty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getProperty</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a353">353</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Answer a statement find(s, p, null) with ResResources(ResLiterals) from this model.</p>
+<p class="description"><p>If none exist, return null; if several exist, pick one arbitrarily.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object Statement</span>
+		<span class="method-name">
+			getProperty
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$property</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$property</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodintersect" id="intersect"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">intersect</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a685">685</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new model containing all the statements which are in both this model and another.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object MemModel</span>
+		<span class="method-name">
+			&amp;intersect
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Model</span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmpty" id="isEmpty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isEmpty</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a376">376</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if MemModel is empty</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isEmpty
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodlistObjects" id="listObjects"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">listObjects</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a388">388</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a ResIterator with all objects in a model.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+		<span class="method-name">
+			listObjects
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodlistObjectsOfProperty" id="listObjectsOfProperty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">listObjectsOfProperty</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a401">401</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a ResIterator with all objects with a given property and property value.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+		<span class="method-name">
+			listObjectsOfProperty
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$property</span>			</li>
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodlistSubjects" id="listSubjects"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">listSubjects</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a414">414</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a ResIterator with all subjects in a model.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+		<span class="method-name">
+			listSubjects
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodlistSubjectsWithProperty" id="listSubjectsWithProperty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">listSubjectsWithProperty</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a428">428</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a ResIterator with all subjects with a given property and property value.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../resModel/ResIterator.html">object ResIterator</a></span>
+		<span class="method-name">
+			listSubjectsWithProperty
+		</span>
+					(<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$property</span>, [<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$property</span>			</li>
+					<li>
+				<span class="var-type"><a href="../resModel/ResResource.html">object ResResource</a></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodload" id="load"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">load</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a633">633</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Load a model from a file containing RDF, N3 or N-Triples.</p>
+<p class="description"><p>This function recognizes the suffix of the filename (.n3 or .rdf) and  calls a suitable parser, if no $type is given as string (&quot;rdf&quot; &quot;n3&quot; &quot;nt&quot;);  If the model is not empty, the contents of the file is added to this DbModel.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			load
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">NULL</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$stream</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$filename</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$stream</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrdqlQuery" id="rdqlQuery"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">rdqlQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a795">795</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Perform an RDQL query on this MemModel.</p>
+<p class="description"><p>This method returns an associative array of variable bindings.  The values of the query variables can either be RAP's objects (instances of Node)  if $returnNodes set to TRUE, or their string serialization.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> [][?VARNAME] = object Node  (if $returnNodes = TRUE)       OR  array   [][?VARNAME] = string</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			&amp;rdqlQuery
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$queryString</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$returnNodes</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrdqlQueryAsIterator" id="rdqlQueryAsIterator"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">rdqlQueryAsIterator</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a813">813</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Perform an RDQL query on this MemModel.</p>
+<p class="description"><p>This method returns an RdqlResultIterator of variable bindings.  The values of the query variables can either be RAP's objects (instances of Node)  if $returnNodes set to TRUE, or their string serialization.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> = with values as object Node  (if $returnNodes = TRUE)       OR  object RdqlResultIterator = with values as strings if (if $returnNodes = FALSE)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object RdqlResultIterator</span>
+		<span class="method-name">
+			rdqlQueryAsIterator
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$queryString</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$returnNodes</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremove" id="remove"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">remove</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a443">443</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes the statement of ResResources(ResTriples) from the MemModel.</p>
+<p class="description"><p>TRUE if the statement is removed.  FALSE otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			remove
+		</span>
+					(<span class="var-type">object Statement</span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Statement</span>
+				<span class="var-name">$statement</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveNamespace" id="removeNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a864">864</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">removes a single namespace from the model</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gauß &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			removeNamespace
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$nmsp</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsaveAs" id="saveAs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">saveAs</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a662">662</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Saves the RDF,N3 or N-Triple serialization of the MemModel to a file.</p>
+<p class="description"><p>You can decide to which format the model should be serialized by using a  corresponding suffix-string as $type parameter. If no $type parameter  is placed this method will serialize the model to XML/RDF format.  Returns FALSE if the MemModel couldn't be saved to the file.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			saveAs
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'rdf'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$filename</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetBaseURI" id="setBaseURI"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setBaseURI</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a766">766</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set a base URI for the MemModel.</p>
+<p class="description"><p>Affects creating of new resources and serialization syntax.  If the URI doesn't end with # : or /, then a # is added to the URI.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setBaseURI
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsize" id="size"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">size</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a457">457</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Number of statements in the MemModel</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			size
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodsubtract" id="subtract"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">subtract</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a336">336</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new model that is the subtraction of another model from this model.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object MemModel</span>
+		<span class="method-name">
+			subtract
+		</span>
+					(<span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Model</span>
+				<span class="var-name">$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodunite" id="unite"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">unite</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a489">489</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new Model that is the set-union of the model with another model.</p>
+<p class="description"><p>Duplicate statements are removed. If you want to allow duplicates, use addModel() which is much faster.</p><p>The result of taking the set-union of two or more RDF graphs (i.e. sets of triples)  is another graph, which we will call the merge of the graphs.  Each of the original graphs is a subgraph of the merged graph. Notice that when forming  a merged graph, two occurrences of a given uriref or literal as nodes in two different  graphs become a single node in the union graph (since by definition they are the same  uriref or literal) but blank nodes are not 'merged' in this way; and arcs are of course  never merged. In particular, this means that every blank node in a merged graph can be  identified as coming from one particular graph in the original set of graphs.</p><p>Notice that one does not, in general, obtain the merge of a set of graphs by concatenating  their corresponding N-triples documents and constructing the graph described by the merged  document, since if some of the documents use the same node identifiers, the merged document  will describe a graph in which some of the blank nodes have been 'accidentally' merged.  To merge Ntriples documents it is necessary to check if the same nodeID is used in two or  more documents, and to replace it with a distinct nodeID in each of them, before merging the  documents. (Not implemented yet !!!!!!!!!!!)</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object MemModel</span>
+		<span class="method-name">
+			&amp;unite
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type">object Model</span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object Model</span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwriteAsHTMLTable" id="writeAsHTMLTable"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeAsHTMLTable</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a672">672</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Writes the RDF serialization of the MemModel as HTML table.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			writeAsHTMLTable
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodwriteRdfToString" id="writeRdfToString"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeRdfToString</span> (line <span class="line-number"><a href="../__filesource/fsource_resModel__resModelResModel.php.html#a777">777</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Writes the RDF serialization of the MemModel as HTML table.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			writeRdfToString
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:51:35 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

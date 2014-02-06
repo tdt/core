@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Introduction to RAP</title>
+    
+    <link rev="made" href="mailto:ian.dickinson@hp.com">
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+    <meta name="generator" content="NoteTab Pro 4.95">
+    <meta name="author" content="Ian Dickinson">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <!--
+      CVS: $Id: introductionToRAP.htm 290 2006-06-22 12:23:24Z tgauss $
+     (c) Copyright 2003, 2004, Hewlett-Packard Development Company LP
+    -->
+    <link href="../phpdoc.CSS" rel="stylesheet" type="text/css" />
+</head>
+
+  <body id="content">
+  <H3>RDF API for PHP </H3>
+  <h1 class="sectionHeading"> Introduction to RAP</h1>
+<p class="sectionHeading">This document is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<p class="sectionHeading"><a href="http://www.wiwiss.fu-berlin.de/suhl/ueber_uns/team/daniel_westphal.htm" target="_blank">Daniel Westphal</a>, <a href="http://www.wiwiss.fu-berlin.de/suhl/ueber_uns/team/chris_bizer.htm" target="_blank">Chris Bizer</a><br />
+October 2004</p>
+<h2> Table of Contents </h2>
+<ol>
+  <li> <a href="#generalConcepts">Overview</a></li>
+  <li><a href="#memmodel">The MemModel</a></li>
+  <li><a href="#dbmodel">The DbModel</a></li>
+  <li><a href="#infmodel">The Infmodels</a> (<a href="#infmodelf">InfModelF</a>, 
+    <a href="#infmodelb">InfModelB</a>)</li>
+  <li><a href="#resmodel">The ResModel</a></li>
+  <li><a href="#ontmodel">The OntModel </a></li>
+</ol>
+    <p>&nbsp; </p>
+<h2 id="generalConcepts"> Overview</h2>
+<p>RAP - RDF API for PHP is a Semantic Web toolkit for PHP developers. RAP started 
+  as an open source project at the Freie Universit&auml;t Berlin in 2002 and has 
+  been extended with internal and external code contributions since then. Its 
+  latest release includes:</p>
+<ul>
+  <li>a statement-centric API for manipulating RDF graphs as a set of statements</li>
+  <li>a resource-centric API for manipulating RDF graphs as a set of resources 
+  </li>
+  <li>integrated RDF/XML, N3 and N-TRIPLE parsers</li>
+  <li>integrated RDF/XML, N3 and N-TRIPLE serializers </li>
+  <li>in-memory or database model storage </li>
+  <li>support for the RDQL query language</li>
+  <li>an inference engine supporting RDF-Schema reasoning and some OWL entailments 
+  </li>
+  <li>an RDF server providing similar functionality as the <a href="http://www.joseki.org/" target="_blank">Joseki 
+    RDF server</a></li>
+  <li><a href="db_utils.htm">a graphical user-interface</a>  for managing database-backed RDF models </li>
+  <li>support for common vocabularies</li>
+</ul>
+<p>RAP can be used under the terms of the <a href="http://www.gnu.org/copyleft/lesser.txt" target="_blank">GNU 
+  LESSER GENERAL PUBLIC LICENSE (LGPL)</a> <br />
+  and can be downloaded from <a 
+        href="http://sourceforge.net/projects/rdfapi-php/" target="_blank">http://sourceforge.net/projects/rdfapi-php/</a></p>
+<p>RAP offers two different programming interfaces for manipulating RDF graphs: 
+  The statement-centric <strong>Model API</strong> which allows you to manipulate 
+  an RDF graph as a set of statements; and the resource-centric <strong>ResModel 
+  API</strong> for manipulating an RDF graph as a set of resources. </p>
+<p>The Model API supports adding, deleting, and replacing statements inside a 
+  model as well as adding entire models. StatementIterators allow sequential access 
+  to all statements within a model. There are four different implementations of 
+  the Model API:</p>
+<table width="80%" border="1" bordercolor="#CCCCCC">
+  <tbody>
+    <tr bgcolor="#cccccc"> 
+      <th width="106"> <p>Model</p></th>
+      <th width="296"> <p>Functionality</p></th>
+    </tr>
+    <tr> 
+      <td align="middle" valign="top"><p>MemModel</p></td>
+      <td align="left" bordercolor="#CCCCCC"> <p>Model storing its RDF graph in 
+          memory. MemModel is fast, but doesn't support inference.<br />
+        </p></td>
+    </tr>
+    <tr> 
+      <td align="middle" valign="top"><p>DbModel</p></td>
+      <td align="left" bordercolor="#CCCCCC"><p>Model storing its RDF graph in 
+          a relational database. No inference support.</p></td>
+    </tr>
+    <tr> 
+      <td align="middle" valign="top"><p>InfModelF</p></td>
+      <td align="left" bordercolor="#CCCCCC"><p>Forward-chaining inference model 
+          storing its base graph and inferred triples in memory.</p></td>
+    </tr>
+    <tr> 
+      <td align="middle" valign="top"><p>InfModelB</p></td>
+      <td align="left" bordercolor="#CCCCCC"><p>Backward-chaining inference model 
+          storing its base graph in memory and creating inferred triples on the 
+          fly.</p></td>
+    </tr>
+  </tbody>
+</table>
+<p>The resource-centric ResModel API represents RDF graphs as resources having 
+  properties. The ResModel API is very similar to the <a href="http://jena.sourceforge.net/" target="_blank">Jena 
+  Model API</a> allowing programmers, which are used to Jena, to easily write 
+  RAP code. The ResModel API is implemented on top of the Model API. ResModels 
+  are always having a underlying MemModel, DbModel, InfModelF or InfModelB and 
+  are only providing a resource-centric view on this model. There are two implementations 
+  of the ResModel API:</p>
+<table width="80%" border="1" bordercolor="#CCCCCC">
+  <tbody>
+    <tr bgcolor="#cccccc"> 
+      <th width="106"> <p>Model</p></th>
+      <th width="296"> <p>Functionality</p></th>
+    </tr>
+    <tr> 
+      <td align="middle" valign="top"><p>ResModel</p></td>
+      <td align="left" bordercolor="#CCCCCC"> <p>Basic implementation of the ResModel 
+          API<br />
+        </p></td>
+    </tr>
+    <tr> 
+      <td align="middle" valign="top"><p>OntModel</p></td>
+      <td align="left" bordercolor="#CCCCCC"><p>OntModel provides a ResModel implementation 
+          extended with RDF-Schema specific methods like hasSuperProperty(), addDomain() 
+          and listInstances().</p></td>
+    </tr>
+  </tbody>
+</table>
+<p>The following sections are explaining the different RAP models in more detail. 
+  Further tutorial and RAP usage examples are found on the RAP <a href="../tests.html">Documentation</a> overview page.</p>
+<p>&nbsp;</p>
+  <h2><a name="memmodel" id="memmodel"></a>The MemModel </h2>
+<p>The MemModel implementation stores statements in an array in the system memory. 
+  If a new statement is added to the model, it's appended to the array and added 
+  to a statement index in order to accelerate queries. MemModel is the fastest 
+  of all Model API implementations.</p>
+<p><img src="img/memmodel.png" /><br />
+</p>
+<p> Further information about using the MemModel can be found in the &quot;<span class="sectionHeading"><a href="usingthemodelapi.htm">Using 
+  RAP's Statement-Centric MemModel API</a></span>&quot; tutorial and in the <a href="../phpdoc/index_memmodel.html">MemModel 
+  PHPDoc</a>. </p>
+<p>&nbsp;</p>
+  <h2><a name="dbmodel" id="dbmodel"></a>The DbModel </h2>
+<p>The DbModel implementation stores statements in an relational database. DbModel 
+  supports a wide range of different databases by using the ADODB database abstraction 
+  layer. The core of RAP's database backend are the classes DbStore and DbModel. 
+  The former represents all models stored in a database, whereas the latter provides 
+  methods for manipulating these models.<br />
+  <br />
+  <img src="img/dbmodel.png" /><br />
+</p>
+<p>RAP uses a denormalized database schema, where all statements are written into 
+  a single statement table. We compared the performance of this solution with 
+  a normalized layout. Running benchmarks has shown that the denormalized schema 
+  was 2-3 times faster than the normalized one. The trade-off between better performance 
+  and increased database size was acceptable for medium-sized RDF models. </p>
+<p>Further information about using the DbModel can be found in the tutorial about 
+  &quot;<a href="database_persistence.htm">Database Persistence</a>&quot; and 
+  in the <a href="../phpdoc/index_dbmodel.html">DbModel PHPDoc</a>. </p>
+<p>&nbsp; </p>
+  <h2><a name="infmodel" id="infmodel"></a>The InfModels</h2>
+<p> InfModel extends MemModel by adding the ability to infer additional statements. 
+  Up to our knowledge, InfModel is the only reasoning engine implemented in PHP. 
+  The performance of InfModel can't compete with the performance of reasoning 
+  engines implemented in Java or C, because PHP still isn't a very fast language. 
+  But for medium sized models and relatively small RDF-S schemata, InfModel works 
+  fine. InfModel supports the following RDF-S and OWL constructs:</p>
+  <ul>
+    <li>rdfs:subclass</li>
+    <li>rdfs:subproperty</li>
+    <li>rdfs:range</li>
+    <li>rdfs:domain</li>
+    <li>owl:sameAs</li>
+    <li>owl:inverseOf</li>
+  </ul>
+<p>Additionally, the following inference rules from the <a href="http://www.w3.org/tr/2004/rec-rdf-mt-20040210/" target="_blank">W3C 
+  RDF Semantics Recommendation</a> are supported:</p>
+  <ul>
+    <li>RDFS Rule 6 </li>
+    <li>RDFS Rule 8</li>
+    <li>RDFS Rule 10</li>
+    <li>RDFS Rule 12</li>
+    <li>RDFS Rule 13 </li>
+  </ul>
+<p>You can activate and deactivate the different rules separately in constants.php. 
+  Turning off rules that you don't need improves the performance of InfModel.</p>
+<p>The abstract class InfModel is extended by two subclasses:</p>
+<ul>
+  <li>InfModelF, which uses a forward chaining inference algorithm.</li>
+  <li>InfModelB, which uses a backward chaining inference algorithm.</li>
+</ul>
+<p>The pros and cons of both algorithms are described below:</p>
+<h3><br />
+    <a name="infmodelf" id="infmodelf"></a>The InfModelF</h3>
+<p>InfModelF uses a forward chaining inference algorithm: If a new statement from 
+  the RDFS or OWL namespace is added to the model, a corresponding InfRule is 
+  added to the model's rule-base. The rule has a trigger and an entailment. If 
+  a new statement, which matches the trigger of an InfRule, is added to the model 
+  then the entailment will be recursively computed until no more rule-triggers 
+  match the statement or statements inferred from it. The base statement and all 
+  inferred statements are added to the model.<br />
+</p>
+<p><img src="img/infmodelf.png" width="328" height="428" /><br />
+</p>
+<p>Materializing all possible inferred statements means that adding base statements 
+  to the model is relatively slow. On the other hand find operations are very 
+  fast, because the find method just has to look into the statement index and 
+  return the matching statements (including inferred statements). </p>
+<p>Thus you should use InfModelF </p>
+<ul>
+  <li>if your model doesn't change much and </li>
+  <li>you are going to query the model a lot.</li>
+  </ul>
+<p>Further information about using the InfModelF can be found in  the <a href="../phpdoc/index_infmodelF.html">InfModelF PHPDoc</a>.</p>
+<p>&nbsp;</p>
+<h3><a name="infmodelb" id="infmodelb"></a>The InfModelB</h3>
+<p>InfModelB uses a backward chaining inference algorithm, meaning that no inferences 
+  are done when a new statement is added to the model. When a query is executed 
+  against the model later, only the necessary inferences for this query are done: 
+  A find-patter is executed with the supplied parameters first. Afterwards it 
+  is checked against an inference-rules index, if there are any rules that could 
+  produce statements that would match the find-pattern. If there are such rules, 
+  the find-pattern is rewritten an a new search is done. The new statements are 
+  inferred and added to the result. This iterative process will be repeated until 
+  there are no rules left that could produce matching statements. </p>
+<p><img src="img/infmodelb.png" width="324" height="381" /><br />
+</p>
+<p>InfModelB recognizes subclassing loops in ontologies. It also uses some shortcuts 
+  which speed up the search process: It recognizes branches in the ontology that 
+  don't lead to any additional statements and avoids running into these 'dead 
+  ends' a second time. </p>
+<p>You should use InfModelB:</p>
+<ul>
+  <li> if your model changes a lot, </li>
+  <li> if you don't want to materialize all inferred statements, </li>
+  <li> if you are having a lot of RDF-S statements or </li>
+  <li>if you are not going to execute too many queries against the model.</li>
+  </ul>
+<p>Further information about using the InfModelB can be found in the <a href="../phpdoc/index_infmodelB.html">InfModelB PHPDoc</a>.</p>
+<p>&nbsp; </p>
+  <h2><a name="resmodel" id="resmodel"></a>The ResModel </h2>
+<p>ResModel provides a resource-centric view on an underlying Model. ResModels 
+  represent an RDF graphs as a set of resources having properties, similar to 
+  the <a href="http://jena.sourceforge.net/" target="_blank">Jena Model API</a>. 
+  The ResModel API is implemented on top of the Model API. Thus ResModels are 
+  always having a underlying MemModel, DbModel, InfModelF or InfModelB and are 
+  only providing a resource-centric view on this model.</p>
+<p> <img src="img/resmodel.png" width="324" height="343" /></p>
+<p>Each ResModel method call is translated into a find()-, add()-, or remove()-call 
+  to the underlying model. Thus using ResModel is slightly slower than using the 
+  underlying model directly. The ResModel API also provides support for special 
+  resources like rdf:containers and rdf:collections. There is no caching done 
+  between the layers.</p>
+<p>Further information about using the ResModel can be found in the tutorial about 
+  &quot;<a href="usingtheresmodelapi.htm">Using RAP's Resource-Centric ResModel 
+  API&quot;</a> and in the<a href="../phpdoc/index_resmodel.html"> ResModel PHPDoc</a>.<br />
+</p>
+<h2><a name="ontmodel" id="ontmodel"></a>The OntModel</h2>
+<p>OntModel API provides a ResModel implementation extended with RDF-Schema specific 
+  methods like addSubClass(), listSubClasses(), hasSuperProperty(), addDomain() 
+  and listInstances(). </p>
+<p>OntModel just provides a more convenient API for working with RDF-S models, 
+  but doesn't do any inference by itself. If you also need RDF-S inference 
+  you have to combine OntModel with an underlying InfModelF or InfModelB. If you 
+  don't need inference you can combine OntModel with an underlying MemModel 
+  or DbModel. </p>
+<p><img src="img/ontmodel.png" width="324" height="343" /></p>
+<p>Further information about OntModel can be found in the tutorial about &quot;<span class="sectionHeading"><a href="usingtheontmodelapi.htm">Using 
+  RAP's Ontology-Centric OntModel API</a></span>&quot; and in the <a href="../phpdoc/index_ontmodel.html">OntModel PHPDoc</a>.</p>
+<p><br />
+</p>
+  </body></html>

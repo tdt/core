@@ -1,0 +1,147 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/doc
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2007-06-01T16:25:38.000000Z
+443
+cax
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+rdql_grammar.htm
+file
+
+
+
+
+2008-02-29T14:57:44.413378Z
+1916849faf08642a2f045cc80c765ed5
+2006-06-22T12:23:24.000000Z
+290
+tgauss
+has-props
+
+tests
+dir
+
+tutorial
+dir
+
+manual.css
+file
+
+
+
+
+2008-02-29T14:57:44.428998Z
+e23b2206cbd08421ffdeab53937d58a7
+2007-04-30T06:30:09.000000Z
+421
+cweiske
+has-props
+
+phpdoc.CSS
+file
+
+
+
+
+2008-02-29T14:57:44.428998Z
+9ba426cf3e0ac703962b272673a63cc3
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+tests.html
+file
+563
+
+
+
+2008-02-29T15:51:21.000000Z
+6bed6b8ca610a0c5a90b7c4d8946b8f4
+2008-02-29T16:02:33.224682Z
+563
+cax
+has-props
+
+example1.rdf
+file
+
+
+
+
+2008-02-29T14:57:44.444619Z
+033f3ebdde0e1aea8d342a781e79291d
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+database_schema.html
+file
+
+
+
+
+2008-02-29T14:57:44.460239Z
+da77d148d7bc6b4182871cf6552cccb5
+2006-06-22T12:23:24.000000Z
+290
+tgauss
+has-props
+
+phpdoc.dtd
+file
+
+
+
+
+2008-02-29T14:57:44.460239Z
+784764c4a912eb50f0bf1d2a274a2d50
+2005-07-07T18:03:06.000000Z
+240
+tgauss
+has-props
+
+implNotes
+dir
+
+index.html
+file
+563
+
+
+
+2008-02-29T15:55:33.000000Z
+3e8652e799e5f088c0ce3e2c7d0755f5
+2008-02-29T16:02:33.224682Z
+563
+cax
+has-props
+
+img
+dir
+
+phpdoc
+dir
+

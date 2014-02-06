@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/rdfapi-php/!svn/ver/375/trunk/rdfapi-php/api/util
+END
+RdfUtil.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/295/trunk/rdfapi-php/api/util/RdfUtil.php
+END
+FindIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/util/FindIterator.php
+END
+StatementIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/util/StatementIterator.php
+END
+Utility.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/util/Utility.php
+END
+IterFind.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/util/IterFind.php
+END
+Object.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/rdfapi-php/!svn/ver/295/trunk/rdfapi-php/api/util/Object.php
+END
+ModelComparator.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/301/trunk/rdfapi-php/api/util/ModelComparator.php
+END

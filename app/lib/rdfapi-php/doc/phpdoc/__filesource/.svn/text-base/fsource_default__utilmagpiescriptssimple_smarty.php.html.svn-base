@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>File Source for simple_smarty.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<h1>Source for file simple_smarty.php</h1>
+<p>Documentation is available at <a href="../default/_util---magpie---scripts---simple_smarty.php.html">simple_smarty.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a3"></a><span class="src-comm">//&nbsp;Define&nbsp;path&nbsp;to&nbsp;Smarty&nbsp;files&nbsp;(don't&nbsp;forget&nbsp;trailing&nbsp;slash)</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-comm">//&nbsp;and&nbsp;load&nbsp;library.&nbsp;&nbsp;(you'll&nbsp;want&nbsp;to&nbsp;change&nbsp;this&nbsp;value)</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-comm">//</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-comm">//&nbsp;NOTE:&nbsp;&nbsp;you&nbsp;can&nbsp;also&nbsp;simply&nbsp;add&nbsp;Smarty&nbsp;to&nbsp;your&nbsp;include&nbsp;path</span></div></li>
+<li><div class="src-line"><a name="a7"></a><a href="http://www.php.net/define">define</a><span class="src-sym">(</span><span class="src-str">'SMARTY_DIR'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'/home/kellan/projs/magpierss/scripts/Smarty/'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-inc">require_once</span><span class="src-sym">(</span><span class="src-id">SMARTY_DIR</span>.<span class="src-str">'Smarty.class.php'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a9"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-comm">//&nbsp;define&nbsp;path&nbsp;to&nbsp;Magpie&nbsp;files&nbsp;and&nbsp;load&nbsp;library</span></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-comm">//&nbsp;(you'll&nbsp;want&nbsp;to&nbsp;change&nbsp;this&nbsp;value)</span></div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-comm">//</span></div></li>
+<li><div class="src-line"><a name="a13"></a><span class="src-comm">//&nbsp;NOTE:&nbsp;you&nbsp;can&nbsp;also&nbsp;simple&nbsp;add&nbsp;MagpieRSS&nbsp;to&nbsp;your&nbsp;include&nbsp;path</span></div></li>
+<li><div class="src-line"><a name="a14"></a><a href="http://www.php.net/define">define</a><span class="src-sym">(</span><span class="src-str">'MAGPIE_DIR'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'/home/kellan/projs/magpierss/'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a15"></a><span class="src-inc">require_once</span><span class="src-sym">(</span><span class="src-id">MAGPIE_DIR</span>.<span class="src-str">'rss_fetch.inc'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a16"></a><span class="src-inc">require_once</span><span class="src-sym">(</span><span class="src-id">MAGPIE_DIR</span>.<span class="src-str">'rss_utils.inc'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a17"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a18"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a19"></a><span class="src-comm">//&nbsp;optionally&nbsp;show&nbsp;lots&nbsp;of&nbsp;debugging&nbsp;info</span></div></li>
+<li><div class="src-line"><a name="a20"></a><span class="src-comm">#&nbsp;define('MAGPIE_DEBUG',&nbsp;2);</span></div></li>
+<li><div class="src-line"><a name="a21"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a22"></a><span class="src-comm">//&nbsp;optionally&nbsp;flush&nbsp;cache&nbsp;quickly&nbsp;for&nbsp;debugging&nbsp;purposes,&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a23"></a><span class="src-comm">//&nbsp;don't&nbsp;do&nbsp;this&nbsp;on&nbsp;a&nbsp;live&nbsp;site</span></div></li>
+<li><div class="src-line"><a name="a24"></a><span class="src-comm">#&nbsp;define('MAGPIE_CACHE_AGE',&nbsp;10);</span></div></li>
+<li><div class="src-line"><a name="a25"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a26"></a><span class="src-comm">//&nbsp;use&nbsp;cache?&nbsp;&nbsp;default&nbsp;is&nbsp;yes.&nbsp;&nbsp;see&nbsp;rss_fetch&nbsp;for&nbsp;other&nbsp;Magpie&nbsp;options</span></div></li>
+<li><div class="src-line"><a name="a27"></a><span class="src-comm">#&nbsp;define('MAGPIE_CACHE_ON',&nbsp;1)</span></div></li>
+<li><div class="src-line"><a name="a28"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a29"></a><span class="src-comm">//&nbsp;setup&nbsp;template&nbsp;object</span></div></li>
+<li><div class="src-line"><a name="a30"></a><span class="src-var">$smarty&nbsp;</span>=&nbsp;<span class="src-key">new&nbsp;</span><span class="src-id">Smarty</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a31"></a><span class="src-var">$smarty</span><span class="src-sym">-&gt;</span><span class="src-id">compile_check&nbsp;</span>=&nbsp;<span class="src-id">true</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a32"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a33"></a><span class="src-comm">//&nbsp;url&nbsp;of&nbsp;an&nbsp;rss&nbsp;file</span></div></li>
+<li><div class="src-line"><a name="a34"></a><span class="src-var">$url&nbsp;</span>=&nbsp;<span class="src-var">$_GET</span><span class="src-sym">[</span><span class="src-str">'rss_url'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a35"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a36"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a37"></a><span class="src-key">if&nbsp;</span><span class="src-sym">(&nbsp;</span><span class="src-var">$url&nbsp;</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a38"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;assign&nbsp;a&nbsp;variable&nbsp;to&nbsp;smarty&nbsp;for&nbsp;use&nbsp;in&nbsp;the&nbsp;template</span></div></li>
+<li><div class="src-line"><a name="a39"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$smarty</span><span class="src-sym">-&gt;</span><span class="src-id">assign</span><span class="src-sym">(</span><span class="src-str">'rss_url'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$url</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a41"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;use&nbsp;MagpieRSS&nbsp;to&nbsp;fetch&nbsp;remote&nbsp;RSS&nbsp;file,&nbsp;and&nbsp;parse&nbsp;it</span></div></li>
+<li><div class="src-line"><a name="a42"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$rss&nbsp;</span>=&nbsp;<a href="../default/_util---magpie---rss_fetch.inc.html#functionfetch_rss">fetch_rss</a><span class="src-sym">(&nbsp;</span><span class="src-var">$url&nbsp;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a43"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-comm">//&nbsp;if&nbsp;fetch_rss&nbsp;returned&nbsp;false,&nbsp;we&nbsp;encountered&nbsp;an&nbsp;error</span></div></li>
+<li><div class="src-line"><a name="a45"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">if&nbsp;</span><span class="src-sym">(&nbsp;</span><span class="src-sym">!</span><span class="src-var">$rss&nbsp;</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a46"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$smarty</span><span class="src-sym">-&gt;</span><span class="src-id">assign</span><span class="src-sym">(&nbsp;</span><span class="src-str">'error'</span><span class="src-sym">,&nbsp;</span><a href="../default/_util---magpie---rss_fetch.inc.html#functionmagpie_error">magpie_error</a><span class="src-sym">(</span><span class="src-sym">)&nbsp;)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a47"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a48"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$smarty</span><span class="src-sym">-&gt;</span><span class="src-id">assign</span><span class="src-sym">(</span><span class="src-str">'rss'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$rss&nbsp;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a49"></a>&nbsp;&nbsp;&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a50"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$item&nbsp;</span>=&nbsp;<span class="src-var">$rss</span><span class="src-sym">-&gt;</span><span class="src-id">items</span><span class="src-sym">[</span><span class="src-num">0</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a51"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$date&nbsp;</span>=&nbsp;<a href="../default/_util---magpie---rss_utils.inc.html#functionparse_w3cdtf">parse_w3cdtf</a><span class="src-sym">(&nbsp;</span><span class="src-var">$item</span><span class="src-sym">[</span><span class="src-str">'dc'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'date'</span><span class="src-sym">]&nbsp;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a52"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$smarty</span><span class="src-sym">-&gt;</span><span class="src-id">assign</span><span class="src-sym">(&nbsp;</span><span class="src-str">'date'</span><span class="src-sym">,&nbsp;</span><span class="src-var">$date&nbsp;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a53"></a><span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a54"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a55"></a><span class="src-comm">//&nbsp;parse&nbsp;smarty&nbsp;template,&nbsp;and&nbsp;display&nbsp;using&nbsp;the&nbsp;variables&nbsp;we&nbsp;assigned</span></div></li>
+<li><div class="src-line"><a name="a56"></a><span class="src-var">$smarty</span><span class="src-sym">-&gt;</span><span class="src-id">display</span><span class="src-sym">(</span><span class="src-str">'simple.smarty'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a57"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a58"></a><span class="src-php">?&gt;</span></div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 01 May 2007 16:47:13 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</body>
+</html>

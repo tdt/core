@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>File Source for magpie_simple.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<h1>Source for file magpie_simple.php</h1>
+<p>Documentation is available at <a href="../default/_util---magpie---scripts---magpie_simple.php.html">magpie_simple.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php</span></div></li>
+<li><div class="src-line"><a name="a2"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a3"></a><a href="http://www.php.net/define">define</a><span class="src-sym">(</span><span class="src-str">'MAGPIE_DIR'</span><span class="src-sym">,&nbsp;</span><span class="src-str">'../'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-inc">require_once</span><span class="src-sym">(</span><span class="src-id">MAGPIE_DIR</span>.<span class="src-str">'rss_fetch.inc'</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a5"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-var">$url&nbsp;</span>=&nbsp;<span class="src-var">$_GET</span><span class="src-sym">[</span><span class="src-str">'url'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a7"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-key">if&nbsp;</span><span class="src-sym">(&nbsp;</span><span class="src-var">$url&nbsp;</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a9"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$rss&nbsp;</span>=&nbsp;<a href="../default/_util---magpie---rss_fetch.inc.html#functionfetch_rss">fetch_rss</a><span class="src-sym">(&nbsp;</span><span class="src-var">$url&nbsp;</span><span class="src-sym">)</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a10"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">&quot;Channel:&nbsp;&quot;&nbsp;</span>.&nbsp;<span class="src-var">$rss</span><span class="src-sym">-&gt;</span><span class="src-id">channel</span><span class="src-sym">[</span><span class="src-str">'title'</span><span class="src-sym">]&nbsp;</span>.&nbsp;<span class="src-str">&quot;&lt;p&gt;&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a11"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">&quot;&lt;ul&gt;&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a12"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-key">foreach&nbsp;</span><span class="src-sym">(</span><span class="src-var">$rss</span><span class="src-sym">-&gt;</span><span class="src-id">items&nbsp;</span><span class="src-key">as&nbsp;</span><span class="src-var">$item</span><span class="src-sym">)&nbsp;</span><span class="src-sym">{</span></div></li>
+<li><div class="src-line"><a name="a13"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$href&nbsp;</span>=&nbsp;<span class="src-var">$item</span><span class="src-sym">[</span><span class="src-str">'link'</span><span class="src-sym">]</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a14"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-var">$title&nbsp;</span>=&nbsp;<span class="src-var">$item</span><span class="src-sym">[</span><span class="src-str">'title'</span><span class="src-sym">]</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a15"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">&quot;</span><span class="src-str">&lt;<span class="src-id">li</span>&gt;&lt;<span class="src-id">a</span>&nbsp;<span class="src-id">href</span>=<span class="src-var">$href</span>&gt;<span class="src-var">$title</span>&lt;/<span class="src-id">a</span>&gt;&lt;/<span class="src-id">li</span>&gt;</span><span class="src-str">&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a16"></a>&nbsp;&nbsp;&nbsp;&nbsp;<span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a17"></a>&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;<span class="src-str">&quot;&lt;/ul&gt;&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a18"></a><span class="src-sym">}</span></div></li>
+<li><div class="src-line"><a name="a19"></a><span class="src-php">?&gt;</span></div></li>
+<li><div class="src-line"><a name="a20"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a21"></a>&lt;form&gt;</div></li>
+<li><div class="src-line"><a name="a22"></a>&nbsp;&nbsp;&nbsp;&nbsp;RSS&nbsp;URL:&nbsp;&lt;input&nbsp;type=&quot;text&quot;&nbsp;size=&quot;30&quot;&nbsp;name=&quot;url&quot;&nbsp;value=&quot;<span class="src-php">&lt;?php&nbsp;</span>echo&nbsp;<span class="src-var">$url&nbsp;</span><span class="src-php">?&gt;</span>&quot;&gt;&lt;br&nbsp;/&gt;</div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;&nbsp;&nbsp;&nbsp;&lt;input&nbsp;type=&quot;submit&quot;&nbsp;value=&quot;Parse&nbsp;RSS&quot;&gt;</div></li>
+<li><div class="src-line"><a name="a24"></a>&lt;/form&gt;</div></li>
+<li><div class="src-line"><a name="a25"></a>&nbsp;&nbsp;</div></li>
+<li><div class="src-line"><a name="a26"></a>&lt;p&gt;</div></li>
+<li><div class="src-line"><a name="a27"></a>&lt;h2&gt;Security&nbsp;Note:&lt;/h2&gt;</div></li>
+<li><div class="src-line"><a name="a28"></a>This&nbsp;is&nbsp;a&nbsp;simple&nbsp;&lt;b&gt;example&lt;/b&gt;&nbsp;script.&nbsp;&nbsp;If&nbsp;this&nbsp;was&nbsp;a&nbsp;&lt;b&gt;real&lt;/b&gt;&nbsp;script&nbsp;we&nbsp;probably&nbsp;wouldn't&nbsp;allow&nbsp;&nbsp;strangers&nbsp;to&nbsp;submit&nbsp;random&nbsp;URLs,&nbsp;and&nbsp;we&nbsp;certainly&nbsp;wouldn't&nbsp;simply&nbsp;echo&nbsp;anything&nbsp;passed&nbsp;in&nbsp;the&nbsp;URL.&nbsp;&nbsp;Additionally&nbsp;its&nbsp;a&nbsp;bad&nbsp;idea&nbsp;to&nbsp;leave&nbsp;this&nbsp;example&nbsp;script&nbsp;lying&nbsp;around.</div></li>
+<li><div class="src-line"><a name="a29"></a>&lt;/p&gt;</div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 01 May 2007 16:44:46 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</body>
+</html>

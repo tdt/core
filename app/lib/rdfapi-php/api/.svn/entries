@@ -1,0 +1,84 @@
+8
+
+dir
+556
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/api
+https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
+
+
+
+2008-01-22T10:52:48.041272Z
+556
+fusel2k
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b2ee660e-c932-0410-bdee-d8da4d8102f4
+
+model
+dir
+
+ontModel
+dir
+
+rdql
+dir
+
+sparql
+dir
+
+constants.php
+file
+558
+
+
+
+2008-02-29T15:14:07.085157Z
+f305fb172543bc44201542efebec39a9
+2008-02-29T15:14:04.958076Z
+558
+cax
+has-props
+
+dataset
+dir
+
+syntax
+dir
+
+vocabulary
+dir
+
+resModel
+dir
+
+RdfAPI.php
+file
+
+
+
+
+2008-02-29T14:57:56.956719Z
+3162507773a5651a21e2224bb9c957b5
+2006-05-15T05:28:09.000000Z
+268
+tgauss
+has-props
+
+infModel
+dir
+
+util
+dir
+

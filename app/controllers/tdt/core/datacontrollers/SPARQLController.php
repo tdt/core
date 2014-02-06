@@ -51,10 +51,11 @@ class SPARQLController extends ADataController {
         // and only using the where statement
 
         // Make a distinction between select and construct since
-        // construct will be followed by a {} sequence, whereas select will not
+        // construct will be followed by a {} sequence, whereas a select statement will not
         $prefix = '';
         $filter = '';
 
+        // Covers FROM <...> FROM <...> WHERE{ } , FROM <...> FROM <...> { }, WHERE { }, { }
         $where_clause = '(.*?(FROM.+?{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
         $matches = array();
 
@@ -63,11 +64,9 @@ class SPARQLController extends ADataController {
             $regex = $keyword . $where_clause;
 
             preg_match_all("/(.*)$regex/msi", $query, $matches);
-
         }else{
 
             preg_match_all("/(.*)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
-
         }
 
         $prefix = $matches[1][0];

@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class DatasetDb</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class DatasetDb</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Dataset implementation.</p>
+<p class="description"><p>Superclass of datasetMem and datasetDb which contains shared functionality.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Chris Bizer &lt;<a href="mailto:chris@bizer.de">chris@bizer.de</a>&gt;</li>
+				<li><span class="field">author:</span> Daniel Westphal (http://www.d-westphal.de)</li>
+				<li><span class="field">version:</span> $Id$</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_dataset---DatasetDb.php.html">/dataset/DatasetDb.php</a> (line <span class="field"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a22">22</a></span>)
+		</p>
+		
+				
+		<pre><a href="../dataset/Dataset.html">Dataset</a>
+   |
+   --DatasetDb</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">DatasetDb</span>
+										<a href="#DatasetDb" title="details" class="method-name">DatasetDb</a>
+											(<span class="var-type">ADODBConnection</span>&nbsp;<span class="var-name">&$dbConnection</span>, <span class="var-type"><a href="../model/DbStore.html">DbStore</a></span>&nbsp;<span class="var-name">&$dbStore</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$datasetName</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addAll" title="details" class="method-name">addAll</a>
+											(<span class="var-type"><a href="../dataset/Dataset.html">Dataset</a></span>&nbsp;<span class="var-name">$otherDataset</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addNamedGraph" title="details" class="method-name">addNamedGraph</a>
+											(<span class="var-type"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>&nbsp;<span class="var-name">&$graph</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addQuad" title="details" class="method-name">addQuad</a>
+											(<span class="var-type"><a href="../dataset/Quad.html">Quad</a></span>&nbsp;<span class="var-name">&$quad</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#clear" title="details" class="method-name">clear</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsNamedGraph" title="details" class="method-name">containsNamedGraph</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsQuad" title="details" class="method-name">containsQuad</a>
+											(<span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$graphName</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#countGraphs" title="details" class="method-name">countGraphs</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#countQuads" title="details" class="method-name">countQuads</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>
+										<a href="#createGraph" title="details" class="method-name">&amp;createGraph</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../dataset/IteratorFindQuadsDb.html">IteratorFindQuadsDb</a></span>
+										<a href="#findInDefaultGraph" title="details" class="method-name">&amp;findInDefaultGraph</a>
+											(<span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../dataset/IteratorFindQuadsDb.html">IteratorFindQuadsDb</a></span>
+										<a href="#findInNamedGraphs" title="details" class="method-name">&amp;findInNamedGraphs</a>
+											(<span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$graphName</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$returnAsTriples</span> = <span class="var-default">false</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getDatasetName" title="details" class="method-name">getDatasetName</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>
+										<a href="#getDefaultGraph" title="details" class="method-name">&amp;getDefaultGraph</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>
+										<a href="#getNamedGraph" title="details" class="method-name">&amp;getNamedGraph</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#hasDefaultGraph" title="details" class="method-name">hasDefaultGraph</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isEmpty" title="details" class="method-name">isEmpty</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">Array</span>
+										<a href="#listGraphNames" title="details" class="method-name">listGraphNames</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../dataset/IteratorAllGraphsDb.html">IteratorAllGraphsDb</a></span>
+										<a href="#listNamedGraphs" title="details" class="method-name">&amp;listNamedGraphs</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#removeNamedGraph" title="details" class="method-name">removeNamedGraph</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#removeQuad" title="details" class="method-name">removeQuad</a>
+											(<span class="var-type"><a href="../dataset/Quad.html">Quad</a></span>&nbsp;<span class="var-name">$quad</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setDatasetName" title="details" class="method-name">setDatasetName</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$datasetName</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setDefaultGraph" title="details" class="method-name">setDefaultGraph</a>
+											(<span class="var-type"><a href="../model/DbModel.html">DbModel</a></span>&nbsp;<span class="var-name">&$graph</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodDatasetDb" id="DatasetDb"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor DatasetDb</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a60">60</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  You can supply a Dataset name.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">DatasetDb</span>
+		<span class="method-name">
+			DatasetDb
+		</span>
+					(<span class="var-type">ADODBConnection</span>&nbsp;<span class="var-name">&$dbConnection</span>, <span class="var-type"><a href="../model/DbStore.html">DbStore</a></span>&nbsp;<span class="var-name">&$dbStore</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$datasetName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">ADODBConnection</span>
+				<span class="var-name">&$dbConnection</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/DbStore.html">DbStore</a></span>
+				<span class="var-name">&$dbStore</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$datasetName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddAll" id="addAll"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addAll</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a283">283</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Add all named graphs of the other dataset to this dataset.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addAll
+		</span>
+					(<span class="var-type"><a href="../dataset/Dataset.html">Dataset</a></span>&nbsp;<span class="var-name">$otherDataset</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../dataset/Dataset.html">Dataset</a></span>
+				<span class="var-name">$otherDataset</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddNamedGraph" id="addNamedGraph"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addNamedGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a123">123</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a NamedGraph to the set.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addNamedGraph
+		</span>
+					(<span class="var-type"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>&nbsp;<span class="var-name">&$graph</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>
+				<span class="var-name">&$graph</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddQuad" id="addQuad"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addQuad</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a305">305</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a quad to the Dataset. The argument must not contain any  wildcards. If the quad is already present, nothing happens. A new  named graph will automatically be created if necessary.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addQuad
+		</span>
+					(<span class="var-type"><a href="../dataset/Quad.html">Quad</a></span>&nbsp;<span class="var-name">&$quad</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../dataset/Quad.html">Quad</a></span>
+				<span class="var-name">&$quad</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodclear" id="clear"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">clear</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a241">241</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Deletes all NamedGraphs from the set.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			clear
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcontainsNamedGraph" id="containsNamedGraph"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsNamedGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a179">179</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tells wether the Dataset contains a NamedGraph.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsNamedGraph
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$graphName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontainsQuad" id="containsQuad"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsQuad</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a329">329</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tells wether the Dataset contains a quad or  quads matching a pattern.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsQuad
+		</span>
+					(<span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$graphName</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$graphName</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcountGraphs" id="countGraphs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">countGraphs</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a251">251</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the number of NamedGraphs in the set. Empty graphs are counted.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			countGraphs
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcountQuads" id="countQuads"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">countQuads</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a375">375</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Counts the Quads in the RDF dataset. Identical Triples in  different NamedGraphs are counted individually.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			countQuads
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcreateGraph" id="createGraph"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a230">230</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates a new NamedGraph and adds it to the set. An existing graph with the same name will be replaced. But the old namedGraph remains in the database.</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>
+		<span class="method-name">
+			&amp;createGraph
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$graphName</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindInDefaultGraph" id="findInDefaultGraph"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">findInDefaultGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a426">426</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Finds Statements that match a pattern in the default Graph. The argument may contain  wildcards.</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../dataset/IteratorFindQuadsDb.html">IteratorFindQuadsDb</a></span>
+		<span class="method-name">
+			&amp;findInDefaultGraph
+		</span>
+					(<span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$subject</span><span class="var-description">: or null</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$predicate</span><span class="var-description">: or null</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$object</span><span class="var-description">: or null</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindInNamedGraphs" id="findInNamedGraphs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">findInNamedGraphs</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a394">394</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Finds Statements that match a quad pattern. The argument may contain  wildcards.</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../dataset/IteratorFindQuadsDb.html">IteratorFindQuadsDb</a></span>
+		<span class="method-name">
+			&amp;findInNamedGraphs
+		</span>
+					(<span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$graphName</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Resource.html">Resource</a></span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$returnAsTriples</span> = <span class="var-default">false</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$graphName</span><span class="var-description">: or null</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$subject</span><span class="var-description">: or null</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$predicate</span><span class="var-description">: or null</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Resource.html">Resource</a></span>
+				<span class="var-name">$object</span><span class="var-description">: or null</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$returnAsTriples</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDatasetName" id="getDatasetName"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDatasetName</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a113">113</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the Datasets name.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getDatasetName
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetDefaultGraph" id="getDefaultGraph"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDefaultGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a146">146</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a reference to the defaultGraph.</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>
+		<span class="method-name">
+			&amp;getDefaultGraph
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetNamedGraph" id="getNamedGraph"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getNamedGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a192">192</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the NamedGraph with a specific name from the Dataset.</p>
+<p class="description"><p>Changes to the graph will be reflected in the set.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> or null</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../dataset/NamedGraphDb.html">NamedGraphDb</a></span>
+		<span class="method-name">
+			&amp;getNamedGraph
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$graphName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodhasDefaultGraph" id="hasDefaultGraph"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">hasDefaultGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a157">157</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns true, if a defaultGraph exists. False otherwise.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			hasDefaultGraph
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodisEmpty" id="isEmpty"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isEmpty</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a273">273</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tells wether the set contains any NamedGraphs.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isEmpty
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodlistGraphNames" id="listGraphNames"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">listGraphNames</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a210">210</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the names of the namedGraphs in this set as strings in an array.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">Array</span>
+		<span class="method-name">
+			listGraphNames
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodlistNamedGraphs" id="listNamedGraphs"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">listNamedGraphs</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a261">261</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an iterator over all NamedGraphs in the set.</p>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../dataset/IteratorAllGraphsDb.html">IteratorAllGraphsDb</a></span>
+		<span class="method-name">
+			&amp;listNamedGraphs
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodremoveNamedGraph" id="removeNamedGraph"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeNamedGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a168">168</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes a NamedGraph from the set. Nothing happens  if no graph with that name is contained in the set.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			removeNamedGraph
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$graphName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$graphName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveQuad" id="removeQuad"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeQuad</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a352">352</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Deletes a Quad from the RDF dataset.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			removeQuad
+		</span>
+					(<span class="var-type"><a href="../dataset/Quad.html">Quad</a></span>&nbsp;<span class="var-name">$quad</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../dataset/Quad.html">Quad</a></span>
+				<span class="var-name">$quad</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetDatasetName" id="setDatasetName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setDatasetName</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a93">93</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets the Dataset name. Return true on success, false otherwise.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setDatasetName
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$datasetName</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$datasetName</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetDefaultGraph" id="setDefaultGraph"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setDefaultGraph</span> (line <span class="line-number"><a href="../__filesource/fsource___datasetDatasetDb.php.html#a136">136</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Overwrites the existting default graph.</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setDefaultGraph
+		</span>
+					(<span class="var-type"><a href="../model/DbModel.html">DbModel</a></span>&nbsp;<span class="var-name">&$graph</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/DbModel.html">DbModel</a></span>
+				<span class="var-name">&$graph</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../dataset/Dataset.html">Dataset</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../dataset/Dataset.html#methodloadFromFile">Dataset::loadFromFile()</a></span><br>
+													<span class="method-name"><a href="../dataset/Dataset.html#methodloadFromString">Dataset::loadFromString()</a></span><br>
+													<span class="method-name"><a href="../dataset/Dataset.html#methodserializeToFile">Dataset::serializeToFile()</a></span><br>
+													<span class="method-name"><a href="../dataset/Dataset.html#methodserializeToString">Dataset::serializeToString()</a></span><br>
+													<span class="method-name"><a href="../dataset/Dataset.html#methodsparqlQuery">Dataset::sparqlQuery()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:48:40 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

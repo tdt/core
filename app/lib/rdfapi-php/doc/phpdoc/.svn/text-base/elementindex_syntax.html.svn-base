@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title></title>
+			<link rel="stylesheet" href="media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<a name="top"></a>
+<h2>[syntax] element index</h2>
+	<h3>Package indexes</h3>
+	<ul>
+				<li><a href="elementindex_.html"></a></li>
+					<li><a href="elementindex_dataset.html">dataset</a></li>
+					<li><a href="elementindex_infModel.html">infModel</a></li>
+					<li><a href="elementindex_model.html">model</a></li>
+					<li><a href="elementindex_ontModel.html">ontModel</a></li>
+					<li><a href="elementindex_rdql.html">rdql</a></li>
+					<li><a href="elementindex_resModel.html">resModel</a></li>
+					<li><a href="elementindex_sparql.html">sparql</a></li>
+							<li><a href="elementindex_utility.html">utility</a></li>
+					<li><a href="elementindex_vocabulary.html">vocabulary</a></li>
+			</ul>
+<a href="elementindex.html">All elements</a>
+<br />
+<div class="index-letter-menu">
+	<a class="index-letter" href="elementindex_syntax.html#a">a</a>
+	<a class="index-letter" href="elementindex_syntax.html#b">b</a>
+	<a class="index-letter" href="elementindex_syntax.html#c">c</a>
+	<a class="index-letter" href="elementindex_syntax.html#d">d</a>
+	<a class="index-letter" href="elementindex_syntax.html#g">g</a>
+	<a class="index-letter" href="elementindex_syntax.html#i">i</a>
+	<a class="index-letter" href="elementindex_syntax.html#m">m</a>
+	<a class="index-letter" href="elementindex_syntax.html#n">n</a>
+	<a class="index-letter" href="elementindex_syntax.html#o">o</a>
+	<a class="index-letter" href="elementindex_syntax.html#p">p</a>
+	<a class="index-letter" href="elementindex_syntax.html#r">r</a>
+	<a class="index-letter" href="elementindex_syntax.html#s">s</a>
+	<a class="index-letter" href="elementindex_syntax.html#t">t</a>
+	<a class="index-letter" href="elementindex_syntax.html#u">u</a>
+	<a class="index-letter" href="elementindex_syntax.html#_">_</a>
+</div>
+
+	<a name="_"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">_</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="method-title">_generateRDF</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/GRDDLParser.html#method_generateRDF">GRDDLParser::_generateRDF()</a> in GRDDLParser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">_is_forbidden_rdf_property_attribute</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfParser.html#method_is_forbidden_rdf_property_attribute">RdfParser::_is_forbidden_rdf_property_attribute()</a> in RdfParser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">_parse_uri</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfParser.html#method_parse_uri">RdfParser::_parse_uri()</a> in RdfParser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">_report_error</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfParser.html#method_report_error">RdfParser::_report_error()</a> in RdfParser.php</div>
+					</dd>
+		</dl>
+	<a name="a"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">a</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$anon</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$anon">N3Serializer::$anon</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">addNamespacePrefix</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodaddNamespacePrefix">RdfSerializer::addNamespacePrefix()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Adds a new prefix/namespace combination.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">addNSPrefix</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#methodaddNSPrefix">N3Serializer::addNSPrefix()</a> in N3Serializer.php</div>
+							<div class="index-item-description">Adds a new namespace prefix to use.</div>
+					</dd>
+		</dl>
+	<a name="b"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">b</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$bNode</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$bNode">N3Parser::$bNode</a> in N3Parser.php</div>
+					</dd>
+		</dl>
+	<a name="c"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">c</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="method-title">channel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html#methodchannel">RssParser::channel()</a> in RssParser.php</div>
+							<div class="index-item-description">Parses the rss channel/ atom feed.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">configSortModel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodconfigSortModel">RdfSerializer::configSortModel()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Serializer congiguration: Sort Model  Flag if the serializer should sort the model by subject before serializing.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">configUseAttributes</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodconfigUseAttributes">RdfSerializer::configUseAttributes()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Serializer congiguration: Use Attributes  Flag if the serializer should serialize triples as XML attributes where possible.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">configUseEntities</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodconfigUseEntities">RdfSerializer::configUseEntities()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Serializer congiguration: Use Entities  Flag if the serializer should use entities for URIs.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">configUseQnames</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodconfigUseQnames">RdfSerializer::configUseQnames()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Serializer congiguration: Use Qnames  Flag if the serializer should use qualified names for RDF reserved words.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">configUseXmlDeclaration</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodconfigUseXmlDeclaration">RdfSerializer::configUseXmlDeclaration()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Serializer congiguration: Use XML Declaration  Flag if the serializer should start documents with the xml declaration  &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;.</div>
+					</dd>
+		</dl>
+	<a name="d"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">d</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$DAML_NS</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$DAML_NS">N3Parser::$DAML_NS</a> in N3Parser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$debug</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/NTripleSerializer.html#var$debug">NTripleSerializer::$debug</a> in NTripleSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$debug</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$debug">N3Serializer::$debug</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$debug</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$debug">N3Parser::$debug</a> in N3Parser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$done</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$done">N3Serializer::$done</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">dc</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html#methoddc">RssParser::dc()</a> in RssParser.php</div>
+							<div class="index-item-description">Adds the dc namespace.</div>
+					</dd>
+		</dl>
+	<a name="g"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">g</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="method-title">generateModel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html#methodgenerateModel">RssParser::generateModel()</a> in RssParser.php</div>
+							<div class="index-item-description">Main function</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">generateModel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfParser.html#methodgenerateModel">RdfParser::generateModel()</a> in RdfParser.php</div>
+							<div class="index-item-description">Generates a new MemModel from a URI, a file or from memory.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">generateModel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#methodgenerateModel">N3Parser::generateModel()</a> in N3Parser.php</div>
+							<div class="index-item-description">Generate a new MemModel from an URI or file.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">generateModel</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/GRDDLParser.html#methodgenerateModel">GRDDLParser::generateModel()</a> in GRDDLParser.php</div>
+							<div class="index-item-description">generates a MemModel and creates the DomDocument.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">getPovs</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#methodgetPovs">N3Parser::getPovs()</a> in N3Parser.php</div>
+							<div class="index-item-description">Gets a list of triples with same subject  e.g. :Gunnar :firstname &quot;Gunnar&quot; ; :lastname &quot;Grimnes.</div>
+					</dd>
+			<dt class="field">
+						GRDDLParser
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/GRDDLParser.html">GRDDLParser</a> in GRDDLParser.php</div>
+							<div class="index-item-description">A GRDDLParser.</div>
+					</dd>
+			<dt class="field">
+						<span class="include-title">GRDDLParser.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---GRDDLParser.php.html">GRDDLParser.php</a> in GRDDLParser.php</div>
+					</dd>
+		</dl>
+	<a name="i"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">i</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="method-title">image</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html#methodimage">RssParser::image()</a> in RssParser.php</div>
+							<div class="index-item-description">Parses the image if there is one.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">items</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html#methoditems">RssParser::items()</a> in RssParser.php</div>
+							<div class="index-item-description">Parses the rss items/ atom entries.</div>
+					</dd>
+		</dl>
+	<a name="m"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">m</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$model</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/NTripleSerializer.html#var$model">NTripleSerializer::$model</a> in NTripleSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$model</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfParser.html#var$model">RdfParser::$model</a> in RdfParser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$model</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$model">N3Serializer::$model</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_attributeStatements</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_attributeStatements">RdfSerializer::$m_attributeStatements</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_baseURI</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_baseURI">RdfSerializer::$m_baseURI</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_contentStatements</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_contentStatements">RdfSerializer::$m_contentStatements</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_currentSubject</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_currentSubject">RdfSerializer::$m_currentSubject</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_defaultNamespaces</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_defaultNamespaces">RdfSerializer::$m_defaultNamespaces</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_groupTypeStatement</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_groupTypeStatement">RdfSerializer::$m_groupTypeStatement</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_namespaces</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_namespaces">RdfSerializer::$m_namespaces</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_nextAutomaticPrefixIndex</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_nextAutomaticPrefixIndex">RdfSerializer::$m_nextAutomaticPrefixIndex</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_out</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_out">RdfSerializer::$m_out</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_rdfAboutElementText</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_rdfAboutElementText">RdfSerializer::$m_rdfAboutElementText</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_rdfIDElementText</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_rdfIDElementText">RdfSerializer::$m_rdfIDElementText</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_rdfResourceElementText</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_rdfResourceElementText">RdfSerializer::$m_rdfResourceElementText</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$m_statements</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$m_statements">RdfSerializer::$m_statements</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="const-title">MAGIC_STRING</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---N3Serializer.php.html#defineMAGIC_STRING">MAGIC_STRING</a> in N3Serializer.php</div>
+					</dd>
+		</dl>
+	<a name="n"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">n</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="method-title">N3Parser</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#methodN3Parser">N3Parser::N3Parser()</a> in N3Parser.php</div>
+							<div class="index-item-description">Constructor</div>
+					</dd>
+			<dt class="field">
+						N3Parser
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html">N3Parser</a> in N3Parser.php</div>
+							<div class="index-item-description">PHP Notation3 Parser</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">N3Serializer</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#methodN3Serializer">N3Serializer::N3Serializer()</a> in N3Serializer.php</div>
+							<div class="index-item-description">Constructor</div>
+					</dd>
+			<dt class="field">
+						N3Serializer
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html">N3Serializer</a> in N3Serializer.php</div>
+							<div class="index-item-description">An abstract object.</div>
+					</dd>
+			<dt class="field">
+						NTripleSerializer
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/NTripleSerializer.html">NTripleSerializer</a> in NTripleSerializer.php</div>
+							<div class="index-item-description">PHP N-Triple Serializer</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">NTripleSerializer</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/NTripleSerializer.html#methodNTripleSerializer">NTripleSerializer::NTripleSerializer()</a> in NTripleSerializer.php</div>
+							<div class="index-item-description">Constructor</div>
+					</dd>
+			<dt class="field">
+						<span class="include-title">N3Parser.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---N3Parser.php.html">N3Parser.php</a> in N3Parser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="include-title">N3Serializer.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---N3Serializer.php.html">N3Serializer.php</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="include-title">NTripleSerializer.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---NTripleSerializer.php.html">NTripleSerializer.php</a> in NTripleSerializer.php</div>
+					</dd>
+		</dl>
+	<a name="o"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">o</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$OWL_NS</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$OWL_NS">N3Parser::$OWL_NS</a> in N3Parser.php</div>
+					</dd>
+		</dl>
+	<a name="p"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">p</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$parsedNamespaces</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$parsedNamespaces">N3Parser::$parsedNamespaces</a> in N3Parser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$parseError</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$parseError">N3Parser::$parseError</a> in N3Parser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$prefixes</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$prefixes">N3Serializer::$prefixes</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">parse</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#methodparse">N3Parser::parse()</a> in N3Parser.php</div>
+							<div class="index-item-description">This parses a N3 string and prints out the triples</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">parse2model</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#methodparse2model">N3Parser::parse2model()</a> in N3Parser.php</div>
+							<div class="index-item-description">This parses a N3 string and returns a memmodel</div>
+					</dd>
+		</dl>
+	<a name="r"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">r</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$RDF_NS</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$RDF_NS">N3Parser::$RDF_NS</a> in N3Parser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$rdf_parser</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfParser.html#var$rdf_parser">RdfParser::$rdf_parser</a> in RdfParser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$rdf_qnames</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$rdf_qnames">RdfSerializer::$rdf_qnames</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$rdf_qname_prefix</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$rdf_qname_prefix">RdfSerializer::$rdf_qname_prefix</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$res</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/NTripleSerializer.html#var$res">NTripleSerializer::$res</a> in NTripleSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$res</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$res">N3Serializer::$res</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$resourcetext</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$resourcetext">N3Serializer::$resourcetext</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$resourcetext_taken</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#var$resourcetext_taken">N3Serializer::$resourcetext_taken</a> in N3Serializer.php</div>
+					</dd>
+			<dt class="field">
+						RdfParser
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfParser.html">RdfParser</a> in RdfParser.php</div>
+							<div class="index-item-description">An RDF paser.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">RdfSerializer</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodRdfSerializer">RdfSerializer::RdfSerializer()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Constructor</div>
+					</dd>
+			<dt class="field">
+						RdfSerializer
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html">RdfSerializer</a> in RdfSerializer.php</div>
+							<div class="index-item-description">An RDF seralizer.</div>
+					</dd>
+			<dt class="field">
+						RssParser
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html">RssParser</a> in RssParser.php</div>
+							<div class="index-item-description">RSS/ATOM Parser</div>
+					</dd>
+			<dt class="field">
+						<span class="include-title">RdfParser.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---RdfParser.php.html">RdfParser.php</a> in RdfParser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="include-title">RdfSerializer.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---RdfSerializer.php.html">RdfSerializer.php</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="include-title">RssParser.php</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/_syntax---RssParser.php.html">RssParser.php</a> in RssParser.php</div>
+					</dd>
+		</dl>
+	<a name="s"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">s</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$sort_model</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$sort_model">RdfSerializer::$sort_model</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">saveAs</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/NTripleSerializer.html#methodsaveAs">NTripleSerializer::saveAs()</a> in NTripleSerializer.php</div>
+							<div class="index-item-description">Serializes a model and saves it into a file.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">saveAs</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#methodsaveAs">N3Serializer::saveAs()</a> in N3Serializer.php</div>
+							<div class="index-item-description">Serializes a model and saves it into a file.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">saveAs</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodsaveAs">RdfSerializer::saveAs()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Serializes a model and saves it into a file.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">serialize</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#methodserialize">RdfSerializer::serialize()</a> in RdfSerializer.php</div>
+							<div class="index-item-description">Serializes a model to RDF syntax.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">serialize</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/NTripleSerializer.html#methodserialize">NTripleSerializer::serialize()</a> in NTripleSerializer.php</div>
+							<div class="index-item-description">Serializes a model to N Triple syntax.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">serialize</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Serializer.html#methodserialize">N3Serializer::serialize()</a> in N3Serializer.php</div>
+							<div class="index-item-description">Serializes a model to N3 syntax.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">setFixBnodes</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#methodsetFixBnodes">N3Parser::setFixBnodes()</a> in N3Parser.php</div>
+							<div class="index-item-description">Sets, if BlankNode labels should be replaced by the generic label from the constants.php file</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">sy</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html#methodsy">RssParser::sy()</a> in RssParser.php</div>
+							<div class="index-item-description">Adds the sy namespace.</div>
+					</dd>
+		</dl>
+	<a name="t"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">t</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$Tokens</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#var$Tokens">N3Parser::$Tokens</a> in N3Parser.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$type</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RssParser.html#var$type">RssParser::$type</a> in RssParser.php</div>
+					</dd>
+		</dl>
+	<a name="u"></a>
+	<div class="index-letter-section">
+		<div style="float: left" class="index-letter-title">u</div>
+		<div style="float: right"><a href="#top">top</a></div>
+		<div style="clear: both"></div>
+	</div>
+	<dl>
+			<dt class="field">
+						<span class="var-title">$use_attributes</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$use_attributes">RdfSerializer::$use_attributes</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$use_entities</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$use_entities">RdfSerializer::$use_entities</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="var-title">$use_xml_declaration</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/RdfSerializer.html#var$use_xml_declaration">RdfSerializer::$use_xml_declaration</a> in RdfSerializer.php</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">uparse</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="syntax/N3Parser.html#methoduparse">N3Parser::uparse()</a> in N3Parser.php</div>
+							<div class="index-item-description">This parses a N3 string and calls func($subject, $predicate, $object) with each trioke</div>
+					</dd>
+		</dl>
+
+<div class="index-letter-menu">
+	<a class="index-letter" href="elementindex_syntax.html#a">a</a>
+	<a class="index-letter" href="elementindex_syntax.html#b">b</a>
+	<a class="index-letter" href="elementindex_syntax.html#c">c</a>
+	<a class="index-letter" href="elementindex_syntax.html#d">d</a>
+	<a class="index-letter" href="elementindex_syntax.html#g">g</a>
+	<a class="index-letter" href="elementindex_syntax.html#i">i</a>
+	<a class="index-letter" href="elementindex_syntax.html#m">m</a>
+	<a class="index-letter" href="elementindex_syntax.html#n">n</a>
+	<a class="index-letter" href="elementindex_syntax.html#o">o</a>
+	<a class="index-letter" href="elementindex_syntax.html#p">p</a>
+	<a class="index-letter" href="elementindex_syntax.html#r">r</a>
+	<a class="index-letter" href="elementindex_syntax.html#s">s</a>
+	<a class="index-letter" href="elementindex_syntax.html#t">t</a>
+	<a class="index-letter" href="elementindex_syntax.html#u">u</a>
+	<a class="index-letter" href="elementindex_syntax.html#_">_</a>
+</div>
+	</body>
+</html>

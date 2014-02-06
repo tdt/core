@@ -1,0 +1,324 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Test Manipulate RDF Model</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<LINK href="phpdoc.css" rel=stylesheet type=text/css>
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+
+<h3>RDF API for PHP V0.9.3</h3>
+<h1>Test: Manipulate MemModel</h1>
+<p><br>
+This example is part of the <a href="../tests.html">RAP - Rdf API for PHP</a> documentation.</p>
+<p>Used document: example1.rdf</p>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code> &lt;?xml version=&quot;1.0&quot;?&gt;<br>
+              &lt;rdf:RDF <br>
+              xml:base=&quot;http://www.w3.org/Home/Lassila.rdf#&quot;<br>
+              xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;<br>
+              xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot;<br>
+              xmlns:ex=&quot;http://example.org/stuff/1.0/&quot;<br>
+              xmlns:s=&quot;http://description.org/schema/&quot;&gt;<br>
+              &lt;rdf:Description rdf:about=&quot;http://www.w3.org/Home/Lassila&quot;&gt;<br>
+              &lt;s:Creator&gt;<br>
+              &lt;rdf:Description rdf:nodeID=&quot;b85740&quot;&gt;<br>
+              &lt;rdf:type rdf:resource=&quot;http://description.org/schema/Person&quot;/&gt;<br>
+              &lt;ex:Name rdf:datatype=&quot;http://www.w3.org/TR/xmlschema-2#string&quot;&gt;Ora 
+              Lassila&lt;/ex:Name&gt;<br>
+              &lt;ex:Email&gt;lassila@w3.org&lt;/ex:Email&gt;<br>
+              &lt;/rdf:Description&gt;<br>
+              &lt;/s:Creator&gt;<br>
+              &lt;/rdf:Description&gt;<br>
+              &lt;/rdf:RDF&gt;</code><br>
+            </p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<br><br>
+<h3>1. Parse and show model</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>// Include RAP<br>
+              define(&quot;RDFAPI_INCLUDE_DIR&quot;, &quot;./../api/&quot;);<br>
+              include(RDFAPI_INCLUDE_DIR . &quot;RDFAPI.php&quot;);</code></p>
+            
+          <p><code>// Filename of an RDF document<br>
+              $base=&quot;example1.rdf&quot;;</code></p>
+            
+          <p><code>// Create a new MemModel <br>
+            $model = ModelFactory::getDefaultModel();</code></p>
+            <p><code>// Load and parse document<br>
+              $model-&gt;load($base);</code></p>
+            <p><code>// Output model as HTML table<br>
+              $model-&gt;writeAsHtmlTable();</code></p></td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+   <tr bgcolor="#FFFFFF">
+      <td td width="68%" colspan="3"><p><b>Base URI:</b> http://www.w3.org/Home/Lassila.rdf#</p></td>
+      <td width="32%"><p><b>Size:</b> 4</p></td>
+   </tr>   <tr bgcolor="#FFFFFF">
+      <td width="4%"><p align=center><b>No.</b></p></td>
+      <td width="32%"><p><b>Subject</b></p></td>
+      <td width="32%"><p><b>Predicate</b></p></td>
+      <td width="32%"><p><b>Object</b></p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>1.</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Creator</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>2.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#CCFFCC"><p>RDF Node: http://www.w3.org/1999/02/22-rdf-syntax-ns#type</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Person</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>3.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Name</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: Ora Lassila <b>(rdf:datatype="http://www.w3.org/TR/xmlschema-2#string") </b> </p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>4.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Email</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: lassila@w3.org</p></td>
+   </tr>
+</table>
+<br><br>
+<h3>2. Add some statements</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+    <td bgcolor=#e7e7ef> 
+      <p><code>// Ceate new statements and add them to model<br>
+        $statement1 = new Statement(new Resource(&quot;http://www.w3.org/Home/Lassila&quot;),<br>
+        new Resource(&quot;http://description.org/schema/Description&quot;),<br>
+        new Literal(&quot;Lassila's personal Homepage&quot;, &quot;en&quot;));<br>
+        <br>
+        $statement2 = new Statement(new Resource(&quot;http://www.w3.org/Home/Lassila&quot;),<br>
+        new Resource(&quot;http://description.org/schema/Description&quot;),<br>
+        new Literal(&quot;Lassilas pers&ouml;nliche Homepage &quot;, &quot;de&quot;));</code></p>
+      <p><code>$model-&gt;add($statement1);<br>
+        $model-&gt;add($statement2);</code></p>
+      <p><code>$model->writeAsHtmlTable();</code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+   <tr bgcolor="#FFFFFF">
+      <td td width="68%" colspan="3"><p><b>Base URI:</b> http://www.w3.org/Home/Lassila.rdf#</p></td>
+      <td width="32%"><p><b>Size:</b> 6</p></td>
+   </tr>   <tr bgcolor="#FFFFFF">
+      <td width="4%"><p align=center><b>No.</b></p></td>
+      <td width="32%"><p><b>Subject</b></p></td>
+      <td width="32%"><p><b>Predicate</b></p></td>
+      <td width="32%"><p><b>Object</b></p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>1.</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Creator</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>2.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#CCFFCC"><p>RDF Node: http://www.w3.org/1999/02/22-rdf-syntax-ns#type</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Person</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>3.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Name</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: Ora Lassila <b>(rdf:datatype="http://www.w3.org/TR/xmlschema-2#string") </b> </p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>4.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Email</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: lassila@w3.org</p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>5.</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Description</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: Lassila's personal Homepage <b>(xml:lang="en") </b> </p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>6.</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Description</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: Lassilas persönliche Homepage  <b>(xml:lang="de") </b> </p></td>
+   </tr>
+</table>
+<br><br>
+<h3>3. Search Statements</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>// Build search index to speed up searches.<br>
+              $model-&gt;index();</code></p>
+            <p><code>// Search model 1<br>
+              $homepage = new Resource(&quot;http://www.w3.org/Home/Lassila&quot;);<br>
+              $res = $model-&gt;find($homepage, NULL, NULL);</code></p>
+            <p><code>$res-&gt;writeAsHtmlTable();<br>
+              echo &quot;&lt;P&gt;&quot;;</code></p></td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+<P>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr bgcolor="#FFFFFF"> 
+        <td td width="68%" colspan="3"><p><b>Base URI:</b> http://www.w3.org/Home/Lassila.rdf#</p></td>
+        <td width="32%"><p><b>Size:</b> 3</p></td>
+      </tr>
+      <tr bgcolor="#FFFFFF"> 
+        <td width="4%"><p align=center><b>No.</b></p></td>
+        <td width="32%"><p><b>Subject</b></p></td>
+        <td width="32%"><p><b>Predicate</b></p></td>
+        <td width="32%"><p><b>Object</b></p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><p align=center>1.</p></td>
+        <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+        <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Creator</p></td>
+        <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><p align=center>2.</p></td>
+        <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+        <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Description</p></td>
+        <td bgcolor="#E7E7EF"><p>Literal: Lassila's personal Homepage <b>(xml:lang="en") 
+            </b> </p></td>
+      </tr>
+      <tr valign="top"> 
+        <td><p align=center>3.</p></td>
+        <td bgcolor="#FFFFCC"><p>Resource: http://www.w3.org/Home/Lassila</p></td>
+        <td bgcolor="#FFFFCC"><p>Resource: http://description.org/schema/Description</p></td>
+        <td bgcolor="#E7E7EF"><p>Literal: Lassilas persönliche Homepage <b>(xml:lang="de") 
+            </b> </p></td>
+      </tr>
+</table>
+    <P> <br>
+    <h3>4. Search First Matching Statement</h3>
+    <table border=1 cellpadding=3 cellspacing=0 width="100%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>// Search model 2<br>
+              $description = new Resource(&quot;http://description.org/schema/Description&quot;);<br>
+              $statement = $model-&gt;findFirstMatchingStatement($homepage, $description, 
+              NULL);</code></p>
+            <p><code>// Check if something was found and output result<br>
+              if ($statement) {<br>
+              echo $statement-&gt;toString();<br>
+              } else {<br>
+              echo &quot;Sorry, I didn't find anything.&quot;;<br>
+              }<br>
+              echo &quot;&lt;P&gt;&quot;;</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><b>Output:</b></p>
+    <p> </p>
+    <p>Triple(Resource(&quot;http://www.w3.org/Home/Lassila&quot;), Resource(&quot;http://description.org/schema/Description&quot;), 
+      Literal(&quot;Lassila's personal Homepage&quot;, lang=&quot;en&quot;)) </p>
+
+<br>    
+<h3>5. Search Vocabulary</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>// Search model 3<br>
+              $res3 = $model-&gt;findVocabulary(&quot;http://example.org/stuff/1.0/&quot;);<br>
+              $res3-&gt;writeAsHtmlTable();<br>
+              echo &quot;&lt;P&gt;&quot;;</code></p>
+      </td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+   <tr bgcolor="#FFFFFF">
+      <td td width="68%" colspan="3"><p><b>Base URI:</b> http://www.w3.org/Home/Lassila.rdf#</p></td>
+      <td width="32%"><p><b>Size:</b> 2</p></td>
+   </tr>   <tr bgcolor="#FFFFFF">
+      <td width="4%"><p align=center><b>No.</b></p></td>
+      <td width="32%"><p><b>Subject</b></p></td>
+      <td width="32%"><p><b>Predicate</b></p></td>
+      <td width="32%"><p><b>Object</b></p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>1.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Name</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: Ora Lassila <b>(rdf:datatype="http://www.w3.org/TR/xmlschema-2#string") </b> </p></td>
+   </tr>
+   <tr valign="top">
+      <td><p align=center>2.</p></td>
+      <td bgcolor="#FFCCFF"><p>Blank Node: b85740</p></td>
+      <td bgcolor="#FFFFCC"><p>Resource: http://example.org/stuff/1.0/Email</p></td>
+      <td bgcolor="#E7E7EF"><p>Literal: lassila@w3.org</p></td>
+   </tr>
+</table>
+<P>
+<h3><br>
+      5. Serialize MemModel to RDF</h3>
+<table border=1 cellpadding=3 cellspacing=0 width="100%">
+  <tbody> 
+  <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>// Write model as RDF<br>
+              $model-&gt;writeAsHtml();</code></p>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<p><b>Output:</b></p>
+    <P>
+    <P>&lt;?xml&nbsp;version=&#039;1.0&#039;&nbsp;encoding=&#039;UTF-8&#039;?&gt;<br />
+      &lt;rdf:RDF<br />
+      &nbsp;&nbsp;&nbsp;xml:base=&quot;http://www.w3.org/Home/Lassila.rdf#&quot;<br />
+      &nbsp;&nbsp;&nbsp;xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;<br />
+      &nbsp;&nbsp;&nbsp;xmlns:rdfs=&quot;http://www.w3.org/2000/01/rdf-schema#&quot;<br />
+      &nbsp;&nbsp;&nbsp;xmlns:ns1=&quot;http://description.org/schema/&quot;<br />
+      &nbsp;&nbsp;&nbsp;xmlns:ns2=&quot;http://example.org/stuff/1.0/&quot;&gt;<br />
+      <br />
+      &lt;ns1:Person&nbsp;rdf:nodeID=&quot;b85740&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;ns2:Email&gt;lassila@w3.org&lt;/ns2:Email&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;ns2:Name&nbsp;rdf:datatype=&quot;http://www.w3.org/TR/xmlschema-2#string&quot;&gt;Ora&nbsp;Lassila&lt;/ns2:Name&gt;<br />
+      &lt;/ns1:Person&gt;<br />
+      <br />
+      &lt;rdf:Description&nbsp;rdf:about=&quot;http://www.w3.org/Home/Lassila&quot;&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;ns1:Creator&nbsp;rdf:nodeID=&quot;b85740&quot;/&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;ns1:Description&nbsp;xml:lang=&quot;en&quot;&gt;Lassila&#039;s&nbsp;personal&nbsp;Homepage&lt;/ns1:Description&gt;<br />
+      &nbsp;&nbsp;&nbsp;&lt;ns1:Description&nbsp;xml:lang=&quot;de&quot;&gt;Lassilas&nbsp;persönliche&nbsp;Homepage&nbsp;&lt;/ns1:Description&gt;<br />
+      &lt;/rdf:Description&gt;<br />
+      <br />
+      &lt;/rdf:RDF&gt; </P>
+    <h3><br>
+      6. Save manipulated MemModel to file</h3>
+    <table border=1 cellpadding=3 cellspacing=0 width="100%">
+      <tbody>
+        <tr valign=top> 
+          <td bgcolor=#e7e7ef> <p><code>// Save model to file<br>
+              $model-&gt;saveAs(&quot;Output.rdf&quot;);</code></p></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><b>Output:</b></p>
+    <P>
+    File: Output.rdf 
+    <P>&nbsp;</P>
+</BODY></HTML>

@@ -1,0 +1,1297 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class OWL_RES</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class OWL_RES</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">OWL Vocabulary (ResResource)</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal (dawe@gmx.de)</li>
+				<li><span class="field">version:</span> $Id$</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_vocabulary---OWL_RES.php.html">/vocabulary/OWL_RES.php</a> (line <span class="field"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a16">16</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ALL_DIFFERENT" title="details" class="method-name">ALL_DIFFERENT</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ALL_VALUES_FROM" title="details" class="method-name">ALL_VALUES_FROM</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ANNOTATION_PROPERTY" title="details" class="method-name">ANNOTATION_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#BACKWARD_COMPATIBLE_WITH" title="details" class="method-name">BACKWARD_COMPATIBLE_WITH</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#CARDINALITY" title="details" class="method-name">CARDINALITY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#COMPLEMENT_OF" title="details" class="method-name">COMPLEMENT_OF</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DATATYPE" title="details" class="method-name">DATATYPE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DATATYPE_PROPERTY" title="details" class="method-name">DATATYPE_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DATATYPE_RESTRICTION" title="details" class="method-name">DATATYPE_RESTRICTION</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DATA_RANGE" title="details" class="method-name">DATA_RANGE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DEPRECATED_CLASS" title="details" class="method-name">DEPRECATED_CLASS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DEPRECATED_PROPERTY" title="details" class="method-name">DEPRECATED_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DIFFERENT_FROM" title="details" class="method-name">DIFFERENT_FROM</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DISJOINT_WITH" title="details" class="method-name">DISJOINT_WITH</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#DISTINCT_MEMBERS" title="details" class="method-name">DISTINCT_MEMBERS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#EQUIVALENT_CLASS" title="details" class="method-name">EQUIVALENT_CLASS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#EQUIVALENT_PROPERTY" title="details" class="method-name">EQUIVALENT_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#FUNCTIONAL_PROPERTY" title="details" class="method-name">FUNCTIONAL_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#HAS_VALUE" title="details" class="method-name">HAS_VALUE</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#IMPORTS" title="details" class="method-name">IMPORTS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#INCOMPATIBLE_WITH" title="details" class="method-name">INCOMPATIBLE_WITH</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#INTERSECTION_OF" title="details" class="method-name">INTERSECTION_OF</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#INVERSE_FUNCTIONAL_PROPERTY" title="details" class="method-name">INVERSE_FUNCTIONAL_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#INVERSE_OF" title="details" class="method-name">INVERSE_OF</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MAX_CARDINALITY" title="details" class="method-name">MAX_CARDINALITY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#MIN_CARDINALITY" title="details" class="method-name">MIN_CARDINALITY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#NOTHING" title="details" class="method-name">NOTHING</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#OBJECT_CLASS" title="details" class="method-name">OBJECT_CLASS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#OBJECT_PROPERTY" title="details" class="method-name">OBJECT_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#OBJECT_RESTRICTION" title="details" class="method-name">OBJECT_RESTRICTION</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ONE_OF" title="details" class="method-name">ONE_OF</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ONTOLOGY" title="details" class="method-name">ONTOLOGY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#ON_PROPERTY" title="details" class="method-name">ON_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#OWL_CLASS" title="details" class="method-name">OWL_CLASS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PRIOR_VERSION" title="details" class="method-name">PRIOR_VERSION</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#PROPERTY" title="details" class="method-name">PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#RESTRICTION" title="details" class="method-name">RESTRICTION</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SAME_AS" title="details" class="method-name">SAME_AS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SAME_CLASS_AS" title="details" class="method-name">SAME_CLASS_AS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SAME_INDIVIDUAL_AS" title="details" class="method-name">SAME_INDIVIDUAL_AS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SAME_PROPERTY_AS" title="details" class="method-name">SAME_PROPERTY_AS</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SOME_VALUES_FROM" title="details" class="method-name">SOME_VALUES_FROM</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#SYMMETRIC_PROPERTY" title="details" class="method-name">SYMMETRIC_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#THING" title="details" class="method-name">THING</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#TRANSITIVE_PROPERTY" title="details" class="method-name">TRANSITIVE_PROPERTY</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#UNION_OF" title="details" class="method-name">UNION_OF</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#VERSION_INFO" title="details" class="method-name">VERSION_INFO</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodALL_DIFFERENT" id="ALL_DIFFERENT"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ALL_DIFFERENT</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a25">25</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ALL_DIFFERENT
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodALL_VALUES_FROM" id="ALL_VALUES_FROM"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ALL_VALUES_FROM</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a31">31</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ALL_VALUES_FROM
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodANNOTATION_PROPERTY" id="ANNOTATION_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ANNOTATION_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a19">19</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ANNOTATION_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodBACKWARD_COMPATIBLE_WITH" id="BACKWARD_COMPATIBLE_WITH"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">BACKWARD_COMPATIBLE_WITH</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a37">37</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			BACKWARD_COMPATIBLE_WITH
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCARDINALITY" id="CARDINALITY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">CARDINALITY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a43">43</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			CARDINALITY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodCOMPLEMENT_OF" id="COMPLEMENT_OF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">COMPLEMENT_OF</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a55">55</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			COMPLEMENT_OF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDATATYPE" id="DATATYPE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DATATYPE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a61">61</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DATATYPE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDATATYPE_PROPERTY" id="DATATYPE_PROPERTY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">DATATYPE_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a67">67</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DATATYPE_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDATATYPE_RESTRICTION" id="DATATYPE_RESTRICTION"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DATATYPE_RESTRICTION</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DATATYPE_RESTRICTION
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDATA_RANGE" id="DATA_RANGE"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">DATA_RANGE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a73">73</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DATA_RANGE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDEPRECATED_CLASS" id="DEPRECATED_CLASS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DEPRECATED_CLASS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a85">85</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DEPRECATED_CLASS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDEPRECATED_PROPERTY" id="DEPRECATED_PROPERTY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">DEPRECATED_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a91">91</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DEPRECATED_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDIFFERENT_FROM" id="DIFFERENT_FROM"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DIFFERENT_FROM</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a103">103</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DIFFERENT_FROM
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDISJOINT_WITH" id="DISJOINT_WITH"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">DISJOINT_WITH</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a109">109</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DISJOINT_WITH
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodDISTINCT_MEMBERS" id="DISTINCT_MEMBERS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">DISTINCT_MEMBERS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a97">97</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			DISTINCT_MEMBERS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodEQUIVALENT_CLASS" id="EQUIVALENT_CLASS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">EQUIVALENT_CLASS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a115">115</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			EQUIVALENT_CLASS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodEQUIVALENT_PROPERTY" id="EQUIVALENT_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">EQUIVALENT_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a121">121</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			EQUIVALENT_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodFUNCTIONAL_PROPERTY" id="FUNCTIONAL_PROPERTY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">FUNCTIONAL_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a127">127</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			FUNCTIONAL_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodHAS_VALUE" id="HAS_VALUE"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">HAS_VALUE</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a133">133</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			HAS_VALUE
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodIMPORTS" id="IMPORTS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">IMPORTS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a145">145</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			IMPORTS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodINCOMPATIBLE_WITH" id="INCOMPATIBLE_WITH"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">INCOMPATIBLE_WITH</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a139">139</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			INCOMPATIBLE_WITH
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodINTERSECTION_OF" id="INTERSECTION_OF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">INTERSECTION_OF</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a151">151</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			INTERSECTION_OF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodINVERSE_FUNCTIONAL_PROPERTY" id="INVERSE_FUNCTIONAL_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">INVERSE_FUNCTIONAL_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a157">157</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			INVERSE_FUNCTIONAL_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodINVERSE_OF" id="INVERSE_OF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">INVERSE_OF</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a163">163</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			INVERSE_OF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMAX_CARDINALITY" id="MAX_CARDINALITY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">MAX_CARDINALITY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a169">169</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MAX_CARDINALITY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodMIN_CARDINALITY" id="MIN_CARDINALITY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">MIN_CARDINALITY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a175">175</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			MIN_CARDINALITY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodNOTHING" id="NOTHING"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">NOTHING</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a181">181</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			NOTHING
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodOBJECT_CLASS" id="OBJECT_CLASS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">OBJECT_CLASS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a187">187</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			OBJECT_CLASS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodOBJECT_PROPERTY" id="OBJECT_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">OBJECT_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a193">193</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			OBJECT_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodOBJECT_RESTRICTION" id="OBJECT_RESTRICTION"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">OBJECT_RESTRICTION</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a199">199</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			OBJECT_RESTRICTION
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodONE_OF" id="ONE_OF"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ONE_OF</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a205">205</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ONE_OF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodONTOLOGY" id="ONTOLOGY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">ONTOLOGY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a217">217</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ONTOLOGY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodON_PROPERTY" id="ON_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">ON_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a211">211</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			ON_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodOWL_CLASS" id="OWL_CLASS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">OWL_CLASS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a49">49</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			OWL_CLASS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPRIOR_VERSION" id="PRIOR_VERSION"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">PRIOR_VERSION</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a223">223</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PRIOR_VERSION
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodPROPERTY" id="PROPERTY"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a229">229</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodRESTRICTION" id="RESTRICTION"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">RESTRICTION</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a235">235</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			RESTRICTION
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSAME_AS" id="SAME_AS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SAME_AS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a241">241</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SAME_AS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSAME_CLASS_AS" id="SAME_CLASS_AS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">SAME_CLASS_AS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a247">247</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SAME_CLASS_AS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSAME_INDIVIDUAL_AS" id="SAME_INDIVIDUAL_AS"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SAME_INDIVIDUAL_AS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a253">253</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SAME_INDIVIDUAL_AS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSAME_PROPERTY_AS" id="SAME_PROPERTY_AS"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">SAME_PROPERTY_AS</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a259">259</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SAME_PROPERTY_AS
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSOME_VALUES_FROM" id="SOME_VALUES_FROM"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">SOME_VALUES_FROM</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a265">265</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SOME_VALUES_FROM
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodSYMMETRIC_PROPERTY" id="SYMMETRIC_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">SYMMETRIC_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a271">271</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			SYMMETRIC_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTHING" id="THING"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">THING</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a277">277</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			THING
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodTRANSITIVE_PROPERTY" id="TRANSITIVE_PROPERTY"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">TRANSITIVE_PROPERTY</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a283">283</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			TRANSITIVE_PROPERTY
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodUNION_OF" id="UNION_OF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">UNION_OF</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a289">289</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			UNION_OF
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodVERSION_INFO" id="VERSION_INFO"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">VERSION_INFO</span> (line <span class="line-number"><a href="../__filesource/fsource_vocabulary__vocabularyOWL_RES.php.html#a295">295</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			VERSION_INFO
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:50:23 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

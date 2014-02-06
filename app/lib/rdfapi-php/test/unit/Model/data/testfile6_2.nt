@@ -1,0 +1,3 @@
+_:aBlanknode <property> _:bn2 .
+_:bn2 <property> "5" .
+_:bn2 <property> _:aBlanknode .

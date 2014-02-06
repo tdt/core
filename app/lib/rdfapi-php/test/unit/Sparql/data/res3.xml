@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+
+  <head>
+    <variable name="x"/>
+    <variable name="hpage"/>
+  </head>
+
+  <results ordered="true" distinct="false">
+
+    <result> 
+      <binding name="hpage">
+	<bnode>/</bnode>
+      </binding>
+      </result>
+  </results>
+
+</sparql>

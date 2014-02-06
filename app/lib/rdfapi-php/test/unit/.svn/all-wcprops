@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/rdfapi-php/!svn/ver/555/trunk/rdfapi-php/test/unit
+END
+emptyResource.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/emptyResource.rdf
+END
+sparqldbTests.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/349/trunk/rdfapi-php/test/unit/sparqldbTests.php
+END
+allTests.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/552/trunk/rdfapi-php/test/unit/allTests.php
+END
+show_passes.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/285/trunk/rdfapi-php/test/unit/show_passes.php
+END
+example1.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/example1.rdf
+END
+sparqlParserTests.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/513/trunk/rdfapi-php/test/unit/sparqlParserTests.php
+END
+multipleTypes.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/multipleTypes.rdf
+END
+emptyResource_serialized.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/emptyResource_serialized.rdf
+END
+EarlReporter.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/514/trunk/rdfapi-php/test/unit/EarlReporter.php
+END
+runAnyTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svnroot/rdfapi-php/!svn/ver/544/trunk/rdfapi-php/test/unit/runAnyTest.php
+END
+InfModelTests.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/test/unit/InfModelTests.php
+END
+sparqlTests.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/349/trunk/rdfapi-php/test/unit/sparqlTests.php
+END
+mt1.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/426/trunk/rdfapi-php/test/unit/mt1.rdf
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/rdfapi-php/!svn/ver/544/trunk/rdfapi-php/test/unit/README.txt
+END
+employees.rdf
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/248/trunk/rdfapi-php/test/unit/employees.rdf
+END

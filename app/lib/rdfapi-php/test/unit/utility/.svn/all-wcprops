@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/test/unit/utility
+END
+ut_FindIterator_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/rdfapi-php/!svn/ver/270/trunk/rdfapi-php/test/unit/utility/ut_FindIterator_tests.php
+END
+ut_it_tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/test/unit/utility/ut_it_tests.php
+END

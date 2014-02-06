@@ -1,0 +1,834 @@
+<rdf:RDF
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns:dctype="http://purl.org/dc/dcmitype/"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:iswc="http://annotation.semanticweb.org/iswc/iswc.daml#"
+    xmlns:d2r="http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/config.rdf#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:db1="http://www.example.org/dbserver01/db01#"
+    xmlns:doap="http://usefulinc.com/ns/doap#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#"
+    xmlns:swrc="http://swrc.ontoware.org/ontology#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/" > 
+	
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Daniel__Westphal">
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web"/>
+    <foaf:mbox rdf:resource="mailto:mail@d-westphal.de"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Daniel</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Daniel Westphal</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Westphal</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:homepage rdf:resource="http://www.d-westphal.de/"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.webahp.info/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/Disco">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Disco - Hyperdata Browser</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Disco - Hyperdata Browser</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Disco - Hyperdata Browser is a simple browser for navigating the Semantic Web as an unbound set of data sources. The browser renders all information, that it can find on the Semantic Web about a specific resource, as an HTML page. This resource description contains hyperlinks that allow you to navigate between resources. While you move from resource to resource, the browser dynamically retrieves information by dereferencing HTTP URIs and by following rdfs:seeAlso links.
+
+</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">platform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Disco</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/ng4j/disco/"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Libby__Miller">
+    <foaf:mbox rdf:resource="mailto:mailto:libby.miller@bristol.ac.uk"/>
+    <foaf:nickname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Libby</foaf:nickname>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Libby</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Libby Miller</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Miller</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://swordfish.rdfweb.org/people/libby/libby.jpg"/>
+    <rdfs:seeAlso rdf:resource="http://swordfish.rdfweb.org/people/libby/rdfweb/webwho.xrdf"/>
+    <foaf:homepage rdf:resource="http://mail.ilrt.bris.ac.uk/~ecemm/"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.asemantics.com"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/events/Event5">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address6"/>
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Workshop on Scripting for the Semantic Web</dc:title>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Workshop on Scripting for the Semantic Web</rdfs:label>
+    <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2005-05-30</dc:date>
+    <rdfs:seeAlso rdf:resource="http://www.semanticscripting.org/SFSW2005/"/>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Workshop"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address7">
+    <vcard:Country rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/countries/Japan"/>
+    <vcard:Locality rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Chiba"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/cities/Freie_und_Hansestadt_Hamburg">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freie und Hansestadt Hamburg</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=2911297"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Knowledge_Representation_Languages">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Knowledge Representation Languages</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Knowledge_Representation_Languages"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/cities/Chiba">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Chiba</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=2113015"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/cities/Heraklion">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Heraklion</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=261741"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/groups/Group3">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Department of Business and Economics</foaf:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Department of Business and Economics</rdfs:label>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/wiwiss/main/index.html" />
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Department"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Emmanuel__Pietriga">
+    <foaf:mbox rdf:resource="mailto:emmanuel.pietriga@inria.fr"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Emmanuel</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Emmanuel Pietriga</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pietriga</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.lri.fr/~pietriga/id.jpg"/>
+    <owl:sameAs rdf:resource="http://www.lri.fr/~pietriga/foaf.rdf"/>
+    <foaf:homepage rdf:resource="http://www.lri.fr/~pietriga/"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.inria.fr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Rowland__Watkins">
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rowland</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rowland Watkins</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Watkins</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/World_Wide_Web">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">World Wide Web</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#World_Wide_Web"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/events/Event3">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address4"/>
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ISWC 2005 - 4th International Semantic Web Conference</dc:title>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ISWC 2005 - 4th International Semantic Web Conference</rdfs:label>
+    <rdfs:seeAlso rdf:resource="http://iswc2005.semanticweb.org/"/>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Conference"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/countries/Greece">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Greece</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=390903"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/events/Event1">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address3"/>
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ISWC 2006 5th International Semantic Web Conference</dc:title>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ISWC 2006 5th International Semantic Web Conference</rdfs:label>
+    <rdfs:seeAlso rdf:resource="http://iswc2006.semanticweb.org/"/>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Conference"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/countries/Germany">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Germany</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=2921044"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/S%C3%B6ren__Auer">
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/Academic_Staff"/>
+    <foaf:mbox rdf:resource="mailto:auer@seas.upenn.edu"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sören</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sören Auer</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Auer</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <rdfs:seeAlso rdf:resource="http://www.informatik.uni-leipzig.de/~auer/foaf.rdf"/>
+    <owl:sameAs rdf:resource="http://www.auer.cx/soeren"/>
+    <foaf:homepage rdf:resource="http://www.informatik.uni-leipzig.de/~auer"/>
+    <foaf:workplaceHomepage rdf:resource="http://bis.informatik.uni-leipzig.de/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Query_Languages">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Query Languages</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Query_Languages"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl"/>
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/Academic_Staff"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:mbox rdf:resource="mailto:veronika@waue.net"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Veronika</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Veronika Waue</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Waue</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/pics/WaueVeronika.jpg"/>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/WaueVeronika.html"/>
+    <foaf:schoolHomepage rdf:resource="http://www.fu-berlin.de"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/WaueVeronika.html"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication10">
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Jeremy__Carroll"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Patrick__Hayes"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Patrick__Stickler"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event6"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Named Graphs, Provenance and Trust</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Named Graphs, Provenance and Trust</rdfs:label>
+    <dc:abstract rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Semantic Web consists of many RDF graphs nameable by
+URIs. This paper extends the syntax and semantics of RDF to cover
+such Named Graphs.....</dc:abstract>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ResearchPaper"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/XML">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">XML</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#XML"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Oliver__Maresch"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl"/>
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/Academic_Staff"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Knowledge_Representation_Languages"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Knowledge_Systems"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/World_Wide_Web"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web_Infrastructure"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/XML"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/E-Business"/>
+    <foaf:mbox rdf:resource="mailto:chris@bizer.de"/>
+    <foaf:nickname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ChrisB</foaf:nickname>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Chris</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Chris Bizer</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bizer</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/pics/BizerChristian.jpg"/>
+    <rdfs:seeAlso rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/foaf.rdf"/>
+    <owl:sameAs rdf:resource="http://www.bizer.de#chris"/>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/BizerChristian.html"/>
+    <foaf:schoolHomepage rdf:resource="http://www.fu-berlin.de"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/BizerChristian.html"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/cities/Athens">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Athens</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=4180386"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Oliver__Maresch"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl"/>
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/PhDStudent"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Richard</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Richard Cyganiak</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cyganiak</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://richard.cyganiak.de/richard.jpg"/>
+    <rdfs:seeAlso rdf:resource="http://richard.cyganiak.de/foaf.rdf"/>
+    <owl:sameAs rdf:resource="http://richard.cyganiak.de/foaf.rdf#cygri"/>
+    <foaf:homepage rdf:resource="http://richard.cyganiak.de/"/>
+    <foaf:schoolHomepage rdf:resource="http://www.fu-berlin.de"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/suhl/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/countries/United_States">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">United States</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=6252001"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Knowledge_Systems">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Knowledge Systems</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Knowledge_Systems"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl"/>
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/Academic_Staff"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Web_Services"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/World_Wide_Web"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Databases"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sebastian</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sebastian Thimm</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Thimm</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/pics/Sebastian_Thimm.jpg"/>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/ThimmSebastian/index.html"/>
+    <foaf:schoolHomepage rdf:resource="http://www.fu-berlin.de"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/ThimmSebastian/index.html"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/WIQA_Browser">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WIQA - Information Quality Assessment enabled Semantic Web Browser</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WIQA - Information Quality Assessment enabled Semantic Web Browser</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The WIQA browser is a general purpose RDF browser that supports users in exploring RDF datasets containing information from multiple sources.</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WIQA Browser</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/WIQA/browser/index.htm"/>
+    <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=118754"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/groups/Group4">
+    <foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freie Universität Berlin</foaf:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freie Universität Berlin</rdfs:label>
+    <foaf:homepage rdf:resource="http://www.fu-berlin.de/" />
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#University"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/groups/Group1">
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freie Universität Berlin - Web-based Systems Group</foaf:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Freie Universität Berlin - Web-based Systems Group</rdfs:label>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/forschung/index.html#WBS" />
+    <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Web-based Systems Group explores technical and economic questions concerning the development of global, decentralized information environments.</dc:description>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ResearchGroup"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/countries/Ireland">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ireland</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=2963597"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/cities/Budva">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Budva</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=3203106"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication5">
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/S%C3%B6ren__Auer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Libby__Miller"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event2"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Proceedings of the ESWC'06
+Workshop on Scripting for the Semantic Web.</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Proceedings of the ESWC'06
+Workshop on Scripting for the Semantic Web.</rdfs:label>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Proceedings"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Knowledge_Representation_Languages"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Knowledge_Systems"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web"/>
+    <foaf:mbox rdf:resource="mailto:tobias.gauss@web.de"/>
+    <foaf:nickname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tobi</foaf:nickname>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tobias</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Tobias Gauß</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Gauß</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:schoolHomepage rdf:resource="http://www.fu-berlin.de"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/suhl/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/events/Event6">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address7"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WWW2005 - 14th International World Wide Web Conference 2005</dc:title>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WWW2005 - 14th International World Wide Web Conference 2005</rdfs:label>
+    <dc:date rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2005-05-10</dc:date>
+    <rdfs:seeAlso rdf:resource="http://www2005.org/"/>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Conference"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/positions/PhDStudent">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PhDStudent</rdfs:label>
+    <owl:sameAs rdf:resource="http://swrc.ontoware.org/ontology#PhDStudent"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/eventtypes/Conference">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Conference</rdfs:label>
+    <owl:sameAs rdf:resource="http://swrc.ontoware.org/ontology#Conference"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/countries/Japan">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Japan</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=1861060"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/positions/Academic_Staff">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Academic Staff</rdfs:label>
+    <owl:sameAs rdf:resource="http://swrc.ontoware.org/ontology#AcademicStaff"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication9">
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Daniel__Westphal"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event4"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event5"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RAP: RDF API for PHP</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RAP: RDF API for PHP</rdfs:label>
+    <dc:abstract rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RAP - RDF API for PHP is a Semantic Web toolkit for PHP developers. It offers features for parsing, manipulating, storing, querying, serving, and serializing RDF graphs.....</dc:abstract>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ProjectReport"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Web_Services">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Web Services</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Web_Services"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication7">
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event3"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SemMF: A Framework for Calculating Semantic Similarity of Objects Represented as RDF Graphs</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SemMF: A Framework for Calculating Semantic Similarity of Objects Represented as RDF Graphs</rdfs:label>
+    <dc:abstract rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In this paper we introduce an easy-to-use, flexible,
+open source framework for computing semantic
+similarity between objects represented as arbitrary
+RDF graphs, based on similarities of specified object
+properties.....</dc:abstract>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ResearchPaper"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/D2R_Server">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2R Server - Publishing Relational Databases on the Semantic Web</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2R Server - Publishing Relational Databases on the Semantic Web</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2R Server is a tool for publishing relational databases on the Semantic Web</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2R Server</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2r-server/index.html"/>
+    <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=111002&amp;package_id=188901"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Knowledge_Management">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Knowledge Management</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Knowledge_Management"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/countries/Montenegro">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Montenegro</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=6290251"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/eventtypes/Workshop">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Workshop</rdfs:label>
+    <owl:sameAs rdf:resource="http://swrc.ontoware.org/ontology#Workshop"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/eventtypes/Lecture">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lecture</rdfs:label>
+    <owl:sameAs rdf:resource="http://swrc.ontoware.org/ontology#Lecture"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Semantic Web</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Semantic_Web"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address4">
+    <vcard:Country rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/countries/Ireland"/>
+    <vcard:Locality rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Galway"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication3">
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Oliver__Maresch"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event3"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The TriQL.P Browser: Filtering Information using Context-, Content- and Rating-Based Trust Policies.</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The TriQL.P Browser: Filtering Information using Context-, Content- and Rating-Based Trust Policies.</rdfs:label>
+    <dc:abstract rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The TriQL.P browser is a general purpose RDF browser that
+supports users in exploring RDF datasets containing information from
+multiple information sources.</dc:abstract>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ResearchPaper"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Text_Mining">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Text Mining</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Text_Mining"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/events/Event4">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address6"/>
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ESWC 2005 - 2nd Annual European Semantic Web Conference</dc:title>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ESWC 2005 - 2nd Annual European Semantic Web Conference</rdfs:label>
+    <rdfs:seeAlso rdf:resource="http://www.eswc2005.org/"/>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Conference"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/groups/Group2">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lehrstuhl für Wirtschaftsinformatik</foaf:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lehrstuhl für Wirtschaftsinformatik</rdfs:label>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/index.html" />
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Institute"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/NG4J">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NG4J - Named Graphs API for Jena</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NG4J - Named Graphs API for Jena</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NG4J - Named Graphs API for Jena is a software toolkit for creating, manipulating, persisting, and exchanging sets of Named Graphs .</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NG4J</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/ng4j/index.html"/>
+    <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=118754"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication2">
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event1"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2R Server - Publishing Releational Databases on the Semantic Web.</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2R Server - Publishing Releational Databases on the Semantic Web.</rdfs:label>
+    <dc:abstract rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2R Server is a tool for publishing the content
+of relational databases on the Semantic Web.....</dc:abstract>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Publication"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address6">
+    <vcard:Country rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/countries/Greece"/>
+    <vcard:Locality rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Heraklion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/events/Event2">
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address5"/>
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ESWC 2006 - 3rd Annual European Semantic Web Conference</dc:title>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ESWC 2006 - 3rd Annual European Semantic Web Conference</rdfs:label>
+    <rdfs:seeAlso rdf:resource="http://www.eswc2006.org/"/>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Conference"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/RAP">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RAP - RDF API for PHP</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RAP - RDF API for PHP</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PHP</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RDF API for PHP is a software package for parsing, searching, manipulating, serializing and serving RDF models.</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RAP</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <owl:sameAs rdf:resource="http://www.wiwiss.fu-berlin.de/suhl/bizer#rdfapi-php"/>
+    <doap:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/suhl/bizer/rdfapi/"/>
+    <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=63257"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl"/>
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/Academic_Staff"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web"/>
+    <foaf:mbox rdf:resource="mailto:radol@gmx.de"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Radoslaw</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Radoslaw Oldakowski</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oldakowski</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/pics/OldakowskiRadoslaw.jpg"/>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/OldakowskiRadoslaw.html"/>
+    <foaf:schoolHomepage rdf:resource="http://www.fu-berlin.de"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/OldakowskiRadoslaw.html"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/E-Business">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">E-Business</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#e-Business"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web_Infrastructure">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Semantic Web Infrastructure</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Semantic_Web_Iinfrastructure"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/David__Karger">
+    <foaf:mbox rdf:resource="mailto:karger@mit.edu"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">David</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">David Karger</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Karger</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.csail.mit.edu/biographies/PI/72dpi/karger.jpg"/>
+    <foaf:homepage rdf:resource="http://theory.lcs.mit.edu/~karger/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Jeremy__Carroll">
+    <foaf:mbox rdf:resource="mailto:Jeremy_Carroll@hp.com"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jeremy</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jeremy Carroll</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Carroll</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:homepage rdf:resource="http://www.hpl.hp.com/personal/jjc/"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.hpl.hp.com"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication11">
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Rowland__Watkins"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event4"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NG4J - Named Graphs API for Jena</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">NG4J - Named Graphs API for Jena</rdfs:label>
+    <dc:abstract rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Named Graphs are a simple extension to the RDF abstract syntax
+and enable statements to be made about RDF graphs....</dc:abstract>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ProjectReport"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/groups/Group5">
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich"/>
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue"/>
+    <foaf:member rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Entscheidungsunterstützende Systeme (EUS)</foaf:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Entscheidungsunterstützende Systeme (EUS)</rdfs:label>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/forschung/index.html#EUS" />
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ResearchGroup"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/SemMF">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SemMF: Semantic Matching Framework</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SemMF: Semantic Matching Framework</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SemMF is an easy-to-use flexible framework for calculating semantic similarity between objects represented as arbitrary RDF Graphs, based on similarities of specified properties.</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SemMF</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://semmf.ag-nbi.de/doc/index.html"/>
+    <doap:download-page rdf:resource="http://semmf.ag-nbi.de/SemMF-V01.zip"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Artificial_Intelligence">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Artificial Intelligence</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Artificial_Intelligence"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/D2RQ">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2RQ - Treating Non-RDF Databases as Virtual RDF Graphs</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2RQ - Treating Non-RDF Databases as Virtual RDF Graphs</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2RQ is a declarative language to describe mappings between relational database schemata and OWL/RDFS ontologies. The mappings allow RDF applications to access the content of huge, non-RDF databases using Semantic Web query languages like SPARQL.</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D2RQ</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/d2rq/index.htm"/>
+    <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=111002"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/events/Event7">
+    <swrc:participant rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Named Graphs meet SPARQL</dc:title>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Named Graphs meet SPARQL</rdfs:label>
+    <rdfs:seeAlso rdf:resource="http://lists.w3.org/Archives/Public/www-archive/2005Feb/att-0049/NamedGraphsMeetSPARQL_TechPlen2005.ppt"/>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Lecture"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Oliver__Maresch">
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <iswc:research_topic rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web"/>
+    <foaf:nickname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">voodoo</foaf:nickname>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oliver</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Oliver Maresch</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maresch</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.oliver-maresch.de/images/oliver_maresch.jpg"/>
+    <rdfs:seeAlso rdf:resource="http://www.oliver-maresch.de/rdf/foaf.rdf"/>
+    <foaf:homepage rdf:resource="http://www.oliver-maresch.de"/>
+    <foaf:schoolHomepage rdf:resource="http://www.tu-berlin.de"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Ryan__Lee">
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ryan</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ryan Lee</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Lee</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:homepage rdf:resource="http://ryanlee.org/"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.w3.org/People/ryanlee/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/RDF_Book_Mashup">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RDF Book Mashup</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RDF Book Mashup</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PHP</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The RDF book mashup demonstrates how Web 2.0 data sources like Amazon, Google or Yahoo can be integrated into the Semantic Web. This mashup assigns dereference-able URIs to books, authors, reviews, online bookstores and purchase offers. Whenever a URI is dereferenced, the mashup queries the Amazon API for information about the book and the Google Base API for purchase offers from different bookstores that sell the book. The query results are returned as an RDF graph to the client. </doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RDF Book Mashup</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/bookmashup/"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1">
+    <vcard:Country rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/countries/Germany"/>
+    <vcard:Locality rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <vcard:Street rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Garystr. 21</vcard:Street>
+    <vcard:Pcode rdf:datatype="http://www.w3.org/2001/XMLSchema#string">14195</vcard:Pcode>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl"/>
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/Academic_Staff"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:mbox rdf:resource="mailto:friedrich@wiwiss.fu-berlin.de"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Swantje</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Swantje Friedrich</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Friedrich</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/pics/FriedrichSwantje.jpg"/>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/FriedrichSwantje.html"/>
+    <foaf:schoolHomepage rdf:resource="http://www.fu-berlin.de"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/FriedrichSwantje.html"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Nicolai__Endres">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:mbox rdf:resource="mailto:nendres@zedat.fu-berlin.de"/>
+    <foaf:nickname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Nico</foaf:nickname>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Nicolai</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Nicolai Endres</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Endres</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address3">
+    <vcard:Country rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/countries/United_States"/>
+    <vcard:Locality rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Athens"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/cities/Galway">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Galway</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=2964180"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Web_Languages">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Semantic Web Languages</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Semantic_Web_Languages"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Semantic_Annotation">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Semantic Annotation</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Semantic_Annotation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/WIQA_Framework">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WIQA - Information Quality Assessment Framework</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WIQA - Information Quality Assessment Framework</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The WIQA - Information Quality Assessment Framework is a set of software components that empowers information consumers to employ a wide range of different information quality assessment policies to filter information from the Web.</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">WIQA Framework</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/WIQA/index.htm"/>
+    <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=118754"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Uwe__Suhl">
+    <foaf:based_near rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Radoslaw__Oldakowski"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Swantje__Friedrich"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Veronika__Waue"/>
+    <foaf:knows rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Sebastian__Thimm"/>
+    <vcard:ROLE rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/positions/Professor"/>
+    <vcard:ADR rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address1"/>
+    <foaf:mbox rdf:resource="mailto:suhl@wiwiss.fu-berlin.de"/>
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Uwe</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Uwe Suhl</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Suhl</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/pics/SuhlUwe.jpg"/>
+    <foaf:homepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/SuhlUwe.html"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.wiwiss.fu-berlin.de/institute/pwo/suhl/mitarbeiter/SuhlUwe.html"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/cities/Berlin">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Berlin</rdfs:label>
+    <owl:sameAs rdf:resource="http://ws.geonames.org/rdf?geonameId=2950159"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Patrick__Hayes">
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patrick</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patrick Hayes</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hayes</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:depiction rdf:resource="http://www.ihmc.us/_images/people/phayes.jpg"/>
+    <foaf:homepage rdf:resource="http://www.ihmc.us/users/user.php?UserID=phayes"/>
+    <foaf:workplaceHomepage rdf:resource="http://www.ihmc.us/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/positions/Professor">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Professor</rdfs:label>
+    <owl:sameAs rdf:resource="http://swrc.ontoware.org/ontology#FullProfessor"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication6">
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event2"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Update on Semantic Web Toolkits for Scripting Languages.</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Update on Semantic Web Toolkits for Scripting Languages.</rdfs:label>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#Publication"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/addresses/Address5">
+    <vcard:Country rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/countries/Montenegro"/>
+    <vcard:Locality rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/cities/Budva"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/topics/Databases">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Databases</rdfs:label>
+    <owl:sameAs rdf:resource="http://annotation.semanticweb.org/iswc/iswc.daml#Databases"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/persons/Patrick__Stickler">
+    <foaf:firstname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patrick</foaf:firstname>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Patrick Stickler</rdfs:label>
+    <foaf:surname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stickler</foaf:surname>
+    <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <foaf:homepage rdf:resource="http://opensource.nokia.com/people/patrick_stickler/index.html"/>
+    <foaf:workplaceHomepage rdf:resource="http://opensource.nokia.com/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/publications/Publication4">
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Emmanuel__Pietriga"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/David__Karger"/>
+    <dc:creator rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Ryan__Lee"/>
+    <dc:relation rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/events/Event1"/>
+    <dc:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fresnel: A Browser-Independent Presentation
+Vocabulary for RDF</dc:title>
+    <dc:language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">en</dc:language>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fresnel: A Browser-Independent Presentation
+Vocabulary for RDF</rdfs:label>
+    <dc:abstract rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Abstract. SemanticWeb browsers and other tools aimed at displaying RDF data
+to end users are all concerned with the same problem: presenting content primarily
+intended for machine consumption in a human-readable way.....</dc:abstract>
+    <rdf:type rdf:resource="http://swrc.ontoware.org/ontology#ResearchPaper"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www4.wiwiss.fu-berlin.de/is-group/projects/Semantic_Web_Client_Library">
+    <doap:maintainer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Chris__Bizer"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Richard__Cyganiak"/>
+    <doap:developer rdf:resource="http://www4.wiwiss.fu-berlin.de/is-group/persons/Tobias__Gau%C3%9F"/>
+    <doap:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Semantic Web Client Library</doap:name>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Semantic Web Client Library</rdfs:label>
+    <doap:programming-language rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Java</doap:programming-language>
+    <doap:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Sematic Web Client Library represents the complete Semantic Web as a single RDF graph. The library enables applications to query this global graph using SPARQL- and find(SPO) queries.</doap:description>
+    <doap:os rdf:datatype="http://www.w3.org/2001/XMLSchema#string">plattform independent</doap:os>
+    <doap:shortname rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Semantic Web Client Library</doap:shortname>
+    <rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+    <doap:homepage rdf:resource="http://sites.wiwiss.fu-berlin.de/suhl/bizer/ng4j/semwebclient/index.html"/>
+    <doap:download-page rdf:resource="http://sourceforge.net/project/showfiles.php?group_id=118754"/>
+    <doap:license rdf:resource="http://usefulinc.com/doap/licenses/gpl"/>
+  </rdf:Description>
+</rdf:RDF>

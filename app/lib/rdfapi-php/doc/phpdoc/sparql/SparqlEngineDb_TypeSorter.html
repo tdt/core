@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class SparqlEngineDb_TypeSorter</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class SparqlEngineDb_TypeSorter</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sorts database types as the Sparql specs want it.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Christian Weiske &lt;<a href="mailto:cweiske@cweiske.de">cweiske@cweiske.de</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_sparql---SparqlEngineDb---TypeSorter.php.html">/sparql/SparqlEngineDb/TypeSorter.php</a> (line <span class="field"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a9">9</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+												<div class="var-title">
+					static <span class="var-type">array</span>
+					<a href="#$arCastTypes" title="details" class="var-name">$arCastTypes</a>
+				</div>
+																<div class="var-title">
+					static <span class="var-type">array</span>
+					<a href="#$arTypeNumbers" title="details" class="var-name">$arTypeNumbers</a>
+				</div>
+																															</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																										
+				<div class="method-definition">
+					static 						<span class="method-result">int</span>
+										<a href="#compareXsdType" title="details" class="method-name">compareXsdType</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$strType1</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strType2</span>)
+									</div>
+														
+				<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#getCastMethod" title="details" class="method-name">getCastMethod</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$strType</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strSqlVar</span>)
+									</div>
+																																																														
+				<div class="method-definition">
+					static 						<span class="method-result">int</span>
+										<a href="#getXsdTypeNumber" title="details" class="method-name">getXsdTypeNumber</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$strType</span>)
+									</div>
+																																																		
+				<div class="method-definition">
+											<span class="method-result">SparqlEngineDb_TypeSorter</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											(<span class="var-type"><a href="../sparql/Query.html">Query</a></span>&nbsp;<span class="var-name">$query</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$dbConn</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#compareTypeSet" title="details" class="method-name">compareTypeSet</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arTs1</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arTs2</span>)
+									</div>
+																														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getOrderifiedSqls" title="details" class="method-name">getOrderifiedSqls</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$arSqls</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strSelect</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strFrom</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strWhere</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getSpecialOrderVariables" title="details" class="method-name">getSpecialOrderVariables</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getSqlOrderBy" title="details" class="method-name">getSqlOrderBy</a>
+											([<span class="var-type">arrray</span>&nbsp;<span class="var-name">$arTypeSet</span> = <span class="var-default">array()</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getStringNullComparison" title="details" class="method-name">getStringNullComparison</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getTypeSets" title="details" class="method-name">getTypeSets</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arSpecialVars</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strFrom</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strWhere</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getTypesetWhereClause" title="details" class="method-name">getTypesetWhereClause</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arTypeSet</span>)
+									</div>
+																						
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isSpecialOrderVariable" title="details" class="method-name">isSpecialOrderVariable</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$strVar</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#orderTypeSets" title="details" class="method-name">orderTypeSets</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arTypes</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setData" title="details" class="method-name">setData</a>
+											(<span class="var-type"><a href="../sparql/SparqlEngineDb_SqlGenerator.html">SparqlEngineDb_SqlGenerator</a></span>&nbsp;<span class="var-name">$sg</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#willBeDataDependent" title="details" class="method-name">willBeDataDependent</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$arCastTypes" id="$arCastTypes"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type">array</span>
+			<span class="var-name">$arCastTypes</span>
+			 = <span class="var-default">array(
+<br />        'http://www.w3.org/2001/XMLSchema#integer' =&gt; 'SIGNED INTEGER'
+<br />    )</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a28">28</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">SQL types to cast XSD schema types to, so that they will get    sorted correctly.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$arTypeNumbers" id="$arTypeNumbers"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type">array</span>
+			<span class="var-name">$arTypeNumbers</span>
+			 = <span class="var-default">array(
+<br />        null    =&gt; 0,//empty
+<br />        'b'     =&gt; 1,//blank
+<br />        'r'     =&gt; 2,//resource
+<br />        'l'     =&gt; 3,//literal
+<br />    )</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a16">16</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Defines the sort order for value types in the database,    so that they get sorted correctly as the specs want it.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodcompareXsdType" id="compareXsdType"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static compareXsdType</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a310">310</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Compares two XSD data types and returns the comparison number.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Comparison number (&lt;0 if $strType1 is less than                    $strType2, 0 if equal, &gt;0 if type2 is greater)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">int</span>
+		<span class="method-name">
+			compareXsdType
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$strType1</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strType2</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strType1</span><span class="var-description">: First data type</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strType2</span><span class="var-description">: Second data type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetCastMethod" id="getCastMethod"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static getCastMethod</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a383">383</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the SQL statement needed to case the given variable to    the given type.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> SQL command to cast the variable</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">string</span>
+		<span class="method-name">
+			getCastMethod
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$strType</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strSqlVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strType</span><span class="var-description">: XML data type</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strSqlVar</span><span class="var-description">: SQL variable name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetXsdTypeNumber" id="getXsdTypeNumber"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static getXsdTypeNumber</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a323">323</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the type number for an xsd data type.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Some integer to compare two types.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">int</span>
+		<span class="method-name">
+			getXsdTypeNumber
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$strType</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strType</span><span class="var-description">: XSD data type</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a34">34</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">SparqlEngineDb_TypeSorter</span>
+		<span class="method-name">
+			__construct
+		</span>
+					(<span class="var-type"><a href="../sparql/Query.html">Query</a></span>&nbsp;<span class="var-name">$query</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$dbConn</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/Query.html">Query</a></span>
+				<span class="var-name">$query</span>			</li>
+					<li>
+				<span class="var-type">ADOConnection</span>
+				<span class="var-name">$dbConn</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcompareTypeSet" id="compareTypeSet"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">compareTypeSet</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a273">273</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Compares two type sets. Works like a normal comparision    method that returns -1/0/1 for use in usort()</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Comparison value</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			compareTypeSet
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arTs1</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arTs2</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arTs1</span><span class="var-description">: First typeset</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arTs2</span><span class="var-description">: Second typeset</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetOrderifiedSqls" id="getOrderifiedSqls"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOrderifiedSqls</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a81">81</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an array of sql statements that need to be executed    and deliver the full result set when combined.</p>
+<p class="description"><p>Execute setData() before this.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of arrays. Imploding an array will give                     a complete sql statement. The array will have the keys                     select/from/where/order.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getOrderifiedSqls
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$arSqls</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strSelect</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strFrom</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strWhere</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strSelect</span><span class="var-description">: SELECT clause</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strFrom</span><span class="var-description">: FROM clause</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strWhere</span><span class="var-description">: WHERE clause</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$arSqls</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSpecialOrderVariables" id="getSpecialOrderVariables"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSpecialOrderVariables</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a156">156</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an array of variables that the result is going to be    ordered by and that need to be sorted multiple times    (because they may contain different data types)</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of sparql variable names</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getSpecialOrderVariables
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetSqlOrderBy" id="getSqlOrderBy"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSqlOrderBy</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a347">347</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the ORDER BY sql query string    if neccessary for the query. The returned string    already has ORDER BY prefixed.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> ORDER BY ... string or empty string</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getSqlOrderBy
+		</span>
+					([<span class="var-type">arrray</span>&nbsp;<span class="var-name">$arTypeSet</span> = <span class="var-default">array()</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">arrray</span>
+				<span class="var-name">$arTypeSet</span><span class="var-description">: Single typeset</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetStringNullComparison" id="getStringNullComparison"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getStringNullComparison</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a430">430</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the correct sql string comparison method.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getStringNullComparison
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$str</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$str</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetTypeSets" id="getTypeSets"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getTypeSets</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a205">205</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determines the type sets in the query results.</p>
+<p class="description"><p>A type set is a distinct set of variables and their types,    e.g. the variable and its type (r/b/l) and its datatype    if its an object.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Key is the sparql variable name, value is an                    array. This one has one key 'type' with a                    value of b/l/r. It might have another key                    'datatype' with the resource's datatype.</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getTypeSets
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arSpecialVars</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strFrom</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strWhere</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arSpecialVars</span><span class="var-description">: Special variables as returned by                                    getSpecialOrderVariables()</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strFrom</span><span class="var-description">: FROM part of the sql query</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strWhere</span><span class="var-description">: WHERE part of the sql query</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetTypesetWhereClause" id="getTypesetWhereClause"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getTypesetWhereClause</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a403">403</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates and returns the SQL WHERE clauses needed to get only    data in the given typeset.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Clauses for the WHERE part in an SQL query</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getTypesetWhereClause
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arTypeSet</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arTypeSet</span><span class="var-description">: Typeset</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisSpecialOrderVariable" id="isSpecialOrderVariable"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isSpecialOrderVariable</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a181">181</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if a given variable name is a variable that    needs special care when used in ORDER BY statements.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if the variable needs special care</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isSpecialOrderVariable
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$strVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strVar</span><span class="var-description">: SPARQL variable name</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodorderTypeSets" id="orderTypeSets"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">orderTypeSets</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a247">247</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Takes an array of type sets (as returned by getTypeSets()) and    sorts the variables according to the SPARQL specs.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Ordered array of type sets</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			orderTypeSets
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arTypes</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arTypes</span><span class="var-description">: Array of type sets</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsetData" id="setData"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setData</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a46">46</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Needs to be executed before getOrderifiedSqls and willBeDataDependent</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setData
+		</span>
+					(<span class="var-type"><a href="../sparql/SparqlEngineDb_SqlGenerator.html">SparqlEngineDb_SqlGenerator</a></span>&nbsp;<span class="var-name">$sg</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/SparqlEngineDb_SqlGenerator.html">SparqlEngineDb_SqlGenerator</a></span>
+				<span class="var-name">$sg</span><span class="var-description">: SQL generator object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwillBeDataDependent" id="willBeDataDependent"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">willBeDataDependent</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbTypeSorter.php.html#a138">138</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns wether the returned queries will depend on the data or not.</p>
+<p class="description"><p>If the queries depend on the data, they cannot be prepare()d and    thus won't be that fast when executing.</p><p>Execute setData() before this.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			willBeDataDependent
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:52:36 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

@@ -1,0 +1,1827 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class MemModel</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class MemModel</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-descendents">Descendents</a>
+			|											<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">A MemModel is an RDF Model, which is stored in the main memory.</p>
+<p class="description"><p>This class provides methods for manipulating MemModels.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Chris Bizer &lt;<a href="mailto:chris@bizer.de">chris@bizer.de</a>&gt;</li>
+				<li><span class="field">author:</span> Gunnar AAstrand Grimnes &lt;<a href="mailto:ggrimnes@csd.abdn.ac.uk">ggrimnes@csd.abdn.ac.uk</a>&gt;</li>
+				<li><span class="field">author:</span> Radoslaw Oldakowski &lt;<a href="mailto:radol@gmx.de">radol@gmx.de</a>&gt;</li>
+				<li><span class="field">author:</span> Tobias Gauß &lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">author:</span> Daniel Westphal &lt;<a href="mailto:mail@d-westphal.de">mail@d-westphal.de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: MemModel.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_model---MemModel.php.html">/model/MemModel.php</a> (line <span class="field"><a href="../__filesource/fsource_model__modelMemModel.php.html#a24">24</a></span>)
+		</p>
+		
+				
+		<pre><a href="../utility/Object.html">Object</a>
+   |
+   --<a href="../model/Model.html">Model</a>
+      |
+      --MemModel</pre>
+	
+			</div>
+</div>
+
+	<a name="sec-descendents"></a>
+	<div class="info-box">
+		<div class="info-box-title">Direct descendents</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Descendents</span>
+			|												<a href="#sec-vars">Vars</a>
+								|															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../dataset/NamedGraphMem.html">NamedGraphMem</a></td>
+					<td>
+											NamedGraph implementation that extends a <a href="../model/MemModel.html">MemModel</a>  with a name.
+										</td>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em"><a href="../infModel/InfModel.html">InfModel</a></td>
+					<td>
+											A InfModel Model extends a MemModel , by adding the ability to infer statements from  known statements and RDFS/OWL-Schematas.
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																																																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">MemModel</span>
+										<a href="#MemModel" title="details" class="method-name">MemModel</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">NULL</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#add" title="details" class="method-name">add</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addModel" title="details" class="method-name">addModel</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addNamespace" title="details" class="method-name">addNamespace</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#addParsedNamespaces" title="details" class="method-name">addParsedNamespaces</a>
+											(<span class="var-type">Array</span>&nbsp;<span class="var-name">$newNs</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#addWithoutDuplicates" title="details" class="method-name">addWithoutDuplicates</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#close" title="details" class="method-name">close</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#contains" title="details" class="method-name">contains</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsAll" title="details" class="method-name">containsAll</a>
+											(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#containsAny" title="details" class="method-name">containsAny</a>
+											(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#equals" title="details" class="method-name">equals</a>
+											(<span class="var-type">object model</span>&nbsp;<span class="var-name">&$that</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#find" title="details" class="method-name">find</a>
+											(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object FindIterator</span>
+										<a href="#findAsIterator" title="details" class="method-name">&amp;findAsIterator</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$sub</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$pred</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#findCount" title="details" class="method-name">findCount</a>
+											(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/Statement.html">object Statement</a></span>
+										<a href="#findFirstMatchingStatement" title="details" class="method-name">findFirstMatchingStatement</a>
+											(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#findRegex" title="details" class="method-name">findRegex</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$subject_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$predicate_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$object_regex</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#findVocabulary" title="details" class="method-name">findVocabulary</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$vocabulary</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">int</span>
+										<a href="#getIndexType" title="details" class="method-name">getIndexType</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">Array</span>
+										<a href="#getParsedNamespaces" title="details" class="method-name">getParsedNamespaces</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object StatementIterator</span>
+										<a href="#getStatementIterator" title="details" class="method-name">&amp;getStatementIterator</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#index" title="details" class="method-name">index</a>
+											(<span class="var-type">int</span>&nbsp;<span class="var-name">$mode</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#intersect" title="details" class="method-name">&amp;intersect</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isEmpty" title="details" class="method-name">isEmpty</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#isIndexed" title="details" class="method-name">isIndexed</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object FindIterator</span>
+										<a href="#iterFind" title="details" class="method-name">&amp;iterFind</a>
+											([<span class="var-type"></span>&nbsp;<span class="var-name">$sub</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$pred</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#rdqlQuery" title="details" class="method-name">rdqlQuery</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object RdqlResultIterator</span>
+										<a href="#rdqlQueryAsIterator" title="details" class="method-name">rdqlQueryAsIterator</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#reify" title="details" class="method-name">&amp;reify</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#remove" title="details" class="method-name">remove</a>
+											(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">$statement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#removeNamespace" title="details" class="method-name">removeNamespace</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#replace" title="details" class="method-name">replace</a>
+											(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$replacement</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">boolean</span>
+										<a href="#saveAs" title="details" class="method-name">saveAs</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'rdf'</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setBaseURI" title="details" class="method-name">setBaseURI</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">integer</span>
+										<a href="#size" title="details" class="method-name">size</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#subtract" title="details" class="method-name">&amp;subtract</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#toString" title="details" class="method-name">toString</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#toStringIncludingTriples" title="details" class="method-name">toStringIncludingTriples</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#unite" title="details" class="method-name">&amp;unite</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#writeAsHtml" title="details" class="method-name">writeAsHtml</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#writeAsHtmlTable" title="details" class="method-name">writeAsHtmlTable</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#writeRdfToString" title="details" class="method-name">writeRdfToString</a>
+										()
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			
+							<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../model/Model.html">Model</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../model/Model.html#var$queryParser">Model::$queryParser</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-descendents">Descendents</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodMemModel" id="MemModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor MemModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a75">75</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Constructor  You can supply a base_uri</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">MemModel</span>
+		<span class="method-name">
+			MemModel
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">NULL</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodadd" id="add"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">add</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a131">131</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a new triple to the MemModel without checking if the statement is already in the MemModel.</p>
+<p class="description"><p>So if you want a duplicate free MemModel use the addWithoutDuplicates() function (which is slower then add())</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			add
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">$statement</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModel.html#methodadd">InfModel::add()</a>
+								: Adds a new triple to the Model without checking if the statement  is already in the Model.
+							</li>
+					<li>
+				<a href="../infModel/InfModelB.html#methodadd">InfModelB::add()</a>
+								: Adds a new triple to the Model without checking, if the statement  is already in the Model. So if you want a duplicate free Model use  the addWithoutDuplicates() function (which is slower then add())
+							</li>
+					<li>
+				<a href="../infModel/InfModelF.html#methodadd">InfModelF::add()</a>
+								: Adds a new triple to the MemModel without checking if the statement  is already in the MemModel.
+							</li>
+				</ul>
+	</div>
+<a name="methodaddModel" id="addModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1107">1107</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds another model to this MemModel.</p>
+<p class="description"><p>Duplicate statements are not removed.  If you don't want duplicates, use unite().  If any statement of the model to be added to this model contains a blankNode  with an identifier already existing in this model, a new blankNode is generated.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addModel
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelF.html#methodaddModel">InfModelF::addModel()</a>
+								: Adds another model to this MemModel.
+							</li>
+				</ul>
+	</div>
+<a name="methodaddNamespace" id="addNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1235">1235</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a namespace and prefix to the model.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addNamespace
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$prefix</span>, <span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$prefix</span>			</li>
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$nmsp</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddParsedNamespaces" id="addParsedNamespaces"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">addParsedNamespaces</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1221">1221</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds the namespaces to the model. This method is called by  the parser. !!!! addParsedNamespaces() not overwrites manual  added namespaces in the model !!!!</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			addParsedNamespaces
+		</span>
+					(<span class="var-type">Array</span>&nbsp;<span class="var-name">$newNs</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">Array</span>
+				<span class="var-name">$newNs</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodaddWithoutDuplicates" id="addWithoutDuplicates"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">addWithoutDuplicates</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a170">170</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if a new statement is already in the MemModel and adds the statement, if it is not in the MemModel.</p>
+<p class="description"><p>addWithoutDuplicates() is significantly slower then add().  Retruns TRUE if the statement is added.  FALSE otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			addWithoutDuplicates
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">$statement</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelF.html#methodaddWithoutDuplicates">InfModelF::addWithoutDuplicates()</a>
+								: Checks if a new statement is already in the MemModel and adds  the statement, if it is not in the MemModel.
+							</li>
+				</ul>
+	</div>
+<a name="methodclose" id="close"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">close</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1262">1262</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Close the MemModel and free up resources held.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			close
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodcontains" id="contains"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">contains</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a359">359</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Tests if the MemModel contains the given triple.</p>
+<p class="description"><p>TRUE if the triple belongs to the MemModel;  FALSE otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			contains
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">&$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">&$statement</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodcontains">InfModelB::contains()</a>
+								: Tests if the Model contains the given triple.
+							</li>
+				</ul>
+	</div>
+<a name="methodcontainsAll" id="containsAll"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsAll</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a386">386</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if all of the statements in a model are also contained in this MemModel.</p>
+<p class="description"><p>True if all of the statements in $model are also contained in this MemModel and false otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsAll
+		</span>
+					(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcontainsAny" id="containsAny"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">containsAny</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a411">411</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determine if any of the statements in a model are also contained in this MemModel.</p>
+<p class="description"><p>True if any of the statements in $model are also contained in this MemModel and false otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			containsAny
+		</span>
+					(<span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">&$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodequals" id="equals"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">equals</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a944">944</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if two models are equal.</p>
+<p class="description"><p>Two models are equal if and only if the two RDF graphs they represent are isomorphic.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			equals
+		</span>
+					(<span class="var-type">object model</span>&nbsp;<span class="var-name">&$that</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">object model</span>
+				<span class="var-name">&$that</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfind" id="find"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">find</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a522">522</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">General method to search for triples.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;find( NULL, NULL, $node );  Finds all triples with $node as object.  Returns an empty MemModel if nothing is found.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			find
+		</span>
+					(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodfind">InfModelB::find()</a>
+								: General method to search for triples.
+							</li>
+				</ul>
+	</div>
+<a name="methodfindAsIterator" id="findAsIterator"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">findAsIterator</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1173">1173</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a FindIterator for traversing the MemModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object FindIterator</span>
+		<span class="method-name">
+			&amp;findAsIterator
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$sub</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$pred</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sub</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$pred</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$obj</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodfindAsIterator">InfModelB::findAsIterator()</a>
+								: Returns a FindIterator for traversing the MemModel.
+							</li>
+				</ul>
+	</div>
+<a name="methodfindCount" id="findCount"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">findCount</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a802">802</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Searches for triples and returns the number of matches.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;findCount( NULL, NULL, $node );  Finds all triples with $node as object.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			findCount
+		</span>
+					(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodfindFirstMatchingStatement" id="findFirstMatchingStatement"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">findFirstMatchingStatement</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a682">682</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Searches for triples and returns the first matching statement.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;findFirstMatchingStatement( NULL, NULL, $node );  Returns the first statement of the MemModel where the object equals $node.  Returns an NULL if nothing is found.  You can define an offset to search for. Default = 0</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/Statement.html">object Statement</a></span>
+		<span class="method-name">
+			findFirstMatchingStatement
+		</span>
+					(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, [<span class="var-type">integer</span>&nbsp;<span class="var-name">$offset</span> = <span class="var-default">0</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+					<li>
+				<span class="var-type">integer</span>
+				<span class="var-name">$offset</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodfindFirstMatchingStatement">InfModelB::findFirstMatchingStatement()</a>
+								: Searches for triples and returns the first matching statement.
+							</li>
+				</ul>
+	</div>
+<a name="methodfindRegex" id="findRegex"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">findRegex</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a606">606</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Method to search for triples using Perl-style regular expressions.</p>
+<p class="description"><p>NULL input for any parameter will match anything.  Example:  $result = $m-&gt;find_regex( NULL, NULL, $regex );  Finds all triples where the label of the object node matches the regular expression.  Returns an empty MemModel if nothing is found.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			findRegex
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$subject_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$predicate_regex</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$object_regex</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$subject_regex</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$predicate_regex</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$object_regex</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModel.html#methodfindRegex">InfModel::findRegex()</a>
+								: Method to search for triples using Perl-style regular expressions.
+							</li>
+				</ul>
+	</div>
+<a name="methodfindVocabulary" id="findVocabulary"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">findVocabulary</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a638">638</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns all tripels of a certain vocabulary.</p>
+<p class="description"><p>$vocabulary is the namespace of the vocabulary inluding a # : / char at the end.  e.g. http://www.w3.org/2000/01/rdf-schema#  Returns an empty MemModel if nothing is found.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			findVocabulary
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$vocabulary</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$vocabulary</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModel.html#methodfindVocabulary">InfModel::findVocabulary()</a>
+								: Returns all tripels of a certain vocabulary.
+							</li>
+				</ul>
+	</div>
+<a name="methodgetIndexType" id="getIndexType"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getIndexType</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a503">503</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the indextype:  -1 if there is no index, 0 if there are indices over S,P,O(separate), <ol><li>if there is an index over SPO, 2 if there is an index over SP and 3 if</li></ol> there is an index over SO.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">int</span>
+		<span class="method-name">
+			getIndexType
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetParsedNamespaces" id="getParsedNamespaces"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getParsedNamespaces</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1202">1202</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the models namespaces.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">Array</span>
+		<span class="method-name">
+			getParsedNamespaces
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetStatementIterator" id="getStatementIterator"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getStatementIterator</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1160">1160</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a StatementIterator for traversing the MemModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object StatementIterator</span>
+		<span class="method-name">
+			&amp;getStatementIterator
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodgetStatementIterator">InfModelB::getStatementIterator()</a>
+								: Returns a StatementIterator for traversing the Model.
+							</li>
+				</ul>
+	</div>
+<a name="methodindex" id="index"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">index</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a447">447</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Builds a search index for the statements in the MemModel.</p>
+<p class="description"><p>The index is used by the find(),contains(),add() and remove() functions.  Performance example using a model with 43000 statements on a Linux machine:  Find without index takes 1.7 seconds.  Indexing takes 1.8 seconds.  Find with index takes 0.001 seconds.  So if you want to query a model more then once, build a index first.  The defaultindex is indices over subject, predicate, object seperate.</p><p>mode = 0    : indices over subject,predicate,object (default)  mode = 1	 : index over subject+predicate+object  mode = 2 	 : index over subject+predicate  mode = 3	 : index over subject+object</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			index
+		</span>
+					(<span class="var-type">int</span>&nbsp;<span class="var-name">$mode</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">int</span>
+				<span class="var-name">$mode</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodintersect" id="intersect"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">intersect</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1063">1063</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new MemModel containing all the statements which are in both this MemModel and another.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;intersect
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmpty" id="isEmpty"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">isEmpty</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a114">114</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if MemModel is empty</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isEmpty
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodisIndexed" id="isIndexed"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">isIndexed</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a485">485</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns 	true if there is an index, false if not.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			isIndexed
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoditerFind" id="iterFind"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">iterFind</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1186">1186</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a FindIterator for traversing the MemModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object FindIterator</span>
+		<span class="method-name">
+			&amp;iterFind
+		</span>
+					([<span class="var-type"></span>&nbsp;<span class="var-name">$sub</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$pred</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$obj</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$sub</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$pred</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$obj</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrdqlQuery" id="rdqlQuery"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">rdqlQuery</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a823">823</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Perform an RDQL query on this MemModel.</p>
+<p class="description"><p>This method returns an associative array of variable bindings.  The values of the query variables can either be RAP's objects (instances of Node)  if $returnNodes set to TRUE, or their string serialization.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> [][?VARNAME] = object Node  (if $returnNodes = TRUE)       OR  array   [][?VARNAME] = string</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			rdqlQuery
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$queryString</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$returnNodes</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodrdqlQueryAsIterator" id="rdqlQueryAsIterator"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">rdqlQueryAsIterator</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a858">858</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Perform an RDQL query on this MemModel.</p>
+<p class="description"><p>This method returns an RdqlResultIterator of variable bindings.  The values of the query variables can either be RAP's objects (instances of Node)  if $returnNodes set to TRUE, or their string serialization.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> = with values as object Node  (if $returnNodes = TRUE)       OR  object RdqlResultIterator = with values as strings if (if $returnNodes = FALSE)</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object RdqlResultIterator</span>
+		<span class="method-name">
+			rdqlQueryAsIterator
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$queryString</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$returnNodes</span> = <span class="var-default">TRUE</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$queryString</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$returnNodes</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodreify" id="reify"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">reify</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1142">1142</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Reifies the MemModel.</p>
+<p class="description"><p>Returns a new MemModel that contains the reifications of all statements of this MemModel.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;reify
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodremove" id="remove"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">remove</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a195">195</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes the triple from the MemModel.</p>
+<p class="description"><p>TRUE if the triple is removed.  FALSE otherwise.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			remove
+		</span>
+					(<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>&nbsp;<span class="var-name">$statement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Statement.html">object Statement</a></span>
+				<span class="var-name">$statement</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodremove">InfModelB::remove()</a>
+								: Removes the triple from the MemModel.
+							</li>
+					<li>
+				<a href="../infModel/InfModelF.html#methodremove">InfModelF::remove()</a>
+								: Removes the triple from the MemModel.
+							</li>
+				</ul>
+	</div>
+<a name="methodremoveNamespace" id="removeNamespace"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">removeNamespace</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1246">1246</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">removes a single namespace from the model</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Tobias Gau�&lt;<a href="mailto:tobias.gauss@web.de">tobias.gauss@web.de</a>&gt;</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			removeNamespace
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$nmsp</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$nmsp</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodreplace" id="replace"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">replace</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a878">878</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">General method to replace nodes of a MemModel.</p>
+<p class="description"><p>NULL input for any parameter will match nothing.  Example:  $m-&gt;replace($node, NULL, $node, $replacement);  Replaces all $node objects beeing subject or object in  any triple of the MemModel with the $needle node.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			replace
+		</span>
+					(<span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$predicate</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$object</span>, <span class="var-type"><a href="../model/Node.html">object Node</a></span>&nbsp;<span class="var-name">$replacement</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$subject</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$predicate</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$object</span>			</li>
+					<li>
+				<span class="var-type"><a href="../model/Node.html">object Node</a></span>
+				<span class="var-name">$replacement</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModel.html#methodreplace">InfModel::replace()</a>
+								: General method to replace nodes of a MemModel.
+							</li>
+				</ul>
+	</div>
+<a name="methodsaveAs" id="saveAs"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">saveAs</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a325">325</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Saves the RDF,N3 or N-Triple serialization of the MemModel to a file.</p>
+<p class="description"><p>You can decide to which format the model should be serialized by using a  corresponding suffix-string as $type parameter. If no $type parameter  is placed this method will serialize the model to XML/RDF format.  Returns FALSE if the MemModel couldn't be saved to the file.</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> PhpError</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			saveAs
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$filename</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'rdf'</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$filename</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$type</span>			</li>
+				</ul>
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodsaveAs">InfModelB::saveAs()</a>
+								: Saves the RDF,N3 or N-Triple serialization of the full InfModelB  (including inferred triples) to a file.
+							</li>
+				</ul>
+	</div>
+<a name="methodsetBaseURI" id="setBaseURI"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setBaseURI</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a87">87</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Set a base URI for the MemModel.</p>
+<p class="description"><p>Affects creating of new resources and serialization syntax.  If the URI doesn't end with # : or /, then a # is added to the URI.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setBaseURI
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodsize" id="size"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">size</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a104">104</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Number of triples in the MemModel</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">integer</span>
+		<span class="method-name">
+			size
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodsize">InfModelB::size()</a>
+								: Number of all inferable triples in the Model.
+							</li>
+				</ul>
+	</div>
+<a name="methodsubtract" id="subtract"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">subtract</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a1025">1025</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new MemModel that is the subtraction of another model from this MemModel.</p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;subtract
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodtoString" id="toString"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">toString</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a249">249</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Short Dump of the MemModel.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			toString
+		</span>
+				()
+			</div>
+	
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../utility/Object.html#methodtoString">Object::toString()</a></dt>
+						<dd>Serializes a object into a string</dd>
+					</dl>
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodtoString">InfModelB::toString()</a>
+								: Short Dump of the  InfModelB.
+							</li>
+					<li>
+				<a href="../infModel/InfModelF.html#methodtoString">InfModelF::toString()</a>
+								: Short Dump of the InfModelF.
+							</li>
+				</ul>
+	</div>
+<a name="methodtoStringIncludingTriples" id="toStringIncludingTriples"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">toStringIncludingTriples</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a259">259</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Dumps of the MemModel including all triples.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			toStringIncludingTriples
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodtoStringIncludingTriples">InfModelB::toStringIncludingTriples()</a>
+								: Dumps of the InfModelB including ALL inferable triples.
+							</li>
+				</ul>
+	</div>
+<a name="methodunite" id="unite"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">unite</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a989">989</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new MemModel that is the set-union of the MemModel with another model.</p>
+<p class="description"><p>Duplicate statements are removed. If you want to allow duplicates, use addModel() which is much faster.</p><p>The result of taking the set-union of two or more RDF graphs (i.e. sets of triples)  is another graph, which we will call the merge of the graphs.  Each of the original graphs is a subgraph of the merged graph. Notice that when forming  a merged graph, two occurrences of a given uriref or literal as nodes in two different  graphs become a single node in the union graph (since by definition they are the same  uriref or literal) but blank nodes are not 'merged' in this way; and arcs are of course  never merged. In particular, this means that every blank node in a merged graph can be  identified as coming from one particular graph in the original set of graphs.</p><p>Notice that one does not, in general, obtain the merge of a set of graphs by concatenating  their corresponding N-triples documents and constructing the graph described by the merged  document, since if some of the documents use the same node identifiers, the merged document  will describe a graph in which some of the blank nodes have been 'accidentally' merged.  To merge Ntriples documents it is necessary to check if the same nodeID is used in two or  more documents, and to replace it with a distinct nodeID in each of them, before merging the  documents. (Not implemented yet !!!!!!!!!!!)</p></p>
+	<ul class="tags">
+				<li><span class="field">throws:</span> phpErrpr</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;unite
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$model</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$model</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$model</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$model</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodwriteAsHtml" id="writeAsHtml"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeAsHtml</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a275">275</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Writes the RDF serialization of the MemModel as HTML.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			writeAsHtml
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodwriteAsHtml">InfModelB::writeAsHtml()</a>
+								: Writes the RDF serialization of the Model including ALL inferable  triples as HTML.
+							</li>
+				</ul>
+	</div>
+<a name="methodwriteAsHtmlTable" id="writeAsHtmlTable"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeAsHtmlTable</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a290">290</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Writes the RDF serialization of the MemModel as HTML table.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			writeAsHtmlTable
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodwriteAsHtmlTable">InfModelB::writeAsHtmlTable()</a>
+								: Writes the RDF serialization of the Model including ALL inferable  triples as HTML table.
+							</li>
+				</ul>
+	</div>
+<a name="methodwriteRdfToString" id="writeRdfToString"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">writeRdfToString</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelMemModel.php.html#a303">303</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Writes the RDF serialization of the MemModel as HTML table.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			writeRdfToString
+		</span>
+				()
+			</div>
+	
+		
+			
+			<hr class="separator" />
+		<div class="notes">Redefined in descendants as:</div>
+		<ul class="redefinitions">
+					<li>
+				<a href="../infModel/InfModelB.html#methodwriteRdfToString">InfModelB::writeRdfToString()</a>
+								: Writes the RDF serialization of the Model including ALL inferable  triples.
+							</li>
+				</ul>
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../model/Model.html">Model</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../model/Model.html#methodModel">Model::Model()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodfindForward">Model::findForward()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetBaseURI">Model::getBaseURI()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetMemModelByRDQL">Model::getMemModelByRDQL()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetOntModel">Model::getOntModel()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodgetResModel">Model::getResModel()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodload">Model::load()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodsparqlPrepare">Model::sparqlPrepare()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodsparqlQuery">Model::sparqlQuery()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#methodvisualize">Model::visualize()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#method_parseSparqlQuery">Model::_parseSparqlQuery()</a></span><br>
+													<span class="method-name"><a href="../model/Model.html#method_prepareSparql">Model::_prepareSparql()</a></span><br>
+											</blockquote>
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../utility/Object.html">Object</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../utility/Object.html#methodtoString">Object::toString()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:49:48 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/rdfapi-php/!svn/ver/436/trunk/rdfapi-php/api/rdql
+END
+RdqlResultIterator.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/rdql/RdqlResultIterator.php
+END
+RdqlDbEngine.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/559/trunk/rdfapi-php/api/rdql/RdqlDbEngine.php
+END
+RdqlParser.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/282/trunk/rdfapi-php/api/rdql/RdqlParser.php
+END
+RDQL.php
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/rdfapi-php/!svn/ver/320/trunk/rdfapi-php/api/rdql/RDQL.php
+END
+RdqlMemEngine.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/rdql/RdqlMemEngine.php
+END
+RdqlEngine.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/rdfapi-php/!svn/ver/268/trunk/rdfapi-php/api/rdql/RdqlEngine.php
+END

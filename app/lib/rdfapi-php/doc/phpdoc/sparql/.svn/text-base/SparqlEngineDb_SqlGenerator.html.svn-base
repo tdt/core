@@ -1,0 +1,1132 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class SparqlEngineDb_SqlGenerator</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class SparqlEngineDb_SqlGenerator</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates sql statements from a Query object</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Christian Weiske &lt;<a href="mailto:cweiske@cweiske.de">cweiske@cweiske.de</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_sparql---SparqlEngineDb---SqlGenerator.php.html">/sparql/SparqlEngineDb/SqlGenerator.php</a> (line <span class="field"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a13">13</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																				<div class="var-title">
+					static <span class="var-type">array</span>
+					<a href="#$arTableColumnNames" title="details" class="var-name">$arTableColumnNames</a>
+				</div>
+																																																																												<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$arPlaceholders" title="details" class="var-name">$arPlaceholders</a>
+				</div>
+																								<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$arUnionVarAssignments" title="details" class="var-name">$arUnionVarAssignments</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$arUsedVarAssignments" title="details" class="var-name">$arUsedVarAssignments</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$arUsedVarTypes" title="details" class="var-name">$arUsedVarTypes</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">array</span>
+					<a href="#$arVarAssignments" title="details" class="var-name">$arVarAssignments</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$nSqlVariableNameCount" title="details" class="var-name">$nSqlVariableNameCount</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">int</span>
+					<a href="#$nUnionCount" title="details" class="var-name">$nUnionCount</a>
+				</div>
+																<div class="var-title">
+					<span class="var-type">mixed</span>
+					<a href="#$query" title="details" class="var-name">$query</a>
+				</div>
+											</div>
+		</div>
+	</div>
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																		
+				<div class="method-definition">
+					static 						<span class="method-result">string</span>
+										<a href="#getSqlEqualityCondition" title="details" class="method-name">getSqlEqualityCondition</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arNew</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arOld</span>)
+									</div>
+																																																																																						
+				<div class="method-definition">
+					static 						<span class="method-result">boolean</span>
+										<a href="#isEmptyPattern" title="details" class="method-name">isEmptyPattern</a>
+											(<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$graphPattern</span>)
+									</div>
+														
+				<div class="method-definition">
+					static 						<span class="method-result">boolean</span>
+										<a href="#isPreparedVariable" title="details" class="method-name">isPreparedVariable</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$bject</span>)
+									</div>
+														
+				<div class="method-definition">
+					static 						<span class="method-result">boolean</span>
+										<a href="#isResultVar" title="details" class="method-name">isResultVar</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$strVar</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$arResultVars</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arResultVars</span>)
+									</div>
+														
+				<div class="method-definition">
+					static 						<span class="method-result">boolean</span>
+										<a href="#isVariable" title="details" class="method-name">isVariable</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$bject</span>)
+									</div>
+														
+				<div class="method-definition">
+					static 						<span class="method-result">array</span>
+										<a href="#removeNull" title="details" class="method-name">removeNull</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$array</span>)
+									</div>
+																		
+				<div class="method-definition">
+											<span class="method-result">SparqlEngineDb_SqlGenerator</span>
+										<a href="#__construct" title="details" class="method-name">__construct</a>
+											(<span class="var-type"><a href="../sparql/Query.html">Query</a></span>&nbsp;<span class="var-name">$query</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$dbConn</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$modelID</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#createEqualSelects" title="details" class="method-name">createEqualSelects</a>
+											(<span class="var-type">array</span>&nbsp;<span class="var-name">$arSelect</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#createSql" title="details" class="method-name">createSql</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#fixWhere" title="details" class="method-name">fixWhere</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$strWhere</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getPlaceholders" title="details" class="method-name">getPlaceholders</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getPreparedVariablePlaceholder" title="details" class="method-name">getPreparedVariablePlaceholder</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$strVariable</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getSqlCondition" title="details" class="method-name">getSqlCondition</a>
+											(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$bject</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strTablePrefix</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strType</span>)
+									</div>
+																						
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getSqlVariableName" title="details" class="method-name">getSqlVariableName</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getSqlVariableNameDatatype" title="details" class="method-name">getSqlVariableNameDatatype</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getSqlVariableNameIs" title="details" class="method-name">getSqlVariableNameIs</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getSqlVariableNameLanguage" title="details" class="method-name">getSqlVariableNameLanguage</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getSqlVariableNameValue" title="details" class="method-name">getSqlVariableNameValue</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getTripleSql" title="details" class="method-name">getTripleSql</a>
+											(<span class="var-type"><a href="../sparql/QueryTriple.html">QueryTriple</a></span>&nbsp;<span class="var-name">$triple</span>, <span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$graphPattern</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$arResultVars</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getUsedVarAssignments" title="details" class="method-name">getUsedVarAssignments</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getUsedVarTypes" title="details" class="method-name">getUsedVarTypes</a>
+										()
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getVarAssignments" title="details" class="method-name">getVarAssignments</a>
+										()
+									</div>
+																																																			</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+			<a name="var$arTableColumnNames" id="$arTableColumnNames"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			static <span class="var-type">array</span>
+			<span class="var-name">$arTableColumnNames</span>
+			 = <span class="var-default">array(
+<br />        's' =&gt; array(
+<br />            'value' =&gt; 'subject',
+<br />            'is'    =&gt; 'subject_is'
+<br />        ),'p'=&gt;array('value'=&gt;'predicate'),'o'=&gt;array('value'=&gt;'object','is'=&gt;'object_is'))</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a108">108</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Column names for subjects, predicates and    objects for easy access via their character    names (spo).</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+
+<a name="var$arPlaceholders" id="$arPlaceholders"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$arPlaceholders</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a99">99</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Array with placeholders of prepared statements variables.</p>
+<p class="description"><p>key is the variable name (without &quot;??&quot;), value is the    placeholder.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$arUnionVarAssignments" id="$arUnionVarAssignments"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$arUnionVarAssignments</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a72">72</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Array of arrays that contain all variable names    which are to be found in the result of    an sql statement in a union.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+				<li><span class="field">example:</span> example not found</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$arUsedVarAssignments" id="$arUsedVarAssignments"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$arUsedVarAssignments</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a51">51</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Array of variable name =&gt; table.col assignments    for all variables used in the query not only    the ones that shall be returned.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+				<li><span class="field">example:</span> example not found</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$arUsedVarTypes" id="$arUsedVarTypes"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$arUsedVarTypes</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a91">91</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Which variables have been used as which type?    key is variable name, value is an array of    max. three keys (s, p, o)</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+				<li><span class="field">example:</span> example not found</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$arVarAssignments" id="$arVarAssignments"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">array</span>
+			<span class="var-name">$arVarAssignments</span>
+			 = <span class="var-default">array()</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a37">37</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Determines which variables can be found    in which SQL result column.</p>
+	<ul class="tags">
+				<li><span class="field">see:</span> $arCreationMethods</li>
+				<li><span class="field">access:</span> public</li>
+				<li><span class="field">example:</span> example not found</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nSqlVariableNameCount" id="$nSqlVariableNameCount"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$nSqlVariableNameCount</span>
+			 = <span class="var-default"> 0</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a128">128</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$nUnionCount" id="$nUnionCount"><!-- --></A>
+<div class="oddrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">int</span>
+			<span class="var-name">$nUnionCount</span>
+			 = <span class="var-default"> 0</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a126">126</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Current UNION part number</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+<a name="var$query" id="$query"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<span class="var-title">
+			<span class="var-type">mixed</span>
+			<span class="var-name">$query</span>
+			 = <span class="var-default"> null</span>			(line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a15">15</a></span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodgetSqlEqualityCondition" id="getSqlEqualityCondition"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static getSqlEqualityCondition</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a652">652</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if the sentence part (subject, predicate or object) in    $arNew has the same content as $arOld.</p>
+<p class="description"><p>Required for queries like &quot;:x ?a ?a&quot; where predicate and object    need to have the same value</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">string</span>
+		<span class="method-name">
+			getSqlEqualityCondition
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arNew</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arOld</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arNew</span><span class="var-description">: array($strTablePrefix, $strType = s|p|o)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arOld</span><span class="var-description">: array($strTablePrefix, $strType = s|p|o)</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisEmptyPattern" id="isEmptyPattern"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static isEmptyPattern</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a798">798</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if the graph pattern is empty (contains no    usable data).</p>
+<p class="description"><p>Occurs when using &quot;{}&quot; without pre- or suffixes    WHERE    {     { ?person rdf:type foaf:Person } .    }</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> True if the pattern is empty.</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			isEmptyPattern
+		</span>
+					(<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$graphPattern</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>
+				<span class="var-name">$graphPattern</span><span class="var-description">: Graph pattern to check</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisPreparedVariable" id="isPreparedVariable"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static isPreparedVariable</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a728">728</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if the given variable is a replacement    for a prepared statement.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			isPreparedVariable
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$bject</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$bject</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisResultVar" id="isResultVar"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static isResultVar</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a701">701</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if the given variable name is part of the result    variables list.</p>
+<p class="description"><p>Needed since $arResultVars may contain &quot;*&quot; that captures all variables.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> true if it is a result variable</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			isResultVar
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$strVar</span>, <span class="var-type"></span>&nbsp;<span class="var-name">&$arResultVars</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arResultVars</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strVar</span><span class="var-description">: Variable name (e.g. &quot;?p&quot;)</span>			</li>
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arResultVars</span><span class="var-description">: Array with result variables</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$arResultVars</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodisVariable" id="isVariable"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">static isVariable</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a714">714</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if the given subject/predicate/object    is a variable name.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">boolean</span>
+		<span class="method-name">
+			isVariable
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$bject</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$bject</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodremoveNull" id="removeNull"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">static removeNull</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a817">817</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes all NULL values from an array and returns it.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> without the NULL values.</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		static <span class="method-result">array</span>
+		<span class="method-name">
+			removeNull
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$array</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$array</span><span class="var-description">: Some array</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="method__construct" id="__construct"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">Constructor __construct</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a132">132</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">SparqlEngineDb_SqlGenerator</span>
+		<span class="method-name">
+			__construct
+		</span>
+					(<span class="var-type"><a href="../sparql/Query.html">Query</a></span>&nbsp;<span class="var-name">$query</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$dbConn</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$modelID</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/Query.html">Query</a></span>
+				<span class="var-name">$query</span>			</li>
+					<li>
+				<span class="var-type">ADOConnection</span>
+				<span class="var-name">$dbConn</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$modelID</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateEqualSelects" id="createEqualSelects"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">createEqualSelects</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a466">466</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates SELECT statements that have the same number of columns.</p>
+<p class="description"><p>Needed for UNIONs.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of SELECT strings</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			createEqualSelects
+		</span>
+					(<span class="var-type">array</span>&nbsp;<span class="var-name">$arSelect</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">array</span>
+				<span class="var-name">$arSelect</span><span class="var-description">: Array of arrays.        array(            //for each union part one <ol><li>=&gt; array(
+               //foreach triple pattern
+               0 =&gt; array(
+                   '?person'   =&gt; array(
+                       't0.subject as &quot;t0.subject&quot;'
+                   )
+               )</li></ol>           )        )</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodcreateSql" id="createSql"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">createSql</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a150">150</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates an SQL query string from the given Sparql query object.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array of arrays of SQL query string parts: select, from and where</li>
+				<li><span class="field">throws:</span> SparqlEngineDb_SqlGeneratorException   If there is no variable in the result set.</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			createSql
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodfixWhere" id="fixWhere"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">fixWhere</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a833">833</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Removes a leading AND from the where clause which would render    the sql illegal.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			fixWhere
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$strWhere</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$strWhere</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetPlaceholders" id="getPlaceholders"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPlaceholders</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a758">758</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getPlaceholders
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetPreparedVariablePlaceholder" id="getPreparedVariablePlaceholder"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getPreparedVariablePlaceholder</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a746">746</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a placeholder to be included in the sql statement.</p>
+<p class="description"><p>It will be replaced with a real prepared statement variable later on.    Also adds it to the internal placeholder array.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> placeholder</li>
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getPreparedVariablePlaceholder
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$strVariable</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strVariable</span><span class="var-description">: The variable to get a placeholder for</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSqlCondition" id="getSqlCondition"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSqlCondition</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a558">558</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates an SQL statement that checks for the value    of some subject/predicate/object</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Part of the SQL query (prefixed with AND)</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getSqlCondition
+		</span>
+					(<span class="var-type">mixed</span>&nbsp;<span class="var-name">$bject</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strTablePrefix</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$strType</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">mixed</span>
+				<span class="var-name">$bject</span><span class="var-description">: subject|predicate|object</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strTablePrefix</span><span class="var-description">: Table prefix (e.g. &quot;t0&quot;)</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$strType</span><span class="var-description">: Type of $bject ('subject'|'predicate'|'object')</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSqlVariableName" id="getSqlVariableName"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSqlVariableName</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a844">844</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getSqlVariableName
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$strSparqlVar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSqlVariableNameDatatype" id="getSqlVariableNameDatatype"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSqlVariableNameDatatype</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a886">886</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getSqlVariableNameDatatype
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$strSparqlVar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSqlVariableNameIs" id="getSqlVariableNameIs"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSqlVariableNameIs</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a868">868</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getSqlVariableNameIs
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$strSparqlVar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSqlVariableNameLanguage" id="getSqlVariableNameLanguage"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSqlVariableNameLanguage</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a877">877</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getSqlVariableNameLanguage
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$strSparqlVar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSqlVariableNameValue" id="getSqlVariableNameValue"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSqlVariableNameValue</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a859">859</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getSqlVariableNameValue
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$strSparqlVar</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$strSparqlVar</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetTripleSql" id="getTripleSql"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getTripleSql</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a286">286</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates some SQL statements from the given triple pattern    array.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> Array consisting of on array and two string values:                    SELECT, FROM and WHERE part</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getTripleSql
+		</span>
+					(<span class="var-type"><a href="../sparql/QueryTriple.html">QueryTriple</a></span>&nbsp;<span class="var-name">$triple</span>, <span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>&nbsp;<span class="var-name">$graphPattern</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$arResultVars</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../sparql/QueryTriple.html">QueryTriple</a></span>
+				<span class="var-name">$triple</span><span class="var-description">: Array containing subject, predicate and object</span>			</li>
+					<li>
+				<span class="var-type"><a href="../sparql/GraphPattern.html">GraphPattern</a></span>
+				<span class="var-name">$graphPattern</span><span class="var-description">: Graph pattern object</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$arResultVars</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetUsedVarAssignments" id="getUsedVarAssignments"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getUsedVarAssignments</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a772">772</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getUsedVarAssignments
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetUsedVarTypes" id="getUsedVarTypes"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getUsedVarTypes</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a779">779</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getUsedVarTypes
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetVarAssignments" id="getVarAssignments"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getVarAssignments</span> (line <span class="line-number"><a href="../__filesource/fsource_sparql__sparqlSparqlEngineDbSqlGenerator.php.html#a765">765</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			getVarAssignments
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:52:24 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

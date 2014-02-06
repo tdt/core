@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class ModelFactory</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class ModelFactory</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">ModelFactory is a static class which provides methods for creating different  types of RAP models. RAP models have to be created trough a ModelFactory  instead of creating them directly with the 'new' operator because of RAP's  dynamic code inclusion mechanism.</p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Daniel Westphal &lt;<a href="mailto:mail">at d-westphal.de mail at d-westphal.de</a>&gt;</li>
+				<li><span class="field">author:</span> Richard Cyganiak &lt;<a href="mailto:richard@cyganiak.de">richard@cyganiak.de</a>&gt;</li>
+				<li><span class="field">version:</span> $Id: ModelFactory.html 443 2007-06-01 16:25:38Z cax $</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_model---ModelFactory.php.html">/model/ModelFactory.php</a> (line <span class="field"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a23">23</a></span>)
+		</p>
+		
+				
+		<pre></pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																						
+				<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#getDatasetMem" title="details" class="method-name">&amp;getDatasetMem</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$graphSetId</span> = <span class="var-default">null</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/DbModel.html">object DbModel</a></span>
+										<a href="#getDbModel" title="details" class="method-name">&amp;getDbModel</a>
+											(<span class="var-type"><a href="../model/DbStore.html">object DbStore</a></span>&nbsp;<span class="var-name">$dbStore</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/DbStore.html">object DbStore</a></span>
+										<a href="#getDbStore" title="details" class="method-name">&amp;getDbStore</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$dbDriver</span> = <span class="var-default">ADODB_DB_DRIVER</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span> = <span class="var-default">ADODB_DB_HOST</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$dbName</span> = <span class="var-default">ADODB_DB_NAME</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$user</span> = <span class="var-default">ADODB_DB_USER</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$password</span> = <span class="var-default">ADODB_DB_PASSWORD</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/DbModel.html">object DbModel</a></span>
+										<a href="#getDefaultDbModel" title="details" class="method-name">&amp;getDefaultDbModel</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#getDefaultModel" title="details" class="method-name">&amp;getDefaultModel</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#getInfModelB" title="details" class="method-name">&amp;getInfModelB</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#getInfModelF" title="details" class="method-name">&amp;getInfModelF</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+										<a href="#getMemModel" title="details" class="method-name">&amp;getMemModel</a>
+											([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object OntModel</span>
+										<a href="#getOntModel" title="details" class="method-name">&amp;getOntModel</a>
+											(<span class="var-type">constant</span>&nbsp;<span class="var-name">$modelType</span>, <span class="var-type">constant</span>&nbsp;<span class="var-name">$vocabulary</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object OntModel</span>
+										<a href="#getOntModelForBaseModel" title="details" class="method-name">&amp;getOntModelForBaseModel</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$baseModel</span>, <span class="var-type">constant</span>&nbsp;<span class="var-name">$vocabulary</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$baseModel</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object ResModel</span>
+										<a href="#getResModel" title="details" class="method-name">&amp;getResModel</a>
+											(<span class="var-type">constant</span>&nbsp;<span class="var-name">$modelType</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result">object ResModel</span>
+										<a href="#getResModelForBaseModel" title="details" class="method-name">&amp;getResModelForBaseModel</a>
+											(<span class="var-type"></span>&nbsp;<span class="var-name">&$baseModel</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$baseModel</span>)
+									</div>
+														
+				<div class="method-definition">
+											<span class="method-result"><a href="../sparql/SparqlClient.html">SparqlClient</a></span>
+										<a href="#getSparqlClient" title="details" class="method-name">&amp;getSparqlClient</a>
+											(<span class="var-type">String</span>&nbsp;<span class="var-name">$server</span>)
+									</div>
+											</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+<a name="methodgetDatasetMem" id="getDatasetMem"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDatasetMem</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a46">46</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a NamedGraphSetMem.</p>
+<p class="description"><p>You can supply a GraphSet name.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			&amp;getDatasetMem
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$graphSetId</span> = <span class="var-default">null</span>], <span class="var-type">string</span>&nbsp;<span class="var-name">$uri</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$graphSetId</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$uri</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDbModel" id="getDbModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDbModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a98">98</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a new DbModel using the database connection  supplied by $dbStore.</p>
+<p class="description"><p>You can supply a base URI. If a model with the given base  URI exists in the DbStore, it'll be opened.  If not, a new model will be created.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/DbModel.html">object DbModel</a></span>
+		<span class="method-name">
+			&amp;getDbModel
+		</span>
+					(<span class="var-type"><a href="../model/DbStore.html">object DbStore</a></span>&nbsp;<span class="var-name">$dbStore</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/DbStore.html">object DbStore</a></span>
+				<span class="var-name">$dbStore</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDbStore" id="getDbStore"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDbStore</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a119">119</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a database connection with the given parameters.</p>
+<p class="description"><p>Paramters, which are not defined are taken from the constants.php</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/DbStore.html">object DbStore</a></span>
+		<span class="method-name">
+			&amp;getDbStore
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$dbDriver</span> = <span class="var-default">ADODB_DB_DRIVER</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span> = <span class="var-default">ADODB_DB_HOST</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$dbName</span> = <span class="var-default">ADODB_DB_NAME</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$user</span> = <span class="var-default">ADODB_DB_USER</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$password</span> = <span class="var-default">ADODB_DB_PASSWORD</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dbDriver</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$host</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$dbName</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$user</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$password</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDefaultDbModel" id="getDefaultDbModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDefaultDbModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a DbModel with the database connection  defined in constants.php.</p>
+<p class="description"><p>You can supply a base URI. If a model with the given base  URI exists in the DbStore, it'll be opened.  If not, a new model will be created.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/DbModel.html">object DbModel</a></span>
+		<span class="method-name">
+			&amp;getDefaultDbModel
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetDefaultModel" id="getDefaultModel"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getDefaultModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a33">33</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a MemModel.</p>
+<p class="description"><p>You can supply a base URI</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;getDefaultModel
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetInfModelB" id="getInfModelB"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getInfModelB</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a153">153</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a InfModelB.</p>
+<p class="description"><p>(MemModel with backward chaining inference engine)  Configurations can be done in constants.php  You can supply a base URI</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;getInfModelB
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetInfModelF" id="getInfModelF"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getInfModelF</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a136">136</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a InfModelF.</p>
+<p class="description"><p>(MemModel with forward chaining inference engine)  Configurations can be done in constants.php  You can supply a base URI</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;getInfModelF
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetMemModel" id="getMemModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getMemModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a61">61</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a MemModel.</p>
+<p class="description"><p>You can supply a base URI</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../model/MemModel.html">object MemModel</a></span>
+		<span class="method-name">
+			&amp;getMemModel
+		</span>
+					([<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetOntModel" id="getOntModel"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOntModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a221">221</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns an OntModel.</p>
+<p class="description"><p>$modelType has to be one of the following constants:  MEMMODEL, DBMODEL, INFMODELF, INFMODELB to create a OntModel  with a new model from defined type.  $vocabulary defines the ontology language. Currently only  RDFS_VOCABULARY is supported. You can supply a model base URI.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object OntModel</span>
+		<span class="method-name">
+			&amp;getOntModel
+		</span>
+					(<span class="var-type">constant</span>&nbsp;<span class="var-name">$modelType</span>, <span class="var-type">constant</span>&nbsp;<span class="var-name">$vocabulary</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">constant</span>
+				<span class="var-name">$modelType</span>			</li>
+					<li>
+				<span class="var-type">constant</span>
+				<span class="var-name">$vocabulary</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetOntModelForBaseModel" id="getOntModelForBaseModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getOntModelForBaseModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a255">255</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates an OntModel that wraps an existing base model.</p>
+<p class="description"><p>$vocabulary defines the ontology language. Currently only  RDFS_VOCABULARY is supported.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object OntModel</span>
+		<span class="method-name">
+			&amp;getOntModelForBaseModel
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$baseModel</span>, <span class="var-type">constant</span>&nbsp;<span class="var-name">$vocabulary</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$baseModel</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$baseModel</span>			</li>
+					<li>
+				<span class="var-type">constant</span>
+				<span class="var-name">$vocabulary</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$baseModel</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetResModel" id="getResModel"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getResModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a172">172</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns a ResModel.</p>
+<p class="description"><p>$modelType has to be one of the following constants:  MEMMODEL,DBMODEL,INFMODELF,INFMODELB to create a resmodel with a new  model from defined type.  You can supply a base URI</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object ResModel</span>
+		<span class="method-name">
+			&amp;getResModel
+		</span>
+					(<span class="var-type">constant</span>&nbsp;<span class="var-name">$modelType</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$baseURI</span> = <span class="var-default">null</span>])
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">constant</span>
+				<span class="var-name">$modelType</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$baseURI</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetResModelForBaseModel" id="getResModelForBaseModel"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getResModelForBaseModel</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a201">201</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates a ResModel that wraps an existing base model.</p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">object ResModel</span>
+		<span class="method-name">
+			&amp;getResModelForBaseModel
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">&$baseModel</span>, <span class="var-type"><a href="../model/Model.html">object Model</a></span>&nbsp;<span class="var-name">$baseModel</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type"><a href="../model/Model.html">object Model</a></span>
+				<span class="var-name">$baseModel</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">&$baseModel</span>			</li>
+				</ul>
+		
+			
+	</div>
+<a name="methodgetSparqlClient" id="getSparqlClient"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getSparqlClient</span> (line <span class="line-number"><a href="../__filesource/fsource_model__modelModelFactory.php.html#a283">283</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Creates a SparqlClient.</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> the SparqlClient object.</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result"><a href="../sparql/SparqlClient.html">SparqlClient</a></span>
+		<span class="method-name">
+			&amp;getSparqlClient
+		</span>
+					(<span class="var-type">String</span>&nbsp;<span class="var-name">$server</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">String</span>
+				<span class="var-name">$server</span><span class="var-description">: Link to a SPARQL endpoint.</span>			</li>
+				</ul>
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Fri,  1 Jun 2007 16:49:54 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.2</a>
+	</p>
+	</div></body>
+</html>

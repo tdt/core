@@ -1,0 +1,173 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/rdfapi-php/!svn/ver/375/trunk/rdfapi-php/api/util/adodb
+END
+adodb-php4.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-php4.inc.php
+END
+adodb-datadict.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-datadict.inc.php
+END
+toexport.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/toexport.inc.php
+END
+adodb-exceptions.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-exceptions.inc.php
+END
+adodb-xmlschema.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-xmlschema.inc.php
+END
+adodb-csvlib.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-csvlib.inc.php
+END
+rsfilter.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/rsfilter.inc.php
+END
+adodb-xmlschema03.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/adodb-xmlschema03.inc.php
+END
+xmlschema.dtd
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/xmlschema.dtd
+END
+adodb-pear.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-pear.inc.php
+END
+adodb-active-record.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/adodb-active-record.inc.php
+END
+server.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/server.php
+END
+adodb-errorhandler.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-errorhandler.inc.php
+END
+adodb-error.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-error.inc.php
+END
+adodb-iterator.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-iterator.inc.php
+END
+xmlschema03.dtd
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/xmlschema03.dtd
+END
+license.txt
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/license.txt
+END
+adodb-perf.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-perf.inc.php
+END
+adodb-time.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-time.inc.php
+END
+adodb-pager.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-pager.inc.php
+END
+tohtml.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/tohtml.inc.php
+END
+adodb-time.zip
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/rdfapi-php/!svn/ver/240/trunk/rdfapi-php/api/util/adodb/adodb-time.zip
+END
+adodb-errorpear.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-errorpear.inc.php
+END
+adodb.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb.inc.php
+END
+pivottable.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/pivottable.inc.php
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/readme.txt
+END
+adodb-lib.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/rdfapi-php/!svn/ver/350/trunk/rdfapi-php/api/util/adodb/adodb-lib.inc.php
+END
+adodb-memcache.lib.inc.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/rdfapi-php/!svn/ver/351/trunk/rdfapi-php/api/util/adodb/adodb-memcache.lib.inc.php
+END

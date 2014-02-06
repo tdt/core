@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title></title>
+			<link rel="stylesheet" href="media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						
+<div class="package-title">infModel</div>
+<div class="package-details">
+			
+	<dl class="tree">
+		
+		<dt class="folder-title">Description</dt>
+		<dd>
+			<a href='classtrees_infModel.html' target='right'>Class trees</a><br />
+			<a href='elementindex_infModel.html' target='right'>Index of elements</a><br />
+					</dd>
+	
+							
+							
+													<dt class="folder-title">Interfaces</dt>
+										   										   										   										   										   																		<dt class="folder-title">Classes</dt>
+										   						<dd><a href='infModel/InfModel.html' target='right'>InfModel</a></dd>
+					   										   						<dd><a href='infModel/InfModelB.html' target='right'>InfModelB</a></dd>
+					   										   						<dd><a href='infModel/InfModelF.html' target='right'>InfModelF</a></dd>
+					   										   						<dd><a href='infModel/InfRule.html' target='right'>InfRule</a></dd>
+					   										   						<dd><a href='infModel/InfStatement.html' target='right'>InfStatement</a></dd>
+					   																						<dt class="folder-title">Files</dt>
+											<dd><a href='infModel/_infModel---InfModel.php.html' target='right'>InfModel.php</a></dd>
+											<dd><a href='infModel/_infModel---InfModelB.php.html' target='right'>InfModelB.php</a></dd>
+											<dd><a href='infModel/_infModel---InfModelF.php.html' target='right'>InfModelF.php</a></dd>
+											<dd><a href='infModel/_infModel---InfRule.php.html' target='right'>InfRule.php</a></dd>
+											<dd><a href='infModel/_infModel---InfStatement.php.html' target='right'>InfStatement.php</a></dd>
+																	
+						
+			</dl>
+</div>
+<p class="notes"><a href="http://www.phpdoc.org" target="_blank">phpDocumentor v <span class="field">1.3.2</span></a></p>
+</BODY>
+</HTML>
