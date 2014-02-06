@@ -14,7 +14,7 @@ class CachedDefinitions extends Migration {
         // Add the dublin core to the definitions.
         Schema::table('definitions', function($table)
         {
-            $table->smallInteger('cache_minutes')->default(1)->nullable();
+            $table->smallInteger('cache_minutes')->default(5)->nullable();
         });
     }
 
