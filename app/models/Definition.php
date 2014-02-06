@@ -65,7 +65,7 @@ class Definition extends Eloquent{
                     'required' => false,
                     'name' => 'Cache',
                     'type' => 'integer',
-                    'description' => 'How long this resource should be cached (in minutes)',
+                    'description' => 'How long this resource should be cached (in minutes).',
                 ),
         );
     }
