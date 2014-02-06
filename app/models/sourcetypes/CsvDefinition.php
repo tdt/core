@@ -20,13 +20,6 @@ class CsvDefinition extends SourceType{
     }
 
     /**
-     * Relationship with the Definition model.
-     */
-    public function definition(){
-        return $this->morphOne('Definition', 'source');
-    }
-
-    /**
      * Relationship with the Geo properties model.
      */
     public function geoProperties(){

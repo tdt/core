@@ -21,13 +21,6 @@ class XlsDefinition extends SourceType{
         return $this->morphMany('TabularColumns', 'tabular');
     }
 
-    /**
-     * Relationship with the Definition model.
-     */
-    public function definition(){
-        return $this->morphOne('Definition', 'source');
-    }
-
      /**
      * Validate the input for this model.
      */

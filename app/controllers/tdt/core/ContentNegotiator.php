@@ -72,9 +72,17 @@ class ContentNegotiator extends Pager{
         }
 
         // Cache headers
-        $response->header('Cache-Control', 'public, max-age=60, pre-check=60');
+        $cache_minutes = -1;
+        if(\Config::get('cache.enabled', true)){
+            $cache_minutes = 1;
+            if(!empty($data->source_definition)){
+                $cache_minutes = $data->source_definition->getCacheExpiration();
+            }
+        }
+
+        $response->header('Cache-Control', 'public, max-age='. $cache_minutes*60 .', pre-check='. $cache_minutes*60 .'');
         $response->header('Pragma', 'public');
-        $response->header('Expires', date(DATE_RFC822, strtotime("1 minute")) );
+        $response->header('Expires', date(DATE_RFC822, strtotime("$cache_minutes minute")) );
 
         // Return formatted response
         return $response;

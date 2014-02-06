@@ -13,6 +13,14 @@ class SourceType extends Eloquent{
         return str_replace('DEFINITION', '', strtoupper(get_called_class()));
     }
 
+    /**
+     * Relationship with the Definition model.
+     */
+    public function definition(){
+        return $this->morphOne('Definition', 'source');
+    }
+
+
     public static function validate($params){
 
         $validated_params = array();
@@ -76,5 +84,12 @@ class SourceType extends Eloquent{
             'json' => 'The contents of the uri could not be parsed as JSON, make sure the JSON is valid.',
             'sparqlquery' => "The query could not be validated, make sure you don't use a limit and/or offset statement and that a select or construct statement is present.",
         );
+    }
+
+    /**
+     * Get cache expiration time
+     */
+    public function getCacheExpiration(){
+        return (is_null($this->definition->cache_minutes))? 1 : $this->definition->cache_minutes;
     }
 }
