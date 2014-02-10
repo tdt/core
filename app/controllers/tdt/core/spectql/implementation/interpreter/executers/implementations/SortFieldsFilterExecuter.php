@@ -32,6 +32,7 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     private $interpreter;
 
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+
         $this->filter = $filter;
         $this->interpreter = $interpreter;
 
@@ -48,6 +49,7 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
     private function toArray($columnId, $content) {
+
         $newarr = array();
         for ($i = 0; $i < $content->getRowCount(); $i++) {
             $row = $content->getRow($i);
@@ -58,6 +60,7 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
     public function evaluateAsExpression() {
+
         $sourcecontent = $this->executer->evaluateAsExpression();
 
         $sortedcontent = $sourcecontent;
@@ -67,8 +70,10 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
         $columnsrev = array_reverse($columns); //apply in inverse order
 
         foreach ($columnsrev as $column) {
+
             //this column
             $filterColumn = $column->getColumn();
+
             //find something to evaluate it
             $exprexec = $this->interpreter->findExecuterFor($filterColumn);
 
@@ -135,5 +140,3 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
     }
 
 }
-
-?>
