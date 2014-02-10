@@ -102,8 +102,8 @@ class SPECTQLController extends \Controller {
         $universalquery = $parser->interpret($context);
 
         // Display the query tree, uncomment in case of debugging
-        /*$treePrinter = new TreePrinter();
-        $tree = $treePrinter->treeToString($universalquery);
+        $treePrinter = new TreePrinter();
+        /*$tree = $treePrinter->treeToString($universalquery);
         echo "<pre>";
         echo $tree;
         echo "</pre>";*/

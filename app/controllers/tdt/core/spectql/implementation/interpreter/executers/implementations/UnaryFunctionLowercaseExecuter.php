@@ -8,8 +8,9 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* lowercase */
 class UnaryFunctionLowercaseExecuter extends UnaryFunctionExecuter {
+
     public function getName($name) {
-        return "lowercase_" . $name;
+        return "lcase_" . $name;
     }
     public function doUnaryFunction($value) {
         if ($value === null)

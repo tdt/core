@@ -16,6 +16,14 @@ class LastAggregatorExecuter extends AggregatorFunctionExecuter {
         return true;
     }
 
+    public function keepFullInfo() {
+        return false;
+    }
+
+    public function getName($name) {
+        return "last_" . $name;
+    }
+
 }
 
 

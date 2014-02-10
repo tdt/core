@@ -45,8 +45,6 @@ class SpectqlTest extends TestCase{
 
                     $query_string = $query['query'];
 
-                    var_dump($query_string);
-
                     $response = $this->call('GET', $query_string, array(), array(), array(), array());
 
                     // Our queries are requested in a json format
@@ -62,7 +60,6 @@ class SpectqlTest extends TestCase{
                     $equal_objects = ($first_result == json_decode($query['first_result']));
 
                     $this->assertTrue($equal_objects);
-
                 }
 
                 // Delete the definition
@@ -70,7 +67,6 @@ class SpectqlTest extends TestCase{
 
                 $response = DefinitionController::handle($uri);
                 $this->assertEquals(200, $response->getStatusCode());
-
             }
         }
     }

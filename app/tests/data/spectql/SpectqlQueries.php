@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class containing SPECTQL queries for unittesting purposes.
+ * Class containing SpectQL queries for unittesting purposes.
  *
  * @author Jan Vansteenlandt jan@okfn.be
  */
@@ -61,9 +61,29 @@ class SpectqlQueries{
                         'first_result' => '{"count_lat":5}',
                     ),
                     // first without filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{first(Prov_Name)}:json",
+                        'result_count' => 1,
+                        'first_result' => '{"first_Prov_Name":"Farah"}',
+                    ),
                     // first with filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{first(Prov_Name)}?Dist_Name>'F':json",
+                        'result_count' => 1,
+                        'first_result' => '{"first_Prov_Name":"Farah"}',
+                    ),
                     // last without filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{last(Prov_Name)}:json",
+                        'result_count' => 1,
+                        'first_result' => '{"last_Prov_Name":"Balkh"}',
+                    ),
                     // last with filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{last(Prov_Name)}?Dist_Name>'F':json",
+                        'result_count' => 1,
+                        'first_result' => '{"last_Prov_Name":"Balkh"}',
+                    ),
                     // max without filter
                     array(
                         'query' => "http://localhost/spectql/tabular/geo{max(lat)}:json",
@@ -104,41 +124,40 @@ class SpectqlQueries{
                     array(
                         'query' => "http://localhost/spectql/tabular/geo{ucase(Prov_Name)}:json",
                         'result_count' => 399,
-                        'first_result' => '{"uppercase_Prov_Name":"FARAH"}',
+                        'first_result' => '{"ucase_Prov_Name":"FARAH"}',
                     ),
                     // ucase with filter
                     array(
                         'query' => "http://localhost/spectql/tabular/geo{ucase(Prov_Name)}?Prov_Name=='Uruzgan':json",
                         'result_count' => 5,
-                        'first_result' => '{"uppercase_Prov_Name":"URUZGAN"}',
+                        'first_result' => '{"ucase_Prov_Name":"URUZGAN"}',
                     ),
                     // lcase without filter
                     array(
                         'query' => "http://localhost/spectql/tabular/geo{lcase(Prov_Name)}:json",
                         'result_count' => 399,
-                        'first_result' => '{"lowercase_Prov_Name":"farah"}',
+                        'first_result' => '{"lcase_Prov_Name":"farah"}',
                     ),
                     // lcase with filter
                     array(
                         'query' => "http://localhost/spectql/tabular/geo{lcase(Prov_Name)}?Prov_Name=='Uruzgan':json",
                         'result_count' => 5,
-                        'first_result' => '{"lowercase_Prov_Name":"uruzgan"}',
+                        'first_result' => '{"lcase_Prov_Name":"uruzgan"}',
                     ),
                     // len without filter
                     array(
                         'query' => "http://localhost/spectql/tabular/geo{len(Prov_Name)}:json",
                         'result_count' => 399,
-                        'first_result' => '{"length_Prov_Name":5}',
+                        'first_result' => '{"len_Prov_Name":5}',
                     ),
                     // len with filter
                     array(
                         'query' => "http://localhost/spectql/tabular/geo{len(Prov_Name)}?Prov_Name=='Uruzgan':json",
                         'result_count' => 5,
-                        'first_result' => '{"length_Prov_Name":7}',
+                        'first_result' => '{"len_Prov_Name":7}',
                     ),
                 ),
             ),
         ),
     );
-
 }
