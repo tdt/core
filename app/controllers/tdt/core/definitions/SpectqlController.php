@@ -78,7 +78,6 @@ class SPECTQLController extends \Controller {
         $original_uri = \Request::fullUrl();
         $root = \Request::root();
 
-
         if(preg_match("%$root\/spectql\/(.*)%", $original_uri, $matches)){
             $query_uri = urldecode($matches[1]);
         }
@@ -90,8 +89,9 @@ class SPECTQLController extends \Controller {
             $format = ltrim($matches[1], ":");
         }
 
+        // Remove the format and any following query string parameters
         if(!empty($format)){
-            $query_uri = str_replace(':' . $format, '', $query_uri);
+            $query_uri = preg_replace("/:" . $format . "\??.*/", '', $query_uri);
         }
 
         // Initialize the parser with our query string

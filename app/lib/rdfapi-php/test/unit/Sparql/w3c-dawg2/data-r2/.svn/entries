@@ -1,211 +1,0 @@
-8
-
-dir
-556
-https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php/trunk/rdfapi-php/test/unit/Sparql/w3c-dawg2/data-r2
-https://rdfapi-php.svn.sourceforge.net/svnroot/rdfapi-php
-
-
-
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-b2ee660e-c932-0410-bdee-d8da4d8102f4
-
-basic
-dir
-
-distinct
-dir
-
-construct
-dir
-
-optional
-dir
-
-dataset
-dir
-
-open-world
-dir
-
-triple-match
-dir
-
-algebra-expressions.txt
-file
-
-
-
-
-2008-02-29T14:57:25.371866Z
-d1f2ba15d0a29cb9acfa2127893a260a
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-manifest-syntax.ttl
-file
-
-
-
-
-2008-02-29T14:57:25.387487Z
-5b34ebc439a2767942afdc9020e3cbb4
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-graph
-dir
-
-optional-filter
-dir
-
-regex
-dir
-
-manifest-evaluation.ttl
-file
-
-
-
-
-2008-02-29T14:57:25.387487Z
-7bb4bb26478697065018b6b7981ccf32
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-ask
-dir
-
-i18n
-dir
-
-expr-builtin
-dir
-
-LICENSE
-file
-
-
-
-
-2008-02-29T14:57:25.387487Z
-306f4f74832408db0935c6eec0f6fe1b
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-foo
-file
-
-
-
-
-2008-02-29T14:57:25.403107Z
-5c44c9e90b9f5f0a3bf61d5d7e2381cd
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-syntax
-dir
-
-boolean-effective-value
-dir
-
-sort
-dir
-
-cast
-dir
-
-algebra
-dir
-
-README
-file
-
-
-
-
-2008-02-29T14:57:25.403107Z
-1788396506bfbb9165b4a1b9c919288c
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-slice
-dir
-
-solution-seq
-dir
-
-type-promotion
-dir
-
-bnode-coreference
-dir
-
-expr-equals
-dir
-
-files-to-fix
-file
-
-
-
-
-2008-02-29T14:57:25.403107Z
-958363aa072419754f8c2e7bc365ffd1
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-bound
-dir
-
-syntax-sparql1
-dir
-
-syntax-sparql2
-dir
-
-syntax-sparql3
-dir
-
-syntax-sparql4
-dir
-
-extended-manifest-evaluation.ttl
-file
-
-
-
-
-2008-02-29T14:57:25.418728Z
-d17513f60581ef3ceee5cb5ca5e55747
-2007-09-20T07:35:41.061956Z
-540
-cweiske
-
-expr-ops
-dir
-

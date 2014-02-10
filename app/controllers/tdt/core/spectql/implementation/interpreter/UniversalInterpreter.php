@@ -27,6 +27,7 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 use tdt\core\spectql\implementation\universalfilters\TernaryFunction;
 use tdt\core\spectql\implementation\universalfilters\UnaryFunction;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
+use tdt\core\spectql\implementation\common\BigDataBlockManager;
 
 class UniversalInterpreter implements IInterpreterControl {
 
@@ -60,7 +61,11 @@ class UniversalInterpreter implements IInterpreterControl {
      * Constructor, fill the executer-class map.
      */
     public function __construct($tablemanager) {
+
         $this->tablemanager = $tablemanager;
+
+        // Initialize new BlockManager for grouping functions
+        BigDataBlockManager::newManager();
 
         $this->executers = array(
             "IDENTIFIER" => "IdentifierExecuter",
@@ -146,7 +151,7 @@ class UniversalInterpreter implements IInterpreterControl {
     }
 
     public function interpret(UniversalFilterNode $originaltree) {
-        //var_dump($originaltree);
+
         if (UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION) {
             $printer = new TreePrinter();
             echo "<h2>Original Query:</h2>";
@@ -157,23 +162,19 @@ class UniversalInterpreter implements IInterpreterControl {
         $cloner = new FilterTreeCloner();
         $clonedtree = $cloner->deepCopyTree($originaltree);
 
-
         $tree = $clonedtree;
-
 
         //INITIAL ENVIRONMENT... is empty
         $emptyEnv = new Environment();
         $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
 
-
-        //CALCULATE HEADER FIRST TIME + QUERY SYNTAX DETECTION
+        // CALCULATE HEADER FIRST TIME + QUERY SYNTAX DETECTION
         // calculate the header already once on the original query.
         // it can throw errors...
         $executer = $this->findExecuterFor($tree);
         $executer->initExpression($tree, $emptyEnv, $this, false);
 
-
-        //EXECUTE PARTS ON SOURCE
+        // EXECUTE PARTS ON SOURCE
         // - modify the headers to include column names
         $executer->modififyFiltersWithHeaderInformation();
 
@@ -183,6 +184,7 @@ class UniversalInterpreter implements IInterpreterControl {
 
         // - calculated... now execute them on the sources... AND BUILD A NEW QUERY
         foreach ($singleSourceUsages as $singleSource) {
+
             // - unpack data
             $filterSourceNode = $singleSource->getFilterSourceNode();
             $filterParentNode = $singleSource->getFilterParentNode();
@@ -206,7 +208,6 @@ class UniversalInterpreter implements IInterpreterControl {
         //EXECUTE (for real this time)
         $executer = $this->findExecuterFor($tree);
         $executer->initExpression($tree, $emptyEnv, $this, false);
-        //get_class($executer);
 
         //get the table, in two steps
         $header = $executer->getExpressionHeader();
@@ -219,8 +220,5 @@ class UniversalInterpreter implements IInterpreterControl {
 
         //RETURN
         return new UniversalFilterTable($header, $content);
-
-        //CLEANUP -> when you don't need the data anymore
-        //$content->tryDestroyTable();
     }
 }

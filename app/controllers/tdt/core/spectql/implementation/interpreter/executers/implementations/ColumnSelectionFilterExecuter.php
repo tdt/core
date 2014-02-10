@@ -57,6 +57,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
 
         //loop all column-interpreters
         foreach ($this->columnInterpreters as $column) {
+
             //this column
             $filterColumn = $column->getColumn();
             //find something to evaluate it
@@ -111,14 +112,16 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     }
 
     public function evaluateAsExpression() {
+
         $sourceheader = $this->executer->getExpressionHeader();
         $sourcecontent = $this->executer->evaluateAsExpression();
 
         $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
 
-//create a new empty output table
+        //create a new empty output table
         $newRows = new UniversalFilterTableContent();
+
         if (!$this->returnsSingleRow) {
             for ($index = 0; $index < $sourcecontent->getRowCount(); $index++) {
                 $newRows->addRow(new UniversalFilterTableContentRow());
@@ -127,33 +130,37 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             $newRows->addRow(new UniversalFilterTableContentRow());
         }
 
-//loop all columnInterpreters
+        //loop all columnInterpreters
         foreach ($this->columnInterpreters as $columnIndex => $column) {
-//this column
+
+            //this column
             $filterColumn = $column->getColumn();
 
-//get executer
+            //get executer
             $exprexec = $this->columnExecuters[$columnIndex];
 
-//get header (again)
+            //get header (again)
             $header = $exprexec->getExpressionHeader();
 
-//evaluate
+            //evaluate
             $answer = $exprexec->evaluateAsExpression();
 
             for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
-//column information
+
+                // column information
                 $columnId = $header->getColumnIdByIndex($resultColumnIndex);
 
                 if ($header->isSingleRowByConstruction()) {
-//copy single value to all rows
+
+                    //copy single value to all rows
                     $rowValue = $answer->getRow(0);
 
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
                     }
                 } else {
-//copy values to coresponding rows
+
+                    //copy values to corresponding rows
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
                         $rowValue = $answer->getRow($index);
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);

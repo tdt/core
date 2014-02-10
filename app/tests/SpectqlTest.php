@@ -19,6 +19,7 @@ class SpectqlTest extends TestCase{
 
                 // Add the definition
                 $definition = $test['definition'];
+
                 $definition['uri'] = 'file://' . __DIR__ . $definition['uri'];
 
                 // Set the headers
@@ -36,11 +37,33 @@ class SpectqlTest extends TestCase{
                 // Check if the creation of the definition succeeded
                 $this->assertEquals(200, $response->getStatusCode());
 
+                //Fetch the queries from the test
+                $queries = $test['queries'];
 
-                    // Perform the queries
+                // Perform the queries and assert the results
+                foreach($queries as $query){
 
-                    // Compare the results
+                    $query_string = $query['query'];
 
+                    var_dump($query_string);
+
+                    $response = $this->call('GET', $query_string, array(), array(), array(), array());
+
+                    // Our queries are requested in a json format
+                    $json = $response->getOriginalContent();
+                    $result = json_decode($json);
+
+                    // Compare the result count
+                    $this->assertEquals($query['result_count'], count($result));
+
+                    // Compare the first result, only the keys and values
+                    $first_result = array_shift($result);
+
+                    $equal_objects = ($first_result == json_decode($query['first_result']));
+
+                    $this->assertTrue($equal_objects);
+
+                }
 
                 // Delete the definition
                 $this->updateRequest('DELETE');

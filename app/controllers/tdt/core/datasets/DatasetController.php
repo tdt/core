@@ -76,6 +76,7 @@ class DatasetController extends \Controller {
 
                     // Retrieve dataobject from datacontroller
                     $data = $data_controller->readData($source_definition, $rest_parameters);
+
                     $data->rest_parameters = $rest_parameters;
 
                     // REST filtering

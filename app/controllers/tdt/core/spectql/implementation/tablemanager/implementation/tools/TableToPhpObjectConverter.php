@@ -37,7 +37,7 @@ class TableToPhpObjectConverter {
             $id = $table->getHeader()->getColumnIdByIndex($index);
             $name = $table->getHeader()->getColumnUniqueNameById($id);
 
-            // don't show grouped fields and _id and _key_... fields
+            // don't show grouped fields, _id and _key_... fields
             if (!$table->getHeader()->getColumnInformationById($id)->isGrouped() && !(!$removeAdditionalField || ($name == "_id" || strpos($name, "_key_") === 0))) {
                 // loop all rows
                 for ($rindex = 0; $rindex < $table->getContent()->getRowCount(); $rindex++) {

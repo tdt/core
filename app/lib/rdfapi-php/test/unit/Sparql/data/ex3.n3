@@ -1,9 +1,0 @@
-@prefix dc:   <http://purl.org/dc/elements/1.1/> .
-@prefix :     <http://example.org/book/> .
-@prefix ns:   <http://example.org/ns#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-
-:book1  dc:title  "SPARQL Tutorial" .
-:book1  ns:price  "42"^^xsd:integer .
-:book2  dc:title  "The Semantic Web" .
-:book2  ns:price  "23"^^xsd:integer .

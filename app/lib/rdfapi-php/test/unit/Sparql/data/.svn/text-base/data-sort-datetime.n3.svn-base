@@ -1,6 +1,0 @@
-@prefix dc:         <http://purl.org/dc/elements/1.1/> .
-
-_:a   dc:created    "2004-12-31T18:01:00-05:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-_:b   dc:created    "2004-01-31T18:01:00-05:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-_:c   dc:created    "2007-03-12T17:02:00-05:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-_:d   dc:created    "2007-03-12T17:01:00-05:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .

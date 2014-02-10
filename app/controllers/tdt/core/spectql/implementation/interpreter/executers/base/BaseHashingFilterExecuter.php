@@ -35,7 +35,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
 
 
     /*
-     * Grouping implemntation...
+     * Grouping implementation...
      */
 
     private $header;
@@ -44,6 +44,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
     private $newColumns;
 
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+
         $this->filter = $filter;
 
         //get source environment
@@ -84,17 +85,17 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
 
         $sourcetablecontent = $this->executer->evaluateAsExpression();
 
-        //
-        // now Group!
-        //
-
         $bigListOfGroups = new BigList();
         $bigGroupMap = new BigMap(); //of hashkey => array of indices in the rows of the source table that match the description
         //loop through all rows and check if they are in the map
+
         for ($index = 0; $index < $sourcetablecontent->getRowCount(); $index++) {
+
             $oldRow = $sourcetablecontent->getRow($index);
             $hash = "";
+
             for ($cindex = 0; $cindex < $this->oldHeader->getColumnCount(); $cindex++) {
+
                 $oldId = $this->oldHeader->getColumnIdByIndex($cindex);
                 $newColumn = $this->newColumns[$cindex];
                 $newId = $newColumn->getId();
@@ -102,20 +103,23 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
 
                 if (!$isGrouped) {
                     //add to hash
-                    $hash.=$oldRow->getHashForField($oldId) . "%"; //% is separator
+                    $hash .= $oldRow->getHashForField($oldId) . "%"; //% is separator
                 }
             }
+
             if (!$bigGroupMap->containsMapValue($hash)) {
+
                 $bigGroupMap->setMapValue($hash, array());
                 $bigListOfGroups->addItem($hash);
             }
 
             // add the index of the row to the map
             $oldArray = $bigGroupMap->getMapValue($hash);
+
             array_push($oldArray, $index);
+
             $bigGroupMap->setMapValue($hash, $oldArray);
         }
-
 
         //
         // grouping done, now create the content
@@ -123,6 +127,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
         $newRows = new UniversalFilterTableContent();
 
         for ($index = 0; $index < $bigListOfGroups->getSize(); $index++) {// FOR ALL GROUPS
+
             $hash = $bigListOfGroups->getIndex($index);
             $group = $bigGroupMap->getMapValue($hash);
 
@@ -160,6 +165,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
 
             // NOW CREATE THE ROW
             for ($cindex = 0; $cindex < $this->oldHeader->getColumnCount(); $cindex++) {//A COLUMN IN THE GROUP
+
                 $newColumn = $this->newColumns[$cindex];
                 $newId = $newColumn->getId();
                 $isGrouped = $newColumn->isGrouped();
@@ -193,11 +199,10 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
     }
 
     public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 
 }
-
-?>

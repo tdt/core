@@ -1,3 +1,0 @@
-PREFIX : <http://example.com/#>
-
-SELECT ?c WHERE (:x rdf:type ?c)
