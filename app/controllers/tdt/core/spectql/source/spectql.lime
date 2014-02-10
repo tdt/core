@@ -7,7 +7,7 @@
 %left LN
 %left '&'
 %left '|'
-%left '+' '-'
+%left '^'
 %left '*' '/'
 %left '>' EQ LE GE '<' '~' NE
 stmt = flow
@@ -21,7 +21,7 @@ flow = expression
     $$ = $limit;
  }
 | expression/e '.' LIMIT '(' num/limit ')' {
-    $limit = new LimitFilter($e,0,$limit);
+    $limit = new LimitFilter($e, 0, $limit);
     $$ = $limit;
 }
 .
@@ -251,8 +251,8 @@ $$ = getTertairyFunctionForSQLFunction($1, $column1, $column2, $column3);
 }
 .
 
-order = '+' { /* SORT BY ascending */ $$ = SortFieldsFilterColumn::$SORTORDER_ASCENDING; }
-| '-' { /* SORT BY descending  */ $$ = SortFieldsFilterColumn::$SORTORDER_DESCENDING; }
+order = '^' { /* SORT BY ascending  $$ = SortFieldsFilterColumn::$SORTORDER_ASCENDING; */ }
+| '^' { /* SORT BY descending  $$ = SortFieldsFilterColumn::$SORTORDER_DESCENDING; */}
 .
 
 argument = name { $$ = $1;}

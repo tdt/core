@@ -22,22 +22,30 @@ class SPECTQLTokenizer {
     }
 
     public function __construct($querystring, $symbols) {
+
         $this->tokens = array();
-        //We need to prioritize things. The first or the first 2 characters we read might already be a symbol, if it is, add it to the tokens array, if it isn't, enlarge the string until we've found a symbol again.
-        //how far are we in the querystring?
+
+        // We need to prioritize things. The first or the first 2 characters we read might already be a symbol, if it is, add it to the tokens array, if it isn't, enlarge the string until we've found a symbol again.
+        // how far are we in the querystring?
         $i = 0;
-        //first loop will select each character of the string. i is the start of a new token
+
+        // First loop will select each character of the string. i is the start of a new token
         while ($i < strlen($querystring)) {
-            //A temporal string which will end up in being a token
+
+            // A temporal string which will end up in being a token
             $tempstr = "";
-            //Terminates the token which will be stored
+
+            // Terminates the token which will be stored
             $symbol = "";
-            //itoken will be the index inside a certain token
+
+            // itoken will be the index inside a certain token
             $itoken = $i;
-            //new loop will continue while no symbol has been found
-            //it also checks if a token exists when combining it with the next character or if in a group (between '')
+
+            // New loop will continue while no symbol has been found
+            // it also checks if a token exists when combining it with the next character or if in a group (between '')
 
             while ($itoken < strlen($querystring) && !in_array(substr($querystring, $itoken, 1), $symbols) && !in_array(substr($querystring, $itoken, 2), $symbols)) {
+
                 $tempstr .= substr($querystring, $itoken, 1);
                 $itoken++;
             }
