@@ -156,6 +156,30 @@ class SpectqlQueries{
                         'result_count' => 5,
                         'first_result' => '{"len_Prov_Name":7}',
                     ),
+                    // asort without filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{asort(Prov_Name),Dist_Name}:json",
+                        'result_count' => 399,
+                        'first_result' => '{"Prov_Name":"Badakhshan","Dist_Name":"Shahr-e-Buzorg"}',
+                    ),
+                    // asort with filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{asort(Prov_Name),Dist_Name}?Dist_Name<'F':json",
+                        'result_count' => 105,
+                        'first_result' => '{"Prov_Name":"Badakhshan","Dist_Name":"Darwaz"}',
+                    ),
+                    // dsort without filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{dsort(Prov_Name),Dist_Name}:json",
+                        'result_count' => 399,
+                        'first_result' => '{"Prov_Name":"Zabul","Dist_Name":"Tarnak Wa Jaldak"}',
+                    ),
+                    // dsort with filter
+                    array(
+                        'query' => "http://localhost/spectql/tabular/geo{dsort(Prov_Name),Dist_Name}?Dist_Name<'F':json",
+                        'result_count' => 105,
+                        'first_result' => '{"Prov_Name":"Zabul","Dist_Name":"Atghar"}',
+                    ),
                 ),
             ),
         ),
