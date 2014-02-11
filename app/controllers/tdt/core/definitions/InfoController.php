@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
+use tdt\core\Pager;
 
 /**
  * InfoController: Controller that handles info requests and returns informational data about the datatank.
@@ -74,8 +75,12 @@ class InfoController extends \Controller {
      */
     private static function getDefinitionsInfo(){
 
-        // Get all of the definitions
-        $definitions = \Definition::all();
+        // Apply paging to fetch the definitions
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
+
+        $definition_count = \Definition::all()->count();
+
+        $definitions = \Definition::take($limit)->skip($offset)->get();
 
         $info = array();
 
@@ -88,16 +93,14 @@ class InfoController extends \Controller {
             $info[$id] = $definition_info;
         }
 
-        // Add DCAT as a resource
-        $definition_info = new \stdClass();
-        $definition_info->description = "A DCAT document about the available datasets created by using the DCAT vocabulary.";
-        $id = 'dcat';
-        $definition_info->uri = \Request::root() . '/api/' . $id;
-
         // Add the info to the collection
         $info[$id] = $definition_info;
 
-        return self::makeResponse($info);
+        $result = new Data();
+        $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
+        $result->data = $info;
+
+        return ContentNegotiator::getResponse($result, 'json');
     }
 
     /**

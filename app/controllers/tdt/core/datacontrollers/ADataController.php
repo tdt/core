@@ -47,7 +47,7 @@ abstract class ADataController {
     }
 
     /**
-     * Calculate the link headers.
+     * Calculate the link meta-data for paging purposes
      */
     protected function calculatePagingHeaders($limit, $offset, $total_rows){
 

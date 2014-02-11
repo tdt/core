@@ -5,7 +5,8 @@ namespace tdt\core\definitions;
 use Illuminate\Routing\Router;
 use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
-
+use tdt\core\Pager;
+use tdt\core\ContentNegotiator;
 
 /**
  * DefinitionController
@@ -17,9 +18,6 @@ class DefinitionController extends \Controller {
 
     // Don't allow occupied prefixes: api, discovery
     private static $FORBIDDEN_PREFIX = array('api', 'discovery');
-
-    // The amount of definitions that are returned by default with one call.
-    private static $PAGE_SIZE = 30;
 
     public static function handle($uri){
 
@@ -95,6 +93,7 @@ class DefinitionController extends \Controller {
 
         // Check if the first collection_uri slug is not part of the occupied uri's
         $collection_parts = explode('/', $collection_uri);
+
         if(in_array( $collection_parts[0], self::$FORBIDDEN_PREFIX)){
             \App::abort(400, "The collection name, $collection_parts[0], cannot be used as the start of a collection.");
         }
@@ -317,16 +316,26 @@ class DefinitionController extends \Controller {
      */
     private static function viewDefinition($uri){
 
-        // TODO make dynamic
         if(empty($uri)){
-            $definitions = \Definition::all();
 
-            $defs_props = array();
+            // Apply paging to fetch the definitions
+            list($limit, $offset) = Pager::calculateLimitAndOffset();
+
+            $definition_count = \Definition::all()->count();
+
+            $definitions = \Definition::take($limit)->skip($offset)->get();
+
+            $def_props = array();
+
             foreach($definitions as $definition){
-                $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
+                $def_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
             }
 
-            return self::makeResponse(str_replace('\/', '/', json_encode($defs_props)));
+            $result = new Data();
+            $result->data = $def_props;
+            $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
+
+            return ContentNegotiator::getResponse($result, 'json');
         }
 
         if(!self::exists($uri)){
@@ -345,6 +354,7 @@ class DefinitionController extends \Controller {
      * Get a definition object with the given uri.
      */
     public static function get($uri){
+
         // Left trim the uri for a /
         $uri = ltrim($uri, '/');
 

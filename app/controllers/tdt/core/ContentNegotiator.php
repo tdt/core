@@ -73,6 +73,7 @@ class ContentNegotiator extends Pager{
 
         // Cache settings
         $cache_minutes = -1;
+
         if(\Config::get('cache.enabled', true)){
             $cache_minutes = 1;
 

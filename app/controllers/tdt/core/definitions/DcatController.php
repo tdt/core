@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
+use tdt\core\Pager;
 
 /**
  * DcatController
@@ -90,9 +91,12 @@ class DcatController extends \Controller {
         $graph->addResource($uri . '/info/dcat', 'a', 'dcat:Catalog');
         $graph->addLiteral($uri . '/info/dcat', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
 
-        // Add the relationships with the datasets
+        // Apply paging when fetching the definitions
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions = \Definition::query()->orderBy('updated_at', 'desc')->get();
+        $definition_count = \Definition::all()->count();
+
+        $definitions = \Definition::take($limit)->skip($offset)->get();
 
         if(count($definitions) > 0){
 
@@ -162,6 +166,7 @@ class DcatController extends \Controller {
         $data_result = new Data();
         $data_result->data = $parser;
         $data_result->is_semantic = true;
+        $data_result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
 
         // Add the semantic configuration for the ARC graph
         $data_result->semantic = new \stdClass();
