@@ -2,6 +2,7 @@
 
 namespace tdt\core\datacontrollers;
 
+use tdt\core\cache\Cache;
 use tdt\core\datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,13 +20,13 @@ class JSONController extends ADataController {
         $uri = $source_definition->uri;
 
         // Check for caching
-        if(\Cache::has($uri)){
-            $data = \Cache::get($uri);
+        if(Cache::has($uri)){
+            $data = Cache::get($uri);
         }else{
             // Fetch the data
             $data =@ file_get_contents($uri);
             if($data){
-                \Cache::put($uri, $data, 1);
+                Cache::put($uri, $data, $source_definition->getCacheExpiration());
             }else{
                 \App::abort(500, "Cannot retrieve data from the JSON file located on $source_definition->uri.");
             }

@@ -4,21 +4,6 @@
 
     <div class="col-sm-9">
         <pre class="prettyprint linenums:1 lang-js ">{{{ $body }}}</pre>
-
-        @if(!empty($paging))
-            <ul class="pager">
-                @if(!empty($prev_link))
-                    <li class="previous">
-                        <a href="{{ URL::to($dataset_link . $prev_link ) }}">&larr; Previous</a>
-                    </li>
-                @endif
-                @if(!empty($next_link))
-                    <li class="next">
-                        <a href="{{ URL::to($dataset_link . $next_link) }}">Next &rarr;</a>
-                    <li>
-                @endif
-            </ul>
-        @endif
     </div>
 
     <div class="col-sm-3">
@@ -43,4 +28,8 @@
         </ul>
     </div>
 
+@stop
+
+@section('navigation')
+    @include('dataset/partials/pagination')
 @stop

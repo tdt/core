@@ -8,7 +8,7 @@
  */
 class Definition extends Eloquent{
 
-    protected $fillable = array('title','description','date','type','format','source','language','rights');
+    protected $fillable = array('title','description','date','type','format','source','language','rights', 'cache_minutes');
     /**
      * Return the poly morphic relationship with a source type.
      */
@@ -60,6 +60,12 @@ class Definition extends Eloquent{
                     'list_option' => 'title',
                     'description' => 'Information about rights held in and over the resource.',
                     'group' => 'dc',
+                ),
+                'cache_minutes' => array(
+                    'required' => false,
+                    'name' => 'Cache',
+                    'type' => 'integer',
+                    'description' => 'How long this resource should be cached (in minutes).',
                 ),
         );
     }
