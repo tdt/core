@@ -16,65 +16,6 @@ abstract class ADataController {
     public abstract function readData($source_definitions, $rest_parameters = null);
 
     /**
-     * Calculate the limit and offset based on the request string parameters.
-     */
-    public static function calculateLimitAndOffset(){
-
-        $limit = \Input::get('limit', self::$DEFAULT_PAGE_SIZE);
-        $offset = \Input::get('offset', 0);
-
-        // Calculate the limit and offset, if only page and optionally page_size are given
-        if($limit == self::$DEFAULT_PAGE_SIZE && $offset == 0){
-
-            $page = \Input::get('page', 1);
-            $page_size = \Input::get('page_size', self::$DEFAULT_PAGE_SIZE);
-
-            // Don't do extra work when page and page_size are also default values
-            if($page > 1 || $page_size != self::$DEFAULT_PAGE_SIZE){
-
-                $offset = ($page -1)*$page_size;
-                $limit = $page_size;
-            }else if($page == -1){
-
-                $limit = PHP_INT_MAX;
-                $offset= 0;
-            }
-        }else if($limit == -1){
-            $limit = PHP_INT_MAX;
-        }
-
-        return array($limit, $offset);
-    }
-
-    /**
-     * Calculate the link meta-data for paging purposes
-     */
-    protected function calculatePagingHeaders($limit, $offset, $total_rows){
-
-        $paging = array();
-
-        // Calculate the paging parameters and pass them with the data object
-        if($offset + $limit < $total_rows){
-
-            $paging['next'] = array($limit + $offset, $limit);
-
-            $last_page = round($total_rows / $limit, 0);
-            $paging['last'] = array(($last_page - 1) * $limit, self::$DEFAULT_PAGE_SIZE);
-        }
-
-        if($offset > 0 && $total_rows > 0){
-            $previous = $offset - $limit;
-            if($previous < 0){
-                $previous = 0;
-            }
-
-            $paging['previous'] = array($previous, $limit);
-        }
-
-        return $paging;
-    }
-
-    /**
      * Retrieve the optional request parameters, used in GET requests
      */
     public static function getParameters(){

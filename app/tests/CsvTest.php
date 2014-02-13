@@ -22,7 +22,6 @@ class CsvTest extends TestCase{
 
     public function test_put_api(){
 
-
         // Publish each CSV file in the test csv data folder.
         foreach($this->test_data as $file){
 
@@ -32,7 +31,7 @@ class CsvTest extends TestCase{
                 'delimiter' => ',',
                 'uri' => 'file://' . __DIR__ . "/data/csv/$file.csv",
                 'type' => 'csv'
-                );
+            );
 
             // Set the headers.
             $headers = array(

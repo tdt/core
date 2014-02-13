@@ -3,6 +3,7 @@
 namespace tdt\core\datacontrollers;
 
 use tdt\core\datasets\Data;
+use tdt\core\Pager;
 
 /**
  * CSV Controller
@@ -19,7 +20,7 @@ class CSVController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        list($limit, $offset) = self::calculateLimitAndOffset();
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Check the given URI
         if (!empty($source_definition->uri)) {
@@ -117,7 +118,7 @@ class CSVController extends ADataController {
             \App::abort(500, "Cannot retrieve any data from the CSV file on location $uri.");
         }
 
-        $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);
+        $paging = Pager::calculatePagingHeaders($limit, $offset, $total_rows);
 
         $data_result = new Data();
         $data_result->data = $row_objects;

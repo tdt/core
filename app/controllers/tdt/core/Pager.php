@@ -74,7 +74,7 @@ class Pager{
             $paging['next'] = array($limit + $offset, $limit);
 
             $last_page = round($total_rows / $limit, 0);
-            $paging['last'] = array(($last_page - 1) * $limit, self::$DEFAULT_PAGE_SIZE);
+            $paging['last'] = array(($last_page - 1) * $limit, $limit);
         }
 
         if($offset > 0 && $total_rows > 0){

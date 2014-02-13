@@ -4,7 +4,7 @@ namespace tdt\core\datacontrollers;
 
 use tdt\core\datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
-
+use tdt\core\Pager;
 
 /**
  * SPARQL Controller
@@ -17,7 +17,7 @@ class SPARQLController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        list($limit, $offset) = self::calculateLimitAndOffset();
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Retrieve the necessary variables to read from a SPARQL endpoint
         $uri = \Request::url();
@@ -116,7 +116,7 @@ class SPARQLController extends ADataController {
         }
 
         // Calculate page link headers, previous, next and last based on the count from the previous query
-        $paging = $this->calculatePagingHeaders($limit, $offset, $count);
+        $paging = Pager::calculatePagingHeaders($limit, $offset, $count);
 
         $query = $source_definition->query;
         $query = $this->processParameters($query);

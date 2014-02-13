@@ -7,6 +7,7 @@ use tdt\core\cache\Cache;
 use tdt\core\ContentNegotiator;
 use tdt\core\definitions\DefinitionController;
 use tdt\core\datacontrollers\ADataController;
+use tdt\core\Pager;
 
 /**
  * DatasetController
@@ -42,7 +43,7 @@ class DatasetController extends \Controller {
         // Based on: URI / Rest parameters / Query parameters / Paging headers
         $cache_string = $uri;
 
-        list($limit, $offset) = ADataController::calculateLimitAndOffset();
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         $cache_string .= '/limit=' . $limit . 'offset=' . $offset;
         $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
