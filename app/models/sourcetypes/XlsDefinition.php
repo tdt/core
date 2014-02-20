@@ -91,6 +91,8 @@ class XlsDefinition extends SourceType{
             // instead of passing it with the columns-part of the definition
             $is_pk = false;
 
+            $column['is_pk'] = false;
+
             if(isset($options['pk']) && $column['index'] == $options['pk']){
                 $column['is_pk'] = true;
             }

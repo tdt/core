@@ -99,7 +99,7 @@ class ShpDefinition extends SourceType{
             $tabular_column = new TabularColumns();
             $tabular_column->index = $column['index'];
             $tabular_column->column_name = $column['column_name'];
-            $tabular_column->is_pk = $column['is_pk'];
+            $tabular_column->is_pk = false;
             $tabular_column->column_name_alias = $column['column_name_alias'];
             $tabular_column->tabular_type = 'ShpDefinition';
             $tabular_column->tabular_id = $this->id;

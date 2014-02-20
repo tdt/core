@@ -156,6 +156,7 @@ class DefinitionController extends \Controller {
 
         // Create the definition associated with the new definition instance
         $definition = new \Definition();
+
         $definition->collection_uri = $collection_uri;
         $definition->resource_name = $resource_name;
         $definition->source_id = $def_instance->id;
@@ -173,7 +174,6 @@ class DefinitionController extends \Controller {
         $response->header('Location', \URL::to($collection_uri . '/' . $resource_name));
 
         return $response;
-
     }
 
     /**
