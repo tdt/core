@@ -45,6 +45,7 @@ class CsvDefinition extends SourceType{
 
             // Validate the provided columns
             TabularColumns::validate($provided_columns);
+
             $tmp = array();
 
             // Index the column objects on the column name
@@ -53,6 +54,7 @@ class CsvDefinition extends SourceType{
             }
 
             $tmp_columns = array();
+
             foreach($columns as $column){
                 $tmp_columns[$column['column_name']] = $column;
             }
@@ -61,6 +63,7 @@ class CsvDefinition extends SourceType{
             foreach($tmp as $column_name => $column){
 
                 $tmp_column = $tmp_columns[$column_name];
+
                 if(empty($tmp_column)){
                     \App::abort(404, "The column name ($column_name) was not found in the CSV file.");
                 }
@@ -365,7 +368,7 @@ class CsvDefinition extends SourceType{
                 }
             }
 
-            return null;
+            return -1;
 
         }
 
