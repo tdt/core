@@ -275,27 +275,30 @@ class SPARQLController extends ADataController {
                     $placeholder_name = substr($placeholder,0, $index);
                     $placeholder_index = substr($placeholder, $index + 1, -1);
 
-                    if (!isset($parameters[$placeholder_name]))
-                        \App::abort(400, "The parameter $placeholder_name was not provided");
-
-                    if (!isset($parameters[$placeholder_name][$placeholder_index]))
-                        \App::abort(400, "The index $placeholder_index of parameter $placeholder does not exist.");
-
-                    $value = $parameters[$placeholder_name][$placeholder_index];
+                    if (!isset($parameters[$placeholder_name])){
+                        $value = '?' . $placeholder;
+                    }else if (!isset($parameters[$placeholder_name][$placeholder_index])){
+                        $value = '?' . $placeholder . '_' . $placeholder_index;
+                    }else{
+                        $value = $parameters[$placeholder_name][$placeholder_index];
+                    }
                 } else {
 
-                    if (!isset($parameters[$placeholder]))
-                        \App::abort(400, "The parameter $placeholder was not provided");
-
-                    $value = $parameters[$placeholder];
+                    if (!isset($parameters[$placeholder])){
+                        $value = '?' . $placeholder;
+                    }else{
+                        $value = $parameters[$placeholder];
+                    }
 
                     if (is_array($value))
-                        \App::abort(400, "The parameter $placeholder is single value, array given.");
+                        \App::abort(400, "The parameter $placeholder is single value, however an array as value is given.");
                 }
+
                 $value = addslashes($value);
                 $value = urldecode($value);
 
                 $query = str_replace("\${" . $placeholder . "}", $value, $query);
+
                 continue;
             }
 
