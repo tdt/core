@@ -16,7 +16,7 @@
         ]
     },
     "require": {
-        "laravel/framework": "4.0.*",
+        "laravel/framework": "4.1.*",
         "phpoffice/phpexcel": "1.7.9",
         "phpunit/phpunit" : "3.7.*",
         "semsol/arc2": "dev-master#5e0701da09d74ef3813e15bc67e4e27b212e816c",
