@@ -182,6 +182,7 @@ class SHPController extends ADataController {
             $data_result->data = $arrayOfRowObjects;
             $data_result->geo = $geo;
             $data_result->paging = $paging;
+
             return $data_result;
 
         } catch( Exception $ex) {

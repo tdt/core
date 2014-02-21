@@ -36,11 +36,7 @@ class NTFormatter implements IFormatter{
                 $conf = $dataObj->semantic->conf;
             }
 
-            // Serializer instantiation
-            $ser = \ARC2::getNTriplesSerializer($conf);
-
-            // Serialize a triples array
-            return $ser->getSerializedTriples($dataObj->data->getTriples());
+            return $dataObj->data->serialise('ntriples');
         }
 
         // If the data object is not semantic, we cannot provide a semantic serialization

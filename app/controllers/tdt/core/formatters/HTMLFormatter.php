@@ -95,12 +95,7 @@ class HTMLFormatter implements IFormatter{
                                 $conf = $dataObj->semantic->conf;
                             }
 
-                            // Serializer instantiation
-                            $ser = \ARC2::getTurtleSerializer($conf);
-
-                            // Serialize a triples array
-                            $data = $ser->getSerializedTriples($dataObj->data->getTriples());
-
+                            $data = $dataObj->data->serialise('turtle');
                         }else{
 
                             $view = 'dataset.code';

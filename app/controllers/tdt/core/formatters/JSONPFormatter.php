@@ -37,11 +37,7 @@ class JSONPFormatter implements IFormatter{
                 $conf = $dataObj->semantic->conf;
             }
 
-            // Serializer instantiation
-            $ser = \ARC2::getRDFJSONSerializer($conf);
-
-            // Use ARC to serialize to JSON (override)
-            return $ser->getSerializedTriples($dataObj->data->getTriples());
+            return $dataObj->data->serialise('json');
         }
 
         // Get the JSON data

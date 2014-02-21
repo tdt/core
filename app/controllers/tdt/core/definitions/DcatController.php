@@ -143,7 +143,9 @@ class DcatController extends \Controller {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
                             }
                         }elseif($dc_term == 'language'){
+
                             $lang = @\Language::where('name', '=', $definition->$dc_term)->first()->toArray();
+
                             if(!empty($lang)){
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
                             }
@@ -155,16 +157,9 @@ class DcatController extends \Controller {
             }
         }
 
-        // Get the triples from our created graph
-        $triples = $graph->serialise('turtle');
-
-        // Parse them into an ARC2 graph (this is our default graph wrapper in our core functionality)
-        $parser = \ARC2::getTurtleParser();
-        $parser->parse('', $triples);
-
         // Return the dcat feed in our internal data object
         $data_result = new Data();
-        $data_result->data = $parser;
+        $data_result->data = $graph;
         $data_result->is_semantic = true;
         $data_result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
 

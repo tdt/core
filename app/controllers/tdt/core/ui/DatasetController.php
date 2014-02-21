@@ -167,7 +167,6 @@ class DatasetController extends \Controller {
             foreach($mediatype->parameters as $parameter => $object){
 
                 // Filter array type parameters
-
                 if(empty($object->parameters)){
 
                     // Filter Dublin core parameters
