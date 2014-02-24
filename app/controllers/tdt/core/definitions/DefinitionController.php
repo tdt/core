@@ -307,7 +307,19 @@ class DefinitionController extends \Controller {
      * Return the headers of a call made to the uri given.
      */
     private static function headDefinition($uri){
-        \App::abort(500, "Function not yet implemented.");
+
+        if(!self::exists($uri)){
+            \App::abort(404, "No resource has been found with the uri $uri");
+        }
+
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 
     /*

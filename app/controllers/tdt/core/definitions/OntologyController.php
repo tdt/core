@@ -40,7 +40,15 @@ class OntologyController extends \Controller {
      * Return the headers of a call made to the uri given.
      */
     private static function headDefinition($uri){
-        \App::abort(500, "Method not yet implemented.");
+
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 
     /*

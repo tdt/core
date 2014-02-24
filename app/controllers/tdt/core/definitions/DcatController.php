@@ -21,12 +21,6 @@ class DcatController extends \Controller {
         // Set permission
         Auth::requirePermissions('info.view');
 
-        // Split for an (optional) extension, dcat might use $uri in the future
-        preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
-
-        // URI is always the first match
-        $uri = $matches[1];
-
         // Get extension (if set)
         $extension = (!empty($matches[2]))? $matches[2]: null;
 
@@ -35,6 +29,7 @@ class DcatController extends \Controller {
 
         switch($method){
             case "GET":
+
                 $dcat = self::createDcat();
 
                 // Default format is ttl for dcat
@@ -58,6 +53,20 @@ class DcatController extends \Controller {
      */
     private static function headDefinition($uri){
 
+        if(!empty($uri)){
+            if(!DefinitionController::exists($uri)){
+                \App::abort(404, "No resource has been found with the uri $uri");
+            }
+        }
+
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 
     /**

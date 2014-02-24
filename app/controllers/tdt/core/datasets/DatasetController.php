@@ -11,9 +11,11 @@ use tdt\core\Pager;
 
 /**
  * DatasetController
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
+ * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class DatasetController extends \Controller {
 
@@ -28,16 +30,30 @@ class DatasetController extends \Controller {
         // URI is always the first match
         $uri = $matches[1];
 
+        // Get extension (if set)
+        $extension = (!empty($matches[2]))? $matches[2]: null;
+
         // Don't allow non-Get requests
         $method = \Request::getMethod();
 
-        if($method != 'GET'){
+        if($method == 'HEAD'){
+
+            if(!empty($uri)){
+                if(!DefinitionController::exists($uri)){
+                    \App::abort(404, "No resource has been found with the uri $uri");
+                }
+            }
+
+            $response =  \Response::make(null, 200);
+            $response->header('Pragma', 'public');
+
+            // Return formatted response
+            return $response;
+
+        }else if($method != 'GET'){
             // Method not supported
             \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
         }
-
-        // Get extension (if set)
-        $extension = (!empty($matches[2]))? $matches[2]: null;
 
         // Check for caching
         // Based on: URI / Rest parameters / Query parameters / Paging headers

@@ -40,7 +40,7 @@ class InfoController extends \Controller {
                 break;
             default:
                 // Method not supported
-                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
+                return self::headDefinition($uri);
                 break;
         }
     }
@@ -49,7 +49,21 @@ class InfoController extends \Controller {
      * Return the headers of a call made to the uri given.
      */
     private static function headDefinition($uri){
-        \App::abort(500, "Method not yet implemented.");
+
+        if(!empty($uri)){
+            if(!DefinitionController::exists($uri)){
+                \App::abort(404, "No resource has been found with the uri $uri");
+            }
+        }
+
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 
     /*
