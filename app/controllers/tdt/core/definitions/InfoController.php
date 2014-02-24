@@ -78,9 +78,9 @@ class InfoController extends \Controller {
         // Apply paging to fetch the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definition_count = \Definition::all()->count();
+        $definition_count = \Definition::where('draft', '==', 0)->count();
 
-        $definitions = \Definition::take($limit)->skip($offset)->get();
+        $definitions = \Definition::where('draft', '==', 0)->take($limit)->skip($offset)->get();
 
         $info = array();
 
@@ -89,12 +89,11 @@ class InfoController extends \Controller {
             $definition_info = self::createInfoObject($definition);
             $id = $definition->collection_uri . '/' .$definition->resource_name;
 
+            unset($definition_info->draft);
+
             // Add the info to the collection
             $info[$id] = $definition_info;
         }
-
-        // Add the info to the collection
-        $info[$id] = $definition_info;
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);

@@ -121,6 +121,9 @@ class DatasetController extends \Controller {
             // Filter on unnecessary optional parameters
             unset($parameters_optional['cache_minutes']);
 
+            // TODO special treatment for caching
+            unset($parameters_optional['draft']);
+
             $mediatypes[$mediatype]['parameters_required'] = $parameters_required;
             $mediatypes[$mediatype]['parameters_optional'] = $parameters_optional;
             $mediatypes[$mediatype]['parameters_dc'] = $parameters_dc;
@@ -178,6 +181,7 @@ class DatasetController extends \Controller {
 
                             // Check list cache
                             if(empty($lists[$uri])){
+
                                 $data = json_decode($this->getDocument($uri));
                                 $data_set = array();
 
@@ -196,7 +200,7 @@ class DatasetController extends \Controller {
 
                         $parameters_dc[$parameter] = $object;
                     }else{
-                        // Fitler optional vs required
+                        // Filter optional vs required
                         $parameters_optional[$parameter] = $object;
                     }
                 }
@@ -205,6 +209,9 @@ class DatasetController extends \Controller {
 
             // Filter on unnecessary optional parameters
             unset($parameters_optional['cache_minutes']);
+
+            // TODO special treatment for draft
+            unset($parameters_optional['draft']);
 
             return \View::make('ui.datasets.edit')
                         ->with('title', 'Edit a dataset | The Datatank')

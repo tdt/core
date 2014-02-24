@@ -164,6 +164,7 @@ class DefinitionController extends \Controller {
 
         // Add the create parameters of description to the new description object
         $def_params = array_only($params, array_keys(\Definition::getCreateParameters()));
+
         foreach($def_params as $property => $value){
             $definition->$property = $value;
         }
@@ -278,7 +279,7 @@ class DefinitionController extends \Controller {
         // Only keep the properties from the parameters that are appropriate for Definition
         $patched_def_params = array_only($params, $definition_params);
 
-        // Only keep the properties from the parameters that are appropriate for the SourceType
+        // Only keep the properties from the parameters that are appropriate for SourceType
         $patched_source_params = array_only($params, $source_params);
 
         // Merge the new params with the old ones, and pass them to the source type for validation
