@@ -95,25 +95,12 @@ class SPARQLController extends ADataController {
         $count_query = urlencode($count_query);
         $count_query = str_replace("+", "%20", $count_query);
 
-        $count_uri = $endpoint . '?query=' . $count_query . '&format=' . urlencode("application/rdf+xml");
+        $count_uri = $endpoint . '?query=' . $count_query . '&format=' . urlencode("application/sparql-results+json");
 
         $response = $this->executeUri($count_uri, $endpoint_user, $endpoint_password);
+        $response = json_decode($response);
 
-        // Parse the triple response and retrieve the form them containing our count result
-        $parser = \ARC2::getRDFXMLParser();
-        $parser->parse('',$response);
-
-        $triples = $parser->triples;
-
-        // Get the results#value, in order to get a count of all the results
-        // This will be used for paging purposes
-        $count = 0;
-
-        foreach ($triples as $triple){
-            if(!empty($triple['p']) && preg_match('/.*sparql-results#value/',$triple['p'])){
-                $count = $triple['o'];
-            }
-        }
+        $count = $response->results->bindings[0]->count->value;
 
         // Calculate page link headers, previous, next and last based on the count from the previous query
         $paging = Pager::calculatePagingHeaders($limit, $offset, $count);
@@ -155,8 +142,11 @@ class SPARQLController extends ADataController {
             $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
 
             // Parse the triple response and retrieve the triples from them
-            $result = \ARC2::getRDFXMLParser();
-            $result->parse('', $response);
+            $result = new \EasyRdf_Graph();
+            $parser = new \EasyRdf_Parser_RDFXML();
+
+            $parser->parse($result, $response, 'rdfxml', null);
+
             $is_semantic = true;
         }
 

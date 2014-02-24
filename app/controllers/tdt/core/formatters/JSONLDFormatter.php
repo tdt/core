@@ -3,17 +3,12 @@
 namespace tdt\core\formatters;
 
 /**
- * This file contains the RDF/Turtle formatter.
- *
- * Includes RDF Api for PHP <http://www4.wiwiss.fu-berlin.de/bizer/rdfapi/>
- * Licensed under LGPL <http://www.gnu.org/licenses/lgpl.html>
- *
+ * JSON-LD Formatter
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
- * @author Michiel Vancoillie <michiel@okfn.be>
- * @author Miel Vander Sande
+ * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class TTLFormatter implements IFormatter{
+class JSONLDFormatter implements IFormatter{
 
     public static function createResponse($dataObj){
 
@@ -21,7 +16,7 @@ class TTLFormatter implements IFormatter{
         $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
-        $response->header('Content-Type', 'text/turtle; charset=UTF-8');
+        $response->header('Content-Type', 'application/ld+json;charset=UTF-8');
 
         return $response;
     }
@@ -36,15 +31,15 @@ class TTLFormatter implements IFormatter{
                 $conf = $dataObj->semantic->conf;
             }
 
-            return $dataObj->data->serialise('turtle');
+            return $dataObj->data->serialise('jsonld');
+        }else{
+            \App::abort(400, "The data is not a semantically linked document, a linked data JSON representation is not possible.");
         }
-
-        \App::abort(400, "This resource doesn't contain semantic (graph) data, a Turtle serialization cannot be provided.");
 
     }
 
     public static function getDocumentation(){
-        return "Prints the Turtle notation with semantic annotations";
+        return "A JSON-LD formatter.";
     }
 
 }
