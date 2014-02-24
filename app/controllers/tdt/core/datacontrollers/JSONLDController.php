@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 use ML\JsonLD\JsonLD;
 use ML\JsonLD\NQuads;
+use ML\JsonLD\Exception\JsonLdException;
+use ML\JsonLD\Exception\ParseException;
+use ML\JsonLD\Exception\InvalidQuadException;
 
 /**
  * JSON-LD Controller
@@ -27,13 +30,21 @@ class JSONLDController extends ADataController {
 
             $rdf = JsonLD::toRdf($uri);
 
+        }catch(JsonLdException $ex){
+            \App::abort(500, "The JSON LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
         }catch(Exception $ex){
-            \App::abort(500, "The JSON LD reader couldn't parse the document, exception message is: " . $ex->getMessage());
+            \App::abort(500, "The JSON LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
         }
 
         // Convert the JSON-LD to nquad triples
-        $nquads = new NQuads();
-        $rdf = $nquads->serialize($rdf);
+        try{
+            $nquads = new NQuads();
+            $rdf = $nquads->serialize($rdf);
+        }catch(ParseException $ex){
+            \App::abort(500, "The JSON LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
+        }catch(InvalidQuadException $ex){
+            \App::abort(500, "The JSON LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
+        }
 
         // Convert the nquad triples to an EasyRdf graph for further processing
         $graph = new \EasyRdf_Graph();
