@@ -143,7 +143,7 @@ class SPARQLController extends ADataController {
 
             // Parse the triple response and retrieve the triples from them
             $result = new \EasyRdf_Graph();
-            $parser = new \EasyRdf_Parser_RDFXML();
+            $parser = new \EasyRdf_Parser_RdfXml();
 
             $parser->parse($result, $response, 'rdfxml', null);
 
