@@ -17,6 +17,19 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
+    | The DataTank version
+    |--------------------------------------------------------------------------
+    |
+    | The version configuration variable keeps track of which datatank you have
+    | installed, and represents a set of functionalities. This version, amongst
+    | others gets used in the discovery document, and in the import/export
+    | functionality.
+    |
+    */
+    'version' => '4.2.0',
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
