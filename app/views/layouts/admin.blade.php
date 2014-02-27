@@ -8,7 +8,7 @@
         <meta name="DC.title" content="{{ $title }}"/>
 
         <link href='//fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-        <link rel='stylesheet' href='{{ URL::to("css/main.css") }}?v=4.1.0' type='text/css'/>
+        <link rel='stylesheet' href='{{ URL::to("css/main.css") }}?v={{ Config::get('app.version', 4) }}' type='text/css'/>
     </head>
 
     <body>
