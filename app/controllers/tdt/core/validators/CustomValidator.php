@@ -90,6 +90,21 @@ class CustomValidator extends \Illuminate\Validation\Validator {
         }
 
         return true;
+    }
 
+    /**
+     * Check if the collection uri doesn't contain preserved namespaces
+     */
+    public function validateCollectionuri($attribute, $value, $parameters){
+
+        $preserved_ns = array('discovery', 'api');
+
+        $collection_uri = explode('/', $value);
+
+        if(in_array(strtolower($collection_uri[0]), $preserved_ns)){
+            return false;
+        }
+
+        return true;
     }
 }

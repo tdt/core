@@ -60,7 +60,6 @@ class OntologyController extends \Controller {
         $columns = \Ontology::getColumns();
 
         return self::makeResponse(\Ontology::all($columns)->toArray());
-
     }
 
     /**

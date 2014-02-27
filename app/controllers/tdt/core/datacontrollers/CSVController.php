@@ -79,6 +79,7 @@ class CSVController extends ADataController {
 
         // Contains the amount of rows that we added to the resulting object
         $hits = 0;
+
         if (($handle = fopen($uri, "r")) !== FALSE) {
 
             while (($data = fgetcsv($handle, 2000000, $delimiter)) !== FALSE) {
@@ -147,4 +148,72 @@ class CSVController extends ADataController {
 
         return $result;
     }
+
+    /**
+     * Parse the columns from a CSV file and return them
+     * Optionally aliases can be given to columns as well as a primary key
+     */
+    public static function parseColumns($config){
+
+        // Get the columns out of the csv file before saving the csv definition
+        // If columns are being passed using the json body or request parameters
+        // allow them to function as aliases, aliases have to be passed as index (0:n-1) => alias
+        $aliases = @$config['columns'];
+        $pk = @$config['pk'];
+
+        if(empty($aliases)){
+            $aliases = array();
+        }
+
+        $columns = array();
+
+        if(($handle = fopen($config['uri'], "r")) !== FALSE) {
+
+            // Throw away the lines untill we hit the start row
+            // from then on, process the columns
+            $commentlinecounter = 0;
+
+            while ($commentlinecounter < $config['start_row']) {
+                $line = fgetcsv($handle, 0, $config['delimiter'], '"');
+                $commentlinecounter++;
+            }
+
+            $index = 0;
+
+            if (($line = fgetcsv($handle, 0, $config['delimiter'], '"')) !== FALSE) {
+
+                if(sizeof($line) <= 1){
+
+                    $delimiter = $config['delimiter'];
+                    $uri = $config['uri'];
+
+                    \App::abort(400, "The delimiter ($delimiter) wasn't found, make sure the passed delimiter is the one that is used in the CSV file on location $uri.");
+                }
+
+                $index++;
+
+                for ($i = 0; $i < sizeof($line); $i++) {
+
+                    // Try to get an alias from the config, if it's empty
+                    // then just take the column value as alias
+                    $alias = @$aliases[$i];
+
+                    if(empty($alias)){
+                        $alias = trim($line[$i]);
+                    }
+
+                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
+                }
+            }else{
+                \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");
+            }
+
+            fclose($handle);
+        } else {
+            \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");
+        }
+
+        return $columns;
+    }
+
 }
