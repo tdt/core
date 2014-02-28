@@ -578,6 +578,17 @@ footer{
     }
 }
 
+.scroll-horizontal{
+    border: 1px solid $border-color-soft !important;
+    overflow-x: auto;
+    margin-bottom: 15px;
+
+    .table{
+        border: 0px none !important;
+        margin-bottom: 0px;
+    }
+}
+
 .note{
     color: $text-softer;
 }

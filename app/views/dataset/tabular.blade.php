@@ -3,30 +3,32 @@
 @section('content')
 
     <div class="col-sm-9">
-        <table class='table table-hover well'>
-            @if($source_definition->has_header_row)
-            <thead>
-                <?php
-                    $first_row = array_shift($body);
-                    array_unshift($body, $first_row);
-                ?>
-                <tr>
-                    @foreach($first_row as $key => $value)
-                        <th>{{ $key }}</th>
+        <div class='scroll-horizontal'>
+            <table class='table table-hover well'>
+                @if($source_definition->has_header_row)
+                <thead>
+                    <?php
+                        $first_row = array_shift($body);
+                        array_unshift($body, $first_row);
+                    ?>
+                    <tr>
+                        @foreach($first_row as $key => $value)
+                            <th>{{ $key }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                @endif
+                <tbody>
+                    @foreach($body as $row)
+                    <tr>
+                        @foreach($row as $key => $value)
+                            <td>{{ nl2br($value) }}</td>
+                        @endforeach
+                    </tr>
                     @endforeach
-                </tr>
-            </thead>
-            @endif
-            <tbody>
-                @foreach($body as $row)
-                <tr>
-                    @foreach($row as $key => $value)
-                        <td>{{ nl2br($value) }}</td>
-                    @endforeach
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="col-sm-3">
@@ -49,30 +51,6 @@
             </li>
         </ul>
     </div>
-
-    <style>
-        @media only screen and (max-width: 900px) {
-
-            table td:nth-child(6),
-            table th:nth-child(6),
-            table td:nth-child(7),
-            table th:nth-child(7),
-            table td:nth-child(9),
-            table th:nth-child(9),
-            table td:nth-child(10),
-            table th:nth-child(10),
-            table td:nth-child(8),
-            table th:nth-child(8){display: none;}
-        }
-
-        @media only screen and (max-width: 640px) {
-
-            table td:nth-child(4),
-            table th:nth-child(4),
-            table td:nth-child(5),
-            table th:nth-child(5) {display: none;}
-        }
-    </style>
 
 @stop
 
