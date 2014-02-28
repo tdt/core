@@ -31,7 +31,7 @@ class MAPFormatter implements IFormatter{
         ob_end_clean();
 
         // Render the view
-        return \View::make('layouts.map')->with('title', 'The Datatank')
+        return \View::make('layouts.map')->with('title', 'Dataset: ' . $dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name . ' map | The Datatank')
                                           ->with('kml', $kml);
     }
 

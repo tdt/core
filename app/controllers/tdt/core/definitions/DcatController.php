@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
+use tdt\core\Pager;
 
 /**
  * DcatController
@@ -20,12 +21,6 @@ class DcatController extends \Controller {
         // Set permission
         Auth::requirePermissions('info.view');
 
-        // Split for an (optional) extension, dcat might use $uri in the future
-        preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
-
-        // URI is always the first match
-        $uri = $matches[1];
-
         // Get extension (if set)
         $extension = (!empty($matches[2]))? $matches[2]: null;
 
@@ -34,6 +29,7 @@ class DcatController extends \Controller {
 
         switch($method){
             case "GET":
+
                 $dcat = self::createDcat();
 
                 // Default format is ttl for dcat
@@ -57,6 +53,20 @@ class DcatController extends \Controller {
      */
     private static function headDefinition($uri){
 
+        if(!empty($uri)){
+            if(!DefinitionController::exists($uri)){
+                \App::abort(404, "No resource has been found with the uri $uri");
+            }
+        }
+
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 
     /**
@@ -90,9 +100,12 @@ class DcatController extends \Controller {
         $graph->addResource($uri . '/info/dcat', 'a', 'dcat:Catalog');
         $graph->addLiteral($uri . '/info/dcat', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
 
-        // Add the relationships with the datasets
+        // Apply paging when fetching the definitions
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions = \Definition::query()->orderBy('updated_at', 'desc')->get();
+        $definition_count = \Definition::all()->count();
+
+        $definitions = \Definition::take($limit)->skip($offset)->get();
 
         if(count($definitions) > 0){
 
@@ -139,7 +152,9 @@ class DcatController extends \Controller {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
                             }
                         }elseif($dc_term == 'language'){
+
                             $lang = @\Language::where('name', '=', $definition->$dc_term)->first()->toArray();
+
                             if(!empty($lang)){
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
                             }
@@ -151,17 +166,11 @@ class DcatController extends \Controller {
             }
         }
 
-        // Get the triples from our created graph
-        $triples = $graph->serialise('turtle');
-
-        // Parse them into an ARC2 graph (this is our default graph wrapper in our core functionality)
-        $parser = \ARC2::getTurtleParser();
-        $parser->parse('', $triples);
-
         // Return the dcat feed in our internal data object
         $data_result = new Data();
-        $data_result->data = $parser;
+        $data_result->data = $graph;
         $data_result->is_semantic = true;
+        $data_result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
 
         // Add the semantic configuration for the ARC graph
         $data_result->semantic = new \stdClass();

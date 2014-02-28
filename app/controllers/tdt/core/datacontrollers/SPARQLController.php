@@ -4,7 +4,7 @@ namespace tdt\core\datacontrollers;
 
 use tdt\core\datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
-
+use tdt\core\Pager;
 
 /**
  * SPARQL Controller
@@ -17,7 +17,7 @@ class SPARQLController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        list($limit, $offset) = self::calculateLimitAndOffset();
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Retrieve the necessary variables to read from a SPARQL endpoint
         $uri = \Request::url();
@@ -51,10 +51,11 @@ class SPARQLController extends ADataController {
         // and only using the where statement
 
         // Make a distinction between select and construct since
-        // construct will be followed by a {} sequence, whereas select will not
+        // construct will be followed by a {} sequence, whereas a select statement will not
         $prefix = '';
         $filter = '';
 
+        // Covers FROM <...> FROM <...> WHERE{ } , FROM <...> FROM <...> { }, WHERE { }, { }
         $where_clause = '(.*?(FROM.+?{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
         $matches = array();
 
@@ -63,11 +64,9 @@ class SPARQLController extends ADataController {
             $regex = $keyword . $where_clause;
 
             preg_match_all("/(.*)$regex/msi", $query, $matches);
-
         }else{
 
             preg_match_all("/(.*)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
-
         }
 
         $prefix = $matches[1][0];
@@ -96,28 +95,15 @@ class SPARQLController extends ADataController {
         $count_query = urlencode($count_query);
         $count_query = str_replace("+", "%20", $count_query);
 
-        $count_uri = $endpoint . '?query=' . $count_query . '&format=' . urlencode("application/rdf+xml");
+        $count_uri = $endpoint . '?query=' . $count_query . '&format=' . urlencode("application/sparql-results+json");
 
         $response = $this->executeUri($count_uri, $endpoint_user, $endpoint_password);
+        $response = json_decode($response);
 
-        // Parse the triple response and retrieve the form them containing our count result
-        $parser = \ARC2::getRDFXMLParser();
-        $parser->parse('',$response);
-
-        $triples = $parser->triples;
-
-        // Get the results#value, in order to get a count of all the results
-        // This will be used for paging purposes
-        $count = 0;
-
-        foreach ($triples as $triple){
-            if(!empty($triple['p']) && preg_match('/.*sparql-results#value/',$triple['p'])){
-                $count = $triple['o'];
-            }
-        }
+        $count = $response->results->bindings[0]->count->value;
 
         // Calculate page link headers, previous, next and last based on the count from the previous query
-        $paging = $this->calculatePagingHeaders($limit, $offset, $count);
+        $paging = Pager::calculatePagingHeaders($limit, $offset, $count);
 
         $query = $source_definition->query;
         $query = $this->processParameters($query);
@@ -156,8 +142,11 @@ class SPARQLController extends ADataController {
             $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
 
             // Parse the triple response and retrieve the triples from them
-            $result = \ARC2::getRDFXMLParser();
-            $result->parse('', $response);
+            $result = new \EasyRdf_Graph();
+            $parser = new \EasyRdf_Parser_RdfXml();
+
+            $parser->parse($result, $response, 'rdfxml', null);
+
             $is_semantic = true;
         }
 
@@ -276,27 +265,30 @@ class SPARQLController extends ADataController {
                     $placeholder_name = substr($placeholder,0, $index);
                     $placeholder_index = substr($placeholder, $index + 1, -1);
 
-                    if (!isset($parameters[$placeholder_name]))
-                        \App::abort(400, "The parameter $placeholder_name was not provided");
-
-                    if (!isset($parameters[$placeholder_name][$placeholder_index]))
-                        \App::abort(400, "The index $placeholder_index of parameter $placeholder does not exist.");
-
-                    $value = $parameters[$placeholder_name][$placeholder_index];
+                    if (!isset($parameters[$placeholder_name])){
+                        $value = '?' . $placeholder;
+                    }else if (!isset($parameters[$placeholder_name][$placeholder_index])){
+                        $value = '?' . $placeholder . '_' . $placeholder_index;
+                    }else{
+                        $value = $parameters[$placeholder_name][$placeholder_index];
+                    }
                 } else {
 
-                    if (!isset($parameters[$placeholder]))
-                        \App::abort(400, "The parameter $placeholder was not provided");
-
-                    $value = $parameters[$placeholder];
+                    if (!isset($parameters[$placeholder])){
+                        $value = '?' . $placeholder;
+                    }else{
+                        $value = $parameters[$placeholder];
+                    }
 
                     if (is_array($value))
-                        \App::abort(400, "The parameter $placeholder is single value, array given.");
+                        \App::abort(400, "The parameter $placeholder is single value, however an array as value is given.");
                 }
+
                 $value = addslashes($value);
                 $value = urldecode($value);
 
                 $query = str_replace("\${" . $placeholder . "}", $value, $query);
+
                 continue;
             }
 

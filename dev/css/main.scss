@@ -1,24 +1,44 @@
 @import 'bootstrap';
-@import 'prettify';
 @import 'font-awesome';
 
 $primary: #183440;
 $primary-highlight: #3C606E;
-$primary-soft: desaturate(lighten($primary-highlight, 40%), 15%);
+$primary-soft: desaturate(lighten($primary-highlight, 63%), 3%);
 
-$secondary: #DCDBBD;
-$secondary-highlight: lighten($secondary, 16%);
+$background: desaturate(lighten($primary-highlight, 64%), 3%);
 
-$third: #90AB9C;
-$highlight: #90AB9C;
+$border-color: desaturate(lighten($primary-highlight, 52%), 10%);
+$border-color-soft: desaturate(lighten($primary-highlight, 55%), 10%);
 
-$header-height: 60px;
+$button-color: $primary;
+$button-background: desaturate(lighten($primary-highlight, 60%), 15%);
+$button-background-hover: lighten($button-background, 4%);
+$button-border: $border-color;
+$button-border-hover: $button-border;
+
+$button-primary-background: $primary;
+$button-primary-background-hover: lighten($button-primary-background, 10%);
+$button-primary-border: $button-primary-background;
+$button-primary-border-hover: $button-primary-background;
+
+$button-cta-background: #36ab70;
+$button-cta-background-hover: lighten($button-cta-background, 5%);
+$button-cta-border: $button-cta-background;
+$button-cta-border-hover: $button-cta-background-hover;
+
+$text-softer: desaturate(lighten($primary-highlight, 35%), 15%);
+
+$disabled-background: $primary-soft;
+$disabled-color: $text-softer;
+
+$highlight: $button-cta-background;
+
+$header-height: 50px;
 $footer-height: 40px;
 $footer-border: 1px;
 
-$green: #36ab70;
-
 @import 'intro';
+@import 'prettify';
 
 *{
     outline: none !important;
@@ -30,7 +50,7 @@ html, body{
 
 
 body {
-    background-color: $secondary-highlight;
+    background-color: $background;
     font-family: 'Open Sans', 'Oswald', sans-serif;
     font-size: 12px;
     color: #3C606E;
@@ -52,6 +72,7 @@ body {
     background-color: $primary;
     box-shadow: 0px none;
     height: $header-height;
+    line-height: $header-height;
     margin-bottom: 0px;
 
     .navbar-brand{
@@ -59,17 +80,17 @@ body {
         padding-bottom: 0px;
         margin-right: 20px;
         font-family: 'Varela Round';
+        line-height: $header-height;
 
         &.admin{
             margin-right: 50px;
         }
 
         img{
-            width: $header-height - 25;
-            height: $header-height - 25;
-            margin: 7px 0px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            width: $header-height - 24;
+            height: $header-height - 24;
+            margin-right: 5px;
+            margin-top: -1px;
             display: inline-block;
         }
 
@@ -118,17 +139,18 @@ body {
         height: $header-height;
         max-width: 300px;
         display: inline-block;
-        margin: ($header-height - 30px) / 2;
+        margin-right: 15px;
         position: relative;
 
         input{
             height: 30px;
+            line-height: 14px;
             padding: 5px 15px;
             padding-right: 35px;
             border: 0px none;
             border-radius: 30px;
             background: $primary-highlight;
-            color: #fff;
+            color: #fff !important;
 
             &:focus, &:hover{
                 border: 0px none !important;
@@ -137,18 +159,22 @@ body {
             }
 
             &::-webkit-input-placeholder {
+                line-height: 17px;
                color: desaturate(lighten($primary-highlight, 20%), 10%);
             }
 
-           & :-moz-placeholder { /* Firefox 18- */
+            &:-moz-placeholder { /* Firefox 18- */
+                line-height: 17px;
                color: desaturate(lighten($primary-highlight, 20%), 10%);
             }
 
             &::-moz-placeholder {  /* Firefox 19+ */
+                line-height: 17px;
                color: desaturate(lighten($primary-highlight, 20%), 10%);
             }
 
-           & :-ms-input-placeholder {
+            &:-ms-input-placeholder {
+                line-height: 17px;
                color: desaturate(lighten($primary-highlight, 20%), 10%);
             }
         }
@@ -156,10 +182,37 @@ body {
         i{
             position: absolute;
             right: 15px;
-            top: 0px;
+            top: ($header-height - 30px) / 2;
             height: 30px;
             line-height: 30px;
             color: #fff;
+        }
+    }
+
+    .pagination{
+        height: $header-height;
+        max-width: 300px;
+        display: inline-block;
+        margin: ($header-height - 30px) / 2;
+        position: relative;
+        float: right;
+
+        li{
+            padding-left: 10px;
+            display: inline-block;
+            height: 30px;
+            color: #fff;
+        }
+
+        a{
+            border: 0px none;
+            background: $primary-highlight;
+            color: #fff;
+            height: 30px;
+
+            &:focus, &:hover{
+                background: lighten($primary-highlight, 10%);
+            }
         }
     }
 }
@@ -167,13 +220,22 @@ body {
 .header{
     line-height: 60px;
     height: 60px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $border-color;
     background: #fff;
 
     h3{
         margin: 0px;
         line-height: 60px;
         font-size: 16px;
+
+        a{
+            padding: 0px;
+            margin: 0px;
+            margin-right: 10px;
+            display: inline-block;
+            color: $text-softer;
+            font-weight: 400;
+        }
     }
 
     .nav-tabs {
@@ -184,8 +246,10 @@ body {
 
             &.active{
                 a{
+                    border-color: $border-color;
                     border-top: 0px none;
-                    background: $secondary-highlight;
+                    border-bottom: 0px none;
+                    background: $background;
                     z-index: 99;
                 }
             }
@@ -203,7 +267,7 @@ body {
 
         a:hover{
             background: transparent;
-            border: 1px solid #ededed;
+            border: 1px solid $border-color-soft;
             border-top: 0px none;
             border-bottom: 0px none;
             color: inherit;
@@ -222,14 +286,6 @@ body {
 h3{
     font-size: 20px;
     font-weight: 600;
-
-    a.back{
-        font-size: 22px;
-        margin-right: 10px;
-        display: inline-block;
-        color: $primary-soft;
-        font-weight: 400;
-    }
 }
 
 h4{
@@ -252,21 +308,14 @@ h4{
 }
 
 .btn{
-    background-color: lighten($secondary, 10%);
-    border: 1px solid darken($secondary, 7%);
-    border-radius: 2px;
-    color: #333;
+    background-color: $button-background;
+    border: 1px solid $button-border;
+    border-radius: 0px !important;
+    color: $button-color;
     font-size: 13px;
 
-    &.btn-cta{
-        background-color: $green;
-        color: #fff;
-        border: 1px solid darken($green, 7%);
-
-        &:focus, &:hover{
-            background-color: darken($green, 7%);
-            border: 1px solid darken($green, 7%);
-        }
+    &.margin-left{
+        margin-left: 10px;
     }
 
     i{
@@ -278,34 +327,43 @@ h4{
     }
 
     &:focus, &:hover{
-        background-color: lighten($secondary, 15%);
-        border: 1px solid $secondary;
+        background-color: $button-background-hover;
+        border: 1px solid $button-border-hover;
     }
 
     &.btn-primary{
-        background-color: $primary;
+        background-color: $button-primary-background;
+        border: 1px solid $button-primary-border;
         color: #fff;
-        border: 1px solid darken($primary, 7%);
         font-weight: bold;
 
         &:focus, &:hover{
-            background-color: $primary-highlight;
-            border: 1px solid darken($primary-highlight, 7%);
+            background-color: $button-primary-background-hover;
+            border: 1px solid $button-primary-border-hover;
         }
     }
 
-    &.margin-left{
-        margin-left: 10px;
+    &.btn-cta{
+        color: #fff;
+        font-weight: bold;
+        background-color: $button-cta-background;
+        border: 1px solid $button-cta-border;
+
+        &:focus, &:hover{
+            background-color: $button-cta-background-hover;
+            border: 1px solid $button-cta-border-hover;
+        }
     }
 }
 
 input, textarea{
     box-shadow: none !important;
     font-size: 12px;
+    border-color: $border-color !important;
 
     &:focus{
         box-shadow: none !important;
-        border: 1px solid $secondary !important;
+        border: 1px solid $border-color !important;
         border-bottom: 1px solid $highlight !important;
     }
 }
@@ -319,10 +377,20 @@ textarea{
     padding: 6px 8px;
 }
 
+.input-group-addon{
+    background: $disabled-background;
+    color: $disabled-color;
+    border: 1px solid $border-color-soft;
+}
+
 .input-group-btn:last-child{
     .btn{
         border-left: 0px none;
     }
+}
+
+.input-medium{
+    max-width: 150px;
 }
 
 a{
@@ -335,7 +403,7 @@ a{
 }
 
 .well{
-    border: 1px solid $secondary;
+    border: 1px solid $border-color-soft;
     background: #fff;
     box-shadow: none;
 }
@@ -364,11 +432,10 @@ footer{
     height: $footer-height;
     width: 100%;
     background-color: #fff;
-    color: $primary-soft;
-    border-top: $footer-border solid $secondary;
+    color: $text-softer;
+    border-top: $footer-border solid $border-color;
     line-height: $footer-height - $footer-border;
-    // box-shadow: 0px -2px 0px 0px $secondary;
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .push{
@@ -381,6 +448,8 @@ footer{
 }
 
 .panel{
+    border-color: $border-color-soft !important;
+
     .row > div{
         padding: 0px;
     }
@@ -390,16 +459,15 @@ footer{
     }
 
     &.collection{
-        background-color: lighten($primary-soft, 20%);
 
         &:hover{
-            background-color: lighten($primary-soft, 18%) !important;
+            background-color: $primary-soft !important;
         }
     }
 
     hr{
         margin-top: 5px;
-        border-color: #eee;
+        border-color: $border-color-soft;
     }
 
     &.dataset{
@@ -421,6 +489,7 @@ footer{
 
             .panel-body{
                 padding: 7px;
+                padding-right: 0px;
             }
 
         }
@@ -458,8 +527,8 @@ footer{
         }
 
         &:hover{
-            background-color: $secondary-highlight;
             color: $primary;
+            background-color: $primary-soft;
         }
 
         h4{
@@ -490,6 +559,12 @@ footer{
 }
 
 .table{
+    border-color: $border-color-soft !important;
+
+    td{
+        border-color: $border-color-soft !important;
+    }
+
     thead>tr>th {
         border-bottom: 0px none;
     }
@@ -497,14 +572,25 @@ footer{
     tbody{
         tr:hover{
             td{
-                background-color: $secondary-highlight !important;
+                background-color: $primary-soft !important;
             }
         }
     }
 }
 
+.scroll-horizontal{
+    border: 1px solid $border-color-soft !important;
+    overflow-x: auto;
+    margin-bottom: 15px;
+
+    .table{
+        border: 0px none !important;
+        margin-bottom: 0px;
+    }
+}
+
 .note{
-    color: $primary-soft;
+    color: $text-softer;
 }
 
 .map-container{
@@ -543,7 +629,7 @@ footer{
 }
 
 .hover-help{
-    color: $primary-soft;
+    color: $text-softer;
 }
 
 .edit-permissions{
@@ -578,7 +664,7 @@ footer{
     }
 
     &.alert-danger{
-        background-color: $primary-soft;
+        background-color: #e74c3c;
         color: #fff;
     }
 }
@@ -605,10 +691,19 @@ button.close {
         font-weight: bold;
         margin-bottom: 8px;
     }
+
+    .list-group-item{
+        border-color: $border-color;
+    }
 }
 
 .help-block{
-    color: $primary-soft;
+    color: $text-softer;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background: $disabled-background;
+    color: $disabled-color;
 }
 
 @media(max-width:768px){

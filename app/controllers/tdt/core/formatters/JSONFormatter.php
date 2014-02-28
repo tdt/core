@@ -4,6 +4,7 @@ namespace tdt\core\formatters;
 
 /**
  * JSON Formatter
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -37,12 +38,7 @@ class JSONFormatter implements IFormatter{
                 $conf = $dataObj->semantic->conf;
             }
 
-            // Serializer instantiation
-            $ser = \ARC2::getRDFJSONSerializer($conf);
-
-            // Use ARC to serialize to JSON (override)
-            return $ser->getSerializedTriples($dataObj->data->getTriples());
-
+            return $dataObj->data->serialise('json');
         }
 
         // Unescape slashes

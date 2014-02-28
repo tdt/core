@@ -8,13 +8,21 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\Aggreg
 class FirstAggregatorExecuter extends AggregatorFunctionExecuter {
 
     public function calculateValue(UniversalFilterTableContent $column, $columnId) {
+
         $data = $this->convertColumnToArray($column, $columnId);
-        return $data[0];
+        return array_shift($data);
     }
 
     public function errorIfNoItems() {
         return true;
     }
 
-}
+    public function keepFullInfo() {
+        return false;
+    }
 
+    public function getName($name) {
+        return "first_" . $name;
+    }
+
+}

@@ -7,7 +7,6 @@
 %left LN
 %left '&'
 %left '|'
-%left '+' '-'
 %left '*' '/'
 %left '>' EQ LE GE '<' '~' NE
 stmt = flow
@@ -21,7 +20,7 @@ flow = expression
     $$ = $limit;
  }
 | expression/e '.' LIMIT '(' num/limit ')' {
-    $limit = new LimitFilter($e,0,$limit);
+    $limit = new LimitFilter($e, 0, $limit);
     $$ = $limit;
 }
 .
@@ -93,6 +92,7 @@ $totalfilter = new Identifier($tokens[0]);
         foreach ($sel["identifiers"] as $identifier) {
 
             $identifier_class = explode('\\', get_class($identifier));
+
             if (end($identifier_class) == "AggregatorFunction") {
                 $aggregate = true;
             } else {
@@ -112,6 +112,7 @@ $totalfilter = new Identifier($tokens[0]);
 
 		// Process the ORDER statement
         $orderby = new SortFieldsFilter($sel["sorts"]);
+
         if (!empty($sel["sorts"])) {
             $totalfilter = putFilterAfterIfExists($totalfilter, $orderby);
         }
@@ -167,18 +168,48 @@ selector = selectargument/arg { $$ = $1; }
 selectargument = argument/arg {
 
 // A column can be a string which indicates we need to wrap it in an Identifier
-// or it can be a function, in which case we just have to pass it with the ColumnSelectionFilterColumn
+// or it can be a unary function, in which case we just have to pass it with the ColumnSelectionFilterColumn
+// or it can be sorting function, in which case we have to add the identifier to the identifiers, and ColumnSelectionFilterColumn
+// and pass along that we have an order by statement to process.
 
 $column = $arg;
 
-if(!is_object($column))
-    $column = new Identifier($arg);
+if(is_array($arg)){
 
-$$ = array(
+
+    if(!empty($arg['sort'])){
+        $$ = array(
+            "filters" => array(new ColumnSelectionFilterColumn($arg['column'], null)),
+            "sorts" => array($arg['sort']),
+            "identifiers" => array($arg['column'])
+        );
+    }else{
+        $$ = array(
+            "filters" => array(new ColumnSelectionFilterColumn($arg['unary'], null)),
+            "sorts" => array(),
+            "identifiers" => array($arg['unary'])
+        );
+    }
+
+}else if(is_object($column)){
+
+    $$ = array(
         "filters" => array(new ColumnSelectionFilterColumn($column, null)),
         "sorts" => array(),
         "identifiers" => array($column)
     );
+}else{
+
+    $column = new Identifier($arg);
+
+    $$ = array(
+        "filters" => array(new ColumnSelectionFilterColumn($column, null)),
+        "sorts" => array(),
+        "identifiers" => array($column)
+    );
+}
+
+
 }
 | argument/arg order/order {
 
@@ -223,12 +254,24 @@ $$ = array(
 
 function = name '(' argument/arg ')' {
 
-$column = $arg;
+    $column = $arg;
 
-if(!is_object($column))
-    $column = new Identifier($arg);
+    // Trim the name of the function
+    $1 = ltrim($1);
+    $1 = rtrim($1);
 
-$$ = getUnaryFilterForSQLFunction($1, $column);
+    if(!is_object($column)){
+        $column = new Identifier($arg);
+    }
+
+    // Make a distinction between a unary function, and a sort function
+    if(strtolower($1) == 'asort'){
+        $$ = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_ASCENDING));
+    }else if(strtolower($1) == 'dsort'){
+        $$ = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_DESCENDING));
+    }else{
+        $$ = array("unary" => getUnaryFilterForSQLFunction($1, $column));
+    }
 }
 | name '(' argument/arg1 ',' argument/arg2 ',' argument/arg3 ')' {
 
@@ -249,10 +292,6 @@ if(!is_object($column3))
 
 $$ = getTertairyFunctionForSQLFunction($1, $column1, $column2, $column3);
 }
-.
-
-order = '+' { /* SORT BY ascending */ $$ = SortFieldsFilterColumn::$SORTORDER_ASCENDING; }
-| '-' { /* SORT BY descending  */ $$ = SortFieldsFilterColumn::$SORTORDER_DESCENDING; }
 .
 
 argument = name { $$ = $1;}

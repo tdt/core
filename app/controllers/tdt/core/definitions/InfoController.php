@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
+use tdt\core\Pager;
 
 /**
  * InfoController: Controller that handles info requests and returns informational data about the datatank.
@@ -39,7 +40,7 @@ class InfoController extends \Controller {
                 break;
             default:
                 // Method not supported
-                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
+                return self::headDefinition($uri);
                 break;
         }
     }
@@ -48,7 +49,21 @@ class InfoController extends \Controller {
      * Return the headers of a call made to the uri given.
      */
     private static function headDefinition($uri){
-        \App::abort(500, "Method not yet implemented.");
+
+        if(!empty($uri)){
+            if(!DefinitionController::exists($uri)){
+                \App::abort(404, "No resource has been found with the uri $uri");
+            }
+        }
+
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 
     /*
@@ -74,8 +89,12 @@ class InfoController extends \Controller {
      */
     private static function getDefinitionsInfo(){
 
-        // Get all of the definitions
-        $definitions = \Definition::all();
+        // Apply paging to fetch the definitions
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
+
+        $definition_count = \Definition::where('draft', '==', 0)->count();
+
+        $definitions = \Definition::where('draft', '==', 0)->take($limit)->skip($offset)->get();
 
         $info = array();
 
@@ -84,20 +103,17 @@ class InfoController extends \Controller {
             $definition_info = self::createInfoObject($definition);
             $id = $definition->collection_uri . '/' .$definition->resource_name;
 
+            unset($definition_info->draft);
+
             // Add the info to the collection
             $info[$id] = $definition_info;
         }
 
-        // Add DCAT as a resource
-        $definition_info = new \stdClass();
-        $definition_info->description = "A DCAT document about the available datasets created by using the DCAT vocabulary.";
-        $id = 'dcat';
-        $definition_info->uri = \Request::root() . '/api/' . $id;
+        $result = new Data();
+        $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
+        $result->data = $info;
 
-        // Add the info to the collection
-        $info[$id] = $definition_info;
-
-        return self::makeResponse($info);
+        return ContentNegotiator::getResponse($result, 'json');
     }
 
     /**

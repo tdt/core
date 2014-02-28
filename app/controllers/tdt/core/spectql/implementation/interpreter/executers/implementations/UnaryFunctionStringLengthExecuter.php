@@ -6,13 +6,15 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\UnaryF
 use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
-/* stringlength */
 class UnaryFunctionStringLengthExecuter extends UnaryFunctionExecuter {
+
     public function getName($name) {
-        return "length_" . $name;
+        return "len_" . $name;
     }
+
     public function doUnaryFunction($value) {
-        if ($value === null)
+
+        if ($value === null || is_object($value) || is_array($value))
             return null;
         return strlen($value);
     }

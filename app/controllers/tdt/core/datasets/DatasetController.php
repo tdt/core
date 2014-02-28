@@ -2,16 +2,20 @@
 
 namespace tdt\core\datasets;
 
-use tdt\core\ContentNegotiator;
 use tdt\core\auth\Auth;
+use tdt\core\cache\Cache;
+use tdt\core\ContentNegotiator;
 use tdt\core\definitions\DefinitionController;
 use tdt\core\datacontrollers\ADataController;
+use tdt\core\Pager;
 
 /**
  * DatasetController
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
+ * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class DatasetController extends \Controller {
 
@@ -26,27 +30,43 @@ class DatasetController extends \Controller {
         // URI is always the first match
         $uri = $matches[1];
 
+        // Get extension (if set)
+        $extension = (!empty($matches[2]))? $matches[2]: null;
+
         // Don't allow non-Get requests
         $method = \Request::getMethod();
 
-        if($method != 'GET'){
+        if($method == 'HEAD'){
+
+            if(!empty($uri)){
+                if(!DefinitionController::exists($uri)){
+                    \App::abort(404, "No resource has been found with the uri $uri");
+                }
+            }
+
+            $response =  \Response::make(null, 200);
+            $response->header('Pragma', 'public');
+
+            // Return formatted response
+            return $response;
+
+        }else if($method != 'GET'){
             // Method not supported
             \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
         }
 
-        // Get extension (if set)
-        $extension = (!empty($matches[2]))? $matches[2]: null;
-
         // Check for caching
         // Based on: URI / Rest parameters / Query parameters / Paging headers
         $cache_string = $uri;
-        list($limit, $offset) = ADataController::calculateLimitAndOffset();
+
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
+
         $cache_string .= '/limit=' . $limit . 'offset=' . $offset;
         $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
         $cache_string = sha1($cache_string);
 
-        if(\Cache::has($cache_string)){
-            return ContentNegotiator::getResponse(\Cache::get($cache_string), $extension);
+        if(Cache::has($cache_string)){
+            return ContentNegotiator::getResponse(Cache::get($cache_string), $extension);
         }else{
 
             // Get definition
@@ -74,6 +94,7 @@ class DatasetController extends \Controller {
 
                     // Retrieve dataobject from datacontroller
                     $data = $data_controller->readData($source_definition, $rest_parameters);
+
                     $data->rest_parameters = $rest_parameters;
 
                     // REST filtering
@@ -88,7 +109,7 @@ class DatasetController extends \Controller {
                     $data->source_definition = $source_definition;
 
                     // Store in cache
-                    \Cache::put($cache_string, $data, 1);
+                    Cache::put($cache_string, $data, $source_definition->getCacheExpiration());
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);

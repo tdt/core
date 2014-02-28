@@ -55,6 +55,8 @@ class Export extends Command {
         // Create new object for the export data;
         $export_data = new \stdClass();
 
+        // Add the version to it
+        $export_data->version = \Config::get('app.version');
 
         if($this->option('definitions')){
 
@@ -89,6 +91,7 @@ class Export extends Command {
 
             // Export users
             $export_data->users = Users::export();
+
             // Export groups
             $export_data->groups = Groups::export();
         }
@@ -100,6 +103,7 @@ class Export extends Command {
         }else{
             $export_data = json_encode($export_data);
         }
+
         // JSON_UNESCAPED_SLASHES only available in PHP 5.4
         $export_data = str_replace('\/', '/', $export_data);
 

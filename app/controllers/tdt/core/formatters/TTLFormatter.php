@@ -36,12 +36,7 @@ class TTLFormatter implements IFormatter{
                 $conf = $dataObj->semantic->conf;
             }
 
-            // Serializer instantiation
-            $ser = \ARC2::getTurtleSerializer($conf);
-
-            // Serialize a triples array
-            return $ser->getSerializedTriples($dataObj->data->getTriples());
-
+            return $dataObj->data->serialise('turtle');
         }
 
         \App::abort(400, "This resource doesn't contain semantic (graph) data, a Turtle serialization cannot be provided.");

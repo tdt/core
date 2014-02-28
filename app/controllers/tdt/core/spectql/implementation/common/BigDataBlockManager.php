@@ -27,8 +27,8 @@ class BigDataBlockManager {
      * If errors occur with DataBlockManager, up the COUNT_KEEP_IN_MEMORY
      * Somewhere along the line it goes wrong, some blocks wont get deleted.
      */
-    private static $COUNT_KEEP_IN_MEMORY = 100000;
-    private static $instance;
+    private static $COUNT_KEEP_IN_MEMORY = PHP_INT_MAX;
+    public static $instance;
     //the things in memory:
     private $memoryblockarray;
     private $issavedtofile; //only for those currently in memory
@@ -91,6 +91,7 @@ class BigDataBlockManager {
         $filename = $this->fileNameFor($key);
         $serializedValue = serialize($value);
         //WRITE FILE
+        \App::abort(500, 'Query is too big to be handled in memory');
         file_put_contents($filename, $serializedValue);
     }
 
@@ -238,6 +239,10 @@ class BigDataBlockManager {
         $this->deleteBlock($key);
     }
 
+    public static function newManager(){
+        BigDataBlockManager::$instance = new BigDataBlockManager();
+    }
+
     /**
      * returns an instance of this class
      * @return BigDataBlockManager
@@ -250,5 +255,3 @@ class BigDataBlockManager {
     }
 
 }
-
-?>

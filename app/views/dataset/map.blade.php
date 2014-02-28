@@ -2,7 +2,6 @@
 
 @section('content')
 
-
     <div class='map-container'>
         <iframe src='{{ $body }}'></iframe>
     </div>
@@ -31,6 +30,5 @@
             </li>
         </ul>
     </div>
-{{--  --}}
 
 @stop

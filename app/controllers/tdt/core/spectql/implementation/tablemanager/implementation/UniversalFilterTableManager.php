@@ -38,6 +38,14 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
      */
     private function getFullResourcePhpObject($package, $resource, $RESTparameters = array()) {
 
+        // By default ask for all of the data to release the query on
+        $limit = \Input::get('limit');
+        $offset = \Input::get('offset');
+
+        if(empty($limit) && empty($offset)){
+            \Input::merge(array('limit' => -1));
+        }
+
         $data_result = DatasetController::fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
         $definition = DefinitionController::get($package . '/' . $resource);
 

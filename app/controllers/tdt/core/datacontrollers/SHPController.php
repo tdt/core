@@ -10,6 +10,7 @@
 namespace tdt\core\datacontrollers;
 
 use tdt\core\datasets\Data;
+use tdt\core\Pager;
 
 include_once(__DIR__ . "/../../../../lib/ShapeFile.inc.php");
 include_once(__DIR__ . "/../../../../lib/proj4php/proj4php.php");
@@ -22,7 +23,7 @@ class SHPController extends ADataController {
         set_time_limit(0);
 
         // Get the limit and offset
-        list($limit, $offset) = self::calculateLimitAndOffset();
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         $uri = $source_definition->uri;
 
@@ -175,12 +176,13 @@ class SHPController extends ADataController {
             }
 
             // Calculate the paging headers properties
-            $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);
+            $paging = Pager::calculatePagingHeaders($limit, $offset, $total_rows);
 
             $data_result = new Data();
             $data_result->data = $arrayOfRowObjects;
             $data_result->geo = $geo;
             $data_result->paging = $paging;
+
             return $data_result;
 
         } catch( Exception $ex) {

@@ -5,7 +5,8 @@ namespace tdt\core\definitions;
 use Illuminate\Routing\Router;
 use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
-
+use tdt\core\Pager;
+use tdt\core\ContentNegotiator;
 
 /**
  * DefinitionController
@@ -17,9 +18,6 @@ class DefinitionController extends \Controller {
 
     // Don't allow occupied prefixes: api, discovery
     private static $FORBIDDEN_PREFIX = array('api', 'discovery');
-
-    // The amount of definitions that are returned by default with one call.
-    private static $PAGE_SIZE = 30;
 
     public static function handle($uri){
 
@@ -95,6 +93,7 @@ class DefinitionController extends \Controller {
 
         // Check if the first collection_uri slug is not part of the occupied uri's
         $collection_parts = explode('/', $collection_uri);
+
         if(in_array( $collection_parts[0], self::$FORBIDDEN_PREFIX)){
             \App::abort(400, "The collection name, $collection_parts[0], cannot be used as the start of a collection.");
         }
@@ -157,6 +156,7 @@ class DefinitionController extends \Controller {
 
         // Create the definition associated with the new definition instance
         $definition = new \Definition();
+
         $definition->collection_uri = $collection_uri;
         $definition->resource_name = $resource_name;
         $definition->source_id = $def_instance->id;
@@ -164,6 +164,7 @@ class DefinitionController extends \Controller {
 
         // Add the create parameters of description to the new description object
         $def_params = array_only($params, array_keys(\Definition::getCreateParameters()));
+
         foreach($def_params as $property => $value){
             $definition->$property = $value;
         }
@@ -174,7 +175,6 @@ class DefinitionController extends \Controller {
         $response->header('Location', \URL::to($collection_uri . '/' . $resource_name));
 
         return $response;
-
     }
 
     /**
@@ -279,7 +279,7 @@ class DefinitionController extends \Controller {
         // Only keep the properties from the parameters that are appropriate for Definition
         $patched_def_params = array_only($params, $definition_params);
 
-        // Only keep the properties from the parameters that are appropriate for the SourceType
+        // Only keep the properties from the parameters that are appropriate for SourceType
         $patched_source_params = array_only($params, $source_params);
 
         // Merge the new params with the old ones, and pass them to the source type for validation
@@ -299,7 +299,6 @@ class DefinitionController extends \Controller {
         $definition->update($patched_def_params);
 
         $response = \Response::make(null, 200);
-        $response->header('Location', \URL::to($definition->collection_uri . '/' . $definition->resource_name));
 
         return $response;
     }
@@ -308,7 +307,19 @@ class DefinitionController extends \Controller {
      * Return the headers of a call made to the uri given.
      */
     private static function headDefinition($uri){
-        \App::abort(500, "Function not yet implemented.");
+
+        if(!self::exists($uri)){
+            \App::abort(404, "No resource has been found with the uri $uri");
+        }
+
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'application/json;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 
     /*
@@ -317,16 +328,26 @@ class DefinitionController extends \Controller {
      */
     private static function viewDefinition($uri){
 
-        // TODO make dynamic
         if(empty($uri)){
-            $definitions = \Definition::all();
 
-            $defs_props = array();
+            // Apply paging to fetch the definitions
+            list($limit, $offset) = Pager::calculateLimitAndOffset();
+
+            $definition_count = \Definition::all()->count();
+
+            $definitions = \Definition::take($limit)->skip($offset)->get();
+
+            $def_props = array();
+
             foreach($definitions as $definition){
-                $defs_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
+                $def_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
             }
 
-            return self::makeResponse(str_replace('\/', '/', json_encode($defs_props)));
+            $result = new Data();
+            $result->data = $def_props;
+            $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
+
+            return ContentNegotiator::getResponse($result, 'json');
         }
 
         if(!self::exists($uri)){
@@ -345,6 +366,7 @@ class DefinitionController extends \Controller {
      * Get a definition object with the given uri.
      */
     public static function get($uri){
+
         // Left trim the uri for a /
         $uri = ltrim($uri, '/');
 

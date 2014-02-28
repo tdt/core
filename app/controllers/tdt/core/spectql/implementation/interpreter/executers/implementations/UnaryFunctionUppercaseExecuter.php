@@ -8,7 +8,7 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\UnaryF
 class UnaryFunctionUppercaseExecuter extends UnaryFunctionExecuter {
 
     public function getName($name) {
-        return "uppercase_" . $name;
+        return "ucase_" . $name;
     }
 
     public function doUnaryFunction($value) {

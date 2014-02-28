@@ -46,30 +46,29 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         // Get the columns to filter
         $this->columnInterpreters = $filter->getColumnData();
 
-        //header information
+        // Header information
         $this->returnsSingleRow = true;
         $this->returnsSingleColumn = true;
         $this->columnExecuters = array();
 
-        // the columns for the returned table:
+        // The columns for the returned table:
         $columns = array();
 
-
-        //loop all column-interpreters
+        // Loop all column-interpreters
         foreach ($this->columnInterpreters as $column) {
-            //this column
+
             $filterColumn = $column->getColumn();
-            //find something to evaluate it
+
             $exprexec = $interpreter->findExecuterFor($filterColumn);
 
-            //save the executer
+            // Save the executer
             array_push($this->columnExecuters, $exprexec);
 
-            //init expression
+            // Init expression
             $exprexec->initExpression($filterColumn, $this->giveToColumnsEnvironment, $interpreter, true);
             $header = $exprexec->getExpressionHeader();
 
-            //header info
+            // Header info
             if (!$header->isSingleRowByConstruction()) {
                 $this->returnsSingleRow = false;
             }
@@ -77,22 +76,19 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                 $this->returnsSingleColumn = false;
             }
 
-            //the name for the column
             $columnAlias = $column->getAlias();
 
-            //all columns
             for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
-                //column information
+
+                // Column information
                 $columnId = $header->getColumnIdByIndex($resultColumnIndex);
                 $columnInfo = $header->getColumnInformationById($columnId)->cloneColumnInfo();
 
-
-                //set column alias
+                // Set column alias
                 if ($columnAlias != null) {
                     if ($header->isSingleColumnByConstruction()) {
                         $columnInfo->aliasColumn($columnAlias);
                     } else {
-                        //crashes if more than one column given...
                         throw new \Exception("Column-alias not supported for * - token");
                     }
                 }
@@ -102,7 +98,6 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             }
         }
 
-            //create the new header
         $this->header = new UniversalFilterTableHeader($columns, $this->returnsSingleRow, count($this->columnInterpreters) == 1 && $this->returnsSingleColumn);
     }
 
@@ -111,14 +106,16 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     }
 
     public function evaluateAsExpression() {
+
         $sourceheader = $this->executer->getExpressionHeader();
         $sourcecontent = $this->executer->evaluateAsExpression();
 
         $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
 
-//create a new empty output table
+        //create a new empty output table
         $newRows = new UniversalFilterTableContent();
+
         if (!$this->returnsSingleRow) {
             for ($index = 0; $index < $sourcecontent->getRowCount(); $index++) {
                 $newRows->addRow(new UniversalFilterTableContentRow());
@@ -127,33 +124,37 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             $newRows->addRow(new UniversalFilterTableContentRow());
         }
 
-//loop all columnInterpreters
+        //loop all columnInterpreters
         foreach ($this->columnInterpreters as $columnIndex => $column) {
-//this column
+
+            //this column
             $filterColumn = $column->getColumn();
 
-//get executer
+            //get executer
             $exprexec = $this->columnExecuters[$columnIndex];
 
-//get header (again)
+            //get header (again)
             $header = $exprexec->getExpressionHeader();
 
-//evaluate
+            //evaluate
             $answer = $exprexec->evaluateAsExpression();
 
             for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
-//column information
+
+                // column information
                 $columnId = $header->getColumnIdByIndex($resultColumnIndex);
 
                 if ($header->isSingleRowByConstruction()) {
-//copy single value to all rows
+
+                    //copy single value to all rows
                     $rowValue = $answer->getRow(0);
 
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
                     }
                 } else {
-//copy values to coresponding rows
+
+                    //copy values to corresponding rows
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
                         $rowValue = $answer->getRow($index);
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
@@ -184,24 +185,26 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     }
 
     public function modififyFiltersWithHeaderInformation() {
+
         parent::modififyFiltersWithHeaderInformation();
         $this->executer->modififyFiltersWithHeaderInformation();
 
         foreach ($this->columnInterpreters as $columnIndex => $column) {
-//get executer
             $exprexec = $this->columnExecuters[$columnIndex];
             $exprexec->modififyFiltersWithHeaderInformation();
         }
     }
 
     public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         foreach ($this->columnInterpreters as $columnIndex => $column) {
-//get executer
+
             $exprexec = $this->columnExecuters[$columnIndex];
-            $arr = array_merge($arr, $exprexec->filterSingleSourceUsages($this->filter, -1)); //TODO: give a correct source number -> only a problem when allowing nested selects (!)
+            $arr = array_merge($arr, $exprexec->filterSingleSourceUsages($this->filter, -1));
         }
+
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 

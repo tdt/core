@@ -118,6 +118,12 @@ class DatasetController extends \Controller {
                 }
             }
 
+            // Filter on unnecessary optional parameters
+            unset($parameters_optional['cache_minutes']);
+
+            // TODO special treatment for caching
+            unset($parameters_optional['draft']);
+
             $mediatypes[$mediatype]['parameters_required'] = $parameters_required;
             $mediatypes[$mediatype]['parameters_optional'] = $parameters_optional;
             $mediatypes[$mediatype]['parameters_dc'] = $parameters_dc;
@@ -150,7 +156,6 @@ class DatasetController extends \Controller {
             $discovery = $this->getDiscoveryDocument();
 
             // Get spec for media type
-            // var_dump($source_definition->getType());
             if(empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->getType())} )){
                 \App::abort('500', 'There is no definition of the media type of this dataset in the discovery document.');
             }
@@ -161,10 +166,10 @@ class DatasetController extends \Controller {
             $parameters_optional = array();
             $parameters_dc = array();
             $lists = array();
+
             foreach($mediatype->parameters as $parameter => $object){
 
                 // Filter array type parameters
-
                 if(empty($object->parameters)){
 
                     // Filter Dublin core parameters
@@ -176,6 +181,7 @@ class DatasetController extends \Controller {
 
                             // Check list cache
                             if(empty($lists[$uri])){
+
                                 $data = json_decode($this->getDocument($uri));
                                 $data_set = array();
 
@@ -194,12 +200,18 @@ class DatasetController extends \Controller {
 
                         $parameters_dc[$parameter] = $object;
                     }else{
-                        // Fitler optional vs required
+                        // Filter optional vs required
                         $parameters_optional[$parameter] = $object;
                     }
                 }
 
             }
+
+            // Filter on unnecessary optional parameters
+            unset($parameters_optional['cache_minutes']);
+
+            // TODO special treatment for draft
+            unset($parameters_optional['draft']);
 
             return \View::make('ui.datasets.edit')
                         ->with('title', 'Edit a dataset | The Datatank')

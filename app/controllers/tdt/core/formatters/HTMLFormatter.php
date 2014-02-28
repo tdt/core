@@ -34,12 +34,11 @@ class HTMLFormatter implements IFormatter{
         $next_link = '';
         if(!empty($dataObj->paging)){
             $input_array = array_except(\Input::all(), array('limit', 'offset'));
-
-            if(!empty($paging['previous'])){
+            if(!empty($dataObj->paging['previous'])){
                 $prev_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['previous'][0] . '&limit=' . $dataObj->paging['previous'][1];
             }
 
-            if(!empty($paging['next'])){
+            if(!empty($dataObj->paging['next'])){
                 $next_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['next'][0] . '&limit=' . $dataObj->paging['next'][1];
             }
         }
@@ -96,12 +95,7 @@ class HTMLFormatter implements IFormatter{
                                 $conf = $dataObj->semantic->conf;
                             }
 
-                            // Serializer instantiation
-                            $ser = \ARC2::getTurtleSerializer($conf);
-
-                            // Serialize a triples array
-                            $data = $ser->getSerializedTriples($dataObj->data->getTriples());
-
+                            $data = $dataObj->data->serialise('turtle');
                         }else{
 
                             $view = 'dataset.code';

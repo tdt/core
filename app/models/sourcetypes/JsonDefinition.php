@@ -13,13 +13,6 @@ class JsonDefinition extends SourceType{
     protected $fillable = array('uri', 'description');
 
     /**
-     * Relationship with the Definition model.
-     */
-    public function definition(){
-        return $this->morphOne('Definition', 'source');
-    }
-
-    /**
      * Validate the input for this model.
      */
     public static function validate($params){

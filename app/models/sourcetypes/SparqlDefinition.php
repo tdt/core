@@ -21,13 +21,6 @@ class SparqlDefinition extends SourceType{
     }
 
     /**
-     * Relationship with the Definition model.
-     */
-    public function definition(){
-        return $this->morphOne('Definition', 'source');
-    }
-
-    /**
      * Retrieve the set of create parameters that make up a SPARQL definition.
      */
     public static function getCreateParameters(){

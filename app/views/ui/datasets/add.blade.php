@@ -142,6 +142,31 @@
 
                     <div class="col-sm-6">
 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                            </label>
+                            <div class="col-sm-10">
+                                <h4><i class='fa fa-clock-o'></i> Caching</h4>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_cache_minutes" class="col-sm-2 control-label">
+                                Cache for
+                            </label>
+                            <div class="col-sm-10">
+                                <div class="input-group input-medium">
+                                    <input type="text" class="form-control" id="input_cache_minutes" name="cache_minutes" placeholder="" value="5">
+                                    <span class="input-group-addon">minute(s)</span>
+                                </div>
+
+                                <div class='help-block'>
+                                    How long should this dataset be cached? Fill out '0' or '-1' to disable caching for this resource (not recommended).
+                                </div>
+                            </div>
+                        </div>
+
                         @if(!empty($type['parameters_dc']))
 
                             <div class="form-group">
@@ -162,8 +187,9 @@
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
                                         @elseif($object->type == 'list')
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                                <option></option>
                                                 @foreach($object->list as $option)
-                                                    <option @if(strtolower($option) == 'english'){{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                                    <option>{{ $option }}</option>
                                                 @endforeach
                                             </select>
                                         @endif

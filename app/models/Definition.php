@@ -8,7 +8,7 @@
  */
 class Definition extends Eloquent{
 
-    protected $fillable = array('title','description','date','type','format','source','language','rights');
+    protected $fillable = array('title','description','date','type','format','source','language','rights', 'cache_minutes', 'draft');
     /**
      * Return the poly morphic relationship with a source type.
      */
@@ -60,6 +60,18 @@ class Definition extends Eloquent{
                     'list_option' => 'title',
                     'description' => 'Information about rights held in and over the resource.',
                     'group' => 'dc',
+                ),
+                'cache_minutes' => array(
+                    'required' => false,
+                    'name' => 'Cache',
+                    'type' => 'integer',
+                    'description' => 'How long this resource should be cached (in minutes).',
+                ),
+                'draft' => array(
+                    'required' => false,
+                    'name' => 'Draft',
+                    'type' => 'boolean',
+                    'description' => 'Draft definitions are not shown to the public when created, however the URI space they take is reserved.',
                 ),
         );
     }
@@ -133,5 +145,13 @@ class Definition extends Eloquent{
         $source_type->delete();
 
         parent::delete();
+    }
+
+    /**
+     * Draft is a tinyint, cast type true/false to
+     * the corrersponding integers in the back-end
+     */
+    public function setDraftAttribute($value){
+        $this->attributes['draft'] = (int) $value;
     }
 }

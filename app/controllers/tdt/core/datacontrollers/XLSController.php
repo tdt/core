@@ -3,6 +3,7 @@
 namespace tdt\core\datacontrollers;
 
 use tdt\core\datasets\Data;
+use tdt\core\Pager;
 use PHPExcel_IOFactory as IOFactory;
 
 /**
@@ -17,7 +18,7 @@ class XLSController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        list($limit, $offset) = self::calculateLimitAndOffset();
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         $uri = $source_definition->uri;
         $sheet = $source_definition->sheet;
@@ -136,7 +137,7 @@ class XLSController extends ADataController {
 
             $php_obj->disconnectWorksheets();
 
-            $paging = $this->calculatePagingHeaders($limit, $offset, $total_rows);
+            $paging = Pager::calculatePagingHeaders($limit, $offset, $total_rows);
 
             $data_result = new Data();
             $data_result->data = $row_objects;

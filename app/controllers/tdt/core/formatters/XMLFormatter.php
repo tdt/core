@@ -39,12 +39,7 @@ class XMLFormatter implements IFormatter{
                 $conf = $dataObj->semantic->conf;
             }
 
-            // Serializer instantiation
-            $ser = \ARC2::getRDFXMLSerializer($conf);
-
-            // Use ARC to serialize to XML (override)
-            return $ser->getSerializedTriples($dataObj->data->getTriples());
-
+            return $dataObj->data->serialise('rdfxml');
         }
 
         // Build the body

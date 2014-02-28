@@ -20,13 +20,6 @@ class CsvDefinition extends SourceType{
     }
 
     /**
-     * Relationship with the Definition model.
-     */
-    public function definition(){
-        return $this->morphOne('Definition', 'source');
-    }
-
-    /**
      * Relationship with the Geo properties model.
      */
     public function geoProperties(){
@@ -52,6 +45,7 @@ class CsvDefinition extends SourceType{
 
             // Validate the provided columns
             TabularColumns::validate($provided_columns);
+
             $tmp = array();
 
             // Index the column objects on the column name
@@ -60,6 +54,7 @@ class CsvDefinition extends SourceType{
             }
 
             $tmp_columns = array();
+
             foreach($columns as $column){
                 $tmp_columns[$column['column_name']] = $column;
             }
@@ -68,6 +63,7 @@ class CsvDefinition extends SourceType{
             foreach($tmp as $column_name => $column){
 
                 $tmp_column = $tmp_columns[$column_name];
+
                 if(empty($tmp_column)){
                     \App::abort(404, "The column name ($column_name) was not found in the CSV file.");
                 }
@@ -105,19 +101,22 @@ class CsvDefinition extends SourceType{
             // instead of passing it with the columns-part of the definition
             $is_pk = false;
 
+            $column['is_pk'] = false;
+
             if(isset($options['pk']) && $column['index'] == $options['pk']){
                 $column['is_pk'] = true;
             }
 
             $tabular_column = new TabularColumns();
+
             $tabular_column->index = $column['index'];
             $tabular_column->column_name = $column['column_name'];
             $tabular_column->is_pk = $column['is_pk'];
             $tabular_column->column_name_alias = $column['column_name_alias'];
             $tabular_column->tabular_type = 'CsvDefinition';
             $tabular_column->tabular_id = $this->id;
-            $tabular_column->save();
 
+            $tabular_column->save();
         }
 
         // Check for passed geo_properties
@@ -369,7 +368,7 @@ class CsvDefinition extends SourceType{
                 }
             }
 
-            return null;
+            return -1;
 
         }
 

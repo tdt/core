@@ -8,12 +8,16 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\Aggreg
 class AverageAggregatorExecuter extends AggregatorFunctionExecuter {
 
     public function calculateValue(UniversalFilterTableContent $column, $columnId) {
+
         $data = $this->convertColumnToArray($column, $columnId);
+
         $sum = array_sum($data);
         $count = count($data);
+
         if ($count == 0) {
             return 0;
         }
+
         return $sum / $count;
     }
 

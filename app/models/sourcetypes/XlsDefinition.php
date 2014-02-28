@@ -21,13 +21,6 @@ class XlsDefinition extends SourceType{
         return $this->morphMany('TabularColumns', 'tabular');
     }
 
-    /**
-     * Relationship with the Definition model.
-     */
-    public function definition(){
-        return $this->morphOne('Definition', 'source');
-    }
-
      /**
      * Validate the input for this model.
      */
@@ -98,6 +91,8 @@ class XlsDefinition extends SourceType{
             // instead of passing it with the columns-part of the definition
             $is_pk = false;
 
+            $column['is_pk'] = false;
+
             if(isset($options['pk']) && $column['index'] == $options['pk']){
                 $column['is_pk'] = true;
             }
@@ -144,6 +139,7 @@ class XlsDefinition extends SourceType{
      * Retrieve the set of create parameters that make up a XLS definition.
      */
     public static function getCreateParameters(){
+
         return array(
                 'uri' => array(
                     'required' => true,
