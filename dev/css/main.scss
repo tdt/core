@@ -1,5 +1,4 @@
 @import 'bootstrap';
-@import 'prettify';
 @import 'font-awesome';
 
 $primary: #183440;
@@ -39,6 +38,7 @@ $footer-height: 40px;
 $footer-border: 1px;
 
 @import 'intro';
+@import 'prettify';
 
 *{
     outline: none !important;
@@ -489,6 +489,7 @@ footer{
 
             .panel-body{
                 padding: 7px;
+                padding-right: 0px;
             }
 
         }

@@ -1,8 +1,8 @@
-.com { color: #93a1a1; }
+.com { color: $text-softer; }
 .lit { color: #195f91; }
 .pun, .opn, .clo { color: #666; }
 .fun { color: #dc322f; }
-.str, .atv { color: #3C606E; }
+.str, .atv { color: $primary-highlight; }
 .kwd, .prettyprint .tag { color: #1e347b; }
 .typ, .atn, .dec, .var { color: teal; }
 .pln { color: #666; }
@@ -10,7 +10,7 @@
 .prettyprint {
     padding: 2px;
     font-size: 11px;
-    border: 1px solid darken(#F5F4EE, 10%);
+    border: 1px solid $border-color-soft;
     background: rgba(255,255,255, 0.2);
     box-shadow: none;
     max-height: 700px;
@@ -29,11 +29,11 @@
         width: 100%;
 
         &:nth-child(odd) {
-            background-color: rgba(255 , 255, 255, 0.8);
+            background-color: #fff;
         }
 
         &:nth-child(even) {
-            background-color: rgba(225, 225, 225, 0.01);
+            background-color: $background;
         }
     }
 }
