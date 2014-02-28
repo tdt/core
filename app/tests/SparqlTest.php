@@ -29,7 +29,8 @@ class SparqlTest extends TestCase{
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("sparql/$name");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $response = $controller->handle("sparql/$name");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -44,7 +45,9 @@ class SparqlTest extends TestCase{
             $name = 'sparql/'. $name .'.json';
             $this->updateRequest('GET');
 
-            $response = DatasetController::handle($name);
+            $controller = \App::make('tdt\core\datasets\DatasetController');
+
+            $response = $controller->handle($name);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
@@ -56,7 +59,9 @@ class SparqlTest extends TestCase{
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("sparql/$name");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("sparql/$name");
             $this->assertEquals(200, $response->getStatusCode());
         }
 

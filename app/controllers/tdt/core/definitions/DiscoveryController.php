@@ -6,47 +6,37 @@ use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
 
+use tdt\core\ApiController;
+
 /**
  * DiscoveryController
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DiscoveryController extends \Controller {
+class DiscoveryController extends ApiController {
 
-    public static function handle($uri){
+    public function get($uri){
 
         // Set permission
         Auth::requirePermissions('discovery.view');
 
-        // Propagate the request based on the HTTPMethod of the request
-        $method = \Request::getMethod();
+        $discovery_document = self::createDiscoveryDocument();
 
-        switch($method){
-
-            case "GET":
-                $discovery_document = self::createDiscoveryDocument();
-
-                // If the input package is installed, add it to the discovery document
-                if(class_exists('tdt\input\controllers\DiscoveryController')){
-                    $discovery_class = 'tdt\input\controllers\DiscoveryController';
-                    $discovery_document->resources->input = $discovery_class::createDiscoveryDocument();
-                }
-
-                return self::makeResponse(str_replace("\/", "/", json_encode($discovery_document)));
-
-                break;
-            default:
-                // Method not supported
-                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
-                break;
+        // If the input package is installed, add it to the discovery document
+        if(class_exists('tdt\input\controllers\DiscoveryController')){
+            $discovery_class = 'tdt\input\controllers\DiscoveryController';
+            $discovery_document->resources->input = $discovery_class::createDiscoveryDocument();
         }
+
+        return self::makeResponse(str_replace("\/", "/", json_encode($discovery_document)));
     }
 
     /**
      * Create the discovery document
      */
-    private static function createDiscoveryDocument(){
+    private function createDiscoveryDocument(){
 
         // Create and return a dument that holds a self-explanatory document
         // about how to interface with the datatank
@@ -71,7 +61,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the definitions resource for the discovery document
      */
-    private static function createDefinitions(){
+    private function createDefinitions(){
 
         $definitions = new \stdClass();
 
@@ -92,7 +82,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the get discovery documentation.
      */
-    private static function createDefGetDiscovery(){
+    private function createDefGetDiscovery(){
 
         $get = new \stdClass();
 
@@ -106,7 +96,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the put discovery documentation.
      */
-    private static function createDefPutDiscovery(){
+    private function createDefPutDiscovery(){
 
         $put = new \stdClass();
 
@@ -119,7 +109,7 @@ class DiscoveryController extends \Controller {
         $put->body = new \stdClass();
 
         // Get the base properties that can be added to every definition
-        $base_properties = \Definition::getCreateParameters();
+        $base_properties = $this->definition_repository->getCreateParameters();
 
         // Fetch all the supported definition models by iterating the models directory
         if ($handle = opendir(app_path() . '/models/sourcetypes')) {
@@ -127,11 +117,12 @@ class DiscoveryController extends \Controller {
 
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
 
-                    $model = ucfirst(strtolower($matches[1])) . "Definition";
+                    $source_repository = 'repositories\interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
+                    $source_repository = \App::make($source_repository);
 
                     $definition_type = strtolower($matches[1]);
 
-                    if(method_exists($model, 'getAllParameters')){
+                    if(method_exists($source_repository, 'getAllParameters')){
 
                         $put->body->$definition_type = new \stdClass();
                         $put->body->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
@@ -147,7 +138,7 @@ class DiscoveryController extends \Controller {
                             )
                         );
 
-                        $all_properties = array_merge($type, $model::getAllParameters(), $base_properties);
+                        $all_properties = array_merge($type, $source_repository->getAllParameters(), $base_properties);
 
                         // Fetch the Definition properties, and the SourceType properties, the latter also contains relation properties e.g. TabularColumn properties
                         $put->body->$definition_type->parameters = $all_properties;
@@ -163,7 +154,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the delete discovery documentation.
      */
-    private static function createDefDeleteDiscovery(){
+    private function createDefDeleteDiscovery(){
 
         $delete = new \stdClass();
 
@@ -177,7 +168,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the patch discovery documentation.
      */
-    private static function createDefPatchDiscovery(){
+    private function createDefPatchDiscovery(){
 
         $patch = new \stdClass();
 
@@ -189,7 +180,7 @@ class DiscoveryController extends \Controller {
         $patch->body = new \stdClass();
 
         // Get the base properties that can be added to every definition
-        $base_properties = \Definition::getCreateParameters();
+        $base_properties = $this->definition_repository->getCreateParameters();
 
         // Fetch all the supported definition models by iterating the models directory
         if ($handle = opendir(app_path() . '/models/sourcetypes')) {
@@ -197,16 +188,17 @@ class DiscoveryController extends \Controller {
 
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
 
-                    $model = ucfirst(strtolower($matches[1])) . "Definition";
+                    $source_repository = 'repositories\interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
+                    $source_repository = \App::make($source_repository);
 
                     $definition_type = strtolower($matches[1]);
 
-                    if(method_exists($model, 'getAllParameters')){
+                    if(method_exists($source_repository, 'getAllParameters')){
 
                         $patch->body->$definition_type = new \stdClass();
                         $patch->body->$definition_type->description = "Patch an existing definition.";
 
-                        $all_properties = array_merge($model::getAllParameters(), $base_properties);
+                        $all_properties = array_merge($source_repository->getAllParameters(), $base_properties);
 
                         foreach($all_properties as $key => $info){
                             unset($all_properties[$key]['required']);
@@ -226,7 +218,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the info discovery documentation
      */
-    private static function createInfo(){
+    private function createInfo(){
 
         // Info only supports the get method
         $info = new \stdClass();
@@ -245,7 +237,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the dcat discovery documentation
      */
-    private static function createDcat(){
+    private function createDcat(){
 
         // Dcat only supports the get method
         $dcat = new \stdClass();
@@ -264,7 +256,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the languages discovery documentation
      */
-    private static function createLanguages(){
+    private function createLanguages(){
 
         // Languages only supports the get method
         $languages = new \stdClass();
@@ -283,7 +275,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the licenses discovery documentation
      */
-    private static function createLicenses(){
+    private function createLicenses(){
 
         // Licenses only supports the get method
         $licenses = new \stdClass();
@@ -302,7 +294,7 @@ class DiscoveryController extends \Controller {
     /**
      * Create the prefixes discovery documentation
      */
-    private static function createPrefixes(){
+    private function createPrefixes(){
 
         // Prefixes only supports the get method
         $prefixes = new \stdClass();
@@ -321,7 +313,7 @@ class DiscoveryController extends \Controller {
     /**
      * Return the response with the given data ( formatted in json )
      */
-    private static function makeResponse($data){
+    private function makeResponse($data){
 
          // Create response
         $response = \Response::make($data, 200);

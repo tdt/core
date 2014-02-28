@@ -1,6 +1,6 @@
 <?php
 
-namespace tdt\core\definitions;
+namespace tdt\core;
 
 /**
  * ApiController
@@ -11,6 +11,12 @@ namespace tdt\core\definitions;
  */
 
 class ApiController extends \Controller{
+
+    protected $definition_repository;
+
+    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition_repository){
+        $this->definition_repository = $definition_repository;
+    }
 
     public function handle($uri){
 

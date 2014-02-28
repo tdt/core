@@ -34,7 +34,9 @@ class JsonTest extends TestCase{
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("json/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("json/$file");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -49,7 +51,9 @@ class JsonTest extends TestCase{
             $file = 'json/'. $file .'.json';
             $this->updateRequest('GET');
 
-            $response = DatasetController::handle($file);
+            $controller = \App::make('tdt\core\datasets\DatasetController');
+
+            $response = $controller->handle($file);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
@@ -61,7 +65,9 @@ class JsonTest extends TestCase{
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("json/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("json/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
 

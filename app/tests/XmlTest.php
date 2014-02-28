@@ -34,7 +34,8 @@ class XmlTest extends TestCase{
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("xml/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $response = $controller->handle("xml/$file");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -49,7 +50,9 @@ class XmlTest extends TestCase{
             $file = 'xml/'. $file .'.json';
             $this->updateRequest('GET');
 
-            $response = DatasetController::handle($file);
+            $controller = \App::make('tdt\core\datasets\DatasetController');
+
+            $response = $controller->handle($file);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
@@ -61,7 +64,9 @@ class XmlTest extends TestCase{
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("xml/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("xml/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
 

@@ -41,7 +41,9 @@ class CsvTest extends TestCase{
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("csv/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("csv/$file");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -56,7 +58,9 @@ class CsvTest extends TestCase{
             $file = 'csv/'. $file .'.json';
             $this->updateRequest('GET');
 
-            $response = DatasetController::handle($file);
+            $controller = \App::make('tdt\core\datasets\DatasetController');
+
+            $response = $controller->handle($file);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
@@ -68,7 +72,9 @@ class CsvTest extends TestCase{
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("csv/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("csv/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
 

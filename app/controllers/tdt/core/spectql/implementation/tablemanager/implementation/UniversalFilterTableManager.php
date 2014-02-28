@@ -46,8 +46,11 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             \Input::merge(array('limit' => -1));
         }
 
-        $data_result = DatasetController::fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
-        $definition = DefinitionController::get($package . '/' . $resource);
+        $data_controller = \App::make('tdt\core\datasets\DatasetController');
+        $def_controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+
+        $data_result = $data_controller->fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
+        $definition = $def_controller->getByIdentifier($package . '/' . $resource);
 
         $data = $data_result->data;
 
@@ -94,7 +97,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $packageresourcestring = implode("/", $identifierpieces);
 
-        $definition = DefinitionController::get($packageresourcestring);
+        $controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition = $controller->getByIdentifier($packageresourcestring);
 
         // Tell the user the resource could not be found when no definition is fetched
         if(empty($definition)){
@@ -158,7 +162,9 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         try {
 
-            $definition = DefinitionController::get($this->getResourceIdentifier($globalTableIdentifier));
+           $controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+
+            $definition = $controller->getByIdentifier($this->getResourceIdentifier($globalTableIdentifier));
             $source = $definition->source()->first();
 
             $columns_collection = array();

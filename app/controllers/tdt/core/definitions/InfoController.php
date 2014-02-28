@@ -7,6 +7,7 @@ use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
 use tdt\core\Pager;
+use tdt\core\ApiController;
 
 /**
  * InfoController: Controller that handles info requests and returns informational data about the datatank.
@@ -15,9 +16,9 @@ use tdt\core\Pager;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class InfoController extends \Controller {
+class InfoController extends ApiController {
 
-    public static function handle($uri){
+    public function get($uri){
 
         // Set permission
         Auth::requirePermissions('info.view');
@@ -28,30 +29,16 @@ class InfoController extends \Controller {
         // URI is always the first match
         $uri = $matches[1];
 
-        // Get extension (if set)
-        $extension = (!empty($matches[2]))? $matches[2]: null;
-
-        // Propagate the request based on the HTTPMethod of the request
-        $method = \Request::getMethod();
-
-        switch($method){
-            case "GET":
-                return self::getInfo($uri);
-                break;
-            default:
-                // Method not supported
-                return self::headDefinition($uri);
-                break;
-        }
+        return $this->getInfo($uri);
     }
 
     /**
      * Return the headers of a call made to the uri given.
      */
-    private static function headDefinition($uri){
+    public function head($uri){
 
         if(!empty($uri)){
-            if(!DefinitionController::exists($uri)){
+            if(!$this->definition_repository->exists($uri)){
                 \App::abort(404, "No resource has been found with the uri $uri");
             }
         }
@@ -69,17 +56,17 @@ class InfoController extends \Controller {
     /*
      * GET an info document based on the uri provided
      */
-    private static function getInfo($uri){
+    private function getInfo($uri){
 
         if(!empty($uri)){
-            if(DefinitionController::exists($uri)){
-                $info = self::createInfoObject(DefinitionController::get($uri));
-                return self::makeResponse($info);
+            if($this->definition_repository->exists($uri)){
+                $info = $this->createInfoObject($this->definition_repository->get($uri));
+                return $this->makeResponse($info);
             }else{
                 \App::abort(404, "The given uri ($uri) couldn't be resolved to a resource.");
             }
         }else{
-            return self::getDefinitionsInfo();
+            return $this->getDefinitionsInfo();
         }
 
     }
@@ -87,20 +74,20 @@ class InfoController extends \Controller {
     /**
      * Return the information about published datasets
      */
-    private static function getDefinitionsInfo(){
+    private function getDefinitionsInfo(){
 
         // Apply paging to fetch the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definition_count = \Definition::where('draft', '==', 0)->count();
+        $definition_count = $this->definition_repository->countPublished();
 
-        $definitions = \Definition::where('draft', '==', 0)->take($limit)->skip($offset)->get();
+        $definitions = $this->definition_repository->getAllPublished($limit, $offset);
 
         $info = array();
 
         foreach($definitions as $definition){
 
-            $definition_info = self::createInfoObject($definition);
+            $definition_info = $this->createInfoObject($definition);
             $id = $definition->collection_uri . '/' .$definition->resource_name;
 
             unset($definition_info->draft);
@@ -119,7 +106,7 @@ class InfoController extends \Controller {
     /**
      * Create an info object from a definition
      */
-    private static function createInfoObject($definition){
+    private function createInfoObject($definition){
 
         $definition_info = new \stdClass();
 
@@ -136,7 +123,7 @@ class InfoController extends \Controller {
         $definition_info->description = $source_type->description;
 
         // Installed source types contain their own set of parameters (required and optional)
-        if(strtolower($source_type->getType()) == 'installed'){
+        if(strtolower($source_type->type) == 'installed'){
 
             // Include the class
             $class_file = app_path() . '/../installed/' .  $source_type->path;
@@ -156,7 +143,7 @@ class InfoController extends \Controller {
             }
         }else{
 
-            $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->getType() . 'Controller';
+            $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->type . 'Controller';
             $params = $datacontroller::getParameters();
             $definition_info->parameters = $params;
         }
@@ -167,7 +154,7 @@ class InfoController extends \Controller {
     /**
      * Return the response with the given data ( formatted in json )
      */
-    private static function makeResponse($data){
+    private function makeResponse($data){
 
          // Create response
         $response = \Response::make(str_replace('\/','/', json_encode($data)));

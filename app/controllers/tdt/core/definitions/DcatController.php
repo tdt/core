@@ -3,79 +3,45 @@
 namespace tdt\core\definitions;
 
 use Illuminate\Routing\Router;
+
 use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\ContentNegotiator;
 use tdt\core\Pager;
+use tdt\core\ApiController;
 
 /**
  * DcatController
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DcatController extends \Controller {
+class DcatController extends ApiController {
 
-    public static function handle($uri){
+    public function get($uri){
 
-        // Set permission
+        // Ask permission
         Auth::requirePermissions('info.view');
 
-        // Get extension (if set)
-        $extension = (!empty($matches[2]))? $matches[2]: null;
-
-        // Propagate the request based on the HTTPMethod of the request
-        $method = \Request::getMethod();
-
-        switch($method){
-            case "GET":
-
-                $dcat = self::createDcat();
-
-                // Default format is ttl for dcat
-                if(empty($extension)){
-                    $extension = 'ttl';
-                }
-
-                $dcat = self::createDcat();
-
-                // Allow content nego. for dcat
-                return ContentNegotiator::getResponse($dcat, $extension);
-            default:
-                // Method not supported
-                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
-                break;
+        // Default format is ttl for dcat
+        if(empty($extension)){
+            $extension = 'ttl';
         }
+
+        $dcat = $this->createDcat();
+
+        // Allow content nego. for dcat
+        return ContentNegotiator::getResponse($dcat, $extension);
     }
 
     /**
-     * Return the headers of a call made to the uri given.
-     */
-    private static function headDefinition($uri){
-
-        if(!empty($uri)){
-            if(!DefinitionController::exists($uri)){
-                \App::abort(404, "No resource has been found with the uri $uri");
-            }
-        }
-
-        $response =  \Response::make(null, 200);
-
-        // Set headers
-        $response->header('Content-Type', 'application/json;charset=UTF-8');
-        $response->header('Pragma', 'public');
-
-        // Return formatted response
-        return $response;
-    }
-
-    /**
-     * Create the DCAT document of the published resources
+     * Create the DCAT document of the published (non-draft) resources
      *
      * @param $pieces array of uri pieces
      * @return mixed \Data object with a graph of DCAT information
      */
-    private static function createDcat(){
+    private function createDcat(){
 
         // List all namespaces that can be used in a DCAT document
         $ns = array(
@@ -103,9 +69,9 @@ class DcatController extends \Controller {
         // Apply paging when fetching the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definition_count = \Definition::all()->count();
+        $definition_count = $this->definition_repository->countPublished();
 
-        $definitions = \Definition::take($limit)->skip($offset)->get();
+        $definitions = $this->definition_repository->getAllPublished($limit, $offset);
 
         if(count($definitions) > 0){
 
@@ -144,16 +110,20 @@ class DcatController extends \Controller {
                 foreach($optional as $dc_term){
                     if(!empty($definition->$dc_term)){
 
-                        // TODO decide dynamically based on the declaration of DCAT properties
                         if($dc_term == 'rights'){
-                            $license = @\License::where('title', '=', $definition->$dc_term)->first()->toArray();
+
+                            $license_repository = \App::make('repositories\interfaces\LicenseRepositoryInterface');
+
+                            $license = $license_repository->getByTitle($definition->$dc_term);
 
                             if(!empty($license) && !empty($license['url'])){
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
                             }
                         }elseif($dc_term == 'language'){
 
-                            $lang = @\Language::where('name', '=', $definition->$dc_term)->first()->toArray();
+                            $lang_repository = \App::make('repositories\interfaces\LanguageRepositoryInterface');
+
+                            $lang = $lang_repository->getById($definition->$dc_term);
 
                             if(!empty($lang)){
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);

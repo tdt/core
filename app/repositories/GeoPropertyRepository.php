@@ -69,7 +69,7 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
      */
     public function getCreateParameters(){
 
-        $geo_type_string = implode(',', self::$GEOTYPES);
+        $geo_type_string = implode(',', self::$geotypes);
 
         return array(
             'property' => array(

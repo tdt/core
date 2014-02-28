@@ -14,6 +14,5 @@ interface DefinitionRepositoryInterface{
     public function getOldest();
     public function count();
     public function countPublished();
-    public function getAllInfo($limit, $offset);
 
 }

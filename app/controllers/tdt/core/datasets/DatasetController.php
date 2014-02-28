@@ -8,6 +8,9 @@ use tdt\core\ContentNegotiator;
 use tdt\core\definitions\DefinitionController;
 use tdt\core\datacontrollers\ADataController;
 use tdt\core\Pager;
+use tdt\core\ApiController;
+
+use repositories\DefinitionRepository;
 
 /**
  * DatasetController
@@ -17,9 +20,9 @@ use tdt\core\Pager;
  * @author Michiel Vancoillie <michiel@okfn.be>
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DatasetController extends \Controller {
+class DatasetController extends ApiController {
 
-    public static function handle($uri){
+    public function get($uri){
 
         // Set permission
         Auth::requirePermissions('dataset.view');
@@ -32,28 +35,6 @@ class DatasetController extends \Controller {
 
         // Get extension (if set)
         $extension = (!empty($matches[2]))? $matches[2]: null;
-
-        // Don't allow non-Get requests
-        $method = \Request::getMethod();
-
-        if($method == 'HEAD'){
-
-            if(!empty($uri)){
-                if(!DefinitionController::exists($uri)){
-                    \App::abort(404, "No resource has been found with the uri $uri");
-                }
-            }
-
-            $response =  \Response::make(null, 200);
-            $response->header('Pragma', 'public');
-
-            // Return formatted response
-            return $response;
-
-        }else if($method != 'GET'){
-            // Method not supported
-            \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
-        }
 
         // Check for caching
         // Based on: URI / Rest parameters / Query parameters / Paging headers
@@ -70,7 +51,7 @@ class DatasetController extends \Controller {
         }else{
 
             // Get definition
-            $definition = DefinitionController::get($uri);
+            $definition = $this->definition_repository->getByIdentifier($uri);
 
             if($definition){
 
@@ -79,8 +60,10 @@ class DatasetController extends \Controller {
 
                 if($source_definition){
 
+                    $source_type = $source_definition->type;
+
                     // Create the right datacontroller
-                    $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
+                    $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_type . 'Controller';
                     $data_controller = new $controller_class();
 
                     // Get REST parameters
@@ -98,7 +81,7 @@ class DatasetController extends \Controller {
                     $data->rest_parameters = $rest_parameters;
 
                     // REST filtering
-                    if($source_definition->getType() != 'INSTALLED' && count($data->rest_parameters) > 0){
+                    if($source_type != 'INSTALLED' && count($data->rest_parameters) > 0){
                         $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
                     }
 
@@ -120,7 +103,7 @@ class DatasetController extends \Controller {
             }else{
 
                 // Coulnd't find a definition, but it might be a collection
-                $resources = \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get();
+                $resources = $this->definition_repository->getByCollection($uri);
 
                 if(count($resources) > 0){
 
@@ -198,7 +181,8 @@ class DatasetController extends \Controller {
     public static function fetchData($uri){
 
         // Retrieve the definition
-        $definition = DefinitionController::get($uri);
+        $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition = $definition_repository->getByIdentifier($uri);
 
         if($definition){
 
@@ -208,7 +192,7 @@ class DatasetController extends \Controller {
             if($source_definition){
 
                 // Create the correct datacontroller
-                $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->getType() . 'Controller';
+                $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->type . 'Controller';
                 $data_controller = new $controller_class();
 
                 // Get REST parameters
@@ -225,7 +209,7 @@ class DatasetController extends \Controller {
                 $data->rest_parameters = $rest_parameters;
 
                 // REST filtering
-                if($source_definition->getType() != 'INSTALLED' && count($data->rest_parameters) > 0){
+                if($source_definition->type != 'INSTALLED' && count($data->rest_parameters) > 0){
                     $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
                 }
 
@@ -237,8 +221,6 @@ class DatasetController extends \Controller {
             \App::abort(404, "The definition could not be found.");
         }
     }
-
-
 
     /**
      * Case insensitive search for a property of an object

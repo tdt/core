@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <form class="form-horizontal edit-dataset" role="form" data-mediatype='{{ strtolower($source_definition->getType()) }}'
+    <form class="form-horizontal edit-dataset" role="form" data-mediatype='{{ strtolower($source_definition->type) }}'
         data-identifier='{{ $definition->collection_uri . '/' . $definition->resource_name }}'>
         <div class='row header'>
             <div class="col-sm-7">
@@ -47,7 +47,7 @@
                     </label>
                     <div class="col-sm-10">
                         <label class="control-label">
-                            {{ $source_definition->getType() }}
+                            {{ $source_definition->type }}
                         </label>
                     </div>
                 </div>

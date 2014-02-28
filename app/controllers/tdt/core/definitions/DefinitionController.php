@@ -8,6 +8,7 @@ use tdt\core\datasets\Data;
 use tdt\core\Pager;
 use tdt\core\ContentNegotiator;
 use repositories\DefinitionRepositoryInterface;
+use tdt\core\ApiController;
 
 /**
  * DefinitionController
@@ -132,33 +133,25 @@ class DefinitionController extends ApiController {
             // Apply paging to fetch the definitions
             list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-            $definition_count = \Definition::all()->count();
+            $definition_count = $this->definition_repository->count();
 
-            $definitions = \Definition::take($limit)->skip($offset)->get();
-
-            $def_props = array();
-
-            foreach($definitions as $definition){
-                $def_props[$definition->collection_uri . '/' . $definition->resource_name] = $definition->getAllParameters();
-            }
+            $definitions = $this->definition_repository->getAllFullDescriptions($uri, $limit, $offset);
 
             $result = new Data();
-            $result->data = $def_props;
+            $result->data = $definitions;
             $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
 
             return ContentNegotiator::getResponse($result, 'json');
         }
 
-        if(!self::exists($uri)){
+        if(!$this->definition_repository->exists($uri)){
             \App::abort(404, "No resource has been found with the uri $uri");
         }
 
         // Get Definition object based on the given uri
-        $definition = self::get($uri);
+        $definition = $this->definition_repository->getFullDescription($uri);
 
-        $def_properties = $definition->getAllParameters();
-
-        return self::makeResponse(str_replace("\/", "/", json_encode($def_properties)));
+        return self::makeResponse(str_replace("\/", "/", json_encode($definition)));
     }
 
     /**

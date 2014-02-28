@@ -23,43 +23,27 @@ use tdt\core\spectql\implementation\tablemanager\implementation\UniversalFilterT
 use tdt\core\spectql\implementation\interpreter\debugging\TreePrinter;
 use tdt\core\ContentNegotiator;
 use tdt\core\datasets\Data;
+use tdt\core\ApiController;
 
-class SPECTQLController extends \Controller {
+class SPECTQLController extends ApiController {
 
     public static $TMP_DIR = "";
-
-    // TODO make sure we don't need a tmp dir to store any spectql related stuff anymore
-    public function __construct() {
-        parent::__construct();
-        SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
-    }
 
     /**
      * Apply the given SPECTQL query to the data and return the result.
      */
-    public static function handle($uri) {
+    public function get($uri) {
 
-        // Propagate the request based on the HTTPMethod of the request
-        $method = \Request::getMethod();
-
-        switch($method){
-
-            case "GET":
-
-                $uri = ltrim($uri, '/');
-                return self::performQuery($uri);
-                break;
-            default:
-                // Method not supported
-                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
-                break;
-        }
+        $uri = ltrim($uri, '/');
+        return $this->performQuery($uri);
     }
 
     /**
      * Perform the SPECTQL query.
      */
-    private static function performQuery($uri){
+    private function performQuery($uri){
+
+        SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
 
         // Fetch the original uri, which is a hassle since our spectql format allows for a ? - character
         // identify the start of a filter, the Request class sees this is the start of query string parameters
@@ -118,7 +102,7 @@ class SPECTQLController extends \Controller {
 
         // Perform a clean-up, every property that is empty can be thrown away
         foreach($object as $index => $property){
-            if(self::isArrayNull($property)){
+            if($this->isArrayNull($property)){
                 unset($object[$index]);
             }
         }
@@ -134,7 +118,9 @@ class SPECTQLController extends \Controller {
         }
 
         $definition_uri = $matches[1];
-        $definition = DefinitionController::get($definition_uri);
+
+        $controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition = $controller->getByIdentifier($definition_uri);
 
         if(!empty($definition)){
             $source_definition = $definition->source()->first();
@@ -171,7 +157,7 @@ class SPECTQLController extends \Controller {
      *
      *
      */
-    private static function isArrayNull($array){
+    private function isArrayNull($array){
 
         foreach($array as $entry){
             if(!empty($entry)){

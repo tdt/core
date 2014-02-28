@@ -14,8 +14,4 @@ class Ontology extends Eloquent{
                             'prefix',
                             'uri',
                         );
-
-    public static function getColumns(){
-        return array('prefix', 'uri');
-    }
 }

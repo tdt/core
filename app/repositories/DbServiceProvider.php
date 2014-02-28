@@ -53,5 +53,25 @@ class DbServiceProvider extends ServiceProvider{
             'repositories\interfaces\SparqlDefinitionRepositoryInterface',
             'repositories\SparqlDefinitionRepository'
             );
+
+        \App::bind(
+            'repositories\interfaces\InstalledDefinitionRepositoryInterface',
+            'repositories\InstalledDefinitionRepository'
+            );
+
+        \App::bind(
+            'repositories\interfaces\LanguageRepositoryInterface',
+            'repositories\LanguageRepository'
+            );
+
+        \App::bind(
+            'repositories\interfaces\LicenseRepositoryInterface',
+            'repositories\LicenseRepository'
+            );
+
+        \App::bind(
+            'repositories\interfaces\OntologyRepositoryInterface',
+            'repositories\OntologyRepository'
+            );
     }
 }

@@ -159,9 +159,9 @@ class SPARQLController extends ADataController {
 
             // Fetch the available namespaces and pass
             // them as a configuration of the semantic data result
-            $columns = \Ontology::getColumns();
+            $ontology_repository = \App::make('repositories\interfaces\OntologyRepositoryInterface');
 
-            $ontologies = \Ontology::all($columns)->toArray();
+            $ontologies = $ontology_repository->getAll();
 
             $prefixes = array();
 

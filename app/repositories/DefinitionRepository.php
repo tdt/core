@@ -22,6 +22,9 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
      */
     public function store($input){
 
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
+
         // Validate the source type input
         $this->validateType($input);
 
@@ -54,8 +57,10 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return $definition->toArray();
     }
 
-
     public function update($identifier, $input){
+
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
 
         $definition = $this->getByIdentifier($identifier);
 
@@ -98,19 +103,22 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     }
 
 
-    public function getAll($limit, $offset){
+    public function getAll($limit = PHP_INT_MAX, $offset = 0){
+        return \Definition::take($limit)->skip($offset)->get();
+    }
 
+    public function getAllPublished($limit = PHP_INT_MAX, $offset = 0){
+        return \Definition::where('draft', '=', 0)->take($limit)->skip($offset)->get();
     }
 
 
     public function getByIdentifier($identifier){
-
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
     }
 
 
     public function getByCollection($collection){
-
+        return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get();
     }
 
 
@@ -118,21 +126,15 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
     }
 
-
     public function count(){
-
+        return \Definition::all()->count();
     }
 
     /**
      * Return the count of all non-draft definitions
      */
     public function countPublished(){
-
-    }
-
-
-    public function getAllInfo($limit, $offset){
-
+        return \Definition::where('draft', '=', 0)->count();
     }
 
     /**
@@ -151,6 +153,10 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
             $message = $validator->messages()->first();
             \App::abort(400, "Something went wrong during validation, the message we got is: " . $message);
         }
+    }
+
+    private function getVisible(){
+        return array('source_id', 'source_type', 'title','description','date','type','format','source','language','rights', 'cache_minutes', 'draft');
     }
 
     /**
@@ -213,15 +219,88 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         );
     }
 
+    public function getAllFullDescriptions($uri, $limit, $offset){
+
+        $definitions = array();
+
+        foreach($this->getAll($limit, $offset) as $definition){
+
+            $identifier = $definition->collection_uri . '/' . $definition->resource_name;
+            $definitions[$identifier] = $this->getFullDescription($identifier);
+        }
+
+        return $definitions;
+    }
+
+    public function getFullDescription($uri){
+
+        $definition = $this->getByIdentifier($uri);
+
+        $properties = array();
+        $source_definition = $definition->source()->first();
+
+        foreach($this->getVisible() as $key){
+            $properties[$key] = $definition->$key;
+        }
+
+        // Add all the properties that are mass assignable
+        foreach($source_definition->getFillable() as $key){
+            $properties[$key] = $source_definition->$key;
+        }
+
+        // If the source type has a relationship with tabular columns, then attach those to the properties
+        if(method_exists(get_class($source_definition), 'tabularColumns')){
+
+            $columns = $source_definition->tabularColumns();
+            $columns = $columns->getResults();
+
+            $columns_props = array();
+            foreach($columns as $column){
+                array_push($columns_props, array(
+                    'column_name' => $column->column_name,
+                    'is_pk' => $column->is_pk,
+                    'column_name_alias' => $column->column_name_alias,
+                    'index' => $column->index,
+                ));
+            }
+
+            $properties['columns'] = $columns_props;
+        }
+
+        // If the source type has a relationship with geoproperties, attach those to the properties
+        if(method_exists(get_class($source_definition), 'geoProperties')){
+
+            $geo_props = $source_definition->geoProperties();
+            $geo_props = $geo_props->getResults();
+
+            $geo_props_arr = array();
+            foreach($geo_props as $geo_prop){
+
+                $geo_entry = new \stdClass();
+
+                $geo_entry->path = $geo_prop->path;
+                $geo_entry->property = $geo_prop->property;
+
+                array_push($geo_props_arr, $geo_entry);
+            }
+
+            $properties['geo'] = $geo_props_arr;
+        }
+
+        $properties['type'] = strtolower($source_definition->type);
+
+        return $properties;
+    }
+
     /**
      * Return all properties from a definition, including the properties of his relational objects
      */
-    public function getAllParameters(){
+    /*public function getAllParameters(){
 
         $properties = array();
-        $source_definition = $this->source()->first();
+        $source_definition = $definition->source()->first();
 
-        foreach($this->getFillable() as $key){
+        foreach($definition->getFillable() as $key){
             $properties[$key] = $this->getAttributeValue($key);
         }
 
@@ -268,9 +347,9 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
             $properties['geo'] = $geo_props_arr;
         }
 
-        $properties['type'] = strtolower($source_definition->getType());
+        $properties['type'] = strtolower($source_definition->type);
 
         return $properties;
-    }
+    }*/
 
 }

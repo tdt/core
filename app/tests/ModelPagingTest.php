@@ -4,7 +4,6 @@
 use tdt\core\definitions\DefinitionController;
 use tdt\core\definitions\InfoController;
 use tdt\core\definitions\DcatController;
-use tdt\core\datasets\DatasetController;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -42,8 +41,10 @@ class ModelPagingTest extends TestCase{
 
             $this->updateRequest('PUT', $headers, $data);
 
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("csv/$file");
+            $response = $controller->handle("csv/$file");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -63,11 +64,15 @@ class ModelPagingTest extends TestCase{
         Input::merge(array('limit' => 2));
 
         // Test the internal model through info
-        $this->processPaging(InfoController::handle(''));
+        $controller = $controller = \App::make('tdt\core\definitions\InfoController');
+        $this->processPaging($controller->handle(''));
 
         // Test the internal model through definitions
         $this->updateRequest('GET');
-        $this->processPaging(DefinitionController::handle(''));
+
+        $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+        $this->processPaging($controller->handle(''));
 
         // Test the internal model through dcat
         $this->processDcat();
@@ -80,7 +85,9 @@ class ModelPagingTest extends TestCase{
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("csv/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("csv/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
 
@@ -136,7 +143,9 @@ class ModelPagingTest extends TestCase{
 
     private function processDcat(){
 
-        $response = DcatController::handle('');
+        $controller = \App::make('tdt\core\definitions\DcatController');
+
+        $response = $controller->handle('');
 
         // Get the semantic (turtle) content
         $turtle = $response->getOriginalContent();

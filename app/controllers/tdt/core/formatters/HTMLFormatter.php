@@ -25,6 +25,7 @@ class HTMLFormatter implements IFormatter{
 
         // Query parameters
         $query_string = '';
+
         if(!empty($_GET)){
             $query_string = '?' . http_build_query(\Input::all());
         }
@@ -69,8 +70,10 @@ class HTMLFormatter implements IFormatter{
 
             if(!empty($dataObj->source_definition)){
 
+                $type = $dataObj->source_definition->type;
+
                 // Check if other views need to be served
-                switch($dataObj->source_definition->getType()){
+                switch($type){
                     case 'XLS':
                     case 'CSV':
                         $view = 'dataset.tabular';
@@ -91,6 +94,7 @@ class HTMLFormatter implements IFormatter{
 
                             // Check if a configuration is given
                             $conf = array();
+
                             if(!empty($dataObj->semantic->conf)){
                                 $conf = $dataObj->semantic->conf;
                             }

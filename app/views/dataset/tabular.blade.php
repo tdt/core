@@ -44,7 +44,7 @@
             <li class="list-group-item">
                 <h5 class="list-group-item-heading">Source Type</h5>
                 <p class="list-group-item-text">
-                    {{ strtoupper($source_definition->getType()) }}
+                    {{ strtoupper($source_definition->type) }}
                 </p>
             </li>
         </ul>

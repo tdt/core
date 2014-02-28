@@ -6,7 +6,7 @@ use repositories\interfaces\XlsDefinitionRepositoryInterface;
 
 use tdt\core\datacontrollers\XLSController;
 
-class XlsDefinitionRepository extends BaseRepository implements XlsDefinitionRepositoryInterface{
+class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefinitionRepositoryInterface{
 
     protected $rules = array(
         'has_header_row' => 'integer|min:0|max:1',
@@ -16,10 +16,16 @@ class XlsDefinitionRepository extends BaseRepository implements XlsDefinitionRep
     );
 
     public function __construct(\XlsDefinition $model){
+
+        parent::__construct();
+
         $this->model = $model;
     }
 
     public function store($input){
+
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
 
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
         $extracted_columns = XLSController::parseColumns($input);
@@ -39,7 +45,7 @@ class XlsDefinitionRepository extends BaseRepository implements XlsDefinitionRep
         }
 
         // Validation has been done, lets create the models
-        $input = array_only($input, array_keys(\XlsDefinition::getCreateParameters()));
+        $input = array_only($input, array_keys($this->getCreateParameters()));
         $xls_definition = \XlsDefinition::create($input);
 
         // Store the columns and geo meta-data
@@ -52,6 +58,9 @@ class XlsDefinitionRepository extends BaseRepository implements XlsDefinitionRep
     }
 
     public function update($id, $input){
+
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
 
         $xls_definition = $this->getById($id);
 
@@ -66,7 +75,7 @@ class XlsDefinitionRepository extends BaseRepository implements XlsDefinitionRep
         $geo = $geo_repository->validate(@$input['geo']);
 
         // Validation has been done, lets create the models
-        $input = array_only($input, array_keys(\XlsDefinition::getCreateParameters()));
+        $input = array_only($input, array_keys($this->getCreateParameters()));
         $xls_definition->update($input);
 
         // All has been validated, let's replace the current meta-data
@@ -139,11 +148,11 @@ class XlsDefinitionRepository extends BaseRepository implements XlsDefinitionRep
          $column_params = array(
             'columns' =>
                 array('description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
-                  'parameters' => TabularColumns::getCreateParameters(),
+                  'parameters' => $this->tabular_repository->getCreateParameters(),
             ),
         );
 
-        return array_merge(self::getCreateParameters(), $column_params);
+        return array_merge($this->getCreateParameters(), $column_params);
     }
 
 
