@@ -67,9 +67,9 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         return $extracted_columns;
     }
 
-    public function getColumnAliases($id){
+    public function getColumnAliases($type, $id){
 
-        $tabular_columns = \TabularColumns::all()->where('tabular_id', '=', $id)->toArray();
+        $tabular_columns = \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
 
         $columns = array();
 
@@ -78,6 +78,11 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         }
 
         return $columns;
+    }
+
+    public function getColumns($type, $id){
+
+        return \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
     }
 
     public function storeBulk($id, $type, $columns){

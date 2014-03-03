@@ -119,14 +119,14 @@ class SPECTQLController extends ApiController {
 
         $definition_uri = $matches[1];
 
-        $controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
-        $definition = $controller->getByIdentifier($definition_uri);
+        $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition = $definition_repository->getByIdentifier($definition_uri);
 
         if(!empty($definition)){
-            $source_definition = $definition->source()->first();
+            $source_definition = $definition_repository->getDefinitionSource($definition['source_type'], $definition['source_id']);
         }
 
-        $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
+        $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);
         $rest_parameters = ltrim($rest_parameters, '/');
         $rest_parameters = explode('/', $rest_parameters);
 

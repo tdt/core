@@ -34,24 +34,22 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
 
         $columns = $this->tabular_repository->validate($extracted_columns, @$input['columns']);
 
-        // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $this->geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
-
         if(empty($geo)){
             $geo = array();
         }else{
-            $geo = $$this->geo_repository->validate(@$input['geo']);
+            $geo = $this->geo_repository->validate(@$input['geo']);
         }
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
+
         $csv_definition = \CsvDefinition::create($input);
 
         // Store the columns and geo meta-data
         $this->tabular_repository->storeBulk($csv_definition->id, 'CsvDefinition', $columns);
 
         if(!empty($geo))
-            $$this->geo_repository->storeBulk($csv_definition->id, 'CsvDefinition', $geo);
+            $this->geo_repository->storeBulk($csv_definition->id, 'CsvDefinition', $geo);
 
         return $csv_definition->toArray();
     }
@@ -69,7 +67,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         $columns = $this->tabular_repository->validate($extracted_columns, @$input['columns']);
 
         // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $geo = $$this->geo_repository->validate(@$input['geo']);
+        $geo = $this->geo_repository->validate(@$input['geo']);
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));

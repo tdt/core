@@ -75,19 +75,19 @@ class DcatController extends ApiController {
 
         if(count($definitions) > 0){
 
-            $last_mod_def = $definitions->first();
+            $last_mod_def = $this->definition_repository->getOldest();
 
             // Add the last modified timestamp in ISO8601
-            $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def->updated_at)));
+            $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def['updated_at'])));
             $graph->addLiteral($uri . '/info/dcat', 'foaf:homepage', $uri);
 
             foreach($definitions as $definition){
 
                 // Create the dataset uri
-                $dataset_uri = $uri . "/" . $definition->collection_uri . "/" . $definition->resource_name;
+                $dataset_uri = $uri . "/" . $definition['collection_uri'] . "/" . $definition['resource_name'];
                 $dataset_uri = str_replace(' ', '%20', $dataset_uri);
 
-                $source_type = $definition->source()->first();
+                $source_type = $definition['type'];
 
                 // Add the dataset link to the catalog
                 $graph->addResource($uri . '/info/dcat', 'dcat:dataset', $dataset_uri);
@@ -95,26 +95,26 @@ class DcatController extends ApiController {
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
                 $graph->addLiteral($dataset_uri, 'dct:description', @$source_type->description);
-                $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition->collection_uri . '/' . $definition->resource_name));
-                $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition->created_at)));
-                $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition->updated_at)));
+                $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition['collection_uri'] . '/' . $definition['resource_name']));
+                $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
+                $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
 
                 // Add the source resource if it's a URI
-                if (strpos($definition->source, 'http://') !== false || strpos($definition->source, 'https://')){
-                    $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition->source));
+                if (strpos($definition['source'], 'http://') !== false || strpos($definition['source'], 'https://')){
+                    $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition['source']));
                 }
 
                 // Optional dct terms
                 $optional = array('title', 'date', 'language', 'rights');
 
                 foreach($optional as $dc_term){
-                    if(!empty($definition->$dc_term)){
+                    if(!empty($definition[$dc_term])){
 
                         if($dc_term == 'rights'){
 
                             $license_repository = \App::make('repositories\interfaces\LicenseRepositoryInterface');
 
-                            $license = $license_repository->getByTitle($definition->$dc_term);
+                            $license = $license_repository->getByTitle($definition[$dc_term]);
 
                             if(!empty($license) && !empty($license['url'])){
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
@@ -123,13 +123,13 @@ class DcatController extends ApiController {
 
                             $lang_repository = \App::make('repositories\interfaces\LanguageRepositoryInterface');
 
-                            $lang = $lang_repository->getById($definition->$dc_term);
+                            $lang = $lang_repository->getById($definition[$dc_term]);
 
                             if(!empty($lang)){
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
                             }
                         }else{
-                            $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition->$dc_term);
+                            $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
                         }
                     }
                 }

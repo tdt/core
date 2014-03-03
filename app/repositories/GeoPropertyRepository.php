@@ -22,6 +22,11 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         return \GeoProperty::create($input);
     }
 
+    public function getGeoProperties($type, $id){
+
+        return \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get()->toArray();
+    }
+
     public function validate($input){
 
         foreach($input as $geo){

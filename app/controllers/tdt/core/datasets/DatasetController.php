@@ -56,18 +56,18 @@ class DatasetController extends ApiController {
             if($definition){
 
                 // Get source definition
-                $source_definition = $definition->source()->first();
+                $source_definition = $this->definition_repository->getDefinitionSource($definition['source_type'], $definition['source_id']);
 
                 if($source_definition){
 
-                    $source_type = $source_definition->type;
+                    $source_type = $source_definition['type'];
 
                     // Create the right datacontroller
                     $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_type . 'Controller';
                     $data_controller = new $controller_class();
 
                     // Get REST parameters
-                    $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
+                    $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);
                     $rest_parameters = ltrim($rest_parameters, '/');
                     $rest_parameters = explode('/', $rest_parameters);
 
@@ -92,7 +92,7 @@ class DatasetController extends ApiController {
                     $data->source_definition = $source_definition;
 
                     // Store in cache
-                    Cache::put($cache_string, $data, $source_definition->getCacheExpiration());
+                    Cache::put($cache_string, $data, $source_definition['cache']);
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
@@ -187,16 +187,16 @@ class DatasetController extends ApiController {
         if($definition){
 
             // Get the source definition
-            $source_definition = $definition->source()->first();
+            $source_definition = $definition_repository->getDefinitionSource($definition['source_type'], $definition['source_id']);
 
             if($source_definition){
 
                 // Create the correct datacontroller
-                $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition->type . 'Controller';
+                $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition['type'] . 'Controller';
                 $data_controller = new $controller_class();
 
                 // Get REST parameters
-                $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $uri);
+                $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);
                 $rest_parameters = ltrim($rest_parameters, '/');
                 $rest_parameters = explode('/', $rest_parameters);
 
@@ -209,7 +209,7 @@ class DatasetController extends ApiController {
                 $data->rest_parameters = $rest_parameters;
 
                 // REST filtering
-                if($source_definition->type != 'INSTALLED' && count($data->rest_parameters) > 0){
+                if($source_definition['type'] != 'INSTALLED' && count($data->rest_parameters) > 0){
                     $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
                 }
 
@@ -228,6 +228,7 @@ class DatasetController extends ApiController {
     private static function propertyExists($object, $property){
 
         $vars = get_object_vars($object);
+
         foreach($vars as $key => $value) {
             if(strtolower($property) == strtolower($key)) {
                 return $key;

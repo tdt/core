@@ -30,18 +30,15 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
         $extracted_columns = XLSController::parseColumns($input);
 
-        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->validate($extracted_columns, @$input['columns']);
+        $columns = $this->tabular_repository->validate($extracted_columns, @$input['columns']);
 
         // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
-
         $geo = @$input['geo'];
 
         if(empty($geo)){
             $geo = array();
         }else{
-            $geo = $geo_repository->validate(@$input['geo']);
+            $geo = $this->geo_repository->validate(@$input['geo']);
         }
 
         // Validation has been done, lets create the models
@@ -49,10 +46,10 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
         $xls_definition = \XlsDefinition::create($input);
 
         // Store the columns and geo meta-data
-        $tabular_repository->storeBulk($xls_definition->id, 'XlsDefinition', $columns);
+        $this->tabular_repository->storeBulk($xls_definition->id, 'XlsDefinition', $columns);
 
         if(!empty($geo))
-            $geo_repository->storeBulk($xls_definition->id, 'XlsDefinition', $geo);
+            $this->geo_repository->storeBulk($xls_definition->id, 'XlsDefinition', $geo);
 
         return $xls_definition->toArray();
     }
@@ -67,26 +64,24 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
         $extracted_columns = XLSController::parseColumns($xls_definition->toArray());
 
-        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->validate($extracted_columns, @$input['columns']);
+        $columns = $this->tabular_repository->validate($extracted_columns, @$input['columns']);
 
         // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
-        $geo = $geo_repository->validate(@$input['geo']);
+        $geo = $this->geo_repository->validate(@$input['geo']);
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
         $xls_definition->update($input);
 
         // All has been validated, let's replace the current meta-data
-        $tabular_repository->deleteBulk($xls_definition->id);
-        $geo_repository->deleteBulk($xls_definition->id);
+        $this->tabular_repository->deleteBulk($xls_definition->id);
+        $this->geo_repository->deleteBulk($xls_definition->id);
 
         // Store the columns and geo meta-data
-        $tabular_repository->storeBulk($xls_definition->id, 'CsvDefinition', $columns);
+        $this->tabular_repository->storeBulk($xls_definition->id, 'CsvDefinition', $columns);
 
         if(!empty($geo))
-            $geo_repository->storeBulk($xls_definition->id, 'CsvDefinition', $geo);
+            $this->geo_repository->storeBulk($xls_definition->id, 'CsvDefinition', $geo);
 
         return $xls_definition->toArray();
     }
@@ -154,6 +149,4 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
 
         return array_merge($this->getCreateParameters(), $column_params);
     }
-
-
 }

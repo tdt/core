@@ -24,27 +24,29 @@ class CSVController extends ADataController {
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Check the given URI
-        if (!empty($source_definition->uri)) {
-            $uri = $source_definition->uri;
+        if (!empty($source_definition['uri'])) {
+            $uri = $source_definition['uri'];
         } else {
             \App::abort(500, "No location of the CSV file has been passed, this is most likely due to a corrupt CSV definition.");
         }
 
         // Get data from definition
-        $has_header_row = $source_definition->has_header_row;
-        $start_row = $source_definition->start_row;
-        $delimiter = $source_definition->delimiter;
-        $PK = $source_definition->pk;
+        $has_header_row = $source_definition['has_header_row'];
+        $start_row = $source_definition['start_row'];
+        $delimiter = $source_definition['delimiter'];
 
         // Get CSV columns
-        $columns = $source_definition->tabularColumns()->getResults();
+        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $columns = $tabular_repository->getColumns('CsvDefinition', $source_definition['id']);
 
         // Get the geo properties
-        $geo_properties = $source_definition->geoProperties()->getResults();
+        $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_properties = $geo_repository->getGeoProperties('CsvDefinition', $source_definition['id']);
+
         $geo = array();
 
         foreach($geo_properties as $geo_prop){
-            $geo[$geo_prop->property] = $geo_prop->path;
+            $geo[$geo_prop['property']] = $geo_prop['path'];
         }
 
         if(!$columns){
@@ -54,15 +56,13 @@ class CSVController extends ADataController {
         }
 
         // Create aliases for the columns
-        $aliases = array();
+        $aliases = $tabular_repository->getColumnAliases('CsvDefinition', $source_definition['id']);
         $pk = null;
 
         foreach($columns as $column){
 
-            $aliases[$column->column_name] = $column->column_name_alias;
-
-            if(!empty($column->is_pk)){
-                $pk = $column->column_name_alias;
+            if(!empty($column['is_pk'])){
+                $pk = $column['column_name_alias'];
             }
         }
 
@@ -138,10 +138,14 @@ class CSVController extends ADataController {
         $result = array();
 
         foreach($columns as $column){
-            if(!empty($data[$column->index]) || is_numeric(@$data[$column->index])){
-                $result[$column->column_name_alias] = utf8_encode(@$data[$column->index]);
+            if(!empty($data[$column['index']]) || is_numeric(@$data[$column['index']])){
+                $result[$column['column_name_alias']] = utf8_encode(@$data[$column['index']]);
             }else{
-                \Log::warning("We expected a value for index $column->index, yet no value was given. Filling in an empty value.");
+
+                $index = $column['index'];
+
+                \Log::warning("We expected a value for index $index, yet no value was given. Filling in an empty value.");
+
                 $result[$column->column_name_alias] = null;
             }
         }

@@ -20,17 +20,19 @@ class XLSController extends ADataController {
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $uri = $source_definition->uri;
-        $sheet = $source_definition->sheet;
-        $has_header_row = $source_definition->has_header_row;
+        $uri = $source_definition['uri'];
+        $sheet = $source_definition['sheet'];
+        $has_header_row = $source_definition['has_header_row']
+        ;
         // Rows start at 1 in XLS, we have however documented that they start at 0 to be consistent with common sense and other
         // tabular sources such as CSV.
-        $start_row = $source_definition->start_row + 1;
+        $start_row = $source_definition['start_row'] + 1;
 
         // Retrieve the columns from XLS
-        $columns = $source_definition->tabularColumns()->getResults();
+        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $columns = $tabular_repository->getColumns('XlsDefinition', $source_definition['id']);
 
-        if(!$columns){
+        if(empty($columns)){
             \App::abort(500, "Cannot find the columns from the XLS definition.");
         }
 
@@ -40,10 +42,8 @@ class XLSController extends ADataController {
 
         foreach($columns as $column){
 
-            $aliases[$column->column_name] = $column->column_name_alias;
-
-            if(!empty($column->is_pk)){
-                $pk = $column->column_name_alias;
+            if(!empty($column['is_pk'])){
+                $pk = $column['column_name_alias'];
             }
         }
 
@@ -185,10 +185,11 @@ class XLSController extends ADataController {
         $result = array();
 
         foreach($columns as $column){
-            if(isset($data[$column->index]) || is_numeric(@$data[$column->index])){
-                $result[$column->column_name_alias] = $data[$column->index];
+            if(isset($data[$column['index']]) || is_numeric(@$data[$column['index']])){
+                $result[$column['column_name_alias']] = $data[$column['index']];
             }else{
-                \App::abort(500, "The index $column->index could not be found in the XLS file. Index count starts at 0.");
+                $index = $column['index'];
+                \App::abort(500, "The index $index could not be found in the XLS file. Index count starts at 0.");
             }
         }
 

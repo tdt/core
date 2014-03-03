@@ -48,13 +48,6 @@ class XlsDefinition extends SourceType{
     }
 
     /**
-     * Get the file extension from the file name.
-     */
-    private function getFileExtension($file){
-        return strtolower(substr(strrchr($file, '.'), 1));
-    }
-
-    /**
      * Because we have related models, and non hard defined foreign key relationships
      * we have to delete our related models ourselves.
      */

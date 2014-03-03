@@ -40,12 +40,12 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         $source = $source_repository->store($input);
 
         // Create the new definition
-        $definition = $this->model->create(array(
-            'resource_name' => $input['resource_name'],
-            'collection_uri' => $input['collection_uri'],
-            'source_id' => $source['id'],
-            'source_type' => ucfirst(strtolower($source['type'])) . 'Definition',
-        ));
+        $definition = $this->model->create(array());
+
+        $definition->source_id = $source['id'];
+        $definition->source_type = ucfirst(strtolower($source['type'])) . 'Definition';
+        $definition->resource_name = $input['resource_name'];
+        $definition->collection_uri = $input['collection_uri'];
 
         // Add the rest of the properties
         foreach(array_only($input, array_keys($this->getCreateParameters())) as $property => $value){
@@ -85,10 +85,10 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
      */
     public function delete($identifier){
 
-        $definition = $this->getByIdentifier($identifier);
+        $definition = $this->getEloquentDefinition($identifier);
 
         if(!empty($definition))
-            $definition->delete();
+            return $definition->delete();
     }
 
     /**
@@ -104,26 +104,37 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
 
     public function getAll($limit = PHP_INT_MAX, $offset = 0){
-        return \Definition::take($limit)->skip($offset)->get();
+        return \Definition::take($limit)->skip($offset)->get()->toArray();
     }
 
     public function getAllPublished($limit = PHP_INT_MAX, $offset = 0){
-        return \Definition::where('draft', '=', 0)->take($limit)->skip($offset)->get();
+        return \Definition::where('draft', '=', 0)->take($limit)->skip($offset)->get()->toArray();
     }
 
 
     public function getByIdentifier($identifier){
-        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+
+        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+
+        if(empty($definition))
+            return array();
+
+        return $definition->toArray();
     }
 
 
     public function getByCollection($collection){
-        return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get();
+        return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get()->toArray();
     }
-
 
     public function getOldest(){
 
+        $definition = \Definition::where( 'created_at', '=', \DB::table('definitions')->max('created_at'))->first();
+
+        if(!empty($definition))
+            return $definition->toArray();
+
+        return $definition;
     }
 
     public function count(){
@@ -135,6 +146,13 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
      */
     public function countPublished(){
         return \Definition::where('draft', '=', 0)->count();
+    }
+
+    public function getDefinitionSource($name, $id){
+
+        $repository = \App::make('repositories\interfaces\\' . $name . 'RepositoryInterface');
+
+        return $repository->getById($id);
     }
 
     /**
@@ -155,8 +173,114 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         }
     }
 
-    private function getVisible(){
-        return array('source_id', 'source_type', 'title','description','date','type','format','source','language','rights', 'cache_minutes', 'draft');
+    public function getAllFullDescriptions($uri, $limit, $offset){
+
+        $definitions = array();
+
+        foreach($this->getAll($limit, $offset) as $definition){
+
+            $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
+            $definitions[$identifier] = $this->getFullDescription($identifier);
+        }
+
+        return $definitions;
+    }
+
+    public function getAllDefinitionInfo($uri, $limit, $offset){
+
+        $definitions = array();
+
+        foreach($this->getAll($limit, $offset) as $definition){
+
+            $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
+            $definitions[$identifier] = $this->getDescriptionInfo($identifier);
+        }
+
+        return $definitions;
+    }
+
+    public function getDescriptionInfo($identifier){
+
+        $definition = $this->getEloquentDefinition($identifier);
+
+        $properties = array();
+        $source_definition = $definition->source()->first();
+
+        foreach($definition->getFillable() as $key){
+            $properties[$key] = $definition->$key;
+        }
+
+        $properties['type'] = strtolower($source_definition->type);
+
+        return $properties;
+    }
+
+    /**
+     * This function solves the issues of retrieving relationships of a relationship (e.g. definition -> csvdefinitions -> tabular)
+     */
+    private function getEloquentDefinition($identifier){
+
+        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+    }
+
+    public function getFullDescription($identifier){
+
+        $definition = $this->getEloquentDefinition($identifier);
+
+        $properties = array();
+        $source_definition = $definition->source()->first();
+
+        foreach($definition->getFillable() as $key){
+            $properties[$key] = $definition->$key;
+        }
+
+        // Add all the properties that are mass assignable
+        foreach($source_definition->getFillable() as $key){
+            $properties[$key] = $source_definition->$key;
+        }
+
+        // If the source type has a relationship with tabular columns, then attach those to the properties
+        if(method_exists(get_class($source_definition), 'tabularColumns')){
+
+            $columns = $source_definition->tabularColumns();
+            $columns = $columns->getResults();
+
+            $columns_props = array();
+            foreach($columns as $column){
+                array_push($columns_props, array(
+                    'column_name' => $column->column_name,
+                    'is_pk' => $column->is_pk,
+                    'column_name_alias' => $column->column_name_alias,
+                    'index' => $column->index,
+                ));
+            }
+
+            $properties['columns'] = $columns_props;
+        }
+
+        // If the source type has a relationship with geoproperties, attach those to the properties
+        if(method_exists(get_class($source_definition), 'geoProperties')){
+
+            $geo_props = $source_definition->geoProperties();
+            $geo_props = $geo_props->getResults();
+
+            $geo_props_arr = array();
+            foreach($geo_props as $geo_prop){
+
+                $geo_entry = new \stdClass();
+
+                $geo_entry->path = $geo_prop->path;
+                $geo_entry->property = $geo_prop->property;
+
+                array_push($geo_props_arr, $geo_entry);
+            }
+
+            $properties['geo'] = $geo_props_arr;
+        }
+
+        $properties['type'] = strtolower($source_definition->type);
+
+        return $properties;
     }
 
     /**
@@ -218,138 +342,4 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
                 ),
         );
     }
-
-    public function getAllFullDescriptions($uri, $limit, $offset){
-
-        $definitions = array();
-
-        foreach($this->getAll($limit, $offset) as $definition){
-
-            $identifier = $definition->collection_uri . '/' . $definition->resource_name;
-            $definitions[$identifier] = $this->getFullDescription($identifier);
-        }
-
-        return $definitions;
-    }
-
-    public function getFullDescription($uri){
-
-        $definition = $this->getByIdentifier($uri);
-
-        $properties = array();
-        $source_definition = $definition->source()->first();
-
-        foreach($this->getVisible() as $key){
-            $properties[$key] = $definition->$key;
-        }
-
-        // Add all the properties that are mass assignable
-        foreach($source_definition->getFillable() as $key){
-            $properties[$key] = $source_definition->$key;
-        }
-
-        // If the source type has a relationship with tabular columns, then attach those to the properties
-        if(method_exists(get_class($source_definition), 'tabularColumns')){
-
-            $columns = $source_definition->tabularColumns();
-            $columns = $columns->getResults();
-
-            $columns_props = array();
-            foreach($columns as $column){
-                array_push($columns_props, array(
-                    'column_name' => $column->column_name,
-                    'is_pk' => $column->is_pk,
-                    'column_name_alias' => $column->column_name_alias,
-                    'index' => $column->index,
-                ));
-            }
-
-            $properties['columns'] = $columns_props;
-        }
-
-        // If the source type has a relationship with geoproperties, attach those to the properties
-        if(method_exists(get_class($source_definition), 'geoProperties')){
-
-            $geo_props = $source_definition->geoProperties();
-            $geo_props = $geo_props->getResults();
-
-            $geo_props_arr = array();
-            foreach($geo_props as $geo_prop){
-
-                $geo_entry = new \stdClass();
-
-                $geo_entry->path = $geo_prop->path;
-                $geo_entry->property = $geo_prop->property;
-
-                array_push($geo_props_arr, $geo_entry);
-            }
-
-            $properties['geo'] = $geo_props_arr;
-        }
-
-        $properties['type'] = strtolower($source_definition->type);
-
-        return $properties;
-    }
-
-    /**
-     * Return all properties from a definition, including the properties of his relational objects
-     */
-    /*public function getAllParameters(){
-
-        $properties = array();
-        $source_definition = $definition->source()->first();
-
-        foreach($definition->getFillable() as $key){
-            $properties[$key] = $this->getAttributeValue($key);
-        }
-
-        // Add all the properties that are mass assignable
-        foreach($source_definition->getFillable() as $key){
-            $properties[$key] = $source_definition->getAttributeValue($key);
-        }
-
-        // If the source type has a relationship with tabular columns, then attach those to the properties
-        if(method_exists(get_class($source_definition), 'tabularColumns')){
-
-            $columns = $source_definition->tabularColumns();
-            $columns = $columns->getResults();
-
-            $columns_props = array();
-            foreach($columns as $column){
-                array_push($columns_props, array(
-                    'column_name' => $column->column_name,
-                    'is_pk' => $column->is_pk,
-                    'column_name_alias' => $column->column_name_alias,
-                    'index' => $column->index,
-                ));
-            }
-
-            $properties['columns'] = $columns_props;
-        }
-
-        // If the source type has a relationship with geoproperties, attach those to the properties
-        if(method_exists(get_class($source_definition), 'geoProperties')){
-
-            $geo_props = $source_definition->geoProperties();
-            $geo_props = $geo_props->getResults();
-
-            $geo_props_arr = array();
-            foreach($geo_props as $geo_prop){
-
-                $geo_entry = new \stdClass();
-
-                $geo_entry->path = $geo_prop->path;
-                $geo_entry->property = $geo_prop->property;
-                array_push($geo_props_arr, $geo_entry);
-            }
-
-            $properties['geo'] = $geo_props_arr;
-        }
-
-        $properties['type'] = strtolower($source_definition->type);
-
-        return $properties;
-    }*/
-
 }

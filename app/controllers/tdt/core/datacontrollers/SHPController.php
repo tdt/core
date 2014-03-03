@@ -26,11 +26,11 @@ class SHPController extends ADataController {
         // Get the limit and offset
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $uri = $source_definition->uri;
+        $uri = $source_definition['uri'];
 
         $columns = array();
 
-        $epsg = $source_definition->epsg;
+        $epsg = $source_definition['epsg'];
 
         // The tmp folder of the system, if none is given
         // abort the process
@@ -41,28 +41,23 @@ class SHPController extends ADataController {
             \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
         }
 
-        // Fetch the tabular columns of the SHP file
-        $columns = $source_definition->tabularColumns()->getResults();
+        // Get the columns
+        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $columns = $tabular_repository->getColumnAliases('ShpDefinition', $source_definition['id']);
 
-        // Fetch the geo properties of the SHP file
-        $geo_props = $source_definition->geo()->getResults();
+        // Get the geo properties
+        $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_properties = $geo_repository->getGeoProperties('ShpDefinition', $source_definition['id']);
+
         $geo = array();
 
-        foreach($geo_props as $geo_prop){
-            $geo[$geo_prop->property] = $geo_prop->path;
+        foreach($geo_properties as $geo_prop){
+            $geo[$geo_prop['property']] = $geo_prop['path'];
         }
 
         if(!$columns){
             \App::abort(500, "Cannot find the columns of the SHP definition.");
         }
-
-        // Create an array that maps alias names to column names
-        $aliases = array();
-        foreach($columns as $column){
-            $aliases[$column->column_name] = $column->column_name_alias;
-        }
-
-        $columns = $aliases;
 
         try {
 
@@ -139,7 +134,7 @@ class SHPController extends ADataController {
 
                                     $pointSrc = new \proj4phpPoint($x,$y);
 
-                                    $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                                    $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
                                     $x = $pointDest->x;
                                     $y = $pointDest->y;
                                 }
@@ -162,7 +157,7 @@ class SHPController extends ADataController {
                         if (!empty($epsg)) {
 
                             $pointSrc = new \proj4phpPoint($x,$y);
-                            $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                            $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
                             $x = $pointDest->x;
                             $y = $pointDest->y;
 
@@ -191,31 +186,6 @@ class SHPController extends ADataController {
             \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
     }
-
-    /**
-     * Update the ShpDefinition model
-     */
-    public function updates(array $attr = array()){
-
-        // When a new property is given for the CsvDefinition model
-        // revalidate the entire definition, including columns.
-        $columns = $this->tabularColumns()->getResults();
-
-        foreach($columns as $column){
-            $column->delete();
-        }
-
-        $parameters = $attr['source'];
-        foreach($parameters as $key => $value){
-            $this->$key = $value;
-        }
-
-        // Pass the columns in the all section of the attributes
-        $params['columns'] = @$attr['all']['columns'];
-
-        $this->save($params);
-    }
-
 
     /**
      * Parse the column names out of a SHP file

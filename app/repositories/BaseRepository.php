@@ -39,7 +39,12 @@ class BaseRepository implements BaseRepositoryInterface{
 
     public function getById($id){
 
-        return $this->model->find($id);
+        $model = $this->model->find($id);
+
+        if(!empty($model))
+            return $model->toArray();
+
+        return $model;
     }
 
     public function delete($id){

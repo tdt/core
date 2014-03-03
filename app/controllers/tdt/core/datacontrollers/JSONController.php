@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * JSON Controller
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
@@ -17,7 +18,7 @@ class JSONController extends ADataController {
 
     public function readData($source_definition, $rest_parameters = array()){
 
-        $uri = $source_definition->uri;
+        $uri = $source_definition['uri'];
 
         // Check for caching
         if(Cache::has($uri)){
@@ -26,9 +27,10 @@ class JSONController extends ADataController {
             // Fetch the data
             $data =@ file_get_contents($uri);
             if($data){
-                Cache::put($uri, $data, $source_definition->getCacheExpiration());
+                Cache::put($uri, $data, $source_definition['cache']);
             }else{
-                \App::abort(500, "Cannot retrieve data from the JSON file located on $source_definition->uri.");
+                $uri = $source_definition['uri'];
+                \App::abort(500, "Cannot retrieve data from the JSON file located on $uri.");
             }
         }
 

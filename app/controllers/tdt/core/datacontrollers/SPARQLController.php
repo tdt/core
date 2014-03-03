@@ -8,6 +8,7 @@ use tdt\core\Pager;
 
 /**
  * SPARQL Controller
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
@@ -22,10 +23,10 @@ class SPARQLController extends ADataController {
         // Retrieve the necessary variables to read from a SPARQL endpoint
         $uri = \Request::url();
 
-        $endpoint = $source_definition->endpoint;
-        $endpoint_user = $source_definition->endpoint_user;
-        $endpoint_password = $source_definition->endpoint_password;
-        $query = $source_definition->query;
+        $endpoint = $source_definition['endpoint'];
+        $endpoint_user = $source_definition['endpoint_user'];
+        $endpoint_password = $source_definition['endpoint_password'];
+        $query = $source_definition['query'];
 
         // Process the parameters in the uri (to catch hashtag values for example)
         $query = $this->processParameters($query);
@@ -34,7 +35,6 @@ class SPARQLController extends ADataController {
         // Note that the where "clause" is obligatory but it's not mandatory it is preceded by a WHERE keyword
         $matches = array();
         $keyword = "";
-
 
         // If a select statement has been passed, we ask for JSON results
         // If a construct statement has been passed, we ask for RDF/XML

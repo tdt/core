@@ -4,7 +4,7 @@
 
     <div class="col-sm-9">
         <table class='table table-hover well'>
-            @if($source_definition->has_header_row)
+            @if($source_definition['has_header_row'])
             <thead>
                 <?php
                     $first_row = array_shift($body);
@@ -38,13 +38,13 @@
             <li class="list-group-item">
                 <h5 class="list-group-item-heading">Description</h5>
                 <p class="list-group-item-text">
-                    {{ $source_definition->description }}
+                    {{ $source_definition['description'] }}
                 </p>
             </li>
             <li class="list-group-item">
                 <h5 class="list-group-item-heading">Source Type</h5>
                 <p class="list-group-item-text">
-                    {{ strtoupper($source_definition->type) }}
+                    {{ strtoupper($source_definition['type']) }}
                 </p>
             </li>
         </ul>

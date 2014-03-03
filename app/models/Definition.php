@@ -9,7 +9,7 @@
  */
 class Definition extends Eloquent{
 
-    protected $fillable = array('resource_name', 'collection_uri', 'source_id', 'source_type', 'title','description','date','type','format','source','language','rights', 'cache_minutes', 'draft');
+    protected $fillable = array('title','description','date','type','format','source','language','rights', 'cache_minutes', 'draft');
 
     /**
      * Return the poly morphic relationship with a source type.

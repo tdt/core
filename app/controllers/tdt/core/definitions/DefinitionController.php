@@ -67,8 +67,7 @@ class DefinitionController extends ApiController {
 
         $this->definition_repository->delete($uri);
 
-        $response = \Response::make(null, 200);
-        return $response;
+        return \Response::make(null, 200);
     }
 
     /**
@@ -128,30 +127,17 @@ class DefinitionController extends ApiController {
      */
     public function get($uri){
 
-        if(empty($uri)){
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-            // Apply paging to fetch the definitions
-            list($limit, $offset) = Pager::calculateLimitAndOffset();
+        $definitions = $this->definition_repository->getAllFullDescriptions($uri, $limit, $offset);
 
-            $definition_count = $this->definition_repository->count();
+        $definition_count = $this->definition_repository->count();
 
-            $definitions = $this->definition_repository->getAllFullDescriptions($uri, $limit, $offset);
+        $result = new Data();
+        $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
+        $result->data = $definitions;
 
-            $result = new Data();
-            $result->data = $definitions;
-            $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
-
-            return ContentNegotiator::getResponse($result, 'json');
-        }
-
-        if(!$this->definition_repository->exists($uri)){
-            \App::abort(404, "No resource has been found with the uri $uri");
-        }
-
-        // Get Definition object based on the given uri
-        $definition = $this->definition_repository->getFullDescription($uri);
-
-        return self::makeResponse(str_replace("\/", "/", json_encode($definition)));
+        return ContentNegotiator::getResponse($result, 'json');
     }
 
     /**

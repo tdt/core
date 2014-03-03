@@ -8,7 +8,7 @@
  */
 class SourceType extends Eloquent{
 
-    protected $appends = array('type');
+    protected $appends = array('type', 'cache');
 
     /**
      * Relationship with the Definition model.
@@ -21,10 +21,11 @@ class SourceType extends Eloquent{
         return str_replace('DEFINITION', '', strtoupper(get_called_class()));
     }
 
-    /**
-     * Get cache expiration time
-     */
-    public function getCacheExpiration(){
-        return (is_null($this->definition->cache_minutes))? 1 : $this->definition->cache_minutes;
+    public function getCacheAttribute(){
+
+        if(!empty($this->definition))
+            return (is_null($this->definition->cache_minutes))? 1 : $this->definition->cache_minutes;
+
+        return 1;
     }
 }

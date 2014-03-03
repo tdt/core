@@ -58,23 +58,23 @@ class InfoController extends ApiController {
      */
     private function getInfo($uri){
 
-        if(!empty($uri)){
-            if($this->definition_repository->exists($uri)){
-                $info = $this->createInfoObject($this->definition_repository->get($uri));
-                return $this->makeResponse($info);
-            }else{
-                \App::abort(404, "The given uri ($uri) couldn't be resolved to a resource.");
-            }
-        }else{
-            return $this->getDefinitionsInfo();
-        }
+        list($limit, $offset) = Pager::calculateLimitAndOffset();
 
+        $definitions_info = $this->definition_repository->getAllDefinitionInfo($uri, $limit, $offset);
+
+        $definition_count = $this->definition_repository->countPublished();
+
+        $result = new Data();
+        $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
+        $result->data = $definitions_info;
+
+        return ContentNegotiator::getResponse($result, 'json');
     }
 
     /**
      * Return the information about published datasets
      */
-    private function getDefinitionsInfo(){
+    private function getDefinitionsInfo($uri){
 
         // Apply paging to fetch the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
