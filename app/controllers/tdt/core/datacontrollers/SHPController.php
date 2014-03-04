@@ -146,6 +146,7 @@ class SHPController extends ADataController {
 
                         // Parts only contains 1 shape, thus 1 geo entry
                         $alias = reset($geo);
+
                         $rowobject->$alias = implode(';', $parts);
                     }
 

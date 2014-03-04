@@ -229,7 +229,7 @@ class KMLFormatter implements IFormatter{
 
                 $description = "";
                 if(!empty($key) && is_numeric($key)){
-                    $description = "<![CDATA[<a href='" . \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition->collection_uri . '/' . $dataObj->definition->resource_name) . '/' .  htmlspecialchars($key) ."</a>]]>";
+                    $description = "<![CDATA[<a href='" . \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key) ."</a>]]>";
                 }
 
                 $body .= "<Placemark><name>".$name."</name><description>".$description."</description>";

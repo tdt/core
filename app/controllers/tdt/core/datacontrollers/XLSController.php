@@ -8,6 +8,7 @@ use PHPExcel_IOFactory as IOFactory;
 
 /**
  * Excell Controller
+ *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
