@@ -21,7 +21,7 @@
         "phpunit/phpunit" : "3.7.*",
         "easyrdf/easyrdf" : "0.8.*",
         "kriswallsmith/buzz": "0.*",
-        "cartalyst/sentry": "2.1.0",
+        "cartalyst/sentry": "2.1.*",
         "ml/json-ld" : "@dev"
     },
     "scripts": {
