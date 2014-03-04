@@ -60,13 +60,14 @@ class BaseRepository implements BaseRepositoryInterface{
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
-        $model = $this->getById($id);
+        $model_object = $this->model->find($id);
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
-        $model->update($input);
-    }
+        $model_object->update($input);
 
+        return $model_object->toArray();
+    }
 
     /**
      * Pre-process the input by assigning default values for empty properties

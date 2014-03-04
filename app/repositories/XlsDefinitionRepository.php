@@ -71,19 +71,21 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
-        $xls_definition->update($input);
+
+        $xls_def_object = $this->model->find($id);
+        $xls_def_object->update($input);
 
         // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($xls_definition->id);
-        $this->geo_repository->deleteBulk($xls_definition->id);
+        $this->tabular_repository->deleteBulk($id);
+        $this->geo_repository->deleteBulk($id);
 
         // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($xls_definition->id, 'CsvDefinition', $columns);
+        $this->tabular_repository->storeBulk($id, 'CsvDefinition', $columns);
 
         if(!empty($geo))
-            $this->geo_repository->storeBulk($xls_definition->id, 'CsvDefinition', $geo);
+            $this->geo_repository->storeBulk($id, 'CsvDefinition', $geo);
 
-        return $xls_definition->toArray();
+        return $xls_def_object->toArray();
     }
 
     /**

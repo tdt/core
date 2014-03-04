@@ -56,7 +56,7 @@ class DatasetController extends ApiController {
             if($definition){
 
                 // Get source definition
-                $source_definition = $this->definition_repository->getDefinitionSource($definition['source_type'], $definition['source_id']);
+                $source_definition = $this->definition_repository->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
                 if($source_definition){
 
@@ -187,7 +187,7 @@ class DatasetController extends ApiController {
         if($definition){
 
             // Get the source definition
-            $source_definition = $definition_repository->getDefinitionSource($definition['source_type'], $definition['source_id']);
+            $source_definition = $definition_repository->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
             if($source_definition){
 

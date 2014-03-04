@@ -105,9 +105,10 @@ class SPARQLController extends ADataController {
         // Calculate page link headers, previous, next and last based on the count from the previous query
         $paging = Pager::calculatePagingHeaders($limit, $offset, $count);
 
-        $query = $source_definition->query;
+        $query = $source_definition['query'];
         $query = $this->processParameters($query);
 
+        var_dump($query);
         if(!empty($offset)){
             $query = $query . " OFFSET $offset ";
         }
@@ -243,10 +244,14 @@ class SPARQLController extends ADataController {
         for ($i = 0; $i < count($placeholders); $i++) {
 
             $placeholder = trim($placeholders[$i][1]);
-            array_push($used_parameters, $placeholder);
+
+            // Strip the array notation of the placeholder then keep its placeholders name
+            $placeholder_name_pieces = explode('[', $placeholder);
+            $placeholder_name = array_shift($placeholder_name_pieces);
+            array_push($used_parameters, $placeholder_name);
 
             $elements = array();
-            //For example ${x.each('?t = $_','||')}
+
             preg_match_all("/([a-zA-Z]+?)\\.([a-zA-Z]+?)\\('(.*?)','(.*?)'\\)/", $placeholder, $elements, PREG_SET_ORDER);
 
             if (!empty($elements)){
@@ -257,6 +262,7 @@ class SPARQLController extends ADataController {
                 \App::abort(400, "The added placeholder is malformed");
 
             if (empty($elements)) {
+
                 //${name[0]}
                 $index = strpos($placeholder, "[");
 
@@ -310,7 +316,13 @@ class SPARQLController extends ADataController {
         // Note that the logging of invalid parameters will happen twice, as we construct and execute
         // the count query as well as the given query
         foreach($parameters as $key => $value){
-            \Log::warning("The parameters $key with value $value was given as a SPARQL query parameter, but no placeholder in the SPARQL query named $key was found.");
+
+            if(is_array($value))
+                $log_value = implode(', ', $value);
+            else
+                $log_value = $value;
+
+            \Log::warning("The parameter $key with value $log_value was given as a SPARQL query parameter, but no placeholder in the SPARQL query named $key was found.");
         }
 
         return $query;

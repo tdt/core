@@ -64,20 +64,23 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
         $definition = $this->getByIdentifier($identifier);
 
+        $source = $this->getDefinitionSource($definition['source_id'], $definition['source_type']);
+
         if(empty($definition)){
             \App::abort(404, "The resource with identifier '$identifier' could not be found.");
         }
 
-        $source_type = $definition->source()->first();
-        $source_repository = \App::make('repositories\interfaces\\' . ucfirst(strtolower($source_type->type)) . 'DefinitionRepositoryInterface');
+        $source_repository = \App::make('repositories\interfaces\\' . ucfirst(strtolower($source['type'])) . 'DefinitionRepositoryInterface');
 
         $this->validateType($input);
 
-        $source_repository->update($source_type->id, $input);
+        $source_repository->update($source['id'], $input);
 
-        $definition->update(array_only($input, array_keys($this->getCreateParameters())));
+        $definition_object = \Definition::find($definition['id']);
 
-        return $definition->toArray();
+        $definition_object->update(array_only($input, array_keys($this->getCreateParameters())));
+
+        return $definition_object->toArray();
     }
 
     /**
@@ -148,7 +151,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return \Definition::where('draft', '=', 0)->count();
     }
 
-    public function getDefinitionSource($name, $id){
+    public function getDefinitionSource($id, $name){
 
         $repository = \App::make('repositories\interfaces\\' . $name . 'RepositoryInterface');
 

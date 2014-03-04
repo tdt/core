@@ -100,7 +100,7 @@ interface DefinitionRepositoryInterface{
      * @param integer $id (id of the definition)
      * @return array Source
      */
-    public function getDefinitionSource($name, $id);
+    public function getDefinitionSource($id, $name);
 
     /**
      * Retrieve all the information of all Defintion's

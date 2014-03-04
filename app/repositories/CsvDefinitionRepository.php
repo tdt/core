@@ -71,17 +71,19 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
-        $csv_definition->update($input);
+
+        $csv_def_object = $this->model->find($id);
+        $csv_def_object->update($input);
 
         // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($csv_definition->id);
-        $this->geo_repository->deleteBulk($csv_definition->id);
+        $this->tabular_repository->deleteBulk($id);
+        $this->geo_repository->deleteBulk($id);
 
         // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($csv_definition->id, 'CsvDefinition', $columns);
+        $this->tabular_repository->storeBulk($id, 'CsvDefinition', $columns);
 
         if(!empty($geo))
-            $$this->geo_repository->storeBulk($csv_definition->id, 'CsvDefinition', $geo);
+            $$this->geo_repository->storeBulk($id, 'CsvDefinition', $geo);
 
         return $csv_definition->toArray();
     }

@@ -66,19 +66,21 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys(\ShpDefinition::getCreateParameters()));
-        $shp_definition->update($input);
+
+        $shp_def_object = $this->model->find($id);
+        $shp_def_object->update($input);
 
         // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($shp_definition->id);
-        $this->geo_repository->deleteBulk($shp_definition->id);
+        $this->tabular_repository->deleteBulk($id);
+        $this->geo_repository->deleteBulk($id);
 
         // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($shp_definition->id, 'ShpDefinition', $columns);
+        $this->tabular_repository->storeBulk($id, 'ShpDefinition', $columns);
 
         if(!empty($geo))
-            $this->geo_repository->storeBulk($shp_definition->id, 'ShpDefinition', $geo);
+            $this->geo_repository->storeBulk($id, 'ShpDefinition', $geo);
 
-        return $shp_definition->toArray();
+        return $shp_def_object->toArray();
     }
 
     /**
