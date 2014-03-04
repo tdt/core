@@ -43,11 +43,11 @@ class SHPController extends ADataController {
 
         // Get the columns
         $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->getColumnAliases('ShpDefinition', $source_definition['id']);
+        $columns = $tabular_repository->getColumnAliases($source_definition['id'], 'ShpDefinition');
 
         // Get the geo properties
         $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
-        $geo_properties = $geo_repository->getGeoProperties('ShpDefinition', $source_definition['id']);
+        $geo_properties = $geo_repository->getGeoProperties($source_definition['id'], 'ShpDefinition');
 
         $geo = array();
 

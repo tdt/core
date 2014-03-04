@@ -4,5 +4,11 @@ namespace repositories\interfaces;
 
 interface LicenseRepositoryInterface{
 
-    function getByTitle($id);
+    /**
+     * Fetch a License by title
+     *
+     * @param string $title
+     * @return array License
+     */
+    function getByTitle($title);
 }

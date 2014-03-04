@@ -37,11 +37,11 @@ class CSVController extends ADataController {
 
         // Get CSV columns
         $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->getColumns('CsvDefinition', $source_definition['id']);
+        $columns = $tabular_repository->getColumns($source_definition['id'], 'CsvDefinition');
 
         // Get the geo properties
         $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
-        $geo_properties = $geo_repository->getGeoProperties('CsvDefinition', $source_definition['id']);
+        $geo_properties = $geo_repository->getGeoProperties($source_definition['id'], 'CsvDefinition');
 
         $geo = array();
 
@@ -56,7 +56,7 @@ class CSVController extends ADataController {
         }
 
         // Create aliases for the columns
-        $aliases = $tabular_repository->getColumnAliases('CsvDefinition', $source_definition['id']);
+        $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'CsvDefinition');
         $pk = null;
 
         foreach($columns as $column){

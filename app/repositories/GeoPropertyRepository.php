@@ -22,7 +22,7 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         return \GeoProperty::create($input);
     }
 
-    public function getGeoProperties($type, $id){
+    public function getGeoProperties($id, $type){
 
         return \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get()->toArray();
     }
@@ -60,9 +60,9 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         }
     }
 
-    public function deleteBulk($id){
+    public function deleteBulk($id, $type){
 
-        $geo_properties = \GeoProperty::where('source_id', '=', $id)->get();
+        $geo_properties = \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get();
 
         foreach($geo_properties as $geo_property){
             $geo_property->delete();

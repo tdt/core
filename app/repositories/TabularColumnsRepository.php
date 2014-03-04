@@ -67,7 +67,7 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         return $extracted_columns;
     }
 
-    public function getColumnAliases($type, $id){
+    public function getColumnAliases($id, $type){
 
         $tabular_columns = \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
 
@@ -80,7 +80,7 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         return $columns;
     }
 
-    public function getColumns($type, $id){
+    public function getColumns($id, $type){
 
         return \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
     }
@@ -99,9 +99,9 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
     /**
      * Delete all columns associated with the tabular_id ($id)
      */
-    public function deleteBulk($id){
+    public function deleteBulk($id, $type){
 
-        $columns = \TabularColumns::where('tabular_id', '=', $id)->get();
+        $columns = \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get();
         foreach($columns as $column){
             $column->delete();
         }

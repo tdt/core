@@ -30,14 +30,14 @@ class XLSController extends ADataController {
 
         // Retrieve the columns from XLS
         $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->getColumns('XlsDefinition', $source_definition['id']);
+        $columns = $tabular_repository->getColumns($source_definition['id'], 'XlsDefinition');
 
         if(empty($columns)){
             \App::abort(500, "Cannot find the columns from the XLS definition.");
         }
 
         // Create aliases for the columns
-        $aliases = array();
+        $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'XlsDefinition');
         $pk = null;
 
         foreach($columns as $column){
