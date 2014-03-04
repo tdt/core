@@ -3,7 +3,9 @@
 namespace tdt\core\definitions;
 
 use Illuminate\Routing\Router;
+
 use tdt\core\auth\Auth;
+use tdt\core\ApiController;
 
 /**
  * LanguageController: Controller that handels the available dcat compliant languages
@@ -12,34 +14,20 @@ use tdt\core\auth\Auth;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class LanguageController extends \Controller {
+class LanguageController extends ApiController {
 
-    public static function handle($uri){
+    public function get($uri){
 
         // Set permission
         Auth::requirePermissions('info.view');
 
-        // Get extension (if set)
-        $extension = (!empty($matches[2]))? $matches[2]: null;
-
-        // Propagate the request based on the HTTPMethod of the request
-        $method = \Request::getMethod();
-
-        switch($method){
-            case "GET":
-                return self::getLanguages($uri);
-                break;
-            default:
-                // Method not supported
-                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
-                break;
-        }
+        return $this->getLanguages($uri);
     }
 
     /**
      * Return the headers of a call made to the uri given.
      */
-    private static function headDefinition($uri){
+    public function head($uri){
 
         $response =  \Response::make(null, 200);
 
@@ -54,19 +42,17 @@ class LanguageController extends \Controller {
     /*
      * GET an info document based on the uri provided
      */
-    private static function getLanguages($uri){
+    private function getLanguages($uri){
 
-        // Fetch the columns that can be shown in the result
-        $columns = \Language::getColumns();
+        $lang_repository = \App::make('repositories\interfaces\LanguageRepositoryInterface');
 
-        return self::makeResponse(\Language::all($columns)->toArray());
-
+        return $this->makeResponse($lang_repository->getAll());
     }
 
     /**
      * Return the response with the given data ( formatted in json )
      */
-    private static function makeResponse($data){
+    private function makeResponse($data){
 
          // Create response
         $response = \Response::make(str_replace('\/','/', json_encode($data)));

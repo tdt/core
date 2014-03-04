@@ -45,7 +45,8 @@ class ShpTest extends TestCase{
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("shp/$name");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $response = $controller->handle("shp/$name");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -62,7 +63,9 @@ class ShpTest extends TestCase{
             $uri = 'shp/'. $name .'.json';
             $this->updateRequest('GET');
 
-            $response = DatasetController::handle($uri);
+            $controller = \App::make('tdt\core\datasets\DatasetController');
+
+            $response = $controller->handle($uri);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
@@ -76,7 +79,9 @@ class ShpTest extends TestCase{
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("shp/$name");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("shp/$name");
             $this->assertEquals(200, $response->getStatusCode());
         }
 

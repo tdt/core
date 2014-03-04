@@ -34,6 +34,7 @@ class BaseController extends \Controller {
                     case 'definitions':
                         // Definitions request
                         $controller = 'tdt\core\definitions\DefinitionController';
+
                         $uri = str_replace('api/definitions', '', $uri);
                         break;
                     case 'info':
@@ -86,7 +87,9 @@ class BaseController extends \Controller {
                 break;
         }
 
-        $response = $controller::handle($uri);
+        $controller = \App::make($controller);
+
+        $response = $controller->handle($uri);
 
         // Check the response type
         if($response instanceof \Illuminate\Http\RedirectResponse){

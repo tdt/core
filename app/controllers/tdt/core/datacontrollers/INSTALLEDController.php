@@ -16,12 +16,12 @@ class INSTALLEDController extends ADataController {
     public function readData($source_definition, $rest_parameters = array()){
 
         // Include the class
-        $class_file = app_path() . '/../installed/' .  $source_definition->path;
+        $class_file = app_path() . '/../installed/' .  $source_definition['path'];
 
         if(file_exists($class_file)){
             require_once $class_file;
 
-            $class_name = $source_definition->class;
+            $class_name = $source_definition['class'];
 
             // Check if class exists
             if(class_exists($class_name)){
@@ -60,20 +60,23 @@ class INSTALLEDController extends ADataController {
                 // Build data
                 $data_result = new Data();
                 $data_result->data = $installed->getData();
-                
+
                 //if the installed resource wrapped the object in a Data object themself, just return this object.
                 if($data_result->data instanceof Data){
                     return $data_result->data;
                 }
-                
+
                 return $data_result;
 
             }else{
-                \App::abort(500, "Can't find the class '$source_definition->class' in the file for the installed resource ($source_definition->path).");
+                $class = $source_definition['class'];
+                $path = $source_definition['path'];
+                \App::abort(500, "Can't find the class '$class' in the file for the installed resource ($path).");
             }
 
         }else{
-            \App::abort(500, "Can't find the file for the installed resource ($source_definition->path).");
+            $path = $source_definition['path'];
+            \App::abort(500, "Can't find the file for the installed resource ($path).");
         }
     }
 }

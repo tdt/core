@@ -25,6 +25,7 @@ class HTMLFormatter implements IFormatter{
 
         // Query parameters
         $query_string = '';
+
         if(!empty($_GET)){
             $query_string = '?' . http_build_query(\Input::all());
         }
@@ -47,7 +48,7 @@ class HTMLFormatter implements IFormatter{
             // SpectQL result
 
             // Create the link to the dataset
-            $dataset_link  = \URL::to('spectql/' . $dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
+            $dataset_link  = \URL::to('spectql/' . $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
 
             // Append rest parameters
             if(!empty($dataObj->rest_parameters)){
@@ -59,8 +60,9 @@ class HTMLFormatter implements IFormatter{
             $data = self::displayTree($dataObj->data);
 
         }else{
+
             // Create the link to the dataset
-            $dataset_link  = \URL::to($dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name);
+            $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
 
             // Append rest parameters
             if(!empty($dataObj->rest_parameters)){
@@ -69,8 +71,10 @@ class HTMLFormatter implements IFormatter{
 
             if(!empty($dataObj->source_definition)){
 
+                $type = $dataObj->source_definition['type'];
+
                 // Check if other views need to be served
-                switch($dataObj->source_definition->getType()){
+                switch($type){
                     case 'XLS':
                     case 'CSV':
                         $view = 'dataset.tabular';
@@ -91,6 +95,7 @@ class HTMLFormatter implements IFormatter{
 
                             // Check if a configuration is given
                             $conf = array();
+
                             if(!empty($dataObj->semantic->conf)){
                                 $conf = $dataObj->semantic->conf;
                             }
@@ -115,9 +120,9 @@ class HTMLFormatter implements IFormatter{
         }
 
         // Render the view
-        return \View::make($view)->with('title', 'Dataset: '. $dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name . ' | The Datatank')
+        return \View::make($view)->with('title', 'Dataset: '. $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'] . ' | The Datatank')
                                  ->with('body', $data)
-                                 ->with('page_title', $dataObj->definition->collection_uri . "/" . $dataObj->definition->resource_name)
+                                 ->with('page_title', $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'])
                                  ->with('definition', $dataObj->definition)
                                  ->with('paging', $dataObj->paging)
                                  ->with('source_definition', $dataObj->source_definition)

@@ -20,30 +20,30 @@ class XLSController extends ADataController {
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $uri = $source_definition->uri;
-        $sheet = $source_definition->sheet;
-        $has_header_row = $source_definition->has_header_row;
+        $uri = $source_definition['uri'];
+        $sheet = $source_definition['sheet'];
+        $has_header_row = $source_definition['has_header_row']
+        ;
         // Rows start at 1 in XLS, we have however documented that they start at 0 to be consistent with common sense and other
         // tabular sources such as CSV.
-        $start_row = $source_definition->start_row + 1;
+        $start_row = $source_definition['start_row'] + 1;
 
         // Retrieve the columns from XLS
-        $columns = $source_definition->tabularColumns()->getResults();
+        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $columns = $tabular_repository->getColumns($source_definition['id'], 'XlsDefinition');
 
-        if(!$columns){
+        if(empty($columns)){
             \App::abort(500, "Cannot find the columns from the XLS definition.");
         }
 
         // Create aliases for the columns
-        $aliases = array();
+        $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'XlsDefinition');
         $pk = null;
 
         foreach($columns as $column){
 
-            $aliases[$column->column_name] = $column->column_name_alias;
-
-            if(!empty($column->is_pk)){
-                $pk = $column->column_name_alias;
+            if(!empty($column['is_pk'])){
+                $pk = $column['column_name_alias'];
             }
         }
 
@@ -185,13 +185,107 @@ class XLSController extends ADataController {
         $result = array();
 
         foreach($columns as $column){
-            if(isset($data[$column->index]) || is_numeric(@$data[$column->index])){
-                $result[$column->column_name_alias] = $data[$column->index];
+            if(isset($data[$column['index']]) || is_numeric(@$data[$column['index']])){
+                $result[$column['column_name_alias']] = $data[$column['index']];
             }else{
-                \App::abort(500, "The index $column->index could not be found in the XLS file. Index count starts at 0.");
+                $index = $column['index'];
+                \App::abort(500, "The index $index could not be found in the XLS file. Index count starts at 0.");
             }
         }
 
         return $result;
     }
+
+    /**
+     * Retrieve colummn information from the request parameters.
+     */
+    public static function parseColumns($input){
+
+        $aliases = @$input['columns'];
+        $pk = @$input['pk'];
+
+        if(empty($aliases)){
+            $aliases = array();
+        }
+
+
+        $columns = array();
+        $tmp_dir = sys_get_temp_dir();
+
+        if(empty($columns)){
+
+            if (!is_dir($tmp_dir)) {
+                mkdir($tmp_dir);
+            }
+
+            $is_uri = (substr($input['uri'] , 0, 4) == "http");
+
+            try{
+                if ($is_uri) {
+                $tmp_file = uniqid();
+
+                    file_put_contents($tmp_dir. "/" . $tmp_file, file_get_contents($input['uri']));
+                    $php_obj = self::loadExcel($tmp_dir ."/" . $tmp_file, self::getFileExtension($input['uri']), $input['sheet']);
+                } else {
+                    $php_obj = self::loadExcel($input['uri'], self::getFileExtension($input['uri']),$input['sheet']);
+                }
+
+                $worksheet = $php_obj->getSheetByName($input['sheet']);
+
+            }catch(Exception $ex){
+                $uri = $input['uri'];
+                \App::abort(404, "Something went wrong whilst retrieving the Excel file from uri $uri.");
+            }
+
+
+            if(is_null($worksheet)){
+                $sheet = $input['sheet'];
+                \App::abort(404, "The sheet with name, $sheet, has not been found in the Excel file.");
+            }
+
+            foreach ($worksheet->getRowIterator() as $row) {
+
+                $row_index = $row->getRowIndex();
+
+                // Rows start at 1 in XLS
+                if ($row_index == $input['start_row'] + 1) {
+
+                    $cell_iterator = $row->getCellIterator();
+                    $cell_iterator->setIterateOnlyExistingCells(false);
+
+                    $column_index = 0;
+
+                    foreach($cell_iterator as $cell){
+
+                        if($cell->getCalculatedValue() != ""){
+
+                            $cell_value = trim($cell->getCalculatedValue());
+
+                            // Try to get an alias from the options, if it's empty
+                            // then just take the column value as alias
+                            $alias = @$aliases[$column_index];
+
+                            if(empty($alias)){
+                                $alias = $cell_value;
+                            }
+
+                            array_push($columns, array('index' => $column_index, 'column_name' => $cell->getCalculatedValue(), 'column_name_alias' => $alias, 'is_pk' => ($pk === $column_index)));
+                        }
+                        $column_index++;
+                    }
+
+                    break;
+                }
+            }
+
+            $php_obj->disconnectWorksheets();
+
+            if ($is_uri) {
+                unlink($tmp_dir . "/" . $tmp_file);
+            }
+        }
+
+        return $columns;
+    }
+
 }

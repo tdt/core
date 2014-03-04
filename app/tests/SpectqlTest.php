@@ -32,7 +32,8 @@ class SpectqlTest extends TestCase{
                 $uri = $collection_uri . '/' . $resource_name;
 
                 // Put the definition controller to the test
-                $response = DefinitionController::handle($uri);
+                $controller = \App::make('tdt\core\definitions\DefinitionController');
+                $response = $controller-> handle($uri);
 
                 // Check if the creation of the definition succeeded
                 $this->assertEquals(200, $response->getStatusCode());
@@ -65,7 +66,9 @@ class SpectqlTest extends TestCase{
                 // Delete the definition
                 $this->updateRequest('DELETE');
 
-                $response = DefinitionController::handle($uri);
+                $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+                $response = $controller-> handle($uri);
                 $this->assertEquals(200, $response->getStatusCode());
             }
         }

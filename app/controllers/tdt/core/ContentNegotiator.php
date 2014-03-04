@@ -79,7 +79,7 @@ class ContentNegotiator extends Pager{
 
             // Cache per resource
             if(!empty($data->source_definition)){
-                $cache_minutes = $data->source_definition->getCacheExpiration();
+                $cache_minutes = $data->source_definition['cache'];
             }
         }
 

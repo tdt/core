@@ -24,27 +24,29 @@ class CSVController extends ADataController {
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Check the given URI
-        if (!empty($source_definition->uri)) {
-            $uri = $source_definition->uri;
+        if (!empty($source_definition['uri'])) {
+            $uri = $source_definition['uri'];
         } else {
             \App::abort(500, "No location of the CSV file has been passed, this is most likely due to a corrupt CSV definition.");
         }
 
         // Get data from definition
-        $has_header_row = $source_definition->has_header_row;
-        $start_row = $source_definition->start_row;
-        $delimiter = $source_definition->delimiter;
-        $PK = $source_definition->pk;
+        $has_header_row = $source_definition['has_header_row'];
+        $start_row = $source_definition['start_row'];
+        $delimiter = $source_definition['delimiter'];
 
         // Get CSV columns
-        $columns = $source_definition->tabularColumns()->getResults();
+        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $columns = $tabular_repository->getColumns($source_definition['id'], 'CsvDefinition');
 
         // Get the geo properties
-        $geo_properties = $source_definition->geoProperties()->getResults();
+        $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_properties = $geo_repository->getGeoProperties($source_definition['id'], 'CsvDefinition');
+
         $geo = array();
 
         foreach($geo_properties as $geo_prop){
-            $geo[$geo_prop->property] = $geo_prop->path;
+            $geo[$geo_prop['property']] = $geo_prop['path'];
         }
 
         if(!$columns){
@@ -54,15 +56,13 @@ class CSVController extends ADataController {
         }
 
         // Create aliases for the columns
-        $aliases = array();
+        $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'CsvDefinition');
         $pk = null;
 
         foreach($columns as $column){
 
-            $aliases[$column->column_name] = $column->column_name_alias;
-
-            if(!empty($column->is_pk)){
-                $pk = $column->column_name_alias;
+            if(!empty($column['is_pk'])){
+                $pk = $column['column_name_alias'];
             }
         }
 
@@ -79,6 +79,7 @@ class CSVController extends ADataController {
 
         // Contains the amount of rows that we added to the resulting object
         $hits = 0;
+
         if (($handle = fopen($uri, "r")) !== FALSE) {
 
             while (($data = fgetcsv($handle, 2000000, $delimiter)) !== FALSE) {
@@ -137,14 +138,86 @@ class CSVController extends ADataController {
         $result = array();
 
         foreach($columns as $column){
-            if(!empty($data[$column->index]) || is_numeric(@$data[$column->index])){
-                $result[$column->column_name_alias] = utf8_encode(@$data[$column->index]);
+            if(!empty($data[$column['index']]) || is_numeric(@$data[$column['index']])){
+                $result[$column['column_name_alias']] = utf8_encode(@$data[$column['index']]);
             }else{
-                \Log::warning("We expected a value for index $column->index, yet no value was given. Filling in an empty value.");
+
+                $index = $column['index'];
+
+                \Log::warning("We expected a value for index $index, yet no value was given. Filling in an empty value.");
+
                 $result[$column->column_name_alias] = null;
             }
         }
 
         return $result;
     }
+
+    /**
+     * Parse the columns from a CSV file and return them
+     * Optionally aliases can be given to columns as well as a primary key
+     */
+    public static function parseColumns($config){
+
+        // Get the columns out of the csv file before saving the csv definition
+        // If columns are being passed using the json body or request parameters
+        // allow them to function as aliases, aliases have to be passed as index (0:n-1) => alias
+        $aliases = @$config['columns'];
+        $pk = @$config['pk'];
+
+        if(empty($aliases)){
+            $aliases = array();
+        }
+
+        $columns = array();
+
+        if(($handle = fopen($config['uri'], "r")) !== FALSE) {
+
+            // Throw away the lines untill we hit the start row
+            // from then on, process the columns
+            $commentlinecounter = 0;
+
+            while ($commentlinecounter < $config['start_row']) {
+                $line = fgetcsv($handle, 0, $config['delimiter'], '"');
+                $commentlinecounter++;
+            }
+
+            $index = 0;
+
+            if (($line = fgetcsv($handle, 0, $config['delimiter'], '"')) !== FALSE) {
+
+                if(sizeof($line) <= 1){
+
+                    $delimiter = $config['delimiter'];
+                    $uri = $config['uri'];
+
+                    \App::abort(400, "The delimiter ($delimiter) wasn't found, make sure the passed delimiter is the one that is used in the CSV file on location $uri.");
+                }
+
+                $index++;
+
+                for ($i = 0; $i < sizeof($line); $i++) {
+
+                    // Try to get an alias from the config, if it's empty
+                    // then just take the column value as alias
+                    $alias = @$aliases[$i];
+
+                    if(empty($alias)){
+                        $alias = trim($line[$i]);
+                    }
+
+                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
+                }
+            }else{
+                \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");
+            }
+
+            fclose($handle);
+        } else {
+            \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");
+        }
+
+        return $columns;
+    }
+
 }

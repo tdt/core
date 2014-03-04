@@ -1,6 +1,7 @@
 <?php
 /**
  * SHP Controller
+ *
  * @copyright (C) 2011 by iRail vzw/asbl
  * @license AGPLv3
  * @author Lieven Janssen
@@ -25,11 +26,11 @@ class SHPController extends ADataController {
         // Get the limit and offset
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $uri = $source_definition->uri;
+        $uri = $source_definition['uri'];
 
         $columns = array();
 
-        $epsg = $source_definition->epsg;
+        $epsg = $source_definition['epsg'];
 
         // The tmp folder of the system, if none is given
         // abort the process
@@ -40,28 +41,23 @@ class SHPController extends ADataController {
             \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
         }
 
-        // Fetch the tabular columns of the SHP file
-        $columns = $source_definition->tabularColumns()->getResults();
+        // Get the columns
+        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $columns = $tabular_repository->getColumnAliases($source_definition['id'], 'ShpDefinition');
 
-        // Fetch the geo properties of the SHP file
-        $geo_props = $source_definition->geo()->getResults();
+        // Get the geo properties
+        $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_properties = $geo_repository->getGeoProperties($source_definition['id'], 'ShpDefinition');
+
         $geo = array();
 
-        foreach($geo_props as $geo_prop){
-            $geo[$geo_prop->property] = $geo_prop->path;
+        foreach($geo_properties as $geo_prop){
+            $geo[$geo_prop['property']] = $geo_prop['path'];
         }
 
         if(!$columns){
             \App::abort(500, "Cannot find the columns of the SHP definition.");
         }
-
-        // Create an array that maps alias names to column names
-        $aliases = array();
-        foreach($columns as $column){
-            $aliases[$column->column_name] = $column->column_name_alias;
-        }
-
-        $columns = $aliases;
 
         try {
 
@@ -138,7 +134,7 @@ class SHPController extends ADataController {
 
                                     $pointSrc = new \proj4phpPoint($x,$y);
 
-                                    $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                                    $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
                                     $x = $pointDest->x;
                                     $y = $pointDest->y;
                                 }
@@ -161,7 +157,7 @@ class SHPController extends ADataController {
                         if (!empty($epsg)) {
 
                             $pointSrc = new \proj4phpPoint($x,$y);
-                            $pointDest = $proj4->transform($projSrc,$projDest,$pointSrc);
+                            $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
                             $x = $pointDest->x;
                             $y = $pointDest->y;
 
@@ -189,5 +185,139 @@ class SHPController extends ADataController {
 
             \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
+    }
+
+    /**
+     * Parse the column names out of a SHP file
+     */
+    public static function parseColumns($options){
+
+        $is_url = (substr($options['uri'] , 0, 4) == "http");
+        $tmp_dir = sys_get_temp_dir();
+        $columns = array();
+
+        $pk = @$options['pk'];
+
+        try{
+            if ($is_url) {
+
+                // This remains untested
+                $tmp_file = uniqid();
+                file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shp"));
+                file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".dbf"));
+                file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
+
+                // Along this file the class will use file.shx and file.dbf
+                $shp = new \ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+            } else {
+
+               // along this file the class will use file.shx and file.dbf
+                $shp = new \ShapeFile($options['uri'], array('noparts' => false));
+            }
+        }catch(Exception $e){
+            \App::abort(400, "The shape contents couldn't be retrieved, make sure the shape file is valid, zipped shape files are not yet supported.");
+        }
+
+        $record = $shp->getNext();
+
+        // Read meta data
+        if(!$record){
+            $uri = $options['uri'];
+            \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $uri, make sure the corresponding dbf and shx files are at the same location.");
+        }
+
+        // Get the dBASE fields
+        $dbf_fields = $record->getDbfFields();
+        $column_index = 0;
+
+        foreach ($dbf_fields as $field) {
+
+            $property = strtolower($field["fieldname"]);
+            array_push($columns, array('index' => $column_index, 'column_name' => $property, 'column_name_alias' => $property, 'is_pk' => ($pk === $column_index)));
+            $column_index++;
+        }
+
+        $shp_data = $record->getShpData();
+
+        // Get the geographical column names
+        // Either coords will be set (identified by the parts)
+        // or a lat long will be set (identified by x and y)
+        if(!empty($shp_data['parts'])) {
+            array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
+        }else if(!empty($shp_data['x'])) {
+            array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
+            array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
+        }else{
+            \App::abort(400, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported.
+                The supported geometries are Null Shape, Point, PolyLine, Polygon and MultiPoint');
+        }
+
+        return $columns;
+    }
+
+
+    /**
+     * Parse the geo column names out of a SHP file.
+     */
+    public static function parseGeoProperty($options, $columns){
+
+        // Make sure the geo property's path is mapped onto the column alias
+        $aliases = array();
+
+        foreach($columns as $column){
+            $aliases[$column['column_name']] = $column['column_name_alias'];
+        }
+
+        $is_url = (substr($options['uri'], 0, 4) == "http");
+        $tmp_dir = sys_get_temp_dir();
+        $geo_properties = array();
+
+        if ($is_url) {
+
+            // This remains untested
+            $tmp_file = uniqid();
+            file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shp"));
+            file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".dbf"));
+            file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
+
+            $shp = new \ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+        } else {
+            $shp = new \ShapeFile($options['uri'], array('noparts' => false));
+        }
+
+        $record = $shp->getNext();
+
+        // read meta data
+        if(!$record){
+            $uri = $options['uri'];
+            \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $uri, make sure the corresponding dbf and shx files are at the same location.");
+        }
+
+        $shp_data = $record->getShpData();
+        $shape_type = strtolower($record->getRecordClass());
+
+        $geo_properties = array();
+
+        // Get the geographical column names
+        // Either multiple coordinates will be set (identified by the parts)
+        // or a lat long pair will be set (identified by x and y)
+        if(!empty($shp_data['parts'])) {
+            if(strpos($shape_type, 'polyline')){
+                $parts = $aliases['parts'];
+                array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
+            }else if(strpos($shape_type, 'polygon')){
+                $parts = $aliases['parts'];
+                array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
+            }else{ // TODO support more types
+                \App::abort(400, 'Provided geometric type ( $shape_type ) is not supported');
+            }
+        }else if(isset($shp_data['x'])){
+            $x = $aliases['x'];
+            $y = $aliases['y'];
+            array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
+            array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
+        }
+
+        return $geo_properties;
     }
 }

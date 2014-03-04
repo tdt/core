@@ -46,19 +46,26 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
             \Input::merge(array('limit' => -1));
         }
 
-        $data_result = DatasetController::fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
-        $definition = DefinitionController::get($package . '/' . $resource);
+        $data_controller = \App::make('tdt\core\datasets\DatasetController');
+        $def_controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+
+        $data_result = $data_controller->fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
+        $definition = $def_controller->getByIdentifier($package . '/' . $resource);
 
         $data = $data_result->data;
 
         // If the data is tabular, it might occur that a primary key is being used
         // In spectql we don't take these into consideration and we'll have to throw them away
-        $source_type = $definition->source()->first();
+        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
 
-        if(method_exists($source_type, 'tabularColumns')){
+        // Get the columns and their aliases
+        $columns_collection = $tabular_repository->getColumns($definition['source_type'], $definition['source_id']);
+
+        if(!empty($columns_collection)){
             if(!empty($data[0]) && (is_array($data[0]) || is_object($data[0]))){
 
                 $new_data = array();
+
                 foreach($data as $pk => $content){
                     array_push($new_data, $content);
                 }
@@ -94,7 +101,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         $packageresourcestring = implode("/", $identifierpieces);
 
-        $definition = DefinitionController::get($packageresourcestring);
+        $controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition = $controller->getByIdentifier($packageresourcestring);
 
         // Tell the user the resource could not be found when no definition is fetched
         if(empty($definition)){
@@ -102,11 +110,11 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
         }
 
         // Retrieve the REST parameters of the identifier
-        $rest_parameters = str_replace($definition->collection_uri . '/' . $definition->resource_name, '', $packageresourcestring);
+        $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $packageresourcestring);
         $rest_parameters = ltrim($rest_parameters, '/');
         $rest_parameters = explode('/', $rest_parameters);
 
-        return array($definition->collection_uri, $definition->resource_name, $rest_parameters, $hierarchicalsubparts);
+        return array($definition['collection_uri'], $definition['resource_name'], $rest_parameters, $hierarchicalsubparts);
     }
 
     /**
@@ -158,16 +166,17 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
         try {
 
-            $definition = DefinitionController::get($this->getResourceIdentifier($globalTableIdentifier));
-            $source = $definition->source()->first();
+            $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
 
-            $columns_collection = array();
+            $definition = $definition_repository->getByIdentifier($this->getResourceIdentifier($globalTableIdentifier));
 
-            if(method_exists($source, 'tabularColumns')){
-                $columns_collection = $source->tabularColumns()->getResults();
-            }
+            $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+
+            // Get the columns and their aliases
+            $columns_collection = $tabular_repository->getColumns($definition['source_type'], $definition['source_id']);
 
             $columns = array();
+
             foreach($columns_collection as $collection_entry){
                 array_push($columns, array("column_name" => $collection_entry["column_name"]));
             }
@@ -335,35 +344,35 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager {
 
                     switch ($clause) {
                         case "orderby":
-                            if ($type == "FILTERSORTCOLUMNS") {
-                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                                $replaced = TRUE;
-                            }
-                            break;
+                        if ($type == "FILTERSORTCOLUMNS") {
+                            $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                            $replaced = TRUE;
+                        }
+                        break;
                         case "where":
-                            if ($type == "FILTEREXPRESSION") {
-                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                                $replaced = TRUE;
-                            }
-                            break;
+                        if ($type == "FILTEREXPRESSION") {
+                            $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                            $replaced = TRUE;
+                        }
+                        break;
                         case "groupby":
-                            if ($type == "DATAGROUPER") {
-                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                                $replaced = TRUE;
-                            }
-                            break;
+                        if ($type == "DATAGROUPER") {
+                            $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                            $replaced = TRUE;
+                        }
+                        break;
                         case "select":
-                            if ($type == "FILTERCOLUMN") {
-                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                                $replaced = TRUE;
-                            }
-                            break;
+                        if ($type == "FILTERCOLUMN") {
+                            $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                            $replaced = TRUE;
+                        }
+                        break;
                         case "limit":
-                            if ($type == "FILTERLIMIT") {
-                                $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                                $replaced = TRUE;
-                            }
-                            break;
+                        if ($type == "FILTERLIMIT") {
+                            $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
+                            $replaced = TRUE;
+                        }
+                        break;
                     }
 
                     if (method_exists($currentNode, "getSource")) {

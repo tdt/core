@@ -156,10 +156,10 @@ class DatasetController extends \Controller {
             $discovery = $this->getDiscoveryDocument();
 
             // Get spec for media type
-            if(empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->getType())} )){
+            if(empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)} )){
                 \App::abort('500', 'There is no definition of the media type of this dataset in the discovery document.');
             }
-            $mediatype = $discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->getType())};
+            $mediatype = $discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)};
 
             // Sort parameters
             $parameters_required = array();

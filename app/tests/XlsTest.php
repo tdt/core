@@ -42,7 +42,8 @@ class XlsTest extends TestCase{
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $response = DefinitionController::handle("xls/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $response = $controller->handle("xls/$file");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -61,7 +62,9 @@ class XlsTest extends TestCase{
             $uri = 'xls/'. $file .'.json';
             $this->updateRequest('GET');
 
-            $response = DatasetController::handle($uri);
+            $controller = \App::make('tdt\core\datasets\DatasetController');
+
+            $response = $controller->handle($uri);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
@@ -75,7 +78,9 @@ class XlsTest extends TestCase{
 
             $this->updateRequest('DELETE');
 
-            $response = DefinitionController::handle("xls/$file");
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle("xls/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
 
