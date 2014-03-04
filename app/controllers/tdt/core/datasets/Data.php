@@ -34,4 +34,6 @@ class Data {
     public $is_spectql = false;
 
     public $semantic;
+
+    public $formats;
 }

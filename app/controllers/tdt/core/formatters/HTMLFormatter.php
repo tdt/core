@@ -45,7 +45,6 @@ class HTMLFormatter implements IFormatter{
         }
 
         if($dataObj->is_spectql){
-            // SpectQL result
 
             // Create the link to the dataset
             $dataset_link  = \URL::to('spectql/' . $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);

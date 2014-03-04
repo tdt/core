@@ -108,7 +108,6 @@ class SPARQLController extends ADataController {
         $query = $source_definition['query'];
         $query = $this->processParameters($query);
 
-        var_dump($query);
         if(!empty($offset)){
             $query = $query . " OFFSET $offset ";
         }
