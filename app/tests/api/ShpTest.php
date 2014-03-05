@@ -14,11 +14,6 @@ class ShpTest extends TestCase{
                     'file' => 'gis.osm_boundaries_v06',
                     'epsg' => 4326
                 ),
-                /*array(
-                    'name' => 'buildings',
-                    'file' => 'gis.osm_buildings_v06',
-                    'epsg' => 4326,
-                ),*/ // These need to wait for the paging implementation, are currently too big to be handled in a testing environment
             );
 
     public function test_put_api(){
@@ -33,7 +28,7 @@ class ShpTest extends TestCase{
             $data = array(
                 'description' => "A shp publication from the $file shp file.",
                 'epsg' => '4326',
-                'uri' => __DIR__ . "/data/shp/$file.shp",
+                'uri' => __DIR__ . "/../data/shp/$file.shp",
                 'type' => 'shp'
                 );
 
@@ -66,6 +61,34 @@ class ShpTest extends TestCase{
             $controller = \App::make('tdt\core\datasets\DatasetController');
 
             $response = $controller->handle($uri);
+            $this->assertEquals(200, $response->getStatusCode());
+        }
+    }
+
+    public function test_update_api(){
+
+        foreach($this->test_data as $entry){
+
+            $file = $entry['name'];
+
+            $updated_description = 'An updated description for ' . $file;
+
+            $identifier = 'shp/' . $file;
+
+            // Set the fields that we're going to update
+            $data = array(
+                'description' => 'An updated description',
+            );
+
+            // Set the correct headers
+            $headers = array('Content-Type' => 'application/tdt.definition+json');
+
+            $this->updateRequest('PATCH', $headers, $data);
+
+            // Test the patch function on the definition controller
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle($identifier);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }

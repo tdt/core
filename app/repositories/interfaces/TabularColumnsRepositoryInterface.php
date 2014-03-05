@@ -5,12 +5,19 @@ namespace repositories\interfaces;
 interface TabularColumnsRepositoryInterface{
 
     /**
+     * Return all TabularColumns objects
+     *
+     * @return array
+     */
+    public function getAll();
+
+    /**
      * Store a TabularColumn object
      *
      * @param array $input
      * @return array TabularColumn
      */
-    public function store($input);
+    public function store(array $input);
 
     /**
      * Delete a TabularColumn object

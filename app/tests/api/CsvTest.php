@@ -29,7 +29,7 @@ class CsvTest extends TestCase{
             $data = array(
                 'description' => "A CSV publication from the $file csv file.",
                 'delimiter' => ',',
-                'uri' => 'file://' . __DIR__ . "/data/csv/$file.csv",
+                'uri' => 'file://' . __DIR__ . "/../data/csv/$file.csv",
                 'type' => 'csv'
             );
 
@@ -61,6 +61,32 @@ class CsvTest extends TestCase{
             $controller = \App::make('tdt\core\datasets\DatasetController');
 
             $response = $controller->handle($file);
+            $this->assertEquals(200, $response->getStatusCode());
+        }
+    }
+
+    public function test_update_api(){
+
+        foreach($this->test_data as $file){
+
+            $updated_description = 'An updated description for ' . $file;
+
+            $identifier = 'csv/' . $file;
+
+            // Set the fields that we're going to update
+            $data = array(
+                'description' => 'An updated description',
+            );
+
+            // Set the correct headers
+            $headers = array('Content-Type' => 'application/tdt.definition+json');
+
+            $this->updateRequest('PATCH', $headers, $data);
+
+            // Test the patch function on the definition controller
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle($identifier);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }

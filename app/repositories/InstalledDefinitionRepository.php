@@ -4,7 +4,7 @@ namespace repositories;
 
 use repositories\interfaces\InstalledDefinitionRepositoryInterface;
 
-class InstalledDefinitionRepository extends BaseRepository implements InstalledDefinitionRepositoryInterface{
+class InstalledDefinitionRepository extends BaseDefinitionRepository implements InstalledDefinitionRepositoryInterface{
 
     protected $rules = array(
         'class' => 'required',

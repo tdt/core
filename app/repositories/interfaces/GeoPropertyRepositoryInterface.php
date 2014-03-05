@@ -5,12 +5,19 @@ namespace repositories\interfaces;
 interface GeoPropertyRepositoryInterface{
 
     /**
+     * Return all GeoProperty objects
+     *
+     * @return array
+     */
+    public function getAll();
+
+    /**
      * Store a GeoProperty object
      *
      * @param array $input
      * @return array GeoProperty
      */
-    public function store($input);
+    public function store(array $input);
 
     /**
      * Delete a GeoProperty object
@@ -35,7 +42,7 @@ interface GeoPropertyRepositoryInterface{
      * @param array $input
      * @return void | abort
      */
-    public function validate($input);
+    public function validate(array $input);
 
     /**
      * Store new GeoProperty objects given by input to a certain source
@@ -45,7 +52,7 @@ interface GeoPropertyRepositoryInterface{
      * @param array $input
      * @return void
      */
-    public function storeBulk($id, $type, $input);
+    public function storeBulk($id, $type, array $input);
 
     /**
      * Delete all GeoProperty relationships for a given type and id

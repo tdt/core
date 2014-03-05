@@ -141,7 +141,7 @@ class DefinitionController extends ApiController {
     }
 
     /**
-     * Retrieve the input
+     * Retrieve the input, make sure all keys are lowercased
      */
     private function fetchInput(){
 
@@ -164,19 +164,5 @@ class DefinitionController extends ApiController {
         $input = array_change_key_case($input);
 
         return $input;
-    }
-
-    /**
-     * Return the response with the given data ( formatted in json )
-     */
-    public function makeResponse($data){
-
-         // Create response
-        $response = \Response::make($data, 200);
-
-        // Set headers
-        $response->header('Content-Type', 'application/json;charset=UTF-8');
-
-        return $response;
     }
 }

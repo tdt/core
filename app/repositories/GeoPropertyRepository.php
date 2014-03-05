@@ -4,7 +4,7 @@ namespace repositories;
 
 use repositories\interfaces\GeoPropertyRepositoryInterface;
 
-class GeoPropertyRepository extends BaseRepository implements GeoPropertyRepositoryInterface{
+class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPropertyRepositoryInterface{
 
     public static $geotypes = array('polygon', 'latitude', 'longitude', 'polyline', 'multiline', 'point');
 
@@ -17,7 +17,7 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         'path' => 'required',
     );
 
-    public function store($input){
+    public function store(array $input){
 
         return \GeoProperty::create($input);
     }
@@ -27,7 +27,7 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         return \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get()->toArray();
     }
 
-    public function validate($input){
+    public function validate(array $input){
 
         foreach($input as $geo){
 
@@ -51,7 +51,7 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         }
     }
 
-    public function storeBulk($id, $type, $input){
+    public function storeBulk($id, $type, array $input){
 
         foreach($input as $geo){
             $geo['source_id'] = $id;

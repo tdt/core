@@ -2,8 +2,6 @@
 
 namespace tdt\core\formatters;
 
-
-
 /**
  * FormatHelper helps finding available formats for a certain datastructure
  *

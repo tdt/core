@@ -4,7 +4,7 @@ namespace repositories;
 
 use repositories\interfaces\TabularColumnsRepositoryInterface;
 
-class TabularColumnsRepository extends BaseRepository implements TabularColumnsRepositoryInterface{
+class TabularColumnsRepository extends BaseDefinitionRepository implements TabularColumnsRepositoryInterface{
 
     protected $rules = array(
         'pk' => 'integer',
@@ -17,7 +17,7 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         $this->model = $model;
     }
 
-    public function store($input){
+    public function store(array $input){
         return \TabularColumns::create($input);
     }
 

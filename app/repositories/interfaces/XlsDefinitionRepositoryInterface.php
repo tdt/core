@@ -5,12 +5,19 @@ namespace repositories\interfaces;
 interface XlsDefinitionRepositoryInterface{
 
     /**
+     * Return all XlsDefinition objects
+     *
+     * @return array
+     */
+    public function getAll();
+
+    /**
      * Return a validator based on an hash array
      *
      * @param array $input
-     * return mixed
+     * return Illuminate\Validation\Validator
      */
-    public function getValidator($input);
+    public function getValidator(array $input);
 
     /**
      * Store a XlsDefinition object
@@ -18,7 +25,7 @@ interface XlsDefinitionRepositoryInterface{
      * @param array $input
      * @return array XlsDefinition
      */
-    public function store($input);
+    public function store(array $input);
 
     /**
      * Update a XlsDefinition object
@@ -27,7 +34,7 @@ interface XlsDefinitionRepositoryInterface{
      * @param array $input
      * @return array XlsDefinition
      */
-    public function update($id, $input);
+    public function update($id, array $input);
 
     /**
      * Delete a XlsDefinition

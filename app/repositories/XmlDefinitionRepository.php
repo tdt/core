@@ -4,7 +4,7 @@ namespace repositories;
 
 use repositories\interfaces\XmlDefinitionRepositoryInterface;
 
-class XmlDefinitionRepository extends BaseRepository implements XmlDefinitionRepositoryInterface{
+class XmlDefinitionRepository extends BaseDefinitionRepository implements XmlDefinitionRepositoryInterface{
 
     protected $rules = array(
         'uri' => 'uri|required',
@@ -19,7 +19,9 @@ class XmlDefinitionRepository extends BaseRepository implements XmlDefinitionRep
      * Retrieve the set of create parameters that make up a XML definition.
      */
     public function getCreateParameters(){
+
         return array(
+
             'uri' => array(
                 'required' => true,
                 'name' => 'URI',

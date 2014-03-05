@@ -10,7 +10,7 @@ interface DefinitionRepositoryInterface{
      * @param array $input
      * @return array Definition
      */
-    public function store($input);
+    public function store(array $input);
 
     /**
      * Update a Definition object
@@ -19,7 +19,7 @@ interface DefinitionRepositoryInterface{
      * @param array $input
      * @return array Definition
      */
-    public function update($identifier, $input);
+    public function update($identifier, array $input);
 
     /**
      * Delete a Definition object

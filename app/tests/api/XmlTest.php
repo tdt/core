@@ -1,30 +1,29 @@
 <?php
 
-
 use tdt\core\definitions\DefinitionController;
 use tdt\core\datasets\DatasetController;
+
 use Symfony\Component\HttpFoundation\Request;
 
-class JsonTest extends TestCase{
+class XmlTest extends TestCase{
 
     // This array holds the names of the files that can be used
-    // to test the json definitions.
+    // to test the xml definitions.
     private $test_data = array(
-                'complex_persons',
-                'simple_persons',
+                'persons',
             );
 
     public function test_put_api(){
 
-        // Publish each json file in the test json data folder.
+        // Publish each xml file in the test xml data folder.
         foreach($this->test_data as $file){
 
             // Set the definition parameters.
             $data = array(
-                'description' => "A JSON publication from the $file json file.",
-                'uri' => 'file://' . __DIR__ . "/data/json/$file.json",
-                'type' => 'json'
-                );
+                'description' => "A xml publication from the $file xml file.",
+                'uri' => __DIR__ . "/../data/xml/$file.xml",
+                'type' => 'xml'
+            );
 
             // Set the headers.
             $headers = array(
@@ -35,8 +34,7 @@ class JsonTest extends TestCase{
 
             // Put the definition controller to the test!
             $controller = \App::make('tdt\core\definitions\DefinitionController');
-
-            $response = $controller->handle("json/$file");
+            $response = $controller->handle("xml/$file");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -45,10 +43,10 @@ class JsonTest extends TestCase{
 
     public function test_get_api(){
 
-        // Request the data for each of the test json files.
+        // Request the data for each of the test xml files.
         foreach($this->test_data as $file){
 
-            $file = 'json/'. $file .'.json';
+            $file = 'xml/'. $file .'.json';
             $this->updateRequest('GET');
 
             $controller = \App::make('tdt\core\datasets\DatasetController');
@@ -58,24 +56,50 @@ class JsonTest extends TestCase{
         }
     }
 
+    public function test_update_api(){
+
+        foreach($this->test_data as $file){
+
+            $updated_description = 'An updated description for ' . $file;
+
+            $identifier = 'xml/' . $file;
+
+            // Set the fields that we're going to update
+            $data = array(
+                'description' => 'An updated description',
+            );
+
+            // Set the correct headers
+            $headers = array('Content-Type' => 'application/tdt.definition+json');
+
+            $this->updateRequest('PATCH', $headers, $data);
+
+            // Test the patch function on the definition controller
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle($identifier);
+            $this->assertEquals(200, $response->getStatusCode());
+        }
+    }
+
     public function test_delete_api(){
 
-        // Delete the published definition for each test json file.
+        // Delete the published definition for each test xml file.
         foreach($this->test_data as $file){
 
             $this->updateRequest('DELETE');
 
             $controller = \App::make('tdt\core\definitions\DefinitionController');
 
-            $response = $controller->handle("json/$file");
+            $response = $controller->handle("xml/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
 
         // Check if everything is deleted properly.
         $definitions_count = Definition::all()->count();
-        $json_count = JsonDefinition::all()->count();
+        $xml_count = XmlDefinition::all()->count();
 
-        $this->assertTrue($json_count == 0);
+        $this->assertTrue($xml_count == 0);
         $this->assertTrue($definitions_count == 0);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace repositories;
 
-use Definition;
 use repositories\interfaces\DefinitionRepositoryInterface;
-use repositories\BaseRepository;
 
-class DefinitionRepository extends BaseRepository implements DefinitionRepositoryInterface{
+class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface{
 
     protected $rules = array(
         'resource_name' => 'required',
@@ -20,7 +18,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * Create a new definition with corresponding source type
      */
-    public function store($input){
+    public function store(array $input){
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -57,7 +55,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return $definition->toArray();
     }
 
-    public function update($identifier, $input){
+    public function update($identifier, array $input){
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -161,7 +159,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * Check if the given source type exists
      */
-    private function validateType($input){
+    private function validateType(array $input){
 
         $type = @$input['type'];
 

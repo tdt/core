@@ -2,7 +2,7 @@
 
 namespace repositories;
 
-class TabularBaseRepository extends BaseRepository{
+class TabularBaseRepository extends BaseDefinitionRepository{
 
     protected $tabular_repository;
     protected $geo_repository;

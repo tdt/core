@@ -24,7 +24,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         $this->model = $model;
     }
 
-    public function store($input){
+    public function store(array $input){
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -54,20 +54,30 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         return $csv_definition->toArray();
     }
 
-    public function update($id, $input){
+    public function update($id, array $input){
 
         // Process input (e.g. set default values to empty properties)
-        $input = $this->processInput($input);
+        $input = $this->patchInput($id, $input);
 
         $csv_definition = $this->getById($id);
 
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
-        $extracted_columns = CSVController::parseColumns($csv_definition->toArray());
+        $extracted_columns = CSVController::parseColumns($csv_definition);
 
-        $columns = $this->tabular_repository->validate($extracted_columns, @$input['columns']);
+        $input_columns = @$input['columns'];
+
+        if(empty($input_columns))
+            $input_columns = array();
+
+        $columns = $this->tabular_repository->validate($extracted_columns, $input_columns);
 
         // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $geo = $this->geo_repository->validate(@$input['geo']);
+        $input_geo = @$input['geo'];
+
+        if(empty($input_geo))
+            $input_geo = array();
+
+        $geo = $this->geo_repository->validate($input_geo);
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
@@ -76,8 +86,8 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         $csv_def_object->update($input);
 
         // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($id);
-        $this->geo_repository->deleteBulk($id);
+        $this->tabular_repository->deleteBulk($id, 'CsvDefinition');
+        $this->geo_repository->deleteBulk($id, 'CsvDefinition');
 
         // Store the columns and geo meta-data
         $this->tabular_repository->storeBulk($id, 'CsvDefinition', $columns);
@@ -85,7 +95,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         if(!empty($geo))
             $$this->geo_repository->storeBulk($id, 'CsvDefinition', $geo);
 
-        return $csv_definition->toArray();
+        return $csv_def_object->toArray();
     }
 
      /**

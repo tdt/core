@@ -5,12 +5,19 @@ namespace repositories\interfaces;
 interface JsonDefinitionRepositoryInterface{
 
     /**
+     * Return all JsonDefinition objects
+     *
+     * @return array
+     */
+    public function getAll();
+
+    /**
      * Return a validator based on an hash array
      *
      * @param array $input
-     * return mixed
+     * return Illuminate\Validation\Validator
      */
-    public function getValidator($input);
+    public function getValidator(array $input);
 
     /**
      * Return an array of create parameters with info attached
@@ -39,7 +46,7 @@ interface JsonDefinitionRepositoryInterface{
      * @param array $input
      * @return array JsonDefinition
      */
-    public function store($input);
+    public function store(array $input);
 
 
     /**
@@ -49,7 +56,7 @@ interface JsonDefinitionRepositoryInterface{
      * @param array $input
      * @return array JsonDefinition
      */
-    public function update($id, $input);
+    public function update($id, array $input);
 
     /**
      * Delete a JsonDefinition
