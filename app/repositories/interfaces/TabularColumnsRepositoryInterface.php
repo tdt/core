@@ -36,7 +36,15 @@ interface TabularColumnsRepositoryInterface{
      * @param array $test_columns
      * @return void | abort
      */
-    public function validate($correct_columns, $test_columns);
+    public function validateBulk(array $correct_columns, array $test_columns);
+
+    /**
+     * Validate the input to a set of rules given an input
+     *
+     * @param array $input
+     * @return void | abort
+     */
+    public function validate(array $input);
 
     /**
      * Retrieve all the column names mapped onto their aliases

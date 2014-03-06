@@ -22,80 +22,8 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
         $this->model = $model;
     }
 
-    public function store(array $input){
-
-        // Process input (e.g. set default values to empty properties)
-        $input = $this->processInput($input);
-
-        // Validate the column properties (perhaps we need to put this extraction somewhere else)
-        $extracted_columns = XLSController::parseColumns($input);
-
-        $columns = $this->tabular_repository->validate($extracted_columns, @$input['columns']);
-
-        // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $geo = @$input['geo'];
-
-        if(empty($geo)){
-            $geo = array();
-        }else{
-            $geo = $this->geo_repository->validate(@$input['geo']);
-        }
-
-        // Validation has been done, lets create the models
-        $input = array_only($input, array_keys($this->getCreateParameters()));
-        $xls_definition = \XlsDefinition::create($input);
-
-        // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($xls_definition->id, 'XlsDefinition', $columns);
-
-        if(!empty($geo))
-            $this->geo_repository->storeBulk($xls_definition->id, 'XlsDefinition', $geo);
-
-        return $xls_definition->toArray();
-    }
-
-    public function update($id, array $input){
-
-        // Process input (e.g. set default values to empty properties)
-        $input = $this->patchInput($id, $input);
-
-        $xls_definition = $this->getById($id);
-
-        // Validate the column properties (perhaps we need to put this extraction somewhere else)
-        $extracted_columns = XLSController::parseColumns($xls_definition);
-
-        $input_columns = @$input['columns'];
-
-        if(empty($input_columns))
-            $input_columns = array();
-
-        $columns = $this->tabular_repository->validate($extracted_columns, $input_columns);
-
-        // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $input_geo = @$input['geo'];
-
-        if(empty($input_geo))
-            $input_geo = array();
-
-        $geo = $this->geo_repository->validate($input_geo);
-
-        // Validation has been done, lets create the models
-        $input = array_only($input, array_keys($this->getCreateParameters()));
-
-        $xls_def_object = $this->model->find($id);
-        $xls_def_object->update($input);
-
-        // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($id, 'XlsDefinition');
-        $this->geo_repository->deleteBulk($id, 'XlsDefinition');
-
-        // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($id, 'XlsDefinition', $columns);
-
-        if(!empty($geo))
-            $this->geo_repository->storeBulk($id, 'XlsDefinition', $geo);
-
-        return $xls_def_object->toArray();
+    protected function extractColumns($input){
+        return XLSController::parseColumns($input);
     }
 
     /**

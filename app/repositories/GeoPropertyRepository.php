@@ -27,6 +27,31 @@ class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPrope
         return \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get()->toArray();
     }
 
+    public function validateBulk(array $extracted_geo, array $provided_geo){
+
+        // We don't have any extracted geo properties
+        // If the provided ones qualify, validation is ok
+        if(empty($extracted_geo)){
+            $this->validate($provided_geo);
+
+            return $provided_geo;
+        }
+
+        // If we have extracted geo properties
+        // The provided ones will have to be the same
+        // as the extracted ones to pass validation
+        if(!empty($extracted_geo)){
+
+            if(!empty($provided_geo) && $extracted_geo != $provided_geo){
+               \App::abort(400, "The geo properties provided didn't match the geo properties that were extracted from the source.");
+            }
+
+            $this->validate($extracted_geo);
+
+            return $extracted_geo;
+        }
+    }
+
     public function validate(array $input){
 
         foreach($input as $geo){
@@ -43,6 +68,7 @@ class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPrope
 
             // Checkc if the given type is valid
             $type = mb_strtolower($geo['property']);
+
             if(!in_array($type, self::$geotypes)){
 
                 $types = implode(', ', self::$geotypes);

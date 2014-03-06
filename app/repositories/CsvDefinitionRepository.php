@@ -3,6 +3,7 @@
 namespace repositories;
 
 use repositories\interfaces\CsvDefinitionRepositoryInterface;
+
 use tdt\core\datacontrollers\CSVController;
 
 class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefinitionRepositoryInterface{
@@ -14,9 +15,6 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         'description' => 'required',
     );
 
-    protected $tabular_repository;
-    protected $geo_repository;
-
     public function __construct(\CsvDefinition $model){
 
         parent::__construct();
@@ -24,81 +22,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         $this->model = $model;
     }
 
-    public function store(array $input){
-
-        // Process input (e.g. set default values to empty properties)
-        $input = $this->processInput($input);
-
-        // Validate the column properties (perhaps we need to put this extraction somewhere else)
-        $extracted_columns = CSVController::parseColumns($input);
-
-        $columns = $this->tabular_repository->validate($extracted_columns, @$input['columns']);
-
-        if(empty($geo)){
-            $geo = array();
-        }else{
-            $geo = $this->geo_repository->validate(@$input['geo']);
-        }
-
-        // Validation has been done, lets create the models
-        $input = array_only($input, array_keys($this->getCreateParameters()));
-
-        $csv_definition = \CsvDefinition::create($input);
-
-        // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($csv_definition->id, 'CsvDefinition', $columns);
-
-        if(!empty($geo))
-            $this->geo_repository->storeBulk($csv_definition->id, 'CsvDefinition', $geo);
-
-        return $csv_definition->toArray();
-    }
-
-    public function update($id, array $input){
-
-        // Process input (e.g. set default values to empty properties)
-        $input = $this->patchInput($id, $input);
-
-        $csv_definition = $this->getById($id);
-
-        // Validate the column properties (perhaps we need to put this extraction somewhere else)
-        $extracted_columns = CSVController::parseColumns($csv_definition);
-
-        $input_columns = @$input['columns'];
-
-        if(empty($input_columns))
-            $input_columns = array();
-
-        $columns = $this->tabular_repository->validate($extracted_columns, $input_columns);
-
-        // Validate the geo properties and take into consideration the alias for the column that the geo property might have
-        $input_geo = @$input['geo'];
-
-        if(empty($input_geo))
-            $input_geo = array();
-
-        $geo = $this->geo_repository->validate($input_geo);
-
-        // Validation has been done, lets create the models
-        $input = array_only($input, array_keys($this->getCreateParameters()));
-
-        $csv_def_object = $this->model->find($id);
-        $csv_def_object->update($input);
-
-        // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($id, 'CsvDefinition');
-        $this->geo_repository->deleteBulk($id, 'CsvDefinition');
-
-        // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($id, 'CsvDefinition', $columns);
-
-        if(!empty($geo))
-            $$this->geo_repository->storeBulk($id, 'CsvDefinition', $geo);
-
-        return $csv_def_object->toArray();
-    }
-
-     /**
+    /**
      * Retrieve the set of create parameters that make up a CSV definition.
      * Include the parameters that make up relationships with this model.
      */
@@ -114,6 +38,10 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         ));
 
         return array_merge($this->getCreateParameters(), $column_params, $geo_params);
+    }
+
+    protected function extractColumns($input){
+        return CSVController::parseColumns($input);
     }
 
     /**
