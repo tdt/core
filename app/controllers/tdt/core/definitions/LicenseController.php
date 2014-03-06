@@ -7,14 +7,13 @@ use tdt\core\auth\Auth;
 use tdt\core\ApiController;
 
 /**
- * LicenseController: Controller that handels the available licenses for the dcat
+ * LicenseController: Controller that handels the available licenses for the DCAT
  *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class LicenseController extends ApiController {
-
 
     /**
      * Return the headers of a call made to the uri given.
