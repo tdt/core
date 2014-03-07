@@ -7,8 +7,8 @@ use tdt\core\auth\Auth;
 use tdt\core\datasets\Data;
 use tdt\core\Pager;
 use tdt\core\ContentNegotiator;
-use repositories\DefinitionRepositoryInterface;
 use tdt\core\ApiController;
+use repositories\DefinitionRepositoryInterface;
 
 /**
  * DefinitionController
