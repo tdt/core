@@ -137,13 +137,13 @@ class KMLFormatter implements IFormatter
                     unset($array[$latkey]);
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
-                } else if($coordskey) {
+                } elseif($coordskey) {
 
                     $coords = explode(";",$array[$coordskey]);
                     unset($array[$coordskey]);
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
-                }else {
+                } else {
                     self::printArray($array, $placemarks);
                 }
 
@@ -206,7 +206,7 @@ class KMLFormatter implements IFormatter
 
             if (is_array($value)) {
                 $entry = $value;
-            }else if (is_object($value)) {
+            } elseif (is_object($value)) {
                 $entry = get_object_vars($value);
             }
 
@@ -239,12 +239,12 @@ class KMLFormatter implements IFormatter
 
                     if (count($geo) > 1) {
                         $point = $entry[$geo['longitude']] . ',' . $entry[$geo['latitude']];
-                    }else{
+                    } else {
                         $point = $entry[$geo['point']];
                     }
 
                     $body .= "<Point><coordinates>" . $point . "</coordinates></Point>";
-                }else{
+                } else {
                     if ($geo_type == 'polyline') {
 
                         $body .= "<MultiGeometry>";
@@ -253,9 +253,9 @@ class KMLFormatter implements IFormatter
                         }
                         $body .= "</MultiGeometry>";
 
-                    }else if($geo_type == 'polygon'){
+                    } elseif($geo_type == 'polygon'){
                         $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] ."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
-                    }else{
+                    } else {
                         \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
                     }
                 }

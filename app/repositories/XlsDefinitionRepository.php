@@ -40,7 +40,7 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
 
         if (empty($geo)) {
             $geo = array();
-        }else{
+        } else {
             $geo = $this->geo_repository->validate(@$input['geo']);
         }
 

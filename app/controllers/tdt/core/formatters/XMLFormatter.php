@@ -86,22 +86,22 @@ class XMLFormatter implements IFormatter
                 // Check for special keys, then add elements recursively
                 if ($key === '@value') {
                     $object .= self::getXMLString($value);
-                }elseif($key == '@attributes'){
+                } elseif($key == '@attributes'){
                     $object .= self::transformToXML($value, 'attributes');
-                }elseif(is_numeric($key)){
+                } elseif(is_numeric($key)){
                     $object .= self::transformToXML($value, 'element');
-                }else{
+                } else {
                     $object .= self::transformToXML($value, $key);
                 }
 
             }
-        }elseif(is_object($data)){
+        } elseif(is_object($data)){
             // Data is object
             foreach ($data as $key => $value) {
                 // Recursively add elements
                 $object .= self::transformToXML($value, $key);
             }
-        }else{
+        } else {
             // Data is string append it
             $object .= self::getXMLString($data);
         }

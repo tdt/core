@@ -107,7 +107,4 @@ class Environment
         $newEnv->singlevaluecolumns = $this->singlevaluecolumns;
         return $newEnv;
     }
-
 }
-
-?>

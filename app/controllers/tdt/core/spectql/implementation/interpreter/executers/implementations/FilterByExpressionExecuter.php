@@ -134,7 +134,4 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }
-
-?>

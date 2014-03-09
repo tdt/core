@@ -85,7 +85,4 @@ class SourceUsageData
     {
         $this->sourceId = $sourceId;
     }
-
 }
-
-?>

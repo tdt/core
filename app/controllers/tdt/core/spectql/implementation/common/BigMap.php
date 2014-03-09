@@ -34,7 +34,7 @@ class BigMap
     {
         // if(isset ($this->map[$name])){
         //    return $this->map[$name];
-        // }else{
+        // } else {
         //    return $default;
         // }
         $inst = BigDataBlockManager::getInstance();

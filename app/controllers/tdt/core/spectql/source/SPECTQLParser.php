@@ -89,13 +89,13 @@ class SPECTQLParser
                 $t = $tokenizer->pop();
                 if (is_numeric($t)) {
                     $this->parser->eat('num', $t);
-                } else if ($t == "'") {
+                } elseif ($t == "'") {
                     $this->parser->eat('string', $tokenizer->pop());
                     $tokenizer->pop();
-                } else if (!$this->is_keyword($t) && preg_match("/[0-9a-zA-Z\s-_]+/si", $t)) {
+                } elseif (!$this->is_keyword($t) && preg_match("/[0-9a-zA-Z\s-_]+/si", $t)) {
                     $t = rtrim($t);
                     $this->parser->eat('name', $t);
-                } else if ($this->is_keyword($t)) {
+                } elseif ($this->is_keyword($t)) {
                     $this->parser->eat(strtoupper($t), null);
                 } else {
                     $this->parser->eat(self::$symbols[$t], null);

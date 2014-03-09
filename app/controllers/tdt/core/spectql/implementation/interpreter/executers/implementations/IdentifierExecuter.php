@@ -215,7 +215,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
                 $data = $this->applyFilter($old_value, $copy_ids);
                 $newRow->defineValue($newcolumnid, $data);
 
-            }else{
+            } else {
                 $oldRow->copyValueTo($newRow, $oldcolumnid, $newcolumnid);
             }
 
@@ -246,20 +246,20 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
 
             if (is_object($data) && $key = self::propertyExists($data, $property)) {
                 $data = $data->$key;
-            }elseif(is_array($data)){
+            } elseif(is_array($data)){
 
                 if ($key = self::keyExists($data, $property)) {
                     $data = $data[$key];
-                }else if(is_numeric($property)){
+                } elseif(is_numeric($property)){
                     for ($i = 0; $i <= $property; $i++) {
                         $result = array_shift($data);
                     }
 
                     $data = $result;
-                }else{
+                } else {
                     return null;
                 }
-            }else{
+            } else {
                 return null;
             }
         }

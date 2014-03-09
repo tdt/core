@@ -52,7 +52,7 @@ class Proj4phpProjLaea
     $t = abs($this->lat0);
     if (abs($t - Proj4php::$common->HALF_PI) < Proj4php::$common->EPSLN) {
       $this->mode = $this->lat0 < 0. ? $this->S_POLE : $this->N_POLE;
-    } else if (abs($t) < Proj4php::$common->EPSLN) {
+    } elseif (abs($t) < Proj4php::$common->EPSLN) {
       $this->mode = $this->EQUIT;
     } else {
       $this->mode = $this->OBLIQ;
@@ -323,7 +323,7 @@ class Proj4phpProjLaea
        if (abs(temp) > Proj4php::$common->EPSLN) {
           temp = cos_z -$this->sin_lat_o * sin(lat);
           if(temp!=0.0) lon=Proj4php::$common->adjust_lon($this->long0+atan2($p->x*sin_z*$this->cos_lat_o,temp*Rh));
-       } else if ($this->lat0 < 0.0) {
+       } elseif ($this->lat0 < 0.0) {
           lon = Proj4php::$common->adjust_lon($this->long0 - atan2(-$p->x,$p->y));
        } else {
           lon = Proj4php::$common->adjust_lon($this->long0 + atan2($p->x, -$p->y));

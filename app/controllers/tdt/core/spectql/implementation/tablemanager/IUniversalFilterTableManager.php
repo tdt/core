@@ -76,5 +76,3 @@ interface IUniversalFilterTableManager
      */
     public function getSourceIdFromIdentifier($globalTableIdentifier);
 }
-
-?>

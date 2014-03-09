@@ -37,4 +37,4 @@ function hashWithNoSpecialChars($string) {
     return strToHex($string);
 }
 
-?>
+

@@ -27,7 +27,4 @@ class DummyUniversalFilterNode extends NormalFilterNode
         if ($source != null)
             $this->setSource($source);
     }
-
 }
-
-?>

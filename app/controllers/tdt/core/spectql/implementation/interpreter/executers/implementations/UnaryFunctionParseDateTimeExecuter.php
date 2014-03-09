@@ -18,4 +18,3 @@ class UnaryFunctionParseDateTimeExecuter extends UnaryFunctionExecuter
         return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }
 }
-?>

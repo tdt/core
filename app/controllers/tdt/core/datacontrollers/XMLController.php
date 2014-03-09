@@ -26,14 +26,14 @@ class XMLController extends ADataController
         // Check for caching
         if (Cache::has($uri)) {
             $data = Cache::get($uri);
-        }else{
+        } else {
             // Fetch the data
 
             $data =@ file_get_contents($uri);
             if (!empty($data)) {
                 $data = $this->xmlstr_to_array($data);
                 Cache::put($uri, $data, $source_definition['cache']);
-            }else{
+            } else {
                 $uri = $source_definition['uri'];
                 \App::abort(500, "Cannot retrieve data from the XML file located on $uri.");
             }
@@ -95,7 +95,7 @@ class XMLController extends ADataController
 
                         // Push the child tag on the array
                         $output[$tag][] = $value;
-                    }elseif($value) {
+                    } elseif($value) {
                         // Child is plain text
                         $output = (string) $value;
                     }
@@ -120,7 +120,7 @@ class XMLController extends ADataController
                         }
                     }
 
-                }else{
+                } else {
 
                     // Element is a text node, but can still have attributes
                     $value = $output;

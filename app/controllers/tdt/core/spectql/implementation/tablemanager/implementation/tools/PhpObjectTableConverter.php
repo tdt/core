@@ -100,7 +100,7 @@ class PhpObjectTableConverter
 
                 return $obj_arr;
 
-            } else if (is_array($root)) {
+            } elseif (is_array($root)) {
 
                 $is_assoc = $this->is_assoc($root);
 
@@ -121,7 +121,7 @@ class PhpObjectTableConverter
                         }
                         $property = $obj;
 
-                    } else if(!is_object($property)){
+                    } elseif(!is_object($property)){
 
                         $obj = new \stdClass();
                         $obj->value = $property;

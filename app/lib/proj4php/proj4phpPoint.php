@@ -28,7 +28,7 @@
         $this->x = $x[0];
         $this->y = $x[1];
         $this->z = (sizeof($x)>=3)?$x[2]:0.0;
-      } else if (is_string($x) && !is_numeric($y)) {
+      } elseif (is_string($x) && !is_numeric($y)) {
         $coords = explode(',',$x);
         $this->x = floatval($coords[0]);
         $this->y = floatval($coords[1]);

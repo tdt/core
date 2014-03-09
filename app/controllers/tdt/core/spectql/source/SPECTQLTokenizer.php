@@ -61,7 +61,7 @@ class SPECTQLTokenizer
             //first check whether 2 characters is a symbol!
             if (in_array(substr($querystring, $itoken, 2), $symbols)) {
                 $symbol = substr($querystring, $itoken, 2);
-            } else if (in_array(substr($querystring, $itoken, 1), $symbols)) {
+            } elseif (in_array(substr($querystring, $itoken, 1), $symbols)) {
                 $symbol = substr($querystring, $itoken, 1);
             }
             //check if group, then just skip all
@@ -82,7 +82,7 @@ class SPECTQLTokenizer
                 $this->tokens[] = $symbol;
                 $this->tokens[] = "'";
                 $i = $itoken;
-            } else if ($symbol != "") {
+            } elseif ($symbol != "") {
                 $this->tokens[] = $symbol;
                 //when a token is stored, give $i a new starting point. The new starting point lies behind the symbol that terminates the previous one
                 $i = $itoken + strlen($symbol);

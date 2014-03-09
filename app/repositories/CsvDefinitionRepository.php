@@ -39,7 +39,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
 
         if (empty($geo)) {
             $geo = array();
-        }else{
+        } else {
             $geo = $this->geo_repository->validate(@$input['geo']);
         }
 

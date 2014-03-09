@@ -56,12 +56,12 @@ function getNularyFilterForSQLFunction($SQLname) {
             $SQLname == "LOCALTIME" ||
             $SQLname == "LOCALTIMESTAMP") {
         return CombinedFilterGenerators::makeDateTimeNow();
-    } else if (
+    } elseif (
             $SQLname == "CURDATE" ||
             $SQLname == "CUR_DATE" ||
             $SQLname == "CURRENT_DATE") {
         return CombinedFilterGenerators::makeDateTimeCurrentDate();
-    } else if (
+    } elseif (
             $SQLname == "CURTIME" ||
             $SQLname == "CUR_TIME" ||
             $SQLname == "CURRENT_TIME") {
@@ -154,9 +154,9 @@ function getUnaryFilterForSQLFunction($sqlname, $arg1) {
         }
 
         return $funct;
-    } else if (isset($unarymap[$sqlname])) {
+    } elseif (isset($unarymap[$sqlname])) {
         return new UnaryFunction($unarymap[$sqlname], $arg1);
-    } else if (isset($unaryaggregatormap[$sqlname])) {
+    } elseif (isset($unaryaggregatormap[$sqlname])) {
         return new AggregatorFunction($unaryaggregatormap[$sqlname], $arg1);
     } else {
         throw new \Exception("The unary function name ($sqlname) does not exist.");

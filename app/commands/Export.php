@@ -78,14 +78,14 @@ class Export extends Command
                 }
             }
 
-        }elseif($this->option('users')){
+        } elseif($this->option('users')){
 
             // Export users
             $export_data->users = Users::export();
             // Export groups
             $export_data->groups = Groups::export();
 
-        }else{
+        } else {
 
             // Export definitions
             $export_data->definitions = Definitions::export();
@@ -101,7 +101,7 @@ class Export extends Command
         // JSON encode
         if (defined('JSON_PRETTY_PRINT')) {
             $export_data = json_encode($export_data, JSON_PRETTY_PRINT);
-        }else{
+        } else {
             $export_data = json_encode($export_data);
         }
 
@@ -113,7 +113,7 @@ class Export extends Command
         if (empty($filename)) {
             // Print to console
             echo $export_data;
-        }else{
+        } else {
             try {
                 // Write to file
                 file_put_contents($filename, $export_data);

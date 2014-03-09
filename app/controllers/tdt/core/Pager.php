@@ -28,7 +28,7 @@ class Pager
                 $key_words = implode(', ', self::$PAGING_KEYWORDS);
                 \App::abort(400, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
 
-            }else if(count($page_info) != 2){
+            } elseif(count($page_info) != 2){
                 \App::abort(400, "The provided page info did not contain 2 parts, it should only contain a page number and a page size.");
             }
 
@@ -109,12 +109,12 @@ class Pager
 
                 $offset = ($page -1)*$page_size;
                 $limit = $page_size;
-            }else if($page == -1){
+            } elseif($page == -1){
 
                 $limit = PHP_INT_MAX;
                 $offset= 0;
             }
-        }else if($limit == -1){
+        } elseif($limit == -1){
             $limit = PHP_INT_MAX;
         }
 

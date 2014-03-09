@@ -52,26 +52,26 @@
  */
 
 // Configuration
-define("SHOW_ERRORS", true);
-define("DEBUG", false);
+ define("SHOW_ERRORS", true);
+ define("DEBUG", false);
 
 
 // Constants
-define("XY_POINT_RECORD_LENGTH", 16);
+ define("XY_POINT_RECORD_LENGTH", 16);
 
 
 // Strings
-define("ERROR_FILE_NOT_FOUND", "SHP File not found [%s]");
-define("INEXISTENT_RECORD_CLASS", "Unable to determine shape record type [%i]");
-define("INEXISTENT_FUNCTION", "Unable to find reading function [%s]");
-define("INEXISTENT_DBF_FILE", "Unable to open (read/write) SHP's DBF file [%s]");
-define("INCORRECT_DBF_FILE", "Unable to read SHP's DBF file [%s]");
-define("UNABLE_TO_WRITE_DBF_FILE", "Unable to write DBF file [%s]");
+ define("ERROR_FILE_NOT_FOUND", "SHP File not found [%s]");
+ define("INEXISTENT_RECORD_CLASS", "Unable to determine shape record type [%i]");
+ define("INEXISTENT_FUNCTION", "Unable to find reading function [%s]");
+ define("INEXISTENT_DBF_FILE", "Unable to open (read/write) SHP's DBF file [%s]");
+ define("INCORRECT_DBF_FILE", "Unable to read SHP's DBF file [%s]");
+ define("UNABLE_TO_WRITE_DBF_FILE", "Unable to write DBF file [%s]");
 
 
 
-class ShapeFile
-{
+ class ShapeFile
+ {
     private $file_name;
     private $fp;
     //Used to fasten up the search between records;
@@ -215,11 +215,13 @@ class ShapeRecord
 
     private $file_name = "";
 
-    private $record_class = array(  0 => "RecordNull",
-                                    1 => "RecordPoint",
-                                    8 => "RecordMultiPoint",
-                                    3 => "RecordPolyLine",
-                                    5 => "RecordPolygon");
+    private $record_class = array(
+        0 => "RecordNull",
+        1 => "RecordPoint",
+        8 => "RecordMultiPoint",
+        3 => "RecordPolyLine",
+        5 => "RecordPolygon"
+    );
 
     function ShapeRecord(&$fp, $file_name,$options) {
         $this->fp = $fp;
@@ -378,8 +380,7 @@ function readRecordPolyLine(&$fp,$options = null) {
         //Skip the parts
         $points_initial_index = ftell($fp)+4*$data["numparts"];
         $points_read = $data["numpoints"];
-    }
-    else{
+    } else {
         for ($i=0; $i<$data["numparts"]; $i++) {
             $data["parts"][$i] = readAndUnpack("i", fread($fp, 4));
             //_d("PolyLine adding point index= ".$data["parts"][$i]);
@@ -459,4 +460,3 @@ function getArray($array) {
     ob_get_clean();
     return $contents;
 }
-?>

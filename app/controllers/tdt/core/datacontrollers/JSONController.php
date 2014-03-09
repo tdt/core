@@ -25,12 +25,12 @@ class JSONController extends ADataController
         // Check for caching
         if (Cache::has($uri)) {
             $data = Cache::get($uri);
-        }else{
+        } else {
             // Fetch the data
             $data =@ file_get_contents($uri);
             if ($data) {
                 Cache::put($uri, $data, $source_definition['cache']);
-            }else{
+            } else {
                 $uri = $source_definition['uri'];
                 \App::abort(500, "Cannot retrieve data from the JSON file located on $uri.");
             }

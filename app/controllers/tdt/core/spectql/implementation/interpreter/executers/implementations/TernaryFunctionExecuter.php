@@ -175,7 +175,4 @@ abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecut
     {
         return null;
     }
-
 }
-
-?>

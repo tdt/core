@@ -159,7 +159,7 @@ class DefinitionController extends ApiController
         // Is the body passed as JSON, if not try getting the request parameters from the uri
         if (!empty($input)) {
             $input = json_decode($input, true);
-        }else{
+        } else {
             $input = \Input::all();
         }
 

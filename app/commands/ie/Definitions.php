@@ -48,7 +48,7 @@ class Definitions implements IImportExport
         if (empty($identifier)) {
             // Request all of the definitions
             return DefinitionController::getAllDefinitions();
-        }else{
+        } else {
             // Request a single definition
             $definition =  DefinitionController::get($identifier);
             return array($identifier => $definition->getAllParameters());

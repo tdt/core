@@ -50,7 +50,7 @@ class DatasetController extends ApiController
 
         if (Cache::has($cache_string)) {
             return ContentNegotiator::getResponse(Cache::get($cache_string), $extension);
-        }else{
+        } else {
 
             // Get definition
             $definition = $this->definition_repository->getByIdentifier($uri);
@@ -98,11 +98,11 @@ class DatasetController extends ApiController
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
-                }else{
+                } else {
                     \App::abort(404, "Source for the definition could not be found.");
                 }
 
-            }else{
+            } else {
 
                 // Coulnd't find a definition, but it might be a collection
                 $resources = $this->definition_repository->getByCollection($uri);
@@ -120,7 +120,7 @@ class DatasetController extends ApiController
                         $collection_uri = rtrim($res->collection_uri, '/');
                         if ($collection_uri == $uri) {
                             array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
-                        }else{
+                        } else {
                             // Push the subcollection if it's not already in the array
                             if (!in_array(\URL::to($collection_uri), $data->data->collections)) {
                                 array_push($data->data->collections, \URL::to($collection_uri));
@@ -138,7 +138,7 @@ class DatasetController extends ApiController
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
-                }else{
+                } else {
                     \App::abort(404, "The dataset or collection you were looking for could not be found (URI: $uri).");
                 }
             }
@@ -156,20 +156,20 @@ class DatasetController extends ApiController
 
             if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
                 $data = $data->$key;
-            }elseif(is_array($data)){
+            } elseif(is_array($data)){
 
                 if ($key = self::keyExists($data, $rest_param)) {
                     $data = $data[$key];
-                }else if(is_numeric($rest_param)){
+                } elseif(is_numeric($rest_param)){
                     for ($i = 0; $i <= $rest_param; $i++) {
                         $result = array_shift($data);
                     }
 
                     $data = $result;
-                }else{
+                } else {
                     \App::abort(404, "No property ($rest_param) has been found.");
                 }
-            }else{
+            } else {
                 \App::abort(404, "No property ($rest_param) has been found.");
             }
         }
@@ -216,10 +216,10 @@ class DatasetController extends ApiController
                 }
 
                 return $data;
-            }else{
+            } else {
                 \App::abort(404, "Source for the definition could not be found.");
             }
-        }else{
+        } else {
             \App::abort(404, "The definition could not be found.");
         }
     }

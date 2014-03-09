@@ -36,7 +36,7 @@ class Auth extends \Controller
                 if (!empty($groupPermissions[$permission]) && $groupPermissions[$permission] == 1) {
                     // Everyone has access
                     return true;
-                }else{
+                } else {
                     break;
                 }
             }
@@ -53,11 +53,11 @@ class Auth extends \Controller
             // Check permissions
             if (self::hasAccess($permissions)) {
                 return true;
-            }else{
+            } else {
                 \App::abort(403, "The authenticated user hasn't got the permissions for this action.");
             }
 
-        }else{
+        } else {
             \App::abort(401, 'Authentication is required.');
         }
     }
@@ -105,7 +105,7 @@ class Auth extends \Controller
             } catch (\Cartalyst\Sentry\Throttling\UserBannedException $e) {
                 \App::abort(403, 'Authentication is required, user is banned.');
             }
-        }else{
+        } else {
             \App::abort(401, 'Authentication is required.');
         }
     }
@@ -142,7 +142,7 @@ class Auth extends \Controller
             // Share user in views
             \View::share('current_user', $user);
             return true;
-        }else{
+        } else {
             return false;
         }
 

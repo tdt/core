@@ -146,7 +146,4 @@ class FilterTreeCloner
 
         return new CheckInFunction($checkInConstants, $this->deepCopyTree($filter->getSource()));
     }
-
 }
-
-?>

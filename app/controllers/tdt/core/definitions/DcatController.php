@@ -122,7 +122,7 @@ class DcatController extends ApiController
                             if (!empty($license) && !empty($license['url'])) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
                             }
-                        }elseif($dc_term == 'language'){
+                        } elseif($dc_term == 'language'){
 
                             $lang_repository = \App::make('repositories\interfaces\LanguageRepositoryInterface');
 
@@ -131,7 +131,7 @@ class DcatController extends ApiController
                             if (!empty($lang)) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
                             }
-                        }else{
+                        } else {
                             $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
                         }
                     }

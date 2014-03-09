@@ -38,7 +38,7 @@ class CSVFormatter implements IFormatter
         foreach ($dataObj->data as $row) {
             if (is_object($row)) {
                $row = get_object_vars($row);
-            }else if(!is_array($row)){
+            } elseif(!is_array($row)){
                 $body .= $row . "\n";
                 continue;
             }
@@ -60,22 +60,20 @@ class CSVFormatter implements IFormatter
                 if (is_object($element)) {
                     if (isset($element->id)) {
                         $body .= $element->id;
-                    }else if(isset($element->name)){
+                    } elseif(isset($element->name)){
                         $body .= $element->name;
-                    }else{
+                    } else {
                         $body .= "n/a";
                     }
-                }
-                elseif(is_array($element)){
+                } elseif(is_array($element)){
                     if (isset($element["id"])) {
                         $body .= $element["id"];
-                    }else if(isset($element["name"])){
+                    } elseif(isset($element["name"])){
                         $body .= $element["name"];
-                    }else{
+                    } else {
                         $body .= "n/a";
                     }
-                }
-                else{
+                } else {
                     $body .= CSVFormatter::enclose($element);
                 }
                 $body .= sizeof($row)-1 != $i ? ";" : "\n";

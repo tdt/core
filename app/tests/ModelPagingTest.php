@@ -132,14 +132,14 @@ class ModelPagingTest extends TestCase
 
                     if ($matches[2] == 'offset') {
                         $this->assertEquals($matches[3], 6);
-                    }else{
+                    } else {
                         $this->assertEquals($matches[5], 2);
                     }
-                }else{
+                } else {
 
                     if ($matches[2] == 'offset') {
                         $this->assertEquals($matches[3], 2);
-                    }else{
+                    } else {
                         $this->assertEquals($matches[5], 2);
                     }
                 }

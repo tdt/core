@@ -98,7 +98,7 @@ class BaseController extends \Controller
 
             // Redirect and that's it
             return $response;
-        }else{
+        } else {
 
             // Regular response, add headers and forget Sentry's cookie
             \Sentry::logout();

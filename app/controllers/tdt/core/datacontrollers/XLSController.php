@@ -123,11 +123,11 @@ class XLSController extends ADataController
                         } else {
                             if (empty($row_objects[$rowobject->$pk])) {
                                 $row_objects[$rowobject->$pk] = $rowobject;
-                            }elseif(!empty($row_objects[$rowobject->$pk])){
+                            } elseif(!empty($row_objects[$rowobject->$pk])){
 
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double has been used already for another record!");
-                            }else{
+                            } else {
 
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double is empty.");
@@ -167,9 +167,9 @@ class XLSController extends ADataController
 
         if ($type == "xls") {
             $objReader = IOFactory::createReader('Excel5');
-        }else if($type == "xlsx") {
+        } elseif($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
-        }else{
+        } else {
             \App::abort(500, "The given file is not supported, supported file are xls or xlsx files.");
         }
 
@@ -191,7 +191,7 @@ class XLSController extends ADataController
         foreach ($columns as $column) {
             if (isset($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
                 $result[$column['column_name_alias']] = $data[$column['index']];
-            }else{
+            } else {
                 $index = $column['index'];
                 \App::abort(500, "The index $index could not be found in the XLS file. Index count starts at 0.");
             }

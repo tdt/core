@@ -22,4 +22,4 @@ class BinaryFunctionDateTimeDateDiffExecuter extends BinaryFunctionExecuter
         return ($interval->invert ? "-" : "") . $interval->days;
     }
 }
-?>
+

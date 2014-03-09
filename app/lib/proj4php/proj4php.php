@@ -223,7 +223,7 @@ class Proj4php
             // convert radians to decimal degrees
             $point->x *= Proj4php::$common->R2D;
             $point->y *= Proj4php::$common->R2D;
-        } else  {               // else project
+        } else {               // else project
             $dest->forward($point);
             if ($dest->to_meter) {
                 $point->x /= $dest->to_meter;
@@ -336,9 +336,7 @@ class Proj4php
         $v; $t;
         for ($i= 0; $i<3; $i++) {
             if ($denorm && $i==2 && !isset($point->z)) { continue; }
-                 if ($i==0) { $v= $xin; $t= 'x'; }
-            else if ($i==1) { $v= $yin; $t= 'y'; }
-            else           { $v= $zin; $t= 'z'; }
+                 if ($i==0) { $v= $xin; $t= 'x'; } elseif ($i==1) { $v= $yin; $t= 'y'; } else { $v= $zin; $t= 'z'; }
             switch($crs->axis[$i]) {
             case 'e':
                 $point[$t]= $v;

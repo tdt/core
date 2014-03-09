@@ -273,7 +273,4 @@ class TreePrinter
             return $string . "\n";
         }
     }
-
 }
-
-?>

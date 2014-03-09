@@ -33,7 +33,7 @@ class JSONLDFormatter implements IFormatter
             }
 
             return $dataObj->data->serialise('jsonld');
-        }else{
+        } else {
             \App::abort(400, "The data is not a semantically linked document, a linked data JSON representation is not possible.");
         }
 

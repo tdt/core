@@ -19,4 +19,4 @@ class TernaryFunctionDateTimeDateSubExecuter extends TernaryFunctionExecuter
         return $dateTime->sub($interval)->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);
     }
 }
-?>
+

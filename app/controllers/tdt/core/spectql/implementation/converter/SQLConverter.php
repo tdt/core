@@ -401,7 +401,4 @@ class SQLConverter
         }
         return $clauses;
     }
-
 }
-
-?>

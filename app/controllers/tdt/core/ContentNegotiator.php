@@ -48,7 +48,7 @@ class ContentNegotiator extends Pager
             if (empty($extension) && empty($data->semantic)) {
                 // Default formatter for non semantic data
                 $extension = 'json';
-            }else if(empty($extension) && !empty($data->semantic)){
+            } elseif(empty($extension) && !empty($data->semantic)){
                 // Default formatter for semantic data is turtle
                 $extension = 'ttl';
             }

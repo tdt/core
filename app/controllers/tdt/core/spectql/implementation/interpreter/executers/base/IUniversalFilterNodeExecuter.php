@@ -64,4 +64,4 @@ interface IUniversalFilterNodeExecuter
     public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex);
 }
 
-?>
+

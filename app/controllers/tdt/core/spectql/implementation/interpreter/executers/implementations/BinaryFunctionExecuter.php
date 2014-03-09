@@ -149,7 +149,4 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }
-
-?>

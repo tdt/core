@@ -42,9 +42,9 @@ class SPARQLController extends ADataController
         // If a construct statement has been passed, we ask for RDF/XML
         if(stripos($query,"select") !== FALSE){ // SELECT query
             $keyword = "select";
-        }elseif(stripos($query,"construct") !== FALSE){ // CONSTRUCT query
+        } elseif(stripos($query,"construct") !== FALSE){ // CONSTRUCT query
             $keyword = "construct";
-        }else{ // No valid SPARQL keyword has been found, is checked during validation
+        } else { // No valid SPARQL keyword has been found, is checked during validation
             \App::abort(500, "No CONSTRUCT or SELECT statement has been found in the given query: $query");
         }
 
@@ -66,7 +66,7 @@ class SPARQLController extends ADataController
             $regex = $keyword . $where_clause;
 
             preg_match_all("/(.*)$regex/msi", $query, $matches);
-        }else{
+        } else {
 
             preg_match_all("/(.*)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
         }
@@ -138,7 +138,7 @@ class SPARQLController extends ADataController
 
             $is_semantic = false;
 
-        }else{
+        } else {
 
             $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
 
@@ -220,7 +220,7 @@ class SPARQLController extends ADataController
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if ($response_code == '400') {
             \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $response. The URI was: $uri");
-        }else if($response_code == '500'){
+        } elseif($response_code == '500'){
             \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The URI was: $uri");
         }
 
@@ -277,16 +277,16 @@ class SPARQLController extends ADataController
 
                     if (!isset($parameters[$placeholder_name])) {
                         $value = '?' . $placeholder;
-                    }else if (!isset($parameters[$placeholder_name][$placeholder_index])){
+                    } elseif (!isset($parameters[$placeholder_name][$placeholder_index])){
                         $value = '?' . $placeholder . '_' . $placeholder_index;
-                    }else{
+                    } else {
                         $value = $parameters[$placeholder_name][$placeholder_index];
                     }
                 } else {
 
                     if (!isset($parameters[$placeholder])) {
                         $value = '?' . $placeholder;
-                    }else{
+                    } else {
                         $value = $parameters[$placeholder];
                     }
 

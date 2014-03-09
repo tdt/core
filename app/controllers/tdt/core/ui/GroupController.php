@@ -123,7 +123,7 @@ class GroupController extends \Controller
                     $group->name = \Input::get('name');
                 }
                 $group->save();
-            }else{
+            } else {
 
                 if ($group->id > 2) {
                     // Update permissions

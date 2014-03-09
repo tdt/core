@@ -147,7 +147,7 @@ class InfoController extends ApiController
                     $definition_info->parameters = $installed::getParameters();
                 }
             }
-        }else{
+        } else {
 
             $datacontroller = '\\tdt\\core\\datacontrollers\\' . $source_type->type . 'Controller';
             $params = $datacontroller::getParameters();

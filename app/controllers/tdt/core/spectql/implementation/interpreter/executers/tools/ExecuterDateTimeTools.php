@@ -130,7 +130,4 @@ class ExecuterDateTimeTools
         }
         return $dateinterval;
     }
-
 }
-
-?>

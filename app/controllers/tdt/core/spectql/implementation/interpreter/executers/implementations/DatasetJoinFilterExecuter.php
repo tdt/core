@@ -218,7 +218,4 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }
-
-?>

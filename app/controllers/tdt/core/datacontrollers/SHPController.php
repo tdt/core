@@ -247,10 +247,10 @@ class SHPController extends ADataController
         // or a lat long will be set (identified by x and y)
         if (!empty($shp_data['parts'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
-        }else if(!empty($shp_data['x'])) {
+        } elseif(!empty($shp_data['x'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
             array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
-        }else{
+        } else {
             \App::abort(400, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported.
                 The supported geometries are Null Shape, Point, PolyLine, Polygon and MultiPoint');
         }
@@ -308,13 +308,13 @@ class SHPController extends ADataController
             if (strpos($shape_type, 'polyline')) {
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
-            }else if(strpos($shape_type, 'polygon')){
+            } elseif(strpos($shape_type, 'polygon')){
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
-            }else{ // TODO support more types
+            } else { // TODO support more types
                 \App::abort(400, 'Provided geometric type ( $shape_type ) is not supported');
             }
-        }else if(isset($shp_data['x'])){
+        } elseif(isset($shp_data['x'])){
             $x = $aliases['x'];
             $y = $aliases['y'];
             array_push($geo_properties, array('property' => 'latitude', 'path' => $x));

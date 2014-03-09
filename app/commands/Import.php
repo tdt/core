@@ -69,7 +69,7 @@ class Import extends Command
                     foreach ($messages as $group => $status) {
                         if ($status) {
                             $this->info("• Group '$group' succesfully added.");
-                        }else{
+                        } else {
                             $this->error("• Group '$group' already existed, ignored.");
                         }
                     }
@@ -80,7 +80,7 @@ class Import extends Command
                     foreach ($messages as $user => $status) {
                         if ($status) {
                             $this->info("• User '$user' succesfully added.");
-                        }else{
+                        } else {
                             $this->error("• User '$user' already existed, ignored.");
                         }
                     }
@@ -107,18 +107,18 @@ class Import extends Command
                     foreach ($messages as $identifier => $status) {
                         if ($status) {
                             $this->info("• Definition with '$identifier' succesfully added.");
-                        }else{
+                        } else {
                             $this->error("Something went wrong when trying to adding the definition '$identifier', check the logs for indications of what may have gone wrong.");
                         }
                     }
                 }
 
                 $this->info("\nCompleted task");
-            }else{
+            } else {
                 $this->error("The given file doesn't contain valid JSON.");
                 die();
             }
-        }else{
+        } else {
             $this->error("The given file '$file' can't be found on the system.");
             die();
         }

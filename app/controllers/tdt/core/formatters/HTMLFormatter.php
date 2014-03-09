@@ -60,7 +60,7 @@ class HTMLFormatter implements IFormatter
             $view = 'dataset.spectql';
             $data = self::displayTree($dataObj->data);
 
-        }else{
+        } else {
 
             // Create the link to the dataset
             $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
@@ -102,7 +102,7 @@ class HTMLFormatter implements IFormatter
                             }
 
                             $data = $dataObj->data->serialise('turtle');
-                        }else{
+                        } else {
 
                             $view = 'dataset.code';
                             $data = self::displayTree($dataObj->data);
@@ -112,7 +112,7 @@ class HTMLFormatter implements IFormatter
                         break;
                 }
 
-            }else{
+            } else {
                 // Collection view
                 $view = 'dataset.collection';
                 $data = $dataObj->data;
@@ -144,7 +144,7 @@ class HTMLFormatter implements IFormatter
         }
         if (defined('JSON_PRETTY_PRINT')) {
             $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        }else {
+        } else {
             $formattedJSON = json_encode($data);
         }
 

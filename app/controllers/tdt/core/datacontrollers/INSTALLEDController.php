@@ -42,7 +42,7 @@ class INSTALLEDController extends ADataController
                         if (!empty($key)) {
                             // Pass the parameter to the resource in right order
                             $installed->setParameter($key, $param);
-                        }else{
+                        } else {
                             break;
                         }
                     }
@@ -70,13 +70,13 @@ class INSTALLEDController extends ADataController
 
                 return $data_result;
 
-            }else{
+            } else {
                 $class = $source_definition['class'];
                 $path = $source_definition['path'];
                 \App::abort(500, "Can't find the class '$class' in the file for the installed resource ($path).");
             }
 
-        }else{
+        } else {
             $path = $source_definition['path'];
             \App::abort(500, "Can't find the file for the installed resource ($path).");
         }

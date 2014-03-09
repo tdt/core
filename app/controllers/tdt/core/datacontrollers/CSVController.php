@@ -103,11 +103,11 @@ class CSVController extends ADataController
 
                         if (empty($pk)) {
                             array_push($row_objects, $obj);
-                        }else{
+                        } else {
 
                             if (!empty($row_objects[$obj->$pk])) {
                                 \Log::info("The primary key $pk has been used already for another record!");
-                            }else{
+                            } else {
                                 $row_objects[$obj->$pk] = $obj;
                             }
                         }
@@ -143,7 +143,7 @@ class CSVController extends ADataController
         foreach ($columns as $column) {
             if (!empty($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
                 $result[$column['column_name_alias']] = utf8_encode(@$data[$column['index']]);
-            }else{
+            } else {
 
                 $index = $column['index'];
 
@@ -211,7 +211,7 @@ class CSVController extends ADataController
 
                     array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
                 }
-            }else{
+            } else {
                 \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");
             }
 

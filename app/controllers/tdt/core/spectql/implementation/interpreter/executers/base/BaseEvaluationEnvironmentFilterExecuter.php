@@ -83,7 +83,4 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
             $oldtable->getContent()->getRow(0)->copyValueTo($oldTableRow, $columnid, $columnid);
         }
     }
-
 }
-
-?>

@@ -94,13 +94,13 @@ class Proj4phpProj
               ($urn[3] =='crs')) {
               $srsCode = $urn[4].':'.$urn[strlen($urn)-1];
           }
-      } else if (strpos($srsCode,'http://') === 0) {
+      } elseif (strpos($srsCode,'http://') === 0) {
           //url#ID
           $url = explode('#',$srsCode);
           if (preg_match("/epsg.org/",$url[0])) {
             // http://www.epsg.org/#
             $srsCode = 'EPSG:'.$url[1];
-          } else if (preg_match("/RIG.xml/",$url[0])) {
+          } elseif (preg_match("/RIG.xml/",$url[0])) {
             //http://librairies.ign.fr/geoportail/resources/RIG.xml#
             //http://interop.ign.fr/registers/ign/RIG.xml#
             $srsCode = 'IGNF:'.$url[1];
@@ -112,12 +112,12 @@ class Proj4phpProj
           $this->srsAuth = 'epsg';
           $this->srsProjNumber = substr($this->srsCode,5);
       // DGR 2007-11-20 : authority IGNF
-      } else if (strpos($this->srsCode,"IGNF") === 0) {
+      } elseif (strpos($this->srsCode,"IGNF") === 0) {
           $this->srsCode = $this->srsCode;
           $this->srsAuth = 'IGNF';
           $this->srsProjNumber = substr($this->srsCode,5);
       // DGR 2008-06-19 : pseudo-authority CRS for WMS
-      } else if (strpos($this->srsCode,"CRS") === 0) {
+      } elseif (strpos($this->srsCode,"CRS") === 0) {
           $this->srsCode = $this->srsCode;
           $this->srsAuth = 'CRS';
           $this->srsProjNumber = substr($this->srsCode,4);

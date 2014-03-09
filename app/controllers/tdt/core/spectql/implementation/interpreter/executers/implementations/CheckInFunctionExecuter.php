@@ -42,7 +42,4 @@ class CheckInFunctionExecuter extends UnaryFunctionExecuter
         }
         return "false";
     }
-
 }
-
-?>

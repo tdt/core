@@ -22,7 +22,4 @@ class DistinctFilterExecuter extends BaseHashingFilterExecuter
     {
         return true;
     }
-
 }
-
-?>

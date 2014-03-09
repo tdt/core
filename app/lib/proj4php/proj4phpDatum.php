@@ -53,15 +53,15 @@
   {
     if ( $this->datum_type != $dest->datum_type ) {
       return false; // false, datums are not equal
-    } else if( $this->a != $dest->a || abs($this->es-$dest->es) > 0.000000000050 ) {
+    } elseif( $this->a != $dest->a || abs($this->es-$dest->es) > 0.000000000050 ) {
       // the tolerence for es is to ensure that GRS80 and WGS84
       // are considered identical
       return false;
-    } else if( $this->datum_type == Proj4php::$common->PJD_3PARAM ) {
+    } elseif( $this->datum_type == Proj4php::$common->PJD_3PARAM ) {
       return ($this->datum_params[0] == $dest->datum_params[0]
               && $this->datum_params[1] == $dest->datum_params[1]
               && $this->datum_params[2] == $dest->datum_params[2]);
-    } else if( $this->datum_type == Proj4php::$common->PJD_7PARAM ) {
+    } elseif( $this->datum_type == Proj4php::$common->PJD_7PARAM ) {
       return ($this->datum_params[0] == $dest->datum_params[0]
               && $this->datum_params[1] == $dest->datum_params[1]
               && $this->datum_params[2] == $dest->datum_params[2]
@@ -69,7 +69,7 @@
               && $this->datum_params[4] == $dest->datum_params[4]
               && $this->datum_params[5] == $dest->datum_params[5]
               && $this->datum_params[6] == $dest->datum_params[6]);
-    } else if( $this->datum_type == Proj4php::$common->PJD_GRIDSHIFT ) {
+    } elseif( $this->datum_type == Proj4php::$common->PJD_GRIDSHIFT ) {
 	  throw(new Exception("Not implemented yet"));
       //return strcmp( pj_param($this->params,"snadgrids").s,
       //               pj_param($dest->params,"snadgrids").s ) == 0;
@@ -113,9 +113,9 @@
     */
     if ( $Latitude < -Proj4php::$common->HALF_PI && $Latitude > -1.001 * Proj4php::$common->HALF_PI ) {
         $Latitude = -Proj4php::$common->HALF_PI;
-    } else if( $Latitude > Proj4php::$common->HALF_PI && $Latitude < 1.001 * Proj4php::$common->HALF_PI ) {
+    } elseif( $Latitude > Proj4php::$common->HALF_PI && $Latitude < 1.001 * Proj4php::$common->HALF_PI ) {
         $Latitude = Proj4php::$common->HALF_PI;
-    } else if (($Latitude < -Proj4php::$common->HALF_PI) || ($Latitude > Proj4php::$common->HALF_PI)) {
+    } elseif (($Latitude < -Proj4php::$common->HALF_PI) || ($Latitude > Proj4php::$common->HALF_PI)) {
       /* Latitude out of range */
       Proj4php::reportError('geocent:lat out of range:'.$Latitude);
       return null;
@@ -271,30 +271,22 @@ $maxiter = 30;
     $At_Pole = false;
     if ($X != 0.0) {
         $Longitude = atan2($Y,$X);
-    }
-    else
-    {
+    } else {
         if ($Y > 0) {
             $Longitude = Proj4php::$common->HALF_PI;
-        }
-        else if (Y < 0)
+        } elseif (Y < 0)
         {
             $Longitude = -Proj4php::$common->HALF_PI;
-        }
-        else
-        {
+        } else {
             $At_Pole = true;
             $Longitude = 0.0;
             if ($Z > 0.0)
             {  /* north pole */
                 $Latitude = Proj4php::$common->HALF_PI;
-            }
-            else if (Z < 0.0)
+            } elseif (Z < 0.0)
             {  /* south pole */
                 $Latitude = -Proj4php::$common->HALF_PI;
-            }
-            else
-            {  /* center of earth */
+            } else {  /* center of earth */
                 $Latitude = Proj4php::$common->HALF_PI;
                 $Height = -$this->b;
                 return;
@@ -316,13 +308,10 @@ $maxiter = 30;
     $Rn = $this->a / sqrt(1.0 - $this->es * $Sin_p1 * $Sin_p1);
     if ($Cos_p1 >= Proj4php::$common->COS_67P5) {
         $Height = $W / $Cos_p1 - $Rn;
-    }
-    else if ($Cos_p1 <= -Proj4php::$common->COS_67P5)
+    } elseif ($Cos_p1 <= -Proj4php::$common->COS_67P5)
     {
         $Height = $W / -$Cos_p1 - $Rn;
-    }
-    else
-    {
+    } else {
         $Height = $Z / $Sin_p1 + $Rn * ($this->es - 1.0);
     }
     if (At_Pole == false) {
@@ -348,8 +337,7 @@ $maxiter = 30;
       $p->y += $this->datum_params[1];
       $p->z += $this->datum_params[2];
 
-    }
-    else if ($this->datum_type == Proj4php::$common->PJD_7PARAM)
+    } elseif ($this->datum_type == Proj4php::$common->PJD_7PARAM)
     {
       $Dx_BF =$this->datum_params[0];
       $Dy_BF =$this->datum_params[1];
@@ -383,8 +371,7 @@ $maxiter = 30;
       $p->y -= $this->datum_params[1];
       $p->z -= $this->datum_params[2];
 
-    }
-    else if ($this->datum_type == Proj4php::$common->PJD_7PARAM)
+    } elseif ($this->datum_type == Proj4php::$common->PJD_7PARAM)
     {
       $Dx_BF =$this->datum_params[0];
       $Dy_BF =$this->datum_params[1];

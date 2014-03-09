@@ -91,18 +91,18 @@ class DatasetController extends \Controller
 
                         $parameters_dc[$parameter] = $object;
 
-                    }else{
+                    } else {
                         // Fitler optional vs required
                         if ($object->required) {
                             // Filter the type paramter
                             if ($parameter != 'type') {
                                 $parameters_required[$parameter] = $object;
                             }
-                        }else{
+                        } else {
                             $parameters_optional[$parameter] = $object;
                         }
                     }
-                }else{
+                } else {
 
 
                     switch ($parameter) {
@@ -203,7 +203,7 @@ class DatasetController extends \Controller
                         }
 
                         $parameters_dc[$parameter] = $object;
-                    }else{
+                    } else {
                         // Filter optional vs required
                         $parameters_optional[$parameter] = $object;
                     }
@@ -228,7 +228,7 @@ class DatasetController extends \Controller
 
             return \Response::make($view);
 
-        }else{
+        } else {
             return \Redirect::to('api/admin/datasets');
         }
     }

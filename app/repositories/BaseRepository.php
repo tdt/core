@@ -87,7 +87,7 @@ class BaseRepository implements BaseRepositoryInterface
 
             if (empty($input[$key]) && !empty($info['default_value']) || is_numeric(@$info['default_value'])) {
                 $input[$key] = @$info['default_value'];
-            }else if(empty($input[$key])){
+            } elseif(empty($input[$key])){
                 $input[$key] = null;
             }
         }

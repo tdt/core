@@ -72,7 +72,4 @@ class ConstantExecuter extends AbstractUniversalFilterNodeExecuter
     {
         return array();
     }
-
 }
-
-?>
