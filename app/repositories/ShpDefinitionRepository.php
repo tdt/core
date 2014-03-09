@@ -51,13 +51,13 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
     }
 
 
-    public function update($id, $input)
+    public function update($shp_id, $input)
     {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
-        $shp_definition = $this->getById($id);
+        $shp_definition = $this->getById($shp_id);
 
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
         $extracted_columns = SHPController::parseColumns($shp_definition->toArray());
@@ -71,18 +71,18 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys(\ShpDefinition::getCreateParameters()));
 
-        $shp_def_object = $this->model->find($id);
+        $shp_def_object = $this->model->find($shp_id);
         $shp_def_object->update($input);
 
         // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($id);
-        $this->geo_repository->deleteBulk($id);
+        $this->tabular_repository->deleteBulk($shp_id);
+        $this->geo_repository->deleteBulk($shp_id);
 
         // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($id, 'ShpDefinition', $columns);
+        $this->tabular_repository->storeBulk($shp_id, 'ShpDefinition', $columns);
 
         if(!empty($geo))
-            $this->geo_repository->storeBulk($id, 'ShpDefinition', $geo);
+            $this->geo_repository->storeBulk($shp_id, 'ShpDefinition', $geo);
 
         return $shp_def_object->toArray();
     }

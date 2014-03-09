@@ -143,7 +143,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     public function getOldest()
     {
 
-        $definition = \Definition::where( 'created_at', '=', \DB::table('definitions')->max('created_at'))->first();
+        $definition = \Definition::where('created_at', '=', \DB::table('definitions')->max('created_at'))->first();
 
         if(!empty($definition))
             return $definition->toArray();
@@ -307,7 +307,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     }
 
     /**
-     * Return the properties ( = column fields ) for this model.
+     * Return the properties (= column fields) for this model.
      */
     public function getCreateParameters()
     {

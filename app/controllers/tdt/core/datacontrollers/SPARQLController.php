@@ -9,7 +9,7 @@ use tdt\core\Pager;
 /**
  * SPARQL Controller
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  * @author Michiel Vancoillie <michiel@okfn.be>

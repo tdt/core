@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Installed Controller
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
@@ -53,8 +53,7 @@ class INSTALLEDController extends ADataController
                 if (!empty($parameter_keys)) {
                     foreach ($parameter_keys as $key) {
                         if (!empty($parameters[$key]['required']) && $parameters[$key]['required']) {
-                            \App::abort(400, "Oops, you forgot to specify the REST parameter '$key' (".$parameters[$key]['description'].").
-                                You have to specify this parameter by passing it as a part of the URI, unlike optional parameters which are passed in the query string.");
+                            \App::abort(400, "Oops, you forgot to specify the REST parameter '$key' (" . $parameters[$key]['description'] . "). You have to specify this parameter by passing it as a part of the URI, unlike optional parameters which are passed in the query string.");
                         }
                     }
                 }

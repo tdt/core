@@ -133,10 +133,10 @@ Visualizing the syntax
 
 For those of you who want to visualize our backus-naur notation, can use the following code:
 
-segment             ::= resource '{' ( selector | '*') '}' ('?' filter)? (':' format)? END
+segment             ::= resource '{' (selector | '*') '}' ('?' filter)? (':' format)? END
 
 resource             ::= collection '/' resource_name
-selector              ::= argument ( ',' argument )*
+selector              ::= argument (',' argument )*
 filter                   ::= comparison (('&' | '|') comparison) *
 format                ::= 'json' | 'xml' | 'php'
 
@@ -146,9 +146,9 @@ resource_name   ::= literal
 argument            ::= (function '(' path ')' | path )
 
 function              ::= 'avg' | 'count' | 'first' | 'last' | 'max' | 'min' | 'sum' | 'ucase' | 'upper' | 'lcase' | 'lower' | 'len'
-path                   ::= literal ( '.' literal )*
+path                   ::= literal ('.' literal )*
 
-comparison        ::= path ( '~'  | '<=' | '<' | '>=' |  '>' | '==' | '!=' ) "'" literal "'"
+comparison        ::= path ('~'  | '<=' | '<' | '>=' |  '>' | '==' | '!=' ) "'" literal "'"
 
 identifier            ::= NAME
 literal                 ::= STRING | NUMBER

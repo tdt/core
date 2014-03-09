@@ -8,7 +8,7 @@ namespace tdt\core\formatters;
  * Includes RDF Api for PHP <http://www4.wiwiss.fu-berlin.de/bizer/rdfapi/>
  * Licensed under LGPL <http://www.gnu.org/licenses/lgpl.html>
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  * @author Miel Vander Sande

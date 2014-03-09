@@ -46,25 +46,25 @@ interface SparqlDefinitionRepositoryInterface
     /**
      * Update a SparqlDefinition
      *
-     * @param integer $id
+     * @param integer $sparql_id
      * @param array $input
      * @return array SparqlDefinition
      */
-    public function update($id, $input);
+    public function update($sparql_id, $input);
 
     /**
      * Delete a SparqlDefinition
      *
-     * @param integer $id
+     * @param integer $sparql_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($sparql_id);
 
     /**
      * Fetch a SparqlDefinition by id
      *
-     * @param integer $id
+     * @param integer $sparql_id
      * @return array SparqlDefinition
      */
-    public function getById($id);
+    public function getById($sparql_id);
 }

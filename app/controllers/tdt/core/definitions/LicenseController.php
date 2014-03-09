@@ -9,7 +9,7 @@ use tdt\core\ApiController;
 /**
  * LicenseController: Controller that handels the available licenses for the dcat
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
@@ -51,7 +51,7 @@ class LicenseController extends ApiController
     }
 
     /**
-     * Return the response with the given data ( formatted in json )
+     * Return the response with the given data (formatted in json)
      */
     private function makeResponse($data)
     {

@@ -46,25 +46,25 @@ interface ShpDefinitionRepositoryInterface
     /**
      * Update a ShpDefinition
      *
-     * @param integer $id
+     * @param integer $shp_id
      * @param array $input
      * @return array ShpDefinition
      */
-    public function update($id, $input);
+    public function update($shp_id, $input);
 
     /**
      * Delete a ShpDefinition
      *
-     * @param integer $id
+     * @param integer $shp_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($shp_id);
 
     /**
      * Fetch a ShpDefinition by id
      *
-     * @param integer $id
+     * @param integer $shp_id
      * @return array ShpDefinition
      */
-    public function getById($id);
+    public function getById($shp_id);
 }

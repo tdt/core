@@ -14,9 +14,9 @@ stmt = flow
 .
 
 flow = expression
-| expression/e '.' LIMIT '(' num/offset ',' num/limit ')' {
+| expression/e '.' LIMIT '(' num/offset ', ' num/limit ')' {
 
-    $limit = new LimitFilter($e,$offset,$limit);
+    $limit = new LimitFilter($e, $offset, $limit);
     $$ = $limit;
  }
 | expression/e '.' LIMIT '(' num/limit ')' {
@@ -137,32 +137,32 @@ num = num '.' num { $$ = new Constant((double) ($1 . "." . $3));  }
 .
 
 filterlist = filter { $$ = $1; }
-| filterlist '&' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,$1,$3); }
-| filterlist '|' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR,$1,$3); }
+| filterlist '&' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, $1, $3); }
+| filterlist '|' filterlist { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR, $1, $3); }
 | '(' filterlist/list ')' { $$ = $list;}
 .
 
-filter = filterargument/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
-| filterargument/a '<' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
-| filterargument/a '>' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b)); }
-| filterargument/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b)); }
-| filterargument/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
-| filterargument/a EQ string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b)); }
-| filterargument/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/")); }
-| filterargument/a NE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
-| filterargument/a NE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b)); }
-| filterargument/a GE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| filterargument/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| filterargument/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| filterargument/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b)); }
-| filterargument/function '(' num/lat ',' num/long ',' num/radius ')' { /* TODO in radius function (ternary function)*/ }
+filter = filterargument/a '>' string/b { $$ =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/a '<' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/a '>' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/a '<' num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/a EQ num/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL, new Identifier($a), new Constant($b)); }
+| filterargument/a EQ string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL, new Identifier($a), new Constant($b)); }
+| filterargument/a '~' string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a), new Constant("/.*".preg_quote($b).".*/")); }
+| filterargument/a NE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, new Identifier($a), new Constant($b)); }
+| filterargument/a NE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, new Identifier($a), new Constant($b)); }
+| filterargument/a GE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/a GE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/a LE string/b { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/a LE num/b    { $$ = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, new Identifier($a), new Constant($b)); }
+| filterargument/function '(' num/lat ', ' num/long ', ' num/radius ')' { /* TODO in radius function (ternary function)*/ }
 .
 
 selector = selectargument/arg { $$ = $1; }
-| selector ',' selectargument/arg { $filters = array_merge($1["filters"],$3["filters"]);
-                                    $sorts   = array_merge($1["sorts"],$3["sorts"]);
-				                    $identifiers = array_merge($1["identifiers"],$3["identifiers"]);
-                                    $$ = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers); }
+| selector ', ' selectargument/arg { $filters = array_merge($1["filters"], $3["filters"]);
+                                    $sorts   = array_merge($1["sorts"], $3["sorts"]);
+				                    $identifiers = array_merge($1["identifiers"], $3["identifiers"]);
+                                    $$ = array("filters"=>$filters, "sorts"=>$sorts, "identifiers" => $identifiers); }
 .
 
 selectargument = argument/arg {
@@ -273,7 +273,7 @@ function = name '(' argument/arg ')' {
         $$ = array("unary" => getUnaryFilterForSQLFunction($1, $column));
     }
 }
-| name '(' argument/arg1 ',' argument/arg2 ',' argument/arg3 ')' {
+| name '(' argument/arg1 ', ' argument/arg2 ', ' argument/arg3 ')' {
 
 $column1 = $arg1;
 

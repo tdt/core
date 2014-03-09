@@ -16,10 +16,10 @@ interface TabularColumnsRepositoryInterface
     /**
      * Delete a TabularColumn object
      *
-     * @param integer $id
+     * @param integer $tabular_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($tabular_id);
 
     /**
      * Validate the test_columns by matching correct_columns
@@ -36,38 +36,38 @@ interface TabularColumnsRepositoryInterface
      * Retrieve all the column names mapped onto their aliases
      *
      * @param string $type
-     * @param integer $id
+     * @param integer $tabular_id
      * @return array of TabularColumn's
      */
-    public function getColumnAliases($id, $type);
+    public function getColumnAliases($tabular_id, $type);
 
     /**
      * Retrieve all the TabularColumn related to a type and id (polymorphic relationship)
      *
      * @param string $type
-     * @param integer $id
+     * @param integer $tabular_id
      * @return array of TabularColumn's
      */
-    public function getColumns($id, $type);
+    public function getColumns($tabular_id, $type);
 
      /**
      * Store new TabularColumn relationships given by input
      *
-     * @param integer $id
+     * @param integer $tabular_id
      * @param string $type
      * @param array $input
      * @return void
      */
-    public function storeBulk($id, $type, $columns);
+    public function storeBulk($tabular_id, $type, $columns);
 
     /**
      * Delete all TabularColumn relationships for a given type and id
      *
-     * @param integer $id
+     * @param integer $tabular_id
      * @param string $type
      * @return void
      */
-    public function deleteBulk($id, $type);
+    public function deleteBulk($tabular_id, $type);
 
     /**
      * Retrieve the set of create parameters that make up a TabularColumn

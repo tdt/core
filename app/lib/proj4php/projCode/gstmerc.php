@@ -20,7 +20,7 @@
       $sinz= sin($this->lat0);
       $pc= asin($sinz/$this->rs);
       $sinzpc= sin($pc);
-      $this->cp= Proj4php::$common->latiso(0.0,$pc,$sinzpc)-$this->rs*Proj4php::$common->latiso($this->e,$this->lat0,$sinz);
+      $this->cp= Proj4php::$common->latiso(0.0,$pc,$sinzpc)-$this->rs*Proj4php::$common->latiso($this->e, $this->lat0, $sinz);
       $this->n2= $this->k0*$this->a*sqrt(1.0-$this->e*$this->e)/(1.0-$this->e*$this->e*$sinz*$sinz);
       $this->xs= $this->x0;
       $this->ys= $this->y0-$this->n2*$pc;
@@ -38,7 +38,7 @@
       $lat= $p->y;
 
       $L= $this->rs*($lon-$this->lc);
-      $Ls= $this->cp+($this->rs*Proj4php::$common->latiso($this->e,$lat,sin($lat)));
+      $Ls= $this->cp+($this->rs*Proj4php::$common->latiso($this->e, $lat,sin($lat)));
       $lat1= asin(sin($L)/Proj4php::$common.cosh($Ls));
       $Ls1= Proj4php::$common.latiso(0.0,$lat1,sin($lat1));
       $p->x= $this->xs+($this->n2*$Ls1);

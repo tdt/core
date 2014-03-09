@@ -139,7 +139,7 @@ class UniversalFilterTableHeader
     }
 
     /**
-     * returns if this table is constructed that way only one row can exist (e.g. after FIRST() or AVG() )
+     * returns if this table is constructed that way only one row can exist (e.g. after FIRST() or AVG())
      */
     public function isSingleRowByConstruction()
     {

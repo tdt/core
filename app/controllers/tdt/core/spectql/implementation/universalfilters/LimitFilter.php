@@ -9,7 +9,7 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
 /**
  * Represents a limit filter => keeps a certain amount of rows from a certain offset
- * Note that rows start counting from 0 thus limit(0,10) will return the first 10 rows.
+ * Note that rows start counting from 0 thus limit(0, 10) will return the first 10 rows.
  *
  * type: Table -> Table
  *

@@ -24,27 +24,27 @@ interface CsvDefinitionRepositoryInterface
     /**
      * Update a CsvDefinition object
      *
-     * @param integer $id
+     * @param integer $model_id
      * @param array $input
      * @return array CsvDefinition
      */
-    public function update($id, $input);
+    public function update($model_id, $input);
 
     /**
      * Delete a CsvDefinition
      *
-     * @param integer $id
+     * @param integer $model_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($model_id);
 
     /**
      * Fetch a CsvDefinition by id
      *
-     * @param integer $id
+     * @param integer $model_id
      * @return array object
      */
-    public function getById($id);
+    public function getById($model_id);
 
     /**
      * Return an array of create parameters with info attached

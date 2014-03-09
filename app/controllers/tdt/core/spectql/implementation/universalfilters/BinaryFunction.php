@@ -10,7 +10,7 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 /**
  * This class represents all binary functions
  *
- * type: (Column,Column) -> Column
+ * type: (Column, Column) -> Column
  * type: (Cell, Cell) -> Cell
  */
 class BinaryFunction extends NormalFilterNode

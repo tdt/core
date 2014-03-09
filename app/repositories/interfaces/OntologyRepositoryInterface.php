@@ -8,10 +8,10 @@ interface OntologyRepositoryInterface
     /**
      * Fetch an Ontology by id
      *
-     * @param integer $id
+     * @param integer $ontology_id
      * @return array Ontology
      */
-    public function getById($id);
+    public function getById($ontology_id);
 
     /**
      * Fetch all Ontology objects

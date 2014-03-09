@@ -13,18 +13,18 @@ use tdt\core\ApiController;
 /**
  * DefinitionController
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class DefinitionController extends ApiController
 {
 
-    protected $definition_repository;
+    protected $definition;
 
-    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition_repository)
+    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition)
     {
-        $this->definition_repository = $definition_repository;
+        $this->definition = $definition;
     }
 
     /**
@@ -47,7 +47,7 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
 
         // Validate the input
-        $validator = $this->definition_repository->getValidator($input);
+        $validator = $this->definition->getValidator($input);
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
@@ -55,7 +55,7 @@ class DefinitionController extends ApiController
         }
 
         // Create the new definition
-        $definition = $this->definition_repository->store($input);
+        $definition = $this->definition->store($input);
 
         $response = \Response::make(null, 200);
         $response->header('Location', \URL::to($definition['collection_uri'] . '/' . $definition['resource_name']));
@@ -69,7 +69,7 @@ class DefinitionController extends ApiController
     public function delete($uri)
     {
 
-        $this->definition_repository->delete($uri);
+        $this->definition->delete($uri);
 
         return \Response::make(null, 200);
     }
@@ -94,14 +94,14 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
 
         // Validate the input
-        $validator = $this->definition_repository->getValidator($input);
+        $validator = $this->definition->getValidator($input);
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
             \App::abort(400, "Something went wrong during validation, the message we got is: " . $message);
         }
 
-        $this->definition_repository->update($uri, $input);
+        $this->definition->update($uri, $input);
 
         $response = \Response::make(null, 200);
 
@@ -114,7 +114,7 @@ class DefinitionController extends ApiController
     public function head($uri)
     {
 
-        if ($this->definition_repository->exists($uri)) {
+        if ($this->definition->exists($uri)) {
             \App::abort(404, "No resource has been found with the uri $uri");
         }
 
@@ -136,9 +136,9 @@ class DefinitionController extends ApiController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions = $this->definition_repository->getAllFullDescriptions($uri, $limit, $offset);
+        $definitions = $this->definition->getAllFullDescriptions($uri, $limit, $offset);
 
-        $definition_count = $this->definition_repository->count();
+        $definition_count = $this->definition->count();
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
@@ -175,7 +175,7 @@ class DefinitionController extends ApiController
     }
 
     /**
-     * Return the response with the given data ( formatted in json )
+     * Return the response with the given data (formatted in json)
      */
     public function makeResponse($data)
     {

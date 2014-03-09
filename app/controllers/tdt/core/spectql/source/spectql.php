@@ -913,7 +913,7 @@ function reduce_3_flow_2($tokens, &$result) {
     $limit =& $tokens[6];
 
 
-    $limit = new LimitFilter($e,$offset,$limit);
+    $limit = new LimitFilter($e, $offset, $limit);
     $result = $limit;
 
 }
@@ -1139,7 +1139,7 @@ function reduce_19_filterlist_2($tokens, &$result) {
 # (19) filterlist :=  filterlist  '&'  filterlist
 #
     $result = reset($tokens);
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,$tokens[0],$tokens[2]);
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND, $tokens[0],$tokens[2]);
 }
 
 function reduce_20_filterlist_3($tokens, &$result) {
@@ -1147,7 +1147,7 @@ function reduce_20_filterlist_3($tokens, &$result) {
 # (20) filterlist :=  filterlist  '|'  filterlist
 #
     $result = reset($tokens);
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR,$tokens[0],$tokens[2]);
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_OR, $tokens[0],$tokens[2]);
 }
 
 function reduce_21_filterlist_4($tokens, &$result) {
@@ -1166,7 +1166,7 @@ function reduce_22_filter_1($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b));
+    $result =  new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_23_filter_2($tokens, &$result) {
@@ -1176,7 +1176,7 @@ function reduce_23_filter_2($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_24_filter_3($tokens, &$result) {
@@ -1186,7 +1186,7 @@ function reduce_24_filter_3($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_25_filter_4($tokens, &$result) {
@@ -1196,7 +1196,7 @@ function reduce_25_filter_4($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_26_filter_5($tokens, &$result) {
@@ -1206,7 +1206,7 @@ function reduce_26_filter_5($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL, new Identifier($a), new Constant($b));
 }
 
 function reduce_27_filter_6($tokens, &$result) {
@@ -1216,7 +1216,7 @@ function reduce_27_filter_6($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL, new Identifier($a), new Constant($b));
 }
 
 function reduce_28_filter_7($tokens, &$result) {
@@ -1226,7 +1226,7 @@ function reduce_28_filter_7($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a),new Constant("/.*".preg_quote($b).".*/"));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MATCH_REGEX, new Identifier($a), new Constant("/.*".preg_quote($b).".*/"));
 }
 
 function reduce_29_filter_8($tokens, &$result) {
@@ -1236,7 +1236,7 @@ function reduce_29_filter_8($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, new Identifier($a), new Constant($b));
 }
 
 function reduce_30_filter_9($tokens, &$result) {
@@ -1246,7 +1246,7 @@ function reduce_30_filter_9($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_NOTEQUAL, new Identifier($a), new Constant($b));
 }
 
 function reduce_31_filter_10($tokens, &$result) {
@@ -1256,7 +1256,7 @@ function reduce_31_filter_10($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_32_filter_11($tokens, &$result) {
@@ -1266,7 +1266,7 @@ function reduce_32_filter_11($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_33_filter_12($tokens, &$result) {
@@ -1276,7 +1276,7 @@ function reduce_33_filter_12($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_34_filter_13($tokens, &$result) {
@@ -1286,7 +1286,7 @@ function reduce_34_filter_13($tokens, &$result) {
     $result = reset($tokens);
     $a =& $tokens[0];
     $b =& $tokens[2];
-    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN,new Identifier($a),new Constant($b));
+    $result = new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, new Identifier($a), new Constant($b));
 }
 
 function reduce_35_filter_14($tokens, &$result) {
@@ -1316,9 +1316,9 @@ function reduce_37_selector_2($tokens, &$result) {
 #
     $result = reset($tokens);
     $arg =& $tokens[2];
-    $filters = array_merge($tokens[0]["filters"],$tokens[2]["filters"]);
-    $sorts   = array_merge($tokens[0]["sorts"],$tokens[2]["sorts"]);
-    $identifiers = array_merge($tokens[0]["identifiers"],$tokens[2]["identifiers"]);
+    $filters = array_merge($tokens[0]["filters"], $tokens[2]["filters"]);
+    $sorts   = array_merge($tokens[0]["sorts"], $tokens[2]["sorts"]);
+    $identifiers = array_merge($tokens[0]["identifiers"], $tokens[2]["identifiers"]);
     $result = array("filters"=>$filters,"sorts"=>$sorts, "identifiers" => $identifiers);
 }
 

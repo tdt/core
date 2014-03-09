@@ -10,7 +10,7 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 /**
  * This class represents all ternary functions
  *
- * type: (Column,Column,Column) -> Column
+ * type: (Column, Column, Column) -> Column
  * type: (Cell, Cell, Cell) -> Cell
  */
 class TernaryFunction extends NormalFilterNode

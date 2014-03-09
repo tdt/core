@@ -9,7 +9,7 @@ use PHPExcel_IOFactory as IOFactory;
 /**
  * Excell Controller
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  * @author Pieter Colpaert   <pieter@irail.be>
@@ -119,7 +119,7 @@ class XLSController extends ADataController
                         }
 
                         if (empty($pk)) {
-                            array_push($row_objects,$rowobject);
+                            array_push($row_objects, $rowobject);
                         } else {
                             if (empty($row_objects[$rowobject->$pk])) {
                                 $row_objects[$rowobject->$pk] = $rowobject;
@@ -148,7 +148,7 @@ class XLSController extends ADataController
 
             return $data_result;
 
-        } catch ( Exception $ex) {
+        } catch (Exception $ex) {
             App::abort(500, "Failed to retrieve data from the XLS file on location $uri.");
         }
     }

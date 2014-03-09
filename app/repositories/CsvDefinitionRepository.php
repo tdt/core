@@ -57,13 +57,13 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         return $csv_definition->toArray();
     }
 
-    public function update($id, $input)
+    public function update($model_id, $input)
     {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
-        $csv_definition = $this->getById($id);
+        $csv_definition = $this->getById($model_id);
 
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
         $extracted_columns = CSVController::parseColumns($csv_definition->toArray());
@@ -76,18 +76,18 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
 
-        $csv_def_object = $this->model->find($id);
+        $csv_def_object = $this->model->find($model_id);
         $csv_def_object->update($input);
 
         // All has been validated, let's replace the current meta-data
-        $this->tabular_repository->deleteBulk($id);
-        $this->geo_repository->deleteBulk($id);
+        $this->tabular_repository->deleteBulk($model_id);
+        $this->geo_repository->deleteBulk($model_id);
 
         // Store the columns and geo meta-data
-        $this->tabular_repository->storeBulk($id, 'CsvDefinition', $columns);
+        $this->tabular_repository->storeBulk($model_id, 'CsvDefinition', $columns);
 
         if(!empty($geo))
-            $$this->geo_repository->storeBulk($id, 'CsvDefinition', $geo);
+            $$this->geo_repository->storeBulk($model_id, 'CsvDefinition', $geo);
 
         return $csv_definition->toArray();
     }
@@ -112,7 +112,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
     }
 
     /**
-     * Return the properties ( = column fields ) for this model.
+     * Return the properties (= column fields) for this model.
      */
     public function getCreateParameters()
     {

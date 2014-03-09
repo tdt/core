@@ -12,7 +12,7 @@ use tdt\core\ApiController;
 /**
  * InfoController: Controller that handles info requests and returns informational data about the datatank.
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
@@ -41,7 +41,7 @@ class InfoController extends ApiController
     {
 
         if (!empty($uri)) {
-            if (!$this->definition_repository->exists($uri)) {
+            if (!$this->definition->exists($uri)) {
                 \App::abort(404, "No resource has been found with the uri $uri");
             }
         }
@@ -64,9 +64,9 @@ class InfoController extends ApiController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions_info = $this->definition_repository->getAllDefinitionInfo($uri, $limit, $offset);
+        $definitions_info = $this->definition->getAllDefinitionInfo($uri, $limit, $offset);
 
-        $definition_count = $this->definition_repository->countPublished();
+        $definition_count = $this->definition->countPublished();
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
@@ -84,9 +84,9 @@ class InfoController extends ApiController
         // Apply paging to fetch the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definition_count = $this->definition_repository->countPublished();
+        $definition_count = $this->definition->countPublished();
 
-        $definitions = $this->definition_repository->getAllPublished($limit, $offset);
+        $definitions = $this->definition->getAllPublished($limit, $offset);
 
         $info = array();
 
@@ -158,7 +158,7 @@ class InfoController extends ApiController
     }
 
     /**
-     * Return the response with the given data ( formatted in json )
+     * Return the response with the given data (formatted in json)
      */
     private function makeResponse($data)
     {

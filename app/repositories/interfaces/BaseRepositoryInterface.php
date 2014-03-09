@@ -51,22 +51,22 @@ interface BaseRepositoryInterface
      * @param array $input
      * @return array object
      */
-    public function update($id, $input);
+    public function update($model_id, $input);
 
     /**
      * Delete an object
      *
-     * @param integer $id
+     * @param integer $model_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($model_id);
 
     /**
      * Fetch an object by id
      *
-     * @param integer $id
+     * @param integer $model_id
      * @return array object
      */
-    public function getById($id);
+    public function getById($model_id);
 
 }

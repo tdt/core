@@ -10,7 +10,7 @@ use tdt\core\ApiController;
 /**
  * LanguageController: Controller that handels the available dcat compliant languages
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
@@ -54,7 +54,7 @@ class LanguageController extends ApiController
     }
 
     /**
-     * Return the response with the given data ( formatted in json )
+     * Return the response with the given data (formatted in json)
      */
     private function makeResponse($data)
     {

@@ -61,7 +61,7 @@ class Proj4phpProjOmerc
        $this->d = 1.0;
        $this->el = 1.0;
     } else {
-       $this->ts = Proj4php::$common.tsfnz($this->e,$this->lat0,$this->sin_p20);
+       $this->ts = Proj4php::$common.tsfnz($this->e, $this->lat0, $this->sin_p20);
        $this->con = sqrt($this->con);
        $this->d = $this->bl * $this->com / ($this->cos_p20 * $this->con);
        if (($this->d * $this->d - 1.0) > 0.0) {
@@ -73,7 +73,7 @@ class Proj4phpProjOmerc
        } else {
          $this->f = $this->d;
        }
-       $this->el = $this->f * pow($this->ts,$this->bl);
+       $this->el = $this->f * pow($this->ts, $this->bl);
     }
 
     //$this->longc=52.60353916666667;
@@ -107,11 +107,11 @@ class Proj4phpProjOmerc
           }
        } else {
        $this->sinphi = sin($this->at1);
-       $this->ts1 = Proj4php::$common.tsfnz($this->e,$this->lat1,$this->sinphi);
+       $this->ts1 = Proj4php::$common.tsfnz($this->e, $this->lat1, $this->sinphi);
        $this->sinphi = sin($this->lat2);
-       $this->ts2 = Proj4php::$common.tsfnz($this->e,$this->lat2,$this->sinphi);
-       $this->h = pow($this->ts1,$this->bl);
-       $this->l = pow($this->ts2,$this->bl);
+       $this->ts2 = Proj4php::$common.tsfnz($this->e, $this->lat2, $this->sinphi);
+       $this->h = pow($this->ts1, $this->bl);
+       $this->l = pow($this->ts2, $this->bl);
        $this->f = $this->el/$this->h;
        $this->g = .5 * ($this->f - 1.0/$this->f);
        $this->j = ($this->el * $this->el - $this->l * $this->h)/($this->el * $this->el + $this->l * $this->h);
@@ -183,8 +183,8 @@ class Proj4phpProjOmerc
     $dlon = Proj4php::$common->adjust_lon($lon - $this->longc);
     $vl = sin($this->bl * $dlon);
     if (abs(abs($lat) - Proj4php::$common->HALF_PI) > Proj4php::$common->EPSLN) {
-       ts1 = Proj4php::$common.tsfnz($this->e,$lat,$sin_phi);
-       $q = $this->el / (pow($ts1,$this->bl));
+       ts1 = Proj4php::$common.tsfnz($this->e, $lat, $sin_phi);
+       $q = $this->el / (pow($ts1, $this->bl));
        $s = .5 * ($q - 1.0 / $q);
        $t = .5 * ($q + 1.0/ $q);
        $ul = ($s * $this->singam - $vl * $this->cosgam) / $t;
@@ -254,12 +254,12 @@ class Proj4phpProjOmerc
        }
     } else {
        $con = 1.0 / $this->bl;
-       $ts1 =pow(($this->el / sqrt((1.0 + $ul) / (1.0 - $ul))),$con);
-       $lat = Proj4php::$common.phi2z($this->e,$ts1);
+       $ts1 =pow(($this->el / sqrt((1.0 + $ul) / (1.0 - $ul))), $con);
+       $lat = Proj4php::$common.phi2z($this->e, $ts1);
        //if (flag != 0)
           //return(flag);
        //~ con = cos($this->bl * us /al);
-       $theta = $this->longc - atan2(($s * $this->cosgam - $vl * $this->singam) , $con)/$this->bl;
+       $theta = $this->longc - atan2(($s * $this->cosgam - $vl * $this->singam), $con)/$this->bl;
        $lon = Proj4php::$common->adjust_lon($theta);
     }
     $p->x=$lon;

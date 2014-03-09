@@ -25,7 +25,7 @@
     $lon = $p->x;
     $lat = $p->y;
 
-    $p->y = 2.0 * atan( $this->K * pow(tan(0.5 * $lat + Proj4php::$common->FORTPI), $this->C) * Proj4php::$common->srat($this->e * sin($lat), $this->ratexp) ) - Proj4php::$common->HALF_PI;
+    $p->y = 2.0 * atan($this->K * pow(tan(0.5 * $lat + Proj4php::$common->FORTPI), $this->C) * Proj4php::$common->srat($this->e * sin($lat), $this->ratexp)) - Proj4php::$common->HALF_PI;
     $p->x = $this->C * $lon;
     return $p;
   }

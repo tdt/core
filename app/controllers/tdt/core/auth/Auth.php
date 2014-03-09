@@ -3,7 +3,7 @@
 namespace tdt\core\auth;
 /**
  * Auth Controller
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
@@ -123,7 +123,7 @@ class Auth extends \Controller
         $auth_header = \Request::header('Authorization');
 
         if (!empty($auth_header)) {
-            list(self::$user, self::$password) = explode(':' , base64_decode(substr(\Request::header('Authorization'), 6)));
+            list(self::$user, self::$password) = explode(':', base64_decode(substr(\Request::header('Authorization'), 6)));
         }
     }
 

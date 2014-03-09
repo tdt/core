@@ -120,7 +120,7 @@ class Proj4phpProjVandg
 		$c3 = -2.0 * $c1 + 1.0 + 2.0 * $yy * $yy + $xys * $xys;
 		$d = $yy * $yy / $c3 + (2.0 * $c2 * $c2 * $c2 / $c3 / $c3 / $c3 - 9.0 * $c1 * $c2 / $c3 /$c3) / 27.0;
 		$a1 = ($c1 - $c2 * $c2 / 3.0 / $c3) / $c3;
-		$m1 = 2.0 * sqrt( -$a1 / 3.0);
+		$m1 = 2.0 * sqrt(-$a1 / 3.0);
 		$con = ((3.0 * $d) / $a1) / $m1;
 		if (abs($con) > 1.0) {
 			if ($con >= 0.0) {

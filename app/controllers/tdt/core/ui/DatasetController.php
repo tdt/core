@@ -2,7 +2,7 @@
 
 /**
  * The datasetcontroller
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
@@ -160,7 +160,7 @@ class DatasetController extends \Controller
             $discovery = $this->getDiscoveryDocument();
 
             // Get spec for media type
-            if (empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)} )) {
+            if (empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)})) {
                 \App::abort('500', 'There is no definition of the media type of this dataset in the discovery document.');
             }
             $mediatype = $discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)};

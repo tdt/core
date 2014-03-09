@@ -22,7 +22,7 @@
      * - y {float} the second component
      * - z {float} the third component, optional.
      */
-    public function __construct($x,$y,$z=null)
+    public function __construct($x, $y, $z=null)
     {
       if (is_object($x)) {
         $this->x = $x[0];

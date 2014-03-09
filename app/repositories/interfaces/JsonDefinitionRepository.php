@@ -46,25 +46,25 @@ interface JsonDefinitionRepositoryInterface
     /**
      * Update a JsonDefinition
      *
-     * @param integer $id
+     * @param integer $installed_id
      * @param array $input
      * @return array JsonDefinition
      */
-    public function update($id, $input);
+    public function update($installed_id, $input);
 
     /**
      * Delete a JsonDefinition
      *
-     * @param integer $id
+     * @param integer $installed_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($installed_id);
 
     /**
      * Fetch a JsonDefinition by id
      *
-     * @param integer $id
+     * @param integer $installed_id
      * @return array JsonDefinition
      */
-    public function getById($id);
+    public function getById($installed_id);
 }

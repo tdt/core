@@ -25,10 +25,10 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         return \GeoProperty::create($input);
     }
 
-    public function getGeoProperties($id, $type)
+    public function getGeoProperties($property_id, $type)
     {
 
-        return \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get()->toArray();
+        return \GeoProperty::where('source_id', '=', $property_id)->where('source_type', '=', $type, 'AND')->get()->toArray();
     }
 
     public function validate($input)
@@ -56,20 +56,20 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         }
     }
 
-    public function storeBulk($id, $type, $input)
+    public function storeBulk($property_id, $type, $input)
     {
 
         foreach ($input as $geo) {
-            $geo['source_id'] = $id;
+            $geo['source_id'] = $property_id;
             $geo['source_type'] = $type;
             $this->store($geo);
         }
     }
 
-    public function deleteBulk($id, $type)
+    public function deleteBulk($property_id, $type)
     {
 
-        $geo_properties = \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get();
+        $geo_properties = \GeoProperty::where('source_id', '=', $property_id)->where('source_type', '=', $type, 'AND')->get();
 
         foreach ($geo_properties as $geo_property) {
             $geo_property->delete();

@@ -15,7 +15,7 @@ use repositories\DefinitionRepository;
 /**
  * DatasetController
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  * @author Jan Vansteenlandt <jan@okfn.be>
@@ -53,12 +53,12 @@ class DatasetController extends ApiController
         } else {
 
             // Get definition
-            $definition = $this->definition_repository->getByIdentifier($uri);
+            $definition = $this->definition->getByIdentifier($uri);
 
             if ($definition) {
 
                 // Get source definition
-                $source_definition = $this->definition_repository->getDefinitionSource($definition['source_id'], $definition['source_type']);
+                $source_definition = $this->definition->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
                 if ($source_definition) {
 
@@ -105,7 +105,7 @@ class DatasetController extends ApiController
             } else {
 
                 // Coulnd't find a definition, but it might be a collection
-                $resources = $this->definition_repository->getByCollection($uri);
+                $resources = $this->definition->getByCollection($uri);
 
                 if (count($resources) > 0) {
 
@@ -185,13 +185,13 @@ class DatasetController extends ApiController
     {
 
         // Retrieve the definition
-        $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
-        $definition = $definition_repository->getByIdentifier($uri);
+        $definition_repo = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition = $definition_repo->getByIdentifier($uri);
 
         if ($definition) {
 
             // Get the source definition
-            $source_definition = $definition_repository->getDefinitionSource($definition['source_id'], $definition['source_type']);
+            $source_definition = $definition_repo->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
             if ($source_definition) {
 

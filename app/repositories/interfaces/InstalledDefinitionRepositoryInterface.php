@@ -46,25 +46,25 @@ interface InstalledDefinitionRepositoryInterface
     /**
      * Update an InstalledDefinition
      *
-     * @param integer $id
+     * @param integer $installed_id
      * @param array $input
      * @return array InstalledDefinition
      */
-    public function update($id, $input);
+    public function update($installed_id, $input);
 
     /**
      * Delete an InstalledDefinition
      *
-     * @param integer $id
+     * @param integer $installed_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($installed_id);
 
     /**
      * Fetch an InstalledDefinition by id
      *
-     * @param integer $id
+     * @param integer $installed_id
      * @return array InstalledDefinition
      */
-    public function getById($id);
+    public function getById($installed_id);
 }

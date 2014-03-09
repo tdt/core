@@ -32,8 +32,8 @@ App::before(function () {
 
 App::after(function ($request, $response) {
     // Remove cookie(s)
-    $response->headers->removeCookie( 'tdt_auth' );
-    $response->headers->removeCookie( 'laravel_session' );
+    $response->headers->removeCookie('tdt_auth');
+    $response->headers->removeCookie('laravel_session');
 });
 
 /*

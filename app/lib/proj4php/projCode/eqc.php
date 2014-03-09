@@ -32,9 +32,9 @@ class Proj4phpProjEqc
       $lat=$p->y;
 
       $dlon = Proj4php::$common->adjust_lon($lon - $this->long0);
-      $dlat = Proj4php::$common.adjust_lat($lat - $this->lat0 );
+      $dlat = Proj4php::$common.adjust_lat($lat - $this->lat0);
      $p->x= $this->x0 + ($this->a*$dlon*$this->rc);
-     $p->y= $this->y0 + ($this->a*$dlat        );
+     $p->y= $this->y0 + ($this->a*$dlat       );
       return $p;
     }
 
@@ -47,7 +47,7 @@ class Proj4phpProjEqc
     $y=$p->y;
 
    $p->x= Proj4php::$common->adjust_lon($this->long0 + (($x - $this->x0)/($this->a*$this->rc)));
-   $p->y= Proj4php::$common->adjust_lat($this->lat0  + (($y - $this->y0)/($this->a        )));
+   $p->y= Proj4php::$common->adjust_lat($this->lat0  + (($y - $this->y0)/($this->a       )));
     return $p;
   }
 

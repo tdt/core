@@ -324,7 +324,7 @@ class Proj4phpProjLaea
           temp = cos_z -$this->sin_lat_o * sin(lat);
           if(temp!=0.0) lon=Proj4php::$common->adjust_lon($this->long0+atan2($p->x*sin_z*$this->cos_lat_o,temp*Rh));
        } elseif ($this->lat0 < 0.0) {
-          lon = Proj4php::$common->adjust_lon($this->long0 - atan2(-$p->x,$p->y));
+          lon = Proj4php::$common->adjust_lon($this->long0 - atan2(-$p->x, $p->y));
        } else {
           lon = Proj4php::$common->adjust_lon($this->long0 + atan2($p->x, -$p->y));
        }

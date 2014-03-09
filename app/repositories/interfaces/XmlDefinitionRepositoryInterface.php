@@ -46,25 +46,25 @@ interface XmlDefinitionRepositoryInterface
     /**
      * Update a XmlDefinition
      *
-     * @param integer $id
+     * @param integer $xml_id
      * @param array $input
      * @return array XmlDefinition
      */
-    public function update($id, $input);
+    public function update($xml_id, $input);
 
     /**
      * Delete a XmlDefinition
      *
-     * @param integer $id
+     * @param integer $xml_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($xml_id);
 
     /**
      * Fetch a XmlDefinition by id
      *
-     * @param integer $id
+     * @param integer $xml_id
      * @return array XmlDefinition
      */
-    public function getById($id);
+    public function getById($xml_id);
 }

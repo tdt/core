@@ -220,7 +220,7 @@ class Proj4phpProjStere
     	switch ($this->mode) {
     	case $this->OBLIQ:
     	case $this->EQUIT:
-        $tp = 2. * atan2($rho * $this->cosX1 , $this->akm1);
+        $tp = 2. * atan2($rho * $this->cosX1, $this->akm1);
     		$cosphi = cos($tp);
     		$sinphi = sin($tp);
         if ($rho == 0.0) {

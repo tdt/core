@@ -315,7 +315,7 @@ class Proj4phpProj
 
  public function parseWKT($wkt)
  {
-    $match = preg_match($this->wktRE,$wkt,$wktMatch);
+    $match = preg_match($this->wktRE, $wkt, $wktMatch);
 
     if (!$match) return;
     $wktObject = $wktMatch[1];
@@ -344,7 +344,7 @@ class Proj4phpProj
       }
       $obj .= $token;
       if ($bkCount === 0) {
-        array_push($wktArray,$obj);
+        array_push($wktArray, $obj);
         $obj = "";
       } else {
         $obj .= ",";

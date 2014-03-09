@@ -4,7 +4,7 @@ namespace tdt\core;
 
 /**
  * Content negotiator
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
@@ -88,7 +88,7 @@ class ContentNegotiator extends Pager
         // Cache headers
         $response->header('Cache-Control', 'public, max-age='. $cache_minutes*60 .', pre-check='. $cache_minutes*60 .'');
         $response->header('Pragma', 'public');
-        $response->header('Expires', date(DATE_RFC822, strtotime("$cache_minutes minute")) );
+        $response->header('Expires', date(DATE_RFC822, strtotime("$cache_minutes minute")));
 
         // Return formatted response
         return $response;

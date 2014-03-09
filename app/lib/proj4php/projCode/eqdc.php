@@ -54,8 +54,8 @@ class Proj4phpProjEqdc
     $this->sinphi=sin($this->lat1);
     $this->cosphi=cos($this->lat1);
 
-    $this->ms1 = Proj4php::$common->msfnz($this->e,$this->sinphi,$this->cosphi);
-    $this->ml1 = Proj4php::$common->mlfn($this->e0, $this->e1, $this->e2,$this->e3, $this->lat1);
+    $this->ms1 = Proj4php::$common->msfnz($this->e, $this->sinphi, $this->cosphi);
+    $this->ml1 = Proj4php::$common->mlfn($this->e0, $this->e1, $this->e2, $this->e3, $this->lat1);
 
     /* format B
     ---------*/
@@ -67,7 +67,7 @@ class Proj4phpProjEqdc
        $this->sinphi=sin($this->lat2);
        $this->cosphi=cos($this->lat2);
 
-       $this->ms2 = Proj4php::$common->msfnz($this->e,$this->sinphi,$this->cosphi);
+       $this->ms2 = Proj4php::$common->msfnz($this->e, $this->sinphi, $this->cosphi);
        $this->ml2 = Proj4php::$common->mlfn($this->e0, $this->e1, $this->e2, $this->e3, $this->lat2);
        if (abs($this->lat1 - $this->lat2) >= Proj4php::$common->EPSLN) {
          $this->ns = ($this->ms1 - $this->ms2) / ($this->ml2 - $this->ml1);
@@ -78,7 +78,7 @@ class Proj4phpProjEqdc
       $this->ns = $this->sinphi;
     }
     $this->g = $this->ml1 + $this->ms1/$this->ns;
-    $this->ml0 = Proj4php::$common->mlfn($this->e0, $this->e1,$this-> e2, $this->e3, $this->lat0);
+    $this->ml0 = Proj4php::$common->mlfn($this->e0, $this->e1, $this-> e2, $this->e3, $this->lat0);
     $this->rh = $this->a * ($this->g - $this->ml0);
   }
 
@@ -120,7 +120,7 @@ class Proj4phpProjEqdc
     $theta = 0.0;
     if ($rh1 != 0.0) $theta = atan2($con *$p->x, $con *$p->y);
     $ml = $this->g - $rh1 /$this->a;
-    $lat = $this->phi3z($ml,$this->e0,$this->e1,$this->e2,$this->e3);
+    $lat = $this->phi3z($ml, $this->e0, $this->e1, $this->e2, $this->e3);
     $lon = Proj4php::$common->adjust_lon($this->long0 + $theta / $this->ns);
 
      $p->x=$lon;
@@ -131,7 +131,7 @@ class Proj4phpProjEqdc
 /* Function to compute latitude, phi3, for the inverse of the Equidistant
    Conic projection.
 -----------------------------------------------------------------*/
-  public function phi3z($ml,$e0,$e1,$e2,$e3)
+  public function phi3z($ml, $e0, $e1, $e2, $e3)
   {
     $phi;
     $dphi;

@@ -103,7 +103,7 @@ class CombinedFilterGenerators
     /**
      * Creates a EarthDistance filter
      *
-     * Which calculates the distance between ($longA,$latA) and ($longB,$latB)
+     * Which calculates the distance between ($longA, $latA) and ($longB, $latB)
      *
      * @param UniversalFilterNode $longA logitude A (in degrees)
      * @param UniversalFilterNode $latA latitude A (in degrees)

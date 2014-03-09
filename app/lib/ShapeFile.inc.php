@@ -87,13 +87,13 @@
 
     private $records;
 
-    function ShapeFile($file_name,$options) {
+    function ShapeFile($file_name, $options) {
         $this->options = $options;
 
         $this->file_name = $file_name;
         //_d("Opening [$file_name]");
         if (!is_readable($file_name)) {
-            //return $this->setError( sprintf(ERROR_FILE_NOT_FOUND, $file_name) );
+            //return $this->setError(sprintf(ERROR_FILE_NOT_FOUND, $file_name));
             throw new Exception(sprintf(ERROR_FILE_NOT_FOUND, $file_name));
         }
 
@@ -135,7 +135,7 @@
     {
         if (!feof($this->fp)) {
             fseek($this->fp, $this->fpos);
-            $shp_record = new ShapeRecord($this->fp, $this->dbf_filename,$this->options);
+            $shp_record = new ShapeRecord($this->fp, $this->dbf_filename, $this->options);
             if ($shp_record->getError() != "") {
                 return false;
             }
@@ -165,7 +165,7 @@
 /*	private function getDBFHeader(){
         $dbf_data = array();
         if (is_readable($dbf_data)) {
-        $dbf = dbase_open($this->dbf_filename , 1);
+        $dbf = dbase_open($this->dbf_filename, 1);
         // solo en PHP5 $dbf_data = dbase_get_header_info($dbf);
         echo dbase_get_header_info($dbf);
         }
@@ -242,7 +242,7 @@ class ShapeRecord
 
     public function getNextRecordPosition()
     {
-        $nextRecordPosition = $this->fpos + ((4 + $this->content_length )* 2);
+        $nextRecordPosition = $this->fpos + ((4 + $this->content_length)* 2);
         return $nextRecordPosition;
     }
 
@@ -259,7 +259,7 @@ class ShapeRecord
     {
         if (!isset($this->record_class[$this->record_shape_type])) {
             //_d("Unable to find record class ($this->record_shape_type) [".getArray($this->record_class)."]");
-            return $this->setError( sprintf(INEXISTENT_RECORD_CLASS, $this->record_shape_type) );
+            return $this->setError(sprintf(INEXISTENT_RECORD_CLASS, $this->record_shape_type));
         }
         //_d("Returning record class ($this->record_shape_type) ".$this->record_class[$this->record_shape_type]);
         return $this->record_class[$this->record_shape_type];
@@ -283,9 +283,9 @@ class ShapeRecord
         //_d("Calling reading function [$function_name] starting at byte ".ftell($fp));
 
         if (function_exists($function_name)) {
-            $this->shp_data = $function_name($this->fp,$this->options);
+            $this->shp_data = $function_name($this->fp, $this->options);
         } else {
-            $this->setError( sprintf(INEXISTENT_FUNCTION, $function_name) );
+            $this->setError(sprintf(INEXISTENT_FUNCTION, $function_name));
         }
 
         return $this->shp_data;
@@ -302,7 +302,7 @@ class ShapeRecord
             $buf = fread($fdbf,32);
             if (substr($buf,0,1)==chr(13)) {$goon=false;} // end of field list
             else {
-                $field=unpack( "a11fieldname/A1fieldtype/Voffset/Cfieldlen/Cfielddec", substr($buf,0,18));
+                $field=unpack("a11fieldname/A1fieldtype/Voffset/Cfieldlen/Cfielddec", substr($buf,0,18));
                 array_push($fields, $field);
             }
         }
@@ -314,20 +314,20 @@ class ShapeRecord
     {
         $fdbf = fopen($this->file_name,'r');
         $buf = fread($fdbf,32);
-        $header=unpack( "VRecordCount/vFirstRecord/vRecordLength", substr($buf,4,8));
+        $header=unpack("VRecordCount/vFirstRecord/vRecordLength", substr($buf,4,8));
         $goon = true;
         $unpackString='';
         while ($goon && !feof($fdbf)) { // read fields:
             $buf = fread($fdbf,32);
             if (substr($buf,0,1)==chr(13)) {$goon=false;} // end of field list
             else {
-                $field=unpack( "a11fieldname/A1fieldtype/Voffset/Cfieldlen/Cfielddec", substr($buf,0,18));
+                $field=unpack("a11fieldname/A1fieldtype/Voffset/Cfieldlen/Cfielddec", substr($buf,0,18));
                 $unpackString.="A$field[fieldlen]$field[fieldname]/";
             }
         }
         fseek($fdbf, $header['FirstRecord'] + 1 + ($header['RecordLength'] * ($this->record_number - 1)));
-        $buf = fread($fdbf,$header['RecordLength']);
-        $record=unpack($unpackString,$buf);
+        $buf = fread($fdbf, $header['RecordLength']);
+        $record=unpack($unpackString, $buf);
         fclose($fdbf);
         return $record;
     }
@@ -397,7 +397,7 @@ function readRecordPolyLine(&$fp,$options = null) {
                 $data["parts"][$part_index] = array();
                 $data["parts"][$part_index]["points"] = array();
             }
-            while ( ! in_array( $points_read, $data["parts"]) && $points_read < $data["numpoints"] && !feof($fp)) {
+            while (! in_array( $points_read, $data["parts"]) && $points_read < $data["numpoints"] && !feof($fp)) {
                 $data["parts"][$part_index]["points"][] = readRecordPoint($fp, true);
                 $points_read++;
             }
@@ -412,7 +412,7 @@ function readRecordPolyLine(&$fp,$options = null) {
 
 function readRecordPolygon(&$fp,$options = null) {
     //_d("Polygon reading; applying readRecordPolyLine function");
-    return readRecordPolyLine($fp,$options);
+    return readRecordPolyLine($fp, $options);
 }
 
 /**

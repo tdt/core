@@ -49,7 +49,7 @@
   /****************************************************************/
   // cs_compare_datums()
   //   Returns 1 (true) if the two datums match, otherwise 0 (false).
-  public function compare_datums( $dest )
+  public function compare_datums($dest)
   {
     if ($this->datum_type != $dest->datum_type) {
       return false; // false, datums are not equal
@@ -71,8 +71,8 @@
               && $this->datum_params[6] == $dest->datum_params[6]);
     } elseif ($this->datum_type == Proj4php::$common->PJD_GRIDSHIFT) {
 	  throw(new Exception("Not implemented yet"));
-      //return strcmp( pj_param($this->params,"snadgrids").s,
-      //               pj_param($dest->params,"snadgrids").s ) == 0;
+      //return strcmp(pj_param($this->params,"snadgrids").s,
+      //              pj_param($dest->params,"snadgrids").s) == 0;
     } else {
       return true; // datums are equal
     }
@@ -188,7 +188,7 @@ $maxiter = 30;
     } else {
 /*  ellipsoidal (geodetic) longitude
  *  interval: -PI < Longitude <= +PI */
-        $Longitude=atan2($Y,$X);
+        $Longitude=atan2($Y, $X);
     }
 
 /* --------------------------------------------------------------
@@ -270,7 +270,7 @@ $maxiter = 30;
 
     $At_Pole = false;
     if ($X != 0.0) {
-        $Longitude = atan2($Y,$X);
+        $Longitude = atan2($Y, $X);
     } else {
         if ($Y > 0) {
             $Longitude = Proj4php::$common->HALF_PI;
@@ -321,13 +321,13 @@ $maxiter = 30;
   } // geocentric_to_geodetic_noniter()
 
   /****************************************************************/
-  // pj_geocentic_to_wgs84( p )
+  // pj_geocentic_to_wgs84(p)
   //  p = point to transform in geocentric coordinates (x,y,z)
-  public function geocentric_to_wgs84( $p )
+  public function geocentric_to_wgs84($p)
   {
 
     if ($this->datum_type == Proj4php::$common->PJD_3PARAM) {
-      // if( x[io] == HUGE_VAL )
+      // if(x[io] == HUGE_VAL)
       //    continue;
       $p->x += $this->datum_params[0];
       $p->y += $this->datum_params[1];
@@ -341,10 +341,10 @@ $maxiter = 30;
       $Ry_BF =$this->datum_params[4];
       $Rz_BF =$this->datum_params[5];
       $M_BF  =$this->datum_params[6];
-      // if( x[io] == HUGE_VAL )
+      // if(x[io] == HUGE_VAL)
       //    continue;
-      $x_out = $M_BF*(       $p->x - $Rz_BF*$p->y + $Ry_BF*$p->z) + $Dx_BF;
-      $y_out = $M_BF*( $Rz_BF*$p->x +       $p->y - $Rx_BF*$p->z) + $Dy_BF;
+      $x_out = $M_BF*($p->x - $Rz_BF*$p->y + $Ry_BF*$p->z) + $Dx_BF;
+      $y_out = $M_BF*($Rz_BF*$p->x +       $p->y - $Rx_BF*$p->z) + $Dy_BF;
       $z_out = $M_BF*(-$Ry_BF*$p->x + $Rx_BF*$p->y +       $p->z) + $Dz_BF;
       $p->x = $x_out;
       $p->y = $y_out;
@@ -356,11 +356,11 @@ $maxiter = 30;
   // pj_geocentic_from_wgs84()
   //  coordinate system definition,
   //  point to transform in geocentric coordinates (x,y,z)
-  public function geocentric_from_wgs84( $p )
+  public function geocentric_from_wgs84($p)
   {
 
     if ($this->datum_type == Proj4php::$common->PJD_3PARAM) {
-      //if( x[io] == HUGE_VAL )
+      //if(x[io] == HUGE_VAL)
       //    continue;
       $p->x -= $this->datum_params[0];
       $p->y -= $this->datum_params[1];
@@ -377,7 +377,7 @@ $maxiter = 30;
       $x_tmp = ($p->x - $Dx_BF) / $M_BF;
       $y_tmp = ($p->y - $Dy_BF) / $M_BF;
       $z_tmp = ($p->z - $Dz_BF) / $M_BF;
-      //if( x[io] == HUGE_VAL )
+      //if(x[io] == HUGE_VAL)
       //    continue;
 
       $p->x =        $x_tmp + $Rz_BF*$y_tmp - $Ry_BF*$z_tmp;

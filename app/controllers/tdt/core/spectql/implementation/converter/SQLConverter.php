@@ -366,7 +366,7 @@ class SQLConverter
     }
 
     /*
-     * Returns the clause(s) for a given clause name. array(["clause"] => ... )
+     * Returns the clause(s) for a given clause name. array(["clause"] => ...)
      * The possible clauses are where - groupby - select - order by
      * If a select clause is asked for , then the groupby and where clause, if applicable
      * will be returned also.

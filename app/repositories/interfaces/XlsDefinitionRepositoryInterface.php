@@ -24,27 +24,27 @@ interface XlsDefinitionRepositoryInterface
     /**
      * Update a XlsDefinition object
      *
-     * @param integer $id
+     * @param integer $xls_id
      * @param array $input
      * @return array XlsDefinition
      */
-    public function update($id, $input);
+    public function update($xls_id, $input);
 
     /**
      * Delete a XlsDefinition
      *
-     * @param integer $id
+     * @param integer $xls_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($xls_id);
 
     /**
      * Fetch a XlsDefinition by id
      *
-     * @param integer $id
+     * @param integer $xls_id
      * @return array object
      */
-    public function getById($id);
+    public function getById($xls_id);
 
     /**
      * Return an array of create parameters with info attached

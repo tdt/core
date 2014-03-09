@@ -8,7 +8,7 @@ include_once(__DIR__ . "/../../lib/proj4php/proj4php.php");
 /**
  * Shape definition model, all processing is done based on the
  * SHP specification http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf.
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */

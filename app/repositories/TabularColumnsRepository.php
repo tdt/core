@@ -71,10 +71,10 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         return $extracted_columns;
     }
 
-    public function getColumnAliases($id, $type)
+    public function getColumnAliases($tabular_id, $type)
     {
 
-        $tabular_columns = \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
+        $tabular_columns = \TabularColumns::where('tabular_id', '=', $tabular_id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
 
         $columns = array();
 
@@ -85,18 +85,18 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         return $columns;
     }
 
-    public function getColumns($id, $type)
+    public function getColumns($tabular_id, $type)
     {
 
-        return \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
+        return \TabularColumns::where('tabular_id', '=', $tabular_id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
     }
 
-    public function storeBulk($id, $type, $columns)
+    public function storeBulk($tabular_id, $type, $columns)
     {
 
         foreach ($columns as $column) {
 
-            $column['tabular_id'] = $id;
+            $column['tabular_id'] = $tabular_id;
             $column['tabular_type'] = $type;
 
             $this->store($column);
@@ -104,12 +104,12 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
     }
 
     /**
-     * Delete all columns associated with the tabular_id ($id)
+     * Delete all columns associated with the tabular_id ($tabular_id)
      */
-    public function deleteBulk($id, $type)
+    public function deleteBulk($tabular_id, $type)
     {
 
-        $columns = \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get();
+        $columns = \TabularColumns::where('tabular_id', '=', $tabular_id)->where('tabular_type', '=', $type, 'AND')->get();
         foreach ($columns as $column) {
             $column->delete();
         }

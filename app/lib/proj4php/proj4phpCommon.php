@@ -71,7 +71,7 @@ class Proj4phpCommon
     $phi = $this->HALF_PI - 2 * atan($ts);
     for ($i = 0; $i <= 15; $i++) {
       $con = $eccent * sin($phi);
-      $dphi = $this->HALF_PI - 2 * atan($ts *(pow(((1.0 - $con)/(1.0 + $con)),$eccnth))) - $phi;
+      $dphi = $this->HALF_PI - 2 * atan($ts *(pow(((1.0 - $con)/(1.0 + $con)), $eccnth))) - $phi;
       $phi += $dphi;
       if (abs($dphi) <= .0000000001) return $phi;
     }
@@ -82,11 +82,11 @@ class Proj4phpCommon
 /* Function to compute constant small q which is the radius of a
    parallel of latitude, phi, divided by the semimajor axis.
 ------------------------------------------------------------*/
-  public function qsfnz($eccent,$sinphi)
+  public function qsfnz($eccent, $sinphi)
   {
     if ($eccent > 1.0e-7) {
       $con = $eccent * $sinphi;
-      return (( 1.0- $eccent * $eccent) * ($sinphi /(1.0 - $con * $con) - (.5/$eccent)*log((1.0 - $con)/(1.0 + $con))));
+      return ((1.0- $eccent * $eccent) * ($sinphi /(1.0 - $con * $con) - (.5/$eccent)*log((1.0 - $con)/(1.0 + $con))));
     } else {
       return(2.0 * $sinphi);
     }
@@ -107,7 +107,7 @@ class Proj4phpCommon
   public function e1fn($x) {return(0.375*$x*(1.0+0.25*$x*(1.0+0.46875*$x)));}
   public function e2fn($x) {return(0.05859375*$x*$x*(1.0+0.75*$x));}
   public function e3fn($x) {return($x*$x*$x*(35.0/3072.0));}
-  public function mlfn($e0,$e1,$e2,$e3,$phi) {return($e0*$phi-$e1*sin(2.0*$phi)+$e2*sin(4.0*$phi)-$e3*sin(6.0*$phi));}
+  public function mlfn($e0, $e1, $e2, $e3, $phi) {return($e0*$phi-$e1*sin(2.0*$phi)+$e2*sin(4.0*$phi)-$e3*sin(6.0*$phi));}
 
   public function srat($esinp, $exp)
   {
@@ -120,7 +120,7 @@ class Proj4phpCommon
 // Function to adjust longitude to -180 to 180; input in radians
   public function adjust_lon($x)
   {
-    $x = (abs($x) < $this->PI) ? $x: ($x - ($this->sign($x)*$this->TWO_PI) );
+    $x = (abs($x) < $this->PI) ? $x: ($x - ($this->sign($x)*$this->TWO_PI));
     return $x;
   }
 
@@ -129,7 +129,7 @@ class Proj4phpCommon
 // Function to adjust latitude to -90 to 90; input in radians
   public function adjust_lat($x)
   {
-    $x= (abs($x) < $this->HALF_PI) ? $x: ($x - ($this->sign($x)*$this->PI) );
+    $x= (abs($x) < $this->HALF_PI) ? $x: ($x - ($this->sign($x)*$this->PI));
     return $x;
   }
 
@@ -144,7 +144,7 @@ class Proj4phpCommon
     return log(tan(($this->HALF_PI+$phi)/2.0))+$eccent*log((1.0-$con)/(1.0+$con))/2.0;
   }
 
-  public function fL($x,$L)
+  public function fL($x, $L)
   {
     return 2.0*atan($x*exp($L)) - $this->HALF_PI;
   }
@@ -158,13 +158,13 @@ class Proj4phpCommon
     do {
       $Iphi= $phi;
       $con= $eccent*sin($Iphi);
-      $phi= $this->fL(exp($eccent*log((1.0+$con)/(1.0-$con))/2.0),$ts);
+      $phi= $this->fL(exp($eccent*log((1.0+$con)/(1.0-$con))/2.0), $ts);
     } while (abs($phi-$Iphi)>1.0e-12);
     return $phi;
   }
 
 // Grande Normale
-  public function gN($a,$e,$sinphi)
+  public function gN($a, $e, $sinphi)
   {
     $temp= $e*$sinphi;
     return $a/sqrt(1.0 - $temp*$temp);

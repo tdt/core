@@ -30,8 +30,8 @@ if ($_GET['format']) {
 include_once("proj4php.php");
 
 $proj4 = new Proj4php();
-$projsource = new Proj4phpProj($projectionxy,$proj4);
-$projdest = new Proj4phpProj($projection,$proj4);
+$projsource = new Proj4phpProj($projectionxy, $proj4);
+$projdest = new Proj4phpProj($projection, $proj4);
 
 // check the projections
 if (Proj4php::$defs[$projectionxy]==Proj4php::$defs['WGS84'] && $projectionxy!='EPSG:4326')
@@ -54,8 +54,8 @@ if ($error) {
 	}
 }
 
-$pointSrc = new proj4phpPoint($x,$y);
-$pointDest = $proj4->transform($projsource,$projdest,$pointSrc);
+$pointSrc = new proj4phpPoint($x, $y);
+$pointDest = $proj4->transform($projsource, $projdest, $pointSrc);
 
 $projection = str_replace(':','::',$projection);
 

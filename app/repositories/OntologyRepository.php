@@ -7,9 +7,9 @@ use repositories\interfaces\OntologyRepositoryInterface;
 class OntologyRepository implements OntologyRepositoryInterface
 {
 
-    public function getById($id)
+    public function getById($ontology_id)
     {
-        return \Ontology::find($id)->toArray();
+        return \Ontology::find($ontology_id)->toArray();
     }
 
     public function getAll()

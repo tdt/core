@@ -65,7 +65,7 @@ class Proj4phpProjCea
       Not implemented due to a lack of a matchign inverse function
     {
       $Sin_Lat = sin(lat);
-      $Rn = $this->a * (sqrt(1.0e0 - $this->es * Sin_Lat * Sin_Lat ));
+      $Rn = $this->a * (sqrt(1.0e0 - $this->es * Sin_Lat * Sin_Lat));
       x = $this->x0 + $this->a * dlon * cos($this->lat_ts);
       y = $this->y0 + Rn * sin(lat) / cos($this->lat_ts);
     }
@@ -84,9 +84,9 @@ class Proj4phpProjCea
     $p->x -= $this->x0;
     $p->y -= $this->y0;
 
-    $lon = Proj4php::$common->adjust_lon( $this->long0 + ($p->x / $this->a) / cos($this->lat_ts) );
+    $lon = Proj4php::$common->adjust_lon($this->long0 + ($p->x / $this->a) / cos($this->lat_ts));
 
-    $lat = asin( ($p->y/$this->a) * cos($this->lat_ts) );
+    $lat = asin(($p->y/$this->a) * cos($this->lat_ts));
 
     $p->x=$lon;
     $p->y=$lat;

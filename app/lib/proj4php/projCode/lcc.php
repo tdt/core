@@ -99,10 +99,10 @@ class Proj4phpProjLcc
         return null;
       }
 
-      $con  = abs( abs($lat) - Proj4php::$common->HALF_PI);
+      $con  = abs(abs($lat) - Proj4php::$common->HALF_PI);
       $ts;$rh1;
       if ($con > Proj4php::$common->EPSLN) {
-        $ts = Proj4php::$common->tsfnz($this->e, $lat, sin($lat) );
+        $ts = Proj4php::$common->tsfnz($this->e, $lat, sin($lat));
         $rh1 = $this->a * $this->f0 * pow($ts, $this->ns);
       } else {
         $con = $lat * $this->ns;

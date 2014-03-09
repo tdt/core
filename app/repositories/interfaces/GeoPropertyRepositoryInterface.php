@@ -16,19 +16,19 @@ interface GeoPropertyRepositoryInterface
     /**
      * Delete a GeoProperty object
      *
-     * @param integer $id
+     * @param integer $property_id
      * @return boolean|null
      */
-    public function delete($id);
+    public function delete($property_id);
 
     /**
      * Retrieve all the GeoProperty related to a type and id (polymorphic relationship)
      *
-     * @param string $id
+     * @param string $property_id
      * @param integer $type
      * @return array of GeoProperty's
      */
-    public function getGeoProperties($id, $type);
+    public function getGeoProperties($property_id, $type);
 
     /**
      * Validate the input to a set of rules given an input
@@ -41,21 +41,21 @@ interface GeoPropertyRepositoryInterface
     /**
      * Store new GeoProperty objects given by input to a certain source
      *
-     * @param integer $id
+     * @param integer $property_id
      * @param string $type
      * @param array $input
      * @return void
      */
-    public function storeBulk($id, $type, $input);
+    public function storeBulk($property_id, $type, $input);
 
     /**
      * Delete all GeoProperty relationships for a given type and id
      *
-     * @param integer $id
+     * @param integer $property_id
      * @param string $type
      * @return void
      */
-    public function deleteBulk($id, $type);
+    public function deleteBulk($property_id, $type);
 
     /**
      * Retrieve the set of create parameters that make up a GeoProperty

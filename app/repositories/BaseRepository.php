@@ -42,10 +42,10 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->create(array_only($input, array_keys($this->getCreateParameters())));
     }
 
-    public function getById($id)
+    public function getById($model_id)
     {
 
-        $model = $this->model->find($id);
+        $model = $this->model->find($model_id);
 
         if(!empty($model))
             return $model->toArray();
@@ -53,22 +53,22 @@ class BaseRepository implements BaseRepositoryInterface
         return $model;
     }
 
-    public function delete($id)
+    public function delete($model_id)
     {
 
-        $model = $this->model->find($id);
+        $model = $this->model->find($model_id);
 
         if(!empty($model))
             return $model->delete();
     }
 
-    public function update($id, $input)
+    public function update($model_id, $input)
     {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
-        $model_object = $this->model->find($id);
+        $model_object = $this->model->find($model_id);
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));

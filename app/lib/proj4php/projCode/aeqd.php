@@ -65,9 +65,9 @@ class Proj4phpProjAeqd
       $con = abs($this->lat0) - Proj4php::$common->HALF_PI;
       if (abs($con) <= Proj4php::$common->EPSLN) {
         if ($lat0 >= 0.0) {
-          $lon = Proj4php::$common->adjust_lon($this->long0 + atan2($p->x , -$p->y));
+          $lon = Proj4php::$common->adjust_lon($this->long0 + atan2($p->x, -$p->y));
         } else {
-          $lon = Proj4php::$common->adjust_lon($this->long0 - atan2(-$p->x , $p->y));
+          $lon = Proj4php::$common->adjust_lon($this->long0 - atan2(-$p->x, $p->y));
         }
       } else {
         $con = $cosz - $this->sin_p12 * sin($lat);

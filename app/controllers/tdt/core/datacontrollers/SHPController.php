@@ -134,7 +134,7 @@ class SHPController extends ADataController
                                 // Translate the coordinates to WSG84 geo coordinates
                                 if (!empty($epsg)) {
 
-                                    $pointSrc = new \proj4phpPoint($x,$y);
+                                    $pointSrc = new \proj4phpPoint($x, $y);
 
                                     $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
                                     $x = $pointDest->x;
@@ -159,7 +159,7 @@ class SHPController extends ADataController
 
                         if (!empty($epsg)) {
 
-                            $pointSrc = new \proj4phpPoint($x,$y);
+                            $pointSrc = new \proj4phpPoint($x, $y);
                             $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
                             $x = $pointDest->x;
                             $y = $pointDest->y;
@@ -169,7 +169,7 @@ class SHPController extends ADataController
                         $rowobject->$geo['longitude'] = $x;
                         $rowobject->$geo['latitude'] = $y;
                     }
-                    array_push($arrayOfRowObjects,$rowobject);
+                    array_push($arrayOfRowObjects, $rowobject);
                 }
                 $total_rows++;
             }
@@ -184,7 +184,7 @@ class SHPController extends ADataController
 
             return $data_result;
 
-        } catch ( Exception $ex) {
+        } catch (Exception $ex) {
 
             \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
@@ -252,8 +252,7 @@ class SHPController extends ADataController
             array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
             array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
         } else {
-            \App::abort(400, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported.
-                The supported geometries are Null Shape, Point, PolyLine, Polygon and MultiPoint');
+            \App::abort(400, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported. The supported geometries are Null Shape, Point, PolyLine, Polygon and MultiPoint');
         }
 
         return $columns;
@@ -314,7 +313,7 @@ class SHPController extends ADataController
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
             } else { // TODO support more types
-                \App::abort(400, 'Provided geometric type ( $shape_type ) is not supported');
+                \App::abort(400, 'Provided geometric type ($shape_type) is not supported');
             }
         } elseif (isset($shp_data['x'])) {
             $x = $aliases['x'];

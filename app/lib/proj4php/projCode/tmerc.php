@@ -112,7 +112,7 @@ class Proj4phpProjTmerc
       if (($g == 0) && ($h == 0)) {
         $lon = $this->long0;
       } else {
-        $lon = Proj4php::$common->adjust_lon(atan2($g,$h) + $this->long0);
+        $lon = Proj4php::$common->adjust_lon(atan2($g, $h) + $this->long0);
       }
     } else {    // ellipsoidal form
       $x = $p->x - $this->x0;

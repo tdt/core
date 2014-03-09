@@ -13,7 +13,7 @@ use tdt\core\ApiController;
 /**
  * DcatController
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
@@ -72,13 +72,13 @@ class DcatController extends ApiController
         // Apply paging when fetching the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definition_count = $this->definition_repository->countPublished();
+        $definition_count = $this->definition->countPublished();
 
-        $definitions = $this->definition_repository->getAllPublished($limit, $offset);
+        $definitions = $this->definition->getAllPublished($limit, $offset);
 
         if (count($definitions) > 0) {
 
-            $last_mod_def = $this->definition_repository->getOldest();
+            $last_mod_def = $this->definition->getOldest();
 
             // Add the last modified timestamp in ISO8601
             $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def['updated_at'])));

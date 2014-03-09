@@ -5,19 +5,19 @@ namespace tdt\core;
 /**
  * ApiController
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 
-class ApiController extends \Controller
+abstract class ApiController extends \Controller
 {
 
-    protected $definition_repository;
+    protected $definition;
 
-    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition_repository)
+    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition)
     {
-        $this->definition_repository = $definition_repository;
+        $this->definition = $definition;
     }
 
     public function handle($uri)
@@ -47,7 +47,7 @@ class ApiController extends \Controller
                 break;
             default:
                 // Method not supported
-                \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
+                \App::abort(405, "The HTTP method '$method' is not supported by this resource ($uri).");
                 break;
         }
     }

@@ -6,7 +6,7 @@
  * Difference with cache: It ALWAYS returns the item if the item is set less than ? time ago.
  *  => So no loss of data if cache disabled...
  *
- * @todo TODO: clean directory when files are older than a certain time (cron?) (directory: sys_get_temp_dir()."/The-DataTank-BigDataBlockManager" )
+ * @todo TODO: clean directory when files are older than a certain time (cron?) (directory: sys_get_temp_dir()."/The-DataTank-BigDataBlockManager")
  *
  * @package The-Datatank/universalfilter/common
  * @copyright (C) 2012 by iRail vzw/asbl

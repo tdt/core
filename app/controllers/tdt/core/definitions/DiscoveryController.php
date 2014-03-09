@@ -11,7 +11,7 @@ use tdt\core\ApiController;
 /**
  * DiscoveryController
  *
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
@@ -108,14 +108,14 @@ class DiscoveryController extends ApiController
 
         $put->httpMethod = "PUT";
         $put->path = "/definitions/{identifier}";
-        $put->description = "Add a resource definition identified by the {identifier} value,. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors). Valid characters that can be used are alphanumerical, underscores and whitespaces.";
+        $put->description = "Add a resource definition identified by the {identifier} value. The {identifier} consists of 1 or more collection identifiers, followed by a final resource name. (e.g. world/demography/2013/seniors). Valid characters that can be used are alphanumerical, underscores and whitespaces.";
         $put->contentType = "application/tdt.definition+json";
 
         // Every type of definition is identified by a certain mediatype
         $put->body = new \stdClass();
 
         // Get the base properties that can be added to every definition
-        $base_properties = $this->definition_repository->getCreateParameters();
+        $base_properties = $this->definition->getCreateParameters();
 
         // Fetch all the supported definition models by iterating the models directory
         if ($handle = opendir(app_path() . '/models/sourcetypes')) {
@@ -188,7 +188,7 @@ class DiscoveryController extends ApiController
         $patch->body = new \stdClass();
 
         // Get the base properties that can be added to every definition
-        $base_properties = $this->definition_repository->getCreateParameters();
+        $base_properties = $this->definition->getCreateParameters();
 
         // Fetch all the supported definition models by iterating the models directory
         if ($handle = opendir(app_path() . '/models/sourcetypes')) {
@@ -324,7 +324,7 @@ class DiscoveryController extends ApiController
     }
 
     /**
-     * Return the response with the given data ( formatted in json )
+     * Return the response with the given data (formatted in json)
      */
     private function makeResponse($data)
     {

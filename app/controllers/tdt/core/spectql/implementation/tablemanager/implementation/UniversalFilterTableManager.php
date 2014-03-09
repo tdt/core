@@ -172,9 +172,9 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
 
         try {
 
-            $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+            $definition_repo = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
 
-            $definition = $definition_repository->getByIdentifier($this->getResourceIdentifier($globalTableIdentifier));
+            $definition = $definition_repo->getByIdentifier($this->getResourceIdentifier($globalTableIdentifier));
 
             $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
 
@@ -196,7 +196,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
             $headerColumns = array();
             foreach ($columns as $column) {
 
-                $nameParts = array(); //explode(".",$globalTableIdentifier);
+                $nameParts = array(); //explode(".", $globalTableIdentifier);
                 array_push($nameParts, $column["column_name"]);
 
                 $headerColumn = new UniversalFilterTableHeaderColumnInfo($nameParts);
@@ -300,13 +300,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
             } elseif ($resultObject->indexInParent == "-1") {
 
                 if (empty($resultObject->phpDataObject)) {
-                    $column_names = $model->getColumnsFromResource($package,$resource);
+                    $column_names = $model->getColumnsFromResource($package, $resource);
                     $arr = array();
                     $obj = new \stdClass();
                     foreach ($column_names as $key => $column_name) {
                         $obj->$column_name["column_name_alias"] = null;
                     }
-                    array_push($arr,$obj);
+                    array_push($arr, $obj);
                     $resultObject->phpDataObject = $arr;
                 }
 
@@ -316,13 +316,13 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
             } else {// query has been partially executed
 
                 if (empty($resultObject->partialTreeResultObject)) {
-                    $column_names = $model->getColumnsFromResource($package,$resource);
+                    $column_names = $model->getColumnsFromResource($package, $resource);
                     $arr = array();
                     $obj = new \stdClass();
                     foreach ($column_names as $key => $column_name) {
                         $obj->$column_name["column_name_alias"] = null;
                     }
-                    array_push($arr,$obj);
+                    array_push($arr, $obj);
                     $resultObject->partialTreeResultObject = $arr;
                 }
 

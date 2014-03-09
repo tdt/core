@@ -98,10 +98,10 @@ interface DefinitionRepositoryInterface
      * Get the source of the definition (e.g. CsvDefinition, ShpDefinition,...)
      *
      * @param string $name (e.g. CsvDefinition, ShpDefinition,...)
-     * @param integer $id (id of the definition)
+     * @param integer $definition_id (id of the definition)
      * @return array Source
      */
-    public function getDefinitionSource($id, $name);
+    public function getDefinitionSource($definition_id, $name);
 
     /**
      * Retrieve all the information of all Defintion's
