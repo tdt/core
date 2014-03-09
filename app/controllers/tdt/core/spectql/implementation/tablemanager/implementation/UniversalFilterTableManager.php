@@ -261,7 +261,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
 
         // TODO allow for RESTparameters to be passed. So far no installed/core resource
         // implements IFilter though.
-        // result is FALSE if the resource doesn't implement IFilter
+        // result is false if the resource doesn't implement IFilter
         // result is the resourceObject on which to call and pass the filter upon if it does
         $result = null;
         try {
@@ -271,7 +271,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
             return $query;
         }
 
-        if ($result == FALSE) {
+        if ($result == false) {
             return $query;
         } else {
 //            execute partial trees on the source with id $sourceId
@@ -342,7 +342,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
                  */
                 $parentNode = null;
                 $currentNode = $query;
-                $replaced = FALSE;
+                $replaced = false;
                 $clause = $resultObject->clause;
                 $phpObject = $resultObject->partialTreeResultObject;
 
@@ -353,31 +353,31 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
                         case "orderby":
                         if ($type == "FILTERSORTCOLUMNS") {
                             $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                            $replaced = TRUE;
+                            $replaced = true;
                         }
                         break;
                         case "where":
                         if ($type == "FILTEREXPRESSION") {
                             $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                            $replaced = TRUE;
+                            $replaced = true;
                         }
                         break;
                         case "groupby":
                         if ($type == "DATAGROUPER") {
                             $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                            $replaced = TRUE;
+                            $replaced = true;
                         }
                         break;
                         case "select":
                         if ($type == "FILTERCOLUMN") {
                             $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                            $replaced = TRUE;
+                            $replaced = true;
                         }
                         break;
                         case "limit":
                         if ($type == "FILTERLIMIT") {
                             $this->replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode);
-                            $replaced = TRUE;
+                            $replaced = true;
                         }
                         break;
                     }

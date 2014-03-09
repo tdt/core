@@ -137,7 +137,7 @@
                                 <select id="input_{{ $parameter }}" name="{{ $parameter }}">
                                     <option></option>
                                     @foreach($object->list as $option)
-                                        <option @if( $definition->{$parameter} == $option){{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                        <option @if ($definition->{$parameter} == $option) {{ 'selected="selected"' }}@endif>{{ $option }}</option>
                                     @endforeach
                                 </select>
                             @endif

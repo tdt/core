@@ -15,7 +15,8 @@ define("DEFAULT_ROOTNAME", "data");
 class XMLFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -26,7 +27,8 @@ class XMLFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Rootname equals resource name
         $rootname = 'root';
@@ -50,7 +52,8 @@ class XMLFormatter implements IFormatter
         return $body;
     }
 
-    private static function transformToXML($data, $nameobject){
+    private static function transformToXML($data, $nameobject)
+    {
 
         // Rename empty elements to 'element'
         // if($nameobject == null) $nameobject = 'element';
@@ -86,16 +89,16 @@ class XMLFormatter implements IFormatter
                 // Check for special keys, then add elements recursively
                 if ($key === '@value') {
                     $object .= self::getXMLString($value);
-                } elseif($key == '@attributes'){
+                } elseif ($key == '@attributes') {
                     $object .= self::transformToXML($value, 'attributes');
-                } elseif(is_numeric($key)){
+                } elseif (is_numeric($key)) {
                     $object .= self::transformToXML($value, 'element');
                 } else {
                     $object .= self::transformToXML($value, $key);
                 }
 
             }
-        } elseif(is_object($data)){
+        } elseif (is_object($data)) {
             // Data is object
             foreach ($data as $key => $value) {
                 // Recursively add elements
@@ -112,7 +115,8 @@ class XMLFormatter implements IFormatter
         return $object;
     }
 
-    private static function getXMLString($string){
+    private static function getXMLString($string)
+    {
         // Check for XML syntax to escape
         if (preg_match('/[<>&]+/', $string)) {
             $string = '<![CDATA[' . $string . ']]>';
@@ -121,7 +125,8 @@ class XMLFormatter implements IFormatter
         return $string;
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "Prints plain old XML. Watch out for tags starting with an integer: an underscore will be added.";
     }
 }

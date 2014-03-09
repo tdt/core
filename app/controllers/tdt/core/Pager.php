@@ -17,7 +17,8 @@ class Pager
     /**
      * Provide paging headers in the response using the Link HTTP header.
      */
-    protected static function getLinkHeader($paging){
+    protected static function getLinkHeader($paging)
+    {
 
         $link_value = '';
 
@@ -28,7 +29,7 @@ class Pager
                 $key_words = implode(', ', self::$PAGING_KEYWORDS);
                 \App::abort(400, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
 
-            } elseif(count($page_info) != 2){
+            } elseif (count($page_info) != 2) {
                 \App::abort(400, "The provided page info did not contain 2 parts, it should only contain a page number and a page size.");
             }
 
@@ -48,7 +49,8 @@ class Pager
      *
      * @return string
      */
-    private static function buildQuerystring(){
+    private static function buildQuerystring()
+    {
 
         $request_params = \Request::all();
         $request_params = array_except($request_params, array('limit', 'offset'));
@@ -65,7 +67,8 @@ class Pager
     /**
      * Calculate the link meta-data for paging purposes
      */
-    public static function calculatePagingHeaders($limit, $offset, $total_rows){
+    public static function calculatePagingHeaders($limit, $offset, $total_rows)
+    {
 
         $paging = array();
 
@@ -93,7 +96,8 @@ class Pager
     /**
      * Calculate the limit and offset based on the request string parameters.
      */
-    public static function calculateLimitAndOffset(){
+    public static function calculateLimitAndOffset()
+    {
 
         $limit = \Input::get('limit', self::$DEFAULT_PAGE_SIZE);
         $offset = \Input::get('offset', 0);
@@ -109,12 +113,12 @@ class Pager
 
                 $offset = ($page -1)*$page_size;
                 $limit = $page_size;
-            } elseif($page == -1){
+            } elseif ($page == -1) {
 
                 $limit = PHP_INT_MAX;
                 $offset= 0;
             }
-        } elseif($limit == -1){
+        } elseif ($limit == -1) {
             $limit = PHP_INT_MAX;
         }
 

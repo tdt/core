@@ -15,7 +15,8 @@ class Cache extends \Cache
     /**
      * Check if cache is enabled and if a value is already stored
      */
-    public static function has($key){
+    public static function has($key)
+    {
         return \Config::get('cache.enabled', true) && parent::has($key);
     }
 }

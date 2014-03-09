@@ -16,14 +16,16 @@ class Flash extends \Controller
     /**
      * Set a new cookie
      */
-    public static function set($string){
+    public static function set($string)
+    {
         setcookie(self::$COOKIE_NAME, base64_encode($string), time() + 1);
     }
 
     /**
      * Get a cookie and flush it
      */
-    public static function get(){
+    public static function get()
+    {
         $cookie = '';
 
         if (!empty($_COOKIE[self::$COOKIE_NAME])) {
@@ -38,7 +40,8 @@ class Flash extends \Controller
     /**
      * Flush the cookie
      */
-    public static function flush(){
+    public static function flush()
+    {
         setcookie(self::$COOKIE_NAME, '', time() - 3600);
     }
 }

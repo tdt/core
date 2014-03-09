@@ -122,7 +122,7 @@ class DcatController extends ApiController
                             if (!empty($license) && !empty($license['url'])) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
                             }
-                        } elseif($dc_term == 'language'){
+                        } elseif ($dc_term == 'language') {
 
                             $lang_repository = \App::make('repositories\interfaces\LanguageRepositoryInterface');
 

@@ -11,7 +11,8 @@ namespace tdt\core\formatters;
 class JSONPFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -22,7 +23,8 @@ class JSONPFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Check if a callback parameter was set
         $callback = \Input::get('callback');
@@ -54,7 +56,8 @@ class JSONPFormatter implements IFormatter
         return $body;
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "Prints JSON but will wrap the output in the callback function specified.";
     }
 }

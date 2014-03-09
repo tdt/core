@@ -16,7 +16,8 @@ class Auth extends \Controller
     /**
      * Check if user meets permissions required to do the request, otherwise prompt login
      */
-    public static function requirePermissions($permissions = null){
+    public static function requirePermissions($permissions = null)
+    {
 
         // Make sure permissions is an array
         if (!is_array($permissions)) {
@@ -65,7 +66,8 @@ class Auth extends \Controller
     /**
      * Log's user in
      */
-    protected static function logIn(){
+    protected static function logIn()
+    {
 
         // Basic auth, TODO: remove check
         if (\App::environment() != 'testing') {
@@ -113,7 +115,8 @@ class Auth extends \Controller
     /**
      *  Fix for empty PHP_AUTH_USER
      */
-    protected static function basicAuth(){
+    protected static function basicAuth()
+    {
 
         self::$user = strtolower(\Request::header('PHP_AUTH_USER'));
         self::$password = \Request::header('PHP_AUTH_PW');
@@ -124,7 +127,8 @@ class Auth extends \Controller
         }
     }
 
-    public static function hasAccess($permissions){
+    public static function hasAccess($permissions)
+    {
 
         // Get current user
         $user = \Sentry::getUser();

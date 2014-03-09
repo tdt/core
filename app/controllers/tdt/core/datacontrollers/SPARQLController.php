@@ -40,9 +40,9 @@ class SPARQLController extends ADataController
 
         // If a select statement has been passed, we ask for JSON results
         // If a construct statement has been passed, we ask for RDF/XML
-        if(stripos($query,"select") !== FALSE){ // SELECT query
+        if (stripos($query,"select") !== false) { // SELECT query
             $keyword = "select";
-        } elseif(stripos($query,"construct") !== FALSE){ // CONSTRUCT query
+        } elseif (stripos($query,"construct") !== false) { // CONSTRUCT query
             $keyword = "construct";
         } else { // No valid SPARQL keyword has been found, is checked during validation
             \App::abort(500, "No CONSTRUCT or SELECT statement has been found in the given query: $query");
@@ -220,7 +220,7 @@ class SPARQLController extends ADataController
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
         if ($response_code == '400') {
             \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $response. The URI was: $uri");
-        } elseif($response_code == '500'){
+        } elseif ($response_code == '500') {
             \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The URI was: $uri");
         }
 
@@ -277,7 +277,7 @@ class SPARQLController extends ADataController
 
                     if (!isset($parameters[$placeholder_name])) {
                         $value = '?' . $placeholder;
-                    } elseif (!isset($parameters[$placeholder_name][$placeholder_index])){
+                    } elseif (!isset($parameters[$placeholder_name][$placeholder_index])) {
                         $value = '?' . $placeholder . '_' . $placeholder_index;
                     } else {
                         $value = $parameters[$placeholder_name][$placeholder_index];

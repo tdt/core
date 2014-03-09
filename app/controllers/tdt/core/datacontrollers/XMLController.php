@@ -95,7 +95,7 @@ class XMLController extends ADataController
 
                         // Push the child tag on the array
                         $output[$tag][] = $value;
-                    } elseif($value) {
+                    } elseif ($value) {
                         // Child is plain text
                         $output = (string) $value;
                     }

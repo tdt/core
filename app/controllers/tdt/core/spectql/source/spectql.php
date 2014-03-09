@@ -1352,7 +1352,7 @@ function reduce_38_selectargument_1($tokens, &$result) {
                 );
         }
 
-    } elseif(is_object($column)){
+    } elseif (is_object($column)) {
 
         $result = array(
             "filters" => array(new ColumnSelectionFilterColumn($column, null)),
@@ -1458,7 +1458,7 @@ function reduce_42_function_1($tokens, &$result) {
 
     if (strtolower($tokens[0]) == 'asort') {
         $result = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_ASCENDING));
-    } elseif(strtolower($tokens[0]) == 'dsort'){
+    } elseif (strtolower($tokens[0]) == 'dsort') {
         $result = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_DESCENDING));
     } else {
         $result = array("unary" => getUnaryFilterForSQLFunction($tokens[0], $column));

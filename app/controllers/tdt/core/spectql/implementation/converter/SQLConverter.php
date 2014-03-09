@@ -38,8 +38,8 @@ class SQLConverter
     private $sql = "";
     // the SELECT identifiers of the querynode
     private $identifiers = array();
-    private $IN_SELECT_CLAUSE = TRUE;
-    private $selectClausePresent = FALSE;
+    private $IN_SELECT_CLAUSE = true;
+    private $selectClausePresent = false;
     private $headerNames;
     private $groupbyclause = array();
     private $orderbyclause = array();
@@ -155,14 +155,14 @@ class SQLConverter
     private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter)
     {
 
-        $this->IN_SELECT_CLAUSE = FALSE;
+        $this->IN_SELECT_CLAUSE = false;
         array_push($this->whereclause, $this->treeToSQL($filter->getExpression()));
     }
 
     private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter)
     {
 
-        $this->selectClausePresent = TRUE;
+        $this->selectClausePresent = true;
 
         foreach ($filter->getColumnData() as $index => $originalColumn) {
 

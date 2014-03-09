@@ -48,7 +48,7 @@ class Proj4phpProjSterea
 
     $p->x /= $this->k0;
     $p->y /= $this->k0;
-    if ( ($rho = sqrt($p->x*$p->x + $p->y*$p->y)) ) {
+    if (($rho = sqrt($p->x*$p->x + $p->y*$p->y))) {
       $c = 2.0 * atan2($rho, $this->R2);
       $sinc = sin($c);
       $cosc = cos($c);

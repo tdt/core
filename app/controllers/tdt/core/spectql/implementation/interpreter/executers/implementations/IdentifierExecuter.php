@@ -240,17 +240,18 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
      * Apply path filtering on the data
      * @return mixed filtered object
      */
-    private static function applyFilter($data, $path){
+    private static function applyFilter($data, $path)
+    {
 
         foreach ($path as $property) {
 
             if (is_object($data) && $key = self::propertyExists($data, $property)) {
                 $data = $data->$key;
-            } elseif(is_array($data)){
+            } elseif (is_array($data)) {
 
                 if ($key = self::keyExists($data, $property)) {
                     $data = $data[$key];
-                } elseif(is_numeric($property)){
+                } elseif (is_numeric($property)) {
                     for ($i = 0; $i <= $property; $i++) {
                         $result = array_shift($data);
                     }
@@ -270,7 +271,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
     /**
      * Case insensitive search for a property of an object
      */
-    private static function propertyExists($object, $property){
+    private static function propertyExists($object, $property)
+    {
 
         $vars = get_object_vars($object);
         foreach ($vars as $key => $value) {
@@ -285,7 +287,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
     /**
      * Case insensitive search for a key in an array
      */
-    private static function keyExists($array, $property){
+    private static function keyExists($array, $property)
+    {
 
         foreach ($array as $key => $value) {
             if (strtolower($property) == strtolower($key)) {

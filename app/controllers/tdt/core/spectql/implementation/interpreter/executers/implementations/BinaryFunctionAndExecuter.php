@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* and */
 class BinaryFunctionAndExecuter extends BinaryFunctionExecuter
 {
+
     public function getName($nameA, $nameB)
     {
         return $nameA . "_and_" . $nameB;
     }
+
     public function doBinaryFunction($valueA, $valueB)
     {
         $valueA = ($valueA == "true" ? true : ($valueA === null ? null : false));

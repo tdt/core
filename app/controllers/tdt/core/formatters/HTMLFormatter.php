@@ -11,7 +11,8 @@ namespace tdt\core\formatters;
 class HTMLFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -22,7 +23,8 @@ class HTMLFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Query parameters
         $query_string = '';
@@ -133,11 +135,13 @@ class HTMLFormatter implements IFormatter
                                  ->with('query_string', $query_string);
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "The HTML formatter is a formatter which prints output for humans. It prints everything in the internal object and extra links towards meta-data and documentation.";
     }
 
-    private static function displayTree($data) {
+    private static function displayTree($data)
+    {
 
         if (is_object($data)) {
             $data = get_object_vars($data);

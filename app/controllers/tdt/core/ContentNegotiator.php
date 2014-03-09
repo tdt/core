@@ -26,7 +26,8 @@ class ContentNegotiator extends Pager
     /**
      * Format using requested formatter (via extension, Accept-header or default)
      */
-    public static function getResponse($data, $extension = null){
+    public static function getResponse($data, $extension = null)
+    {
 
         // Extension has priority over Accept-header
         if (empty($extension)) {
@@ -48,7 +49,7 @@ class ContentNegotiator extends Pager
             if (empty($extension) && empty($data->semantic)) {
                 // Default formatter for non semantic data
                 $extension = 'json';
-            } elseif(empty($extension) && !empty($data->semantic)){
+            } elseif (empty($extension) && !empty($data->semantic)) {
                 // Default formatter for semantic data is turtle
                 $extension = 'ttl';
             }

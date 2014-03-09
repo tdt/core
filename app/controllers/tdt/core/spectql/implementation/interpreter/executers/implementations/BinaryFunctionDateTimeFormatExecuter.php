@@ -19,7 +19,7 @@ class BinaryFunctionDateTimeFormatExecuter extends BinaryFunctionExecuter
             return null;
         $dateTime = ExecuterDateTimeTools::getDateTime($valueA, "date_format");
         $formatted = $dateTime->format($valueB);
-        if ($formatted === FALSE) {
+        if ($formatted === false) {
             throw new Exception("Unknown format in DATE_FORMAT : " . $valueB . " Please use the php-syntax, see http://www.php.net/manual/en/function.date.php .");
         } else {
             return $formatted;

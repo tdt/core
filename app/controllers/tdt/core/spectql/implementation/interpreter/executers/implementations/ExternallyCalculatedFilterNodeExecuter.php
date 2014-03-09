@@ -133,6 +133,6 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
 
     public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
     {
-        return array(new SourceUsageData($this->filter, $this->filter, NULL, "CAN_NOT_BE_EXECUTED_EXTERNALLY"));
+        return array(new SourceUsageData($this->filter, $this->filter, null, "CAN_NOT_BE_EXECUTED_EXTERNALLY"));
     }
 }

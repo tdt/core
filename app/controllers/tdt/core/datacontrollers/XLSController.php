@@ -123,7 +123,7 @@ class XLSController extends ADataController
                         } else {
                             if (empty($row_objects[$rowobject->$pk])) {
                                 $row_objects[$rowobject->$pk] = $rowobject;
-                            } elseif(!empty($row_objects[$rowobject->$pk])){
+                            } elseif (!empty($row_objects[$rowobject->$pk])) {
 
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double has been used already for another record!");
@@ -156,18 +156,20 @@ class XLSController extends ADataController
     /**
      * Retrieve the file extension from the xls file. (xls or xlsx)
      */
-    public static function getFileExtension($file){
+    public static function getFileExtension($file)
+    {
         return strtolower(substr(strrchr($file,'.'), 1));
     }
 
     /**
      * Create an Excel PHP Reader object from the Excel sheet.
      */
-    public static function loadExcel($file, $type, $sheet) {
+    public static function loadExcel($file, $type, $sheet)
+    {
 
         if ($type == "xls") {
             $objReader = IOFactory::createReader('Excel5');
-        } elseif($type == "xlsx") {
+        } elseif ($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
         } else {
             \App::abort(500, "The given file is not supported, supported file are xls or xlsx files.");
@@ -203,7 +205,8 @@ class XLSController extends ADataController
     /**
      * Retrieve colummn information from the request parameters.
      */
-    public static function parseColumns($input){
+    public static function parseColumns($input)
+    {
 
         $aliases = @$input['columns'];
         $pk = @$input['pk'];

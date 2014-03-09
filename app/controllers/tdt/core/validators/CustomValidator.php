@@ -86,12 +86,12 @@ class CustomValidator extends \Illuminate\Validation\Validator
 
         // No LIMIT or OFFSET statement can be given in the query, also a construct or select
         // statement must be present
-        if (stripos($value, 'limit') !== FALSE || stripos($value, 'offset') !== FALSE) {
+        if (stripos($value, 'limit') !== false || stripos($value, 'offset') !== false) {
 
             return false;
         }
 
-        if (stripos($value, 'construct') === FALSE && stripos($value, 'select') === FALSE) {
+        if (stripos($value, 'construct') === false && stripos($value, 'select') === false) {
             return false;
         }
 

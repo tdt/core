@@ -12,7 +12,8 @@ namespace tdt\core\formatters;
 class JSONFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -23,7 +24,8 @@ class JSONFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Build the body
         $body = $dataObj->data;
@@ -46,7 +48,8 @@ class JSONFormatter implements IFormatter
         return str_replace("\/", "/", json_encode($body));
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "A JSON formatter.";
     }
 }

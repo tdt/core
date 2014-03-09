@@ -194,7 +194,7 @@ class TreePrinter
                 $this->treeToStringWithPadding(2, $filter->getSource(0)) .
                 $this->getPadding(1) . "source 2: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(1));
-        if ($filter->getExpression() !== NULL) {
+        if ($filter->getExpression() !== null) {
             $string .= $this->getPadding(1) . "expression : \n" .
                     $this->treeToStringWithPadding(2, $filter->getExpression());
         } else {

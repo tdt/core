@@ -223,7 +223,7 @@ class Proj4phpProjStere
         $tp = 2. * atan2($rho * $this->cosX1 , $this->akm1);
     		$cosphi = cos($tp);
     		$sinphi = sin($tp);
-        if ( $rho == 0.0 ) {
+        if ($rho == 0.0) {
     		  $phi_l = asin($cosphi * $this->sinX1);
         } else {
     		  $phi_l = asin($cosphi * $this->sinX1 + ($y * $sinphi * $this->cosX1 / $rho));

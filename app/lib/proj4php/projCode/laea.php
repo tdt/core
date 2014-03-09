@@ -285,7 +285,7 @@ class Proj4phpProjLaea
             $y = -$y;
           case $this->S_POLE:
             $q = ($x * $x + $y * $y);
-            if (!$q ) {
+            if (!$q) {
               $p->x = 0.;
               $p->y = $this->phi0;
               return $p;

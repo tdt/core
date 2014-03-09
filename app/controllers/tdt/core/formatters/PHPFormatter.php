@@ -11,7 +11,8 @@ namespace tdt\core\formatters;
 class PHPFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -22,7 +23,8 @@ class PHPFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Build the body
         $body = $dataObj->data;
@@ -34,7 +36,8 @@ class PHPFormatter implements IFormatter
         return serialize($body);
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "Prints data in serialized PHP object notation.";
     }
 }

@@ -44,7 +44,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * Delete everything out of our testing database.
      */
-    public static function tearDownAfterClass(){
+    public static function tearDownAfterClass()
+    {
 
         parent::tearDownAfterClass();
     }

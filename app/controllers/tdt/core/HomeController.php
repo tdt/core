@@ -11,7 +11,8 @@ namespace tdt\core;
 class HomeController extends \Controller
 {
 
-    public static function handle($uri){
+    public static function handle($uri)
+    {
         $definitions = \Definition::all();
 
         $view = \View::make('home')->with('title', 'Datasets | The Datatank')

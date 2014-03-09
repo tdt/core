@@ -16,7 +16,8 @@ namespace tdt\core\formatters;
 class TTLFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -27,7 +28,8 @@ class TTLFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         if ($dataObj->is_semantic) {
 
@@ -44,7 +46,8 @@ class TTLFormatter implements IFormatter
 
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "Prints the Turtle notation with semantic annotations";
     }
 }

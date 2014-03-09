@@ -13,7 +13,8 @@ use tdt\core\definitions\DefinitionController;
 class Definitions implements IImportExport
 {
 
-    public static function import($data){
+    public static function import($data)
+    {
 
         $definitions = $data['definitions'];
         $username = $data['username'];
@@ -44,7 +45,8 @@ class Definitions implements IImportExport
 
     }
 
-    public static function export($identifier = null){
+    public static function export($identifier = null)
+    {
         if (empty($identifier)) {
             // Request all of the definitions
             return DefinitionController::getAllDefinitions();
@@ -59,7 +61,8 @@ class Definitions implements IImportExport
     /**
      * Custom API call function
      */
-    public static function updateRequest($method, $headers = array(), $data = array()){
+    public static function updateRequest($method, $headers = array(), $data = array())
+    {
 
         // Set the custom headers.
         \Request::getFacadeRoot()->headers->replace($headers);

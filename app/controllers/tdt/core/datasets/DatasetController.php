@@ -150,17 +150,18 @@ class DatasetController extends ApiController
      * Apply RESTful filtering of the data (case insensitive)
      * @return mixed filtered object
      */
-    private static function applyRestFilter($data, $rest_params){
+    private static function applyRestFilter($data, $rest_params)
+    {
 
         foreach ($rest_params as $rest_param) {
 
             if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
                 $data = $data->$key;
-            } elseif(is_array($data)){
+            } elseif (is_array($data)) {
 
                 if ($key = self::keyExists($data, $rest_param)) {
                     $data = $data[$key];
-                } elseif(is_numeric($rest_param)){
+                } elseif (is_numeric($rest_param)) {
                     for ($i = 0; $i <= $rest_param; $i++) {
                         $result = array_shift($data);
                     }
@@ -180,7 +181,8 @@ class DatasetController extends ApiController
     /**
      * Check if a uri resembles a definition, if so return the data
      */
-    public static function fetchData($uri){
+    public static function fetchData($uri)
+    {
 
         // Retrieve the definition
         $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
@@ -227,7 +229,8 @@ class DatasetController extends ApiController
     /**
      * Case insensitive search for a property of an object
      */
-    private static function propertyExists($object, $property){
+    private static function propertyExists($object, $property)
+    {
 
         $vars = get_object_vars($object);
 
@@ -243,7 +246,8 @@ class DatasetController extends ApiController
     /**
      * Case insensitive search for a key in an array
      */
-    private static function keyExists($array, $property){
+    private static function keyExists($array, $property)
+    {
 
         foreach ($array as $key => $value) {
             if (strtolower($property) == strtolower($key)) {

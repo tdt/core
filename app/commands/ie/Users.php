@@ -11,7 +11,8 @@ namespace tdt\commands\ie;
 class Users implements IImportExport
 {
 
-    public static function import($users){
+    public static function import($users)
+    {
 
         $messages = array();
 
@@ -56,7 +57,8 @@ class Users implements IImportExport
         return $messages;
     }
 
-    public static function export($identifier = null){
+    public static function export($identifier = null)
+    {
         // Request all the users
         $sentry_data = \Sentry::findAllUsers();
 

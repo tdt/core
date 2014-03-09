@@ -11,7 +11,8 @@ namespace tdt\commands\ie;
 class Groups implements IImportExport
 {
 
-    public static function import($groups){
+    public static function import($groups)
+    {
 
         $messages = array();
 
@@ -34,7 +35,8 @@ class Groups implements IImportExport
         return $messages;
     }
 
-    public static function export($identifier = null){
+    public static function export($identifier = null)
+    {
 
         // Request all the group
         $sentry_data = \Sentry::findAllGroups();

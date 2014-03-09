@@ -39,7 +39,7 @@ class Proj4phpProjOmerc
   public function init()
   {
     if (!$this->mode) $this->mode=0;
-    if (!$this->lon1)   {$this->lon1=0;$this->mode=1;}
+    if (!$this->lon1) {$this->lon1=0;$this->mode=1;}
     if (!$this->lon2)   $this->lon2=0;
     if (!$this->lat2)    $this->lat2=0;
 

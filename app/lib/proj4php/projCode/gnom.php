@@ -107,7 +107,7 @@ class Proj4phpProjGnom
     $p->x /= $this->k0;
     $p->y /= $this->k0;
 
-    if ( ($rh = sqrt($p->x * $p->x + $p->y * $p->y)) ) {
+    if (($rh = sqrt($p->x * $p->x + $p->y * $p->y))) {
       $c = atan2($rh, $this->rc);
       $sinc = sin($c);
       $cosc = cos($c);

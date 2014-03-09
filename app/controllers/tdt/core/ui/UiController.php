@@ -13,7 +13,8 @@ use tdt\core\auth\Auth;
 class UiController extends \Controller
 {
 
-    public static function handle($uri){
+    public static function handle($uri)
+    {
 
         // Switch to correct controller
         switch (\Request::segment(2)) {

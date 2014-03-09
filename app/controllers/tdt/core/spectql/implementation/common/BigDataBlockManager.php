@@ -254,7 +254,8 @@ class BigDataBlockManager
         $this->deleteBlock($key);
     }
 
-    public static function newManager(){
+    public static function newManager()
+    {
         BigDataBlockManager::$instance = new BigDataBlockManager();
     }
 
@@ -262,7 +263,8 @@ class BigDataBlockManager
      * returns an instance of this class
      * @return BigDataBlockManager
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (!isset(BigDataBlockManager::$instance)) {
             BigDataBlockManager::$instance = new BigDataBlockManager();
         }

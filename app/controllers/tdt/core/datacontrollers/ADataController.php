@@ -19,7 +19,8 @@ abstract class ADataController
     /**
      * Retrieve the optional request parameters, used in GET requests
      */
-    public static function getParameters(){
+    public static function getParameters()
+    {
         return array(
             'page' => array(
                         'required' => false,

@@ -9,6 +9,5 @@
  */
 class Language extends Eloquent
 {
-
-    protected $fillable = array('lang_id','lang_code','name',);
+    protected $fillable = array('lang_id', 'lang_code', 'name');
 }

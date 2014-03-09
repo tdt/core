@@ -32,7 +32,7 @@ class BigMap
 
     public function getMapValue($name, $default = null)
     {
-        // if(isset ($this->map[$name])){
+        // if (isset ($this->map[$name])) {
         //    return $this->map[$name];
         // } else {
         //    return $default;

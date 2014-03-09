@@ -27,7 +27,7 @@ class ExecuterDateTimeTools
      */
     static function getDateTime($value, $what = "this filter") {
         $dateTime = DateTime::createFromFormat(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT, $value);
-        if ($dateTime === FALSE) {
+        if ($dateTime === false) {
             throw new Exception("Can only use $what on dates. Please convert to date first.");
         }
         return $dateTime;
@@ -125,7 +125,7 @@ class ExecuterDateTimeTools
         $diffstring = preg_replace($pattern, $toreplace, $diffstring);
 
         $dateinterval = DateInterval::createFromDateString($diffstring);
-        if ($dateinterval === FALSE) {
+        if ($dateinterval === false) {
             throw new Exception("Internal error: unable to convert $diffstring as $constant to interval.");
         }
         return $dateinterval;

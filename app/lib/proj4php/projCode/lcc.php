@@ -47,7 +47,7 @@ class Proj4phpProjLcc
     //double false_east;              /* x offset in meters                   */
     //double false_north;             /* y offset in meters                   */
 
-      if (!$this->lat2){$this->lat2=$this->lat0;}//if lat2 is not defined
+      if (!$this->lat2) {$this->lat2=$this->lat0;}//if lat2 is not defined
       if (!$this->k0) $this->k0 = 1.0;
 
     // Standard Parallels cannot be equal and on opposite sides of the equator
@@ -91,7 +91,7 @@ class Proj4phpProjLcc
       $lat = $p->y;
 
     // convert to radians
-      if ( $lat <= 90.0 && $lat >= -90.0 && $lon <= 180.0 && $lon >= -180.0) {
+      if ($lat <= 90.0 && $lat >= -90.0 && $lon <= 180.0 && $lon >= -180.0) {
         //lon = lon * Proj4php::$common.D2R;
         //lat = lat * Proj4php::$common.D2R;
       } else {

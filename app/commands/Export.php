@@ -78,7 +78,7 @@ class Export extends Command
                 }
             }
 
-        } elseif($this->option('users')){
+        } elseif ($this->option('users')) {
 
             // Export users
             $export_data->users = Users::export();

@@ -64,13 +64,13 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
             array_push($columns, $headerB->getColumnInformationByIndex($i)->cloneColumnNewId());
         }
 
-        $this->header = new UniversalFilterTableHeader($columns, FALSE, FALSE);
+        $this->header = new UniversalFilterTableHeader($columns, false, false);
 
 
         //
         // EXPRESSION
         //
-        if ($this->filter->getExpression() !== NULL) {
+        if ($this->filter->getExpression() !== null) {
             $this->totaltable = new UniversalFilterTable($this->header, null);
 
             $env = new Environment();
@@ -133,7 +133,7 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
 
 
 
-        if ($this->filter->getExpression() !== NULL) {
+        if ($this->filter->getExpression() !== null) {
             // table is ready
             $this->totaltable->setContent($totalcontent);
 
@@ -196,7 +196,7 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
     {
         $this->executerA->cleanUp();
         $this->executerB->cleanUp();
-        if ($this->exprexec !== NULL) {
+        if ($this->exprexec !== null) {
             $this->exprexec->cleanUp();
         }
     }
@@ -206,7 +206,7 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
         parent::modififyFiltersWithHeaderInformation();
         $this->executerA->modififyFiltersWithHeaderInformation();
         $this->executerB->modififyFiltersWithHeaderInformation();
-        if ($this->exprexec !== NULL) {
+        if ($this->exprexec !== null) {
             $this->exprexec->modififyFiltersWithHeaderInformation();
         }
     }

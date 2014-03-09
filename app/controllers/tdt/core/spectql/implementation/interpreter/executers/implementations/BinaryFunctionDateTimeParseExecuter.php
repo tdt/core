@@ -21,7 +21,7 @@ class BinaryFunctionDateTimeParseExecuter extends BinaryFunctionExecuter
         if ($valueA === null || $valueB === null)
             return null;
         $dateTime = DateTime::createFromFormat($valueB, $valueA);
-        if ($dateTime === FALSE) {
+        if ($dateTime === false) {
             throw new Exception("Unknown format in PARSE_DATE: " . $valueB . " Please use the php-syntax, see http://www.php.net/manual/en/datetime.createfromformat.php .");
         }
         return $dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT);

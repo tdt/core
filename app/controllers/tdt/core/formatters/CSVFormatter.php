@@ -13,7 +13,8 @@ namespace tdt\core\formatters;
 class CSVFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -24,7 +25,8 @@ class CSVFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Only tabular data is allowed
         if (!is_array($dataObj->data)) {
@@ -38,7 +40,7 @@ class CSVFormatter implements IFormatter
         foreach ($dataObj->data as $row) {
             if (is_object($row)) {
                $row = get_object_vars($row);
-            } elseif(!is_array($row)){
+            } elseif (!is_array($row)) {
                 $body .= $row . "\n";
                 continue;
             }
@@ -60,15 +62,15 @@ class CSVFormatter implements IFormatter
                 if (is_object($element)) {
                     if (isset($element->id)) {
                         $body .= $element->id;
-                    } elseif(isset($element->name)){
+                    } elseif (isset($element->name)) {
                         $body .= $element->name;
                     } else {
                         $body .= "n/a";
                     }
-                } elseif(is_array($element)){
+                } elseif (is_array($element)) {
                     if (isset($element["id"])) {
                         $body .= $element["id"];
-                    } elseif(isset($element["name"])){
+                    } elseif (isset($element["name"])) {
                         $body .= $element["name"];
                     } else {
                         $body .= "n/a";
@@ -84,7 +86,8 @@ class CSVFormatter implements IFormatter
         return $body;
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "A CSV formatter. Works only on tabular data.";
     }
 
@@ -92,7 +95,8 @@ class CSVFormatter implements IFormatter
     /**
      * Encloses the $element in double quotes.
      */
-    private static function enclose($element){
+    private static function enclose($element)
+    {
         $element = rtrim($element, '"');
         $element = ltrim($element, '"');
         $element = '"'.$element.'"';

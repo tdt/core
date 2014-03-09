@@ -191,7 +191,7 @@ if (is_array($arg)) {
         );
     }
 
-} elseif(is_object($column)){
+} elseif (is_object($column)) {
 
     $$ = array(
         "filters" => array(new ColumnSelectionFilterColumn($column, null)),
@@ -267,7 +267,7 @@ function = name '(' argument/arg ')' {
     // Make a distinction between a unary function, and a sort function
     if (strtolower($1) == 'asort') {
         $$ = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_ASCENDING));
-    } elseif(strtolower($1) == 'dsort'){
+    } elseif (strtolower($1) == 'dsort') {
         $$ = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_DESCENDING));
     } else {
         $$ = array("unary" => getUnaryFilterForSQLFunction($1, $column));

@@ -33,7 +33,8 @@ class CombinedFilterGenerators
      * @param NormalFilterNode $for
      * @param UniversalFilterNode $sourceToSet
      */
-    public static function setCombinedFilterSource(NormalFilterNode $for, UniversalFilterNode $sourceToSet) {
+    public static function setCombinedFilterSource(NormalFilterNode $for, UniversalFilterNode $sourceToSet)
+    {
         if ($for->getSource() === null) {
             $for->setSource($filter);
         } else {
@@ -49,7 +50,8 @@ class CombinedFilterGenerators
      * @param UniversalFilterNode $c right bound
      * @return NormalFilterNode the filter
      */
-    public static function makeBetweenFilter(UniversalFilterNode $a, UniversalFilterNode $b, UniversalFilterNode $c) {
+    public static function makeBetweenFilter(UniversalFilterNode $a, UniversalFilterNode $b, UniversalFilterNode $c)
+    {
         return new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_AND,
                         new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $b, $a),
                         new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN, $a, $c));
@@ -64,7 +66,8 @@ class CombinedFilterGenerators
      * @param boolean $isAllFilter ALL or ANY ?
      * @return NormalFilterNode the filter
      */
-    public static function makeSmallerThanAllOrAnyFilter(UniversalFilterNode $a, UniversalFilterNode $b, $strictSmaller = true, $isAllFilter = true) {
+    public static function makeSmallerThanAllOrAnyFilter(UniversalFilterNode $a, UniversalFilterNode $b, $strictSmaller = true, $isAllFilter = true)
+    {
         $aggr = ($isAllFilter ? AggregatorFunction::$AGGREGATOR_MIN : AggregatorFunction::$AGGREGATOR_MAX);
         $function = ($strictSmaller ? BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_THAN : BinaryFunction::$FUNCTION_BINARY_COMPARE_SMALLER_OR_EQUAL_THAN);
         return new BinaryFunction($function, $a, new AggregatorFunction($aggr, $b));
@@ -79,7 +82,8 @@ class CombinedFilterGenerators
      * @param boolean $isAllFilter ALL or ANY ?
      * @return NormalFilterNode the filter
      */
-    public static function makeLargerThanAllOrAnyFilter(UniversalFilterNode $a, UniversalFilterNode $b, $strictLarger = true, $isAllFilter = true) {
+    public static function makeLargerThanAllOrAnyFilter(UniversalFilterNode $a, UniversalFilterNode $b, $strictLarger = true, $isAllFilter = true)
+    {
         $aggr = ($isAllFilter ? AggregatorFunction::$AGGREGATOR_MAX : AggregatorFunction::$AGGREGATOR_MIN);
         $function = ($strictLarger ? BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_THAN : BinaryFunction::$FUNCTION_BINARY_COMPARE_LARGER_OR_EQUAL_THAN);
         return new BinaryFunction($function, $a, new AggregatorFunction($aggr, $b));
@@ -91,7 +95,8 @@ class CombinedFilterGenerators
      * @param UniversalFilterNode $a the argument
      * @return NormalFilterNode the filter
      */
-    public static function makeDegreeToRadiansFilter(UniversalFilterNode $a) {
+    public static function makeDegreeToRadiansFilter(UniversalFilterNode $a)
+    {
         return new BinaryFunction(BinaryFunction::$FUNCTION_BINARY_MULTIPLY, $a, new Constant(pi() / 180));
     }
 
@@ -106,7 +111,8 @@ class CombinedFilterGenerators
      * @param UniversalFilterNode $latB latitude B (in degrees)
      * @return NormalFilterNode the filter
      */
-    public static function makeGeoDistanceFilter(UniversalFilterNode $latA, UniversalFilterNode $longA, UniversalFilterNode $latB, UniversalFilterNode $longB) {
+    public static function makeGeoDistanceFilter(UniversalFilterNode $latA, UniversalFilterNode $longA, UniversalFilterNode $latB, UniversalFilterNode $longB)
+    {
         /*
          * Based upon code:
          *
@@ -171,20 +177,23 @@ class CombinedFilterGenerators
     }
 
     /** makes a constant with the current date and time */
-    public static function makeDateTimeNow() {
+    public static function makeDateTimeNow()
+    {
         $dateTime = new DateTime();
         return new Constant($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
     }
 
     /** makes a constant with the current date */
-    public static function makeDateTimeCurrentDate() {
+    public static function makeDateTimeCurrentDate()
+    {
         $dateTime = new DateTime();
         $dateOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYDATE));
         return new Constant($dateOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
     }
 
     /** makes a constant with the current time */
-    public static function makeDateTimeCurrentTime() {
+    public static function makeDateTimeCurrentTime()
+    {
         $dateTime = new DateTime();
         $timeOnlyDateTime = new DateTime($dateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT_ONLYTIME));
         return new Constant($timeOnlyDateTime->format(UniversalInterpreter::$INTERNAL_DATETIME_FORMAT));
@@ -197,7 +206,8 @@ class CombinedFilterGenerators
      *
      * (Only tested for positive values...)
      */
-    public static function makeWrapInRangeFilter(UniversalFilterNode $funct, UniversalFilterNode $min, UniversalFilterNode $max) {
+    public static function makeWrapInRangeFilter(UniversalFilterNode $funct, UniversalFilterNode $min, UniversalFilterNode $max)
+    {
         // the logic:
         //   a = (a-min)%(max-min+1)+min
         // the logic (without modulo):

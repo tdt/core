@@ -245,7 +245,7 @@ class Proj4phpProj
  */
     public function loadProjCodeSuccess($projName)
     {
-      //if (Proj4php::$proj[$projName]->dependsOn){
+      //if (Proj4php::$proj[$projName]->dependsOn) {
       //  $this->loadProjCode(Proj4php::$proj[$projName]->dependsOn);
       //} else {
         $this->initTransforms();

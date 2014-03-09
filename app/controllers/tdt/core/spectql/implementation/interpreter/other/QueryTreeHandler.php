@@ -56,7 +56,7 @@ class QueryTreeHandler
 
         $currentNode = $this->query;
         $parentNode = null;
-        $found = FALSE;
+        $found = false;
 
         while ($currentNode != null && !$found) {
             $type = $currentNode->getType();

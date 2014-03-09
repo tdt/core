@@ -105,7 +105,7 @@ class FilterTreeCloner
     private function clone_DatasetJoinFilter(DatasetJoinFilter $filter)
     {
         $expr = $filter->getExpression();
-        if ($expr !== NULL) {
+        if ($expr !== null) {
             $expr = $this->deepCopyTree($expr);
         }
         return new DatasetJoinFilter($filter->getKeepLeft(), $filter->getKeepRight(), $this->deepCopyTree($filter->getSource(0)), $this->deepCopyTree($filter->getSource(1)));

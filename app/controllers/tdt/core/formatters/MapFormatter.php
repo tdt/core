@@ -11,7 +11,8 @@ namespace tdt\core\formatters;
 class MAPFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -22,7 +23,8 @@ class MAPFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Parse a kml from the objectToPrint, and convert it to a geojson
         ob_start();
@@ -36,7 +38,8 @@ class MAPFormatter implements IFormatter
                                           ->with('kml', $kml);
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "The map visualization creates a map based on the geographic data available in the datasource.";
     }
 }

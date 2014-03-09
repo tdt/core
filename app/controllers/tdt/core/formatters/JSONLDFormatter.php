@@ -11,7 +11,8 @@ namespace tdt\core\formatters;
 class JSONLDFormatter implements IFormatter
 {
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -22,7 +23,8 @@ class JSONLDFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         if ($dataObj->is_semantic) {
 
@@ -39,7 +41,8 @@ class JSONLDFormatter implements IFormatter
 
     }
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "A JSON-LD formatter.";
     }
 }

@@ -17,7 +17,8 @@ class KMLFormatter implements IFormatter
     private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude');
     private static $LATITUDE_PREFIXES = array('lat', 'latitude');
 
-    public static function createResponse($dataObj){
+    public static function createResponse($dataObj)
+    {
 
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
@@ -28,7 +29,8 @@ class KMLFormatter implements IFormatter
         return $response;
     }
 
-    public static function getBody($dataObj){
+    public static function getBody($dataObj)
+    {
 
         // Build the body
         // KML header
@@ -48,7 +50,8 @@ class KMLFormatter implements IFormatter
         return $body;
     }
 
-    private static function getPlacemarks($dataObj){
+    private static function getPlacemarks($dataObj)
+    {
 
         $data = $dataObj->data;
         if (is_object($data)) {
@@ -70,21 +73,24 @@ class KMLFormatter implements IFormatter
         return self::getArray($dataObj, $dataObj->geo);
     }
 
-    private static function xmlgetelement($value){
+    private static function xmlgetelement($value)
+    {
         // TODO decide what to do with the CDATA element
         $result = "<![CDATA[";
         $result .= "]]>";
         return $result;
     }
 
-    private static function getExtendedDataElement($value){
+    private static function getExtendedDataElement($value)
+    {
         // TODO decide what to do with extended data element
         $result = "<ExtendedData>";
         $result .= "</ExtendedData>";
         return $result;
     }
 
-    private static function printArray($val, $placemarks){
+    private static function printArray($val, $placemarks)
+    {
 
         foreach ($val as $key => $value) {
 
@@ -137,7 +143,7 @@ class KMLFormatter implements IFormatter
                     unset($array[$latkey]);
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
-                } elseif($coordskey) {
+                } elseif ($coordskey) {
 
                     $coords = explode(";",$array[$coordskey]);
                     unset($array[$coordskey]);
@@ -196,7 +202,8 @@ class KMLFormatter implements IFormatter
      * Create the geo graphical placemarks in kml
      * Currently only properties that are not nested are picked up.
      */
-    private static function getArray($dataObj, $geo){
+    private static function getArray($dataObj, $geo)
+    {
 
         $body = "";
 
@@ -253,7 +260,7 @@ class KMLFormatter implements IFormatter
                         }
                         $body .= "</MultiGeometry>";
 
-                    } elseif($geo_type == 'polygon'){
+                    } elseif ($geo_type == 'polygon') {
                         $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] ."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
                     } else {
                         \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
@@ -274,7 +281,8 @@ class KMLFormatter implements IFormatter
      * @param array $search
      * @return string|false
      */
-    private static function array_key_exists_nc($key, $search) {
+    private static function array_key_exists_nc($key, $search)
+    {
 
         if (array_key_exists($key, $search)) {
             return $key;
@@ -295,7 +303,8 @@ class KMLFormatter implements IFormatter
     }
 
 
-    public static function getDocumentation(){
+    public static function getDocumentation()
+    {
         return "Returns a KML file with geo properties of the data.";
     }
 }

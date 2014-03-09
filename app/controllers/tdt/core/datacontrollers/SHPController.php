@@ -193,7 +193,8 @@ class SHPController extends ADataController
     /**
      * Parse the column names out of a SHP file
      */
-    public static function parseColumns($options){
+    public static function parseColumns($options)
+    {
 
         $is_url = (substr($options['uri'] , 0, 4) == "http");
         $tmp_dir = sys_get_temp_dir();
@@ -247,7 +248,7 @@ class SHPController extends ADataController
         // or a lat long will be set (identified by x and y)
         if (!empty($shp_data['parts'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
-        } elseif(!empty($shp_data['x'])) {
+        } elseif (!empty($shp_data['x'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
             array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
         } else {
@@ -262,7 +263,8 @@ class SHPController extends ADataController
     /**
      * Parse the geo column names out of a SHP file.
      */
-    public static function parseGeoProperty($options, $columns){
+    public static function parseGeoProperty($options, $columns)
+    {
 
         // Make sure the geo property's path is mapped onto the column alias
         $aliases = array();
@@ -308,13 +310,13 @@ class SHPController extends ADataController
             if (strpos($shape_type, 'polyline')) {
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
-            } elseif(strpos($shape_type, 'polygon')){
+            } elseif (strpos($shape_type, 'polygon')) {
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
             } else { // TODO support more types
                 \App::abort(400, 'Provided geometric type ( $shape_type ) is not supported');
             }
-        } elseif(isset($shp_data['x'])){
+        } elseif (isset($shp_data['x'])) {
             $x = $aliases['x'];
             $y = $aliases['y'];
             array_push($geo_properties, array('property' => 'latitude', 'path' => $x));

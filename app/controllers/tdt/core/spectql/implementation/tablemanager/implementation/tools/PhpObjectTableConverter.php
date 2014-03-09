@@ -121,7 +121,7 @@ class PhpObjectTableConverter
                         }
                         $property = $obj;
 
-                    } elseif(!is_object($property)){
+                    } elseif (!is_object($property)) {
 
                         $obj = new \stdClass();
                         $obj->value = $property;
@@ -181,7 +181,7 @@ class PhpObjectTableConverter
                     $linkedTableKey = null;
 
                     /* TODO: generate linked data info */
-                    /* if(is_array($value) || is_object($value)){
+                    /* if (is_array($value) || is_object($value)) {
                       //new field is subtable
                       $isLinked=true;
                       $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!

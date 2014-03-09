@@ -218,7 +218,7 @@ class parse_engine
             }
             $seen[$this->state()] = true;
 
-            $this->eat('error', NULL);
+            $this->eat('error', null);
             if ($this->has_step_for('#')) {
                 // Good. We can continue as normal.
                 return;
@@ -288,7 +288,7 @@ class parse_engine
                 # flutter while the parse engine waits for an edible token.
                 # if ($this->debug) echo "($type) causes a problem.\n";
                 if ($this->enter_error_tolerant_state()) {
-                    $this->eat('error', NULL);
+                    $this->eat('error', null);
                     if ($this->has_step_for($type))
                         $this->eat($type, $semantic);
                 } else {

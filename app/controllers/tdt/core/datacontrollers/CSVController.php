@@ -82,9 +82,9 @@ class CSVController extends ADataController
         // Contains the amount of rows that we added to the resulting object
         $hits = 0;
 
-        if (($handle = fopen($uri, "r")) !== FALSE) {
+        if (($handle = fopen($uri, "r")) !== false) {
 
-            while (($data = fgetcsv($handle, 2000000, $delimiter)) !== FALSE) {
+            while (($data = fgetcsv($handle, 2000000, $delimiter)) !== false) {
 
                 if ($total_rows >= $start_row) {
 
@@ -160,7 +160,8 @@ class CSVController extends ADataController
      * Parse the columns from a CSV file and return them
      * Optionally aliases can be given to columns as well as a primary key
      */
-    public static function parseColumns($config){
+    public static function parseColumns($config)
+    {
 
         // Get the columns out of the csv file before saving the csv definition
         // If columns are being passed using the json body or request parameters
@@ -174,7 +175,7 @@ class CSVController extends ADataController
 
         $columns = array();
 
-        if (($handle = fopen($config['uri'], "r")) !== FALSE) {
+        if (($handle = fopen($config['uri'], "r")) !== false) {
 
             // Throw away the lines untill we hit the start row
             // from then on, process the columns
@@ -187,7 +188,7 @@ class CSVController extends ADataController
 
             $index = 0;
 
-            if (($line = fgetcsv($handle, 0, $config['delimiter'], '"')) !== FALSE) {
+            if (($line = fgetcsv($handle, 0, $config['delimiter'], '"')) !== false) {
 
                 if (sizeof($line) <= 1) {
 

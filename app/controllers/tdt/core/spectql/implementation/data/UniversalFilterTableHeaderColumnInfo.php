@@ -106,7 +106,8 @@ class UniversalFilterTableHeaderColumnInfo
      * @param array $nameParts
      * @return boolean Do we have a match?
      */
-    public static function algorithmMatchName(array $fullNameParts, array $nameParts) {
+    public static function algorithmMatchName(array $fullNameParts, array $nameParts)
+    {
 
         $completeCount = count($fullNameParts);
 
