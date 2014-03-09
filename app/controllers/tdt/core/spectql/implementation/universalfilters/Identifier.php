@@ -24,7 +24,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  *
  */
-class Identifier extends UniversalFilterNode {
+class Identifier extends UniversalFilterNode
+{
 
     private $value;
 

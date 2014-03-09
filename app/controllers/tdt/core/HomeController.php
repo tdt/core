@@ -8,7 +8,8 @@ namespace tdt\core;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class HomeController extends \Controller {
+class HomeController extends \Controller
+{
 
     public static function handle($uri){
         $definitions = \Definition::all();

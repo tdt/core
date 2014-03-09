@@ -13,7 +13,8 @@ use tdt\core\ApiController;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class LicenseController extends ApiController {
+class LicenseController extends ApiController
+{
 
 
     /**

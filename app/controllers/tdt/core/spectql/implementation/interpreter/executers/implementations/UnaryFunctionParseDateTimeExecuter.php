@@ -4,7 +4,8 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\UnaryF
 use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* parse_datetime */
-class UnaryFunctionParseDateTimeExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionParseDateTimeExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "parse_datetime_" . $name;
     }

@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* atan */
-class UnaryFunctionAtanExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionAtanExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "atan_" . $name;
     }

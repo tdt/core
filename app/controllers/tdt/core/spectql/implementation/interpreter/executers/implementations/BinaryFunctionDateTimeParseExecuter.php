@@ -10,7 +10,8 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
  * DateTime
  */
 /* parseDateTime */
-class BinaryFunctionDateTimeParseExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionDateTimeParseExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_parseDate_" . $nameA . "_in_format_" . $nameB;
     }

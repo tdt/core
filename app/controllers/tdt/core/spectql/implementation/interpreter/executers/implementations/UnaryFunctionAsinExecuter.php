@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* asin */
-class UnaryFunctionAsinExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionAsinExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "asin_" . $name;
     }

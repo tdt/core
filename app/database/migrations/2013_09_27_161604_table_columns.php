@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class TableColumns extends Migration {
+class TableColumns extends Migration
+{
 
 	/**
 	 * Run the migrations.

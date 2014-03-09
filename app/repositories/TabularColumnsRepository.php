@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\TabularColumnsRepositoryInterface;
 
-class TabularColumnsRepository extends BaseRepository implements TabularColumnsRepositoryInterface{
+class TabularColumnsRepository extends BaseRepository implements TabularColumnsRepositoryInterface
+{
 
     protected $rules = array(
         'pk' => 'integer',

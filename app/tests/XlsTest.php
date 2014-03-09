@@ -5,7 +5,8 @@ use tdt\core\definitions\DefinitionController;
 use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-class XlsTest extends TestCase{
+class XlsTest extends TestCase
+{
 
     // This array holds the names of the files and their correspondive
     // sheets that can be used to test the xls definitions.

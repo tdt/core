@@ -12,7 +12,8 @@ define("DEFAULT_ROOTNAME", "data");
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class XMLFormatter implements IFormatter{
+class XMLFormatter implements IFormatter
+{
 
     public static function createResponse($dataObj){
 

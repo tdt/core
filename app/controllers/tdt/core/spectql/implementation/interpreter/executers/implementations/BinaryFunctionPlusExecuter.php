@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* plus */
-class BinaryFunctionPlusExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionPlusExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return $nameA . "_plus_" . $nameB;
     }

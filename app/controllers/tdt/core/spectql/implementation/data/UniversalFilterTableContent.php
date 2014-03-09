@@ -13,7 +13,8 @@ namespace tdt\core\spectql\implementation\data;
 
 use tdt\core\spectql\implementation\common\BigList;
 
-class UniversalFilterTableContent {
+class UniversalFilterTableContent
+{
 
     private $rows;
     private $size;

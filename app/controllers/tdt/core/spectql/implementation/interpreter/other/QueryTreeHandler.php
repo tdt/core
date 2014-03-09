@@ -17,7 +17,8 @@ use tdt\core\spectql\implementation\converter\NoSQLConverter;
 use tdt\core\spectql\implementation\sourcefilterbinding\ExpectedHeaderNamesAttachment;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class QueryTreeHandler {
+class QueryTreeHandler
+{
 
     private $sqlConverter;
     private $noSqlConverter;

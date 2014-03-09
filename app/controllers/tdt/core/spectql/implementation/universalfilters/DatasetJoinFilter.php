@@ -18,7 +18,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  * aka "FULL OUTER JOIN"
  * aka "CROSS JOIN"
  */
-class DatasetJoinFilter extends NormalFilterNode {
+class DatasetJoinFilter extends NormalFilterNode
+{
 
     private $expression; //type:UniversalFilterNode
     private $keepleft; //type:boolean

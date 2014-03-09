@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* not */
-class UnaryFunctionNotExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionNotExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "not_" . $name;
     }

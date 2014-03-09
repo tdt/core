@@ -8,7 +8,8 @@ namespace tdt\core\formatters;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class MAPFormatter implements IFormatter{
+class MAPFormatter implements IFormatter
+{
 
     public static function createResponse($dataObj){
 

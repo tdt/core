@@ -17,7 +17,8 @@ use tdt\core\ApiController;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DcatController extends ApiController {
+class DcatController extends ApiController
+{
 
     public function get($uri){
 

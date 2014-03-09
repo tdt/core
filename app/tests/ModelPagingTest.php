@@ -7,7 +7,8 @@ use tdt\core\definitions\DcatController;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class ModelPagingTest extends TestCase{
+class ModelPagingTest extends TestCase
+{
 
     // Add csv files only, the goal is to seed the database with some definitions.
     private $test_data = array(

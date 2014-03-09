@@ -8,7 +8,8 @@ namespace tdt\core\validators;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class CustomValidator extends \Illuminate\Validation\Validator {
+class CustomValidator extends \Illuminate\Validation\Validator
+{
 
     /**
      * Check if the given uri can be resolved by using file_get_contents().

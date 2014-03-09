@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class INSTALLEDController extends ADataController {
+class INSTALLEDController extends ADataController
+{
 
     public function readData($source_definition, $rest_parameters = array()){
 

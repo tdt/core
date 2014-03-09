@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class XmlDefinitionInit extends Migration {
+class XmlDefinitionInit extends Migration
+{
 
 	/**
 	 * Run the migrations.

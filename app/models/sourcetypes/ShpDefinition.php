@@ -12,7 +12,8 @@ include_once(__DIR__ . "/../../lib/proj4php/proj4php.php");
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class ShpDefinition extends SourceType{
+class ShpDefinition extends SourceType
+{
 
     protected $table = 'shpdefinitions';
 

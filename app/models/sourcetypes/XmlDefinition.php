@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class XmlDefinition extends SourceType{
+class XmlDefinition extends SourceType
+{
 
     protected $table = 'xmldefinitions';
 

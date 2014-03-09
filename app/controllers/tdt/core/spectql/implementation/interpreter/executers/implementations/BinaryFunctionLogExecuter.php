@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* log */
-class BinaryFunctionLogExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionLogExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_log_" . $nameA . "_" . $nameB;
     }

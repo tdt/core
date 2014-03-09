@@ -18,7 +18,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\BaseEvaluationEnv
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter {
+class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
+{
 
     private $interpreter;
     private $header;

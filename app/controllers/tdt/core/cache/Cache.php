@@ -9,7 +9,8 @@ namespace tdt\core\cache;
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
 
-class Cache extends \Cache {
+class Cache extends \Cache
+{
 
     /**
      * Check if cache is enabled and if a value is already stored

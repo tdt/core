@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* floor */
-class UnaryFunctionFloorExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionFloorExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "floor_" . $name;
     }

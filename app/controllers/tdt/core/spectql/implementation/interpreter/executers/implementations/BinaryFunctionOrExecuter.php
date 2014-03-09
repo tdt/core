@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* or */
-class BinaryFunctionOrExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionOrExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return $nameA . "_or_" . $nameB;
     }

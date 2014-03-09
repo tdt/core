@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\LanguageRepositoryInterface;
 
-class LanguageRepository implements LanguageRepositoryInterface{
+class LanguageRepository implements LanguageRepositoryInterface
+{
 
 
     public function getById($language_id){

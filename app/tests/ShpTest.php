@@ -4,7 +4,8 @@ use tdt\core\definitions\DefinitionController;
 use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-class ShpTest extends TestCase{
+class ShpTest extends TestCase
+{
 
     // This array holds the names of the files that can be used
     // to test the shp definitions.

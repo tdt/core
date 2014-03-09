@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DcatSeeder extends Seeder {
+class DcatSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.

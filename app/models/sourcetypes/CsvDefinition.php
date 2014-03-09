@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class CsvDefinition extends SourceType{
+class CsvDefinition extends SourceType
+{
 
     protected $table = 'csvdefinitions';
 

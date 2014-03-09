@@ -10,7 +10,8 @@ namespace tdt\core\ui;
 
 use tdt\core\auth\Auth;
 
-class UiController extends \Controller {
+class UiController extends \Controller
+{
 
     public static function handle($uri){
 

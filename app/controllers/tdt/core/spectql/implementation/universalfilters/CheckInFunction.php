@@ -9,7 +9,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  * type: [Cell, [Constant, ...]] -> Cell
  * type: [Column, [Constant, ...]] -> Column
  */
-class CheckInFunction extends NormalFilterNode {
+class CheckInFunction extends NormalFilterNode
+{
 
     private $constants;
     public static $FUNCTION_IN_LIST = "FUNCTION_IN_LIST"; // is a varargs function

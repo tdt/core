@@ -70,7 +70,8 @@ define("UNABLE_TO_WRITE_DBF_FILE", "Unable to write DBF file [%s]");
 
 
 
-class ShapeFile{
+class ShapeFile
+{
     private $file_name;
     private $fp;
     //Used to fasten up the search between records;
@@ -86,7 +87,7 @@ class ShapeFile{
 
     private $records;
 
-    function ShapeFile($file_name,$options){
+    function ShapeFile($file_name,$options) {
         $this->options = $options;
 
         $this->file_name = $file_name;
@@ -111,8 +112,7 @@ class ShapeFile{
     }
 
 
-    function __destruct()
-    {
+    function __destruct() {
         $this->closeFile();
     }
 
@@ -146,7 +146,7 @@ class ShapeFile{
     }
 
     /* Takes too much memory
-       function _fetchRecords(){
+       function _fetchRecords() {
        fseek($this->fp, 100);
        while(!feof($this->fp)){
        $shp_record = new ShapeRecord($this->fp, $this->file_name);
@@ -192,7 +192,8 @@ class ShapeFile{
  * ShapeRecord
  *
  */
-class ShapeRecord{
+class ShapeRecord
+{
     private $fp;
     private $fpos = null;
 
@@ -215,7 +216,7 @@ class ShapeRecord{
                                     3 => "RecordPolyLine",
                                     5 => "RecordPolygon");
 
-    function ShapeRecord(&$fp, $file_name,$options){
+    function ShapeRecord(&$fp, $file_name,$options) {
         $this->fp = $fp;
         $this->fpos = ftell($fp);
         $this->options = $options;
@@ -322,14 +323,14 @@ class ShapeRecord{
  * Reading functions
  */
 
-function readRecordNull(&$fp, $read_shape_type = false,$options = null){
+function readRecordNull(&$fp, $read_shape_type = false,$options = null) {
     $data = array();
     if($read_shape_type) $data += readShapeType($fp);
     //_d("Returning Null shp_data array = ".getArray($data));
     return $data;
 }
 $point_count = 0;
-function readRecordPoint(&$fp, $create_object = false,$options = null){
+function readRecordPoint(&$fp, $create_object = false,$options = null) {
     global $point_count;
     $data = array();
 
@@ -341,7 +342,7 @@ function readRecordPoint(&$fp, $create_object = false,$options = null){
     return $data;
 }
 
-function readRecordMultiPoint(&$fp,$options = null){
+function readRecordMultiPoint(&$fp,$options = null) {
     $data = readBoundingBox($fp);
     $data["numpoints"] = readAndUnpack("i", fread($fp, 4));
     //_d("MultiPoint numpoints = ".$data["numpoints"]);
@@ -354,7 +355,7 @@ function readRecordMultiPoint(&$fp,$options = null){
     return $data;
 }
 
-function readRecordPolyLine(&$fp,$options = null){
+function readRecordPolyLine(&$fp,$options = null) {
     $data = readBoundingBox($fp);
     $data["numparts"]  = readAndUnpack("i", fread($fp, 4));
     $data["numpoints"] = readAndUnpack("i", fread($fp, 4));
@@ -395,7 +396,7 @@ function readRecordPolyLine(&$fp,$options = null){
     return $data;
 }
 
-function readRecordPolygon(&$fp,$options = null){
+function readRecordPolygon(&$fp,$options = null) {
     //_d("Polygon reading; applying readRecordPolyLine function");
     return readRecordPolyLine($fp,$options);
 }
@@ -403,7 +404,7 @@ function readRecordPolygon(&$fp,$options = null){
 /**
  * General functions
  */
-function processDBFFileName($dbf_filename){
+function processDBFFileName($dbf_filename) {
     //_d("Received filename [$dbf_filename]");
     if(!strstr($dbf_filename, ".")){
         $dbf_filename .= ".dbf";
@@ -416,7 +417,7 @@ function processDBFFileName($dbf_filename){
     return $dbf_filename;
 }
 
-function readBoundingBox(&$fp){
+function readBoundingBox(&$fp) {
     $data = array();
     $data["xmin"] = readAndUnpack("d",fread($fp, 8));
     $data["ymin"] = readAndUnpack("d",fread($fp, 8));
@@ -427,18 +428,18 @@ function readBoundingBox(&$fp){
     return $data;
 }
 
-function readAndUnpack($type, $data){
+function readAndUnpack($type, $data) {
     if(!$data) return $data;
     return current(unpack($type, $data));
 }
 
-function _d($debug_text){
+function _d($debug_text) {
     if(DEBUG){
         echo $debug_text."\n";
     }
 }
 
-function getArray($array){
+function getArray($array) {
     ob_start();
     print_r($array);
     $contents = ob_get_contents();

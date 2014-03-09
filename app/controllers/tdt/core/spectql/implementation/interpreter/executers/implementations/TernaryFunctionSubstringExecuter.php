@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* substring / MID */
-class TernaryFunctionSubstringExecuter extends TernaryFunctionExecuter {
+class TernaryFunctionSubstringExecuter extends TernaryFunctionExecuter
+{
     public function getName($nameA, $nameB, $nameC) {
         return "substring_" . $nameA . "_" . $nameB . "_" . $nameC;
     }

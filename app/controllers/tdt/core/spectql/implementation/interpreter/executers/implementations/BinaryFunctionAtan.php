@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* atan2 */
-class BinaryFunctionAtan2Executer extends BinaryFunctionExecuter {
+class BinaryFunctionAtan2Executer extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_atan2_" . $nameA . "_" . $nameB;
     }

@@ -15,7 +15,8 @@ namespace tdt\core\spectql\source;
 use \parse_engine;
 use \spectql;
 
-class SPECTQLParser {
+class SPECTQLParser
+{
 
     private $querystring;
 

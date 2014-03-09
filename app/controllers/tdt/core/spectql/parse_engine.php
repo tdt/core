@@ -23,19 +23,22 @@ abstract class lime_parser {
 
 }
 
-class parse_error extends \Exception {
+class parse_error extends \Exception
+{
 
 }
 
 # If this happens, the input doesn't match the grammar.
 
-class parse_bug extends \Exception {
+class parse_bug extends \Exception
+{
 
 }
 
 # If this happens, I made a mistake.
 
-class parse_unexpected_token extends parse_error {
+class parse_unexpected_token extends parse_error
+{
 
     function __construct($type, $state) {
         parent::__construct("Unexpected token of type ($type)");
@@ -45,7 +48,8 @@ class parse_unexpected_token extends parse_error {
 
 }
 
-class parse_premature_eof extends parse_error {
+class parse_premature_eof extends parse_error
+{
 
     function __construct() {
         parent::__construct("Premature EOF");
@@ -53,7 +57,8 @@ class parse_premature_eof extends parse_error {
 
 }
 
-class parse_stack {
+class parse_stack
+{
 
     function __construct($qi) {
         $this->q = $qi;
@@ -97,7 +102,8 @@ class parse_stack {
 
 }
 
-class parse_engine {
+class parse_engine
+{
 
     function __construct($parser) {
         $this->parser = $parser;

@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* round */
-class UnaryFunctionRoundExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionRoundExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "round_" . $name;
     }

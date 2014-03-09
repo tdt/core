@@ -11,7 +11,8 @@
 
 namespace tdt\core\spectql\implementation\data;
 
-class UniversalFilterTableHeaderColumnInfo {
+class UniversalFilterTableHeaderColumnInfo
+{
 
     private $completeColumnNameParts; //array(package, package, resource, subtable, ...)
     private $columnId; //unique Id

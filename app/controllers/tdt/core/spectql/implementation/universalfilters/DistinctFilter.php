@@ -14,7 +14,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  * aka "DISTINCT"
  */
-class DistinctFilter extends NormalFilterNode {
+class DistinctFilter extends NormalFilterNode
+{
 
     public function __construct(UniversalFilterNode $source = null) {
         parent::__construct("FILTERDISTINCT");

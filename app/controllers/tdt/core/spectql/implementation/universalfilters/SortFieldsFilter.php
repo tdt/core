@@ -14,7 +14,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  * aka "ORDER BY"
  */
-class SortFieldsFilter extends NormalFilterNode {
+class SortFieldsFilter extends NormalFilterNode
+{
 
     private $columndata; //type:Array[SortFieldsFilterColumn]
 

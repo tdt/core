@@ -11,7 +11,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  * Represents a table alias
  * Has a source and a alias string
  */
-class TableAliasFilter extends NormalFilterNode {
+class TableAliasFilter extends NormalFilterNode
+{
 
     private $alias; //type:String
 

@@ -25,7 +25,8 @@ use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\interpreter\sourceusage\SourceUsageData;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter {
+class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     private $interpreter;
     private $topenv;

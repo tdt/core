@@ -12,7 +12,8 @@
 
 namespace tdt\core\spectql\source;
 
-class SPECTQLTokenizer {
+class SPECTQLTokenizer
+{
 
     private $tokens;
     private $index = 0;

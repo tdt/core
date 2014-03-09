@@ -1,15 +1,15 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
-NAME                       OBLIQUE MERCATOR (HOTINE) 
+NAME                       OBLIQUE MERCATOR (HOTINE)
 
 PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Oblique Mercator projection.  The
@@ -31,7 +31,8 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-class Proj4phpProjOmerc  {
+class Proj4phpProjOmerc
+{
 
   /* Initialize the Oblique Mercator  projection
     ------------------------------------------*/
@@ -146,7 +147,7 @@ class Proj4phpProjOmerc  {
        $this->cosgam=cos($this->gam);
 
        $this->sinaz=sin($this->alpha);
-       $this->cosaz=cos($this->alpha);  
+       $this->cosaz=cos($this->alpha);
 
 
        if ($this->lat0 >= 0) {

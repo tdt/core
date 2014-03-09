@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class UserSeeder extends Seeder {
+class UserSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.

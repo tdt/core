@@ -6,7 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 include(__DIR__ . '/data/sparql/SparqlQueries.php');
 
-class SparqlTest extends TestCase{
+class SparqlTest extends TestCase
+{
 
     public function test_put_api(){
 

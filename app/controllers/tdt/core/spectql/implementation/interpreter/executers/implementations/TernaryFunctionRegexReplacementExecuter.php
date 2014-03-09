@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* regex replace */
-class TernaryFunctionRegexReplacementExecuter extends TernaryFunctionExecuter {
+class TernaryFunctionRegexReplacementExecuter extends TernaryFunctionExecuter
+{
     public function getName($nameA, $nameB, $nameC) {
         return $nameA . "_replaced_" . $nameB . "_with_" . $nameC;
     }

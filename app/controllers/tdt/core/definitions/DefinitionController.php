@@ -17,7 +17,8 @@ use tdt\core\ApiController;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DefinitionController extends ApiController {
+class DefinitionController extends ApiController
+{
 
     protected $definition_repository;
 

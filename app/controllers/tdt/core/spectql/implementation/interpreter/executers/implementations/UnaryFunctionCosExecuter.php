@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* cos */
-class UnaryFunctionCosExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionCosExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "cos_" . $name;
     }

@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class InstalledDefinition extends SourceType{
+class InstalledDefinition extends SourceType
+{
 
     protected $table = 'installeddefinitions';
 

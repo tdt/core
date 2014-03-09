@@ -12,7 +12,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  * type: Column -> Cell
  */
-class AggregatorFunction extends NormalFilterNode {
+class AggregatorFunction extends NormalFilterNode
+{
 
     public static $AGGREGATOR_AVG = "AGGREGATOR_AVG";
     public static $AGGREGATOR_COUNT = "AGGREGATOR_COUNT";

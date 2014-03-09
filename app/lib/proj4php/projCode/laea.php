@@ -1,29 +1,29 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
 NAME                  LAMBERT AZIMUTHAL EQUAL-AREA
- 
+
 PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Lambert Azimuthal Equal-Area projection.  The
 		longitude and latitude must be in radians.  The Easting
 		and Northing values will be returned in meters.
 
-PROGRAMMER              DATE            
-----------              ----           
-D. Steinwand, EROS      March, 1991   
+PROGRAMMER              DATE
+----------              ----
+D. Steinwand, EROS      March, 1991
 
 This function was adapted from the Lambert Azimuthal Equal Area projection
 code (FORTRAN) in the General Cartographic Transformation Package software
 which is available from the U.S. Geological Survey National Mapping Division.
- 
+
 ALGORITHM REFERENCES
 
 1.  "New Equal-Area Map Projections for Noncircular Regions", John P. Snyder,
@@ -37,7 +37,8 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-class Proj4phpProjLaea  {
+class Proj4phpProjLaea
+{
   protected $S_POLE= 1;
   protected $N_POLE= 2;
   protected $EQUIT= 3;
@@ -57,7 +58,7 @@ class Proj4phpProjLaea  {
     }
     if ($this->es > 0) {
       $sinphi;
-  
+
       $this->qp = Proj4php::$common.qsfnz($this->e, 1.0);
       $this->mmf = .5 / (1. - $this->es);
       $this->apa = $this->authset($this->es);
@@ -100,10 +101,10 @@ class Proj4phpProjLaea  {
     $lam=$p->x;
     $phi=$p->y;
     $lam = Proj4php::$common->adjust_lon($lam - $this->long0);
-    
+
     if ($this->sphere) {
         $coslam; $cosphi; $sinphi;
-      
+
         $sinphi = sin($phi);
         $cosphi = cos($phi);
         $coslam = cos($lam);
@@ -134,7 +135,7 @@ class Proj4phpProjLaea  {
         }
     } else {
         $coslam; $sinlam; $sinphi;$q; $sinb=0.0; $cosb=0.0; $b=0.0;
-      
+
         $coslam = cos($lam);
         $sinlam = sin($lam);
         $sinphi = sin($phi);
@@ -215,10 +216,10 @@ class Proj4phpProjLaea  {
     $p->y -= $this->y0;
     $x = $p->x/$this->a;
     $y = $p->y/$this->a;
-    
+
     if ($this->sphere) {
         $cosz=0.0; $rh; $sinz=0.0;
-      
+
         $rh = sqrt($x*$x + $y*$y);
         $phi = $rh * .5;
         if ($phi > 1.) {
@@ -252,7 +253,7 @@ class Proj4phpProjLaea  {
         $lam = ($y == 0. && ($this->mode == $this->EQUIT || $this->mode == $this->OBLIQ)) ? 0. : atan2($x, $y);
     } else {
         $cCe; $sCe; $q; $rho; $ab=0.0;
-      
+
         switch ($this->mode) {
           case $this->EQUIT:
           case $this->OBLIQ:
@@ -333,7 +334,7 @@ class Proj4phpProjLaea  {
     $p->y = $phi;
     return $p;
   }//lamazInv()
-  
+
 /* determine latitude from authalic latitude */
   protected $P00= .33333333333333333333;
   protected $P01= .17222222222222222222;
@@ -341,7 +342,7 @@ class Proj4phpProjLaea  {
   protected $P10= .06388888888888888888;
   protected $P11= .06640211640211640211;
   protected $P20= .01641501294219154443;
-  
+
   public function authset($es) {
     $t;
     $APA = array();
@@ -355,12 +356,12 @@ class Proj4phpProjLaea  {
     $APA[2] = $t * $this->P20;
     return $APA;
   }
-  
+
   public function authlat($beta, $APA) {
     $t = $beta+$beta;
     return($beta + $APA[0] * sin($t) + $APA[1] * sin($t+$t) + $APA[2] * sin($t+$t+$t));
   }
-  
+
 };
 
 

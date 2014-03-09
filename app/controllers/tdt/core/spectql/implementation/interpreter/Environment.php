@@ -15,7 +15,8 @@ use tdt\core\spectql\implementation\data\UniversalFilterTable;
 use tdt\core\spectql\implementation\data\UniversalFilterTableContentRow;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeaderColumnInfo;
 
-class Environment {
+class Environment
+{
 
     /**
      * Single values

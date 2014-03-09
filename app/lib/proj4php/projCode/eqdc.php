@@ -1,14 +1,14 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
-NAME                            EQUIDISTANT CONIC 
+NAME                            EQUIDISTANT CONIC
 
 PURPOSE:	Transforms input longitude and latitude to Easting and Northing
 		for the Equidistant Conic projection.  The longitude and
@@ -65,7 +65,7 @@ class Proj4phpProjEqdc
             //return(81);
        }
        $this->sinphi=sin($this->lat2);
-       $this->cosphi=cos($this->lat2);   
+       $this->cosphi=cos($this->lat2);
 
        $this->ms2 = Proj4php::$common->msfnz($this->e,$this->sinphi,$this->cosphi);
        $this->ml2 = Proj4php::$common->mlfn($this->e0, $this->e1, $this->e2, $this->e3, $this->lat2);
@@ -109,10 +109,10 @@ class Proj4phpProjEqdc
     $p->y  = $this->rh - $p->y + $this->y0;
     $con; $rh1;
     if ($this->ns >= 0) {
-       $rh1 = sqrt($p->x *$p->x + $p->y * $p->y); 
+       $rh1 = sqrt($p->x *$p->x + $p->y * $p->y);
        $con = 1.0;
     } else {
-       $rh1 = -sqrt($p->x *$p->x +$p->y * $p->y); 
+       $rh1 = -sqrt($p->x *$p->x +$p->y * $p->y);
        $con = -1.0;
     }
     $theta = 0.0;
@@ -122,10 +122,10 @@ class Proj4phpProjEqdc
     $lon = Proj4php::$common->adjust_lon($this->long0 + $theta / $this->ns);
 
      $p->x=$lon;
-     $p->y=$lat;  
+     $p->y=$lat;
      return $p;
     }
-    
+
 /* Function to compute latitude, phi3, for the inverse of the Equidistant
    Conic projection.
 -----------------------------------------------------------------*/
@@ -145,7 +145,7 @@ class Proj4phpProjEqdc
     return null;
   }
 
-    
+
 }
 
 Proj4php::$proj['eqdc'] = new Proj4phpProjEqdc();

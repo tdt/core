@@ -4,7 +4,8 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\Binary
 use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* datediff */
-class BinaryFunctionDateTimeDateDiffExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionDateTimeDateDiffExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_datediff_" . $nameA . "_and_" . $nameB;
     }

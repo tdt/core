@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* isnull */
-class UnaryFunctionIsNullExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionIsNullExecuter extends UnaryFunctionExecuter
+{
 
     public function getName($name) {
         return "isnull_" . $name;

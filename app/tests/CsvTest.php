@@ -5,7 +5,8 @@ use tdt\core\definitions\DefinitionController;
 use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-class CsvTest extends TestCase{
+class CsvTest extends TestCase
+{
 
     // This array holds the names of the files that can be used
     // to test the csv definitions.

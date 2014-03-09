@@ -11,7 +11,8 @@
 
 namespace tdt\core\spectql\implementation\common;
 
-class BigList {
+class BigList
+{
 
     public static $BLOCKSIZE = 50;
     private $id;

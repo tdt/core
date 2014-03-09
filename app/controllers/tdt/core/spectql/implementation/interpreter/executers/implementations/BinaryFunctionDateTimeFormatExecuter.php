@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* format */
-class BinaryFunctionDateTimeFormatExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionDateTimeFormatExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_format_date_" . $nameA . "_as_" . $nameB;
     }

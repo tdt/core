@@ -6,7 +6,8 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\UnaryF
 use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
-class UnaryFunctionStringLengthExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionStringLengthExecuter extends UnaryFunctionExecuter
+{
 
     public function getName($name) {
         return "len_" . $name;

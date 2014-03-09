@@ -16,7 +16,8 @@ use tdt\core\Pager;
 include_once(__DIR__ . "/../../../../lib/ShapeFile.inc.php");
 include_once(__DIR__ . "/../../../../lib/proj4php/proj4php.php");
 
-class SHPController extends ADataController {
+class SHPController extends ADataController
+{
 
     public function readData($source_definition, $rest_parameters = array()) {
 

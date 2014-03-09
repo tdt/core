@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 include(__DIR__ . '/data/spectql/SpectqlQueries.php');
 
-class SpectqlTest extends TestCase{
+class SpectqlTest extends TestCase
+{
 
     public function test_spectql(){
 

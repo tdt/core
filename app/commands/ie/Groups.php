@@ -8,7 +8,8 @@ namespace tdt\commands\ie;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class Groups implements IImportExport {
+class Groups implements IImportExport
+{
 
     public static function import($groups){
 

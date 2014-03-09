@@ -1,12 +1,12 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
 NAME                            LAMBERT CONFORMAL CONIC
 
@@ -33,7 +33,8 @@ ALGORITHM REFERENCES
 // -----------------------------------------------------------------
 
 //class Proj4phpProjlcc = Class.create();
-class Proj4phpProjLcc  {
+class Proj4phpProjLcc
+{
   public function init() {
     // array of:  r_maj,r_min,lat1,lat2,c_lon,c_lat,false_east,false_north
     //double c_lat;                   /* center latitude                      */

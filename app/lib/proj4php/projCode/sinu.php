@@ -1,13 +1,13 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
 NAME                  		SINUSOIDAL
 
@@ -16,14 +16,14 @@ PURPOSE:	Transforms input longitude and latitude to Easting and
 		longitude and latitude must be in radians.  The Easting
 		and Northing values will be returned in meters.
 
-PROGRAMMER              DATE            
-----------              ----           
-D. Steinwand, EROS      May, 1991     
+PROGRAMMER              DATE
+----------              ----
+D. Steinwand, EROS      May, 1991
 
-This function was adapted from the Sinusoidal projection code (FORTRAN) in the 
-General Cartographic Transformation Package software which is available from 
+This function was adapted from the Sinusoidal projection code (FORTRAN) in the
+General Cartographic Transformation Package software which is available from
 the U.S. Geological Survey National Mapping Division.
- 
+
 ALGORITHM REFERENCES
 
 1.  Snyder, John P., "Map Projections--A Working Manual", U.S. Geological
@@ -34,7 +34,8 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-class Proj4phpProjSinu  {
+class Proj4phpProjSinu
+{
 
 	/* Initialize the Sinusoidal projection
 	  ------------------------------------*/
@@ -47,9 +48,9 @@ class Proj4phpProjSinu  {
 	/* Sinusoidal forward equations--mapping lat,long to x,y
 	-----------------------------------------------------*/
 	public function forward($p) {
-		$x;$y;$delta_lon;	
+		$x;$y;$delta_lon;
 		$lon=$p->x;
-		$lat=$p->y;	
+		$lat=$p->y;
 		/* Forward equations
 		-----------------*/
 		$delta_lon = Proj4php::$common->adjust_lon($lon - $this->long0);
@@ -57,12 +58,12 @@ class Proj4phpProjSinu  {
 		$y = $this->R * lat + $this->y0;
 
 		$p->x=$x;
-		$p->y=$y;	
+		$p->y=$y;
 		return $p;
 	}
 
 	public function inverse($p) {
-		$lat;$temp;$lon;	
+		$lat;$temp;$lon;
 
 		/* Inverse equations
 		  -----------------*/
@@ -79,7 +80,7 @@ class Proj4phpProjSinu  {
 		} else {
 			$lon = $this->long0;
 		}
-		  
+
 		$p->x=$lon;
 		$p->y=$lat;
 		return $p;

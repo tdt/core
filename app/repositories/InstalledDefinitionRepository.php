@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\InstalledDefinitionRepositoryInterface;
 
-class InstalledDefinitionRepository extends BaseRepository implements InstalledDefinitionRepositoryInterface{
+class InstalledDefinitionRepository extends BaseRepository implements InstalledDefinitionRepositoryInterface
+{
 
     protected $rules = array(
         'class' => 'required',
@@ -12,7 +13,7 @@ class InstalledDefinitionRepository extends BaseRepository implements InstalledD
         'description' => 'required',
     );
 
-    function __construct(\InstalledDefinition $model){
+    function __construct(\InstalledDefinition $model) {
         $this->model = $model;
     }
 

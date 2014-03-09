@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* sqrt */
-class UnaryFunctionSqrtExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionSqrtExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "sqrt_" . $name;
     }

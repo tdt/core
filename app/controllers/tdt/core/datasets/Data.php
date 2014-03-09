@@ -15,7 +15,8 @@ namespace tdt\core\datasets;
  * It contains properties that add information about where
  * the data comes from, paging information and geo information.
  */
-class Data {
+class Data
+{
 
     public $definition;
 

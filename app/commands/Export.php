@@ -8,7 +8,8 @@ use tdt\commands\ie\Definitions;
 use tdt\commands\ie\Users;
 use tdt\commands\ie\Groups;
 
-class Export extends Command {
+class Export extends Command
+{
 
     /**
      * The console command name.

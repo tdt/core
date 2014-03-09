@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* ceil */
-class UnaryFunctionCeilExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionCeilExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "ceil_" . $name;
     }

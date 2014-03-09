@@ -1,20 +1,21 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
 // Initialize the Stereographic projection
 
-class Proj4phpProjStere {
+class Proj4phpProjStere
+{
   public function ssfn_($phit, $sinphi, $eccen) {
   	$sinphi *= $eccen;
   	return (tan (.5 * (Proj4php::$common->HALF_PI + $phit)) * pow((1. - $sinphi) / (1. + $sinphi), .5 * $eccen));
   }
-  
+
   protected $TOL=	1.e-8;
   protected $NITER=	8;
   protected $CONV=	1.e-10;
@@ -75,7 +76,7 @@ class Proj4phpProjStere {
   			break;
   		}
   	}
-  } 
+  }
 
 // Stereographic forward equations--mapping lat,long to x,y
   public function forward($p) {
@@ -83,7 +84,7 @@ class Proj4phpProjStere {
     $lon = Proj4php::$common->adjust_lon($lon - $this->long0);
     $lat = $p->y;
     $x;$y;
-    
+
     if ($this->sphere) {
     	$sinphi; $cosphi; $coslam; $sinlam;
 

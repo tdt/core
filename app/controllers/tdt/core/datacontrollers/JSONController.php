@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Jan Vansteenlandt <jan@okfn.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class JSONController extends ADataController {
+class JSONController extends ADataController
+{
 
     public function readData($source_definition, $rest_parameters = array()){
 

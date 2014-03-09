@@ -1,13 +1,13 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
 NAME                            TRANSVERSE MERCATOR
 
@@ -32,7 +32,8 @@ ALGORITHM REFERENCES
   Initialize Transverse Mercator projection
 */
 
-class Proj4phpProjTmerc  {
+class Proj4phpProjTmerc
+{
   public $dependsOn = null;
 
   public function init() {

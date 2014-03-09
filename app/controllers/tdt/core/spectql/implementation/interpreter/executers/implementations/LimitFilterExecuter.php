@@ -17,7 +17,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\AbstractUniversal
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter {
+class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
 

@@ -25,7 +25,8 @@ use tdt\core\ContentNegotiator;
 use tdt\core\datasets\Data;
 use tdt\core\ApiController;
 
-class SPECTQLController extends ApiController {
+class SPECTQLController extends ApiController
+{
 
     public static $TMP_DIR = "";
 

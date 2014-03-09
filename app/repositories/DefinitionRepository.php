@@ -6,7 +6,8 @@ use Definition;
 use repositories\interfaces\DefinitionRepositoryInterface;
 use repositories\BaseRepository;
 
-class DefinitionRepository extends BaseRepository implements DefinitionRepositoryInterface{
+class DefinitionRepository extends BaseRepository implements DefinitionRepositoryInterface
+{
 
     protected $rules = array(
         'resource_name' => 'required',

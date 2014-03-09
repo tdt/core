@@ -1,14 +1,14 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
-NAME                             EQUIRECTANGULAR 
+NAME                             EQUIRECTANGULAR
 
 PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Equirectangular projection.  The
@@ -45,8 +45,8 @@ class Proj4phpProjEqui
   ---------------------------------------------------------*/
   public function forward($p) {
 
-    $lon=$p->x;				
-    $lat=$p->y;			
+    $lon=$p->x;
+    $lat=$p->y;
 
     $dlon = Proj4php::$common->adjust_lon($lon - $this->long0);
     $x = $this->x0 +$this-> a * $dlon *cos($this->lat0);

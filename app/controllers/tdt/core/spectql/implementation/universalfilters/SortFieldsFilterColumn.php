@@ -10,7 +10,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 /**
  * Represents a column used in the SortFieldsFilter
  */
-class SortFieldsFilterColumn {
+class SortFieldsFilterColumn
+{
 
     private $column; //type:Identifier
     private $sortorder; //type:boolean

@@ -28,7 +28,8 @@ not the foot.
 
 */
 
-class spectql extends lime_parser {
+class spectql extends lime_parser
+{
 var $qi = 0;
 var $i = array (
   0 =>

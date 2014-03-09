@@ -8,7 +8,8 @@ namespace tdt\core;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class ContentNegotiator extends Pager{
+class ContentNegotiator extends Pager
+{
 
     /**
      * Map MIME-types on formatters for Accept-header

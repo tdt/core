@@ -9,7 +9,8 @@ use tdt\commands\ie\Definitions;
 use tdt\commands\ie\Users;
 use tdt\commands\ie\Groups;
 
-class Import extends Command {
+class Import extends Command
+{
 
     /**
      * The console command name.

@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class InstalledResources extends Migration {
+class InstalledResources extends Migration
+{
 
     /**
      * Run the migrations.

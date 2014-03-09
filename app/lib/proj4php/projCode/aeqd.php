@@ -2,12 +2,12 @@
 
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
 class Proj4phpProjAeqd
 {
 	public function init() {
@@ -21,7 +21,7 @@ class Proj4phpProjAeqd
     $ksp;
 
     $sinphi=sin($p->y);
-    $cosphi=cos($p->y); 
+    $cosphi=cos($p->y);
     $dlon = Proj4php::$common->adjust_lon(lon - $this->long0);
     $coslon = cos($dlon);
     $g = $this->sin_p12 * $sinphi + $this->cos_p12 * $cosphi * $coslon;

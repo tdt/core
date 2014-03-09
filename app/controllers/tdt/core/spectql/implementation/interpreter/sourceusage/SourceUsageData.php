@@ -18,7 +18,8 @@ namespace tdt\core\spectql\implementation\interpreter\sourceusage;
 
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class SourceUsageData {
+class SourceUsageData
+{
 
     private $filterSourceNode;
     private $filterParentNode;

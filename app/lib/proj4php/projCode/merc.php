@@ -1,12 +1,12 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
 NAME                            MERCATOR
 
@@ -39,9 +39,10 @@ ALGORITHM REFERENCES
 //static double m1;		               /* small value m			*/
 //static double false_northing = y0;   /* y offset in meters			*/
 //static double false_easting = x0;	   /* x offset in meters			*/
-//scale_fact = k0 
+//scale_fact = k0
 
-class Proj4phpProjMerc  {
+class Proj4phpProjMerc
+{
   public function init() {
 	//?$this->temp = $this->r_minor / $this->r_major;
 	//$this->temp = $this->b / $this->a;
@@ -61,14 +62,14 @@ class Proj4phpProjMerc  {
 /* Mercator forward equations--mapping lat,long to x,y
   --------------------------------------------------*/
 
-  public function forward($p) {	
+  public function forward($p) {
     //alert("ll2m coords : ".coords);
     $lon = $p->x;
     $lat = $p->y;
     // convert to radians
-    if ( lat*Proj4php::$common->R2D > 90.0 && 
-          lat*Proj4php::$common->R2D < -90.0 && 
-          lon*Proj4php::$common->R2D > 180.0 && 
+    if ( lat*Proj4php::$common->R2D > 90.0 &&
+          lat*Proj4php::$common->R2D < -90.0 &&
+          lon*Proj4php::$common->R2D > 180.0 &&
           lon*Proj4php::$common->R2D < -180.0) {
       Proj4php::reportError("merc:forward: llInputOutOfRange: ".$lon ." : " . $lat);
       return null;
@@ -88,7 +89,7 @@ class Proj4phpProjMerc  {
         $x = $this->x0 + $this->a * $this->k0 * Proj4php::$common->adjust_lon($lon - $this->long0);
         $y = $this->y0 - $this->a * $this->k0 * log($ts);
       }
-      $p->x = $x; 
+      $p->x = $x;
       $p->y = $y;
       return $p;
     }
@@ -97,7 +98,7 @@ class Proj4phpProjMerc  {
 
   /* Mercator inverse equations--mapping x,y to lat/long
   --------------------------------------------------*/
-  public function inverse($p) {	
+  public function inverse($p) {
 
     $x = $p->x - $this->x0;
     $y = $p->y - $this->y0;

@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class SparqlDefinition extends SourceType{
+class SparqlDefinition extends SourceType
+{
 
     protected $table = 'sparqldefinitions';
 

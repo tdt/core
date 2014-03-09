@@ -10,7 +10,8 @@ namespace tdt\core\formatters;
  * @author Pieter Colpaert   <pieter@irail.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class CSVFormatter implements IFormatter{
+class CSVFormatter implements IFormatter
+{
 
     public static function createResponse($dataObj){
 

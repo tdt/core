@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\XmlDefinitionRepositoryInterface;
 
-class XmlDefinitionRepository extends BaseRepository implements XmlDefinitionRepositoryInterface{
+class XmlDefinitionRepository extends BaseRepository implements XmlDefinitionRepositoryInterface
+{
 
     protected $rules = array(
         'uri' => 'uri|required',

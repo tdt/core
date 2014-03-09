@@ -1,6 +1,7 @@
 <?php
 
-class OntologyPrefixSeeder extends Seeder {
+class OntologyPrefixSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.

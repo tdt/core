@@ -25,7 +25,8 @@ include_once(__DIR__ . "/../../../common/StableSorting.php");
 
 /* the executer */
 
-class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter {
+class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     private $header;
     private $executer;

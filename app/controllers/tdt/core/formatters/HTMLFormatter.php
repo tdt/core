@@ -8,7 +8,8 @@ namespace tdt\core\formatters;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class HTMLFormatter implements IFormatter{
+class HTMLFormatter implements IFormatter
+{
 
     public static function createResponse($dataObj){
 

@@ -8,7 +8,8 @@ namespace tdt\core;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class BaseController extends \Controller {
+class BaseController extends \Controller
+{
 
     /*
      * Handles all core requests

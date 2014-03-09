@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\LicenseRepositoryInterface;
 
-class LicenseRepository implements LicenseRepositoryInterface{
+class LicenseRepository implements LicenseRepositoryInterface
+{
 
     /**
      * Fetch a License by its title (=id)

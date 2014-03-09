@@ -13,7 +13,8 @@ namespace tdt\core\spectql\implementation\data;
 
 include_once(__DIR__ . "/../common/HashString.php");
 
-class UniversalFilterTableContentRow {
+class UniversalFilterTableContentRow
+{
 
     private $data;
 

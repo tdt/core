@@ -25,7 +25,8 @@ use tdt\core\spectql\implementation\universalfilters\UnaryFunction;
 use tdt\core\spectql\implementation\universalfilters\UnaryFunction;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class CombinedFilterGenerators {
+class CombinedFilterGenerators
+{
 
     /**
      * This function sets the source of a combined filer

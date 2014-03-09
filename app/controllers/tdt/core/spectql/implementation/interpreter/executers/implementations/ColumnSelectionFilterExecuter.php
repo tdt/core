@@ -20,7 +20,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\BaseEvaluationEnv
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter {
+class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
+{
 
     private $returnsSingleRow;
     private $returnsSingleColumn;

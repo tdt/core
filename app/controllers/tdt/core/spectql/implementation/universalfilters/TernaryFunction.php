@@ -13,7 +13,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  * type: (Column,Column,Column) -> Column
  * type: (Cell, Cell, Cell) -> Cell
  */
-class TernaryFunction extends NormalFilterNode {
+class TernaryFunction extends NormalFilterNode
+{
 
     public static $FUNCTION_TERNARY_SUBSTRING = "FUNCTION_TERNARY_SUBSTRING"; //get part of $1 from index $2 with length $3
     public static $FUNCTION_TERNARY_REGEX_REPLACE = "FUNCTION_TERNARY_REGEX_REPLACE"; //replace $1 by $2 in $3

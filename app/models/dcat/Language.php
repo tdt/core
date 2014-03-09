@@ -7,7 +7,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class Language extends Eloquent{
+class Language extends Eloquent
+{
 
     protected $fillable = array('lang_id','lang_code','name',);
 }

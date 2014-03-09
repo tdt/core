@@ -5,7 +5,8 @@ namespace tdt\core\spectql\implementation\interpreter\executers\implementations;
 use tdt\core\spectql\implementation\data\UniversalFilterTableContent;
 use tdt\core\spectql\implementation\interpreter\executers\implementations\AggregatorFunctionExecuter;
 
-class AverageAggregatorExecuter extends AggregatorFunctionExecuter {
+class AverageAggregatorExecuter extends AggregatorFunctionExecuter
+{
 
     public function calculateValue(UniversalFilterTableContent $column, $columnId) {
 

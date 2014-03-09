@@ -5,7 +5,8 @@ namespace repositories;
 use repositories\interfaces\ShpDefinitionRepositoryInterface;
 use tdt\core\datacontrollers\SHPController;
 
-class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefinitionRepositoryInterface{
+class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefinitionRepositoryInterface
+{
 
     protected $rules = array(
         'uri' => 'required|uri',

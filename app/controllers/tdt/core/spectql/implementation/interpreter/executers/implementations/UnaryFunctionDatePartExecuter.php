@@ -10,7 +10,8 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
  * DateTimeFunctions
  */
 /* datepart */
-class UnaryFunctionDatePartExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionDatePartExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "datepart_" . $name;
     }

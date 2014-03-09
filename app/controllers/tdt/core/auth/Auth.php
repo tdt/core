@@ -7,7 +7,8 @@ namespace tdt\core\auth;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class Auth extends \Controller {
+class Auth extends \Controller
+{
 
     private static $user;
     private static $password;

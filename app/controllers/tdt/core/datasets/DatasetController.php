@@ -20,7 +20,8 @@ use repositories\DefinitionRepository;
  * @author Michiel Vancoillie <michiel@okfn.be>
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DatasetController extends ApiController {
+class DatasetController extends ApiController
+{
 
     public function get($uri){
 

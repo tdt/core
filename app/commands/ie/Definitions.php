@@ -10,7 +10,8 @@ use tdt\core\definitions\DefinitionController;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class Definitions implements IImportExport {
+class Definitions implements IImportExport
+{
 
     public static function import($data){
 

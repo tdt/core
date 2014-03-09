@@ -15,7 +15,8 @@ namespace tdt\core\spectql\implementation\data;
 use tdt\core\spectql\implementation\data\UniversalFilterTableContent;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeader;
 
-class UniversalFilterTable {
+class UniversalFilterTable
+{
 
     private $header;
     private $content;

@@ -18,7 +18,8 @@ namespace tdt\core\spectql\implementation\interpreter\other;
 use tdt\core\spectql\implementation\universalfilters\NormalFilterNode;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class DummyUniversalFilterNode extends NormalFilterNode {
+class DummyUniversalFilterNode extends NormalFilterNode
+{
 
     public function __construct(UniversalFilterNode $source = null) {
         parent::__construct("DUMMY");

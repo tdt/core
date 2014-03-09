@@ -11,7 +11,8 @@
 
 namespace tdt\core\spectql\implementation\sourcefilterbinding;
 
-class ExpectedHeaderNamesAttachment {
+class ExpectedHeaderNamesAttachment
+{
 
     public static $ATTACHMENTID = "ExpectedHeaderNamesInfoAttachmentId";
     private $expectedheadernames;

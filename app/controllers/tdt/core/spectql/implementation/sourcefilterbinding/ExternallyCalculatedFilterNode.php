@@ -15,7 +15,8 @@ use tdt\core\spectql\implementation\data\UniversalFilterTable;
 use tdt\core\spectql\implementation\universalfilters\NormalFilterNode;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class ExternallyCalculatedFilterNode extends NormalFilterNode {
+class ExternallyCalculatedFilterNode extends NormalFilterNode
+{
 
     private $table;
 

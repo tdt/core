@@ -20,7 +20,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\AbstractUniversal
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
+class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     private $header;
     private $executer1;

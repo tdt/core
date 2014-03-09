@@ -10,7 +10,8 @@ namespace tdt\core\ui;
 
 use tdt\core\auth\Auth;
 
-class DatasetController extends \Controller {
+class DatasetController extends \Controller
+{
 
     /**
      * Admin.dataset.view

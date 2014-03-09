@@ -18,7 +18,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\AbstractUniversal
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter {
+class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     private $executer;
     private $header;

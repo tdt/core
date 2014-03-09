@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class RenameGeoProperty extends Migration {
+class RenameGeoProperty extends Migration
+{
 
 	/**
 	 * Run the migrations.

@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\SparqlDefinitionRepositoryInterface;
 
-class SparqlDefinitionRepository extends BaseRepository implements SparqlDefinitionRepositoryInterface{
+class SparqlDefinitionRepository extends BaseRepository implements SparqlDefinitionRepositoryInterface
+{
 
     protected $rules = array(
         'endpoint' => 'required',

@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\OntologyRepositoryInterface;
 
-class OntologyRepository implements OntologyRepositoryInterface{
+class OntologyRepository implements OntologyRepositoryInterface
+{
 
     public function getById($id){
         return \Ontology::find($id)->toArray();

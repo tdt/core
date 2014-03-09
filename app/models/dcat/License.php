@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class License extends Eloquent{
+class License extends Eloquent
+{
 
     protected $boolean_values = array('domain_software','domain_content', 'domain_data', 'is_generic', 'is_okd_compliant', 'is_osi_compliant');
 

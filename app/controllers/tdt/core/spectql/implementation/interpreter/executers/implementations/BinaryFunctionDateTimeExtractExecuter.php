@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* extract */
-class BinaryFunctionDateTimeExtractExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionDateTimeExtractExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_extract_" . $nameB . "_from_" . $nameA;
     }

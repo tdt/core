@@ -15,7 +15,8 @@ use tdt\core\spectql\implementation\data\UniversalFilterTableHeaderColumnInfo;
 use tdt\core\spectql\implementation\interpreter\executers\base\BaseHashingFilterExecuter;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class DistinctFilterExecuter extends BaseHashingFilterExecuter {
+class DistinctFilterExecuter extends BaseHashingFilterExecuter
+{
 
     public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo) {
         return true;

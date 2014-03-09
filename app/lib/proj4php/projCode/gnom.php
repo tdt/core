@@ -1,12 +1,12 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*****************************************************************************
 NAME                             GNOMONIC
 
@@ -21,7 +21,7 @@ Richard Marsden         November 2009
 
 ALGORITHM REFERENCES
 
-1.  Snyder, John P., "Flattening the Earth - Two Thousand Years of Map 
+1.  Snyder, John P., "Flattening the Earth - Two Thousand Years of Map
     Projections", University of Chicago Press 1993
 
 2.  Wolfram Mathworld "Gnomonic Projection"
@@ -29,7 +29,8 @@ ALGORITHM REFERENCES
     Accessed: 12th November 2009
 ******************************************************************************/
 
-class Proj4phpProjGnom {
+class Proj4phpProjGnom
+{
 
   /* Initialize the Gnomonic projection
     -------------------------------------*/
@@ -52,15 +53,15 @@ class Proj4phpProjGnom {
     $dlon;		/* delta longitude value			*/
     $coslon;		/* cos of longitude				*/
     $ksp;		/* scale factor					*/
-    $g;		
+    $g;
     $lon=$p->x;
-    $lat=$p->y;	
+    $lat=$p->y;
     /* Forward equations
       -----------------*/
     $dlon = Proj4php::$common->adjust_lon($lon - $this->long0);
 
     $sinphi=sin($lat);
-    $cosphi=cos($lat);	
+    $cosphi=cos($lat);
 
     $coslon = cos($dlon);
     $g = $this->sin_p14 * $sinphi + $this->cos_p14 * $cosphi * $coslon;
@@ -72,10 +73,10 @@ class Proj4phpProjGnom {
       Proj4php::reportError("orthoFwdPointError");
 
       // Point is in the opposing hemisphere and is unprojectable
-      // We still need to return a reasonable point, so we project 
-      // to infinity, on a bearing 
+      // We still need to return a reasonable point, so we project
+      // to infinity, on a bearing
       // equivalent to the northern hemisphere equivalent
-      // This is a reasonable approximation for short shapes and lines that 
+      // This is a reasonable approximation for short shapes and lines that
       // straddle the horizon.
 
       $x = $this->x0 + $this->infinity_dist * $cosphi * sin($dlon);
@@ -115,7 +116,7 @@ class Proj4phpProjGnom {
       $lat = $this->phic0;
       $lon = 0.0;
     }
- 
+
     $p->x=$lon;
     $p->y=$lat;
     return $p;

@@ -1,10 +1,10 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4js from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodmap.com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodmap.com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
 
 class Proj4phpCommon
@@ -76,8 +76,8 @@ class Proj4phpCommon
     return (-9999);
   }
 
-/* Function to compute constant small q which is the radius of a 
-   parallel of latitude, phi, divided by the semimajor axis. 
+/* Function to compute constant small q which is the radius of a
+   parallel of latitude, phi, divided by the semimajor axis.
 ------------------------------------------------------------*/
   public function qsfnz($eccent,$sinphi) {
     if ($eccent > 1.0e-7) {
@@ -116,7 +116,7 @@ class Proj4phpCommon
     $x = (abs($x) < $this->PI) ? $x: ($x - ($this->sign($x)*$this->TWO_PI) );
     return $x;
   }
-  
+
 // IGNF - DGR : algorithms used by IGN France
 
 // Function to adjust latitude to -90 to 90; input in radians

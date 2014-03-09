@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* >= */
-class BinaryFunctionLargerEqualExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionLargerEqualExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return $nameA . "_islargerorequal_" . $nameB;
     }

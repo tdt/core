@@ -8,7 +8,8 @@ use tdt\core\datacontrollers\XLSController;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class XlsDefinition extends SourceType{
+class XlsDefinition extends SourceType
+{
 
     protected $table = 'xlsdefinitions';
 

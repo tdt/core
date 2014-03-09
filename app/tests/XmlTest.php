@@ -5,7 +5,8 @@ use tdt\core\definitions\DefinitionController;
 use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-class XmlTest extends TestCase{
+class XmlTest extends TestCase
+{
 
     // This array holds the names of the files that can be used
     // to test the xml definitions.

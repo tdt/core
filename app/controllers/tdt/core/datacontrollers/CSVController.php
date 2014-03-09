@@ -14,7 +14,8 @@ use tdt\core\Pager;
  * @author Pieter Colpaert   <pieter@irail.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class CSVController extends ADataController {
+class CSVController extends ADataController
+{
 
     // Amount of characters in one row that can be read
     private static $MAX_LINE_LENGTH = 0;

@@ -6,7 +6,8 @@ use repositories\interfaces\XlsDefinitionRepositoryInterface;
 
 use tdt\core\datacontrollers\XLSController;
 
-class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefinitionRepositoryInterface{
+class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefinitionRepositoryInterface
+{
 
     protected $rules = array(
         'has_header_row' => 'integer|min:0|max:1',

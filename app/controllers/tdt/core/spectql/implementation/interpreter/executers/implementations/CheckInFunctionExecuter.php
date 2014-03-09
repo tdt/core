@@ -13,7 +13,8 @@ namespace tdt\core\spectql\implementation\interpreter\executers\implementations;
 
 use tdt\core\spectql\implementation\interpreter\executers\implementations\UnaryFunctionExecuter;
 
-class CheckInFunctionExecuter extends UnaryFunctionExecuter {
+class CheckInFunctionExecuter extends UnaryFunctionExecuter
+{
 
     private function constantsToString() {
         $arr = $this->filter->getConstants();

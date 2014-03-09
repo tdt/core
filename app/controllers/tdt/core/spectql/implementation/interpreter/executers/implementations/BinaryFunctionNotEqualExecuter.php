@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* != */
-class BinaryFunctionNotEqualExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionNotEqualExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return $nameA . "_isnotequal_" . $nameB;
     }

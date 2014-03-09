@@ -13,7 +13,8 @@ use tdt\core\ApiController;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class OntologyController extends ApiController {
+class OntologyController extends ApiController
+{
 
     /**
      * Return the headers of a call made to the uri given.

@@ -11,7 +11,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  * Represents a constant
  * Can be a string, a boolean, or a number.
  */
-class Constant extends UniversalFilterNode {
+class Constant extends UniversalFilterNode
+{
 
     private $constant; //type:String
 

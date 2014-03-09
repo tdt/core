@@ -13,7 +13,8 @@ namespace tdt\core\spectql\implementation\data;
 
 use tdt\exceptions\TDTException;
 
-class UniversalFilterTableHeader {
+class UniversalFilterTableHeader
+{
 
     private $columns; //array of UniversalFilterTableHeaderColumnInfo
     private $isSingleRowByConstruction;

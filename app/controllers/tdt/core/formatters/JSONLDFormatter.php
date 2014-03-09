@@ -8,7 +8,8 @@ namespace tdt\core\formatters;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class JSONLDFormatter implements IFormatter{
+class JSONLDFormatter implements IFormatter
+{
 
     public static function createResponse($dataObj){
 

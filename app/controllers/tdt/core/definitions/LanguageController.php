@@ -14,7 +14,8 @@ use tdt\core\ApiController;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class LanguageController extends ApiController {
+class LanguageController extends ApiController
+{
 
     public function get($uri){
 

@@ -16,7 +16,8 @@ use tdt\core\ApiController;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class InfoController extends ApiController {
+class InfoController extends ApiController
+{
 
     public function get($uri){
 

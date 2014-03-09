@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* log */
-class UnaryFunctionLogExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionLogExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "log_" . $name;
     }

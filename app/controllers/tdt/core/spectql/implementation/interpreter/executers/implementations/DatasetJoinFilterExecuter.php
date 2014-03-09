@@ -20,7 +20,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\BaseEvaluationEnv
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter {
+class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
+{
 
     private $interpreter;
     private $header;

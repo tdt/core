@@ -5,7 +5,8 @@
  *
  * @author Jan Vansteenlandt jan@okfn.be
  */
-class SparqlQueries{
+class SparqlQueries
+{
 
     public static $queries = array(
 

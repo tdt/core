@@ -10,7 +10,8 @@ namespace tdt\core;
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 
-class ApiController extends \Controller{
+class ApiController extends \Controller
+{
 
     protected $definition_repository;
 

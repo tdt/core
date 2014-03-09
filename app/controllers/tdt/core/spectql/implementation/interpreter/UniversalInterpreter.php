@@ -29,7 +29,8 @@ use tdt\core\spectql\implementation\universalfilters\UnaryFunction;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 use tdt\core\spectql\implementation\common\BigDataBlockManager;
 
-class UniversalInterpreter implements IInterpreterControl {
+class UniversalInterpreter implements IInterpreterControl
+{
 
     private $executers;
     private $tablemanager;

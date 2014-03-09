@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class ShpDefinitionInit extends Migration {
+class ShpDefinitionInit extends Migration
+{
 
 	/**
 	 * Run the migrations.

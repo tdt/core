@@ -18,7 +18,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  * aka "GROUP BY"
  */
-class DataGrouper extends NormalFilterNode {
+class DataGrouper extends NormalFilterNode
+{
 
     private $columns;
 

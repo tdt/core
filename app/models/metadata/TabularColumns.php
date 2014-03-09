@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class TabularColumns extends Eloquent{
+class TabularColumns extends Eloquent
+{
 
     protected $table = 'tabularcolumns';
 

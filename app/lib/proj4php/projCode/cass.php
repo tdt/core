@@ -23,12 +23,12 @@ ALGORITHM REFERENCES
 
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
 //Proj4php.defs["EPSG:28191"] = "+proj=cass +lat_0=31.73409694444445 +lon_0=35.21208055555556 +x_0=170251.555 +y_0=126867.909 +a=6378300.789 +b=6356566.435 +towgs84=-275.722,94.7824,340.894,-8.001,-4.42,-11.821,1 +units=m +no_defs";
 
 // Initialize the Cassini projection
@@ -60,7 +60,7 @@ class Proj4phpProjCass
     $lam=$p->x;
     $phi=$p->y;
     $lam = Proj4php::$common->adjust_lon($lam - $this->long0);
-    
+
     if ($this->sphere) {
       $x = asin(cos($phi) * sin($lam));
       $y = atan2(tan($phi) , cos($lam)) - $this->phi0;
@@ -70,7 +70,7 @@ class Proj4phpProjCass
       $this->c = cos($phi);
       $y = $this->pj_mlfn($phi, $this->n, $this->c, $this->en);
       $this->n = 1./sqrt(1. - $this->es * $this->n * $this->n);
-      $this->tn = tan($phi); 
+      $this->tn = tan($phi);
       $this->t = $this->tn * $this->tn;
       $this->a1 = $lam * $this->c;
       $this->c *= $this->es * $this->c / (1 - $this->es);
@@ -78,7 +78,7 @@ class Proj4phpProjCass
       $x = $this->n * $this->a1 * (1. - $this->a2 * $this->t * ($this->C1 - (8. - $this->t + 8. * $this->c) * $this->a2 * $this->C2));
       $y -= $this->m0 - $this->n * $this->tn * $this->a2 * (.5 + (5. - $this->t + 6. * $this->c) * $this->a2 * $this->C3);
     }
-    
+
     $p->x = $this->a*$x + $this->x0;
     $p->y = $this->a*$y + $this->y0;
     return $p;
@@ -91,7 +91,7 @@ class Proj4phpProjCass
     $p->y -= $this->y0;
     $x = $p->x/$this->a;
     $y = $p->y/$this->a;
-    
+
     if ($this->sphere) {
       $this->dd = $y + $this->lat0;
       $phi = asin(sin($this->dd) * cos($x));
@@ -99,7 +99,7 @@ class Proj4phpProjCass
     } else {
       /* ellipsoid */
       $ph1 = $this->pj_inv_mlfn($this->m0 + $y, $this->es, $this->en);
-      $this->tn = tan($ph1); 
+      $this->tn = tan($ph1);
       $this->t = $this->tn * $this->tn;
       $this->n = sin($ph1);
       $this->r = 1. / (1. - $this->es * $this->n * $this->n);
@@ -128,13 +128,13 @@ class Proj4phpProjCass
     $en[4] = $t * $es * $this->C88;
     return $en;
   }
-  
+
   public function pj_mlfn($phi, $sphi, $cphi, $en) {
     $cphi *= $sphi;
     $sphi *= $sphi;
     return($en[0] * $phi - $cphi * ($en[1] + $sphi*($en[2]+ $sphi*($en[3] + $sphi*$en[4]))));
   }
-  
+
   public function pj_inv_mlfn(a$rg, $es, $en) {
     $k = 1./(1.-$es);
     $phi = $arg;

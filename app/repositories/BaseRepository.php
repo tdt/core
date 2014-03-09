@@ -5,7 +5,8 @@ namespace repositories;
 use repositories\interfaces\BaseRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 
-class BaseRepository implements BaseRepositoryInterface{
+class BaseRepository implements BaseRepositoryInterface
+{
 
     protected $model;
 

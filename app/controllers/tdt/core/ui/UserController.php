@@ -11,7 +11,8 @@ namespace tdt\core\ui;
 use tdt\core\auth\Auth;
 use tdt\core\ui\helpers\Flash;
 
-class UserController extends \Controller {
+class UserController extends \Controller
+{
 
     /**
      * Admin.user.view

@@ -23,7 +23,8 @@ use tdt\core\spectql\implementation\tablemanager\implementation\tools\PhpObjectT
 use tdt\core\spectql\implementation\tablemanager\implementation\UniversalFilterTableManager;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class UniversalFilterTableManager implements IUniversalFilterTableManager {
+class UniversalFilterTableManager implements IUniversalFilterTableManager
+{
 
     private static $IDENTIFIERSEPARATOR = ".";
     private static $HIERARCHICALDATESEPARATOR = ":";

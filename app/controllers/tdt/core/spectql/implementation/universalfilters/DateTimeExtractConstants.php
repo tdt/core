@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\universalfilters\Identifier;
 use tdt\core\spectql\implementation\universalfilters\NormalFilterNode;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class DateTimeExtractConstants {
+class DateTimeExtractConstants
+{
 
     private function __construct() {
 

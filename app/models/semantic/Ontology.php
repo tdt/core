@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class Ontology extends Eloquent{
+class Ontology extends Eloquent
+{
 
     protected $table = 'ontologies';
 

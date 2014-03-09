@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* lowercase */
-class UnaryFunctionLowercaseExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionLowercaseExecuter extends UnaryFunctionExecuter
+{
 
     public function getName($name) {
         return "lcase_" . $name;

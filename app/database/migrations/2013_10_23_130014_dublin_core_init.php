@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class DublinCoreInit extends Migration {
+class DublinCoreInit extends Migration
+{
 
 	/**
 	 * Run the migrations.

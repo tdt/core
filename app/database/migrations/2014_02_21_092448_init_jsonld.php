@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class InitJsonld extends Migration {
+class InitJsonld extends Migration
+{
 
 	/**
 	 * Run the migrations.

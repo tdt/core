@@ -8,7 +8,8 @@ namespace tdt\core;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class Pager{
+class Pager
+{
 
     protected static $PAGING_KEYWORDS = array('next', 'last', 'previous', 'first');
     protected static $DEFAULT_PAGE_SIZE = 500;

@@ -11,7 +11,8 @@ namespace tdt\core\ui;
 use tdt\core\auth\Auth;
 use tdt\core\ui\helpers\Flash;
 
-class GroupController extends \Controller {
+class GroupController extends \Controller
+{
 
     /**
      * Admin.group.view

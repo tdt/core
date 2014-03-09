@@ -19,7 +19,8 @@ use tdt\core\spectql\implementation\interpreter\sourceusage\SourceUsageData;
 use tdt\core\spectql\implementation\sourcefilterbinding\ExpectedHeaderNamesAttachment;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter {
+class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     private $header;
     private $executer;

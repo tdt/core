@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CsvDropPk extends Migration {
+class CsvDropPk extends Migration
+{
 
 	/**
 	 * Run the migrations.

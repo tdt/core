@@ -13,7 +13,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  * type: (Column,Column) -> Column
  * type: (Cell, Cell) -> Cell
  */
-class BinaryFunction extends NormalFilterNode {
+class BinaryFunction extends NormalFilterNode
+{
 
     public static $FUNCTION_BINARY_PLUS = "FUNCTION_BINARY_PLUS";
     public static $FUNCTION_BINARY_MINUS = "FUNCTION_BINARY_MINUS";

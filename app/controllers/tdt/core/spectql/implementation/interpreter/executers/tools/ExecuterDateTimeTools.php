@@ -15,7 +15,8 @@ use tdt\core\spectql\implementation\universalfilters\DateTimeExtractConstants;
 use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
-class ExecuterDateTimeTools {
+class ExecuterDateTimeTools
+{
 
     /**
      * Reads the internal format.

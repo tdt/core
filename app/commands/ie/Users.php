@@ -8,7 +8,8 @@ namespace tdt\commands\ie;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class Users implements IImportExport {
+class Users implements IImportExport
+{
 
     public static function import($users){
 

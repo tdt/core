@@ -8,7 +8,8 @@
  */
 namespace tdt\core\ui\helpers;
 
-class Flash extends \Controller {
+class Flash extends \Controller
+{
 
     private static $COOKIE_NAME = 'tdt_admin';
 

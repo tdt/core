@@ -19,7 +19,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  * aka "SELECT"
  */
-class ColumnSelectionFilter extends NormalFilterNode {
+class ColumnSelectionFilter extends NormalFilterNode
+{
 
     private $columndata; //type:Array[ColumnSelectionFilterColumn]
 

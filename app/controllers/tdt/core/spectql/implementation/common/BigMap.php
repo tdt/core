@@ -11,7 +11,8 @@
 
 namespace tdt\core\spectql\implementation\common;
 
-class BigMap {
+class BigMap
+{
 
     private $id;
 

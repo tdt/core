@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* concat */
-class BinaryFunctionConcatExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionConcatExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_concat_" . $nameA . "_" . $nameB;
     }

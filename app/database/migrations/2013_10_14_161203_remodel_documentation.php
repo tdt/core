@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class RemodelDocumentation extends Migration {
+class RemodelDocumentation extends Migration
+{
 
 	/**
 	 * Run the migrations.

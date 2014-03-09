@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* match regex */
-class BinaryFunctionMatchRegexExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionMatchRegexExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return $nameA . "_matches_" . $nameB;
     }

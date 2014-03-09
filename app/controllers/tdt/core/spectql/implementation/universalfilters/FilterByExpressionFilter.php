@@ -16,7 +16,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  * aka "WHERE" or "HAVING"
  */
-class FilterByExpressionFilter extends NormalFilterNode {
+class FilterByExpressionFilter extends NormalFilterNode
+{
 
     private $expression; //type:UniversalFilterNode
 

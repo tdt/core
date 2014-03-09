@@ -4,7 +4,8 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\Ternar
 use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTimeTools;
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* date sub */
-class TernaryFunctionDateTimeDateSubExecuter extends TernaryFunctionExecuter {
+class TernaryFunctionDateTimeDateSubExecuter extends TernaryFunctionExecuter
+{
     public function getName($nameA, $nameB, $nameC) {
         return "_date_sub_" . $nameA . "_interval_" . $nameB . "_" . $nameC;
     }

@@ -15,7 +15,8 @@ use PHPExcel_IOFactory as IOFactory;
  * @author Pieter Colpaert   <pieter@irail.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class XLSController extends ADataController {
+class XLSController extends ADataController
+{
 
     public function readData($source_definition, $rest_parameters = array()){
 

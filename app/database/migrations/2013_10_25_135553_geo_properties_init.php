@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class GeoPropertiesInit extends Migration {
+class GeoPropertiesInit extends Migration
+{
 
     /**
      * Run the migrations.

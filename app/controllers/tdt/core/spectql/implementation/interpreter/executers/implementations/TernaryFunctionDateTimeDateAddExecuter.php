@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* date add */
-class TernaryFunctionDateTimeDateAddExecuter extends TernaryFunctionExecuter {
+class TernaryFunctionDateTimeDateAddExecuter extends TernaryFunctionExecuter
+{
     public function getName($nameA, $nameB, $nameC) {
         return "_date_add_" . $nameA . "_interval_" . $nameB . "_" . $nameC;
     }

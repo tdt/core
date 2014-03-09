@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class JsonDefinition extends SourceType{
+class JsonDefinition extends SourceType
+{
 
     protected $table = 'jsondefinitions';
 

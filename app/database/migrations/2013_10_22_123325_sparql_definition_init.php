@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class SparqlDefinitionInit extends Migration {
+class SparqlDefinitionInit extends Migration
+{
 
     /**
      * Run the migrations.

@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* acos */
-class UnaryFunctionAcosExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionAcosExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "acos_" . $name;
     }

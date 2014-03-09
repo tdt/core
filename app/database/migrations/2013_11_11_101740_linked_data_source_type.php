@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class LinkedDataSourceType extends Migration {
+class LinkedDataSourceType extends Migration
+{
 
 	/**
 	 * Run the migrations.

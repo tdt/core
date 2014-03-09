@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class OntologyPrefixes extends Migration {
+class OntologyPrefixes extends Migration
+{
 
 	/**
 	 * Run the migrations.

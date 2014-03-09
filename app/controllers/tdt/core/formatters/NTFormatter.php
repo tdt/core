@@ -13,7 +13,8 @@ namespace tdt\core\formatters;
  * @author Michiel Vancoillie <michiel@okfn.be>
  * @author Miel Vander Sande
  */
-class NTFormatter implements IFormatter{
+class NTFormatter implements IFormatter
+{
 
     public static function createResponse($dataObj){
 

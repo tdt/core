@@ -30,7 +30,8 @@ use tdt\core\spectql\implementation\universalfilters\TernaryFunction;
 use tdt\core\spectql\implementation\universalfilters\UnaryFunction;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class FilterTreeCloner {
+class FilterTreeCloner
+{
 
     /**
      * Main method... (And only public method)

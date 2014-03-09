@@ -13,7 +13,8 @@ namespace tdt\core\spectql\implementation\tablemanager\implementation\tools;
 
 use tdt\core\spectql\implementation\data\UniversalFilterTable;
 
-class TableToPhpObjectConverter {
+class TableToPhpObjectConverter
+{
 
     /**
      * Converts a table (as used by the interpreter) to a php-object

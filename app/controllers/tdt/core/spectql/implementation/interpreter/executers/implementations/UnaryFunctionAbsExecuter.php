@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* abs */
-class UnaryFunctionAbsExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionAbsExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "abs_" . $name;
     }

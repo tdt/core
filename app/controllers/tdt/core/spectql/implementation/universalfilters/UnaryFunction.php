@@ -13,7 +13,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  * type: Column -> Column
  * type: Cell -> Cell
  */
-class UnaryFunction extends NormalFilterNode {
+class UnaryFunction extends NormalFilterNode
+{
 
     public static $FUNCTION_UNARY_UPPERCASE = "FUNCTION_UNARY_UPPERCASE";
     public static $FUNCTION_UNARY_LOWERCASE = "FUNCTION_UNARY_LOWERCASE";

@@ -5,7 +5,8 @@ namespace repositories;
 use repositories\interfaces\CsvDefinitionRepositoryInterface;
 use tdt\core\datacontrollers\CSVController;
 
-class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefinitionRepositoryInterface{
+class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefinitionRepositoryInterface
+{
 
     protected $rules = array(
         'has_header_row' => 'integer|min:0|max:1',

@@ -20,7 +20,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\AbstractUniversal
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-class ConstantExecuter extends AbstractUniversalFilterNodeExecuter {
+class ConstantExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     private $header;
     private $const;

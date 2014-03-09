@@ -17,7 +17,8 @@ use tdt\core\spectql\implementation\data\UniversalFilterTableContentRow;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeader;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeaderColumnInfo;
 
-class PhpObjectTableConverter {
+class PhpObjectTableConverter
+{
 
     public static $ID_FIELD = "_id";
     public static $ID_KEY = "_key_";

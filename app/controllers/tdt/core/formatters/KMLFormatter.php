@@ -10,7 +10,8 @@ namespace tdt\core\formatters;
  * @author Jan Vansteenlandt <jan@okfn.be>
  * @author Pieter Colpaert   <pieter@irail.be>
  */
-class KMLFormatter implements IFormatter{
+class KMLFormatter implements IFormatter
+{
 
 
     private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude');

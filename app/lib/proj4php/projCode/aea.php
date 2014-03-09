@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
-NAME                     ALBERS CONICAL EQUAL AREA 
+NAME                     ALBERS CONICAL EQUAL AREA
 
 PURPOSE:	Transforms input longitude and latitude to Easting and Northing
 		for the Albers Conical Equal Area projection.  The longitude
@@ -24,12 +24,12 @@ ALGORITHM REFERENCES
 
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
-class Proj4phpProjAea 
+class Proj4phpProjAea
 {
 	public function init() {
 
@@ -80,11 +80,11 @@ class Proj4phpProjAea
 
     $qs = Proj4php::$common->qsfnz($this->e3,$this->sin_phi,$this->cos_phi);
     $rh1 =$this->a * sqrt($this->c - $this->ns0 * $qs)/$this->ns0;
-    $theta = $this->ns0 * Proj4php::$common->adjust_lon($lon - $this->long0); 
+    $theta = $this->ns0 * Proj4php::$common->adjust_lon($lon - $this->long0);
     $x = rh1 * sin($theta) + $this->x0;
     $y = $this->rh - $rh1 * cos($theta) + $this->y0;
 
-    $p->x = $x; 
+    $p->x = $x;
     $p->y = $y;
     return $p;
   }
@@ -128,7 +128,7 @@ class Proj4phpProjAea
     $p->y = $lat;
     return $p;
   }
-  
+
 /* Function to compute phi1, the latitude for the inverse of the
    Albers Conical Equal-Area projection.
 -------------------------------------------*/
@@ -136,12 +136,12 @@ class Proj4phpProjAea
     $con; $com; $dphi;
     $phi = Proj4php::$common->asinz(.5 * $qs);
     if ($eccent < Proj4php::$common->EPSLN) return $phi;
-    
-    $eccnts = $eccent * $eccent; 
+
+    $eccnts = $eccent * $eccent;
     for ($i = 1; $i <= 25; $i++) {
         $sinphi = sin($phi);
         $cosphi = cos($phi);
-        $con = $eccent * $sinphi; 
+        $con = $eccent * $sinphi;
         $com = 1.0 - $con * $con;
         $dphi = .5 * $com * $com / $cosphi * ($qs / (1.0 - $eccnts) - $sinphi / $com + .5 / $eccent * log((1.0 - $con) / (1.0 + $con)));
         $phi = $phi + $dphi;

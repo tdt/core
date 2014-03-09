@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* pow */
-class BinaryFunctionPowExecuter extends BinaryFunctionExecuter {
+class BinaryFunctionPowExecuter extends BinaryFunctionExecuter
+{
     public function getName($nameA, $nameB) {
         return "_power_" . $nameA . "_" . $nameB;
     }

@@ -1,12 +1,12 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
 NAME                            MOLLWEIDE
 
@@ -32,7 +32,8 @@ ALGORITHM REFERENCES
     State Government Printing Office, Washington D.C., 1987.
 *******************************************************************************/
 
-class Proj4phpProjMoll  {
+class Proj4phpProjMoll
+{
 
   /* Initialize the Mollweide projection
     ------------------------------------*/

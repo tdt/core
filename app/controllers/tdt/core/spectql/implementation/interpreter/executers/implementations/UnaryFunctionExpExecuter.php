@@ -7,7 +7,8 @@ use tdt\core\spectql\implementation\interpreter\executers\tools\ExecuterDateTime
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 
 /* exp */
-class UnaryFunctionExpExecuter extends UnaryFunctionExecuter {
+class UnaryFunctionExpExecuter extends UnaryFunctionExecuter
+{
     public function getName($name) {
         return "exp_" . $name;
     }

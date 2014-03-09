@@ -1,13 +1,13 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
 NAME                       SWISS OBLIQUE MERCATOR
 
@@ -23,7 +23,8 @@ ALGORITHM REFERENCES
 
 *******************************************************************************/
 
-class Proj4phpProjSomerc  {
+class Proj4phpProjSomerc
+{
 
   public function init() {
     $phy0 = $this->lat0;

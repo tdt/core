@@ -4,7 +4,8 @@ namespace repositories;
 
 use repositories\interfaces\GeoPropertyRepositoryInterface;
 
-class GeoPropertyRepository extends BaseRepository implements GeoPropertyRepositoryInterface{
+class GeoPropertyRepository extends BaseRepository implements GeoPropertyRepositoryInterface
+{
 
     public static $geotypes = array('polygon', 'latitude', 'longitude', 'polyline', 'multiline', 'point');
 

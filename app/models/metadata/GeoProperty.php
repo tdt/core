@@ -6,7 +6,8 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class GeoProperty extends Eloquent{
+class GeoProperty extends Eloquent
+{
 
     protected $table = 'geoproperties';
 
