@@ -32,7 +32,8 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
     private $childEnvironmentData;
     private $giveToColumnsEnvironment;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         $this->filter = $filter;
 
@@ -102,11 +103,13 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         $this->header = new UniversalFilterTableHeader($columns, $this->returnsSingleRow, count($this->columnInterpreters) == 1 && $this->returnsSingleColumn);
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
 
         $sourceheader = $this->executer->getExpressionHeader();
         $sourcecontent = $this->executer->evaluateAsExpression();
@@ -171,7 +174,8 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         return $newRows;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer->cleanUp();
 
@@ -185,7 +189,8 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
 
         parent::modififyFiltersWithHeaderInformation();
         $this->executer->modififyFiltersWithHeaderInformation();
@@ -196,7 +201,8 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         }
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
 
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 

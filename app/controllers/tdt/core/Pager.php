@@ -21,9 +21,9 @@ class Pager
 
         $link_value = '';
 
-        foreach($paging as $keyword => $page_info){
+        foreach ($paging as $keyword => $page_info) {
 
-            if(!in_array($keyword, self::$PAGING_KEYWORDS)){
+            if (!in_array($keyword, self::$PAGING_KEYWORDS)) {
 
                 $key_words = implode(', ', self::$PAGING_KEYWORDS);
                 \App::abort(400, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
@@ -54,7 +54,7 @@ class Pager
         $request_params = array_except($request_params, array('limit', 'offset'));
         $request_string = '';
 
-        if(!empty($request_params)){
+        if (!empty($request_params)) {
             $request_string = http_build_query($request_params);
             $request_string = '&' . $request_string;
         }
@@ -70,7 +70,7 @@ class Pager
         $paging = array();
 
         // Calculate the paging parameters and pass them with the data object
-        if($offset + $limit < $total_rows){
+        if ($offset + $limit < $total_rows) {
 
             $paging['next'] = array($limit + $offset, $limit);
 
@@ -78,9 +78,9 @@ class Pager
             $paging['last'] = array(($last_page - 1) * $limit, $limit);
         }
 
-        if($offset > 0 && $total_rows > 0){
+        if ($offset > 0 && $total_rows > 0) {
             $previous = $offset - $limit;
-            if($previous < 0){
+            if ($previous < 0) {
                 $previous = 0;
             }
 
@@ -99,13 +99,13 @@ class Pager
         $offset = \Input::get('offset', 0);
 
         // Calculate the limit and offset, if only page and optionally page_size are given
-        if($limit == self::$DEFAULT_PAGE_SIZE && $offset == 0){
+        if ($limit == self::$DEFAULT_PAGE_SIZE && $offset == 0) {
 
             $page = \Input::get('page', 1);
             $page_size = \Input::get('page_size', self::$DEFAULT_PAGE_SIZE);
 
             // Don't do extra work when page and page_size are also default values
-            if($page > 1 || $page_size != self::$DEFAULT_PAGE_SIZE){
+            if ($page > 1 || $page_size != self::$DEFAULT_PAGE_SIZE) {
 
                 $offset = ($page -1)*$page_size;
                 $limit = $page_size;

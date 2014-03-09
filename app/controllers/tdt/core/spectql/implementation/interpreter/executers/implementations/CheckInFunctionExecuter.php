@@ -16,7 +16,8 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\UnaryF
 class CheckInFunctionExecuter extends UnaryFunctionExecuter
 {
 
-    private function constantsToString() {
+    private function constantsToString()
+    {
         $arr = $this->filter->getConstants();
         $outarr = array();
         foreach ($arr as $constant) {
@@ -26,11 +27,13 @@ class CheckInFunctionExecuter extends UnaryFunctionExecuter
         return implode("-", $outarr);
     }
 
-    public function getName($name) {
+    public function getName($name)
+    {
         return "_" . $name . "_in_" . $this->constantsToString() . "_";
     }
 
-    public function doUnaryFunction($value) {
+    public function doUnaryFunction($value)
+    {
         $arr = $this->filter->getConstants();
         foreach ($arr as $constant) {
             if ($constant->getConstant() == $value) {

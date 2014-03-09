@@ -30,7 +30,8 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
      * @param Environment $topenv
      * @return array Intern data
      */
-    protected function initChildEnvironment(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $executer, $preferColumn) {
+    protected function initChildEnvironment(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $executer, $preferColumn)
+    {
         //
         // BUILD ENVIRONMENT TO GIVE TO EXPRESSIONS
         //
@@ -63,11 +64,13 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
         return array("env" => $giveToColumnsEnvironment, "row" => $oldTableRow, "table" => $oldtable);
     }
 
-    protected function getChildEnvironment($data) {
+    protected function getChildEnvironment($data)
+    {
         return $data["env"];
     }
 
-    protected function finishChildEnvironment($data) {
+    protected function finishChildEnvironment($data)
+    {
         $oldtable = $data["table"];
         $giveToColumnsEnvironment = $data["env"];
         $oldTableRow = $data["row"];

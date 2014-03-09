@@ -43,7 +43,8 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
     private $executer;
     private $newColumns;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         $this->filter = $filter;
 
@@ -77,11 +78,13 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
         // new header is generated....
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
 
         $sourcetablecontent = $this->executer->evaluateAsExpression();
 
@@ -185,7 +188,8 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
         return $newRows;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
@@ -193,12 +197,14 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executer->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
 
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 

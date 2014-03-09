@@ -28,7 +28,8 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
     private $header1;
     private $header2;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
         $this->filter = $filter;
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
@@ -55,11 +56,13 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
         $table1content = $this->executer1->evaluateAsExpression();
         $table2content = $this->executer2->evaluateAsExpression();
 
@@ -111,15 +114,18 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
         return $rows;
     }
 
-    public function getName($nameA, $nameB) {
+    public function getName($nameA, $nameB)
+    {
         return $nameA . " combined " . $nameA;
     }
 
-    public function doBinaryFunction($valueA, $valueB) {
+    public function doBinaryFunction($valueA, $valueB)
+    {
         return null;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer1->cleanUp();
             $this->executer2->cleanUp();
@@ -128,13 +134,15 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executer1->modififyFiltersWithHeaderInformation();
         $this->executer2->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = array_merge(
                 $this->executer1->filterSingleSourceUsages($this->filter, 0), $this->executer2->filterSingleSourceUsages($this->filter, 1));
 

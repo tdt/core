@@ -21,7 +21,8 @@ class UniversalFilterTableHeaderColumnInfo
     private $linkedTable;
     private $linkedTableKey;
 
-    public function __construct(array $completeColumnName, $isLinked = false, $linkedTable = null, $linkedTableKey = null, $isGrouped = false) {
+    public function __construct(array $completeColumnName, $isLinked = false, $linkedTable = null, $linkedTableKey = null, $isGrouped = false)
+    {
 
         $this->completeColumnNameParts = $completeColumnName;
         $this->isLinked = $isLinked;
@@ -35,7 +36,8 @@ class UniversalFilterTableHeaderColumnInfo
      * Get the unique id of this column
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->columnId;
     }
 
@@ -43,12 +45,14 @@ class UniversalFilterTableHeaderColumnInfo
      * Gets the last part of the name of this column
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->getFullName();
         //return $this->completeColumnNameParts[count($this->completeColumnNameParts) - 1]; //last
     }
 
-    public function getFullName($separator = ".") {
+    public function getFullName($separator = ".")
+    {
         return implode($separator, $this->completeColumnNameParts);
     }
 
@@ -56,14 +60,16 @@ class UniversalFilterTableHeaderColumnInfo
      * returns true if this column is grouped
      * @return bool
      */
-    public function isGrouped() {
+    public function isGrouped()
+    {
         return $this->isGrouped;
     }
 
     /**
      * Set the nameparts of the column
      */
-    public function setNameParts($parts = array()){
+    public function setNameParts($parts = array())
+    {
         $this->completeColumnNameParts = $parts;
     }
 
@@ -71,7 +77,8 @@ class UniversalFilterTableHeaderColumnInfo
      * renames this column
      * @param type $newColumName
      */
-    public function aliasColumn($newColumName) {
+    public function aliasColumn($newColumName)
+    {
 
         if (strpos($newColumName, ".") != -1) {
             $oldName = array_pop($this->completeColumnNameParts);
@@ -87,7 +94,8 @@ class UniversalFilterTableHeaderColumnInfo
      * @param array $nameParts
      * @return bool
      */
-    public function matchName(array $nameParts) {
+    public function matchName(array $nameParts)
+    {
         return UniversalFilterTableHeaderColumnInfo::algorithmMatchName($this->completeColumnNameParts, $nameParts);
     }
 
@@ -124,7 +132,8 @@ class UniversalFilterTableHeaderColumnInfo
      * clone this columnInfo
      * @return UniversalFilterTableHeaderColumnInfo
      */
-    public function cloneColumnInfo() {
+    public function cloneColumnInfo()
+    {
         $a = new UniversalFilterTableHeaderColumnInfo($this->completeColumnNameParts);
         $a->isLinked = $this->isLinked;
         $a->isGrouped = $this->isGrouped;
@@ -138,7 +147,8 @@ class UniversalFilterTableHeaderColumnInfo
      * clones this column, but makes it distinctive by id
      * @return UniversalFilterTableHeaderColumnInfo
      */
-    public function cloneColumnNewId() {
+    public function cloneColumnNewId()
+    {
         $a = $this->cloneColumnInfo();
         $a->columnId = uniqid();
         return $a;
@@ -150,7 +160,8 @@ class UniversalFilterTableHeaderColumnInfo
      * @param type $newFieldName
      * @return UniversalFilterTableHeaderColumnInfo
      */
-    public function cloneBaseUpon($newFieldName) {
+    public function cloneBaseUpon($newFieldName)
+    {
         $a = new UniversalFilterTableHeaderColumnInfo(array($newFieldName));
         return $a;
     }
@@ -159,7 +170,8 @@ class UniversalFilterTableHeaderColumnInfo
      * Clones this column, but sets it to be grouped
      * @return UniversalFilterTableHeaderColumnInfo
      */
-    public function cloneColumnGrouped() {
+    public function cloneColumnGrouped()
+    {
         $a = $this->cloneColumnInfo();
         $a->columnId = uniqid();
         $a->isGrouped = true;
@@ -169,7 +181,8 @@ class UniversalFilterTableHeaderColumnInfo
     /**
      * Clones this column, with a new tablename
      */
-    public function cloneColumnTableAlias($tablename) {
+    public function cloneColumnTableAlias($tablename)
+    {
         $newColum = $this->cloneColumnInfo();
         $newColum->completeColumnNameParts = array($tablename, $this->completeColumnNameParts[count($this->completeColumnNameParts) - 1]);
         return $newColum;
@@ -178,7 +191,8 @@ class UniversalFilterTableHeaderColumnInfo
     /**
      * Clones this column with the specified id
      */
-    public function cloneColumnWithId($newColumnId) {
+    public function cloneColumnWithId($newColumnId)
+    {
         $newColum = $this->cloneColumnInfo();
         $newColum->columnId = $newColumnId;
         return $newColum;

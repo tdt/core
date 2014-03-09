@@ -36,7 +36,8 @@ class Proj4phpProjTmerc
 {
   public $dependsOn = null;
 
-  public function init() {
+  public function init()
+  {
     $this->e0 = Proj4php::$common->e0fn($this->es);
     $this->e1 = Proj4php::$common->e1fn($this->es);
     $this->e2 = Proj4php::$common->e2fn($this->es);
@@ -48,7 +49,8 @@ class Proj4phpProjTmerc
     Transverse Mercator Forward  - long/lat to x/y
     long/lat in radians
   */
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon = $p->x;
     $lat = $p->y;
 
@@ -60,7 +62,7 @@ class Proj4phpProjTmerc
 
     if ($this->sphere) {  /* spherical form */
       $b = $cos_phi * sin($delta_lon);
-      if ((abs(abs($b) - 1.0)) < .0000000001)  {
+      if ((abs(abs($b) - 1.0)) < .0000000001) {
         Proj4php::reportError("tmerc:forward: Point projects into infinity");
         return(93);
       } else {
@@ -90,7 +92,8 @@ class Proj4phpProjTmerc
   /**
     Transverse Mercator Inverse  -  x/y to long/lat
   */
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $con; $phi;  /* temporary angles       */
     $delta_phi; /* difference between longitudes    */
     $i;

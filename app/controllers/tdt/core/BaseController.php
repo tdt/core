@@ -14,7 +14,8 @@ class BaseController extends \Controller
     /*
      * Handles all core requests
      */
-    public function handleRequest($uri){
+    public function handleRequest($uri)
+    {
 
         // Save the original uri for controllers who don't want the uri lowercased
         $original_uri = rtrim($uri, '/');
@@ -93,7 +94,7 @@ class BaseController extends \Controller
         $response = $controller->handle($uri);
 
         // Check the response type
-        if($response instanceof \Illuminate\Http\RedirectResponse){
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
 
             // Redirect and that's it
             return $response;

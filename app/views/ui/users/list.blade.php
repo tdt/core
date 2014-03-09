@@ -29,7 +29,7 @@
         @foreach($users as $user)
             <?php
                 $user_group = '1';
-                foreach($user->getGroups() as $group){
+                foreach ($user->getGroups() as $group) {
                     $user_group = $group->id;
                     break;
                 }

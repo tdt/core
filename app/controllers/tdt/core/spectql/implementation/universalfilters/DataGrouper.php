@@ -23,7 +23,8 @@ class DataGrouper extends NormalFilterNode
 
     private $columns;
 
-    public function __construct(array $columns, UniversalFilterNode $source = null) {
+    public function __construct(array $columns, UniversalFilterNode $source = null)
+    {
 
         parent::__construct("DATAGROUPER");
 
@@ -32,7 +33,8 @@ class DataGrouper extends NormalFilterNode
             $this->setSource($source);
     }
 
-    public function getColumns() {
+    public function getColumns()
+    {
         return $this->columns;
     }
 

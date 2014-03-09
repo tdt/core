@@ -32,7 +32,8 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
     private $executer;
     private $interpreter;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         $this->filter = $filter;
         $this->interpreter = $interpreter;
@@ -45,11 +46,13 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
         $this->header = $executer->getExpressionHeader();
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    private function toArray($columnId, $content) {
+    private function toArray($columnId, $content)
+    {
 
         $newarr = array();
         for ($i = 0; $i < $content->getRowCount(); $i++) {
@@ -60,7 +63,8 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
         return $newarr;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
 
         $sourcecontent = $this->executer->evaluateAsExpression();
 
@@ -122,7 +126,8 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
         return $sortedcontent;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
@@ -130,12 +135,14 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executer->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }

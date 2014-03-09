@@ -15,7 +15,7 @@ class Users implements IImportExport
 
         $messages = array();
 
-        foreach($users as $user){
+        foreach ($users as $user) {
             $groups = $user['groups'];
             $primary_group = array_shift($groups);
 
@@ -72,7 +72,7 @@ class Users implements IImportExport
 
         // Push them in an array
         $users = array();
-        foreach($sentry_data as $u){
+        foreach ($sentry_data as $u) {
 
             // Get user's groups
             $sentry_groups = $u->getGroups();
@@ -89,7 +89,7 @@ class Users implements IImportExport
             // Add group names
             $u['groups'] = array();
 
-            foreach($sentry_groups as $g){
+            foreach ($sentry_groups as $g) {
                 array_push($u['groups'], $g->name);
             }
 

@@ -38,7 +38,8 @@ class BinaryFunction extends NormalFilterNode
     public static $FUNCTION_BINARY_DATETIME_FORMAT = "FUNCTION_BINARY_DATETIME_FORMAT"; /* time, php format */
     public static $FUNCTION_BINARY_DATETIME_DATEDIFF = "FUNCTION_BINARY_DATETIME_DATEDIFF";
 
-    public function __construct($kind, UniversalFilterNode $columnA = null, UniversalFilterNode $columnB = null) {
+    public function __construct($kind, UniversalFilterNode $columnA = null, UniversalFilterNode $columnB = null)
+    {
         parent::__construct($kind);
         if ($columnA != null)
             $this->setSource($columnA, 0);
@@ -46,7 +47,8 @@ class BinaryFunction extends NormalFilterNode
             $this->setSource($columnB, 1);
     }
 
-    public function getSourceCount() {
+    public function getSourceCount()
+    {
         return 2;
     }
 

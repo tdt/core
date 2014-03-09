@@ -16,15 +16,15 @@ Files
 -----
  - UniversalFilterExecuters.php -> groups all includes...
 
- - IUniversalFilterNodeExecuter.interface.php -> interface of all executers 
+ - IUniversalFilterNodeExecuter.interface.php -> interface of all executers
 
  - AbstractUniversalFilterNodeExecuter.class.php -> abstract top class of all executers
 
- - BaseHashingFilterExecuter.class.php 
+ - BaseHashingFilterExecuter.class.php
     -> base functionality for DataGrouperExecuter and DistinctFilterExecuter
     (they both search for rows that are the same (for some fields/all fields))
 
- - BaseEvaluationEnvironmentFilterExecuter.class.php 
+ - BaseEvaluationEnvironmentFilterExecuter.class.php
     -> base functionality for FilterByExpressionExecuter and ColumnSelectionFilterExecuter.
     (they both have a source and a environment, which they have to combine to give to their expressions)
 
@@ -37,27 +37,27 @@ Files
 Making a new kind of filter
 ---------------------------
 
-Let's say we want to implement three new filter: 
-  *  DistanceSmallerThan(x1, y1, x2, y2, distance)  
+Let's say we want to implement three new filter:
+  *  DistanceSmallerThan(x1, y1, x2, y2, distance)
      Returns true if the distance from the coordinate (on earth)  (whatLong, whatLat) to (aroundLong, aroundLat) is smaller than radius.
-  *  StringConcat(a, b)  
+  *  StringConcat(a, b)
      Returns the ab
   *  Sorting(a) on field1 ascending, field2 ascending, ...
 
-Ok you say, those are indeed all filter. 
-Why three of them? Because they are all implemented differently(!). 
+Ok you say, those are indeed all filter.
+Why three of them? Because they are all implemented differently(!).
 The first one is the easiest to implement.
 The second one is a bit harder, and the third one is the most "difficult".
 
 ### DistanceSmallerThan
 
-Why is DistanceSmallerThan different from the rest? 
-DistanceSmallerThan is what I call a combined filter, it does nothing new. 
-I mean: you can write InRadius as 
+Why is DistanceSmallerThan different from the rest?
+DistanceSmallerThan is what I call a combined filter, it does nothing new.
+I mean: you can write InRadius as
 
     sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)) <= distance
 
-And that's the way we will implement it.  
+And that's the way we will implement it.
 Why? Because
 1. It's less work
 2. It will not break any working code
@@ -71,9 +71,9 @@ We go to the file ``universalfilter/CombinedFilterGenerators.class.php`` and add
 And in the method we return a new filter that does exactly what we wrote above:
 
     return new BinaryFunction(
-        BinaryFunction::$FUNCTION_UNARY_SQRT, 
+        BinaryFunction::$FUNCTION_UNARY_SQRT,
         new BinaryFunction(
-            BinaryFunction::$FUNCTION_BINARY_PLUS, 
+            BinaryFunction::$FUNCTION_BINARY_PLUS,
             new BinaryFunction(
                 BinaryFunction::$FUNCTION_BINARY_MULTIPLY,
                 new BinaryFunction(
@@ -93,10 +93,10 @@ And in the method we return a new filter that does exactly what we wrote above:
                 new BinaryFunction(
                     BinaryFunction::$FUNCTION_BINARY_MINUS,
                     $y1,
-                    $y2)),    
+                    $y2)),
             ));
 
-Now we want the SQLParser to be able to parse our new function. 
+Now we want the SQLParser to be able to parse our new function.
 As this is a pentairy function, the parser does not support that yet, but you can easilly extend the parser.
 
 You're done...
@@ -112,17 +112,19 @@ But, it is a function!, so it is easier to implement than e.g. the Sorting.
 Let's start.
 
 1. We need a new constant in UniversalFilters.php, so you need to add that first.
-2. We need the SQLParser to be able to parse our new function, 
+2. We need the SQLParser to be able to parse our new function,
    so in the SQLGrammarFunctions, we add a new entry to the mapping from functionname to constant.
 3. We go to the file ``universalfilter/interpreter/executers/implementations/BinaryFunctionExecuters.php`` and add the following code:
 
         class BinaryFunctionStringConcatExecuter extends BinaryFunctionExecuter {
 
-            public function getName($nameA, $nameB){
+            public function getName($nameA, $nameB)
+            {
                 return $nameA."_concat_".$nameB;
             }
 
-            public function doBinaryFunction($valueA, $valueB){
+            public function doBinaryFunction($valueA, $valueB)
+            {
                 return $valueA.$valueB;
             }
         }
@@ -170,7 +172,7 @@ In that method you first set: $this->filter = $filter; (used in the abstract par
 
 In ``initExpression`` the executer is supposed to create executers for all his child-filters (the filters he uses as a source or as an expression) (see ``IInterpreterControl::findExecuterFor``) and call ``initExpression`` on all of them.
 
-``initExpression`` is also supposed to calculate the header of the table the executer will return. 
+``initExpression`` is also supposed to calculate the header of the table the executer will return.
 Because he called ``initExpression`` on his child-filters they calculated their header already.
 You can ask the header of the children by calling ``getExpressionHeader``.
 
@@ -181,22 +183,22 @@ $filter: this is the UniversalFilterNode the child is going to execute for. It's
 
 $interpreter: just pass down. It's the ``IInterpreterControl`` mentioned above.
 
-$preferColumn: Do you expect a totaly new table as a source or a just a column of the current table or an expression on columns of the current table? 
+$preferColumn: Do you expect a totaly new table as a source or a just a column of the current table or an expression on columns of the current table?
 
 #### After you inited the children - building your own header
 After you inited the children, you have to create your own header (based upon the headers of the children). A header is an instance of the class UniversalFilterTableHeader.
-If you can, you should try to use as much "clone-modified" methods as possible. 
+If you can, you should try to use as much "clone-modified" methods as possible.
 Especially for UniversalFilterTableHeaderColumnInfo this is the way to create a new column.
 
 Save the header in a new classvariable: $this->header.
 
 #### Rules in ``initExpression``
-1. If you can access a table (e.g. the Environment contains a table), you are only allowed to access the header. 
+1. If you can access a table (e.g. the Environment contains a table), you are only allowed to access the header.
    As the content is not initialized yet. (That's why the even the creation of the childEnvironment (``BaseEvaluationEnvironmentExecuter``) is splitted in two parts)
 2. Don't call ``evaluateAsExpression`` yet. You should wait with that till you are in your own ``evaluateAsExpression`` method.
 
 ### ``getExpressionHeader``
-Returns the header calculated in ``initExpression``, thus:  
+Returns the header calculated in ``initExpression``, thus:
 return $this->header;
 
 ### ``evaluateAsExpression``
@@ -223,10 +225,10 @@ Most of this method is implemented in the abstractbase class.
 You just call the parent::-method and the method modifyFiltersWithHeaderInformation on the children.
 
 #### filterSingleSourceUsages
-What this method does:  
+What this method does:
 It returns the arrays of bigest subtrees that only use one source.
 
-What you have to do:  
+What you have to do:
  - call filterSingleSourceUsages on the children.
  - merge the arrays the children return => $arr
  - call $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);

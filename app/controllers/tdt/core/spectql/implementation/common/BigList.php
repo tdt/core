@@ -18,12 +18,14 @@ class BigList
     private $id;
     private $size;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->id = uniqid();
         $size = 0;
     }
 
-    public function setIndex($index, $data) {
+    public function setIndex($index, $data)
+    {
 
         if ($index >= $this->size) {
             \App::abort(500, "BigList: Index out of bounds: " . $index);
@@ -40,7 +42,8 @@ class BigList
         $inst->set("BIGLIST_" . $this->id . "_" . $blockindex, $oldList); //save it again
     }
 
-    public function getIndex($index) {
+    public function getIndex($index)
+    {
 
         if ($index >= $this->size) {
             \App::abort(500, "BigList: Index out of bounds " . $index);
@@ -57,7 +60,8 @@ class BigList
         return $oldList->$indexInBlock;
     }
 
-    public function addItem($data) {
+    public function addItem($data)
+    {
         $this->size++;
         $this->setIndex($this->size - 1, $data);
         if (floor(($this->size - 1) / BigList::$BLOCKSIZE) != floor(($this->size - 2) / BigList::$BLOCKSIZE)) {
@@ -65,11 +69,13 @@ class BigList
         }
     }
 
-    public function getSize() {
+    public function getSize()
+    {
         return $this->size;
     }
 
-    public function destroy() {
+    public function destroy()
+    {
         //echo "biglist destroyed... ".$this->id;
         $inst = BigDataBlockManager::getInstance();
         for ($i = 0; $i <= floor(($this->size - 1) / BigList::$BLOCKSIZE); $i++) {

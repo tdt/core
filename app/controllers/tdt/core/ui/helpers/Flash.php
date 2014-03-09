@@ -26,7 +26,7 @@ class Flash extends \Controller
     public static function get(){
         $cookie = '';
 
-        if(!empty($_COOKIE[self::$COOKIE_NAME])){
+        if (!empty($_COOKIE[self::$COOKIE_NAME])) {
             $cookie = base64_decode($_COOKIE[self::$COOKIE_NAME]);
         }
 

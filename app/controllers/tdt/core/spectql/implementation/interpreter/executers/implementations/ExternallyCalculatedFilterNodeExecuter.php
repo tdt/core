@@ -25,7 +25,8 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
     private $header;
     private $executer;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         // Save the filter
         $this->filter = $filter;
@@ -106,15 +107,18 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
         $this->executer->cleanUp();
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
         return $this->filter->getTable()->getContent();
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
@@ -122,11 +126,13 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         //do nothing
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         return array(new SourceUsageData($this->filter, $this->filter, NULL, "CAN_NOT_BE_EXECUTED_EXTERNALLY"));
     }
 

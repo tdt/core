@@ -24,7 +24,8 @@ class QueryTreeHandler
     private $noSqlConverter;
     private $query;
 
-    public function __construct(UniversalFilterNode $query) {
+    public function __construct(UniversalFilterNode $query)
+    {
         $this->query = $query;
         $requiredColumnNames = $query->getAttachment(ExpectedHeaderNamesAttachment::$ATTACHMENTID);
         $headerNames = $requiredColumnNames->getExpectedHeaderNames();
@@ -36,11 +37,13 @@ class QueryTreeHandler
 
     }
 
-    public function getNoSqlConverter(){
+    public function getNoSqlConverter()
+    {
         return $this->noSqlConverter;
     }
 
-    public function getSqlConverter() {
+    public function getSqlConverter()
+    {
         return $this->sqlConverter;
     }
 
@@ -48,7 +51,8 @@ class QueryTreeHandler
      * Expects a clause name, currently supported orderby, where, groupby,select
      */
 
-    public function getNodeForClause($clause) {
+    public function getNodeForClause($clause)
+    {
 
         $currentNode = $this->query;
         $parentNode = null;
@@ -92,7 +96,7 @@ class QueryTreeHandler
                 $currentNode = null;
             }
         }
-        if(!$found){
+        if (!$found) {
             return null;
         }
 

@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* abs */
 class UnaryFunctionAbsExecuter extends UnaryFunctionExecuter
 {
-    public function getName($name) {
+    public function getName($name)
+    {
         return "abs_" . $name;
     }
-    public function doUnaryFunction($value) {
+    public function doUnaryFunction($value)
+    {
         if ($value === null)
             return null;
         return "" . abs($value);

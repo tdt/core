@@ -35,7 +35,8 @@ ALGORITHM REFERENCES
 //class Proj4phpProjlcc = Class.create();
 class Proj4phpProjLcc
 {
-  public function init() {
+  public function init()
+  {
     // array of:  r_maj,r_min,lat1,lat2,c_lon,c_lat,false_east,false_north
     //double c_lat;                   /* center latitude                      */
     //double c_lon;                   /* center longitude                     */
@@ -83,7 +84,8 @@ class Proj4phpProjLcc
 
     // Lambert Conformal conic forward equations--mapping lat,long to x,y
     // -----------------------------------------------------------------
-    public function forward($p) {
+    public function forward($p)
+    {
 
       $lon = $p->x;
       $lat = $p->y;
@@ -119,7 +121,8 @@ class Proj4phpProjLcc
 
   // Lambert Conformal Conic inverse equations--mapping x,y to lat/long
   // -----------------------------------------------------------------
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $rh1; $con; $ts;
     $lat; $lon;

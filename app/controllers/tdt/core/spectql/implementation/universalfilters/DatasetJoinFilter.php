@@ -25,7 +25,8 @@ class DatasetJoinFilter extends NormalFilterNode
     private $keepleft; //type:boolean
     private $keepright; //type:boolean
 
-    public function __construct($keepleft = false, $keepright = false, UniversalFilterNode $sourceA = null, UniversalFilterNode $sourceB = null, UniversalFilterNode $expression = null) {
+    public function __construct($keepleft = false, $keepright = false, UniversalFilterNode $sourceA = null, UniversalFilterNode $sourceB = null, UniversalFilterNode $expression = null)
+    {
         parent::__construct("JOIN");
         $this->expression = $expression;
         $this->keepleft = $keepleft;
@@ -36,19 +37,23 @@ class DatasetJoinFilter extends NormalFilterNode
             $this->setSource($sourceB, 1);
     }
 
-    public function getExpression() {
+    public function getExpression()
+    {
         return $this->expression;
     }
 
-    public function getSourceCount() {
+    public function getSourceCount()
+    {
         return 2;
     }
 
-    public function getKeepLeft() {
+    public function getKeepLeft()
+    {
         return $this->keepleft;
     }
 
-    public function getKeepRight() {
+    public function getKeepRight()
+    {
         return $this->keepright;
     }
 

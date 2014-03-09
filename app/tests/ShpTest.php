@@ -22,10 +22,11 @@ class ShpTest extends TestCase
                 ),*/ // These need to wait for the paging implementation, are currently too big to be handled in a testing environment
             );
 
-    public function test_put_api(){
+    public function test_put_api()
+    {
 
         // Publish each shp file in the test shp data folder.
-        foreach($this->test_data as $entry){
+        foreach ($this->test_data as $entry) {
 
             $name = $entry['name'];
             $file = $entry['file'];
@@ -54,10 +55,11 @@ class ShpTest extends TestCase
         }
     }
 
-    public function test_get_api(){
+    public function test_get_api()
+    {
 
         // Request the data for each of the test shp files.
-        foreach($this->test_data as $entry){
+        foreach ($this->test_data as $entry) {
 
             $name = $entry['name'];
 
@@ -71,10 +73,11 @@ class ShpTest extends TestCase
         }
     }
 
-    public function test_delete_api(){
+    public function test_delete_api()
+    {
 
         // Delete the published definition for each test shp file.
-        foreach($this->test_data as $entry){
+        foreach ($this->test_data as $entry) {
 
             $name = $entry['name'];
 

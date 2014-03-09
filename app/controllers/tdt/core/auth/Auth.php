@@ -19,7 +19,7 @@ class Auth extends \Controller
     public static function requirePermissions($permissions = null){
 
         // Make sure permissions is an array
-        if(!is_array($permissions)){
+        if (!is_array($permissions)) {
             $permissions = array($permissions);
         }
 
@@ -32,8 +32,8 @@ class Auth extends \Controller
             // Get the group permissions
             $groupPermissions = $group->getPermissions();
 
-            foreach($permissions as $permission){
-                if(!empty($groupPermissions[$permission]) && $groupPermissions[$permission] == 1){
+            foreach ($permissions as $permission) {
+                if (!empty($groupPermissions[$permission]) && $groupPermissions[$permission] == 1) {
                     // Everyone has access
                     return true;
                 }else{
@@ -48,10 +48,10 @@ class Auth extends \Controller
         // Authenticate
         self::logIn();
 
-        if(\Sentry::check()){
+        if (\Sentry::check()) {
 
             // Check permissions
-            if(self::hasAccess($permissions)){
+            if (self::hasAccess($permissions)) {
                 return true;
             }else{
                 \App::abort(403, "The authenticated user hasn't got the permissions for this action.");
@@ -68,7 +68,7 @@ class Auth extends \Controller
     protected static function logIn(){
 
         // Basic auth, TODO: remove check
-        if(\App::environment() != 'testing'){
+        if (\App::environment() != 'testing') {
             header('WWW-Authenticate: Basic');
             header('HTTP/1.0 401 Unauthorized');
         }
@@ -76,7 +76,7 @@ class Auth extends \Controller
         // Fix basic auth on some servers;
         self::basicAuth();
 
-        if(isset(self::$user)){
+        if (isset(self::$user)) {
             try{
                 // Set login credentials
                 $credentials = array(
@@ -119,7 +119,7 @@ class Auth extends \Controller
         self::$password = \Request::header('PHP_AUTH_PW');
         $auth_header = \Request::header('Authorization');
 
-        if(!empty($auth_header)){
+        if (!empty($auth_header)) {
             list(self::$user, self::$password) = explode(':' , base64_decode(substr(\Request::header('Authorization'), 6)));
         }
     }
@@ -130,7 +130,7 @@ class Auth extends \Controller
         $user = \Sentry::getUser();
 
         // If user is empty, means that 'everyone has access to the UI -> abort
-        if(empty($user)){
+        if (empty($user)) {
             return false;
         }
 
@@ -138,7 +138,7 @@ class Auth extends \Controller
         $superadmin = \Sentry::findGroupByName('superadmin');
 
         // Check permissions
-        if($user->hasAccess($permissions) || $user->inGroup($superadmin)){
+        if ($user->hasAccess($permissions) || $user->inGroup($superadmin)) {
             // Share user in views
             \View::share('current_user', $user);
             return true;

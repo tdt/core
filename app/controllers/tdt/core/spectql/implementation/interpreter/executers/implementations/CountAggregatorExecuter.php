@@ -8,19 +8,23 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\Aggreg
 class CountAggregatorExecuter extends AggregatorFunctionExecuter
 {
 
-    public function getName($name) {
+    public function getName($name)
+    {
         return "count_" . $name;
     }
 
-    public function calculateValue(UniversalFilterTableContent $content, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $content, $columnId)
+    {
         return $content->getRowCount();
     }
 
-    public function keepFullInfo() {
+    public function keepFullInfo()
+    {
         return false;
     }
 
-    public function combinesMultipleColumns() {
+    public function combinesMultipleColumns()
+    {
         return true;
     }
 

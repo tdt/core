@@ -92,7 +92,7 @@ class ShapeFile
 
         $this->file_name = $file_name;
         //_d("Opening [$file_name]");
-        if(!is_readable($file_name)){
+        if (!is_readable($file_name)) {
             //return $this->setError( sprintf(ERROR_FILE_NOT_FOUND, $file_name) );
             throw new Exception(sprintf(ERROR_FILE_NOT_FOUND, $file_name));
         }
@@ -107,7 +107,8 @@ class ShapeFile
     }
 
 
-    public function getError(){
+    public function getError()
+    {
         return $this->error_message;
     }
 
@@ -117,7 +118,8 @@ class ShapeFile
     }
 
     // Data fetchers
-    private function _fetchShpBasicConfiguration(){
+    private function _fetchShpBasicConfiguration()
+    {
         //_d("Reading basic information");
         fseek($this->fp, 32, SEEK_SET);
         $this->shp_type = readAndUnpack("i", fread($this->fp, 4));
@@ -129,14 +131,15 @@ class ShapeFile
 
 
 
-    public function getNext(){
+    public function getNext()
+    {
         if (!feof($this->fp)) {
             fseek($this->fp, $this->fpos);
             $shp_record = new ShapeRecord($this->fp, $this->dbf_filename,$this->options);
-            if($shp_record->getError() != ""){
+            if ($shp_record->getError() != "") {
                 return false;
             }
-            if($shp_record->record_number == "") {
+            if ($shp_record->record_number == "") {
                 return false;
             }
             $this->fpos = $shp_record->getNextRecordPosition();
@@ -150,7 +153,7 @@ class ShapeFile
        fseek($this->fp, 100);
        while(!feof($this->fp)){
        $shp_record = new ShapeRecord($this->fp, $this->file_name);
-       if($shp_record->error_message != ""){
+       if ($shp_record->error_message != "") {
        return false;
        }
        $this->records[] = $shp_record;
@@ -161,7 +164,7 @@ class ShapeFile
 //Not Used
 /*	private function getDBFHeader(){
         $dbf_data = array();
-        if(is_readable($dbf_data)){
+        if (is_readable($dbf_data)) {
         $dbf = dbase_open($this->dbf_filename , 1);
         // solo en PHP5 $dbf_data = dbase_get_header_info($dbf);
         echo dbase_get_header_info($dbf);
@@ -170,16 +173,18 @@ class ShapeFile
 */
 
     // General functions
-    private function setError($error){
+    private function setError($error)
+    {
         $this->error_message = $error;
-        if($this->show_errors){
+        if ($this->show_errors) {
             echo $error."\n";
         }
         return false;
     }
 
-    private function closeFile(){
-        if($this->fp){
+    private function closeFile()
+    {
+        if ($this->fp) {
             fclose($this->fp);
         }
     }
@@ -233,12 +238,14 @@ class ShapeRecord
 
     }
 
-    public function getNextRecordPosition(){
+    public function getNextRecordPosition()
+    {
         $nextRecordPosition = $this->fpos + ((4 + $this->content_length )* 2);
         return $nextRecordPosition;
     }
 
-    private function _readHeader(){
+    private function _readHeader()
+    {
         $this->record_number     = readAndUnpack("N", fread($this->fp, 4));
         $this->content_length    = readAndUnpack("N", fread($this->fp, 4));
         $this->record_shape_type = readAndUnpack("i", fread($this->fp, 4));
@@ -246,8 +253,9 @@ class ShapeRecord
         //_d("Shape Record ID=".$this->record_number." ContentLength=".$this->content_length." RecordShapeType=".$this->record_shape_type."\nEnding byte ".ftell($this->fp)."\n");
     }
 
-    public function getRecordClass(){
-        if(!isset($this->record_class[$this->record_shape_type])){
+    public function getRecordClass()
+    {
+        if (!isset($this->record_class[$this->record_shape_type])) {
             //_d("Unable to find record class ($this->record_shape_type) [".getArray($this->record_class)."]");
             return $this->setError( sprintf(INEXISTENT_RECORD_CLASS, $this->record_shape_type) );
         }
@@ -255,21 +263,24 @@ class ShapeRecord
         return $this->record_class[$this->record_shape_type];
     }
 
-    private function setError($error){
+    private function setError($error)
+    {
         $this->error_message = $error;
         return false;
     }
 
-    public function getError(){
+    public function getError()
+    {
         return $this->error_message;
     }
 
-    public function getShpData(){
+    public function getShpData()
+    {
         $function_name = "read".$this->getRecordClass();
 
         //_d("Calling reading function [$function_name] starting at byte ".ftell($fp));
 
-        if(function_exists($function_name)){
+        if (function_exists($function_name)) {
             $this->shp_data = $function_name($this->fp,$this->options);
         } else {
             $this->setError( sprintf(INEXISTENT_FUNCTION, $function_name) );
@@ -278,7 +289,8 @@ class ShapeRecord
         return $this->shp_data;
     }
 
-    public function getDbfFields(){
+    public function getDbfFields()
+    {
 
         $fdbf = fopen($this->file_name,'r');
         $fields = array();
@@ -296,7 +308,8 @@ class ShapeRecord
         return $fields;
     }
 
-    public function getDbfData(){
+    public function getDbfData()
+    {
         $fdbf = fopen($this->file_name,'r');
         $buf = fread($fdbf,32);
         $header=unpack( "VRecordCount/vFirstRecord/vRecordLength", substr($buf,4,8));
@@ -347,7 +360,7 @@ function readRecordMultiPoint(&$fp,$options = null) {
     $data["numpoints"] = readAndUnpack("i", fread($fp, 4));
     //_d("MultiPoint numpoints = ".$data["numpoints"]);
 
-    for($i = 0; $i <= $data["numpoints"]; $i++){
+    for ($i = 0; $i <= $data["numpoints"]; $i++) {
         $data["points"][] = readRecordPoint($fp);
     }
 
@@ -367,7 +380,7 @@ function readRecordPolyLine(&$fp,$options = null) {
         $points_read = $data["numpoints"];
     }
     else{
-        for($i=0; $i<$data["numparts"]; $i++){
+        for ($i=0; $i<$data["numparts"]; $i++) {
             $data["parts"][$i] = readAndUnpack("i", fread($fp, 4));
             //_d("PolyLine adding point index= ".$data["parts"][$i]);
         }
@@ -376,10 +389,10 @@ function readRecordPolyLine(&$fp,$options = null) {
 
         //_d("Reading points; initial index = $points_initial_index");
         $points_read = 0;
-        foreach($data["parts"] as $part_index => $point_index){
+        foreach ($data["parts"] as $part_index => $point_index) {
             //fseek($fp, $points_initial_index + $point_index);
             //_d("Seeking initial index point [".($points_initial_index + $point_index)."]");
-            if(!isset($data["parts"][$part_index]["points"]) || !is_array($data["parts"][$part_index]["points"])){
+            if (!isset($data["parts"][$part_index]["points"]) || !is_array($data["parts"][$part_index]["points"])) {
                 $data["parts"][$part_index] = array();
                 $data["parts"][$part_index]["points"] = array();
             }
@@ -406,11 +419,11 @@ function readRecordPolygon(&$fp,$options = null) {
  */
 function processDBFFileName($dbf_filename) {
     //_d("Received filename [$dbf_filename]");
-    if(!strstr($dbf_filename, ".")){
+    if (!strstr($dbf_filename, ".")) {
         $dbf_filename .= ".dbf";
     }
 
-    if(substr($dbf_filename, strlen($dbf_filename)-3, 3) != "dbf"){
+    if (substr($dbf_filename, strlen($dbf_filename)-3, 3) != "dbf") {
         $dbf_filename = substr($dbf_filename, 0, strlen($dbf_filename)-3)."dbf";
     }
     //_d("Ended up like [$dbf_filename]");
@@ -434,7 +447,7 @@ function readAndUnpack($type, $data) {
 }
 
 function _d($debug_text) {
-    if(DEBUG){
+    if (DEBUG) {
         echo $debug_text."\n";
     }
 }

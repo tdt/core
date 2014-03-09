@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* plus */
 class BinaryFunctionPlusExecuter extends BinaryFunctionExecuter
 {
-    public function getName($nameA, $nameB) {
+    public function getName($nameA, $nameB)
+    {
         return $nameA . "_plus_" . $nameB;
     }
-    public function doBinaryFunction($valueA, $valueB) {
+    public function doBinaryFunction($valueA, $valueB)
+    {
         if ($valueA === null || $valueB === null)
             return null;
         return "" . ($valueA + $valueB);

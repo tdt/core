@@ -14,14 +14,16 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         'collection_uri' => 'required|collectionuri'
     );
 
-    public function __construct(\Definition $model){
+    public function __construct(\Definition $model)
+    {
         $this->model = $model;
     }
 
     /**
      * Create a new definition with corresponding source type
      */
-    public function store($input){
+    public function store($input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -49,7 +51,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         $definition->collection_uri = $input['collection_uri'];
 
         // Add the rest of the properties
-        foreach(array_only($input, array_keys($this->getCreateParameters())) as $property => $value){
+        foreach (array_only($input, array_keys($this->getCreateParameters())) as $property => $value) {
             $definition->$property = $value;
         }
 
@@ -58,7 +60,8 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return $definition->toArray();
     }
 
-    public function update($identifier, $input){
+    public function update($identifier, $input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -67,7 +70,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
         $source = $this->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
-        if(empty($definition)){
+        if (empty($definition)) {
             \App::abort(404, "The resource with identifier '$identifier' could not be found.");
         }
 
@@ -87,7 +90,8 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * Delete a definition
      */
-    public function delete($identifier){
+    public function delete($identifier)
+    {
 
         $definition = $this->getEloquentDefinition($identifier);
 
@@ -99,7 +103,8 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
      * Return true|false based on whether the identifier is
      * a resource or not
      */
-    public function exists($identifier){
+    public function exists($identifier)
+    {
 
         $definition = $this->getByIdentifier($identifier);
 
@@ -107,16 +112,19 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     }
 
 
-    public function getAll($limit = PHP_INT_MAX, $offset = 0){
+    public function getAll($limit = PHP_INT_MAX, $offset = 0)
+    {
         return \Definition::take($limit)->skip($offset)->get()->toArray();
     }
 
-    public function getAllPublished($limit = PHP_INT_MAX, $offset = 0){
+    public function getAllPublished($limit = PHP_INT_MAX, $offset = 0)
+    {
         return \Definition::where('draft', '=', 0)->take($limit)->skip($offset)->get()->toArray();
     }
 
 
-    public function getByIdentifier($identifier){
+    public function getByIdentifier($identifier)
+    {
 
         $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
 
@@ -127,11 +135,13 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     }
 
 
-    public function getByCollection($collection){
+    public function getByCollection($collection)
+    {
         return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get()->toArray();
     }
 
-    public function getOldest(){
+    public function getOldest()
+    {
 
         $definition = \Definition::where( 'created_at', '=', \DB::table('definitions')->max('created_at'))->first();
 
@@ -141,18 +151,21 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return $definition;
     }
 
-    public function count(){
+    public function count()
+    {
         return \Definition::all()->count();
     }
 
     /**
      * Return the count of all non-draft definitions
      */
-    public function countPublished(){
+    public function countPublished()
+    {
         return \Definition::where('draft', '=', 0)->count();
     }
 
-    public function getDefinitionSource($id, $name){
+    public function getDefinitionSource($id, $name)
+    {
 
         $repository = \App::make('repositories\interfaces\\' . $name . 'RepositoryInterface');
 
@@ -162,7 +175,8 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * Check if the given source type exists
      */
-    private function validateType($input){
+    private function validateType($input)
+    {
 
         $type = @$input['type'];
 
@@ -171,17 +185,18 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
         $validator = $source_repository->getValidator($input);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $message = $validator->messages()->first();
             \App::abort(400, "Something went wrong during validation, the message we got is: " . $message);
         }
     }
 
-    public function getAllFullDescriptions($uri, $limit, $offset){
+    public function getAllFullDescriptions($uri, $limit, $offset)
+    {
 
         $definitions = array();
 
-        foreach($this->getAll($limit, $offset) as $definition){
+        foreach ($this->getAll($limit, $offset) as $definition) {
 
             $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
             $definitions[$identifier] = $this->getFullDescription($identifier);
@@ -190,11 +205,12 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return $definitions;
     }
 
-    public function getAllDefinitionInfo($uri, $limit, $offset){
+    public function getAllDefinitionInfo($uri, $limit, $offset)
+    {
 
         $definitions = array();
 
-        foreach($this->getAll($limit, $offset) as $definition){
+        foreach ($this->getAll($limit, $offset) as $definition) {
 
             $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
             $definitions[$identifier] = $this->getDescriptionInfo($identifier);
@@ -203,14 +219,15 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return $definitions;
     }
 
-    public function getDescriptionInfo($identifier){
+    public function getDescriptionInfo($identifier)
+    {
 
         $definition = $this->getEloquentDefinition($identifier);
 
         $properties = array();
         $source_definition = $definition->source()->first();
 
-        foreach($definition->getFillable() as $key){
+        foreach ($definition->getFillable() as $key) {
             $properties[$key] = $definition->$key;
         }
 
@@ -222,35 +239,37 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * This function solves the issues of retrieving relationships of a relationship (e.g. definition -> csvdefinitions -> tabular)
      */
-    private function getEloquentDefinition($identifier){
+    private function getEloquentDefinition($identifier)
+    {
 
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
     }
 
-    public function getFullDescription($identifier){
+    public function getFullDescription($identifier)
+    {
 
         $definition = $this->getEloquentDefinition($identifier);
 
         $properties = array();
         $source_definition = $definition->source()->first();
 
-        foreach($definition->getFillable() as $key){
+        foreach ($definition->getFillable() as $key) {
             $properties[$key] = $definition->$key;
         }
 
         // Add all the properties that are mass assignable
-        foreach($source_definition->getFillable() as $key){
+        foreach ($source_definition->getFillable() as $key) {
             $properties[$key] = $source_definition->$key;
         }
 
         // If the source type has a relationship with tabular columns, then attach those to the properties
-        if(method_exists(get_class($source_definition), 'tabularColumns')){
+        if (method_exists(get_class($source_definition), 'tabularColumns')) {
 
             $columns = $source_definition->tabularColumns();
             $columns = $columns->getResults();
 
             $columns_props = array();
-            foreach($columns as $column){
+            foreach ($columns as $column) {
                 array_push($columns_props, array(
                     'column_name' => $column->column_name,
                     'is_pk' => $column->is_pk,
@@ -263,13 +282,13 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         }
 
         // If the source type has a relationship with geoproperties, attach those to the properties
-        if(method_exists(get_class($source_definition), 'geoProperties')){
+        if (method_exists(get_class($source_definition), 'geoProperties')) {
 
             $geo_props = $source_definition->geoProperties();
             $geo_props = $geo_props->getResults();
 
             $geo_props_arr = array();
-            foreach($geo_props as $geo_prop){
+            foreach ($geo_props as $geo_prop) {
 
                 $geo_entry = new \stdClass();
 
@@ -290,7 +309,8 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * Return the properties ( = column fields ) for this model.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
 
         return array(
                 'title' => array(

@@ -18,11 +18,13 @@ class SPECTQLTokenizer
     private $tokens;
     private $index = 0;
 
-    public function getTokens() {
+    public function getTokens()
+    {
         return $this->tokens;
     }
 
-    public function __construct($querystring, $symbols) {
+    public function __construct($querystring, $symbols)
+    {
 
         $this->tokens = array();
 
@@ -91,16 +93,19 @@ class SPECTQLTokenizer
         //DBG:var_dump($this->tokens);
     }
 
-    public function hasNext() {
+    public function hasNext()
+    {
         return $this->index < sizeof($this->tokens);
     }
 
-    public function pop() {
+    public function pop()
+    {
         $this->index++;
         return $this->tokens[$this->index - 1];
     }
 
-    public function peek() {
+    public function peek()
+    {
         return $this->tokens[$this->index];
     }
 

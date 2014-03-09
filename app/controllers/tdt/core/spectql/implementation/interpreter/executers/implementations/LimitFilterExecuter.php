@@ -20,7 +20,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
 {
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         $this->filter = $filter;
 
@@ -33,11 +34,13 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
         $this->header = $this->executer->getExpressionHeader();
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
 
         $sourceheader = $this->executer->getExpressionHeader();
         $sourcecontent = $this->executer->evaluateAsExpression();
@@ -63,7 +66,8 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
         return $newRows;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
@@ -71,7 +75,8 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
         }
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);

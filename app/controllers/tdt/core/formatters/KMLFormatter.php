@@ -56,7 +56,7 @@ class KMLFormatter implements IFormatter
         }
 
         // If no geo property is given, don't bother creating a KML
-        if(empty($dataObj->geo)){
+        if (empty($dataObj->geo)) {
 
             $placemarks = "";
             ob_start();
@@ -86,38 +86,38 @@ class KMLFormatter implements IFormatter
 
     private static function printArray($val, $placemarks){
 
-        foreach($val as $key => $value) {
+        foreach ($val as $key => $value) {
 
             $long = "";
             $lat = "";
             $coords = array();
 
-            if(is_array($value)){
+            if (is_array($value)) {
                 $array = $value;
             }
-            if(is_object($value)){
+            if (is_object($value)) {
                 $array = get_object_vars($value);
             }
 
-            if(!empty($array)){
+            if (!empty($array)) {
 
                 $longkey = false;
                 $latkey = false;
 
-                foreach(self::$LONGITUDE_PREFIXES as $prefix){
+                foreach (self::$LONGITUDE_PREFIXES as $prefix) {
 
                     $longkey = self::array_key_exists_nc($prefix, $array);
 
-                    if($longkey){
+                    if ($longkey) {
                         break;
                     }
                 }
 
-                foreach(self::$LATITUDE_PREFIXES as $prefix){
+                foreach (self::$LATITUDE_PREFIXES as $prefix) {
 
                     $latkey = self::array_key_exists_nc($prefix, $array);
 
-                    if($latkey){
+                    if ($latkey) {
                         break;
                     }
                 }
@@ -128,7 +128,7 @@ class KMLFormatter implements IFormatter
                     $coordskey = self::array_key_exists_nc("coordinates",$array);
                 }
 
-                if($longkey && $latkey) {
+                if ($longkey && $latkey) {
 
                     $long = $array[$longkey];
                     $lat = $array[$latkey];
@@ -147,12 +147,12 @@ class KMLFormatter implements IFormatter
                     self::printArray($array, $placemarks);
                 }
 
-                if(($lat != "" && $long != "") || count($coords) != 0){
+                if (($lat != "" && $long != "") || count($coords) != 0) {
 
                     echo "<Placemark><name>". htmlspecialchars($key) ."</name><Description>".$name."</Description>";
                     echo $extendeddata;
 
-                    if($lat != "" && $long != "") {
+                    if ($lat != "" && $long != "") {
 
                         // For data read from XML latitude and longitude will be an array of @value = 3.342...
 
@@ -167,7 +167,7 @@ class KMLFormatter implements IFormatter
                         else
                             $lon_val = $long;
 
-                        if($lat_val != 0 || $lon_val != 0){
+                        if ($lat_val != 0 || $lon_val != 0) {
                             echo "<Point><coordinates>".$lon_val.",".$lat_val."</coordinates></Point>";
                         }
                     }
@@ -177,7 +177,7 @@ class KMLFormatter implements IFormatter
                             echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
                         } else {
                             echo "<MultiGeometry>";
-                            foreach($coords as $coord) {
+                            foreach ($coords as $coord) {
                                 echo "<LineString><coordinates>".$coord."</coordinates></LineString>";
                             }
                             echo "</MultiGeometry>";
@@ -202,9 +202,9 @@ class KMLFormatter implements IFormatter
 
         $data = $dataObj->data;
 
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
 
-            if(is_array($value)) {
+            if (is_array($value)) {
                 $entry = $value;
             }else if (is_object($value)) {
                 $entry = get_object_vars($value);
@@ -215,29 +215,29 @@ class KMLFormatter implements IFormatter
             $geo_type = 'point';
             $is_point = (count($geo) > 1) || !empty($geo['point']);
 
-            if(!$is_point){
+            if (!$is_point) {
                 $geo_type = key($geo);
                 $column_name = $geo[$geo_type];
             }
 
-            if(!empty($entry)) {
+            if (!empty($entry)) {
 
                 $name = htmlspecialchars($key);
-                if(!empty($entry['name'])){
+                if (!empty($entry['name'])) {
                     $name = $entry['name'];
                 }
                 $extendeddata = self::getExtendedDataElement($entry);
 
                 $description = "";
-                if(!empty($key) && is_numeric($key)){
+                if (!empty($key) && is_numeric($key)) {
                     $description = "<![CDATA[<a href='" . \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key) ."</a>]]>";
                 }
 
                 $body .= "<Placemark><name>".$name."</name><description>".$description."</description>";
                 $body .= $extendeddata;
-                if($is_point) {
+                if ($is_point) {
 
-                    if(count($geo) > 1){
+                    if (count($geo) > 1) {
                         $point = $entry[$geo['longitude']] . ',' . $entry[$geo['latitude']];
                     }else{
                         $point = $entry[$geo['point']];
@@ -245,10 +245,10 @@ class KMLFormatter implements IFormatter
 
                     $body .= "<Point><coordinates>" . $point . "</coordinates></Point>";
                 }else{
-                    if($geo_type == 'polyline'){
+                    if ($geo_type == 'polyline') {
 
                         $body .= "<MultiGeometry>";
-                        foreach(explode(';', $entry[$geo['polyline']]) as $coord) {
+                        foreach (explode(';', $entry[$geo['polyline']]) as $coord) {
                             $body .= "<LineString><coordinates>".$coord."</coordinates></LineString>";
                         }
                         $body .= "</MultiGeometry>";

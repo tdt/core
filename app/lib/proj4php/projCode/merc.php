@@ -43,7 +43,8 @@ ALGORITHM REFERENCES
 
 class Proj4phpProjMerc
 {
-  public function init() {
+  public function init()
+  {
 	//?$this->temp = $this->r_minor / $this->r_major;
 	//$this->temp = $this->b / $this->a;
 	//$this->es = 1.0 - sqrt($this->temp);
@@ -62,7 +63,8 @@ class Proj4phpProjMerc
 /* Mercator forward equations--mapping lat,long to x,y
   --------------------------------------------------*/
 
-  public function forward($p) {
+  public function forward($p)
+  {
     //alert("ll2m coords : ".coords);
     $lon = $p->x;
     $lat = $p->y;
@@ -76,7 +78,7 @@ class Proj4phpProjMerc
     }
 
     $x;$y;
-    if(abs( abs($lat) - Proj4php::$common->HALF_PI)  <= Proj4php::$common->EPSLN) {
+    if (abs( abs($lat) - Proj4php::$common->HALF_PI)  <= Proj4php::$common->EPSLN) {
       Proj4php::reportError("merc:forward: ll2mAtPoles");
       return null;
     } else {
@@ -98,7 +100,8 @@ class Proj4phpProjMerc
 
   /* Mercator inverse equations--mapping x,y to lat/long
   --------------------------------------------------*/
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $x = $p->x - $this->x0;
     $y = $p->y - $this->y0;
@@ -109,7 +112,7 @@ class Proj4phpProjMerc
     } else {
       $ts = exp(-$y / ($this->a * $this->k0));
       $lat = Proj4php::$common.phi2z($this->e,$ts);
-      if($lat == -9999) {
+      if ($lat == -9999) {
         Proj4php::reportError("merc:inverse: lat = -9999");
         return null;
       }

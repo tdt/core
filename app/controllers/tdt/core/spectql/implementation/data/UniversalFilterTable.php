@@ -26,7 +26,8 @@ class UniversalFilterTable
      * @param UniversalFilterTableHeader $header
      * @param UniversalFilterTableContent $content
      */
-    public function __construct($header, $content) {
+    public function __construct($header, $content)
+    {
         $this->header = $header;
         $this->content = $content;
     }
@@ -35,7 +36,8 @@ class UniversalFilterTable
      * returns the header of this table
      * @return UniversalFilterTableHeader
      */
-    public function getHeader() {
+    public function getHeader()
+    {
         return $this->header;
     }
 
@@ -43,7 +45,8 @@ class UniversalFilterTable
      * returns the content of this table
      * @return UniversalFilterTableContent
      */
-    public function getContent() {
+    public function getContent()
+    {
         return $this->content;
     }
 
@@ -51,7 +54,8 @@ class UniversalFilterTable
      * sets the header of this table
      * @param UniversalFilterTableHeader $header
      */
-    public function setHeader(UniversalFilterTableHeader $header) {
+    public function setHeader(UniversalFilterTableHeader $header)
+    {
         $this->header = $header;
     }
 
@@ -59,7 +63,8 @@ class UniversalFilterTable
      * sets the content of this table
      * @param UniversalFilterTableContent $content
      */
-    public function setContent(UniversalFilterTableContent $content) {
+    public function setContent(UniversalFilterTableContent $content)
+    {
         $this->content = $content;
     }
 

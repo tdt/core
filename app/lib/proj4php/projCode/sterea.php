@@ -12,7 +12,8 @@ class Proj4phpProjSterea
 {
   protected $dependsOn = 'gauss';
 
-  public function init() {
+  public function init()
+  {
     Proj4php::$proj['gauss']->init->apply($this);
     if (!$this->rc) {
       Proj4php::reportError("sterea:init:E_ERROR_0");
@@ -24,7 +25,8 @@ class Proj4phpProjSterea
     if (!$this->title) $this->title = "Oblique Stereographic Alternative";
   }
 
-  public function forward($p) {
+  public function forward($p)
+  {
     $p->x = Proj4php::$common->adjust_lon($p->x-$this->long0); /* adjust del longitude */
     Proj4php::$proj['gauss']->forward->apply($this, array($p));
     $sinc = sin($p->y);
@@ -38,7 +40,8 @@ class Proj4phpProjSterea
     return $p;
   }
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $lon;$lat;
     $p->x = ($p->x - $this->x0) / $this->a; /* descale and de-offset */
     $p->y = ($p->y - $this->y0) / $this->a;

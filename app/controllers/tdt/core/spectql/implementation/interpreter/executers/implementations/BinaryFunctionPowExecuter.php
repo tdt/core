@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* pow */
 class BinaryFunctionPowExecuter extends BinaryFunctionExecuter
 {
-    public function getName($nameA, $nameB) {
+    public function getName($nameA, $nameB)
+    {
         return "_power_" . $nameA . "_" . $nameB;
     }
-    public function doBinaryFunction($valueA, $valueB) {
+    public function doBinaryFunction($valueA, $valueB)
+    {
         if ($valueA === null || $valueB === null)
             return null;
         return "" . pow($valueA, $valueB);

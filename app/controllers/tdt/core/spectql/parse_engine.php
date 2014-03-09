@@ -120,7 +120,8 @@ class parse_engine
         $this->stack = new parse_stack($this->qi);
     }
 
-    private function enter_error_tolerant_state() {
+    private function enter_error_tolerant_state()
+    {
         while ($this->stack->occupied()) {
             if ($this->has_step_for('error'))
                 return true;
@@ -129,7 +130,8 @@ class parse_engine
         return false;
     }
 
-    private function drop() {
+    private function drop()
+    {
         $this->stack->pop_n(1);
     }
 
@@ -203,7 +205,8 @@ class parse_engine
         return $this->semantic;
     }
 
-    private function premature_eof() {
+    private function premature_eof()
+    {
         $seen = array();
         while ($this->enter_error_tolerant_state()) {
             if (isset($seen[$this->state()])) {
@@ -229,23 +232,27 @@ class parse_engine
         throw new parse_premature_eof();
     }
 
-    private function current_row() {
+    private function current_row()
+    {
         return $this->step[$this->state()];
     }
 
-    private function step_for($type) {
+    private function step_for($type)
+    {
         $row = $this->current_row();
         if (!isset($row[$type]))
             return array('e', $this->stack->q);
         return explode(' ', $row[$type]);
     }
 
-    private function has_step_for($type) {
+    private function has_step_for($type)
+    {
         $row = $this->current_row();
         return isset($row[$type]);
     }
 
-    private function state() {
+    private function state()
+    {
         return $this->stack->q;
     }
 
@@ -294,7 +301,8 @@ class parse_engine
         }
     }
 
-    private function reduce($rule_id) {
+    private function reduce($rule_id)
+    {
         $rule = $this->rule[$rule_id];
         $len = $rule['len'];
         $semantic = $this->perform_action($rule_id, $this->stack->top_n($len));
@@ -306,7 +314,8 @@ class parse_engine
         $this->eat($rule['symbol'], $semantic);
     }
 
-    private function perform_action($rule_id, $slice) {
+    private function perform_action($rule_id, $slice)
+    {
         # we have this weird calling convention....
         $result = null;
         $method = $this->parser->method[$rule_id];

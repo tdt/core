@@ -15,11 +15,13 @@ class ApiController extends \Controller
 
     protected $definition_repository;
 
-    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition_repository){
+    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition_repository)
+    {
         $this->definition_repository = $definition_repository;
     }
 
-    public function handle($uri){
+    public function handle($uri)
+    {
 
         $uri = ltrim($uri, '/');
 
@@ -50,23 +52,28 @@ class ApiController extends \Controller
         }
     }
 
-    public function get($uri){
+    public function get($uri)
+    {
         \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
     }
 
-    public function put($uri){
+    public function put($uri)
+    {
         \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
     }
 
-    public function patch($uri){
+    public function patch($uri)
+    {
         \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
     }
 
-    public function head($uri){
+    public function head($uri)
+    {
         \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
     }
 
-    public function delete($uri){
+    public function delete($uri)
+    {
         \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
     }
 

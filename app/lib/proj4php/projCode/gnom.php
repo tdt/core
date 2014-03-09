@@ -34,7 +34,8 @@ class Proj4phpProjGnom
 
   /* Initialize the Gnomonic projection
     -------------------------------------*/
-  public function init($def) {
+  public function init($def)
+  {
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/
@@ -48,7 +49,8 @@ class Proj4phpProjGnom
 
   /* Gnomonic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
     $sinphi; $cosphi;	/* sin and cos value				*/
     $dlon;		/* delta longitude value			*/
     $coslon;		/* cos of longitude				*/
@@ -89,7 +91,8 @@ class Proj4phpProjGnom
   }
 
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $rh;		/* Rho */
     $z;		/* angle */
     $sinc; $cosc;

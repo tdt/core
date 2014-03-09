@@ -1335,10 +1335,10 @@ $arg =& $tokens[0];
 
 $column = $arg;
 
-if(is_array($arg)){
+if (is_array($arg)) {
 
 
-    if(!empty($arg['sort'])){
+    if (!empty($arg['sort'])) {
         $result = array(
             "filters" => array(new ColumnSelectionFilterColumn($arg['column'], null)),
             "sorts" => array($arg['sort']),
@@ -1452,11 +1452,11 @@ $arg =& $tokens[2];
     $tokens[0] = ltrim($tokens[0]);
     $tokens[0] = rtrim($tokens[0]);
 
-    if(!is_object($column)){
+    if (!is_object($column)) {
         $column = new Identifier($arg);
     }
 
-    if(strtolower($tokens[0]) == 'asort'){
+    if (strtolower($tokens[0]) == 'asort') {
         $result = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_ASCENDING));
     }else if(strtolower($tokens[0]) == 'dsort'){
         $result = array("column" => $column, "sort" => new SortFieldsFilterColumn($column, SortFieldsFilterColumn::$SORTORDER_DESCENDING));

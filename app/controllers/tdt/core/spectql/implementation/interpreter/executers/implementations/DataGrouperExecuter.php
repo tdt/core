@@ -18,7 +18,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 class DataGrouperExecuter extends BaseHashingFilterExecuter
 {
 
-    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo) {
+    public function hashColumn(UniversalFilterNode $filter, UniversalFilterTableHeaderColumnInfo $oldColumnInfo)
+    {
 
         // Get the columns to group
         $columnIdentifiers = $filter->getColumns();

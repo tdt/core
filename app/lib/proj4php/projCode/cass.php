@@ -52,7 +52,8 @@ class Proj4phpProjCass
 
 /* Cassini forward equations--mapping lat,long to x,y
   -----------------------------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
 
     /* Forward equations
       -----------------*/
@@ -86,7 +87,8 @@ class Proj4phpProjCass
 
 /* Inverse equations
   -----------------*/
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $p->x -= $this->x0;
     $p->y -= $this->y0;
     $x = $p->x/$this->a;
@@ -117,7 +119,8 @@ class Proj4phpProjCass
 
 
   //code from the PROJ.4 pj_mlfn.c file;  this may be useful for other projections
-  public function pj_enfn($es) {
+  public function pj_enfn($es)
+  {
     $en = array();
     $en[0] = $this->C00 - $es * ($this->C02 + $es * ($this->C04 + $es * ($this->C06 + $es * $this->C08)));
     $en[1] = $es * ($this->C22 - $es * ($this->C04 + $es * ($this->C06 + $es * $this->C08)));
@@ -129,13 +132,15 @@ class Proj4phpProjCass
     return $en;
   }
 
-  public function pj_mlfn($phi, $sphi, $cphi, $en) {
+  public function pj_mlfn($phi, $sphi, $cphi, $en)
+  {
     $cphi *= $sphi;
     $sphi *= $sphi;
     return($en[0] * $phi - $cphi * ($en[1] + $sphi*($en[2]+ $sphi*($en[3] + $sphi*$en[4]))));
   }
 
-  public function pj_inv_mlfn(a$rg, $es, $en) {
+  public function pj_inv_mlfn(a$rg, $es, $en)
+  {
     $k = 1./(1.-$es);
     $phi = $arg;
     for ($i = Proj4php::$common->MAX_ITER; $i ; --$i) { /* rarely goes over 2 iterations */

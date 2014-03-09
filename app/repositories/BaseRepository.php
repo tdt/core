@@ -18,19 +18,23 @@ class BaseRepository implements BaseRepositoryInterface
             'collectionuri' => "The collection uri cannot start with preserved uri namespaces e.g. discovery, api, ...",
     );
 
-    public function getValidator($input){
+    public function getValidator($input)
+    {
         return Validator::make($input, $this->rules, $this->error_messages);
     }
 
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
         return array();
     }
 
-    public function getAllParameters(){
+    public function getAllParameters()
+    {
         return $this->getCreateParameters();
     }
 
-    public function store($input){
+    public function store($input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -38,7 +42,8 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->create(array_only($input, array_keys($this->getCreateParameters())));
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
 
         $model = $this->model->find($id);
 
@@ -48,7 +53,8 @@ class BaseRepository implements BaseRepositoryInterface
         return $model;
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
 
         $model = $this->model->find($id);
 
@@ -56,7 +62,8 @@ class BaseRepository implements BaseRepositoryInterface
             return $model->delete();
     }
 
-    public function update($id, $input){
+    public function update($id, $input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -73,11 +80,12 @@ class BaseRepository implements BaseRepositoryInterface
     /**
      * Pre-process the input by assigning default values for empty properties
      */
-    protected function processInput($input){
+    protected function processInput($input)
+    {
 
-        foreach($this->getCreateParameters() as $key => $info){
+        foreach ($this->getCreateParameters() as $key => $info) {
 
-            if(empty($input[$key]) && !empty($info['default_value']) || is_numeric(@$info['default_value'])){
+            if (empty($input[$key]) && !empty($info['default_value']) || is_numeric(@$info['default_value'])) {
                 $input[$key] = @$info['default_value'];
             }else if(empty($input[$key])){
                 $input[$key] = null;

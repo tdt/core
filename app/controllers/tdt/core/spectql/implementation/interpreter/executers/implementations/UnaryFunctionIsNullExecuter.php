@@ -10,11 +10,13 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 class UnaryFunctionIsNullExecuter extends UnaryFunctionExecuter
 {
 
-    public function getName($name) {
+    public function getName($name)
+    {
         return "isnull_" . $name;
     }
 
-    public function doUnaryFunction($value) {
+    public function doUnaryFunction($value)
+    {
         return (is_null($value) ? "true" : "false");
     }
 }

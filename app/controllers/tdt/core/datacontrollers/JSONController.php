@@ -17,17 +17,18 @@ use Symfony\Component\HttpFoundation\Request;
 class JSONController extends ADataController
 {
 
-    public function readData($source_definition, $rest_parameters = array()){
+    public function readData($source_definition, $rest_parameters = array())
+    {
 
         $uri = $source_definition['uri'];
 
         // Check for caching
-        if(Cache::has($uri)){
+        if (Cache::has($uri)) {
             $data = Cache::get($uri);
         }else{
             // Fetch the data
             $data =@ file_get_contents($uri);
-            if($data){
+            if ($data) {
                 Cache::put($uri, $data, $source_definition['cache']);
             }else{
                 $uri = $source_definition['uri'];

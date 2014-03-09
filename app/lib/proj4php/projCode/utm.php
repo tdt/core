@@ -35,7 +35,8 @@ class Proj4phpProjUtm  extends Proj4phpProjTmerc
 {
   protected $dependsOn = 'tmerc';
 
-  public function init() {
+  public function init()
+  {
     if (!$this->zone) {
       Proj4php::reportError("utm:init: zone must be specified for UTM");
       return;

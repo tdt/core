@@ -1,15 +1,16 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  class Proj4phpProjGstmerc  {
-  public function init() {
+  public function init()
+  {
 
     // array of:  a, b, lon0, lat0, k0, x0, y0
       $temp= $this->b / $this->a;
@@ -30,7 +31,8 @@
 
     // forward equations--mapping lat,long to x,y
     // -----------------------------------------------------------------
-    public function forward($p) {
+    public function forward($p)
+    {
 
       $lon= $p->x;
       $lat= $p->y;
@@ -46,7 +48,8 @@
 
   // inverse equations--mapping x,y to lat/long
   // -----------------------------------------------------------------
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $x= $p->x;
     $y= $p->y;

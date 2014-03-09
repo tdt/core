@@ -70,7 +70,8 @@ class Proj4phpProj
   * $srsCode - a code for map projection definition parameters.  These are usually
   * (but not always) EPSG codes.
   */
-  public function __construct($srsCode) {
+  public function __construct($srsCode)
+  {
       $this->srsCodeInput = $srsCode;
 
       //check to see if $this is a WKT string
@@ -136,7 +137,8 @@ class Proj4phpProj
  *    your application.
  *
  */
-    public function loadProjDefinition() {
+    public function loadProjDefinition()
+    {
       //check in memory
       if (array_key_exists($this->srsCode,Proj4php::$defs)) {
         $this->defsLoaded();
@@ -164,7 +166,8 @@ class Proj4phpProj
  *
  * DO IT AGAIN. : SHOULD PHP CODE BE GET BY WEBSERVICES ?
  */
-    public function loadFromService() {
+    public function loadFromService()
+    {
       //else load from web service
       $url = Proj4php::defsLookupService .'/' . $this->srsAuth .'/'. $this->srsProjNumber . '/proj4js/';
 	  try
@@ -182,7 +185,8 @@ class Proj4phpProj
  * Continues the Proj object initilization once the def file is loaded
  *
  */
-    public function defsLoaded() {
+    public function defsLoaded()
+    {
       $this->parseDefs();
       $this->loadProjCode($this->projName);
     }
@@ -192,7 +196,8 @@ class Proj4phpProj
  *    $this is the loadCheck method to see if the def object exists
  *
  */
-    public function checkDefsLoaded() {
+    public function checkDefsLoaded()
+    {
       if (Proj4php::$defs[$this->srsCode]) {
         return true;
       } else {
@@ -205,7 +210,8 @@ class Proj4phpProj
  *    Report an error in loading the defs file, but continue on using WGS84
  *
  */
-   public function defsFailed() {
+   public function defsFailed()
+   {
       Proj4php::reportError('failed to load projection definition for: '.$this->srsCode);
       Proj4php::$defs[$this->srsCode] = Proj4php::$defs['WGS84'];  //set it to something so it can at least continue
       $this->defsLoaded();
@@ -219,7 +225,8 @@ class Proj4phpProj
  *
  * An exception occurs if the projection is not found.
  */
-    public function loadProjCode($projName) {
+    public function loadProjCode($projName)
+    {
 
       if (array_key_exists($projName,Proj4php::$proj)) {
         $this->initTransforms();
@@ -245,7 +252,8 @@ class Proj4phpProj
  *    Loads any proj dependencies or continue on to final initialization.
  *
  */
-    public function loadProjCodeSuccess($projName) {
+    public function loadProjCodeSuccess($projName)
+    {
       //if (Proj4php::$proj[$projName]->dependsOn){
       //  $this->loadProjCode(Proj4php::$proj[$projName]->dependsOn);
       //} else {
@@ -259,7 +267,8 @@ class Proj4phpProj
  *    object has failed and the readyToUse flag will never be set.
  *
  */
-    public function loadProjCodeFailure($projName) {
+    public function loadProjCodeFailure($projName)
+    {
       Proj4php::reportError("failed to find projection file for: " . $projName);
       //TBD initialize with identity transforms so proj will still work?
     }
@@ -269,7 +278,8 @@ class Proj4phpProj
  *    $this is the loadCheck method to see if the projection code is loaded
  *
  */
-    public function checkCodeLoaded($projName) {
+    public function checkCodeLoaded($projName)
+    {
       if (Proj4php::$proj[$projName]) {
         return true;
       } else {
@@ -283,7 +293,7 @@ class Proj4phpProj
  *
  */
     public function initTransforms()
-	{
+    {
       Proj4php::extend(Proj4php::$proj[$this->projName],$this);
       $this->init();
       $this->readyToUse = true;
@@ -312,7 +322,8 @@ class Proj4phpProj
  */
  protected $wktRE =  '/^(\w+)\[(.*)\]$/';
 
- public function parseWKT($wkt) {
+ public function parseWKT($wkt)
+ {
     $match = preg_match($this->wktRE,$wkt,$wktMatch);
 
     if (!$match) return;
@@ -444,7 +455,7 @@ class Proj4phpProj
       default:
         break;
     }
-    for($i=0; $i<sizeof($wktArray); ++$i) {
+    for ($i=0; $i<sizeof($wktArray); ++$i) {
       $this->parseWKT($wktArray[$i]);
     }
  }
@@ -454,20 +465,19 @@ class Proj4phpProj
  * Parses the PROJ.4 initialization string and sets the associated properties.
  *
  */
-  public function parseDefs() {
+  public function parseDefs()
+  {
       $this->defData = Proj4php::$defs[$this->srsCode];
       $paramName; $paramVal;
       if (!$this->defData) {
         return;
       }
       $paramArray=explode("+",$this->defData);
-      for ($prop=0; $prop<sizeof($paramArray); $prop++)
-	  {
+      for ($prop=0; $prop<sizeof($paramArray); $prop++) {
 		  if (strlen($paramArray[$prop])==0) continue;
           $property = explode("=",$paramArray[$prop]);
 		  $paramName = strtolower($property[0]);
-		  if (sizeof($property)>=2)
-		  {
+		  if (sizeof($property)>=2) {
 			$paramVal = $property[1];
 		  }
 
@@ -530,7 +540,8 @@ class Proj4phpProj
  *     parameters.
  *
  */
-  public function deriveConstants() {
+  public function deriveConstants()
+  {
       if (isset($this->nagrids) && $this->nagrids == '@null') $this->datumCode = 'none';
       if (isset($this->datumCode) && $this->datumCode && $this->datumCode != 'none') {
         $datumDef = Proj4php::$datum[$this->datumCode];

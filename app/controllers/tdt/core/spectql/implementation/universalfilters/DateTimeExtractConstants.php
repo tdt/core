@@ -10,7 +10,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 class DateTimeExtractConstants
 {
 
-    private function __construct() {
+    private function __construct()
+    {
 
     }
 

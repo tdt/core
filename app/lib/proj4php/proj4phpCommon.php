@@ -41,7 +41,8 @@ class Proj4phpCommon
 // Function to compute the constant small m which is the radius of
 //   a parallel of latitude, phi, divided by the semimajor axis.
 // -----------------------------------------------------------------
-  public function msfnz($eccent, $sinphi, $cosphi) {
+  public function msfnz($eccent, $sinphi, $cosphi)
+  {
       $con = $eccent * $sinphi;
       return $cosphi/(sqrt(1.0 - $con * $con));
   }
@@ -50,7 +51,8 @@ class Proj4phpCommon
 //   computations in the Lambert Conformal Conic and the Polar
 //   Stereographic projections.
 // -----------------------------------------------------------------
-  public function tsfnz($eccent, $phi, $sinphi) {
+  public function tsfnz($eccent, $phi, $sinphi)
+  {
     $con = $eccent * $sinphi;
     $com = 0.5 * $eccent;
     $con = pow(((1.0 - $con) / (1.0 + $con)), $com);
@@ -63,7 +65,8 @@ class Proj4phpCommon
 // rise up an assertion if there is no convergence.
 // ----------------------------------------------------------------
 */
-  public function phi2z($eccent, $ts) {
+  public function phi2z($eccent, $ts)
+  {
     $eccnth = .5 * $eccent;
     $phi = $this->HALF_PI - 2 * atan($ts);
     for ($i = 0; $i <= 15; $i++) {
@@ -79,7 +82,8 @@ class Proj4phpCommon
 /* Function to compute constant small q which is the radius of a
    parallel of latitude, phi, divided by the semimajor axis.
 ------------------------------------------------------------*/
-  public function qsfnz($eccent,$sinphi) {
+  public function qsfnz($eccent,$sinphi)
+  {
     if ($eccent > 1.0e-7) {
       $con = $eccent * $sinphi;
       return (( 1.0- $eccent * $eccent) * ($sinphi /(1.0 - $con * $con) - (.5/$eccent)*log((1.0 - $con)/(1.0 + $con))));
@@ -90,7 +94,8 @@ class Proj4phpCommon
 
 /* Function to eliminate roundoff errors in asin
 ----------------------------------------------*/
-  public function asinz($x) {
+  public function asinz($x)
+  {
     if (abs($x)>1.0) {
       $x=($x>1.0)?1.0:-1.0;
     }
@@ -104,7 +109,8 @@ class Proj4phpCommon
   public function e3fn($x) {return($x*$x*$x*(35.0/3072.0));}
   public function mlfn($e0,$e1,$e2,$e3,$phi) {return($e0*$phi-$e1*sin(2.0*$phi)+$e2*sin(4.0*$phi)-$e3*sin(6.0*$phi));}
 
-  public function srat($esinp, $exp) {
+  public function srat($esinp, $exp)
+  {
     return(pow((1.0-$esinp)/(1.0+$esinp), $exp));
   }
 
@@ -112,7 +118,8 @@ class Proj4phpCommon
   public function sign($x) { if ($x < 0.0) return(-1); else return(1);}
 
 // Function to adjust longitude to -180 to 180; input in radians
-  public function adjust_lon($x) {
+  public function adjust_lon($x)
+  {
     $x = (abs($x) < $this->PI) ? $x: ($x - ($this->sign($x)*$this->TWO_PI) );
     return $x;
   }
@@ -120,13 +127,15 @@ class Proj4phpCommon
 // IGNF - DGR : algorithms used by IGN France
 
 // Function to adjust latitude to -90 to 90; input in radians
-  public function adjust_lat($x) {
+  public function adjust_lat($x)
+  {
     $x= (abs($x) < $this->HALF_PI) ? $x: ($x - ($this->sign($x)*$this->PI) );
     return $x;
   }
 
 // Latitude Isometrique - close to tsfnz ...
-  public function latiso($eccent, $phi, $sinphi) {
+  public function latiso($eccent, $phi, $sinphi)
+  {
     if ($abs($phi) > $this->HALF_PI) return +NaN;
     if ($phi==$this->HALF_PI) return INF;
     if ($phi==-1.0*$this->HALF_PI) return -1.0*INF;
@@ -135,12 +144,14 @@ class Proj4phpCommon
     return log(tan(($this->HALF_PI+$phi)/2.0))+$eccent*log((1.0-$con)/(1.0+$con))/2.0;
   }
 
-  public function fL($x,$L) {
+  public function fL($x,$L)
+  {
     return 2.0*atan($x*exp($L)) - $this->HALF_PI;
   }
 
 // Inverse Latitude Isometrique - close to ph2z
-  public function invlatiso($eccent, $ts) {
+  public function invlatiso($eccent, $ts)
+  {
     $phi= $this->fL(1.0,$ts);
     $Iphi= 0.0;
     $con= 0.0;

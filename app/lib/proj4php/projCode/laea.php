@@ -47,7 +47,8 @@ class Proj4phpProjLaea
 
 /* Initialize the Lambert Azimuthal Equal Area projection
   ------------------------------------------------------*/
-  public function init() {
+  public function init()
+  {
     $t = abs($this->lat0);
     if (abs($t - Proj4php::$common->HALF_PI) < Proj4php::$common->EPSLN) {
       $this->mode = $this->lat0 < 0. ? $this->S_POLE : $this->N_POLE;
@@ -93,7 +94,8 @@ class Proj4phpProjLaea
 
 /* Lambert Azimuthal Equal Area forward equations--mapping lat,long to x,y
   -----------------------------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
 
     /* Forward equations
       -----------------*/
@@ -211,7 +213,8 @@ class Proj4phpProjLaea
 
 /* Inverse equations
   -----------------*/
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $p->x -= $this->x0;
     $p->y -= $this->y0;
     $x = $p->x/$this->a;
@@ -343,7 +346,8 @@ class Proj4phpProjLaea
   protected $P11= .06640211640211640211;
   protected $P20= .01641501294219154443;
 
-  public function authset($es) {
+  public function authset($es)
+  {
     $t;
     $APA = array();
     $APA[0] = $es * $this->P00;
@@ -357,7 +361,8 @@ class Proj4phpProjLaea
     return $APA;
   }
 
-  public function authlat($beta, $APA) {
+  public function authlat($beta, $APA)
+  {
     $t = $beta+$beta;
     return($beta + $APA[0] * sin($t) + $APA[1] * sin($t+$t) + $APA[2] * sin($t+$t+$t));
   }

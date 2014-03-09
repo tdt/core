@@ -51,7 +51,8 @@ class SPECTQLParser
         "'" => "SQ"
     );
 
-    public function __construct($querystring) {
+    public function __construct($querystring)
+    {
 
         // url decode
         // http://php.net/manual/en/function.urldecode.php
@@ -68,14 +69,16 @@ class SPECTQLParser
     /*
      * Check if the token is a keyword
      */
-    private function is_keyword($token) {
+    private function is_keyword($token)
+    {
         return in_array(strtoupper($token), SPECTQLParser::$keywords);
     }
 
     /**
      * Interpret the query by parsing the tokens
      */
-    public function interpret() {
+    public function interpret()
+    {
 
         $querystring = $this->querystring;
         $tokenizer = new SPECTQLTokenizer($querystring, array_keys(self::$symbols));

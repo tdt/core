@@ -24,7 +24,8 @@ class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter
     private $executer;
     private $header;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
         $this->filter = $filter;
 
         $this->executer = $interpreter->findExecuterFor($filter->getSource());
@@ -34,15 +35,18 @@ class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter
         $this->header->renameAlias($filter->getAlias());
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
         return $this->executer->evaluateAsExpression();
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer->cleanUp();
         } catch (Exception $ex) {
@@ -50,12 +54,14 @@ class TableAliasExecuter extends AbstractUniversalFilterNodeExecuter
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executer->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);

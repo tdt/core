@@ -13,14 +13,16 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
         'description' => 'required',
     );
 
-    public function __construct(\ShpDefinition $model){
+    public function __construct(\ShpDefinition $model)
+    {
 
         parent::__construct();
 
         $this->model = $model;
     }
 
-    public function store($input){
+    public function store($input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -49,7 +51,8 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
     }
 
 
-    public function update($id, $input){
+    public function update($id, $input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -87,7 +90,8 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
     /**
      * Retrieve the set of create parameters that make up a SHP definition.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
         return array(
                 'uri' => array(
                     'required' => true,
@@ -115,7 +119,8 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
      * Retrieve the set of create parameters that make up a CSV definition.
      * Include the parameters that make up relationships with this model.
      */
-    public function getAllParameters(){
+    public function getAllParameters()
+    {
 
          $column_params = array('columns' => array('description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
                                                 'parameters' => $this->tabular_repository->getCreateParameters(),

@@ -19,7 +19,8 @@ use tdt\core\ApiController;
 class InfoController extends ApiController
 {
 
-    public function get($uri){
+    public function get($uri)
+    {
 
         // Set permission
         Auth::requirePermissions('info.view');
@@ -36,10 +37,11 @@ class InfoController extends ApiController
     /**
      * Return the headers of a call made to the uri given.
      */
-    public function head($uri){
+    public function head($uri)
+    {
 
-        if(!empty($uri)){
-            if(!$this->definition_repository->exists($uri)){
+        if (!empty($uri)) {
+            if (!$this->definition_repository->exists($uri)) {
                 \App::abort(404, "No resource has been found with the uri $uri");
             }
         }
@@ -57,7 +59,8 @@ class InfoController extends ApiController
     /*
      * GET an info document based on the uri provided
      */
-    private function getInfo($uri){
+    private function getInfo($uri)
+    {
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
@@ -75,7 +78,8 @@ class InfoController extends ApiController
     /**
      * Return the information about published datasets
      */
-    private function getDefinitionsInfo($uri){
+    private function getDefinitionsInfo($uri)
+    {
 
         // Apply paging to fetch the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
@@ -86,7 +90,7 @@ class InfoController extends ApiController
 
         $info = array();
 
-        foreach($definitions as $definition){
+        foreach ($definitions as $definition) {
 
             $definition_info = $this->createInfoObject($definition);
             $id = $definition->collection_uri . '/' .$definition->resource_name;
@@ -107,7 +111,8 @@ class InfoController extends ApiController
     /**
      * Create an info object from a definition
      */
-    private function createInfoObject($definition){
+    private function createInfoObject($definition)
+    {
 
         $definition_info = new \stdClass();
 
@@ -115,7 +120,7 @@ class InfoController extends ApiController
         $definition_info->uri = \Request::root() . '/' . $id;
 
         // Add the dublin core to the info object
-        foreach($definition->getFillable() as $property){
+        foreach ($definition->getFillable() as $property) {
             $definition_info->$property = $definition->$property;
         }
 
@@ -124,19 +129,19 @@ class InfoController extends ApiController
         $definition_info->description = $source_type->description;
 
         // Installed source types contain their own set of parameters (required and optional)
-        if(strtolower($source_type->type) == 'installed'){
+        if (strtolower($source_type->type) == 'installed') {
 
             // Include the class
             $class_file = app_path() . '/../installed/' .  $source_type->path;
 
-            if(file_exists($class_file)){
+            if (file_exists($class_file)) {
 
                 require_once $class_file;
 
                 $class_name = $source_type->class;
 
                 // Check if class exists
-                if(class_exists($class_name)){
+                if (class_exists($class_name)) {
 
                     $installed = new $class_name();
                     $definition_info->parameters = $installed::getParameters();
@@ -155,7 +160,8 @@ class InfoController extends ApiController
     /**
      * Return the response with the given data ( formatted in json )
      */
-    private function makeResponse($data){
+    private function makeResponse($data)
+    {
 
          // Create response
         $response = \Response::make(str_replace('\/','/', json_encode($data)));

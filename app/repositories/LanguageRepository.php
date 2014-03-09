@@ -8,7 +8,8 @@ class LanguageRepository implements LanguageRepositoryInterface
 {
 
 
-    public function getById($language_id){
+    public function getById($language_id)
+    {
 
         $lang = \Language::where('lang_id', '=', $language_id)->first();
 
@@ -18,7 +19,8 @@ class LanguageRepository implements LanguageRepositoryInterface
         return $lang;
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         return \Language::all(array('lang_id','lang_code','name'))->toArray();
     }
 }

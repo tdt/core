@@ -20,7 +20,8 @@ class CSVController extends ADataController
     // Amount of characters in one row that can be read
     private static $MAX_LINE_LENGTH = 0;
 
-    public function readData($source_definition, $rest_parameters = array()){
+    public function readData($source_definition, $rest_parameters = array())
+    {
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
@@ -46,11 +47,11 @@ class CSVController extends ADataController
 
         $geo = array();
 
-        foreach($geo_properties as $geo_prop){
+        foreach ($geo_properties as $geo_prop) {
             $geo[$geo_prop['property']] = $geo_prop['path'];
         }
 
-        if(!$columns){
+        if (!$columns) {
             // 500 error because this shouldn't happen in normal conditions
             // Columns are parsed upon adding a CSV resource and are always present
             \App::abort(500, "Cannot find the columns of the CSV file, this might be due to a corrupted database or because columns weren't added upon creating the CSV definition.");
@@ -60,9 +61,9 @@ class CSVController extends ADataController
         $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'CsvDefinition');
         $pk = null;
 
-        foreach($columns as $column){
+        foreach ($columns as $column) {
 
-            if(!empty($column['is_pk'])){
+            if (!empty($column['is_pk'])) {
                 $pk = $column['column_name_alias'];
             }
         }
@@ -74,7 +75,7 @@ class CSVController extends ADataController
         $rows = array();
         $total_rows = 0;
 
-        if($has_header_row == 1){
+        if ($has_header_row == 1) {
             $start_row++;
         }
 
@@ -85,26 +86,26 @@ class CSVController extends ADataController
 
             while (($data = fgetcsv($handle, 2000000, $delimiter)) !== FALSE) {
 
-                if($total_rows >= $start_row){
+                if ($total_rows >= $start_row) {
 
                     $num = count($data);
 
                     // Create the values array, containing the (aliased) name of the column
                     // to the value of a the row which $data represents
                     $values = $this->createValues($columns, $data);
-                    if($offset <= $hits && $offset + $limit > $hits){
+                    if ($offset <= $hits && $offset + $limit > $hits) {
 
                         $obj = new \stdClass();
 
-                        foreach($values as $key => $value){
+                        foreach ($values as $key => $value) {
                             $obj->$key = $value;
                         }
 
-                        if(empty($pk)){
+                        if (empty($pk)) {
                             array_push($row_objects, $obj);
                         }else{
 
-                            if(!empty($row_objects[$obj->$pk])){
+                            if (!empty($row_objects[$obj->$pk])) {
                                 \Log::info("The primary key $pk has been used already for another record!");
                             }else{
                                 $row_objects[$obj->$pk] = $obj;
@@ -134,12 +135,13 @@ class CSVController extends ADataController
     /**
      * This function returns an array with key=column-name and value=data.
      */
-    private function createValues($columns, $data){
+    private function createValues($columns, $data)
+    {
 
         $result = array();
 
-        foreach($columns as $column){
-            if(!empty($data[$column['index']]) || is_numeric(@$data[$column['index']])){
+        foreach ($columns as $column) {
+            if (!empty($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
                 $result[$column['column_name_alias']] = utf8_encode(@$data[$column['index']]);
             }else{
 
@@ -166,13 +168,13 @@ class CSVController extends ADataController
         $aliases = @$config['columns'];
         $pk = @$config['pk'];
 
-        if(empty($aliases)){
+        if (empty($aliases)) {
             $aliases = array();
         }
 
         $columns = array();
 
-        if(($handle = fopen($config['uri'], "r")) !== FALSE) {
+        if (($handle = fopen($config['uri'], "r")) !== FALSE) {
 
             // Throw away the lines untill we hit the start row
             // from then on, process the columns
@@ -187,7 +189,7 @@ class CSVController extends ADataController
 
             if (($line = fgetcsv($handle, 0, $config['delimiter'], '"')) !== FALSE) {
 
-                if(sizeof($line) <= 1){
+                if (sizeof($line) <= 1) {
 
                     $delimiter = $config['delimiter'];
                     $uri = $config['uri'];
@@ -203,7 +205,7 @@ class CSVController extends ADataController
                     // then just take the column value as alias
                     $alias = @$aliases[$i];
 
-                    if(empty($alias)){
+                    if (empty($alias)) {
                         $alias = trim($line[$i]);
                     }
 

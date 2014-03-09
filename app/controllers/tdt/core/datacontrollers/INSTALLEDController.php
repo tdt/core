@@ -14,31 +14,32 @@ use Symfony\Component\HttpFoundation\Request;
 class INSTALLEDController extends ADataController
 {
 
-    public function readData($source_definition, $rest_parameters = array()){
+    public function readData($source_definition, $rest_parameters = array())
+    {
 
         // Include the class
         $class_file = app_path() . '/../installed/' .  $source_definition['path'];
 
-        if(file_exists($class_file)){
+        if (file_exists($class_file)) {
             require_once $class_file;
 
             $class_name = $source_definition['class'];
 
             // Check if class exists
-            if(class_exists($class_name)){
+            if (class_exists($class_name)) {
 
                 $installed = new $class_name();
                 $parameters = $installed->getParameters();
                 $parameter_keys = array_keys($parameters);
 
                 // REST parameters
-                foreach($rest_parameters as $param){
+                foreach ($rest_parameters as $param) {
 
-                    if(!empty($param)){
+                    if (!empty($param)) {
                         // Get next parameter from resource
                         $key = array_shift($parameter_keys);
 
-                        if(!empty($key)){
+                        if (!empty($key)) {
                             // Pass the parameter to the resource in right order
                             $installed->setParameter($key, $param);
                         }else{
@@ -49,9 +50,9 @@ class INSTALLEDController extends ADataController
                 }
 
                 // Check for other required parameters
-                if(!empty($parameter_keys)){
-                    foreach($parameter_keys as $key){
-                        if(!empty($parameters[$key]['required']) && $parameters[$key]['required']){
+                if (!empty($parameter_keys)) {
+                    foreach ($parameter_keys as $key) {
+                        if (!empty($parameters[$key]['required']) && $parameters[$key]['required']) {
                             \App::abort(400, "Oops, you forgot to specify the REST parameter '$key' (".$parameters[$key]['description'].").
                                 You have to specify this parameter by passing it as a part of the URI, unlike optional parameters which are passed in the query string.");
                         }
@@ -63,7 +64,7 @@ class INSTALLEDController extends ADataController
                 $data_result->data = $installed->getData();
 
                 //if the installed resource wrapped the object in a Data object themself, just return this object.
-                if($data_result->data instanceof Data){
+                if ($data_result->data instanceof Data) {
                     return $data_result->data;
                 }
 

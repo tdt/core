@@ -33,7 +33,8 @@ class SPECTQLController extends ApiController
     /**
      * Apply the given SPECTQL query to the data and return the result.
      */
-    public function get($uri) {
+    public function get($uri)
+    {
 
         $uri = ltrim($uri, '/');
         return $this->performQuery($uri);
@@ -42,7 +43,8 @@ class SPECTQLController extends ApiController
     /**
      * Perform the SPECTQL query.
      */
-    private function performQuery($uri){
+    private function performQuery($uri)
+    {
 
         SPECTQLController::$TMP_DIR = __DIR__ . "/../tmp/";
 
@@ -63,19 +65,19 @@ class SPECTQLController extends ApiController
         $original_uri = \Request::fullUrl();
         $root = \Request::root();
 
-        if(preg_match("%$root\/spectql\/(.*)%", $original_uri, $matches)){
+        if (preg_match("%$root\/spectql\/(.*)%", $original_uri, $matches)) {
             $query_uri = urldecode($matches[1]);
         }
 
         $format = "";
 
         // Fetch the format of the query
-        if(preg_match("/.*(:[a-zA-Z]+)&?(.*?)/", $query_uri, $matches)){
+        if (preg_match("/.*(:[a-zA-Z]+)&?(.*?)/", $query_uri, $matches)) {
             $format = ltrim($matches[1], ":");
         }
 
         // Remove the format and any following query string parameters
-        if(!empty($format)){
+        if (!empty($format)) {
             $query_uri = preg_replace("/:" . $format . "\??.*/", '', $query_uri);
         }
 
@@ -102,8 +104,8 @@ class SPECTQLController extends ApiController
         $object = $converter->getPhpObjectForTable($result);
 
         // Perform a clean-up, every property that is empty can be thrown away
-        foreach($object as $index => $property){
-            if($this->isArrayNull($property)){
+        foreach ($object as $index => $property) {
+            if ($this->isArrayNull($property)) {
                 unset($object[$index]);
             }
         }
@@ -114,7 +116,7 @@ class SPECTQLController extends ApiController
         $definition_uri = preg_match('/(.*?)\{.*/', $uri, $matches);
 
         // If no selection statement is given, abort the processing of the query
-        if(empty($matches)){
+        if (empty($matches)) {
             \App::abort(400, "Please provide a select statement with the SPECTQL query (e.g. { column_1, column_2 }).");
         }
 
@@ -123,7 +125,7 @@ class SPECTQLController extends ApiController
         $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
         $definition = $definition_repository->getByIdentifier($definition_uri);
 
-        if(!empty($definition)){
+        if (!empty($definition)) {
             $source_definition = $definition_repository->getDefinitionSource($definition['source_id'], $definition['source_type']);
         }
 
@@ -131,7 +133,7 @@ class SPECTQLController extends ApiController
         $rest_parameters = ltrim($rest_parameters, '/');
         $rest_parameters = explode('/', $rest_parameters);
 
-        if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
+        if (empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])) {
             $rest_parameters = array();
         }
 
@@ -158,10 +160,11 @@ class SPECTQLController extends ApiController
      *
      *
      */
-    private function isArrayNull($array){
+    private function isArrayNull($array)
+    {
 
-        foreach($array as $entry){
-            if(!empty($entry)){
+        foreach ($array as $entry) {
+            if (!empty($entry)) {
                 return false;
             }
         }

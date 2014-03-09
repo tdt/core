@@ -23,7 +23,8 @@ use repositories\DefinitionRepository;
 class DatasetController extends ApiController
 {
 
-    public function get($uri){
+    public function get($uri)
+    {
 
         // Set permission
         Auth::requirePermissions('dataset.view');
@@ -47,19 +48,19 @@ class DatasetController extends ApiController
         $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
         $cache_string = sha1($cache_string);
 
-        if(Cache::has($cache_string)){
+        if (Cache::has($cache_string)) {
             return ContentNegotiator::getResponse(Cache::get($cache_string), $extension);
         }else{
 
             // Get definition
             $definition = $this->definition_repository->getByIdentifier($uri);
 
-            if($definition){
+            if ($definition) {
 
                 // Get source definition
                 $source_definition = $this->definition_repository->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
-                if($source_definition){
+                if ($source_definition) {
 
                     $source_type = $source_definition['type'];
 
@@ -72,7 +73,7 @@ class DatasetController extends ApiController
                     $rest_parameters = ltrim($rest_parameters, '/');
                     $rest_parameters = explode('/', $rest_parameters);
 
-                    if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
+                    if (empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])) {
                         $rest_parameters = array();
                     }
 
@@ -82,7 +83,7 @@ class DatasetController extends ApiController
                     $data->rest_parameters = $rest_parameters;
 
                     // REST filtering
-                    if($source_type != 'INSTALLED' && count($data->rest_parameters) > 0){
+                    if ($source_type != 'INSTALLED' && count($data->rest_parameters) > 0) {
                         $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
                     }
 
@@ -106,7 +107,7 @@ class DatasetController extends ApiController
                 // Coulnd't find a definition, but it might be a collection
                 $resources = $this->definition_repository->getByCollection($uri);
 
-                if(count($resources) > 0){
+                if (count($resources) > 0) {
 
                     $data = new Data();
                     $data->data = new \stdClass();
@@ -117,11 +118,11 @@ class DatasetController extends ApiController
 
                         // Check if it's a subcollection or a dataset
                         $collection_uri = rtrim($res->collection_uri, '/');
-                        if($collection_uri == $uri){
+                        if ($collection_uri == $uri) {
                             array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
                         }else{
                             // Push the subcollection if it's not already in the array
-                            if(!in_array(\URL::to($collection_uri), $data->data->collections)){
+                            if (!in_array(\URL::to($collection_uri), $data->data->collections)) {
                                 array_push($data->data->collections, \URL::to($collection_uri));
                             }
                         }
@@ -151,16 +152,16 @@ class DatasetController extends ApiController
      */
     private static function applyRestFilter($data, $rest_params){
 
-        foreach($rest_params as $rest_param){
+        foreach ($rest_params as $rest_param) {
 
-            if(is_object($data) && $key = self::propertyExists($data, $rest_param)){
+            if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
                 $data = $data->$key;
             }elseif(is_array($data)){
 
-                if($key = self::keyExists($data, $rest_param)){
+                if ($key = self::keyExists($data, $rest_param)) {
                     $data = $data[$key];
                 }else if(is_numeric($rest_param)){
-                    for($i = 0; $i <= $rest_param; $i++){
+                    for ($i = 0; $i <= $rest_param; $i++) {
                         $result = array_shift($data);
                     }
 
@@ -185,12 +186,12 @@ class DatasetController extends ApiController
         $definition_repository = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
         $definition = $definition_repository->getByIdentifier($uri);
 
-        if($definition){
+        if ($definition) {
 
             // Get the source definition
             $source_definition = $definition_repository->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
-            if($source_definition){
+            if ($source_definition) {
 
                 // Create the correct datacontroller
                 $controller_class = '\\tdt\\core\\datacontrollers\\' . $source_definition['type'] . 'Controller';
@@ -201,7 +202,7 @@ class DatasetController extends ApiController
                 $rest_parameters = ltrim($rest_parameters, '/');
                 $rest_parameters = explode('/', $rest_parameters);
 
-                if(empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])){
+                if (empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])) {
                     $rest_parameters = array();
                 }
 
@@ -210,7 +211,7 @@ class DatasetController extends ApiController
                 $data->rest_parameters = $rest_parameters;
 
                 // REST filtering
-                if($source_definition['type'] != 'INSTALLED' && count($data->rest_parameters) > 0){
+                if ($source_definition['type'] != 'INSTALLED' && count($data->rest_parameters) > 0) {
                     $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
                 }
 
@@ -230,8 +231,8 @@ class DatasetController extends ApiController
 
         $vars = get_object_vars($object);
 
-        foreach($vars as $key => $value) {
-            if(strtolower($property) == strtolower($key)) {
+        foreach ($vars as $key => $value) {
+            if (strtolower($property) == strtolower($key)) {
                 return $key;
                 break;
             }
@@ -244,8 +245,8 @@ class DatasetController extends ApiController
      */
     private static function keyExists($array, $property){
 
-        foreach($array as $key => $value) {
-            if(strtolower($property) == strtolower($key)) {
+        foreach ($array as $key => $value) {
+            if (strtolower($property) == strtolower($key)) {
                 return $key;
                 break;
             }

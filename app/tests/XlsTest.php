@@ -18,10 +18,11 @@ class XlsTest extends TestCase
                 ),
             );
 
-    public function test_put_api(){
+    public function test_put_api()
+    {
 
         // Publish each xls file in the test xls data folder.
-        foreach($this->test_data as $entry){
+        foreach ($this->test_data as $entry) {
 
             $file = $entry['file'];
             $extension = $entry['extension'];
@@ -51,10 +52,11 @@ class XlsTest extends TestCase
         }
     }
 
-    public function test_get_api(){
+    public function test_get_api()
+    {
 
         // Request the data for each of the test xls files.
-        foreach($this->test_data as $entry){
+        foreach ($this->test_data as $entry) {
 
             $file = $entry['file'];
             $extension = $entry['extension'];
@@ -70,10 +72,11 @@ class XlsTest extends TestCase
         }
     }
 
-    public function test_delete_api(){
+    public function test_delete_api()
+    {
 
         // Delete the published definition for each test xls file.
-        foreach($this->test_data as $entry){
+        foreach ($this->test_data as $entry) {
 
             $file = $entry['file'];
 

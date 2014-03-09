@@ -17,7 +17,8 @@ use tdt\core\Pager;
 class SPARQLController extends ADataController
 {
 
-    public function readData($source_definition, $rest_parameters = array()){
+    public function readData($source_definition, $rest_parameters = array())
+    {
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
@@ -60,7 +61,7 @@ class SPARQLController extends ADataController
         $where_clause = '(.*?(FROM.+?{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
         $matches = array();
 
-        if($keyword == 'select'){
+        if ($keyword == 'select') {
 
             $regex = $keyword . $where_clause;
 
@@ -74,19 +75,19 @@ class SPARQLController extends ADataController
         $filter = "";
 
         // Preg match all has 3 entries for the where clause, pick the first hit
-        if(!empty($matches[3][0])){
+        if (!empty($matches[3][0])) {
             $filter = $matches[3][0];
         }
 
-        if(!empty($matches[4][0])){
+        if (!empty($matches[4][0])) {
             $filter = $matches[4][0];
         }
 
-        if(!empty($matches[5][0])){
+        if (!empty($matches[5][0])) {
             $filter = $matches[5][0];
         }
 
-        if(empty($filter)){
+        if (empty($filter)) {
             \App::abort(500, "Failed to retrieve the where clause from the query: $query");
         }
 
@@ -110,11 +111,11 @@ class SPARQLController extends ADataController
         $query = $this->processParameters($query);
 
         var_dump($query);
-        if(!empty($offset)){
+        if (!empty($offset)) {
             $query = $query . " OFFSET $offset ";
         }
 
-        if(!empty($limit)){
+        if (!empty($limit)) {
             $query = $query . " LIMIT $limit";
         }
 
@@ -124,14 +125,14 @@ class SPARQLController extends ADataController
         $q = urlencode($query);
         $q = str_replace("+", "%20", $q);
 
-        if($keyword == 'select'){
+        if ($keyword == 'select') {
 
             $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/sparql-results+json");
 
             $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
             $result = json_decode($response);
 
-            if(!$result){
+            if (!$result) {
                 \App::abort(500, 'The query has been executed, but the endpoint failed to return sparql results in JSON.');
             }
 
@@ -157,7 +158,7 @@ class SPARQLController extends ADataController
         $data->paging = $paging;
         $data->is_semantic = $is_semantic;
 
-        if($is_semantic){
+        if ($is_semantic) {
 
             // Fetch the available namespaces and pass
             // them as a configuration of the semantic data result
@@ -167,7 +168,7 @@ class SPARQLController extends ADataController
 
             $prefixes = array();
 
-            foreach($ontologies as $ontology){
+            foreach ($ontologies as $ontology) {
                 $prefixes[$ontology["prefix"]] = $ontology["uri"];
             }
 
@@ -182,7 +183,8 @@ class SPARQLController extends ADataController
      * Execute a query using cURL and return the result.
      * This function will abort upon error.
      */
-    private function executeUri($uri, $user = '', $password = ''){
+    private function executeUri($uri, $user = '', $password = '')
+    {
 
         // Check if curl is installed on this machine
         if (!function_exists('curl_init')) {
@@ -193,7 +195,7 @@ class SPARQLController extends ADataController
         $ch = curl_init();
 
         // If credentials are given, put the HTTP auth header in the cURL request
-        if(!empty($user)){
+        if (!empty($user)) {
 
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($ch, CURLOPT_USERPWD, $user . ":" . $password);
@@ -208,7 +210,7 @@ class SPARQLController extends ADataController
         // Execute the request
         $response = curl_exec($ch);
 
-        if (!$response){
+        if (!$response) {
             $curl_err = curl_error($ch);
             \App::abort(500, "Something went wrong while executhing query. The request we put together was: $uri.");
         }
@@ -216,7 +218,7 @@ class SPARQLController extends ADataController
         $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         // According to the SPARQL 1.1 spec, a SPARQL endpoint can only return 200,400,500 reponses
-        if($response_code == '400'){
+        if ($response_code == '400') {
             \App::abort(500, "The SPARQL endpoint returned a 400 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The error was: $response. The URI was: $uri");
         }else if($response_code == '500'){
             \App::abort(500, "The SPARQL endpoint returned a 500 error. If the SPARQL query contained a parameter, don't forget to pass them as a query string parameter. The URI was: $uri");
@@ -231,7 +233,8 @@ class SPARQLController extends ADataController
      * Replace parameters in the SPARQL query with the corresponding
      * passed query parameters.
      */
-    private function processParameters($query) {
+    private function processParameters($query)
+    {
 
         // Fetch the request parameters
         $parameters = \Request::all();
@@ -255,7 +258,7 @@ class SPARQLController extends ADataController
 
             preg_match_all("/([a-zA-Z]+?)\\.([a-zA-Z]+?)\\('(.*?)','(.*?)'\\)/", $placeholder, $elements, PREG_SET_ORDER);
 
-            if (!empty($elements)){
+            if (!empty($elements)) {
                 $placeholder = trim($elements[0][1]);
             }
 
@@ -272,7 +275,7 @@ class SPARQLController extends ADataController
                     $placeholder_name = substr($placeholder,0, $index);
                     $placeholder_index = substr($placeholder, $index + 1, -1);
 
-                    if (!isset($parameters[$placeholder_name])){
+                    if (!isset($parameters[$placeholder_name])) {
                         $value = '?' . $placeholder;
                     }else if (!isset($parameters[$placeholder_name][$placeholder_index])){
                         $value = '?' . $placeholder . '_' . $placeholder_index;
@@ -281,7 +284,7 @@ class SPARQLController extends ADataController
                     }
                 } else {
 
-                    if (!isset($parameters[$placeholder])){
+                    if (!isset($parameters[$placeholder])) {
                         $value = '?' . $placeholder;
                     }else{
                         $value = $parameters[$placeholder];
@@ -316,7 +319,7 @@ class SPARQLController extends ADataController
 
         // Note that the logging of invalid parameters will happen twice, as we construct and execute
         // the count query as well as the given query
-        foreach($parameters as $key => $value){
+        foreach ($parameters as $key => $value) {
 
             if(is_array($value))
                 $log_value = implode(', ', $value);
@@ -329,7 +332,8 @@ class SPARQLController extends ADataController
         return $query;
     }
 
-    private function processParameterFunction($values, $function, $pattern, $concat) {
+    private function processParameterFunction($values, $function, $pattern, $concat)
+    {
 
         $result = null;
 

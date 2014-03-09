@@ -22,10 +22,11 @@ class ModelPagingTest extends TestCase
                 'utf8',
             );
 
-    public function test_put_api(){
+    public function test_put_api()
+    {
 
         // Add the CSV definitions
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             // Set the definition parameters.
             $data = array(
@@ -59,7 +60,8 @@ class ModelPagingTest extends TestCase
      * Note: don't name the private functions testXXX, this will result in
      * phpunit warnings as it will try to use it as a proper testcase.
      */
-    public function test_get_api(){
+    public function test_get_api()
+    {
 
         // Set paging to 2
         Input::merge(array('limit' => 2));
@@ -79,10 +81,11 @@ class ModelPagingTest extends TestCase
         $this->processDcat();
     }
 
-    public function test_delete_api(){
+    public function test_delete_api()
+    {
 
         // Delete the published definition for each test csv file.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             $this->updateRequest('DELETE');
 
@@ -100,7 +103,8 @@ class ModelPagingTest extends TestCase
         $this->assertTrue($definitions_count == 0);
     }
 
-    private function processPaging($response){
+    private function processPaging($response)
+    {
 
          // The body should have only 2 entries
         $body = json_decode($response->getOriginalContent(), true);
@@ -110,7 +114,8 @@ class ModelPagingTest extends TestCase
         $this->processLinkHeader($response);
     }
 
-    private function processLinkHeader($response){
+    private function processLinkHeader($response)
+    {
 
         // The link headers should be properly set
         $link_header = $response->headers->get('Link');
@@ -119,20 +124,20 @@ class ModelPagingTest extends TestCase
 
         // Check for link to next and last
         // Don't let the order of these links be a hassle
-        foreach($links as $link){
+        foreach ($links as $link) {
 
-            if(preg_match('/(.*)\?(limit|offset)=(\d+)&(limit|offset)=(\d+);rel=(.*)/', $link, $matches)){
+            if (preg_match('/(.*)\?(limit|offset)=(\d+)&(limit|offset)=(\d+);rel=(.*)/', $link, $matches)) {
 
-                if($matches[6] == 'last'){
+                if ($matches[6] == 'last') {
 
-                    if($matches[2] == 'offset'){
+                    if ($matches[2] == 'offset') {
                         $this->assertEquals($matches[3], 6);
                     }else{
                         $this->assertEquals($matches[5], 2);
                     }
                 }else{
 
-                    if($matches[2] == 'offset'){
+                    if ($matches[2] == 'offset') {
                         $this->assertEquals($matches[3], 2);
                     }else{
                         $this->assertEquals($matches[5], 2);
@@ -142,7 +147,8 @@ class ModelPagingTest extends TestCase
         }
     }
 
-    private function processDcat(){
+    private function processDcat()
+    {
 
         $controller = \App::make('tdt\core\definitions\DcatController');
 

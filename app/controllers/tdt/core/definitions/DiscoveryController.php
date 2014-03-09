@@ -18,7 +18,8 @@ use tdt\core\ApiController;
 class DiscoveryController extends ApiController
 {
 
-    public function get($uri){
+    public function get($uri)
+    {
 
         // Set permission
         Auth::requirePermissions('discovery.view');
@@ -26,7 +27,7 @@ class DiscoveryController extends ApiController
         $discovery_document = self::createDiscoveryDocument();
 
         // If the input package is installed, add it to the discovery document
-        if(class_exists('tdt\input\controllers\DiscoveryController')){
+        if (class_exists('tdt\input\controllers\DiscoveryController')) {
             $discovery_class = 'tdt\input\controllers\DiscoveryController';
             $discovery_document->resources->input = $discovery_class::createDiscoveryDocument();
         }
@@ -37,7 +38,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the discovery document
      */
-    private function createDiscoveryDocument(){
+    private function createDiscoveryDocument()
+    {
 
         // Create and return a dument that holds a self-explanatory document
         // about how to interface with the datatank
@@ -62,7 +64,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the definitions resource for the discovery document
      */
-    private function createDefinitions(){
+    private function createDefinitions()
+    {
 
         $definitions = new \stdClass();
 
@@ -83,7 +86,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the get discovery documentation.
      */
-    private function createDefGetDiscovery(){
+    private function createDefGetDiscovery()
+    {
 
         $get = new \stdClass();
 
@@ -97,7 +101,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the put discovery documentation.
      */
-    private function createDefPutDiscovery(){
+    private function createDefPutDiscovery()
+    {
 
         $put = new \stdClass();
 
@@ -123,7 +128,7 @@ class DiscoveryController extends ApiController
 
                     $definition_type = strtolower($matches[1]);
 
-                    if(method_exists($source_repository, 'getAllParameters')){
+                    if (method_exists($source_repository, 'getAllParameters')) {
 
                         $put->body->$definition_type = new \stdClass();
                         $put->body->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
@@ -155,7 +160,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the delete discovery documentation.
      */
-    private function createDefDeleteDiscovery(){
+    private function createDefDeleteDiscovery()
+    {
 
         $delete = new \stdClass();
 
@@ -169,7 +175,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the patch discovery documentation.
      */
-    private function createDefPatchDiscovery(){
+    private function createDefPatchDiscovery()
+    {
 
         $patch = new \stdClass();
 
@@ -194,14 +201,14 @@ class DiscoveryController extends ApiController
 
                     $definition_type = strtolower($matches[1]);
 
-                    if(method_exists($source_repository, 'getAllParameters')){
+                    if (method_exists($source_repository, 'getAllParameters')) {
 
                         $patch->body->$definition_type = new \stdClass();
                         $patch->body->$definition_type->description = "Patch an existing definition.";
 
                         $all_properties = array_merge($source_repository->getAllParameters(), $base_properties);
 
-                        foreach($all_properties as $key => $info){
+                        foreach ($all_properties as $key => $info) {
                             unset($all_properties[$key]['required']);
                         }
 
@@ -219,7 +226,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the info discovery documentation
      */
-    private function createInfo(){
+    private function createInfo()
+    {
 
         // Info only supports the get method
         $info = new \stdClass();
@@ -238,7 +246,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the dcat discovery documentation
      */
-    private function createDcat(){
+    private function createDcat()
+    {
 
         // Dcat only supports the get method
         $dcat = new \stdClass();
@@ -257,7 +266,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the languages discovery documentation
      */
-    private function createLanguages(){
+    private function createLanguages()
+    {
 
         // Languages only supports the get method
         $languages = new \stdClass();
@@ -276,7 +286,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the licenses discovery documentation
      */
-    private function createLicenses(){
+    private function createLicenses()
+    {
 
         // Licenses only supports the get method
         $licenses = new \stdClass();
@@ -295,7 +306,8 @@ class DiscoveryController extends ApiController
     /**
      * Create the prefixes discovery documentation
      */
-    private function createPrefixes(){
+    private function createPrefixes()
+    {
 
         // Prefixes only supports the get method
         $prefixes = new \stdClass();
@@ -314,7 +326,8 @@ class DiscoveryController extends ApiController
     /**
      * Return the response with the given data ( formatted in json )
      */
-    private function makeResponse($data){
+    private function makeResponse($data)
+    {
 
          // Create response
         $response = \Response::make($data, 200);

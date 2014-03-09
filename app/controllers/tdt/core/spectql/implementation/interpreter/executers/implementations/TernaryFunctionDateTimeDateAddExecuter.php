@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* date add */
 class TernaryFunctionDateTimeDateAddExecuter extends TernaryFunctionExecuter
 {
-    public function getName($nameA, $nameB, $nameC) {
+    public function getName($nameA, $nameB, $nameC)
+    {
         return "_date_add_" . $nameA . "_interval_" . $nameB . "_" . $nameC;
     }
-    public function doTernaryFunction($valueA, $valueB, $valueC) {
+    public function doTernaryFunction($valueA, $valueB, $valueC)
+    {
         if ($valueA === null || $valueB === null || $valueC === null)
             return null;
         $dateTime = ExecuterDateTimeTools::getDateTime($valueA, "date_add");

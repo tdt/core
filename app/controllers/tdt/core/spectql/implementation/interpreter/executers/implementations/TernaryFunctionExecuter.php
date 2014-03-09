@@ -30,7 +30,8 @@ abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecut
     private $header2;
     private $header3;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
         $this->filter = $filter;
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
@@ -63,11 +64,13 @@ abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecut
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
         $table1content = $this->executer1->evaluateAsExpression();
         $table2content = $this->executer2->evaluateAsExpression();
         $table3content = $this->executer3->evaluateAsExpression();
@@ -135,7 +138,8 @@ abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecut
         return $rows;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer1->cleanUp();
             $this->executer2->cleanUp();
@@ -145,25 +149,29 @@ abstract class TernaryFunctionExecuter extends AbstractUniversalFilterNodeExecut
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executer1->modififyFiltersWithHeaderInformation();
         $this->executer2->modififyFiltersWithHeaderInformation();
         $this->executer3->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = array_merge(
                 $this->executer1->filterSingleSourceUsages($this->filter, 0), $this->executer2->filterSingleSourceUsages($this->filter, 1), $this->executer3->filterSingleSourceUsages($this->filter, 2));
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
 
-    public function getName($nameA, $nameB, $nameC) {
+    public function getName($nameA, $nameB, $nameC)
+    {
         return $nameA . " combined " . $nameA;
     }
 
-    public function doBinaryFunction($valueA, $valueB, $valueC) {
+    public function doBinaryFunction($valueA, $valueB, $valueC)
+    {
         return null;
     }
 

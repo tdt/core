@@ -16,14 +16,16 @@ class TableAliasFilter extends NormalFilterNode
 
     private $alias; //type:String
 
-    public function __construct($alias, UniversalFilterNode $source = null) {
+    public function __construct($alias, UniversalFilterNode $source = null)
+    {
         parent::__construct("TABLEALIAS");
         $this->alias = $alias;
         if ($source != null)
             $this->setSource($source);
     }
 
-    public function getAlias() {
+    public function getAlias()
+    {
         return $this->alias;
     }
 

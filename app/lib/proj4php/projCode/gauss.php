@@ -1,16 +1,17 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
  class Proj4phpProjGauss
 {
-  public function init() {
+  public function init()
+  {
     $sphi = sin($this->lat0);
-    $cphi = cos($this->lat0);  
+    $cphi = cos($this->lat0);
     $cphi *= $cphi;
     $this->rc = sqrt(1.0 - $this->es) / (1.0 - $this->es * $sphi * $sphi);
     $this->C = sqrt(1.0 + $this->es * $cphi * $cphi / (1.0 - $this->es));
@@ -19,7 +20,8 @@
     $this->K = tan(0.5 * $this->phic0 + Proj4php::$common->FORTPI) / (pow(tan(0.5*$this->lat0 + Proj4php::$common->FORTPI), $this->C) * Proj4php::$common->srat($this->e*$sphi, $this->ratexp));
   }
 
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon = $p->x;
     $lat = $p->y;
 
@@ -28,7 +30,8 @@
     return $p;
   }
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $DEL_TOL = 1e-14;
     $lon = $p->x / $this->C;
     $lat = $p->y;
@@ -37,7 +40,7 @@
       $lat = 2.0 * atan($num * Proj4php::$common->srat($this->e * sin($p->y), -0.5 * $this->e)) - Proj4php::$common->HALF_PI;
       if (abs($lat - $p->y) < $DEL_TOL) break;
       $p->y = $lat;
-    }	
+    }
     /* convergence failed */
     if (!$i) {
       Proj4php::reportError("gauss:inverse:convergence failed");

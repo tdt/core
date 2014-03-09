@@ -18,7 +18,8 @@ class UniversalFilterTableContentRow
 
     private $data;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->data = new \stdClass();
     }
 
@@ -28,7 +29,8 @@ class UniversalFilterTableContentRow
      * @param string $idOfField Which column?
      * @param ? $value What value?
      */
-    public function defineValue($idOfField, $value) {
+    public function defineValue($idOfField, $value)
+    {
 
         if ($idOfField == "") {
             \App::abort(500, "Not a valid fieldname...");
@@ -44,7 +46,8 @@ class UniversalFilterTableContentRow
      * @param string $idOfField
      * @param ? $value
      */
-    public function defineValueId($idOfField, $value) {
+    public function defineValueId($idOfField, $value)
+    {
 
         if ($idOfField == "") {
             \App::abort(500, "Not a valid fieldname...");
@@ -59,7 +62,8 @@ class UniversalFilterTableContentRow
      * @param string $idOfField
      * @param UniversalTableContent $groupedColumnValues where each row has only one field "data" and is not grouped itself
      */
-    public function defineGroupedValue($idOfField, $groupedColumnValues) {
+    public function defineGroupedValue($idOfField, $groupedColumnValues)
+    {
 
         if ($idOfField == "") {
             \App::abort(500, "Not a valid fieldname...");
@@ -73,7 +77,8 @@ class UniversalFilterTableContentRow
      *
      * Note: the value can be null. BUT you have to explicitally allow null-values
      */
-    public function getCellValue($idOfField, $allowNull = false) {
+    public function getCellValue($idOfField, $allowNull = false)
+    {
 
         if (isset($this->data->$idOfField)) {
 
@@ -112,7 +117,8 @@ class UniversalFilterTableContentRow
      *
      * @return array
      */
-    public function getGroupedValue($idOfField) {
+    public function getGroupedValue($idOfField)
+    {
 
         if (isset($this->data->$idOfField)) {
 
@@ -134,7 +140,8 @@ class UniversalFilterTableContentRow
      * @param type $nameOfField
      * @return type
      */
-    public function getHashForField($idOfField) {
+    public function getHashForField($idOfField)
+    {
         return hashWithNoSpecialChars($this->getCellValue($idOfField, false));
     }
 
@@ -144,7 +151,8 @@ class UniversalFilterTableContentRow
      * @param string $oldField
      * @param string $newField
      */
-    public function copyValueTo(UniversalFilterTableContentRow $newRow, $oldField, $newField) {
+    public function copyValueTo(UniversalFilterTableContentRow $newRow, $oldField, $newField)
+    {
 
         if (isset($this->data->$oldField)) {
             $newRow->data->$newField = $this->data->$oldField;

@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* atan2 */
 class BinaryFunctionAtan2Executer extends BinaryFunctionExecuter
 {
-    public function getName($nameA, $nameB) {
+    public function getName($nameA, $nameB)
+    {
         return "_atan2_" . $nameA . "_" . $nameB;
     }
-    public function doBinaryFunction($valueA, $valueB) {
+    public function doBinaryFunction($valueA, $valueB)
+    {
         if ($valueA === null || $valueB === null)
             return null;
         return "" . atan2($valueA, $valueB);

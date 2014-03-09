@@ -20,7 +20,8 @@ class InstalledDefinitionRepository extends BaseRepository implements InstalledD
     /**
      * Retrieve the set of create parameters that make up a installed definition.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
         return array(
             'class' => array(
                 'required' => true,

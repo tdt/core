@@ -26,7 +26,7 @@ class PHPFormatter implements IFormatter
 
         // Build the body
         $body = $dataObj->data;
-        if(is_object($body)){
+        if (is_object($body)) {
             $body = get_object_vars($body);
         }
 

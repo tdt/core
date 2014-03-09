@@ -28,7 +28,8 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
     private $childEnvironmentData;
     private $giveToColumnsEnvironment;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
         $this->filter = $filter;
         $this->interpreter = $interpreter;
 
@@ -62,11 +63,13 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $this->exprexec->initExpression($expr, $this->giveToColumnsEnvironment, $this->interpreter, true);
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
         $sourceheader = $this->executer->getExpressionHeader();
         $sourcecontent = $this->executer->evaluateAsExpression();
 
@@ -107,7 +110,8 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         return $filteredRows;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer->cleanUp();
             $this->exprexec->cleanUp();
@@ -116,13 +120,15 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executer->modififyFiltersWithHeaderInformation();
         $this->exprexec->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = array_merge(
                 $this->executer->filterSingleSourceUsages($this->filter, 0), $this->exprexec->filterSingleSourceUsages($this->filter, -1)); //TODO: give a correct source number -> only a problem when allowing independent select in where (!) (see also readme for optimizer) (not a problem when nested selects are not allowed)
 

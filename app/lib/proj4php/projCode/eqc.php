@@ -25,7 +25,8 @@ class Proj4phpProjEqc
 
     // forward equations--mapping lat,long to x,y
     // -----------------------------------------------------------------
-    public function forward($p) {
+    public function forward($p)
+    {
 
       $lon=$p->x;
       $lat=$p->y;
@@ -39,7 +40,8 @@ class Proj4phpProjEqc
 
   // inverse equations--mapping x,y to lat/long
   // -----------------------------------------------------------------
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $x=$p->x;
     $y=$p->y;

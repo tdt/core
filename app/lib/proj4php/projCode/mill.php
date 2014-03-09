@@ -41,14 +41,16 @@ class Proj4phpProjMill
 
 /* Initialize the Miller Cylindrical projection
   -------------------------------------------*/
-  public function init() {
+  public function init()
+  {
     //no-op
   }
 
 
   /* Miller Cylindrical forward equations--mapping lat,long to x,y
     ------------------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon=$p->x;
     $lat=$p->y;
     /* Forward equations
@@ -64,7 +66,8 @@ class Proj4phpProjMill
 
   /* Miller Cylindrical inverse equations--mapping x,y to lat/long
     ------------------------------------------------------------*/
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $p->x -= $this->x0;
     $p->y -= $this->y0;
 

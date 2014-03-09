@@ -15,19 +15,23 @@ abstract class UniversalFilterNode {
     private $type;
     private $attachments;
 
-    public function __construct($type) {
+    public function __construct($type)
+    {
         $this->type = $type;
     }
 
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
-    public function attach($id, $data) {
+    public function attach($id, $data)
+    {
         $this->attachments[$id] = $data;
     }
 
-    public function getAttachment($id) {
+    public function getAttachment($id)
+    {
         return $this->attachments[$id];
     }
 

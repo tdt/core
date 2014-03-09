@@ -15,7 +15,7 @@ class Groups implements IImportExport
 
         $messages = array();
 
-        foreach($groups as $group){
+        foreach ($groups as $group) {
 
             // Unset the ID
             unset($group['id']);
@@ -43,7 +43,7 @@ class Groups implements IImportExport
 
         // Push them in an array
         $groups = array();
-        foreach($sentry_data as $g){
+        foreach ($sentry_data as $g) {
             array_push($groups, $g->toArray());
         }
 

@@ -19,7 +19,8 @@ include_once(__DIR__ . "/../../../../lib/proj4php/proj4php.php");
 class SHPController extends ADataController
 {
 
-    public function readData($source_definition, $rest_parameters = array()) {
+    public function readData($source_definition, $rest_parameters = array())
+    {
 
         // It may take a while for the SHP to be read
         set_time_limit(0);
@@ -37,7 +38,7 @@ class SHPController extends ADataController
         // abort the process
         $tmp_path = sys_get_temp_dir();
 
-        if(empty($tmp_path)){
+        if (empty($tmp_path)) {
             // If this occurs then the server is not configured correctly, thus a 500 error is thrown
             \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
         }
@@ -52,11 +53,11 @@ class SHPController extends ADataController
 
         $geo = array();
 
-        foreach($geo_properties as $geo_prop){
+        foreach ($geo_properties as $geo_prop) {
             $geo[$geo_prop['property']] = $geo_prop['path'];
         }
 
-        if(!$columns){
+        if (!$columns) {
             \App::abort(500, "Cannot find the columns of the SHP definition.");
         }
 
@@ -93,7 +94,7 @@ class SHPController extends ADataController
             // Get the shape records in the binary file
             while ($record = $shp->getNext()) {
 
-                if($offset <= $total_rows && $offset + $limit > $total_rows){
+                if ($offset <= $total_rows && $offset + $limit > $total_rows) {
 
                     // Every shape record is parsed as an anonymous object with the properties attached to it
                     $rowobject = new \stdClass();
@@ -117,7 +118,7 @@ class SHPController extends ADataController
                     }
 
                     // It it's not a point, it's a collection of coordinates describing a shape
-                    if(!empty($shp_data['parts'])) {
+                    if (!empty($shp_data['parts'])) {
 
                         $parts = array();
 
@@ -131,7 +132,7 @@ class SHPController extends ADataController
                                 $y = $point['y'];
 
                                 // Translate the coordinates to WSG84 geo coordinates
-                                if(!empty($epsg)){
+                                if (!empty($epsg)) {
 
                                     $pointSrc = new \proj4phpPoint($x,$y);
 
@@ -151,7 +152,7 @@ class SHPController extends ADataController
                         $rowobject->$alias = implode(';', $parts);
                     }
 
-                    if(isset($shp_data['x'])) {
+                    if (isset($shp_data['x'])) {
 
                         $x = $shp_data['x'];
                         $y = $shp_data['y'];
@@ -223,7 +224,7 @@ class SHPController extends ADataController
         $record = $shp->getNext();
 
         // Read meta data
-        if(!$record){
+        if (!$record) {
             $uri = $options['uri'];
             \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $uri, make sure the corresponding dbf and shx files are at the same location.");
         }
@@ -244,7 +245,7 @@ class SHPController extends ADataController
         // Get the geographical column names
         // Either coords will be set (identified by the parts)
         // or a lat long will be set (identified by x and y)
-        if(!empty($shp_data['parts'])) {
+        if (!empty($shp_data['parts'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
         }else if(!empty($shp_data['x'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
@@ -266,7 +267,7 @@ class SHPController extends ADataController
         // Make sure the geo property's path is mapped onto the column alias
         $aliases = array();
 
-        foreach($columns as $column){
+        foreach ($columns as $column) {
             $aliases[$column['column_name']] = $column['column_name_alias'];
         }
 
@@ -290,7 +291,7 @@ class SHPController extends ADataController
         $record = $shp->getNext();
 
         // read meta data
-        if(!$record){
+        if (!$record) {
             $uri = $options['uri'];
             \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $uri, make sure the corresponding dbf and shx files are at the same location.");
         }
@@ -303,8 +304,8 @@ class SHPController extends ADataController
         // Get the geographical column names
         // Either multiple coordinates will be set (identified by the parts)
         // or a lat long pair will be set (identified by x and y)
-        if(!empty($shp_data['parts'])) {
-            if(strpos($shape_type, 'polyline')){
+        if (!empty($shp_data['parts'])) {
+            if (strpos($shape_type, 'polyline')) {
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
             }else if(strpos($shape_type, 'polygon')){

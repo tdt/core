@@ -59,11 +59,11 @@ class Export extends Command
         // Add the version to it
         $export_data->version = \Config::get('app.version');
 
-        if($this->option('definitions')){
+        if ($this->option('definitions')) {
 
             $export_data->definitions = Definitions::export($identifier);
 
-            if(!empty($identifier)){
+            if (!empty($identifier)) {
 
                 // When the identifier doesn't check out, give the user another chance to fill it out
                 while(empty($export_data->definitions)){
@@ -110,7 +110,7 @@ class Export extends Command
 
 
         // Output
-        if(empty($filename)){
+        if (empty($filename)) {
             // Print to console
             echo $export_data;
         }else{

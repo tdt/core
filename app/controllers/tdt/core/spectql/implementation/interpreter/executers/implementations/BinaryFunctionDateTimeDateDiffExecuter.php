@@ -6,10 +6,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* datediff */
 class BinaryFunctionDateTimeDateDiffExecuter extends BinaryFunctionExecuter
 {
-    public function getName($nameA, $nameB) {
+    public function getName($nameA, $nameB)
+    {
         return "_datediff_" . $nameA . "_and_" . $nameB;
     }
-    public function doBinaryFunction($valueA, $valueB) {
+    public function doBinaryFunction($valueA, $valueB)
+    {
         if ($valueA === null || $valueB === null)
             return null;
         $dateTimeA = ExecuterDateTimeTools::getDateTime($valueA, "datediff");

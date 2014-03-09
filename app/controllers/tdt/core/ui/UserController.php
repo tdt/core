@@ -17,7 +17,8 @@ class UserController extends \Controller
     /**
      * Admin.user.view
      */
-    public function getIndex(){
+    public function getIndex()
+    {
         // Set permission
         Auth::requirePermissions('admin.user.view');
 
@@ -42,7 +43,8 @@ class UserController extends \Controller
     /**
      * Admin.user.delete
      */
-    public function getDelete($id){
+    public function getDelete($id)
+    {
 
         // Set permission
         Auth::requirePermissions('admin.user.delete');
@@ -51,7 +53,7 @@ class UserController extends \Controller
             // Find the user using the user id
             $user = \Sentry::findUserById($id);
 
-            if($user->id > 2){
+            if ($user->id > 2) {
                 // Delete the user
                 $user->delete();
             }
@@ -66,7 +68,8 @@ class UserController extends \Controller
     /**
      * Admin.user.create
      */
-    public function postCreate(){
+    public function postCreate()
+    {
 
         // Set permission
         Auth::requirePermissions('admin.user.create');
@@ -107,25 +110,26 @@ class UserController extends \Controller
     /**
      * Admin.user.update
      */
-    public function postUpdate($id = null){
+    public function postUpdate($id = null)
+    {
 
         // Set permission
         Auth::requirePermissions('admin.user.update');
 
         try{
-            if(empty($id)){
+            if (empty($id)) {
                 $id = \Input::get('id');
             }
             // Find the user using the user id
             $user = \Sentry::findUserById($id);
 
             // Update account
-            if($id > 2 && \Input::get('name')){
+            if ($id > 2 && \Input::get('name')) {
                 $user->email = strtolower(\Input::get('name'));
             }
 
             // Update password (not for the everyone account)
-            if($id > 1 && \Input::get('password')){
+            if ($id > 1 && \Input::get('password')) {
                 $resetCode = $user->getResetPasswordCode();
                 $user->attemptResetPassword($resetCode, \Input::get('password'));
             }
@@ -135,9 +139,9 @@ class UserController extends \Controller
             // Find the group using the group id
             $group = \Sentry::findGroupById(\Input::get('group'));
 
-            if($id > 2){
+            if ($id > 2) {
                 // Remove user from previous groups
-                foreach($user->getGroups() as $g){
+                foreach ($user->getGroups() as $g) {
                     $user->removeGroup($g);
                 }
 

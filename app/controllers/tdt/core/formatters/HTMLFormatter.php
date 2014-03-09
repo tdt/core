@@ -27,32 +27,32 @@ class HTMLFormatter implements IFormatter
         // Query parameters
         $query_string = '';
 
-        if(!empty($_GET)){
+        if (!empty($_GET)) {
             $query_string = '?' . http_build_query(\Input::all());
         }
 
         // Links to pages
         $prev_link = '';
         $next_link = '';
-        if(!empty($dataObj->paging)){
+        if (!empty($dataObj->paging)) {
             $input_array = array_except(\Input::all(), array('limit', 'offset'));
-            if(!empty($dataObj->paging['previous'])){
+            if (!empty($dataObj->paging['previous'])) {
                 $prev_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['previous'][0] . '&limit=' . $dataObj->paging['previous'][1];
             }
 
-            if(!empty($dataObj->paging['next'])){
+            if (!empty($dataObj->paging['next'])) {
                 $next_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['next'][0] . '&limit=' . $dataObj->paging['next'][1];
             }
         }
 
-        if($dataObj->is_spectql){
+        if ($dataObj->is_spectql) {
             // SpectQL result
 
             // Create the link to the dataset
             $dataset_link  = \URL::to('spectql/' . $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
 
             // Append rest parameters
-            if(!empty($dataObj->rest_parameters)){
+            if (!empty($dataObj->rest_parameters)) {
                 $dataset_link .= implode('/', $dataObj->rest_parameters);
                 $dataset_link = substr($dataset_link, 0, -5);
             }
@@ -66,11 +66,11 @@ class HTMLFormatter implements IFormatter
             $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
 
             // Append rest parameters
-            if(!empty($dataObj->rest_parameters)){
+            if (!empty($dataObj->rest_parameters)) {
                 $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
             }
 
-            if(!empty($dataObj->source_definition)){
+            if (!empty($dataObj->source_definition)) {
 
                 $type = $dataObj->source_definition['type'];
 
@@ -89,7 +89,7 @@ class HTMLFormatter implements IFormatter
                         break;
 
                     default:
-                        if($dataObj->is_semantic){
+                        if ($dataObj->is_semantic) {
 
                             // This data object is always semantic
                             $view = 'dataset.code';
@@ -97,7 +97,7 @@ class HTMLFormatter implements IFormatter
                             // Check if a configuration is given
                             $conf = array();
 
-                            if(!empty($dataObj->semantic->conf)){
+                            if (!empty($dataObj->semantic->conf)) {
                                 $conf = $dataObj->semantic->conf;
                             }
 
@@ -142,7 +142,7 @@ class HTMLFormatter implements IFormatter
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
-        if(defined('JSON_PRETTY_PRINT')){
+        if (defined('JSON_PRETTY_PRINT')) {
             $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }else {
             $formattedJSON = json_encode($data);

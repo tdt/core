@@ -15,7 +15,8 @@ class Proj4phpProjAeqd
     $this->cos_p12=cos($this->lat0);
     }
 
-   public function forward($p) {
+   public function forward($p)
+   {
     $lon=$p->x;
     $lat=$p->y;
     $ksp;
@@ -40,7 +41,8 @@ class Proj4phpProjAeqd
     return $p;
   }
 
-  public function inverse($p){
+  public function inverse($p)
+  {
     $p->x -= $this->x0;
     $p->y -= $this->y0;
 

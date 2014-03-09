@@ -27,7 +27,7 @@ class CSVFormatter implements IFormatter
     public static function getBody($dataObj){
 
         // Only tabular data is allowed
-        if(!is_array($dataObj->data)){
+        if (!is_array($dataObj->data)) {
             \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
         }
 
@@ -35,8 +35,8 @@ class CSVFormatter implements IFormatter
         $body = '';
 
         $header_printed = false;
-        foreach($dataObj->data as $row){
-            if(is_object($row)){
+        foreach ($dataObj->data as $row) {
+            if (is_object($row)) {
                $row = get_object_vars($row);
             }else if(!is_array($row)){
                 $body .= $row . "\n";
@@ -44,9 +44,9 @@ class CSVFormatter implements IFormatter
             }
 
             // Print header
-            if(!$header_printed){
+            if (!$header_printed) {
                 $i = 0;
-                foreach($row as $key => $value){
+                foreach ($row as $key => $value) {
                     $body .= CSVFormatter::enclose($key);
                     $body .= sizeof($row)-1 != $i ? ";" : "\n";
                     $i++;
@@ -55,10 +55,10 @@ class CSVFormatter implements IFormatter
             }
 
             $i = 0;
-            foreach($row as $element){
+            foreach ($row as $element) {
 
-                if(is_object($element)){
-                    if(isset($element->id)){
+                if (is_object($element)) {
+                    if (isset($element->id)) {
                         $body .= $element->id;
                     }else if(isset($element->name)){
                         $body .= $element->name;
@@ -67,7 +67,7 @@ class CSVFormatter implements IFormatter
                     }
                 }
                 elseif(is_array($element)){
-                    if(isset($element["id"])){
+                    if (isset($element["id"])) {
                         $body .= $element["id"];
                     }else if(isset($element["name"])){
                         $body .= $element["name"];

@@ -26,7 +26,8 @@ ALGORITHM REFERENCES
 class Proj4phpProjSomerc
 {
 
-  public function init() {
+  public function init()
+  {
     $phy0 = $this->lat0;
     $this->lambda0 = $this->long0;
     $sinPhy0 = sin($phy0);
@@ -48,7 +49,8 @@ class Proj4phpProjSomerc
   }
 
 
-  public function forward($p) {
+  public function forward($p)
+  {
     $Sa1 = log(tan($PI / 4.0 - $p->y / 2.0));
     $Sa2 = $this->e / 2.0
             * log((1 + $this->e * sin($p->y))
@@ -76,7 +78,8 @@ class Proj4phpProjSomerc
     return $p;
   }
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $Y = $p->x - $this->x0;
     $X = $p->y - $this->y0;
 
@@ -97,8 +100,7 @@ class Proj4phpProjSomerc
     $iteration = 0;
     while (abs($phy - $prevPhy) > 0.0000001)
     {
-      if (++$iteration > 20)
-      {
+      if (++$iteration > 20) {
         Proj4php::reportError("omercFwdInfinity");
         return;
       }

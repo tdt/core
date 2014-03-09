@@ -16,7 +16,8 @@ class DatasetController extends \Controller
     /**
      * Admin.dataset.view
      */
-    public function getIndex(){
+    public function getIndex()
+    {
 
         // Set permission
         Auth::requirePermissions('admin.dataset.view');
@@ -34,7 +35,8 @@ class DatasetController extends \Controller
     /**
      * Admin.dataset.create
      */
-    public function getAdd(){
+    public function getAdd()
+    {
 
         // Set permission
         Auth::requirePermissions('admin.dataset.create');
@@ -47,7 +49,7 @@ class DatasetController extends \Controller
         // Sort parameters for each media type
         $mediatypes = array();
         $lists = array();
-        foreach($mediatypes_spec as $mediatype => $type){
+        foreach ($mediatypes_spec as $mediatype => $type) {
 
             $parameters_required = array();
             $parameters_optional = array();
@@ -55,26 +57,26 @@ class DatasetController extends \Controller
             $parameters_columns = array();
             $parameters_geo = array();
 
-            foreach($type->parameters as $parameter => $object){
+            foreach ($type->parameters as $parameter => $object) {
 
                 // Filter array type parameters
 
-                if(empty($object->parameters)){
+                if (empty($object->parameters)) {
 
                     // Filter Dublin core parameters
-                    if(!empty($object->group) && $object->group == 'dc'){
+                    if (!empty($object->group) && $object->group == 'dc') {
 
                         // Fetch autocomplete DC fields
-                        if($object->type == 'list'){
+                        if ($object->type == 'list') {
                             $uri = $object->list;
 
                             // Check list cache
-                            if(empty($lists[$uri])){
+                            if (empty($lists[$uri])) {
                                 $data = json_decode($this->getDocument($uri));
                                 $data_set = array();
 
-                                foreach($data as $o){
-                                    if(!empty($o->{$object->list_option})){
+                                foreach ($data as $o) {
+                                    if (!empty($o->{$object->list_option})) {
                                         $data_set[] = $o->{$object->list_option};
                                     }
                                 }
@@ -91,9 +93,9 @@ class DatasetController extends \Controller
 
                     }else{
                         // Fitler optional vs required
-                        if($object->required){
+                        if ($object->required) {
                             // Filter the type paramter
-                            if($parameter != 'type'){
+                            if ($parameter != 'type') {
                                 $parameters_required[$parameter] = $object;
                             }
                         }else{
@@ -105,12 +107,12 @@ class DatasetController extends \Controller
 
                     switch ($parameter) {
                         case 'columns':
-                            foreach($object->parameters as $param => $obj){
+                            foreach ($object->parameters as $param => $obj) {
                                 $parameters_columns[$param] = $obj;
                             }
                             break;
                         case 'geo':
-                            foreach($object->parameters as $param => $obj){
+                            foreach ($object->parameters as $param => $obj) {
                                 $parameters_geo[$param] = $obj;
                             }
                             break;
@@ -143,13 +145,14 @@ class DatasetController extends \Controller
     /**
      * Admin.dataset.update
      */
-    public function getEdit($id){
+    public function getEdit($id)
+    {
 
         // Set permission
         Auth::requirePermissions('admin.dataset.update');
 
         $definition = \Definition::find($id);
-        if($definition){
+        if ($definition) {
 
             // Get source defintion
             $source_definition = $definition->source()->first();
@@ -157,7 +160,7 @@ class DatasetController extends \Controller
             $discovery = $this->getDiscoveryDocument();
 
             // Get spec for media type
-            if(empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)} )){
+            if (empty($discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)} )) {
                 \App::abort('500', 'There is no definition of the media type of this dataset in the discovery document.');
             }
             $mediatype = $discovery->resources->definitions->methods->patch->body->{strtolower($source_definition->type)};
@@ -168,26 +171,26 @@ class DatasetController extends \Controller
             $parameters_dc = array();
             $lists = array();
 
-            foreach($mediatype->parameters as $parameter => $object){
+            foreach ($mediatype->parameters as $parameter => $object) {
 
                 // Filter array type parameters
-                if(empty($object->parameters)){
+                if (empty($object->parameters)) {
 
                     // Filter Dublin core parameters
-                    if(!empty($object->group) && $object->group == 'dc'){
+                    if (!empty($object->group) && $object->group == 'dc') {
 
                         // Fetch autocomplete DC fields
-                        if($object->type == 'list'){
+                        if ($object->type == 'list') {
                             $uri = $object->list;
 
                             // Check list cache
-                            if(empty($lists[$uri])){
+                            if (empty($lists[$uri])) {
 
                                 $data = json_decode($this->getDocument($uri));
                                 $data_set = array();
 
-                                foreach($data as $o){
-                                    if(!empty($o->{$object->list_option})){
+                                foreach ($data as $o) {
+                                    if (!empty($o->{$object->list_option})) {
                                         $data_set[] = $o->{$object->list_option};
                                     }
                                 }
@@ -233,14 +236,15 @@ class DatasetController extends \Controller
     /**
      * Admin.dataset.delete
      */
-    public function getDelete($id){
+    public function getDelete($id)
+    {
 
         // Set permission
         Auth::requirePermissions('admin.dataset.delete');
 
-        if(is_numeric($id)){
+        if (is_numeric($id)) {
             $definition = \Definition::find($id);
-            if($definition){
+            if ($definition) {
                 // Delete it (with cascade)
                 $definition->delete();
             }
@@ -249,7 +253,8 @@ class DatasetController extends \Controller
         return \Redirect::to('api/admin/datasets');
     }
 
-    private function getDiscoveryDocument(){
+    private function getDiscoveryDocument()
+    {
         // Create a CURL client
         $cURL = new \Buzz\Client\Curl();
         $cURL->setVerifyPeer(false);
@@ -265,7 +270,8 @@ class DatasetController extends \Controller
         return $discovery;
     }
 
-    private function getDocument($uri){
+    private function getDocument($uri)
+    {
         // Create a CURL client
         $cURL = new \Buzz\Client\Curl();
         $cURL->setVerifyPeer(false);

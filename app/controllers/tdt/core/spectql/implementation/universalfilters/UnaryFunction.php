@@ -37,7 +37,8 @@ class UnaryFunction extends NormalFilterNode
     public static $FUNCTION_UNARY_DATETIME_PARSE = "FUNCTION_UNARY_DATETIME_PARSE";
     public static $FUNCTION_UNARY_DATETIME_DATEPART = "FUNCTION_UNARY_DATETIME_DATEPART";
 
-    public function __construct($kind, UniversalFilterNode $column = null) {
+    public function __construct($kind, UniversalFilterNode $column = null)
+    {
         parent::__construct($kind);
         if ($column != null)
             $this->setSource($column, 0);

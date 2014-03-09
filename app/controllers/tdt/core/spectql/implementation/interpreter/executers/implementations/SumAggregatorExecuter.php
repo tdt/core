@@ -8,20 +8,24 @@ use tdt\core\spectql\implementation\interpreter\executers\implementations\Aggreg
 class SumAggregatorExecuter extends AggregatorFunctionExecuter
 {
 
-    public function calculateValue(UniversalFilterTableContent $column, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $column, $columnId)
+    {
         $data = $this->convertColumnToArray($column, $columnId);
         return array_sum($data);
     }
 
-    public function keepFullInfo() {
+    public function keepFullInfo()
+    {
         return false;
     }
 
-    public function getName($name) {
+    public function getName($name)
+    {
         return "sum_" . $name;
     }
 
-    public function errorIfNoItems() {
+    public function errorIfNoItems()
+    {
         return false;
     }
 

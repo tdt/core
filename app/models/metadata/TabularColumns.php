@@ -13,7 +13,8 @@ class TabularColumns extends Eloquent
 
     protected $fillable = array('index', 'column_name', 'is_pk', 'column_name_alias', 'tabular_id', 'tabular_type');
 
-    public function tabular(){
+    public function tabular()
+    {
         return $this->morphTo();
     }
 }

@@ -18,7 +18,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 class LimitFilter extends NormalFilterNode
 {
 
-    public function __construct(UniversalFilterNode $source = null, $offset, $limit) {
+    public function __construct(UniversalFilterNode $source = null, $offset, $limit)
+    {
         parent::__construct("FILTERLIMIT");
         if ($source != null)
             $this->setSource($source);
@@ -26,19 +27,23 @@ class LimitFilter extends NormalFilterNode
         $this->limit = $limit;
     }
 
-    public function setOffset($offset) {
+    public function setOffset($offset)
+    {
         $this->offset = $offset;
     }
 
-    public function getOffset() {
+    public function getOffset()
+    {
         return $this->offset;
     }
 
-    public function setLimit($limit) {
+    public function setLimit($limit)
+    {
         $this->limit = $limit;
     }
 
-    public function getLimit() {
+    public function getLimit()
+    {
         return $this->limit;
     }
 

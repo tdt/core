@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* regex replace */
 class TernaryFunctionRegexReplacementExecuter extends TernaryFunctionExecuter
 {
-    public function getName($nameA, $nameB, $nameC) {
+    public function getName($nameA, $nameB, $nameC)
+    {
         return $nameA . "_replaced_" . $nameB . "_with_" . $nameC;
     }
-    public function doTernaryFunction($valueA, $valueB, $valueC) {
+    public function doTernaryFunction($valueA, $valueB, $valueC)
+    {
         if ($valueA === null || $valueB === null || $valueC === null)
             return null;
         return preg_replace($valueA, $valueB, $valueC);

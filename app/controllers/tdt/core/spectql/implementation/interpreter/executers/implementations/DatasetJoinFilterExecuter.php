@@ -30,7 +30,8 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
     private $executerB;
     private $exprexec;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
         $this->filter = $filter;
         $this->interpreter = $interpreter;
 
@@ -82,11 +83,13 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
         }
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
         $headerA = $this->executerA->getExpressionHeader();
         $sourcecontentA = $this->executerA->evaluateAsExpression();
         $acount = $sourcecontentA->getRowCount();
@@ -189,7 +192,8 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
         return $filteredRows;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         $this->executerA->cleanUp();
         $this->executerB->cleanUp();
         if ($this->exprexec !== NULL) {
@@ -197,7 +201,8 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executerA->modififyFiltersWithHeaderInformation();
         $this->executerB->modififyFiltersWithHeaderInformation();
@@ -206,7 +211,8 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
         }
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = array_merge(
                 $this->executerA->filterSingleSourceUsages($this->filter, 0), $this->executerB->filterSingleSourceUsages($this->filter, 0), ($this->exprexec !== null ? $this->exprexec->filterSingleSourceUsages($this->filter, -1) : array())); // todo give correct number
 

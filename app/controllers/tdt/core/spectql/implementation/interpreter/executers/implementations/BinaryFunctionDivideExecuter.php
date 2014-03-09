@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* divide */
 class BinaryFunctionDivideExecuter extends BinaryFunctionExecuter
 {
-    public function getName($nameA, $nameB) {
+    public function getName($nameA, $nameB)
+    {
         return $nameA . "_divide_" . $nameB;
     }
-    public function doBinaryFunction($valueA, $valueB) {
+    public function doBinaryFunction($valueA, $valueB)
+    {
         if ($valueA === null || $valueB === null)
             return null;
         return "" . ($valueA / $valueB);

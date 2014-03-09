@@ -21,7 +21,8 @@ class TernaryFunction extends NormalFilterNode
     public static $FUNCTION_TERNARY_DATETIME_DATEADD = "FUNCTION_TERNARY_DATETIME_DATEADD"; // (date, string, constant:DateTimeExtractConstant)  (DATE_ADD(date INTERVAL string constant))
     public static $FUNCTION_TERNARY_DATETIME_DATESUB = "FUNCTION_TERNARY_DATETIME_DATESUB"; // (date, string, constant:DateTimeExtractConstant)  (DATE_SUB(date INTERVAL string constant))
 
-    public function __construct($kind, UniversalFilterNode $columnA = null, UniversalFilterNode $columnB = null, UniversalFilterNode $columnC = null) {
+    public function __construct($kind, UniversalFilterNode $columnA = null, UniversalFilterNode $columnB = null, UniversalFilterNode $columnC = null)
+    {
         parent::__construct($kind);
         if ($columnA != null)
             $this->setSource($columnA, 0);
@@ -31,7 +32,8 @@ class TernaryFunction extends NormalFilterNode
             $this->setSource($columnC, 2);
     }
 
-    public function getSourceCount() {
+    public function getSourceCount()
+    {
         return 3;
     }
 

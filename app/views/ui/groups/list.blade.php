@@ -33,8 +33,8 @@
                 $group_permissions = array_keys($group_permissions);
 
                 $users_string = '';
-                foreach($users as $user){
-                    if($user->inGroup($group)){
+                foreach ($users as $user) {
+                    if ($user->inGroup($group)) {
                         $users_string .= $user->email . ', ';
                     }
                 }

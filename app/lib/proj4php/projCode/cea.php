@@ -52,7 +52,8 @@ class Proj4phpProjCea
 
   /* Cylindrical Equal Area forward equations--mapping lat,long to x,y
     ------------------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon=$p->x;
     $lat=$p->y;
     /* Forward equations
@@ -78,7 +79,8 @@ class Proj4phpProjCea
 
   /* Cylindrical Equal Area inverse equations--mapping x,y to lat/long
     ------------------------------------------------------------*/
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $p->x -= $this->x0;
     $p->y -= $this->y0;
 

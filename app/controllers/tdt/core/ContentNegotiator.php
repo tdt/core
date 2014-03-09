@@ -29,15 +29,15 @@ class ContentNegotiator extends Pager
     public static function getResponse($data, $extension = null){
 
         // Extension has priority over Accept-header
-        if(empty($extension)){
+        if (empty($extension)) {
 
             // Check Accept-header
             $accept_header = \Request::header('Accept');
 
             $mimes = explode(',', $accept_header);
-            foreach($mimes as $mime){
+            foreach ($mimes as $mime) {
 
-                if(!empty(ContentNegotiator::$mime_types_map[$mime])){
+                if (!empty(ContentNegotiator::$mime_types_map[$mime])) {
                     // Matched mime type
                     $extension = ContentNegotiator::$mime_types_map[$mime];
                     break;
@@ -45,7 +45,7 @@ class ContentNegotiator extends Pager
             }
 
             // Still nothing? Use default formatter
-            if(empty($extension) && empty($data->semantic)){
+            if (empty($extension) && empty($data->semantic)) {
                 // Default formatter for non semantic data
                 $extension = 'json';
             }else if(empty($extension) && !empty($data->semantic)){
@@ -60,7 +60,7 @@ class ContentNegotiator extends Pager
         // Formatter class
         $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';
 
-        if(!class_exists($formatter_class)){
+        if (!class_exists($formatter_class)) {
             \App::abort(400, "The request formatter, $extension, doesn't exist.");
         }
 
@@ -68,18 +68,18 @@ class ContentNegotiator extends Pager
         $response = $formatter_class::createResponse($data);
 
         // Set the paging headers
-        if(!empty($data->paging)){
+        if (!empty($data->paging)) {
             $response->header('Link', self::getLinkHeader($data->paging));
         }
 
         // Cache settings
         $cache_minutes = -1;
 
-        if(\Config::get('cache.enabled', true)){
+        if (\Config::get('cache.enabled', true)) {
             $cache_minutes = 1;
 
             // Cache per resource
-            if(!empty($data->source_definition)){
+            if (!empty($data->source_definition)) {
                 $cache_minutes = $data->source_definition['cache'];
             }
         }

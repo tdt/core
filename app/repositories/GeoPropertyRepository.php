@@ -9,7 +9,8 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
 
     public static $geotypes = array('polygon', 'latitude', 'longitude', 'polyline', 'multiline', 'point');
 
-    public function __construct(\GeoProperty $model){
+    public function __construct(\GeoProperty $model)
+    {
         $this->model = $model;
     }
 
@@ -18,25 +19,28 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         'path' => 'required',
     );
 
-    public function store($input){
+    public function store($input)
+    {
 
         return \GeoProperty::create($input);
     }
 
-    public function getGeoProperties($id, $type){
+    public function getGeoProperties($id, $type)
+    {
 
         return \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get()->toArray();
     }
 
-    public function validate($input){
+    public function validate($input)
+    {
 
-        foreach($input as $geo){
+        foreach ($input as $geo) {
 
             // Validate the parameters to their rules
             $validator = $this->getValidator($geo);
 
             // If any validation fails, return a message and abort the workflow
-            if($validator->fails()){
+            if ($validator->fails()) {
 
                 $messages = $validator->messages();
                 \App::abort(400, $messages->first());
@@ -44,7 +48,7 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
 
             // Checkc if the given type is valid
             $type = mb_strtolower($geo['property']);
-            if(!in_array($type, self::$geotypes)){
+            if (!in_array($type, self::$geotypes)) {
 
                 $types = implode(', ', self::$geotypes);
                 \App::abort(400, "The given geo type ($type) is not supported, the supported list is: $types.");
@@ -52,20 +56,22 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         }
     }
 
-    public function storeBulk($id, $type, $input){
+    public function storeBulk($id, $type, $input)
+    {
 
-        foreach($input as $geo){
+        foreach ($input as $geo) {
             $geo['source_id'] = $id;
             $geo['source_type'] = $type;
             $this->store($geo);
         }
     }
 
-    public function deleteBulk($id, $type){
+    public function deleteBulk($id, $type)
+    {
 
         $geo_properties = \GeoProperty::where('source_id', '=', $id)->where('source_type', '=', $type, 'AND')->get();
 
-        foreach($geo_properties as $geo_property){
+        foreach ($geo_properties as $geo_property) {
             $geo_property->delete();
         }
     }
@@ -73,7 +79,8 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
     /**
      * Retrieve the set of create parameters that make up a TabularColumn model.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
 
         $geo_type_string = implode(',', self::$geotypes);
 

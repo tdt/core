@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* substring / MID */
 class TernaryFunctionSubstringExecuter extends TernaryFunctionExecuter
 {
-    public function getName($nameA, $nameB, $nameC) {
+    public function getName($nameA, $nameB, $nameC)
+    {
         return "substring_" . $nameA . "_" . $nameB . "_" . $nameC;
     }
-    public function doTernaryFunction($valueA, $valueB, $valueC) {
+    public function doTernaryFunction($valueA, $valueB, $valueC)
+    {
         if ($valueA === null || $valueB === null || $valueC === null)
             return null;
         return substr($valueA, $valueB, $valueC);

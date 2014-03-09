@@ -35,7 +35,8 @@ class Proj4phpProjOrtho
 
   /* Initialize the Orthographic projection
     -------------------------------------*/
-  public function init($def) {
+  public function init($def)
+  {
     //double temp;			/* temporary variable		*/
 
     /* Place parameters in static storage for common use
@@ -47,7 +48,8 @@ class Proj4phpProjOrtho
 
   /* Orthographic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
     $sinphi;$cosphi;	/* sin and cos value				*/
     $dlon;		/* delta longitude value			*/
     $coslon;		/* cos of longitude				*/
@@ -77,7 +79,8 @@ class Proj4phpProjOrtho
   }
 
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $rh;		/* height above ellipsoid			*/
     $z;		/* angle					*/
     $sinz;$cosz;	/* sin of z and cos of z			*/

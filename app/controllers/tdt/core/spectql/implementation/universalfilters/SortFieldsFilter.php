@@ -19,14 +19,16 @@ class SortFieldsFilter extends NormalFilterNode
 
     private $columndata; //type:Array[SortFieldsFilterColumn]
 
-    public function __construct(array /* of SortFieldsFilterColumn */ $columndata, UniversalFilterNode $source = null) {
+    public function __construct(array /* of SortFieldsFilterColumn */ $columndata, UniversalFilterNode $source = null)
+    {
         parent::__construct("FILTERSORTCOLUMNS");
         $this->columndata = $columndata;
         if ($source != null)
             $this->setSource($source);
     }
 
-    public function getColumnData() {
+    public function getColumnData()
+    {
         return $this->columndata;
     }
 

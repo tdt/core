@@ -18,18 +18,19 @@ use tdt\core\utils\XMLSerializer;
 class XMLController extends ADataController
 {
 
-    public function readData($source_definition, $rest_parameters = array()){
+    public function readData($source_definition, $rest_parameters = array())
+    {
 
         $uri = $source_definition['uri'];
 
         // Check for caching
-        if(Cache::has($uri)){
+        if (Cache::has($uri)) {
             $data = Cache::get($uri);
         }else{
             // Fetch the data
 
             $data =@ file_get_contents($uri);
-            if(!empty($data)){
+            if (!empty($data)) {
                 $data = $this->xmlstr_to_array($data);
                 Cache::put($uri, $data, $source_definition['cache']);
             }else{
@@ -47,7 +48,8 @@ class XMLController extends ADataController
     /**
      * Initialize recursion.
      */
-    private function xmlstr_to_array($xmlstr) {
+    private function xmlstr_to_array($xmlstr)
+    {
         $doc = new \DOMDocument();
         $doc->loadXML($xmlstr);
         return $this->domnode_to_array($doc->documentElement);
@@ -56,7 +58,8 @@ class XMLController extends ADataController
     /**
      * Convert node to a PHP array.
      */
-    private function domnode_to_array($node) {
+    private function domnode_to_array($node)
+    {
 
         $output = array();
 
@@ -79,13 +82,13 @@ class XMLController extends ADataController
                     $value = $this->domnode_to_array($child);
 
                     // Check if child is a tag
-                    if(isset($child->tagName)) {
+                    if (isset($child->tagName)) {
 
                         // Current tag
                         $tag = $child->tagName;
 
                         // Check if current tag is already defined
-                        if(!isset($output[$tag])) {
+                        if (!isset($output[$tag])) {
                             // If not, inititialize array
                             $output[$tag] = array();
                         }
@@ -99,12 +102,12 @@ class XMLController extends ADataController
                 }
 
                 // Element is not a text node
-                if(is_array($output)) {
+                if (is_array($output)) {
 
                     // Check if element has attributes
-                    if($node->attributes->length) {
+                    if ($node->attributes->length) {
                         $attritubes = array();
-                        foreach($node->attributes as $name => $attr) {
+                        foreach ($node->attributes as $name => $attr) {
                             $attritubes[$name] = (string) $attr->value;
                         }
                         $output['@attributes'] = $attritubes;
@@ -112,7 +115,7 @@ class XMLController extends ADataController
 
                     // For each of the element's children
                     foreach ($output as $tag => $value) {
-                        if(is_array($value) && count($value)==1) {
+                        if (is_array($value) && count($value)==1) {
                             $output[$tag] = @$value[0];
                         }
                     }
@@ -124,9 +127,9 @@ class XMLController extends ADataController
                     $output = array();
 
                     // Check if element has attributes
-                    if($node->attributes->length) {
+                    if ($node->attributes->length) {
                         $attritubes = array();
-                        foreach($node->attributes as $name => $attr) {
+                        foreach ($node->attributes as $name => $attr) {
                             $attritubes[$name] = (string) $attr->value;
                         }
                         $output['@attributes'] = $attritubes;

@@ -35,7 +35,8 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
     private $topenv;
     private $typeInlineSelect;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         $this->filter = $filter;
 
@@ -178,7 +179,8 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
      *
      * @return UniversalFilterTableContent
      */
-    protected function evaluateSubExpression() {
+    protected function evaluateSubExpression()
+    {
 
         $context = $this->topenv->getTable()->getContent();
 
@@ -224,11 +226,13 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
         return $newContent;
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
 
         $oldContent = $this->evaluateSubExpression();
 
@@ -297,7 +301,8 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
         return $newContent;
     }
 
-    private function doCalculate(UniversalFilterTableContent $content, $columnId) {
+    private function doCalculate(UniversalFilterTableContent $content, $columnId)
+    {
 
         if ($this->errorIfNoItems()) {
             if ($content->getRowCount() == 0) {
@@ -308,7 +313,8 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
         return $this->calculateValue($content, $columnId);
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
 
         try {
             $this->executer1->cleanUp();
@@ -319,13 +325,15 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
 
         parent::modififyFiltersWithHeaderInformation();
         $this->executer1->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = $this->executer1->filterSingleSourceUsages($this->filter, 0);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
@@ -341,7 +349,8 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
      * @param type $columnId
      * @return array
      */
-    public function convertColumnToArray(UniversalFilterTableContent $content, $columnId) {
+    public function convertColumnToArray(UniversalFilterTableContent $content, $columnId)
+    {
 
         $arr = array();
 
@@ -352,23 +361,28 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
         return $arr;
     }
 
-    public function getName($name) {
+    public function getName($name)
+    {
         return $name;
     }
 
-    public function calculateValue(UniversalFilterTableContent $content, $columnId) {
+    public function calculateValue(UniversalFilterTableContent $content, $columnId)
+    {
         return 0;
     }
 
-    public function keepFullInfo() {
+    public function keepFullInfo()
+    {
         return true;
     }
 
-    public function errorIfNoItems() {
+    public function errorIfNoItems()
+    {
         return false;
     }
 
-    public function combinesMultipleColumns() {
+    public function combinesMultipleColumns()
+    {
         return false;
     }
 

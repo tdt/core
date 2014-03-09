@@ -35,17 +35,20 @@ class BigDataBlockManager
     private $issavedtofile; //only for those currently in memory
     private $currentcountinmemory = 0;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->memoryblockarray = new \stdClass();
         $this->issavedtofile = new \stdClass();
     }
 
-    private function getDirToWriteTo() {
+    private function getDirToWriteTo()
+    {
         $tmpdir = SPECTQLController::$TMP_DIR;
         return $tmpdir . "The-DataTank-BigDataBlockManager_block_";
     }
 
-    private function fileNameFor($key) {
+    private function fileNameFor($key)
+    {
         return ($this->getDirToWriteTo()) . hashWithNoSpecialChars($key) . ".datablock";
     }
 
@@ -64,7 +67,8 @@ class BigDataBlockManager
      *
      * Picks a block from memory and deletes it (writes it to file first)
      */
-    private function kickABlockFromMemory() {
+    private function kickABlockFromMemory()
+    {
         $oldestaccesstime = $this->currentaccesstime + 1;
         $oldestaccesskey = null;
         foreach ($this->usetimelist as $key => $lastaccesstime) {
@@ -87,7 +91,8 @@ class BigDataBlockManager
      * @param string $key
      * @param object $value
      */
-    private function explicitSaveBlock($key, $value) {
+    private function explicitSaveBlock($key, $value)
+    {
         //echo "save ".$key." (".$this->currentcountinmemory.")<br/>";
         $filename = $this->fileNameFor($key);
         $serializedValue = serialize($value);
@@ -103,7 +108,8 @@ class BigDataBlockManager
      * @param type $key
      * @param type $value
      */
-    private function explicitPutBlockInMemory($key, $value) {
+    private function explicitPutBlockInMemory($key, $value)
+    {
         $this->deleteBlock($key); //remove old data with the same key...
         $this->currentaccesstime++; //a counter to implement LRU
         $this->memoryblockarray->$key = $value;
@@ -117,7 +123,8 @@ class BigDataBlockManager
      * Delete the block with this key. ALSO from filesystem.
      * @param string $key
      */
-    private function deleteBlock($key) {
+    private function deleteBlock($key)
+    {
         if (isset($this->memoryblockarray->$key)) {
             //echo "del_mem ".$key." (".$this->currentcountinmemory.")<br/>";
             //kept and memory (and maybe also on file)
@@ -146,7 +153,8 @@ class BigDataBlockManager
      * Checks if a block exist on file...
      * @param string $key
      */
-    private function blockExistsOnFile($key) {
+    private function blockExistsOnFile($key)
+    {
         return file_exists($this->fileNameFor($key));
     }
 
@@ -156,7 +164,8 @@ class BigDataBlockManager
      *    (that is handled elsewhere)
      * @param string $key
      */
-    private function explicitLoadBlockFromFileInMemory($key) {
+    private function explicitLoadBlockFromFileInMemory($key)
+    {
         $filename = $this->fileNameFor($key);
 
         //READ FILE
@@ -174,7 +183,8 @@ class BigDataBlockManager
      * @param string $key
      * @return object
      */
-    private function getBlock($key) {
+    private function getBlock($key)
+    {
         if (!isset($this->memoryblockarray->$key)) {
             if ($this->blockExistsOnFile($key)) {
                 //not in memory... it got pushed out...
@@ -200,7 +210,8 @@ class BigDataBlockManager
      * @param string $key
      * @param object $value
      */
-    private function setBlock($key, $value) {
+    private function setBlock($key, $value)
+    {
         if ($this->currentcountinmemory >= BigDataBlockManager::$COUNT_KEEP_IN_MEMORY) {
             $this->kickABlockFromMemory();
         }
@@ -216,7 +227,8 @@ class BigDataBlockManager
      * @param string $key
      * @param object $value
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         //echo "set: $key<br/>";
         $this->setBlock($key, $value);
     }
@@ -226,7 +238,8 @@ class BigDataBlockManager
      * @param string $key
      * @return object
      */
-    public function get($key) {
+    public function get($key)
+    {
         //echo "get: $key<br/>";
         return $this->getBlock($key);
     }
@@ -235,7 +248,8 @@ class BigDataBlockManager
      * Deletes a datablock
      * @param type $key
      */
-    public function delete($key) {
+    public function delete($key)
+    {
         //echo "del: $key<br/>";
         $this->deleteBlock($key);
     }

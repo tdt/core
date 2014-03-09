@@ -16,7 +16,8 @@ class GeoProperty extends Eloquent
     /**
      * Return the polymorphic relation with a source type.
      */
-    public function source(){
+    public function source()
+    {
         return $this->morphTo();
     }
 }

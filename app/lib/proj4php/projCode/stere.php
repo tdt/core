@@ -11,7 +11,8 @@
 
 class Proj4phpProjStere
 {
-  public function ssfn_($phit, $sinphi, $eccen) {
+  public function ssfn_($phit, $sinphi, $eccen)
+  {
   	$sinphi *= $eccen;
   	return (tan (.5 * (Proj4php::$common->HALF_PI + $phit)) * pow((1. - $sinphi) / (1. + $sinphi), .5 * $eccen));
   }
@@ -24,7 +25,8 @@ class Proj4phpProjStere
   protected $OBLIQ=	2;
   protected $EQUIT=	3;
 
-  public function init() {
+  public function init()
+  {
   	$this->phits = $this->lat_ts ? $this->lat_ts : Proj4php::$common->HALF_PI;
     $t = abs($this->lat0);
   	if ((abs($t) - Proj4php::$common->HALF_PI) < Proj4php::$common->EPSLN) {
@@ -79,7 +81,8 @@ class Proj4phpProjStere
   }
 
 // Stereographic forward equations--mapping lat,long to x,y
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon = $p->x;
     $lon = Proj4php::$common->adjust_lon($lon - $this->long0);
     $lat = $p->y;
@@ -162,7 +165,8 @@ class Proj4phpProjStere
 
 
 //* Stereographic inverse equations--mapping x,y to lat/long
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $x = ($p->x - $this->x0)/$this->a;   /* descale and de-offset */
     $y = ($p->y - $this->y0)/$this->a;
     $lon; $lat;
@@ -219,7 +223,7 @@ class Proj4phpProjStere
         $tp = 2. * atan2($rho * $this->cosX1 , $this->akm1);
     		$cosphi = cos($tp);
     		$sinphi = sin($tp);
-        if( $rho == 0.0 ) {
+        if ( $rho == 0.0 ) {
     		  $phi_l = asin($cosphi * $this->sinX1);
         } else {
     		  $phi_l = asin($cosphi * $this->sinX1 + ($y * $sinphi * $this->cosX1 / $rho));

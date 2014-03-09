@@ -9,10 +9,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* floor */
 class UnaryFunctionFloorExecuter extends UnaryFunctionExecuter
 {
-    public function getName($name) {
+    public function getName($name)
+    {
         return "floor_" . $name;
     }
-    public function doUnaryFunction($value) {
+    public function doUnaryFunction($value)
+    {
         if ($value === null)
             return null;
         return "" . floor($value);

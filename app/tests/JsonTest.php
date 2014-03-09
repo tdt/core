@@ -15,10 +15,11 @@ class JsonTest extends TestCase
                 'simple_persons',
             );
 
-    public function test_put_api(){
+    public function test_put_api()
+    {
 
         // Publish each json file in the test json data folder.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             // Set the definition parameters.
             $data = array(
@@ -44,10 +45,11 @@ class JsonTest extends TestCase
         }
     }
 
-    public function test_get_api(){
+    public function test_get_api()
+    {
 
         // Request the data for each of the test json files.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             $file = 'json/'. $file .'.json';
             $this->updateRequest('GET');
@@ -59,10 +61,11 @@ class JsonTest extends TestCase
         }
     }
 
-    public function test_delete_api(){
+    public function test_delete_api()
+    {
 
         // Delete the published definition for each test json file.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             $this->updateRequest('DELETE');
 

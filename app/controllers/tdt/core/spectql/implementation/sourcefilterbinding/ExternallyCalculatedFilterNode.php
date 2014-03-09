@@ -20,14 +20,16 @@ class ExternallyCalculatedFilterNode extends NormalFilterNode
 
     private $table;
 
-    public function __construct(UniversalFilterTable $table, UniversalFilterNode $implementedFilter) {
+    public function __construct(UniversalFilterTable $table, UniversalFilterNode $implementedFilter)
+    {
         parent::__construct("EXTERNALLY_CALCULATED_NODE");
         $this->table = $table;
         if ($implementedFilter != null)
             $this->setSource($implementedFilter);
     }
 
-    public function getTable() {
+    public function getTable()
+    {
         return $this->table;
     }
 

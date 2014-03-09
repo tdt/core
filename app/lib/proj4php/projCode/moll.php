@@ -37,13 +37,15 @@ class Proj4phpProjMoll
 
   /* Initialize the Mollweide projection
     ------------------------------------*/
-  public function init(){
+  public function init()
+  {
     //no-op
   }
 
   /* Mollweide forward equations--mapping lat,long to x,y
     ----------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
 
     /* Forward equations
       -----------------*/
@@ -79,7 +81,8 @@ class Proj4phpProjMoll
     return $p;
   }
 
-  public function inverse($p){
+  public function inverse($p)
+  {
     $theta;
     $arg;
 

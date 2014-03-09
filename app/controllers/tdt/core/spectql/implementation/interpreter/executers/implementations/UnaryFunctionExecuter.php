@@ -27,7 +27,8 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
     private $executer1;
     private $header1;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         $this->filter = $filter;
 
@@ -52,11 +53,13 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
 
         $table1content = $this->executer1->evaluateAsExpression();
 
@@ -89,15 +92,18 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
         return $rows;
     }
 
-    public function getName($name) {
+    public function getName($name)
+    {
         return $name;
     }
 
-    public function doUnaryFunction($value) {
+    public function doUnaryFunction($value)
+    {
         return null;
     }
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
         try {
             $this->executer1->cleanUp();
         } catch (Exception $ex) {
@@ -105,12 +111,14 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
         }
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         parent::modififyFiltersWithHeaderInformation();
         $this->executer1->modififyFiltersWithHeaderInformation();
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         $arr = $this->executer1->filterSingleSourceUsages($this->filter, 1);
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);

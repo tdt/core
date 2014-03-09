@@ -13,14 +13,16 @@ class SparqlDefinitionRepository extends BaseRepository implements SparqlDefinit
         'description' => 'required',
     );
 
-    public function __construct(\SparqlDefinition $model){
+    public function __construct(\SparqlDefinition $model)
+    {
         $this->model = $model;
     }
 
     /**
      * Retrieve the set of create parameters that make up a SPARQL definition.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
         return array(
             'endpoint' => array(
                 'required' => true,

@@ -2,34 +2,29 @@
 
 $error = false;
 
-if ($_GET['x'])
-{
+if ($_GET['x']) {
    $x = $_GET['x'];
 }
 else
 	$error = true;
-if ($_GET['y'])
-{
+if ($_GET['y']) {
    $y = $_GET['y'];
 }
 else
 	$error = true;
-if ($_GET['projectionxy'])
-{
+if ($_GET['projectionxy']) {
    $projectionxy = $_GET['projectionxy'];
    $projectionxy = str_replace('::',':',$projectionxy);
 }
 else
 	$projectionxy = 'EPSG:2154';
-if ($_GET['projection'])
-{
+if ($_GET['projection']) {
    $projection = $_GET['projection'];
    $projection = str_replace('::',':',$projection);
 }
 else
 	$projection = 'EPSG:4326';
-if ($_GET['format'])
-{
+if ($_GET['format']) {
    $format = $_GET['format'];
    if (!($format=='xml' || $format=='json'))
 	 $error = true;
@@ -49,10 +44,8 @@ if (Proj4php::$defs[$projectionxy]==Proj4php::$defs['WGS84'] && $projectionxy!='
 if (Proj4php::$defs[$projection]==Proj4php::$defs['WGS84'] && $projection!='EPSG:4326')
   $error = true;
 
-if ($error)
-{
-	if ($format=='json')
-	{
+if ($error) {
+	if ($format=='json') {
 		echo "{\"status\":\"error\", \"erreur\": {\"code\": 2, \"message\": \"Wrong parameters.\"} }";
 		exit;
 	}
@@ -73,8 +66,7 @@ $pointDest = $proj4->transform($projsource,$projdest,$pointSrc);
 
 $projection = str_replace(':','::',$projection);
 
-if ($format=='json')
-{
+if ($format=='json') {
 	echo "{\"status\" :\"success\", \"point\" : {\"x\":".$pointDest->x.", \"y\":".$pointDest->y.",\"projection\" :\"".$projection."\"}}";
 	exit;
 }

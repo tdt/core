@@ -31,11 +31,11 @@ class JSONFormatter implements IFormatter
             $body = get_object_vars($dataObj->data);
         }
 
-        if($dataObj->is_semantic){
+        if ($dataObj->is_semantic) {
 
             // Check if a configuration is given
             $conf = array();
-            if(!empty($dataObj->semantic->conf)){
+            if (!empty($dataObj->semantic->conf)) {
                 $conf = $dataObj->semantic->conf;
             }
 

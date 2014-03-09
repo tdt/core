@@ -27,7 +27,8 @@ class ConstantExecuter extends AbstractUniversalFilterNodeExecuter
     private $const;
     private $nameOfField;
 
-    private function getFieldName($const) {
+    private function getFieldName($const)
+    {
         if ($const != "") {
             return "$const";
         } else {
@@ -35,7 +36,8 @@ class ConstantExecuter extends AbstractUniversalFilterNodeExecuter
         }
     }
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
         $this->filter = $filter;
 
         $this->const = $filter->getConstant();
@@ -48,11 +50,13 @@ class ConstantExecuter extends AbstractUniversalFilterNodeExecuter
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), true, true);
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
         $id = $this->header->getColumnId();
 
         $row = new UniversalFilterTableContentRow();
@@ -64,7 +68,8 @@ class ConstantExecuter extends AbstractUniversalFilterNodeExecuter
         return $content;
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
         return array();
     }
 

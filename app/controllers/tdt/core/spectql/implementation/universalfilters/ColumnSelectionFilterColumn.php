@@ -14,16 +14,19 @@ class ColumnSelectionFilterColumn
     private $column; //type:UniversalFilterNode
     private $alias; //type:String (can be null)
 
-    public function __construct(UniversalFilterNode $column, $alias = null) {
+    public function __construct(UniversalFilterNode $column, $alias = null)
+    {
         $this->column = $column;
         $this->alias = $alias;
     }
 
-    public function getColumn() {
+    public function getColumn()
+    {
         return $this->column;
     }
 
-    public function getAlias() {
+    public function getAlias()
+    {
         return $this->alias;
     }
 

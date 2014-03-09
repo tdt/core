@@ -40,7 +40,8 @@ class TreePrinter
      * @param UniversalFilterNode $tree
      * @return string A string representation of the tree
      */
-    public function treeToString(UniversalFilterNode $tree = null) {
+    public function treeToString(UniversalFilterNode $tree = null)
+    {
         if ($tree == null) {
             return $this->getPadding() . "[!!!! NULL !!!!]";
         }
@@ -58,14 +59,16 @@ class TreePrinter
         return $var;
     }
 
-    public function treeToStringWithPadding($padding, UniversalFilterNode $tree = null) {
+    public function treeToStringWithPadding($padding, UniversalFilterNode $tree = null)
+    {
         $this->incPadding($padding);
         $string = $this->treeToString($tree);
         $this->incPadding(-$padding);
         return $string;
     }
 
-    public function printString(UniversalFilterNode $tree = null) {
+    public function printString(UniversalFilterNode $tree = null)
+    {
         $string = $this->treeToString($tree);
         echo "<div style='border:1px solid grey'>";
         echo "<pre>";
@@ -74,7 +77,8 @@ class TreePrinter
         echo "</div>";
     }
 
-    private function getPadding($dir = 0) {
+    private function getPadding($dir = 0)
+    {
         $padding = "";
         for ($index = 0; $index < $this->depth + $dir; $index++) {
             $padding.="  |";
@@ -82,27 +86,32 @@ class TreePrinter
         return $padding;
     }
 
-    private function incPadding($count) {
+    private function incPadding($count)
+    {
         $this->depth+=$count;
         return "";
     }
 
-    private function print_Identifier(Identifier $filter) {
+    private function print_Identifier(Identifier $filter)
+    {
         return $this->getPadding() . "Identifier[ " . $filter->getIdentifierString() . " ]\n";
     }
 
-    private function print_Constant(Constant $filter) {
+    private function print_Constant(Constant $filter)
+    {
         return $this->getPadding() . "Constant[ " . $filter->getConstant() . " ]\n";
     }
 
-    private function print_TableAliasFilter(TableAliasFilter $filter) {
+    private function print_TableAliasFilter(TableAliasFilter $filter)
+    {
         return $this->getPadding() . "TableAliasFilter[" . $filter->getAlias() . "] {\n" .
                 $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
                 $this->getPadding() . "}\n";
     }
 
-    private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter) {
+    private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter)
+    {
         return $this->getPadding() . "FilterByExpressionFilter {\n" .
                 $this->getPadding(1) . "expression : \n" .
                 $this->treeToStringWithPadding(2, $filter->getExpression()) .
@@ -111,7 +120,8 @@ class TreePrinter
                 $this->getPadding() . "}\n";
     }
 
-    private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter) {
+    private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter)
+    {
         $string = $this->getPadding() . "ColumnSelectionFilter {\n";
         foreach ($filter->getColumnData() as $index => $originalColumn) {
             $aliaspart = "";
@@ -129,7 +139,8 @@ class TreePrinter
         return $string;
     }
 
-    private function print_SortFieldsFilter(SortFieldsFilter $filter) {
+    private function print_SortFieldsFilter(SortFieldsFilter $filter)
+    {
         $string = $this->getPadding() . "SortFieldsFilter {\n";
         foreach ($filter->getColumnData() as $index => $originalColumn) {
             $name = $originalColumn->getColumn()->getIdentifierString();
@@ -144,21 +155,24 @@ class TreePrinter
         return $string;
     }
 
-    private function print_DistinctFilter(DistinctFilter $filter) {
+    private function print_DistinctFilter(DistinctFilter $filter)
+    {
         return $this->getPadding() . "DistinctFilter {\n" .
                 $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
                 $this->getPadding() . "}\n";
     }
 
-    private function print_LimitFilter(LimitFilter $filter) {
+    private function print_LimitFilter(LimitFilter $filter)
+    {
         return $this->getPadding() . "LimitFilter {\n" .
                 $this->getPadding(1) . "source: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
                 $this->getPadding() . "}\n";
     }
 
-    private function print_DataGrouper(DataGrouper $filter) {
+    private function print_DataGrouper(DataGrouper $filter)
+    {
         $columnstring = "";
         foreach ($filter->getColumns() as $index => $column) {
             if ($index != 0) {
@@ -173,7 +187,8 @@ class TreePrinter
                 $this->getPadding() . "}\n";
     }
 
-    private function print_DatasetJoinFilter(DatasetJoinFilter $filter) {
+    private function print_DatasetJoinFilter(DatasetJoinFilter $filter)
+    {
         $string = $this->getPadding() . "DatasetJoinFilter [keepleft: " . ($filter->getKeepLeft() ? "true" : "false") . "; keepright: " . ($filter->getKeepRight() ? "true" : "false") . "] {\n" .
                 $this->getPadding(1) . "source 1: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(0)) .
@@ -189,14 +204,16 @@ class TreePrinter
         return $string;
     }
 
-    private function print_UnaryFunction(UnaryFunction $filter) {
+    private function print_UnaryFunction(UnaryFunction $filter)
+    {
         return $this->getPadding() . "UnaryFunction[" . $filter->getType() . "] {\n" .
                 $this->getPadding(1) . "argument: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
                 $this->getPadding() . "}\n";
     }
 
-    private function print_BinaryFunction(BinaryFunction $filter) {
+    private function print_BinaryFunction(BinaryFunction $filter)
+    {
         return $this->getPadding() . "BinaryFunction[" . $filter->getType() . "] {\n" .
                 $this->getPadding(1) . "argument 1: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(0)) .
@@ -205,7 +222,8 @@ class TreePrinter
                 $this->getPadding() . "}\n";
     }
 
-    private function print_TernaryFunction(TernaryFunction $filter) {
+    private function print_TernaryFunction(TernaryFunction $filter)
+    {
         return $this->getPadding() . "TernaryFunction[" . $filter->getType() . "] {\n" .
                 $this->getPadding(1) . "argument 1: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource(0)) .
@@ -216,14 +234,16 @@ class TreePrinter
                 $this->getPadding() . "}\n";
     }
 
-    private function print_AggregatorFunction(AggregatorFunction $filter) {
+    private function print_AggregatorFunction(AggregatorFunction $filter)
+    {
         return $this->getPadding() . "AggregatorFunction[" . $filter->getType() . "] {\n" .
                 $this->getPadding(1) . "argument: \n" .
                 $this->treeToStringWithPadding(2, $filter->getSource()) .
                 $this->getPadding() . "}\n";
     }
 
-    private function print_CheckInFunction(CheckInFunction $filter) {
+    private function print_CheckInFunction(CheckInFunction $filter)
+    {
         $checkstring = "";
         foreach ($filter->getConstants() as $index => $constant) {
             if ($index != 0) {
@@ -238,7 +258,8 @@ class TreePrinter
                 $this->getPadding() . "}\n";
     }
 
-    private function printSomeUnknownNode(UniversalFilterNode $filter) {
+    private function printSomeUnknownNode(UniversalFilterNode $filter)
+    {
         $string = $this->getPadding() . $filter->getType() . "[?]";
         if ($filter instanceof NormalFilterNode) {
             $string.=" {\n";

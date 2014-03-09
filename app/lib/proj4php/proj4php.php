@@ -219,7 +219,7 @@ class Proj4php
             $point->x -= $dest->from_greenwich;
         }
 
-        if( $dest->projName=="longlat" ) {
+        if ( $dest->projName=="longlat" ) {
             // convert radians to decimal degrees
             $point->x *= Proj4php::$common->R2D;
             $point->y *= Proj4php::$common->R2D;
@@ -245,10 +245,10 @@ class Proj4php
       point to transform in geodetic coordinates (long, lat, height)
     */
     public function datum_transform($source, $dest, $point )
-	{
+    {
 
       // Short cut if the datums are identical.
-      if( $source->compare_datums( $dest ) ) {
+      if ( $source->compare_datums( $dest ) ) {
           return $point; // in this case, zero is sucess,
                     // whereas cs_compare_datums returns 1 to indicate TRUE
                     // confusing, should fix this
@@ -261,8 +261,7 @@ class Proj4php
       }
 
       // If this datum requires grid shifts, then apply it to geodetic coordinates.
-      if( $source->datum_type == Proj4php::$common->PJD_GRIDSHIFT )
-      {
+      if ( $source->datum_type == Proj4php::$common->PJD_GRIDSHIFT ) {
         throw(new Exception("ERROR: Grid shift transformations are not implemented yet."));
         /*
           pj_apply_gridshift( pj_param(source.params,"snadgrids").s, 0,
@@ -274,8 +273,7 @@ class Proj4php
         */
       }
 
-      if( $dest->datum_type == Proj4php::$common->PJD_GRIDSHIFT )
-      {
+      if ( $dest->datum_type == Proj4php::$common->PJD_GRIDSHIFT ) {
         throw(new Exception("ERROR: Grid shift transformations are not implemented yet."));
         /*
           dst_a = ;
@@ -296,12 +294,12 @@ class Proj4php
         // CHECK_RETURN;
 
         // Convert between datums
-        if( $source->datum_type == Proj4php::$common->PJD_3PARAM || $source->datum_type == Proj4php::$common->PJD_7PARAM ) {
+        if ( $source->datum_type == Proj4php::$common->PJD_3PARAM || $source->datum_type == Proj4php::$common->PJD_7PARAM ) {
           $source->geocentric_to_wgs84($point);
           // CHECK_RETURN;
         }
 
-        if( $dest->datum_type == Proj4php::$common->PJD_3PARAM || $dest->datum_type == Proj4php::$common->PJD_7PARAM ) {
+        if ( $dest->datum_type == Proj4php::$common->PJD_3PARAM || $dest->datum_type == Proj4php::$common->PJD_7PARAM ) {
           $dest->geocentric_from_wgs84($point);
           // CHECK_RETURN;
         }
@@ -312,8 +310,7 @@ class Proj4php
       }
 
       // Apply grid shift to destination if required
-      if( $dest->datum_type == Proj4php::$common->PJD_GRIDSHIFT )
-      {
+      if ( $dest->datum_type == Proj4php::$common->PJD_GRIDSHIFT ) {
         throw(new Exception("ERROR: Grid shift transformations are not implemented yet."));
         // pj_apply_gridshift( pj_param(dest.params,"snadgrids").s, 1, point);
         // CHECK_RETURN;
@@ -331,7 +328,8 @@ class Proj4php
      * denorm {Boolean} when false, normalize
      * point {Object} the coordinates to adjust
      */
-    public function adjust_axis($crs, $denorm, $point) {
+    public function adjust_axis($crs, $denorm, $point)
+    {
         $xin= $point->x;
 		$yin= $point->y;
 		$zin= isset($point->z)? $point->z : 0.0;
@@ -373,7 +371,8 @@ class Proj4php
      * An internal method to report errors back to user.
      * Override this in applications to report error messages or throw exceptions.
      */
-    public function reportError($msg) {
+    public function reportError($msg)
+    {
       //console.log(msg);
 	  //echo $msg;
     }
@@ -405,8 +404,7 @@ class Proj4php
  */
 	public static function extend($destination, $source) {
 	  if ($source!=null)
-      foreach($source as $key=>$value)
-	  {
+      foreach ($source as $key=>$value) {
 		$destination->$key = $value;
 	  }
       return $destination;

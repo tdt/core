@@ -22,7 +22,8 @@ abstract class NormalFilterNode extends UniversalFilterNode {
      * @param int $index
      */
 
-    private function checkBounds($index) {
+    private function checkBounds($index)
+    {
         if ($index < 0 || $index >= $this->getSourceCount()) {
             throw new Exception("That is not a valid source-index for this kind of node (node kind: " . get_class($this) . ", index: " . $index . ")");
         }
@@ -34,7 +35,8 @@ abstract class NormalFilterNode extends UniversalFilterNode {
      * @param UniversalFilterNode $source
      * @param int $index The index of the source to set. Default: source 0.
      */
-    public function setSource(UniversalFilterNode $source, $index = 0) {
+    public function setSource(UniversalFilterNode $source, $index = 0)
+    {
         $this->checkBounds($index);
         $this->source[$index] = $source;
     }
@@ -44,7 +46,8 @@ abstract class NormalFilterNode extends UniversalFilterNode {
      * @param int $index
      * @return NormalFilterNode the sourcefilter
      */
-    public function getSource($index = 0) {
+    public function getSource($index = 0)
+    {
         $this->checkBounds($index);
         if (isset($this->source[$index])) {
             return $this->source[$index];
@@ -57,7 +60,8 @@ abstract class NormalFilterNode extends UniversalFilterNode {
      * How many sources does this filter have? (Most of the time: 1)
      * @return int
      */
-    public function getSourceCount() {
+    public function getSourceCount()
+    {
         return 1;
     }
 

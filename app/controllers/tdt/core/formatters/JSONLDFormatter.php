@@ -24,11 +24,11 @@ class JSONLDFormatter implements IFormatter
 
     public static function getBody($dataObj){
 
-        if($dataObj->is_semantic){
+        if ($dataObj->is_semantic) {
 
             // Check if a configuration is given
             $conf = array();
-            if(!empty($dataObj->semantic->conf)){
+            if (!empty($dataObj->semantic->conf)) {
                 $conf = $dataObj->semantic->conf;
             }
 

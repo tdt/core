@@ -16,14 +16,16 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
         'description' => 'required',
     );
 
-    public function __construct(\XlsDefinition $model){
+    public function __construct(\XlsDefinition $model)
+    {
 
         parent::__construct();
 
         $this->model = $model;
     }
 
-    public function store($input){
+    public function store($input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -36,7 +38,7 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
         // Validate the geo properties and take into consideration the alias for the column that the geo property might have
         $geo = @$input['geo'];
 
-        if(empty($geo)){
+        if (empty($geo)) {
             $geo = array();
         }else{
             $geo = $this->geo_repository->validate(@$input['geo']);
@@ -55,7 +57,8 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
         return $xls_definition->toArray();
     }
 
-    public function update($id, $input){
+    public function update($id, $input)
+    {
 
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
@@ -92,7 +95,8 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
     /**
      * Retrieve the set of create parameters that make up a XLS definition.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
 
         return array(
                 'uri' => array(
@@ -141,7 +145,8 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
      * Retrieve the set of create parameters that make up a XLS definition.
      * Include the parameters that make up relationships with this model.
      */
-    public function getAllParameters(){
+    public function getAllParameters()
+    {
 
          $column_params = array(
             'columns' =>

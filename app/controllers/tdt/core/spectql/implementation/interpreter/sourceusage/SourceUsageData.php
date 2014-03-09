@@ -34,7 +34,8 @@ class SourceUsageData
      * @param int $filterParentSourceIndex
      * @param string $sourceId
      */
-    public function __construct(UniversalFilterNode $filterSourceNode, UniversalFilterNode $filterParentNode, $filterParentSourceIndex, $sourceId) {
+    public function __construct(UniversalFilterNode $filterSourceNode, UniversalFilterNode $filterParentNode, $filterParentSourceIndex, $sourceId)
+    {
         $this->filterSourceNode = $filterSourceNode;
         $this->filterParentNode = $filterParentNode;
         $this->filterParentSourceIndex = $filterParentSourceIndex;
@@ -45,35 +46,43 @@ class SourceUsageData
      *
      * @return type
      */
-    public function getFilterSourceNode() {
+    public function getFilterSourceNode()
+    {
         return $this->filterSourceNode;
     }
 
-    public function getFilterParentNode() {
+    public function getFilterParentNode()
+    {
         return $this->filterParentNode;
     }
 
-    public function getFilterParentSourceIndex() {
+    public function getFilterParentSourceIndex()
+    {
         return $this->filterParentSourceIndex;
     }
 
-    public function getSourceId() {
+    public function getSourceId()
+    {
         return $this->sourceId;
     }
 
-    public function setFilterSourceNode($filterSourceNode) {
+    public function setFilterSourceNode($filterSourceNode)
+    {
         $this->filterSourceNode = $filterSourceNode;
     }
 
-    public function setFilterParentNode($filterParentNode) {
+    public function setFilterParentNode($filterParentNode)
+    {
         $this->filterParentNode = $filterParentNode;
     }
 
-    public function setFilterParentSourceIndex($filterParentSourceIndex) {
+    public function setFilterParentSourceIndex($filterParentSourceIndex)
+    {
         $this->filterParentSourceIndex = $filterParentSourceIndex;
     }
 
-    public function setSourceId($sourceId) {
+    public function setSourceId($sourceId)
+    {
         $this->sourceId = $sourceId;
     }
 

@@ -18,7 +18,8 @@ use PHPExcel_IOFactory as IOFactory;
 class XLSController extends ADataController
 {
 
-    public function readData($source_definition, $rest_parameters = array()){
+    public function readData($source_definition, $rest_parameters = array())
+    {
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
@@ -34,7 +35,7 @@ class XLSController extends ADataController
         $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
         $columns = $tabular_repository->getColumns($source_definition['id'], 'XlsDefinition');
 
-        if(empty($columns)){
+        if (empty($columns)) {
             \App::abort(500, "Cannot find the columns from the XLS definition.");
         }
 
@@ -42,9 +43,9 @@ class XLSController extends ADataController
         $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'XlsDefinition');
         $pk = null;
 
-        foreach($columns as $column){
+        foreach ($columns as $column) {
 
-            if(!empty($column['is_pk'])){
+            if (!empty($column['is_pk'])) {
                 $pk = $column['column_name_alias'];
             }
         }
@@ -55,7 +56,7 @@ class XLSController extends ADataController
         // Get the temporary directory to store our excel files in if necessary
         $tmp_path = sys_get_temp_dir();
 
-        if(empty($tmp_path)){
+        if (empty($tmp_path)) {
             \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
         }
 
@@ -71,20 +72,20 @@ class XLSController extends ADataController
                 $php_obj = self::loadExcel($uri, $this->getFileExtension($uri), $sheet);
             }
 
-            if(empty($php_obj)){
+            if (empty($php_obj)) {
                 \App::abort(500, "The Excel file could not be retrieved from the location $uri.");
             }
 
             $worksheet = $php_obj->getSheetByName($sheet);
 
-            if(empty($worksheet)){
+            if (empty($worksheet)) {
                 \App::abort(500, "The worksheet $sheet could not be found in the Excel file located on $uri.");
             }
 
             // The amount of rows added to the result
             $total_rows = 0;
 
-            if($has_header_row == 1){
+            if ($has_header_row == 1) {
                 $start_row++;
             }
 
@@ -94,13 +95,13 @@ class XLSController extends ADataController
                 $row_index = $row->getRowIndex();
 
                 // If our offset is ok, start parsing the data from the excell sheet
-                if($row_index > $start_row) {
+                if ($row_index > $start_row) {
 
                     $cell_iterator = $row->getCellIterator();
                     $cell_iterator->setIterateOnlyExistingCells(false);
 
                     // Only read rows that are allowed in the current requested page
-                   if($offset <= $total_rows && $offset + $limit > $total_rows){
+                   if ($offset <= $total_rows && $offset + $limit > $total_rows) {
 
                         $rowobject = new \stdClass();
 
@@ -113,14 +114,14 @@ class XLSController extends ADataController
 
                         $values = $this->createValues($columns, $data);
 
-                        foreach($values as $key => $value){
+                        foreach ($values as $key => $value) {
                             $rowobject->$key = $value;
                         }
 
-                        if(empty($pk)) {
+                        if (empty($pk)) {
                             array_push($row_objects,$rowobject);
                         } else {
-                            if(empty($row_objects[$rowobject->$pk])){
+                            if (empty($row_objects[$rowobject->$pk])) {
                                 $row_objects[$rowobject->$pk] = $rowobject;
                             }elseif(!empty($row_objects[$rowobject->$pk])){
 
@@ -164,7 +165,7 @@ class XLSController extends ADataController
      */
     public static function loadExcel($file, $type, $sheet) {
 
-        if($type == "xls") {
+        if ($type == "xls") {
             $objReader = IOFactory::createReader('Excel5');
         }else if($type == "xlsx") {
             $objReader = IOFactory::createReader('Excel2007');
@@ -182,12 +183,13 @@ class XLSController extends ADataController
      * This function returns an array with key=column-name and value=data given
      * a certain data row.
      */
-    private function createValues($columns, $data){
+    private function createValues($columns, $data)
+    {
 
         $result = array();
 
-        foreach($columns as $column){
-            if(isset($data[$column['index']]) || is_numeric(@$data[$column['index']])){
+        foreach ($columns as $column) {
+            if (isset($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
                 $result[$column['column_name_alias']] = $data[$column['index']];
             }else{
                 $index = $column['index'];
@@ -206,7 +208,7 @@ class XLSController extends ADataController
         $aliases = @$input['columns'];
         $pk = @$input['pk'];
 
-        if(empty($aliases)){
+        if (empty($aliases)) {
             $aliases = array();
         }
 
@@ -214,7 +216,7 @@ class XLSController extends ADataController
         $columns = array();
         $tmp_dir = sys_get_temp_dir();
 
-        if(empty($columns)){
+        if (empty($columns)) {
 
             if (!is_dir($tmp_dir)) {
                 mkdir($tmp_dir);
@@ -240,7 +242,7 @@ class XLSController extends ADataController
             }
 
 
-            if(is_null($worksheet)){
+            if (is_null($worksheet)) {
                 $sheet = $input['sheet'];
                 \App::abort(404, "The sheet with name, $sheet, has not been found in the Excel file.");
             }
@@ -257,9 +259,9 @@ class XLSController extends ADataController
 
                     $column_index = 0;
 
-                    foreach($cell_iterator as $cell){
+                    foreach ($cell_iterator as $cell) {
 
-                        if($cell->getCalculatedValue() != ""){
+                        if ($cell->getCalculatedValue() != "") {
 
                             $cell_value = trim($cell->getCalculatedValue());
 
@@ -267,7 +269,7 @@ class XLSController extends ADataController
                             // then just take the column value as alias
                             $alias = @$aliases[$column_index];
 
-                            if(empty($alias)){
+                            if (empty($alias)) {
                                 $alias = $cell_value;
                             }
 

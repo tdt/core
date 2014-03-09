@@ -29,11 +29,13 @@ abstract class AbstractUniversalFilterNodeExecuter {
 
     public abstract function evaluateAsExpression();
 
-    public function cleanUp() {
+    public function cleanUp()
+    {
 
     }
 
-    public function getTableNames() {
+    public function getTableNames()
+    {
         $expectedheadernames = array();
         $header = $this->getExpressionHeader();
         for ($index = 0; $index < $header->getColumnCount(); $index++) {
@@ -45,7 +47,8 @@ abstract class AbstractUniversalFilterNodeExecuter {
         return $expectedheadernames;
     }
 
-    public function modififyFiltersWithHeaderInformation() {
+    public function modififyFiltersWithHeaderInformation()
+    {
         $filter = $this->filter;
         $expectedheadernames = $this->getTableNames();
 
@@ -65,7 +68,8 @@ abstract class AbstractUniversalFilterNodeExecuter {
      *
      * @param array $arr The SourceUsageData-array to combine
      */
-    protected function combineSourceUsages(array /* of SourceUsageData */ $arr, $filter, $parent, $parentIndex) {
+    protected function combineSourceUsages(array /* of SourceUsageData */ $arr, $filter, $parent, $parentIndex)
+    {
         $foundsources = array();
         foreach ($arr as $sourceUsage) {
             $id = $sourceUsage->getSourceId();

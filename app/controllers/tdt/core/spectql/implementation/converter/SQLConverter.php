@@ -51,11 +51,13 @@ class SQLConverter
      * Returns an array with [0] => offset and [1] => limit (amount of records)
      */
 
-    public function getLimitClause() {
+    public function getLimitClause()
+    {
         return $this->limitclause;
     }
 
-    public function getOrderByClause() {
+    public function getOrderByClause()
+    {
         return $this->orderbyclause;
     }
 
@@ -63,7 +65,8 @@ class SQLConverter
      * array of column AS alias entries
      */
 
-    public function getSelectClause() {
+    public function getSelectClause()
+    {
         return $this->selectclause;
     }
 
@@ -71,7 +74,8 @@ class SQLConverter
      * array of identifier names
      */
 
-    public function getGroupByClause() {
+    public function getGroupByClause()
+    {
         return $this->groupbyclause;
     }
 
@@ -80,32 +84,38 @@ class SQLConverter
      * in future development we might use a new return structure.
      */
 
-    public function getWhereClause() {
+    public function getWhereClause()
+    {
         return $this->whereclause;
     }
 
-    public function __construct($headerNames) {
+    public function __construct($headerNames)
+    {
         $this->headerNames = $headerNames;
     }
 
-    public function treeToSQLClauses(UniversalFilterNode $tree) {
+    public function treeToSQLClauses(UniversalFilterNode $tree)
+    {
         $this->treeToSQL($tree);
     }
 
-    private function treeToSQL(UniversalFilterNode $tree) {
+    private function treeToSQL(UniversalFilterNode $tree)
+    {
         $classname = get_class($tree);
         $method = "print_" . end(explode("\\", $classname));
         //calls the correct clone method and then returns.
         return $this->$method($tree);
     }
 
-    private function print_LimitFilter(LimitFilter $filter) {
+    private function print_LimitFilter(LimitFilter $filter)
+    {
         $this->limitclause[0] = $filter->offset;
         $this->limitclause[1] = $filter->limit;
         $this->treeToSQL($filter->getSource());
     }
 
-    private function print_Identifier(Identifier $filter) {
+    private function print_Identifier(Identifier $filter)
+    {
 
         if ($this->IN_SELECT_CLAUSE) {
             array_push($this->identifiers, $filter->getIdentifierString());
@@ -114,19 +124,23 @@ class SQLConverter
         return $filter->getIdentifierString();
     }
 
-    public function getIdentifiers() {
+    public function getIdentifiers()
+    {
         return $this->identifiers;
     }
 
-    private function print_Constant(Constant $filter) {
+    private function print_Constant(Constant $filter)
+    {
         return $filter->getConstant();
     }
 
-    private function print_TableAliasFilter(TableAliasFilter $filter) {
+    private function print_TableAliasFilter(TableAliasFilter $filter)
+    {
         // not implemented yet
     }
 
-    private function print_SortFieldsFilter(SortFieldsFilter $filter) {
+    private function print_SortFieldsFilter(SortFieldsFilter $filter)
+    {
 
         foreach ($filter->getColumnData() as $index => $originalColumn) {
             $name = $originalColumn->getColumn()->getIdentifierString();
@@ -138,13 +152,15 @@ class SQLConverter
         $this->treeToSQL($filter->getSource());
     }
 
-    private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter) {
+    private function print_FilterByExpressionFilter(FilterByExpressionFilter $filter)
+    {
 
         $this->IN_SELECT_CLAUSE = FALSE;
         array_push($this->whereclause, $this->treeToSQL($filter->getExpression()));
     }
 
-    private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter) {
+    private function print_ColumnSelectionFilter(ColumnSelectionFilter $filter)
+    {
 
         $this->selectClausePresent = TRUE;
 
@@ -172,7 +188,8 @@ class SQLConverter
         }
     }
 
-    private function print_DataGrouper(DataGrouper $filter) {
+    private function print_DataGrouper(DataGrouper $filter)
+    {
         foreach ($filter->getColumns() as $column) {
             array_push($this->groupbyclause, $column->getIdentifierString());
         }
@@ -180,7 +197,8 @@ class SQLConverter
         $this->treeToSQL($filter->getSource());
     }
 
-    private function print_UnaryFunction(UnaryFunction $filter) {
+    private function print_UnaryFunction(UnaryFunction $filter)
+    {
 
         switch ($filter->getType()) {
             case UnaryFunction::$FUNCTION_UNARY_UPPERCASE:
@@ -213,7 +231,8 @@ class SQLConverter
         }
     }
 
-    private function print_BinaryFunction(BinaryFunction $filter) {
+    private function print_BinaryFunction(BinaryFunction $filter)
+    {
 
         switch ($filter->getType()) {
             case BinaryFunction::$FUNCTION_BINARY_COMPARE_EQUAL:
@@ -261,11 +280,13 @@ class SQLConverter
         }
     }
 
-    private function print_TernaryFunction(TernaryFunction $filter) {
+    private function print_TernaryFunction(TernaryFunction $filter)
+    {
         // not supported yet
     }
 
-    private function print_AggregatorFunction(AggregatorFunction $filter) {
+    private function print_AggregatorFunction(AggregatorFunction $filter)
+    {
 
         switch ($filter->getType()) {
             case AggregatorFunction::$AGGREGATOR_COUNT:
@@ -308,7 +329,8 @@ class SQLConverter
         }
     }
 
-    private function print_CheckInFunction(CheckInFunction $filter) {
+    private function print_CheckInFunction(CheckInFunction $filter)
+    {
         // not supported yet
     }
 
@@ -316,7 +338,8 @@ class SQLConverter
      * expects for treeToSQLClauses to be called first.
      */
 
-    public function getPresentClauses() {
+    public function getPresentClauses()
+    {
         $clauses = array();
 
         if ($this->whereclause) {
@@ -349,7 +372,8 @@ class SQLConverter
      * will be returned also.
      */
 
-    public function getClause($clause) {
+    public function getClause($clause)
+    {
 
         $clauses = array();
 

@@ -21,14 +21,16 @@ class FilterByExpressionFilter extends NormalFilterNode
 
     private $expression; //type:UniversalFilterNode
 
-    public function __construct(UniversalFilterNode $expression, UniversalFilterNode $source = null) {
+    public function __construct(UniversalFilterNode $expression, UniversalFilterNode $source = null)
+    {
         parent::__construct("FILTEREXPRESSION");
         $this->expression = $expression;
         if ($source != null)
             $this->setSource($source);
     }
 
-    public function getExpression() {
+    public function getExpression()
+    {
         return $this->expression;
     }
 

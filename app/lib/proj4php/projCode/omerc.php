@@ -36,7 +36,8 @@ class Proj4phpProjOmerc
 
   /* Initialize the Oblique Mercator  projection
     ------------------------------------------*/
-  public function init() {
+  public function init()
+  {
     if (!$this->mode) $this->mode=0;
     if (!$this->lon1)   {$this->lon1=0;$this->mode=1;}
     if (!$this->lon2)   $this->lon2=0;
@@ -161,7 +162,8 @@ class Proj4phpProjOmerc
 
   /* Oblique Mercator forward equations--mapping lat,long to x,y
     ----------------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
     $theta;		/* angle					*/
     $sin_phi; $cos_phi;/* sin and cos value				*/
     $b;		/* temporary values				*/
@@ -216,7 +218,8 @@ class Proj4phpProjOmerc
     return $p;
   }
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $delta_lon;	/* Delta longitude (Given longitude - center 	*/
     $theta;		/* angle					*/
     $delta_theta;	/* adjusted longitude				*/
@@ -242,8 +245,7 @@ class Proj4phpProjOmerc
     $t = .5 * ($q + 1.0/$q);
     $vl = sin($this->bl * $us / $this->al);
     $ul = ($vl * $this->cosgam + $s * $this->singam)/$t;
-    if (abs(abs($ul) - 1.0) <= Proj4php::$common->EPSLN)
-       {
+    if (abs(abs($ul) - 1.0) <= Proj4php::$common->EPSLN) {
        $lon = $this->longc;
        if (ul >= 0.0) {
           $lat = Proj4php::$common->HALF_PI;

@@ -21,7 +21,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 class DummyUniversalFilterNode extends NormalFilterNode
 {
 
-    public function __construct(UniversalFilterNode $source = null) {
+    public function __construct(UniversalFilterNode $source = null)
+    {
         parent::__construct("DUMMY");
         if ($source != null)
             $this->setSource($source);

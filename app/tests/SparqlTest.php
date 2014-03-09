@@ -9,10 +9,11 @@ include(__DIR__ . '/data/sparql/SparqlQueries.php');
 class SparqlTest extends TestCase
 {
 
-    public function test_put_api(){
+    public function test_put_api()
+    {
 
         // PUT the sparql definitions via the API
-        foreach(\SparqlQueries::$queries as $name => $query){
+        foreach (\SparqlQueries::$queries as $name => $query) {
 
             // Set the definition parameters.
             $data = array(
@@ -38,10 +39,11 @@ class SparqlTest extends TestCase
         }
     }
 
-    public function test_get_api(){
+    public function test_get_api()
+    {
 
         // Request the data for each of the test json files.
-        foreach(\SparqlQueries::$queries as $name => $query){
+        foreach (\SparqlQueries::$queries as $name => $query) {
 
             $name = 'sparql/'. $name .'.json';
             $this->updateRequest('GET');
@@ -53,10 +55,11 @@ class SparqlTest extends TestCase
         }
     }
 
-    public function test_delete_api(){
+    public function test_delete_api()
+    {
 
         // Delete the published definition for each test json file.
-        foreach(\SparqlQueries::$queries as $name => $query){
+        foreach (\SparqlQueries::$queries as $name => $query) {
 
             $this->updateRequest('DELETE');
 

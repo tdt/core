@@ -14,11 +14,12 @@ class XmlTest extends TestCase
                 'persons',
             );
 
-    public function test_put_api(){
+    public function test_put_api()
+    {
 
 
         // Publish each xml file in the test xml data folder.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             // Set the definition parameters.
             $data = array(
@@ -43,10 +44,11 @@ class XmlTest extends TestCase
         }
     }
 
-    public function test_get_api(){
+    public function test_get_api()
+    {
 
         // Request the data for each of the test xml files.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             $file = 'xml/'. $file .'.json';
             $this->updateRequest('GET');
@@ -58,10 +60,11 @@ class XmlTest extends TestCase
         }
     }
 
-    public function test_delete_api(){
+    public function test_delete_api()
+    {
 
         // Delete the published definition for each test xml file.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             $this->updateRequest('DELETE');
 

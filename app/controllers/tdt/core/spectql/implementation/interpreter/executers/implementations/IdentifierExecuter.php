@@ -36,7 +36,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
     private $isColumn;
     private $isNewTable;
 
-    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn) {
+    public function initExpression(UniversalFilterNode $filter, Environment $topenv, IInterpreterControl $interpreter, $preferColumn)
+    {
 
         $this->filter = $filter;
         $this->interpreter = $interpreter;
@@ -74,11 +75,13 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
         }
     }
 
-    public function getExpressionHeader() {
+    public function getExpressionHeader()
+    {
         return $this->header;
     }
 
-    public function evaluateAsExpression() {
+    public function evaluateAsExpression()
+    {
 
         if ($this->isNewTable) {
 
@@ -107,7 +110,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
      *
      * @return UniversalFilterTableHeader
      */
-    private function getColumnDataHeader(Environment $topenv, $fullid) {
+    private function getColumnDataHeader(Environment $topenv, $fullid)
+    {
 
         // There's 1 special identifier of a column, * = everything
         if ($fullid == "*") {
@@ -163,7 +167,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
      * @param UniversalFilterTableHeader $header
      * @return UniversalFilterTableContent
      */
-    private function getColumnDataContent($table, $fullid, $header) {
+    private function getColumnDataContent($table, $fullid, $header)
+    {
 
         $content = $table->getContent();
 
@@ -199,7 +204,7 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
             // and process the value with person.name, assuming that the path exists in the value of the cell.
             $newRow = new UniversalFilterTableContentRow();
 
-            if(count($column_ids) > 1){
+            if (count($column_ids) > 1) {
 
                 // Remove the column identifier from the total identifier for it already identifies the entire object
                 // now we just need the lower properties of the value.
@@ -220,7 +225,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
         return $newContent;
     }
 
-    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex) {
+    public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)
+    {
 
         if (!$this->isNewTable) {
             return array();
@@ -236,16 +242,16 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
      */
     private static function applyFilter($data, $path){
 
-        foreach($path as $property){
+        foreach ($path as $property) {
 
-            if(is_object($data) && $key = self::propertyExists($data, $property)){
+            if (is_object($data) && $key = self::propertyExists($data, $property)) {
                 $data = $data->$key;
             }elseif(is_array($data)){
 
-                if($key = self::keyExists($data, $property)){
+                if ($key = self::keyExists($data, $property)) {
                     $data = $data[$key];
                 }else if(is_numeric($property)){
-                    for($i = 0; $i <= $property; $i++){
+                    for ($i = 0; $i <= $property; $i++) {
                         $result = array_shift($data);
                     }
 
@@ -267,8 +273,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
     private static function propertyExists($object, $property){
 
         $vars = get_object_vars($object);
-        foreach($vars as $key => $value) {
-            if(strtolower($property) == strtolower($key)) {
+        foreach ($vars as $key => $value) {
+            if (strtolower($property) == strtolower($key)) {
                 return $key;
                 break;
             }
@@ -281,8 +287,8 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
      */
     private static function keyExists($array, $property){
 
-        foreach($array as $key => $value) {
-            if(strtolower($property) == strtolower($key)) {
+        foreach ($array as $key => $value) {
+            if (strtolower($property) == strtolower($key)) {
                 return $key;
                 break;
             }

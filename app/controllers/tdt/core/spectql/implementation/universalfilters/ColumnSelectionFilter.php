@@ -24,14 +24,16 @@ class ColumnSelectionFilter extends NormalFilterNode
 
     private $columndata; //type:Array[ColumnSelectionFilterColumn]
 
-    public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata, UniversalFilterNode $source = null) {
+    public function __construct(array /* of ColumnSelectionFilterColumn */ $columndata, UniversalFilterNode $source = null)
+    {
         parent::__construct("FILTERCOLUMN");
         $this->columndata = $columndata;
         if ($source != null)
             $this->setSource($source);
     }
 
-    public function getColumnData() {
+    public function getColumnData()
+    {
         return $this->columndata;
     }
 

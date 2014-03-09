@@ -10,7 +10,8 @@ class LicenseRepository implements LicenseRepositoryInterface
     /**
      * Fetch a License by its title (=id)
      */
-    public function getByTitle($title){
+    public function getByTitle($title)
+    {
 
         $license = \License::where('title', '=', $title)->first();
 
@@ -20,7 +21,8 @@ class LicenseRepository implements LicenseRepositoryInterface
         return $license;
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         return \License::all(array(
                             'domain_content',
                             'domain_data',

@@ -24,7 +24,7 @@ class Definitions implements IImportExport
 
         $messages = array();
 
-        foreach($definitions as $identifier => $definition_params){
+        foreach ($definitions as $identifier => $definition_params) {
 
             $headers = array(
                             'Content-Type' => 'application/tdt.definition+json',
@@ -45,7 +45,7 @@ class Definitions implements IImportExport
     }
 
     public static function export($identifier = null){
-        if(empty($identifier)){
+        if (empty($identifier)) {
             // Request all of the definitions
             return DefinitionController::getAllDefinitions();
         }else{
@@ -68,7 +68,7 @@ class Definitions implements IImportExport
         \Request::setMethod($method);
 
         // Set the content body.
-        if(is_array($data)){
+        if (is_array($data)) {
             \Input::merge($data);
         }
     }

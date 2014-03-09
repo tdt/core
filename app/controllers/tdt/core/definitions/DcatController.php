@@ -20,13 +20,14 @@ use tdt\core\ApiController;
 class DcatController extends ApiController
 {
 
-    public function get($uri){
+    public function get($uri)
+    {
 
         // Ask permission
         Auth::requirePermissions('info.view');
 
         // Default format is ttl for dcat
-        if(empty($extension)){
+        if (empty($extension)) {
             $extension = 'ttl';
         }
 
@@ -42,7 +43,8 @@ class DcatController extends ApiController
      * @param $pieces array of uri pieces
      * @return mixed \Data object with a graph of DCAT information
      */
-    private function createDcat(){
+    private function createDcat()
+    {
 
         // List all namespaces that can be used in a DCAT document
         $ns = array(
@@ -54,7 +56,7 @@ class DcatController extends ApiController
             'owl'  => 'http://www.w3.org/2002/07/owl#',
         );
 
-        foreach($ns as $prefix => $uri){
+        foreach ($ns as $prefix => $uri) {
             \EasyRdf_Namespace::set($prefix, $uri);
         }
 
@@ -74,7 +76,7 @@ class DcatController extends ApiController
 
         $definitions = $this->definition_repository->getAllPublished($limit, $offset);
 
-        if(count($definitions) > 0){
+        if (count($definitions) > 0) {
 
             $last_mod_def = $this->definition_repository->getOldest();
 
@@ -82,7 +84,7 @@ class DcatController extends ApiController
             $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def['updated_at'])));
             $graph->addLiteral($uri . '/info/dcat', 'foaf:homepage', $uri);
 
-            foreach($definitions as $definition){
+            foreach ($definitions as $definition) {
 
                 // Create the dataset uri
                 $dataset_uri = $uri . "/" . $definition['collection_uri'] . "/" . $definition['resource_name'];
@@ -101,23 +103,23 @@ class DcatController extends ApiController
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
 
                 // Add the source resource if it's a URI
-                if (strpos($definition['source'], 'http://') !== false || strpos($definition['source'], 'https://')){
+                if (strpos($definition['source'], 'http://') !== false || strpos($definition['source'], 'https://')) {
                     $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition['source']));
                 }
 
                 // Optional dct terms
                 $optional = array('title', 'date', 'language', 'rights');
 
-                foreach($optional as $dc_term){
-                    if(!empty($definition[$dc_term])){
+                foreach ($optional as $dc_term) {
+                    if (!empty($definition[$dc_term])) {
 
-                        if($dc_term == 'rights'){
+                        if ($dc_term == 'rights') {
 
                             $license_repository = \App::make('repositories\interfaces\LicenseRepositoryInterface');
 
                             $license = $license_repository->getByTitle($definition[$dc_term]);
 
-                            if(!empty($license) && !empty($license['url'])){
+                            if (!empty($license) && !empty($license['url'])) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
                             }
                         }elseif($dc_term == 'language'){
@@ -126,7 +128,7 @@ class DcatController extends ApiController
 
                             $lang = $lang_repository->getById($definition[$dc_term]);
 
-                            if(!empty($lang)){
+                            if (!empty($lang)) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
                             }
                         }else{

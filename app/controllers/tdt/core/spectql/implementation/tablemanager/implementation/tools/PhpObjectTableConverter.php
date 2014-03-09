@@ -34,7 +34,8 @@ class PhpObjectTableConverter
      * @param type $root
      * @param type $path
      */
-    private function findTablePhpArray($root, $path, $parentitemindex) {
+    private function findTablePhpArray($root, $path, $parentitemindex)
+    {
 
         if (count($path) == 1) {
             $parentitemindex++;
@@ -142,7 +143,8 @@ class PhpObjectTableConverter
         }
     }
 
-    private function getPhpObjectsByIdentifier($splitedId, $resource) {
+    private function getPhpObjectsByIdentifier($splitedId, $resource)
+    {
 
         $phpObj = $this->findTablePhpArray($resource, isset($splitedId[3]) ? $splitedId[3] : null, -1);
 
@@ -150,11 +152,13 @@ class PhpObjectTableConverter
     }
 
     // TODO refactor and remove function
-    private function parseColumnName($name) {
+    private function parseColumnName($name)
+    {
         return $name;
     }
 
-    private function getPhpObjectTableHeader($nameOfTable, $objects) {
+    private function getPhpObjectTableHeader($nameOfTable, $objects)
+    {
 
         $columns = array();
         $columnNames = array();
@@ -204,7 +208,8 @@ class PhpObjectTableConverter
      *
      * @return $rows UniversalFilterTableContent
      */
-    public function getPhpObjectTableContent($header, $nameOfTable, $objects) {
+    public function getPhpObjectTableContent($header, $nameOfTable, $objects)
+    {
 
         $rows = new UniversalFilterTableContent();
 
@@ -235,7 +240,7 @@ class PhpObjectTableConverter
 
                 $columnName = $this->parseColumnName($key);
 
-                if(isset($idMap[$columnName])){
+                if (isset($idMap[$columnName])) {
 
                     $columnId = $idMap[$columnName];
 
@@ -292,7 +297,8 @@ class PhpObjectTableConverter
     /**
      * Return a UniversalTable based on the passed PHP objects
      */
-    public function getPhpObjectTable($splitedId, $objects) {
+    public function getPhpObjectTable($splitedId, $objects)
+    {
 
         $objects = $this->getPhpObjectsByIdentifier($splitedId, $objects);
 
@@ -310,7 +316,8 @@ class PhpObjectTableConverter
     /**
      * Return a UniversalTable based on the passed PHP objects, given a UniversalHeader
      */
-    public function getPhpObjectTableWithHeader($splitedId, $objects, $header) {
+    public function getPhpObjectTableWithHeader($splitedId, $objects, $header)
+    {
 
         $objects = $this->getPhpObjectsByIdentifier($splitedId, $objects);
 
@@ -324,7 +331,8 @@ class PhpObjectTableConverter
         return new UniversalFilterTable($header, $body);
     }
 
-    public function getNameOfTable($splitedId) {
+    public function getNameOfTable($splitedId)
+    {
 
         $nameOfTable = $splitedId[1];
         if (count($splitedId[2]) > 0) {

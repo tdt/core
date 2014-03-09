@@ -20,7 +20,8 @@ class UniversalFilterTableHeader
     private $isSingleRowByConstruction;
     private $isSingleColumnByConstruction;
 
-    public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction) {
+    public function __construct($columns, $isSingleRowByConstruction, $isSingleColumnByConstruction)
+    {
 
         $this->columns = $columns;
         $this->isSingleRowByConstruction = $isSingleRowByConstruction;
@@ -30,7 +31,8 @@ class UniversalFilterTableHeader
     /**
      * Rename this table
      */
-    public function renameAlias($newname) {
+    public function renameAlias($newname)
+    {
         $newcolumns = array();
         foreach ($this->columns as $column) {
             array_push($newcolumns, $column->cloneColumnTableAlias($newname));
@@ -42,7 +44,8 @@ class UniversalFilterTableHeader
      * Gets the columnId for a given name
      * @return string
      */
-    public function getColumnIdByName($columnName) {
+    public function getColumnIdByName($columnName)
+    {
 
         $columnNameParts = explode(".", $columnName);
         $found = false;
@@ -67,14 +70,16 @@ class UniversalFilterTableHeader
     /**
      * Gets the columnName for a given id
      */
-    public function getColumnNameById($id) {
+    public function getColumnNameById($id)
+    {
         return $this->getColumnInformationById($id)->getName();
     }
 
     /**
      * Gets the unique columnName for a given id
      */
-    public function getColumnUniqueNameById($id) {
+    public function getColumnUniqueNameById($id)
+    {
 
         $info = $this->getColumnInformationById($id);
         $name = $info->getName();
@@ -97,14 +102,16 @@ class UniversalFilterTableHeader
     /**
      * returns the number of columns
      */
-    public function getColumnCount() {
+    public function getColumnCount()
+    {
         return count($this->columns);
     }
 
     /**
      * Get a certain column id
      */
-    public function getColumnIdByIndex($index) {
+    public function getColumnIdByIndex($index)
+    {
         return $this->columns[$index]->getId();
     }
 
@@ -112,7 +119,8 @@ class UniversalFilterTableHeader
      * Get columnInformation
      * @return UniversalFilterTableHeaderColumnInfo
      */
-    public function getColumnInformationById($id) {
+    public function getColumnInformationById($id)
+    {
         foreach ($this->columns as $column) {
             if ($column->getId() == $id) {
                 return $column;
@@ -125,42 +133,48 @@ class UniversalFilterTableHeader
      * Get columnInformation
      * @return UniversalFilterTableHeaderColumnInfo
      */
-    public function getColumnInformationByIndex($index) {
+    public function getColumnInformationByIndex($index)
+    {
         return $this->getColumnInformationById($this->getColumnIdByIndex($index));
     }
 
     /**
      * returns if this table is constructed that way only one row can exist (e.g. after FIRST() or AVG() )
      */
-    public function isSingleRowByConstruction() {
+    public function isSingleRowByConstruction()
+    {
         return $this->isSingleRowByConstruction;
     }
 
     /**
      * sets the isSingleRowByConstruction value
      */
-    public function setIsSingleRowByConstruction($value) {
+    public function setIsSingleRowByConstruction($value)
+    {
         $this->isSingleRowByConstruction = $value;
     }
 
     /**
      * return if this table is constructed that way only one column can exist (e.g. by a columnselector)
      */
-    public function isSingleColumnByConstruction() {
+    public function isSingleColumnByConstruction()
+    {
         return $this->isSingleColumnByConstruction;
     }
 
     /**
      * return if this table is constructed that way only one cell can exist
      */
-    public function isSingleCellByConstruction() {
+    public function isSingleCellByConstruction()
+    {
         return $this->isSingleColumnByConstruction() && $this->isSingleRowByConstruction();
     }
 
     /**
      * Returns the only columnId (if a column)
      */
-    public function getColumnId() {
+    public function getColumnId()
+    {
 
         if (!$this->isSingleColumnByConstruction()) {
 
@@ -172,7 +186,8 @@ class UniversalFilterTableHeader
     /**
      * throws an exception if this is not a cell
      */
-    public function checkCell() {
+    public function checkCell()
+    {
         if (!$this->isSingleCellByConstruction()) {
 
             \App::abort(500, "TableHeader - Not a single value");
@@ -185,7 +200,8 @@ class UniversalFilterTableHeader
      *
      * @return UniversalFilterTableHeader
      */
-    public function cloneHeader() {
+    public function cloneHeader()
+    {
         return new UniversalFilterTableHeader(
                         $this->columns,
                         $this->isSingleRowByConstruction,

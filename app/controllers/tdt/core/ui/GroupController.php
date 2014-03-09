@@ -17,7 +17,8 @@ class GroupController extends \Controller
     /**
      * Admin.group.view
      */
-    public function getIndex(){
+    public function getIndex()
+    {
         // Set permission
         Auth::requirePermissions('admin.group.view');
 
@@ -30,7 +31,7 @@ class GroupController extends \Controller
         // Get all permissions
         $permission_groups = \Config::get('permissions');
         $input_permission_groups = \Config::get('tdt/input::permissions');
-        if(!empty($input_permission_groups)){
+        if (!empty($input_permission_groups)) {
             $permission_groups = array_merge($permission_groups, $input_permission_groups);
         }
 
@@ -50,7 +51,8 @@ class GroupController extends \Controller
     /**
      * Admin.group.delete
      */
-    public function getDelete($id){
+    public function getDelete($id)
+    {
 
         // Set permission
         Auth::requirePermissions('admin.group.delete');
@@ -59,7 +61,7 @@ class GroupController extends \Controller
             // Find the group using the group id
             $group = \Sentry::findGroupById($id);
 
-            if($group->id > 2){
+            if ($group->id > 2) {
                 // Delete the group
                 $group->delete();
             }
@@ -74,7 +76,8 @@ class GroupController extends \Controller
     /**
      * Admin.group.create
      */
-    public function postCreate(){
+    public function postCreate()
+    {
 
         // Set permission
         Auth::requirePermissions('admin.group.create');
@@ -98,13 +101,14 @@ class GroupController extends \Controller
     /**
      * Admin.group.update
      */
-    public function postUpdate($id = null){
+    public function postUpdate($id = null)
+    {
 
         // Set permission
         Auth::requirePermissions('admin.group.update');
 
         try{
-            if(empty($id)){
+            if (empty($id)) {
                 $id = \Input::get('id');
             }
             // Find the user using the group id
@@ -112,31 +116,31 @@ class GroupController extends \Controller
 
             $permissions_save = \Input::get('btn_save_permissions');
 
-            if(empty($permissions_save)){
+            if (empty($permissions_save)) {
 
                 // Update group
-                if($id > 2){
+                if ($id > 2) {
                     $group->name = \Input::get('name');
                 }
                 $group->save();
             }else{
 
-                if($group->id > 2){
+                if ($group->id > 2) {
                     // Update permissions
                     $permission_data = \Input::get();
                     $permissions = array();
 
                     // Unset previous permissions
                     $group_permissions = $group->getPermissions();
-                    foreach($group_permissions as $p => $value){
+                    foreach ($group_permissions as $p => $value) {
                         $permissions[$p] = 0;
                     }
 
                     // Add new ones
-                    foreach($permission_data as $p => $value){
+                    foreach ($permission_data as $p => $value) {
 
                         // Skip extra information
-                        if($p == 'id' || $p == 'btn_save_permissions'){
+                        if ($p == 'id' || $p == 'btn_save_permissions') {
                             continue;
                         }
 

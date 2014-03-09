@@ -14,11 +14,13 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         'column_name_alias' => 'required',
     );
 
-    public function __construct(\TabularColumns $model){
+    public function __construct(\TabularColumns $model)
+    {
         $this->model = $model;
     }
 
-    public function store($input){
+    public function store($input)
+    {
         return \TabularColumns::create($input);
     }
 
@@ -26,10 +28,11 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
      * Validate and store a set of columns and check for mismatches
      * between a given set of columns and the extracted ones
      */
-    public function validate($extracted_columns, $provided_columns){
+    public function validate($extracted_columns, $provided_columns)
+    {
 
         // If columns are provided, check if they exist and have the correct index
-        if(!empty($provided_columns)){
+        if (!empty($provided_columns)) {
 
             // Validate the provided columns
             foreach($provided_columns as $provided_column)
@@ -38,26 +41,26 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
             $tmp = array();
 
             // Index the column objects on the column name
-            foreach($provided_columns as $column){
+            foreach ($provided_columns as $column) {
                 $tmp[$column['column_name']] = $column;
             }
 
             $tmp_columns = array();
 
-            foreach($extracted_columns as $column){
+            foreach ($extracted_columns as $column) {
                 $tmp_columns[$column['column_name']] = $column;
             }
 
             // If the column name of a provided column doesn't exist, or an index doesn't match, abort
-            foreach($tmp as $column_name => $column){
+            foreach ($tmp as $column_name => $column) {
 
                 $tmp_column = $tmp_columns[$column_name];
 
-                if(empty($tmp_column)){
+                if (empty($tmp_column)) {
                     \App::abort(404, "The column name ($column_name) was not found in the CSV file.");
                 }
 
-                if($tmp_column['index'] != $column['index']){
+                if ($tmp_column['index'] != $column['index']) {
                     \App::abort(400, "The column name ($column_name) was found, but the index isn't correct.");
                 }
             }
@@ -68,27 +71,30 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         return $extracted_columns;
     }
 
-    public function getColumnAliases($id, $type){
+    public function getColumnAliases($id, $type)
+    {
 
         $tabular_columns = \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
 
         $columns = array();
 
-        foreach($tabular_columns as $column){
+        foreach ($tabular_columns as $column) {
             $columns[$column['column_name']] = $column['column_name_alias'];
         }
 
         return $columns;
     }
 
-    public function getColumns($id, $type){
+    public function getColumns($id, $type)
+    {
 
         return \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
     }
 
-    public function storeBulk($id, $type, $columns){
+    public function storeBulk($id, $type, $columns)
+    {
 
-        foreach($columns as $column){
+        foreach ($columns as $column) {
 
             $column['tabular_id'] = $id;
             $column['tabular_type'] = $type;
@@ -100,19 +106,21 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
     /**
      * Delete all columns associated with the tabular_id ($id)
      */
-    public function deleteBulk($id, $type){
+    public function deleteBulk($id, $type)
+    {
 
         $columns = \TabularColumns::where('tabular_id', '=', $id)->where('tabular_type', '=', $type, 'AND')->get();
-        foreach($columns as $column){
+        foreach ($columns as $column) {
             $column->delete();
         }
     }
 
-    private function validateColumn($column){
+    private function validateColumn($column)
+    {
 
         $validator = $this->getValidator($column);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $message = $validator->messages()->first();
             \App::abort(400, $message);
         }
@@ -122,7 +130,8 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
     /**
      * Retrieve the set of create parameters that make up a TabularColumn model.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
 
         return array(
             'column_name' => array(

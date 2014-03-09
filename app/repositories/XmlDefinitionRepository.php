@@ -12,14 +12,16 @@ class XmlDefinitionRepository extends BaseRepository implements XmlDefinitionRep
         'description' => 'required',
     );
 
-    public function __construct(\XmlDefinition $model){
+    public function __construct(\XmlDefinition $model)
+    {
         $this->model = $model;
     }
 
     /**
      * Retrieve the set of create parameters that make up a XML definition.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
         return array(
             'uri' => array(
                 'required' => true,

@@ -22,7 +22,8 @@ class ShpDefinition extends SourceType
     /**
      * Relationship with the TabularColumns model.
      */
-    public function tabularColumns(){
+    public function tabularColumns()
+    {
         return $this->morphMany('TabularColumns', 'tabular');
     }
 
@@ -31,7 +32,8 @@ class ShpDefinition extends SourceType
      * this will probably break the relationship or displaying of the data.
      * If so every line or entry needs to have a geo property, or has to be parsed at runtime.
      */
-    public function geo(){
+    public function geo()
+    {
         return $this->morphMany('GeoProperty', 'source');
     }
 
@@ -39,19 +41,20 @@ class ShpDefinition extends SourceType
      * Because we have related models, and non hard defined foreign key relationships
      * we have to delete our related models ourselves.
      */
-    public function delete(){
+    public function delete()
+    {
 
          // Get the related columns
         $columns = $this->tabularColumns()->getResults();
 
-        foreach($columns as $column){
+        foreach ($columns as $column) {
             $column->delete();
         }
 
         // Get the related geo properties
         $geo_properties = $this->geo()->getResults();
 
-        foreach($geo_properties as $geo_property){
+        foreach ($geo_properties as $geo_property) {
             $geo_property->delete();
         }
 

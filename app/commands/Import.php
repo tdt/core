@@ -48,12 +48,12 @@ class Import extends Command
         $file = $this->argument('file');
 
         // Check if the file exists
-        if(\File::exists($file)){
+        if (\File::exists($file)) {
 
             // JSON decode
             $content = json_decode(\File::get($file), true);
 
-            if($content){
+            if ($content) {
 
                 // Check for user & groups
                 if(!empty($content['users']) && is_array($content['users'])
@@ -66,8 +66,8 @@ class Import extends Command
                     // Import groups
                     $messages = Groups::import($content['groups']);
 
-                    foreach($messages as $group => $status){
-                        if($status){
+                    foreach ($messages as $group => $status) {
+                        if ($status) {
                             $this->info("• Group '$group' succesfully added.");
                         }else{
                             $this->error("• Group '$group' already existed, ignored.");
@@ -77,8 +77,8 @@ class Import extends Command
                     // Import users
                     $messages = Users::import($content['users']);
 
-                    foreach($messages as $user => $status){
-                        if($status){
+                    foreach ($messages as $user => $status) {
+                        if ($status) {
                             $this->info("• User '$user' succesfully added.");
                         }else{
                             $this->error("• User '$user' already existed, ignored.");
@@ -87,7 +87,7 @@ class Import extends Command
                 }
 
                 // Check for definitions
-                if(!empty($content['definitions']) && is_array($content['definitions'])){
+                if (!empty($content['definitions']) && is_array($content['definitions'])) {
 
                     $this->info("———————————————————————————————");
                     $this->info("Definitions found, importing...");
@@ -104,8 +104,8 @@ class Import extends Command
 
                     $messages = Definitions::import($data);
 
-                    foreach($messages as $identifier => $status){
-                        if($status){
+                    foreach ($messages as $identifier => $status) {
+                        if ($status) {
                             $this->info("• Definition with '$identifier' succesfully added.");
                         }else{
                             $this->error("Something went wrong when trying to adding the definition '$identifier', check the logs for indications of what may have gone wrong.");

@@ -23,7 +23,8 @@ class AggregatorFunction extends NormalFilterNode
     public static $AGGREGATOR_MIN = "AGGREGATOR_MIN";
     public static $AGGREGATOR_SUM = "AGGREGATOR_SUM";
 
-    public function __construct($kind, UniversalFilterNode $column = null) {
+    public function __construct($kind, UniversalFilterNode $column = null)
+    {
 
         parent::__construct($kind);
 

@@ -21,7 +21,8 @@ class UniversalFilterTableContent
     public static $IDCOUNT = 0;
     private $needed;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->rows = new BigList();
         $this->size = 0;
@@ -31,7 +32,8 @@ class UniversalFilterTableContent
     /**
      * Destroy the content of this table if no-one needs this table anymore...
      */
-    public function tryDestroyTable() {
+    public function tryDestroyTable()
+    {
         if ($this->needed == 0) {
             if ($this->rows === null) {
                 //debug_print_backtrace();
@@ -45,7 +47,8 @@ class UniversalFilterTableContent
     /**
      * Tell this table that it still has a raison d'être
      */
-    public function tableNeeded() {
+    public function tableNeeded()
+    {
         $this->needed++;
     }
 
@@ -54,7 +57,8 @@ class UniversalFilterTableContent
      * @param int $index
      * @return UniversalFilterTableContentRow
      */
-    public function getRow($index) {
+    public function getRow($index)
+    {
         if ($index < $this->size) {
             return $this->rows->getIndex($index);
         } else {
@@ -68,7 +72,8 @@ class UniversalFilterTableContent
      * @param int $index
      * @param UniversalFilterTableContentRow $row
      */
-    public function setRow($index, $row) {
+    public function setRow($index, $row)
+    {
 
         if ($index < $this->size) {
             $this->rows->setIndex($index, $row);
@@ -82,7 +87,8 @@ class UniversalFilterTableContent
      * Adds a row to this table
      * @param UniversalFilterTableContentRow $row
      */
-    public function addRow($row) {
+    public function addRow($row)
+    {
         $this->size++;
         $this->rows->addItem($row);
     }
@@ -92,7 +98,8 @@ class UniversalFilterTableContent
      * @param string $name
      * @param int $index
      */
-    public function getValue($name, $index, $allowNull = false) {
+    public function getValue($name, $index, $allowNull = false)
+    {
         $row = $this->getRow($index);
         return $row->getCellValue($name, $allowNull);
     }
@@ -102,14 +109,16 @@ class UniversalFilterTableContent
      * @param string $name
      * @return string
      */
-    public function getCellValue($name, $allowNull = false) {
+    public function getCellValue($name, $allowNull = false)
+    {
         return $this->getValue($name, 0, $allowNull);
     }
 
     /**
      * Get the size of the table
      */
-    public function getRowCount() {
+    public function getRowCount()
+    {
         return $this->size;
     }
 

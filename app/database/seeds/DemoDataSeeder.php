@@ -13,7 +13,8 @@ class DemoDataSeeder extends Seeder
      *
      * @return void
      */
-    public function run(){
+    public function run()
+    {
 
         Eloquent::unguard();
 
@@ -36,7 +37,8 @@ class DemoDataSeeder extends Seeder
     /**
      * Seed the CSV definitions
      */
-    private function seedCsv(){
+    private function seedCsv()
+    {
 
         // The csv file names
         $csv_data = array(
@@ -93,12 +95,12 @@ class DemoDataSeeder extends Seeder
         // Provide a message when nothing has been added (doubles have been found)
         $added = false;
 
-        foreach($csv_data as $file => $definition_info){
+        foreach ($csv_data as $file => $definition_info) {
 
             // Don't create doubles
             $definition = Definition::where('collection_uri', '=', 'csv')->where('resource_name', '=', $file)->first();
 
-            if(empty($definition)){
+            if (empty($definition)) {
 
                 // Create a new CsvDefinition
                 $csv_def = new CsvDefinition();
@@ -110,7 +112,7 @@ class DemoDataSeeder extends Seeder
                 $csv_def->save();
 
                 // Add the tabular columns
-                foreach($definition_info['columns'] as $column){
+                foreach ($definition_info['columns'] as $column) {
 
                     $tab_column = new TabularColumns();
                     $tab_column->column_name = $column['column_name'];
@@ -135,7 +137,7 @@ class DemoDataSeeder extends Seeder
             }
         }
 
-        if(!$added){
+        if (!$added) {
             $this->command->info("No CSV files have been published, all of the uri's that the CSV seeder wanted to use are already taken.");
         }
     }
@@ -143,7 +145,8 @@ class DemoDataSeeder extends Seeder
     /**
      * Seed the XML definitions
      */
-    private function seedXml(){
+    private function seedXml()
+    {
 
         $xml_data = array(
             'persons' => 'Auto-generated xml file about persons.',
@@ -151,12 +154,12 @@ class DemoDataSeeder extends Seeder
 
         $added = false;
 
-        foreach($xml_data as $file => $description){
+        foreach ($xml_data as $file => $description) {
 
             // Don't create doubles
             $definition = Definition::where('collection_uri', '=', 'xml')->where('resource_name', '=', $file)->first();
 
-            if(empty($definition)){
+            if (empty($definition)) {
 
                 //Create a new XmlDefinition
                 $xml_def = new XmlDefinition();
@@ -177,7 +180,7 @@ class DemoDataSeeder extends Seeder
             }
         }
 
-        if(!$added){
+        if (!$added) {
             $this->command->info("No XML files have been published, all of the uri's that the XML seeder wanted to use are already taken.");
         }
 
@@ -186,7 +189,8 @@ class DemoDataSeeder extends Seeder
     /**
      * Seed the JSON definitions
      */
-    private function seedJson(){
+    private function seedJson()
+    {
 
         // The json file names
         $json_data = array(
@@ -195,12 +199,12 @@ class DemoDataSeeder extends Seeder
 
         $added = false;
 
-        foreach($json_data as $file => $description){
+        foreach ($json_data as $file => $description) {
 
             // Don't create doubles
             $definition = Definition::where('collection_uri', '=', 'json')->where('resource_name', '=', $file)->first();
 
-            if(empty($definition)){
+            if (empty($definition)) {
 
                 //Create a new JsonDefinition
                 $json_def = new JsonDefinition();
@@ -221,7 +225,7 @@ class DemoDataSeeder extends Seeder
             }
         }
 
-        if(!$added){
+        if (!$added) {
             $this->command->info("No JSON files have been published, all of the uri's that the JSON seeder wanted to use are already taken.");
         }
     }
@@ -229,7 +233,8 @@ class DemoDataSeeder extends Seeder
     /**
      * Seed the XLS definitions
      */
-    private function seedXls(){
+    private function seedXls()
+    {
 
         $xls_data = array(
             'baseball' => array(
@@ -271,12 +276,12 @@ class DemoDataSeeder extends Seeder
 
         $added = false;
 
-        foreach($xls_data as $file => $definition_info){
+        foreach ($xls_data as $file => $definition_info) {
 
             // Don't create doubles
             $definition = Definition::where('collection_uri', '=', 'xls')->where('resource_name', '=', $file)->first();
 
-            if(empty($definition)){
+            if (empty($definition)) {
 
                 //Create a new XlsDefinition
                 $xls_def = new XlsDefinition();
@@ -288,7 +293,7 @@ class DemoDataSeeder extends Seeder
                 $xls_def->save();
 
                 // Add the tabular columns
-                foreach($definition_info['columns'] as $column){
+                foreach ($definition_info['columns'] as $column) {
 
                     $tab_column = new TabularColumns();
                     $tab_column->column_name = $column['column_name'];
@@ -313,7 +318,7 @@ class DemoDataSeeder extends Seeder
             }
         }
 
-        if(!$added){
+        if (!$added) {
             $this->command->info("No XLS files have been published, all of the uri's that the XLS seeder wanted to use are already taken.");
         }
     }
@@ -321,7 +326,8 @@ class DemoDataSeeder extends Seeder
     /**
      * Seed the SHP definitions
      */
-    private function seedShp(){
+    private function seedShp()
+    {
 
         $shp_data = array(
             'rivers' => array('file' => 'gis.osm_boundaries_v06',
@@ -424,12 +430,12 @@ class DemoDataSeeder extends Seeder
 
         $added = false;
 
-        foreach($shp_data as $directory => $info){
+        foreach ($shp_data as $directory => $info) {
 
             // Don't create doubles
             $definition = Definition::where('collection_uri', '=', $info['collection'])->where('resource_name', '=', $info['name'])->first();
 
-            if(empty($definition)){
+            if (empty($definition)) {
 
                 //Create a new ShpDefinition
                 $shp_def = new ShpDefinition();
@@ -439,7 +445,7 @@ class DemoDataSeeder extends Seeder
                 $shp_def->save();
 
                 // Add the tabular columns
-                foreach($info['columns'] as $column){
+                foreach ($info['columns'] as $column) {
 
                     $tab_column = new TabularColumns();
                     $tab_column->column_name = $column['column_name'];
@@ -452,7 +458,7 @@ class DemoDataSeeder extends Seeder
                 }
 
                 // Add the geo properties
-                foreach($info['geo'] as $geo){
+                foreach ($info['geo'] as $geo) {
 
                     $geo_prop = new GeoProperty();
                     $geo_prop->source_type = 'ShpDefinition';
@@ -475,7 +481,7 @@ class DemoDataSeeder extends Seeder
             }
         }
 
-        if(!$added){
+        if (!$added) {
             $this->command->info("No SHP files have been published, all of the uri's that the SHP seeder wanted to use are already taken.");
         }
     }

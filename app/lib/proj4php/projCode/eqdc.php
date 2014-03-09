@@ -85,7 +85,8 @@ class Proj4phpProjEqdc
 
 /* Equidistant Conic forward equations--mapping lat,long to x,y
   -----------------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon=$p->x;
     $lat=$p->y;
 
@@ -104,7 +105,8 @@ class Proj4phpProjEqdc
 
 /* Inverse equations
   -----------------*/
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $p->x -= $this->x0;
     $p->y  = $this->rh - $p->y + $this->y0;
     $con; $rh1;
@@ -129,7 +131,8 @@ class Proj4phpProjEqdc
 /* Function to compute latitude, phi3, for the inverse of the Equidistant
    Conic projection.
 -----------------------------------------------------------------*/
-  public function phi3z($ml,$e0,$e1,$e2,$e3) {
+  public function phi3z($ml,$e0,$e1,$e2,$e3)
+  {
     $phi;
     $dphi;
 

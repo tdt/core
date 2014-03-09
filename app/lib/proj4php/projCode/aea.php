@@ -70,7 +70,8 @@ class Proj4phpProjAea
 
 /* Albers Conical Equal Area forward equations--mapping lat,long to x,y
   -------------------------------------------------------------------*/
-   public function forward($p){
+   public function forward($p)
+   {
 
     $lon=$p->x;
     $lat=$p->y;
@@ -90,7 +91,8 @@ class Proj4phpProjAea
   }
 
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $rh1;$qs;$con;$theta;$lon;$lat;
 
     $p->x -= $this->x0;
@@ -132,7 +134,8 @@ class Proj4phpProjAea
 /* Function to compute phi1, the latitude for the inverse of the
    Albers Conical Equal-Area projection.
 -------------------------------------------*/
-  public function phi1z($eccent,$qs) {
+  public function phi1z($eccent,$qs)
+  {
     $con; $com; $dphi;
     $phi = Proj4php::$common->asinz(.5 * $qs);
     if ($eccent < Proj4php::$common->EPSLN) return $phi;

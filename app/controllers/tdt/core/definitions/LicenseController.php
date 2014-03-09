@@ -20,7 +20,8 @@ class LicenseController extends ApiController
     /**
      * Return the headers of a call made to the uri given.
      */
-    public function head($uri){
+    public function head($uri)
+    {
 
         $response =  \Response::make(null, 200);
 
@@ -35,7 +36,8 @@ class LicenseController extends ApiController
     /*
      * GET an info document based on the uri provided
      */
-    public function get($uri){
+    public function get($uri)
+    {
 
          // Set permission
         Auth::requirePermissions('info.view');
@@ -51,7 +53,8 @@ class LicenseController extends ApiController
     /**
      * Return the response with the given data ( formatted in json )
      */
-    private function makeResponse($data){
+    private function makeResponse($data)
+    {
 
          // Create response
         $response = \Response::make(str_replace('\/','/', json_encode($data, true)));

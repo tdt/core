@@ -18,16 +18,19 @@ class SortFieldsFilterColumn
     public static $SORTORDER_ASCENDING = true;
     public static $SORTORDER_DESCENDING = false;
 
-    public function __construct(Identifier $column, $sortorder = true) {
+    public function __construct(Identifier $column, $sortorder = true)
+    {
         $this->column = $column;
         $this->sortorder = $sortorder;
     }
 
-    public function getColumn() {
+    public function getColumn()
+    {
         return $this->column;
     }
 
-    public function getSortOrder() {
+    public function getSortOrder()
+    {
         return $this->sortorder;
     }
 

@@ -16,12 +16,14 @@ class Constant extends UniversalFilterNode
 
     private $constant; //type:String
 
-    public function __construct($constant) {
+    public function __construct($constant)
+    {
         parent::__construct("CONSTANT");
         $this->constant = $constant;
     }
 
-    public function getConstant() {
+    public function getConstant()
+    {
         return $this->constant;
     }
 

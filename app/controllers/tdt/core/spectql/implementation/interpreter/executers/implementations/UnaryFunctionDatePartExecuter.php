@@ -12,10 +12,12 @@ use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 /* datepart */
 class UnaryFunctionDatePartExecuter extends UnaryFunctionExecuter
 {
-    public function getName($name) {
+    public function getName($name)
+    {
         return "datepart_" . $name;
     }
-    public function doUnaryFunction($value) {
+    public function doUnaryFunction($value)
+    {
         if ($value === null)
             return null;
         $dateTime = ExecuterDateTimeTools::getDateTime($value, "datepart");

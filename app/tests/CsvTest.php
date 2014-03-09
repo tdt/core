@@ -21,10 +21,11 @@ class CsvTest extends TestCase
                 'utf8',
             );
 
-    public function test_put_api(){
+    public function test_put_api()
+    {
 
         // Publish each CSV file in the test csv data folder.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             // Set the definition parameters.
             $data = array(
@@ -51,10 +52,11 @@ class CsvTest extends TestCase
         }
     }
 
-    public function test_get_api(){
+    public function test_get_api()
+    {
 
         // Request the data for each of the test csv files.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             $file = 'csv/'. $file .'.json';
             $this->updateRequest('GET');
@@ -66,10 +68,11 @@ class CsvTest extends TestCase
         }
     }
 
-    public function test_delete_api(){
+    public function test_delete_api()
+    {
 
         // Delete the published definition for each test csv file.
-        foreach($this->test_data as $file){
+        foreach ($this->test_data as $file) {
 
             $this->updateRequest('DELETE');
 

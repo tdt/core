@@ -13,14 +13,16 @@ class JsonDefinitionRepository extends BaseRepository implements JsonDefinitionR
         'description' => 'required',
     );
 
-    public function __construct(\JsonDefinition $model){
+    public function __construct(\JsonDefinition $model)
+    {
         $this->model = $model;
     }
 
     /**
      * Retrieve the set of create parameters that make up a JSON definition.
      */
-    public function getCreateParameters(){
+    public function getCreateParameters()
+    {
 
         return array(
             'uri' => array(

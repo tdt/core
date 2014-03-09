@@ -29,7 +29,8 @@ class Environment
      * @param UniversalFilterTableHeaderColumnInfo $column
      * @param UniversalFilterTableContentRow $datarow
      */
-    public function addSingleValue(UniversalFilterTableHeaderColumnInfo $column, UniversalFilterTableContentRow $datarow) {
+    public function addSingleValue(UniversalFilterTableHeaderColumnInfo $column, UniversalFilterTableContentRow $datarow)
+    {
         array_push($this->singlevaluecolumns, $column);
         array_push($this->singlevaluerows, $datarow);
     }
@@ -39,7 +40,8 @@ class Environment
      * @param int $index
      * @return UniversalFilterTableHeaderColumnInfo
      */
-    public function getSingleValueHeader($index) {
+    public function getSingleValueHeader($index)
+    {
         return $this->singlevaluecolumns[$index];
     }
 
@@ -48,7 +50,8 @@ class Environment
      * @param int $index
      * @return UniversalFilterTableContentRow
      */
-    public function getSingleValue($index) {
+    public function getSingleValue($index)
+    {
         return $this->singlevaluerows[$index];
     }
 
@@ -57,7 +60,8 @@ class Environment
      * @param int $index
      * @param UniversalFilterTableContentRow $datarow
      */
-    public function setSingleValue($index, UniversalFilterTableContentRow $datarow) {
+    public function setSingleValue($index, UniversalFilterTableContentRow $datarow)
+    {
         $this->singlevaluerows[$index] = $datarow;
     }
 
@@ -65,7 +69,8 @@ class Environment
      * Gets the number of single values
      * @return int
      */
-    public function getSingleValueCount() {
+    public function getSingleValueCount()
+    {
         return count($this->singlevaluecolumns);
     }
 
@@ -77,7 +82,8 @@ class Environment
     /**
      * set the current table
      */
-    public function setTable(UniversalFilterTable $table) {
+    public function setTable(UniversalFilterTable $table)
+    {
         $this->table = $table;
     }
 
@@ -85,14 +91,16 @@ class Environment
      * get the last added table
      * @return UniversalFilterTable
      */
-    public function getTable() {
+    public function getTable()
+    {
         return $this->table;
     }
 
     /**
      * Clone Environment
      */
-    public function newModifiableEnvironment() {
+    public function newModifiableEnvironment()
+    {
         $newEnv = new Environment();
         $newEnv->setTable($this->getTable());
         $newEnv->singlevaluerows = $this->singlevaluerows;

@@ -11,12 +11,13 @@ include(__DIR__ . '/data/spectql/SpectqlQueries.php');
 class SpectqlTest extends TestCase
 {
 
-    public function test_spectql(){
+    public function test_spectql()
+    {
 
 
-        foreach(SpectqlQueries::$queries as $collection_uri => $tests){
+        foreach (SpectqlQueries::$queries as $collection_uri => $tests) {
 
-            foreach($tests as $resource_name => $test){
+            foreach ($tests as $resource_name => $test) {
 
                 // Add the definition
                 $definition = $test['definition'];
@@ -43,7 +44,7 @@ class SpectqlTest extends TestCase
                 $queries = $test['queries'];
 
                 // Perform the queries and assert the results
-                foreach($queries as $query){
+                foreach ($queries as $query) {
 
                     $query_string = $query['query'];
 

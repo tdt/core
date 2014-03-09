@@ -32,11 +32,11 @@ class XMLFormatter implements IFormatter
         $rootname = 'root';
 
         // Check for semantic source
-        if($dataObj->is_semantic){
+        if ($dataObj->is_semantic) {
 
             // Check if a configuration is given
             $conf = array();
-            if(!empty($dataObj->semantic->conf)){
+            if (!empty($dataObj->semantic->conf)) {
                 $conf = $dataObj->semantic->conf;
             }
 
@@ -59,18 +59,18 @@ class XMLFormatter implements IFormatter
         $xml_tag = str_replace(' ', '_', $nameobject);
         $object = "<$xml_tag>";
 
-        if(is_array($data)){
+        if (is_array($data)) {
 
             // Check for attributes
-            if(!empty($data['@attributes'])){
+            if (!empty($data['@attributes'])) {
                 $attributes = $data['@attributes'];
 
-                if(is_array($attributes) && count($attributes) > 0){
+                if (is_array($attributes) && count($attributes) > 0) {
                     // Trim last '>'
                     $object = rtrim($object, '>');
 
                     // Add attributes
-                    foreach($attributes as $name => $value){
+                    foreach ($attributes as $name => $value) {
                         $object .= " $name='".$value."'";
                     }
 
@@ -81,10 +81,10 @@ class XMLFormatter implements IFormatter
             }
 
             // Data is an array (translates to elements)
-            foreach($data as $key => $value){
+            foreach ($data as $key => $value) {
 
                 // Check for special keys, then add elements recursively
-                if($key === '@value'){
+                if ($key === '@value') {
                     $object .= self::getXMLString($value);
                 }elseif($key == '@attributes'){
                     $object .= self::transformToXML($value, 'attributes');
@@ -97,7 +97,7 @@ class XMLFormatter implements IFormatter
             }
         }elseif(is_object($data)){
             // Data is object
-            foreach($data as $key => $value){
+            foreach ($data as $key => $value) {
                 // Recursively add elements
                 $object .= self::transformToXML($value, $key);
             }
@@ -114,7 +114,7 @@ class XMLFormatter implements IFormatter
 
     private static function getXMLString($string){
         // Check for XML syntax to escape
-        if(preg_match('/[<>&]+/', $string)){
+        if (preg_match('/[<>&]+/', $string)) {
             $string = '<![CDATA[' . $string . ']]>';
         }
 

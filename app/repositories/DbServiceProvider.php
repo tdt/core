@@ -7,7 +7,8 @@ use Illuminate\Support\ServiceProvider;
 class DbServiceProvider extends ServiceProvider
 {
 
-    public function register(){
+    public function register()
+    {
 
         \App::bind(
             'repositories\interfaces\DefinitionRepositoryInterface',

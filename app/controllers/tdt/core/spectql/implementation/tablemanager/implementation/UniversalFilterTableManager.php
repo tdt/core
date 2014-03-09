@@ -37,13 +37,14 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
      * @param type $resource
      * @return type phpObject
      */
-    private function getFullResourcePhpObject($package, $resource, $RESTparameters = array()) {
+    private function getFullResourcePhpObject($package, $resource, $RESTparameters = array())
+    {
 
         // By default ask for all of the data to release the query on
         $limit = \Input::get('limit');
         $offset = \Input::get('offset');
 
-        if(empty($limit) && empty($offset)){
+        if (empty($limit) && empty($offset)) {
             \Input::merge(array('limit' => -1));
         }
 
@@ -62,12 +63,12 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
         // Get the columns and their aliases
         $columns_collection = $tabular_repository->getColumns($definition['source_type'], $definition['source_id']);
 
-        if(!empty($columns_collection)){
-            if(!empty($data[0]) && (is_array($data[0]) || is_object($data[0]))){
+        if (!empty($columns_collection)) {
+            if (!empty($data[0]) && (is_array($data[0]) || is_object($data[0]))) {
 
                 $new_data = array();
 
-                foreach($data as $pk => $content){
+                foreach ($data as $pk => $content) {
                     array_push($new_data, $content);
                 }
 
@@ -87,7 +88,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
      * @param string $globalTableIdentifier => see universal/UniversalFilters.php/Identifier for format
      * @return array of the three pieces
      */
-    private function splitIdentifier($globalTableIdentifier) {
+    private function splitIdentifier($globalTableIdentifier)
+    {
 
         // Fetch the parts of the identifier, split them by using the hierarchical separator as the delimiter
         $identifierparts = explode(UniversalFilterTableManager::$HIERARCHICALDATESEPARATOR, $globalTableIdentifier);
@@ -106,7 +108,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
         $definition = $controller->getByIdentifier($packageresourcestring);
 
         // Tell the user the resource could not be found when no definition is fetched
-        if(empty($definition)){
+        if (empty($definition)) {
             \App::abort(404, "The resource could not be found.");
         }
 
@@ -121,7 +123,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
     /**
      * Create a UniversalTable out of the PHP object identifed by $globalTableIdentifier
      */
-    private function loadTable($globalTableIdentifier) {
+    private function loadTable($globalTableIdentifier)
+    {
 
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
 
@@ -137,7 +140,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
         $table->getContent()->tableNeeded();
     }
 
-    private function loadTableWithHeader($globalTableIdentifier, $header) {
+    private function loadTableWithHeader($globalTableIdentifier, $header)
+    {
 
         $splitedId = $this->splitIdentifier($globalTableIdentifier);
 
@@ -158,7 +162,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
      * @param string $globalTableIdentifier
      * @return UniversalFilterTableHeader
      */
-    public function getTableHeader($globalTableIdentifier) {
+    public function getTableHeader($globalTableIdentifier)
+    {
 
         $identifierpieces = $this->splitIdentifier($globalTableIdentifier);
 
@@ -178,7 +183,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
 
             $columns = array();
 
-            foreach($columns_collection as $collection_entry){
+            foreach ($columns_collection as $collection_entry) {
                 array_push($columns, array("column_name" => $collection_entry["column_name"]));
             }
 
@@ -226,7 +231,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
      * @param UniversalFilterTableHeader $header The header you created using the above method.
      * @return UniversalTableContent
      */
-    public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header) {
+    public function getTableContent($globalTableIdentifier, UniversalFilterTableHeader $header)
+    {
 
         if (!isset($this->requestedTables[$globalTableIdentifier])) {
             $this->loadTableWithHeader($globalTableIdentifier, $header);
@@ -289,15 +295,15 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
 
             $resultObject = $model->readResourceWithFilter($query, $result);
 
-            if (empty($resultObject->indexInParent) && empty($resultObject->clause)){
+            if (empty($resultObject->indexInParent) && empty($resultObject->clause)) {
                 return $query;
             } elseif ($resultObject->indexInParent == "-1") {
 
-                if(empty($resultObject->phpDataObject)){
+                if (empty($resultObject->phpDataObject)) {
                     $column_names = $model->getColumnsFromResource($package,$resource);
                     $arr = array();
                     $obj = new \stdClass();
-                    foreach($column_names as $key => $column_name){
+                    foreach ($column_names as $key => $column_name) {
                         $obj->$column_name["column_name_alias"] = null;
                     }
                     array_push($arr,$obj);
@@ -309,11 +315,11 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
                 return new ExternallyCalculatedFilterNode($table, $query);
             } else {// query has been partially executed
 
-                if(empty($resultObject->partialTreeResultObject)){
+                if (empty($resultObject->partialTreeResultObject)) {
                     $column_names = $model->getColumnsFromResource($package,$resource);
                     $arr = array();
                     $obj = new \stdClass();
-                    foreach($column_names as $key => $column_name){
+                    foreach ($column_names as $key => $column_name) {
                         $obj->$column_name["column_name_alias"] = null;
                     }
                     array_push($arr,$obj);
@@ -397,7 +403,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
      * @param string $globalTableIdentifier
      * @return string  A string representing a source.
      */
-    public function getSourceIdFromIdentifier($globalTableIdentifier) {
+    public function getSourceIdFromIdentifier($globalTableIdentifier)
+    {
 
         $splited = $this->splitIdentifier($globalTableIdentifier);
         return $splited[0] . "." . $splited[1];
@@ -407,7 +414,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
      * Replaces a node in the AST
      */
 
-    private function replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode) {
+    private function replaceNodeInQuery($phpObject, $identifierpieces, $currentNode, $parentNode)
+    {
 
         // Replace the node in the AST
         if ($phpObject != "") {
@@ -423,7 +431,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
     /**
      * Get the resource identifier based on the global identifier used in SPECTQL.
      */
-    private function getResourceIdentifier($globalTableIdentifier){
+    private function getResourceIdentifier($globalTableIdentifier)
+    {
 
         $identifierparts = explode(UniversalFilterTableManager::$HIERARCHICALDATESEPARATOR, $globalTableIdentifier);
         $hierarchicalsubparts = array();

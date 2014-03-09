@@ -61,7 +61,8 @@ class UniversalInterpreter implements IInterpreterControl
     /**
      * Constructor, fill the executer-class map.
      */
-    public function __construct($tablemanager) {
+    public function __construct($tablemanager)
+    {
 
         $this->tablemanager = $tablemanager;
 
@@ -136,7 +137,8 @@ class UniversalInterpreter implements IInterpreterControl
         );
     }
 
-    public function findExecuterFor(UniversalFilterNode $filternode) {
+    public function findExecuterFor(UniversalFilterNode $filternode)
+    {
 
         $classname = "\\" . $this->executers[$filternode->getType()];
         if (class_exists($classname)) {
@@ -147,11 +149,13 @@ class UniversalInterpreter implements IInterpreterControl
         }
     }
 
-    public function getTableManager() {
+    public function getTableManager()
+    {
         return $this->tablemanager;
     }
 
-    public function interpret(UniversalFilterNode $originaltree) {
+    public function interpret(UniversalFilterNode $originaltree)
+    {
 
         if (UniversalInterpreter::$DEBUG_QUERY_ON_SOURCE_EXECUTION) {
             $printer = new TreePrinter();
