@@ -43,6 +43,4 @@ class Identifier extends UniversalFilterNode
     {
         return $this->value;
     }
-
 }
-

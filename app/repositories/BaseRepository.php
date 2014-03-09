@@ -94,5 +94,4 @@ class BaseRepository implements BaseRepositoryInterface
 
         return $input;
     }
-
 }

@@ -26,5 +26,4 @@ class ExpectedHeaderNamesAttachment
     {
         return $this->expectedheadernames;
     }
-
 }

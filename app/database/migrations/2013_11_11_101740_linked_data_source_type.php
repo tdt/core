@@ -35,5 +35,4 @@ class LinkedDataSourceType extends Migration
 		// Drop the lddefinitions table
 		Schema::drop('lddefinitions');
 	}
-
 }

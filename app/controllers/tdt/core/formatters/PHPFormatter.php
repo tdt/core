@@ -37,5 +37,4 @@ class PHPFormatter implements IFormatter
     public static function getDocumentation(){
         return "Prints data in serialized PHP object notation.";
     }
-
 }

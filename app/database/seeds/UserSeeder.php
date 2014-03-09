@@ -61,5 +61,4 @@ class UserSeeder extends Seeder
         $this->command->info('Succesfully added user "admin".');
 
     }
-
 }

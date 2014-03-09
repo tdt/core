@@ -124,5 +124,4 @@ class XMLFormatter implements IFormatter
     public static function getDocumentation(){
         return "Prints plain old XML. Watch out for tags starting with an integer: an underscore will be added.";
     }
-
 }

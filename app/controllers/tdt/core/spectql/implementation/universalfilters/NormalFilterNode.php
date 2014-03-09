@@ -13,7 +13,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
  *
  * Some filters like joins or binary functions have more than one source.
  */
-abstract class NormalFilterNode extends UniversalFilterNode {
+abstract class NormalFilterNode extends UniversalFilterNode
+{
 
     private $source = array(); //of UniversalFilterNode
 
@@ -64,6 +65,4 @@ abstract class NormalFilterNode extends UniversalFilterNode {
     {
         return 1;
     }
-
 }
-

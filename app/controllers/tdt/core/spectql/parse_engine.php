@@ -19,7 +19,8 @@
 
 define('LIME_CALL_PROTOCOL', '$tokens, &$result');
 
-abstract class lime_parser {
+abstract class lime_parser
+{
 
 }
 
@@ -323,5 +324,4 @@ class parse_engine
         $this->parser->$method($slice, $result);
         return $result;
     }
-
 }

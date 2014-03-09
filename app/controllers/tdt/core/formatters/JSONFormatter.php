@@ -49,5 +49,4 @@ class JSONFormatter implements IFormatter
     public static function getDocumentation(){
         return "A JSON formatter.";
     }
-
 }

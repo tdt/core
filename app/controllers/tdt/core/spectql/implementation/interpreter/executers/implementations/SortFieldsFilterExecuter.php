@@ -146,5 +146,4 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
         $arr = $this->executer->filterSingleSourceUsages($this->filter, 0);
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }

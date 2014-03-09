@@ -57,5 +57,4 @@ class JSONPFormatter implements IFormatter
     public static function getDocumentation(){
         return "Prints JSON but will wrap the output in the callback function specified.";
     }
-
 }

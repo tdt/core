@@ -92,5 +92,4 @@ class ContentNegotiator extends Pager
         // Return formatted response
         return $response;
     }
-
 }

@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface ShpDefinitionRepositoryInterface{
+interface ShpDefinitionRepositoryInterface
+{
 
     /**
      * Return a validator based on an hash array

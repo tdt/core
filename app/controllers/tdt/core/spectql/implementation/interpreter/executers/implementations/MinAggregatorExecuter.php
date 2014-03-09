@@ -28,7 +28,4 @@ class MinAggregatorExecuter extends AggregatorFunctionExecuter
     {
         return true;
     }
-
 }
-
-

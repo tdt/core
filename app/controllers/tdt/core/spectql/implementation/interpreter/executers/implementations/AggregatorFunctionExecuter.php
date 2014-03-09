@@ -24,7 +24,8 @@ use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\interpreter\UniversalInterpreter;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExecuter {
+abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     protected $header;
     protected $header1;
@@ -385,5 +386,4 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
     {
         return false;
     }
-
 }

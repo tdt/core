@@ -9,7 +9,8 @@ namespace tdt\core\datacontrollers;
  * @author Jan Vansteenlandt <jan@okfn.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-abstract class ADataController {
+abstract class ADataController
+{
 
     protected static $DEFAULT_PAGE_SIZE = 350;
 

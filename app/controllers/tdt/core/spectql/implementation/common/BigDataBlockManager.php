@@ -268,5 +268,4 @@ class BigDataBlockManager
         }
         return BigDataBlockManager::$instance;
     }
-
 }

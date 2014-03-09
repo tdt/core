@@ -52,5 +52,4 @@ class DcatLicensesLanguages extends Migration
         Schema::drop('licenses');
         Schema::drop('languages');
     }
-
 }

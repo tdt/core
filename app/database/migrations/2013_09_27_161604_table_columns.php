@@ -38,5 +38,4 @@ class TableColumns extends Migration
 		// Drop the tabular columns table.
 		Schema::drop('tabularcolumns');
 	}
-
 }

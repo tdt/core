@@ -30,5 +30,4 @@ class OntologyPrefixes extends Migration
 		// Drop the ontologies table
 		Schema::drop('ontologies');
 	}
-
 }

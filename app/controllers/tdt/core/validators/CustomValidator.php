@@ -17,11 +17,11 @@ class CustomValidator extends \Illuminate\Validation\Validator
     public function validateUri($attribute, $value, $parameters)
     {
 
-        try{
+        try {
 
             file_get_contents($value);
             return true;
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return false;
         }
     }
@@ -32,11 +32,11 @@ class CustomValidator extends \Illuminate\Validation\Validator
     public function validateFile($attribute, $value, $parameters)
     {
 
-        try{
+        try {
 
             $handle = fopen($value, 'r');
             return $handle;
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return false;
         }
     }
@@ -47,7 +47,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
     public function validateJson($attribute, $value, $parameters)
     {
 
-        try{
+        try {
 
             $data = json_decode(file_get_contents($value));
 
@@ -56,7 +56,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
             }
 
             return true;
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -67,12 +67,12 @@ class CustomValidator extends \Illuminate\Validation\Validator
     public function validateInstalled($attribute, $value, $parameters)
     {
 
-        try{
+        try {
 
             $class_file = app_path() . '/../installed/' .  $value;
             return file_exists($class_file);
 
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
 

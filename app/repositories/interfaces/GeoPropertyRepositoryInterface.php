@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface GeoPropertyRepositoryInterface{
+interface GeoPropertyRepositoryInterface
+{
 
     /**
      * Store a GeoProperty object

@@ -108,6 +108,4 @@ class SPECTQLTokenizer
     {
         return $this->tokens[$this->index];
     }
-
 }
-

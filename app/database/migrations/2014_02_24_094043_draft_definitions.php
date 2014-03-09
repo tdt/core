@@ -32,5 +32,4 @@ class DraftDefinitions extends Migration
 			$table->dropColumn('draft');
 		});
 	}
-
 }

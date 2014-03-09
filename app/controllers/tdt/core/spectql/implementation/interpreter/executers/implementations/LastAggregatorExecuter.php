@@ -28,7 +28,4 @@ class LastAggregatorExecuter extends AggregatorFunctionExecuter
     {
         return "last_" . $name;
     }
-
 }
-
-

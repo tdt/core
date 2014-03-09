@@ -214,5 +214,4 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }

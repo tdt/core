@@ -298,5 +298,4 @@ class KMLFormatter implements IFormatter
     public static function getDocumentation(){
         return "Returns a KML file with geo properties of the data.";
     }
-
 }

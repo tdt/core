@@ -37,6 +37,4 @@ class DataGrouper extends NormalFilterNode
     {
         return $this->columns;
     }
-
 }
-

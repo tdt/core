@@ -29,6 +29,4 @@ class ColumnSelectionFilterColumn
     {
         return $this->alias;
     }
-
 }
-

@@ -22,5 +22,4 @@ class NullableFields extends Migration
 	public function down()
 	{
 	}
-
 }

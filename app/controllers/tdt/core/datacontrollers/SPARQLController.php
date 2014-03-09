@@ -356,5 +356,4 @@ class SPARQLController extends ADataController
 
         return $result;
     }
-
 }

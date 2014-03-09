@@ -16,5 +16,4 @@ class OntologyRepository implements OntologyRepositoryInterface
     {
         return \Ontology::all(array('prefix', 'uri'))->toArray();
     }
-
 }

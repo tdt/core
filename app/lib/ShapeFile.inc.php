@@ -151,7 +151,7 @@ class ShapeFile
     /* Takes too much memory
        function _fetchRecords() {
        fseek($this->fp, 100);
-       while(!feof($this->fp)){
+       while (!feof($this->fp)) {
        $shp_record = new ShapeRecord($this->fp, $this->file_name);
        if ($shp_record->error_message != "") {
        return false;
@@ -396,7 +396,7 @@ function readRecordPolyLine(&$fp,$options = null) {
                 $data["parts"][$part_index] = array();
                 $data["parts"][$part_index]["points"] = array();
             }
-            while( ! in_array( $points_read, $data["parts"]) && $points_read < $data["numpoints"] && !feof($fp)){
+            while ( ! in_array( $points_read, $data["parts"]) && $points_read < $data["numpoints"] && !feof($fp)) {
                 $data["parts"][$part_index]["points"][] = readRecordPoint($fp, true);
                 $points_read++;
             }

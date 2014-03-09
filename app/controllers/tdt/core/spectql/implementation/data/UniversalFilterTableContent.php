@@ -121,5 +121,4 @@ class UniversalFilterTableContent
     {
         return $this->size;
     }
-
 }

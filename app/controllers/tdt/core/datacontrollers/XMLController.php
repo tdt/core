@@ -143,5 +143,4 @@ class XMLController extends ADataController
 
         return $output;
     }
-
 }

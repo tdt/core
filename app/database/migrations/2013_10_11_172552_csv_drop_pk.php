@@ -32,5 +32,4 @@ class CsvDropPk extends Migration
 		    $table->string('pk');
 		});
 	}
-
 }

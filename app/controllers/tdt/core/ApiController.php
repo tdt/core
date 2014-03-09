@@ -76,5 +76,4 @@ class ApiController extends \Controller
     {
         \App::abort(405, "The HTTP method '$method' is not supported by this resource.");
     }
-
 }

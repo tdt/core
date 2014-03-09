@@ -32,5 +32,4 @@ class ExternallyCalculatedFilterNode extends NormalFilterNode
     {
         return $this->table;
     }
-
 }

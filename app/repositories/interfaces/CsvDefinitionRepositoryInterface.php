@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface CsvDefinitionRepositoryInterface{
+interface CsvDefinitionRepositoryInterface
+{
 
     /**
      * Return a validator based on an hash array

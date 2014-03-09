@@ -57,7 +57,7 @@ class GroupController extends \Controller
         // Set permission
         Auth::requirePermissions('admin.group.delete');
 
-        try{
+        try {
             // Find the group using the group id
             $group = \Sentry::findGroupById($id);
 
@@ -66,7 +66,7 @@ class GroupController extends \Controller
                 $group->delete();
             }
 
-        }catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
             // Ignore and redirect back
         }
 
@@ -82,16 +82,16 @@ class GroupController extends \Controller
         // Set permission
         Auth::requirePermissions('admin.group.create');
 
-        try{
+        try {
 
             // Create the group
             $group = \Sentry::createGroup(array(
                 'name'        => \Input::get('name'),
             ));
 
-        }catch (\Cartalyst\Sentry\Groups\NameRequiredException $e){
+        } catch (\Cartalyst\Sentry\Groups\NameRequiredException $e) {
             Flash::set('Name is required');
-        }catch (\Cartalyst\Sentry\Groups\GroupExistsException $e){
+        } catch (\Cartalyst\Sentry\Groups\GroupExistsException $e) {
             Flash::set('A group with that name already exists');
         }
 
@@ -107,7 +107,7 @@ class GroupController extends \Controller
         // Set permission
         Auth::requirePermissions('admin.group.update');
 
-        try{
+        try {
             if (empty($id)) {
                 $id = \Input::get('id');
             }
@@ -159,11 +159,11 @@ class GroupController extends \Controller
 
             }
 
-        }catch (\Cartalyst\Sentry\Groups\NameRequiredException $e){
+        } catch (\Cartalyst\Sentry\Groups\NameRequiredException $e) {
             Flash::set('Name is required');
-        }catch (\Cartalyst\Sentry\Users\UserNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
             // Ignore and redirect back
-        }catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
             // Ignore and redirect back
         }
 

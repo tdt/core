@@ -21,5 +21,4 @@ class DatabaseSeeder extends Seeder
 		// Call the OntologyPrefixSeeder
 		$this->call('OntologyPrefixSeeder');
 	}
-
 }

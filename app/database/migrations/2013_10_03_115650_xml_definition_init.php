@@ -35,5 +35,4 @@ class XmlDefinitionInit extends Migration
 		// Drop the xml definition table
 		Schema::drop('xmldefinitions');
 	}
-
 }

@@ -43,6 +43,4 @@ class UnaryFunction extends NormalFilterNode
         if ($column != null)
             $this->setSource($column, 0);
     }
-
 }
-

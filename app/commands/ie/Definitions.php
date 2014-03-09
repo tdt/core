@@ -72,6 +72,4 @@ class Definitions implements IImportExport
             \Input::merge($data);
         }
     }
-
 }
-

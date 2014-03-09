@@ -36,5 +36,4 @@ class Initialize extends Migration
         // Drop the definitions table
         Schema::drop('definitions');
     }
-
 }

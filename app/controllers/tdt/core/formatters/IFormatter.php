@@ -8,7 +8,8 @@ namespace tdt\core\formatters;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-interface IFormatter{
+interface IFormatter
+{
 
     public static function createResponse($dataObj);
 

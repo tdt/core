@@ -33,6 +33,4 @@ class SortFieldsFilterColumn
     {
         return $this->sortorder;
     }
-
 }
-

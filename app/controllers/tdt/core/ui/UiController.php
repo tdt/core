@@ -33,5 +33,4 @@ class UiController extends \Controller
 
         return $response;
     }
-
 }

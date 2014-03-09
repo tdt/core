@@ -67,5 +67,4 @@ class UniversalFilterTable
     {
         $this->content = $content;
     }
-
 }

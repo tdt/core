@@ -19,7 +19,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\AbstractUniversal
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter {
+abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter
+{
     //put your code here
 
     /**

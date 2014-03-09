@@ -123,5 +123,4 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }

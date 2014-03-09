@@ -35,6 +35,4 @@ class InstalledResources extends Migration
         // Drop the table for the model.
         Schema::drop('installeddefinitions');
     }
-
-
 }

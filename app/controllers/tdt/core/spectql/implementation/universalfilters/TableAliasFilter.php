@@ -28,6 +28,4 @@ class TableAliasFilter extends NormalFilterNode
     {
         return $this->alias;
     }
-
 }
-

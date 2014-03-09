@@ -102,5 +102,4 @@ class QueryTreeHandler
 
         return $parentNode;
     }
-
 }

@@ -24,7 +24,7 @@ class Auth extends \Controller
         }
 
         // First check the permissions of the group 'everyone
-        try{
+        try {
 
             // Get the group
             $group = \Sentry::findGroupByName('everyone');
@@ -41,7 +41,7 @@ class Auth extends \Controller
                 }
             }
 
-        }catch(\Cartalyst\Sentry\Groups\GroupNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
             // Do nothing, proceed other checks
         }
 
@@ -77,7 +77,7 @@ class Auth extends \Controller
         self::basicAuth();
 
         if (isset(self::$user)) {
-            try{
+            try {
                 // Set login credentials
                 $credentials = array(
                     'email'    => self::$user,
@@ -87,22 +87,22 @@ class Auth extends \Controller
                 // Try to authenticate the user
                 $user = \Sentry::authenticate($credentials, false);
 
-            }catch (\Cartalyst\Sentry\Users\LoginRequiredException $e){
+            } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
                 \App::abort(401, 'Authentication is required.');
-            }catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e){
+            } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
                 \App::abort(401, 'Authentication is required.');
-            }catch (\Cartalyst\Sentry\Users\WrongPasswordException $e){
+            } catch (\Cartalyst\Sentry\Users\WrongPasswordException $e) {
                 \App::abort(401, 'Authentication is required, username and password mismatch.');
-            }catch (\Cartalyst\Sentry\Users\UserNotFoundException $e){
+            } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
                 \App::abort(401, 'Authentication is required, username and password mismatch.');
-            }catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e){
+            } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
                 \App::abort(403, 'Authentication is required, user is not activated.');
             }
 
             // The following is only required if throttle is enabled
             catch (\Cartalyst\Sentry\Throttling\UserSuspendedException $e){
                 \App::abort(403, 'Authentication is required, user is suspended.');
-            }catch (\Cartalyst\Sentry\Throttling\UserBannedException $e){
+            } catch (\Cartalyst\Sentry\Throttling\UserBannedException $e) {
                 \App::abort(403, 'Authentication is required, user is banned.');
             }
         }else{
@@ -147,5 +147,4 @@ class Auth extends \Controller
         }
 
     }
-
 }

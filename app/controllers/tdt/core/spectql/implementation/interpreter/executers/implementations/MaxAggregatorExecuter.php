@@ -38,7 +38,4 @@ class MaxAggregatorExecuter extends AggregatorFunctionExecuter
     {
         return true;
     }
-
 }
-
-

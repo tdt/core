@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface DefinitionRepositoryInterface{
+interface DefinitionRepositoryInterface
+{
 
     /**
      * Store a Definition object

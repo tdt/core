@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface OntologyRepositoryInterface{
+interface OntologyRepositoryInterface
+{
 
     /**
      * Fetch an Ontology by id

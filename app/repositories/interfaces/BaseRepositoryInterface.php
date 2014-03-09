@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface BaseRepositoryInterface{
+interface BaseRepositoryInterface
+{
 
     /**
      * Return a validator based on an hash array

@@ -66,5 +66,4 @@ class XlsDefinition extends SourceType
 
         parent::delete();
     }
-
 }

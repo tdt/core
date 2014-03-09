@@ -36,6 +36,4 @@ class ColumnSelectionFilter extends NormalFilterNode
     {
         return $this->columndata;
     }
-
 }
-

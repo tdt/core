@@ -246,5 +246,4 @@ class CombinedFilterGenerators
         );
         return $r;
     }
-
 }

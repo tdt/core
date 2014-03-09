@@ -28,5 +28,4 @@ class SumAggregatorExecuter extends AggregatorFunctionExecuter
     {
         return false;
     }
-
 }

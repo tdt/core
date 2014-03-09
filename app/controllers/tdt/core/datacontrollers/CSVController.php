@@ -222,5 +222,4 @@ class CSVController extends ADataController
 
         return $columns;
     }
-
 }

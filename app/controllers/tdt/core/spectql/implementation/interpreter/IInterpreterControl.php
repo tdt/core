@@ -14,7 +14,8 @@ namespace tdt\core\spectql\implementation\interpreter;
 use tdt\core\spectql\implementation\tablemanager\implementation\UniversalFilterTableManager;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-interface IInterpreterControl {
+interface IInterpreterControl
+{
 
     /**
      * @return UniversalFilterNodeExecuter

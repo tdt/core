@@ -37,8 +37,4 @@ class AverageAggregatorExecuter extends AggregatorFunctionExecuter
     {
         return false;
     }
-
 }
-
-
-

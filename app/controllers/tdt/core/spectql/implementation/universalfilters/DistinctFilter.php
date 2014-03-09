@@ -23,6 +23,4 @@ class DistinctFilter extends NormalFilterNode
         if ($source != null)
             $this->setSource($source);
     }
-
 }
-

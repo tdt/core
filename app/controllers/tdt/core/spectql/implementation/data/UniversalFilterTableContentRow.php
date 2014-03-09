@@ -161,5 +161,4 @@ class UniversalFilterTableContentRow
             \App::abort(500, "Requested a unknown value on a row for a columnId " . $oldField . "");
         }
     }
-
 }

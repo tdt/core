@@ -20,15 +20,13 @@ class Groups implements IImportExport
             // Unset the ID
             unset($group['id']);
 
-            try{
+            try {
                 // Create the group
                 $group = \Sentry::createGroup($group);
                 $messages[$group['name']] = true;
-            }
-            catch (\Cartalyst\Sentry\Groups\NameRequiredException $e){
+            } catch (\Cartalyst\Sentry\Groups\NameRequiredException $e) {
                 $messages[$group['name']] = false;
-            }
-            catch (\Cartalyst\Sentry\Groups\GroupExistsException $e){
+            } catch (\Cartalyst\Sentry\Groups\GroupExistsException $e) {
                 $messages[$group['name']] = false;
             }
         }
@@ -49,6 +47,4 @@ class Groups implements IImportExport
 
         return $groups;
     }
-
 }
-

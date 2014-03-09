@@ -31,6 +31,4 @@ class SortFieldsFilter extends NormalFilterNode
     {
         return $this->columndata;
     }
-
 }
-

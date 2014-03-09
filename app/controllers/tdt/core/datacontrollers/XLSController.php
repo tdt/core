@@ -148,7 +148,7 @@ class XLSController extends ADataController
 
             return $data_result;
 
-        } catch( Exception $ex) {
+        } catch ( Exception $ex) {
             App::abort(500, "Failed to retrieve data from the XLS file on location $uri.");
         }
     }
@@ -224,7 +224,7 @@ class XLSController extends ADataController
 
             $is_uri = (substr($input['uri'] , 0, 4) == "http");
 
-            try{
+            try {
                 if ($is_uri) {
                 $tmp_file = uniqid();
 
@@ -236,7 +236,7 @@ class XLSController extends ADataController
 
                 $worksheet = $php_obj->getSheetByName($input['sheet']);
 
-            }catch(Exception $ex){
+            } catch (Exception $ex) {
                 $uri = $input['uri'];
                 \App::abort(404, "Something went wrong whilst retrieving the Excel file from uri $uri.");
             }
@@ -291,5 +291,4 @@ class XLSController extends ADataController
 
         return $columns;
     }
-
 }

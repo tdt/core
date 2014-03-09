@@ -32,5 +32,4 @@ class InitJsonld extends Migration
 		// Drop the table
 		Schema::drop('jsonlddefinitions');
 	}
-
 }

@@ -23,8 +23,7 @@ class Users implements IImportExport
             unset($user['id']);
             unset($user['groups']);
 
-            try
-            {
+            try {
                 // Create the user
                 $created_user = \Sentry::createUser($user);
 
@@ -34,31 +33,22 @@ class Users implements IImportExport
                     ->update(array('password' => $user['password']));
 
                 // Try adding user to groups
-                try
-                {
+                try {
                     // Find the group using the group name
                     $group = \Sentry::findGroupByName($primary_group);
 
                     // Assign the group to the user
                     $created_user->addGroup($group);
-                }
-                catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e)
-                {
+                } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
                     echo "Group '$primary_group' was not found.";
                 }
 
                 $messages[$user['email']] = true;
-            }
-            catch (\Cartalyst\Sentry\Users\LoginRequiredException $e)
-            {
+            } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
                 $messages[$user['email']] = false;
-            }
-            catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e)
-            {
+            } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
                 $messages[$user['email']] = false;
-            }
-            catch (\Cartalyst\Sentry\Users\UserExistsException $e)
-            {
+            } catch (\Cartalyst\Sentry\Users\UserExistsException $e) {
                 $messages[$user['email']] = false;
             }
         }
@@ -98,6 +88,4 @@ class Users implements IImportExport
 
         return $users;
     }
-
 }
-

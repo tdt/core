@@ -34,5 +34,4 @@ class JsonDefinitionInit extends Migration
         // Drop the table for the JSONDefinition model.
         Schema::drop('jsondefinitions');
     }
-
 }

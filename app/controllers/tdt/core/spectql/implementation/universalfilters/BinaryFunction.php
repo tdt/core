@@ -51,6 +51,4 @@ class BinaryFunction extends NormalFilterNode
     {
         return 2;
     }
-
 }
-

@@ -66,7 +66,7 @@ class Export extends Command
             if (!empty($identifier)) {
 
                 // When the identifier doesn't check out, give the user another chance to fill it out
-                while(empty($export_data->definitions)){
+                while (empty($export_data->definitions)) {
 
                     $this->error("The resource with identifier '$identifier' could not be found.");
 
@@ -114,11 +114,11 @@ class Export extends Command
             // Print to console
             echo $export_data;
         }else{
-            try{
+            try {
                 // Write to file
                 file_put_contents($filename, $export_data);
                 $this->info("The export has been written to the file '$filename'.");
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 $this->error("The contents could not be written to the file '$filename'.");
                 die();
             }
@@ -151,5 +151,4 @@ class Export extends Command
             array('file', 'f', InputOption::VALUE_OPTIONAL, 'Write the export data to a file.', null),
         );
     }
-
 }

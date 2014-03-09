@@ -46,6 +46,4 @@ class LimitFilter extends NormalFilterNode
     {
         return $this->limit;
     }
-
 }
-

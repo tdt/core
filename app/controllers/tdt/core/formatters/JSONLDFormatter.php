@@ -42,5 +42,4 @@ class JSONLDFormatter implements IFormatter
     public static function getDocumentation(){
         return "A JSON-LD formatter.";
     }
-
 }

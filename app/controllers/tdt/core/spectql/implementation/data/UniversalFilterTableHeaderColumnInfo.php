@@ -197,5 +197,4 @@ class UniversalFilterTableHeaderColumnInfo
         $newColum->columnId = $newColumnId;
         return $newColum;
     }
-
 }

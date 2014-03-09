@@ -171,5 +171,4 @@ class SPECTQLController extends ApiController
 
         return true;
     }
-
 }

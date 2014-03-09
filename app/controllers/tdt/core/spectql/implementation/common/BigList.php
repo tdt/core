@@ -83,5 +83,4 @@ class BigList
         }
         $this->size = 0;
     }
-
 }

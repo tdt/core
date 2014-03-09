@@ -81,5 +81,4 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }

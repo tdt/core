@@ -147,13 +147,10 @@ class Proj4phpProj
       //else check for def on the server
       $filename = dirname(__FILE__). '/defs/' . strtoupper($this->srsAuth) . $this->srsProjNumber . '.php';
 
-	  try
-	  {
+	  try {
         Proj4php::loadScript($filename);
 		$this->defsLoaded(); // succes
-	  }
-	  catch(Exception $e)
-	  {
+	  } catch (Exception $e) {
 		$this->loadFromService(); // fail
 	  }
     }
@@ -170,12 +167,9 @@ class Proj4phpProj
     {
       //else load from web service
       $url = Proj4php::defsLookupService .'/' . $this->srsAuth .'/'. $this->srsProjNumber . '/proj4js/';
-	  try
-	  {
+	  try {
 		Proj4php::loadScript($url);
-	  }
-	  catch(Exception $e)
-	  {
+	  } catch (Exception $e) {
 	    $this->defsFailed();
 	  }
     }
@@ -235,14 +229,11 @@ class Proj4phpProj
       //the filename for the projection code
       $filename = dirname(__FILE__).'/projCode/'.$projName. '.php';
 
-	  try
-	  {
+	  try {
 		Proj4php::loadScript($filename);
 
 		$this->loadProjCodeSuccess($projName);
-	  }
-	  catch(Exception $e)
-	  {
+	  } catch (Exception $e) {
 		$this->loadProjCodeFailure($projName);
 	  }
     }

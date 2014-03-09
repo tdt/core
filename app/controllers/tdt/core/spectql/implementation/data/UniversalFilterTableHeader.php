@@ -207,5 +207,4 @@ class UniversalFilterTableHeader
                         $this->isSingleRowByConstruction,
                         $this->isSingleColumnByConstruction);
     }
-
 }

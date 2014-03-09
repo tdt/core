@@ -98,8 +98,7 @@ class Proj4phpProjSomerc
     $phy = $b;
     $prevPhy = -1000.0;
     $iteration = 0;
-    while (abs($phy - $prevPhy) > 0.0000001)
-    {
+    while (abs($phy - $prevPhy) > 0.0000001) {
       if (++$iteration > 20) {
         Proj4php::reportError("omercFwdInfinity");
         return;

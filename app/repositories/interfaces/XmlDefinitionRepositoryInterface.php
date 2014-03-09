@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface XmlDefinitionRepositoryInterface{
+interface XmlDefinitionRepositoryInterface
+{
 
     /**
      * Return a validator based on an hash array

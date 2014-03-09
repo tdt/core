@@ -29,5 +29,4 @@ class FirstAggregatorExecuter extends AggregatorFunctionExecuter
     {
         return "first_" . $name;
     }
-
 }

@@ -106,13 +106,12 @@ class SPECTQLParser
         } catch (\Exception $e) {
             $message = $e->getMessage();
             \App::abort(500, "Something went wrong while parsing the query: $message");
-        } catch(parse_error $e){
+        } catch (parse_error $e) {
             $message = $e->getMessage();
             \App::abort(500, "Something went wrong while parsing the query: $message");
-        }catch(parse_bug $e){
+        } catch (parse_bug $e) {
             $message = $e->getMessage();
             \App::abort(500, "Something went wrong while parsing the query: $message");
         }
     }
-
 }

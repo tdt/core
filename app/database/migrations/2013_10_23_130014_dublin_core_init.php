@@ -63,5 +63,4 @@ class DublinCoreInit extends Migration
 
 
 	}
-
 }

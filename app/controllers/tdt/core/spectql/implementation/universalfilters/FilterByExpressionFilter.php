@@ -33,6 +33,4 @@ class FilterByExpressionFilter extends NormalFilterNode
     {
         return $this->expression;
     }
-
 }
-

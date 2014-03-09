@@ -49,7 +49,7 @@ class UserController extends \Controller
         // Set permission
         Auth::requirePermissions('admin.user.delete');
 
-        try{
+        try {
             // Find the user using the user id
             $user = \Sentry::findUserById($id);
 
@@ -58,7 +58,7 @@ class UserController extends \Controller
                 $user->delete();
             }
 
-        }catch (\Cartalyst\Sentry\Users\UserNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
             // Ignore and redirect back
         }
 
@@ -75,7 +75,7 @@ class UserController extends \Controller
         Auth::requirePermissions('admin.user.create');
 
 
-        try{
+        try {
 
             // Find the group using the group id
             $group = \Sentry::findGroupById(\Input::get('group'));
@@ -93,13 +93,13 @@ class UserController extends \Controller
             // Assign the group to the user
             $user->addGroup($group);
 
-        }catch (\Cartalyst\Sentry\Users\LoginRequiredException $e){
+        } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
             Flash::set('Username is required');
-        }catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e){
+        } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
             Flash::set('A password is required');
-        }catch (\Cartalyst\Sentry\Users\UserExistsException $e){
+        } catch (\Cartalyst\Sentry\Users\UserExistsException $e) {
             Flash::set('A user with that username already exists');
-        }catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
             // Illegal group -> ignore
         }
 
@@ -116,7 +116,7 @@ class UserController extends \Controller
         // Set permission
         Auth::requirePermissions('admin.user.update');
 
-        try{
+        try {
             if (empty($id)) {
                 $id = \Input::get('id');
             }
@@ -149,9 +149,9 @@ class UserController extends \Controller
                 $user->addGroup($group);
             }
 
-        }catch (\Cartalyst\Sentry\Users\UserNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
             // Ignore and redirect back
-        }catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e){
+        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
             // Ignore and redirect back
         }
 

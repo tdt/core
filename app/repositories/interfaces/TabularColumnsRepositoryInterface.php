@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface TabularColumnsRepositoryInterface{
+interface TabularColumnsRepositoryInterface
+{
 
     /**
      * Store a TabularColumn object

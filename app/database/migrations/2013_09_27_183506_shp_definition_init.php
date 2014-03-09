@@ -36,5 +36,4 @@ class ShpDefinitionInit extends Migration
 		// Drop the table for the SHPDefinition model.
 		Schema::drop('shpdefinitions');
 	}
-
 }

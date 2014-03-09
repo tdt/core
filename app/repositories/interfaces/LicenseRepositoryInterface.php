@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface LicenseRepositoryInterface{
+interface LicenseRepositoryInterface
+{
 
     /**
      * Fetch a License by title

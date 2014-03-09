@@ -16,7 +16,8 @@ namespace tdt\core\spectql\implementation\tablemanager;
 use tdt\core\spectql\implementation\data\UniversalFilterTableHeader;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-interface IUniversalFilterTableManager {
+interface IUniversalFilterTableManager
+{
 
     /**
      * The UniversalInterpreter found a identifier for a table.

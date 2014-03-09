@@ -10,7 +10,8 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 /**
  * Top class of all filters
  */
-abstract class UniversalFilterNode {
+abstract class UniversalFilterNode
+{
 
     private $type;
     private $attachments;
@@ -34,6 +35,4 @@ abstract class UniversalFilterNode {
     {
         return $this->attachments[$id];
     }
-
 }
-

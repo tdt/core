@@ -38,5 +38,4 @@ class CsvDefinitionInit extends Migration
         // Drop the table for CSVDefinition model
         Schema::drop('csvdefinitions');
     }
-
 }

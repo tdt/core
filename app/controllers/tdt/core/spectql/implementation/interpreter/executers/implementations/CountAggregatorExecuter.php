@@ -27,6 +27,4 @@ class CountAggregatorExecuter extends AggregatorFunctionExecuter
     {
         return true;
     }
-
 }
-

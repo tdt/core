@@ -100,5 +100,4 @@ class CSVFormatter implements IFormatter
         $element = '"'.$element.'"';
         return utf8_encode($element);
     }
-
 }

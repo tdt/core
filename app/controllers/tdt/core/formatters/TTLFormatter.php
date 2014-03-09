@@ -47,5 +47,4 @@ class TTLFormatter implements IFormatter
     public static function getDocumentation(){
         return "Prints the Turtle notation with semantic annotations";
     }
-
 }

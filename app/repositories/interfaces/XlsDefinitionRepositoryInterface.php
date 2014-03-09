@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface XlsDefinitionRepositoryInterface{
+interface XlsDefinitionRepositoryInterface
+{
 
     /**
      * Return a validator based on an hash array

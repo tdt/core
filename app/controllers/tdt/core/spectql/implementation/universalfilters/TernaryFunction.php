@@ -36,6 +36,4 @@ class TernaryFunction extends NormalFilterNode
     {
         return 3;
     }
-
 }
-

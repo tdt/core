@@ -37,5 +37,4 @@ class XlsDefinitionInit extends Migration
 		// Drop the XLS definition table.
 		Schema::drop('xlsdefinitions');
 	}
-
 }

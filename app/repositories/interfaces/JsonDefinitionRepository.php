@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface JsonDefinitionRepositoryInterface{
+interface JsonDefinitionRepositoryInterface
+{
 
     /**
      * Return a validator based on an hash array

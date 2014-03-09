@@ -22,5 +22,4 @@ class RenameGeoProperty extends Migration
 	public function down()
 	{
 	}
-
 }

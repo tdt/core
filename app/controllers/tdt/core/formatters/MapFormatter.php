@@ -39,5 +39,4 @@ class MAPFormatter implements IFormatter
     public static function getDocumentation(){
         return "The map visualization creates a map based on the geographic data available in the datasource.";
     }
-
 }

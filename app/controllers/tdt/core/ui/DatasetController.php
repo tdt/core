@@ -284,5 +284,4 @@ class DatasetController extends \Controller
         // Document content
         return $response->getContent();
     }
-
 }

@@ -22,5 +22,4 @@ class RemodelDocumentation extends Migration
 	public function down()
 	{
 	}
-
 }

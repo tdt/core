@@ -26,6 +26,4 @@ class Constant extends UniversalFilterNode
     {
         return $this->constant;
     }
-
 }
-

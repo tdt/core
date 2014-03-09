@@ -184,7 +184,7 @@ class SHPController extends ADataController
 
             return $data_result;
 
-        } catch( Exception $ex) {
+        } catch ( Exception $ex) {
 
             \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
@@ -201,7 +201,7 @@ class SHPController extends ADataController
 
         $pk = @$options['pk'];
 
-        try{
+        try {
             if ($is_url) {
 
                 // This remains untested
@@ -217,7 +217,7 @@ class SHPController extends ADataController
                // along this file the class will use file.shx and file.dbf
                 $shp = new \ShapeFile($options['uri'], array('noparts' => false));
             }
-        }catch(Exception $e){
+        } catch (Exception $e) {
             \App::abort(400, "The shape contents couldn't be retrieved, make sure the shape file is valid, zipped shape files are not yet supported.");
         }
 

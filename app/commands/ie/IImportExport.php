@@ -9,7 +9,8 @@ namespace tdt\commands\ie;
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
 
-interface IImportExport{
+interface IImportExport
+{
 
     public static function import($data);
     public static function export($identifier = null);

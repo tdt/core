@@ -22,7 +22,8 @@ use tdt\core\spectql\implementation\interpreter\executers\base\AbstractUniversal
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExecuter {
+abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExecuter
+{
 
     /**
      * Need to be overriden by subclasses. Which columns need to be hashed???
@@ -210,5 +211,4 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
 
         return $this->combineSourceUsages($arr, $this->filter, $parentNode, $parentIndex);
     }
-
 }

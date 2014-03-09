@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface LanguageRepositoryInterface{
+interface LanguageRepositoryInterface
+{
 
     /**
      * Fetch a Language by id

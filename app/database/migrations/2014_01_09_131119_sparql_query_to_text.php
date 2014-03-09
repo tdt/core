@@ -23,5 +23,4 @@ class SparqlQueryToText extends Migration
 	{
 		// Do not roll this back, query has to be text
 	}
-
 }

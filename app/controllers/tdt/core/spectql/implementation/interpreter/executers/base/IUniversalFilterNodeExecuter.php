@@ -17,7 +17,8 @@ use tdt\core\spectql\implementation\interpreter\Environment;
 use tdt\core\spectql\implementation\interpreter\IInterpreterControl;
 use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
-interface IUniversalFilterNodeExecuter {
+interface IUniversalFilterNodeExecuter
+{
 
     /**
      * Initializes this node. It gets the environment of the executer as an argument.

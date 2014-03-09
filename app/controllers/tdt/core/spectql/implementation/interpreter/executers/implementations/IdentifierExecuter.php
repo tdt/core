@@ -295,5 +295,4 @@ class IdentifierExecuter extends AbstractUniversalFilterNodeExecuter
         }
         return false;
     }
-
 }

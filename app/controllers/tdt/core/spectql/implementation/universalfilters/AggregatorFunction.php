@@ -31,5 +31,4 @@ class AggregatorFunction extends NormalFilterNode
         if ($column != null)
             $this->setSource($column);
     }
-
 }

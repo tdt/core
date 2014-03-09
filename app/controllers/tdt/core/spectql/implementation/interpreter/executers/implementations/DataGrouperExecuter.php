@@ -36,5 +36,4 @@ class DataGrouperExecuter extends BaseHashingFilterExecuter
         }
         return !$needToBeGrouped;
     }
-
 }

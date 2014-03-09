@@ -52,5 +52,4 @@ class TableToPhpObjectConverter
 
         return $newRows;
     }
-
 }

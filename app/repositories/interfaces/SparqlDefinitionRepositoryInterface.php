@@ -2,7 +2,8 @@
 
 namespace repositories\interfaces;
 
-interface SparqlDefinitionRepositoryInterface{
+interface SparqlDefinitionRepositoryInterface
+{
 
     /**
      * Return a validator based on an hash array

@@ -340,5 +340,4 @@ class PhpObjectTableConverter
         }
         return $nameOfTable;
     }
-
 }

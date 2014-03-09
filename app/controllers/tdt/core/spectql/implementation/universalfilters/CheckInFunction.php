@@ -27,5 +27,4 @@ class CheckInFunction extends NormalFilterNode
     {
         return $this->constants;
     }
-
 }
