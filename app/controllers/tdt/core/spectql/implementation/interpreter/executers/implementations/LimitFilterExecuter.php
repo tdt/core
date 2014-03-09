@@ -25,7 +25,7 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
 
         $this->filter = $filter;
 
-        //get source environment header
+        // get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer = $executer;
 
@@ -45,7 +45,7 @@ class LimitFilterExecuter extends AbstractUniversalFilterNodeExecuter
         $sourceheader = $this->executer->getExpressionHeader();
         $sourcecontent = $this->executer->evaluateAsExpression();
 
-        //create a new empty output table
+        // create a new empty output table
 
         $newRows = new UniversalFilterTableContent();
 

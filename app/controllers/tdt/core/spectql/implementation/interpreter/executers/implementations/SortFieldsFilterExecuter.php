@@ -38,7 +38,7 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
         $this->filter = $filter;
         $this->interpreter = $interpreter;
 
-        //get source environment header
+        // get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer = $executer;
 
@@ -76,39 +76,39 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
 
         foreach ($columnsrev as $column) {
 
-            //this column
+            // this column
             $filterColumn = $column->getColumn();
 
-            //find something to evaluate it
+            // find something to evaluate it
             $exprexec = $this->interpreter->findExecuterFor($filterColumn);
 
-            //environment
+            // environment
             $env = new Environment();
             $env->setTable(new UniversalFilterTable($this->header, $sortedcontent));
 
-            //init expression
+            // init expression
             $exprexec->initExpression($filterColumn, $env, $this->interpreter, true);
             $columnheader = $exprexec->getExpressionHeader();
 
-            //check
+            // check
             if (!$columnheader->isSingleColumnByConstruction()) {
                 throw new Exception("Can not sort on '*' ");
             }
 
-            //get the content of the column
+            // get the content of the column
             $columncontent = $exprexec->evaluateAsExpression();
 
-            //convert to array
+            // convert to array
             $arr = $this->toArray($columnheader->getColumnId(), $columncontent);
 
-            //order
+            // order
             $order = ($column->getSortOrder() == SortFieldsFilterColumn::$SORTORDER_ASCENDING ? "SortFieldsFilterCompareAsc" : "SortFieldsFilterCompareDesc");
 
-            //do assiocative sort
-            //asort($arr);   // --- !!!!!! The version in php is NOT stable!
+            // do assiocative sort
+            // asort($arr);   // --- !!!!!! The version in php is NOT stable!
             mergesort($arr, $order);
 
-            //create new content
+            // create new content
             $newsortedcontent = new UniversalFilterTableContent();
 
             foreach ($arr as $key => $value) {
@@ -118,7 +118,7 @@ class SortFieldsFilterExecuter extends AbstractUniversalFilterNodeExecuter
             $sortedcontent->tryDestroyTable();
             $sortedcontent = $newsortedcontent;
 
-            //cleanup
+            // cleanup
             $columncontent->tryDestroyTable();
             $exprexec->cleanUp();
         }

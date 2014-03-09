@@ -15,7 +15,7 @@ require_once($dir."/proj4phpDatum.php");
 require_once($dir."/proj4phpLongLat.php");
 require_once($dir."/proj4phpPoint.php");
 
-//Proj4php::$common = new proj4phpCommon();
+// Proj4php::$common = new proj4phpCommon();
 
 class Proj4php
 {
@@ -371,7 +371,7 @@ class Proj4php
      */
     public function reportError($msg)
     {
-      //console.log(msg);
+      // console.log(msg);
 	  //echo $msg;
     }
 
@@ -384,7 +384,7 @@ class Proj4php
 		if (file_exists($filename))
 			require_once($filename);
 		else
-			throw(new Exception("Le fichier $filename n'a pas été trouvé."));
+			throw(new Exception("Le fichier $filename n'a pas Ã©tÃ© trouvÃ©."));
     }
 
 	/**

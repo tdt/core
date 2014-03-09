@@ -43,7 +43,7 @@ class Proj4phpProjMill
   -------------------------------------------*/
   public function init()
   {
-    //no-op
+    // no-op
   }
 
 

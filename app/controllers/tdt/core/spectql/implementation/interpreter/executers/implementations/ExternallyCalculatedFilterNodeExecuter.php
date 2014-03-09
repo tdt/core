@@ -73,8 +73,8 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
             $givenName = $expectedheadernames[$index];
             $givenColumnId = $table->getHeader()->getColumnIdByName($givenName);
             if ($givenColumnId === null) {
-                //show a more complete error message
-                //display all columns in the returned table.
+                // show a more complete error message
+                // display all columns in the returned table.
                 $givenColumnsString = "";
                 for ($givenColumnsIndex = 0; $givenColumnsIndex < $table->getHeader()->getColumnCount(); $givenColumnsIndex++) {
                     $columnIdGivenTable = $table->getHeader()->getColumnIdByIndex($givenColumnsIndex);
@@ -99,7 +99,7 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
             throw new Exception("Illegal external calculation. The returned table should contain one row.");
         }
 
-        //new Header
+        // new Header
         $this->header = new UniversalFilterTableHeader($newColumns, $isSingleRowByConstruction, $isSingleColumnByConstruction);
 
 
@@ -128,7 +128,7 @@ class ExternallyCalculatedFilterNodeExecuter extends AbstractUniversalFilterNode
 
     public function modififyFiltersWithHeaderInformation()
     {
-        //do nothing
+        // do nothing
     }
 
     public function filterSingleSourceUsages(UniversalFilterNode $parentNode, $parentIndex)

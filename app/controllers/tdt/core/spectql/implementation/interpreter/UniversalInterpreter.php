@@ -163,13 +163,13 @@ class UniversalInterpreter implements IInterpreterControl
             $printer->printString($originaltree);
         }
 
-        //CLONE QUERY (because we will modify it... and the caller might want to keep the original query)
+        // CLONE QUERY (because we will modify it... and the caller might want to keep the original query)
         $cloner = new FilterTreeCloner();
         $clonedtree = $cloner->deepCopyTree($originaltree);
 
         $tree = $clonedtree;
 
-        //INITIAL ENVIRONMENT... is empty
+        // INITIAL ENVIRONMENT... is empty
         $emptyEnv = new Environment();
         $emptyEnv->setTable(new UniversalFilterTable(new UniversalFilterTableHeader(array(), true, false), new UniversalFilterTableContent()));
 
@@ -210,11 +210,11 @@ class UniversalInterpreter implements IInterpreterControl
 
         $tree = $rootDummyFilter->getSource();
 
-        //EXECUTE (for real this time)
+        // EXECUTE (for real this time)
         $executer = $this->findExecuterFor($tree);
         $executer->initExpression($tree, $emptyEnv, $this, false);
 
-        //get the table, in two steps
+        // get the table, in two steps
         $header = $executer->getExpressionHeader();
         $content = $executer->evaluateAsExpression();
 
@@ -223,7 +223,7 @@ class UniversalInterpreter implements IInterpreterControl
             $executer->cleanUp();
         }
 
-        //RETURN
+        // RETURN
         return new UniversalFilterTable($header, $content);
     }
 }

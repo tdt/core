@@ -74,7 +74,7 @@ class Proj4phpProj
   {
       $this->srsCodeInput = $srsCode;
 
-      //check to see if $this is a WKT string
+      // check to see if $this is a WKT string
       if ((strpos($srsCode,'GEOGCS') !== false) ||
           (strpos($srsCode,'GEOCCS') !== false) ||
           (strpos($srsCode,'PROJCS') !== false) ||
@@ -87,7 +87,7 @@ class Proj4phpProj
 
       // DGR 2008-08-03 : support urn and url
       if (strpos($srsCode,'urn:') === 0) {
-          //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
+          // urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
           $urn = explode(':',$srsCode);
           if (($urn[1] == 'ogc' || $urn[1] =='x-ogc') &&
               ($urn[2] =='def') &&
@@ -95,14 +95,14 @@ class Proj4phpProj
               $srsCode = $urn[4].':'.$urn[strlen($urn)-1];
           }
       } elseif (strpos($srsCode,'http://') === 0) {
-          //url#ID
+          // url#ID
           $url = explode('#',$srsCode);
           if (preg_match("/epsg.org/",$url[0])) {
             // http://www.epsg.org/#
             $srsCode = 'EPSG:'.$url[1];
           } elseif (preg_match("/RIG.xml/",$url[0])) {
-            //http://librairies.ign.fr/geoportail/resources/RIG.xml#
-            //http://interop.ign.fr/registers/ign/RIG.xml#
+            // http://librairies.ign.fr/geoportail/resources/RIG.xml#
+            // http://interop.ign.fr/registers/ign/RIG.xml#
             $srsCode = 'IGNF:'.$url[1];
           }
       }
@@ -139,12 +139,12 @@ class Proj4phpProj
  */
     public function loadProjDefinition()
     {
-      //check in memory
+      // check in memory
       if (array_key_exists($this->srsCode,Proj4php::$defs)) {
         $this->defsLoaded();
         return;
       }
-      //else check for def on the server
+      // else check for def on the server
       $filename = dirname(__FILE__). '/defs/' . strtoupper($this->srsAuth) . $this->srsProjNumber . '.php';
 
 	  try {
@@ -165,7 +165,7 @@ class Proj4phpProj
  */
     public function loadFromService()
     {
-      //else load from web service
+      // else load from web service
       $url = Proj4php::defsLookupService .'/' . $this->srsAuth .'/'. $this->srsProjNumber . '/proj4js/';
 	  try {
 		Proj4php::loadScript($url);
@@ -226,7 +226,7 @@ class Proj4phpProj
         $this->initTransforms();
         return;
       }
-      //the filename for the projection code
+      // the filename for the projection code
       $filename = dirname(__FILE__).'/projCode/'.$projName. '.php';
 
 	  try {
@@ -245,11 +245,11 @@ class Proj4phpProj
  */
     public function loadProjCodeSuccess($projName)
     {
-      //if (Proj4php::$proj[$projName]->dependsOn) {
+      // if (Proj4php::$proj[$projName]->dependsOn) {
       //  $this->loadProjCode(Proj4php::$proj[$projName]->dependsOn);
-      //} else {
+      // } else {
         $this->initTransforms();
-      //}
+      // }
     }
 
  /**
@@ -261,7 +261,7 @@ class Proj4phpProj
     public function loadProjCodeFailure($projName)
     {
       Proj4php::reportError("failed to find projection file for: " . $projName);
-      //TBD initialize with identity transforms so proj will still work?
+      // TBD initialize with identity transforms so proj will still work?
     }
 
 /**
@@ -351,8 +351,8 @@ class Proj4phpProj
       }
     }
 
-    //do something based on the type of the wktObject being parsed
-    //add in variations in the spelling as required
+    // do something based on the type of the wktObject being parsed
+    // add in variations in the spelling as required
     switch ($wktObject) {
       case 'LOCAL_CS':
         $this->projName = 'identity';
@@ -393,8 +393,8 @@ class Proj4phpProj
       case 'PARAMETER':
         $name = strtolower($wktName);
         $value = floatval(array_shift($wktArray));
-        //there may be many variations on the wktName values, add in case
-        //statements as required
+        // there may be many variations on the wktName values, add in case
+        // statements as required
         switch ($name) {
           case 'false_easting':
             $this->x0 = $value;
@@ -420,7 +420,7 @@ class Proj4phpProj
       case 'TOWGS84':
         $this->datum_params = $wktArray;
         break;
-      //DGR 2010-11-12: AXIS
+      // DGR 2010-11-12: AXIS
       case 'AXIS':
         $name= strtolower($wktName);
         $value= array_shift($wktArray);
@@ -571,7 +571,7 @@ class Proj4phpProj
       }
       $this->ep2=($this->a2-$this->b2)/$this->b2; // used in geocentric
       if (!isset($this->k0)) $this->k0 = 1.0;    //default value
-      //DGR 2010-11-12: axis
+      // DGR 2010-11-12: axis
       if (!isset($this->axis)) { $this->axis= "enu"; }
 
       $this->datum = new Proj4phpDatum($this);

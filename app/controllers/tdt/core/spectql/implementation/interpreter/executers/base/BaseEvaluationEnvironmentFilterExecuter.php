@@ -21,7 +21,7 @@ use tdt\core\spectql\implementation\universalfilters\UniversalFilterNode;
 
 abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversalFilterNodeExecuter
 {
-    //put your code here
+    // put your code here
 
     /**
      * Build the child environment to give to children.
@@ -37,16 +37,16 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
         // BUILD ENVIRONMENT TO GIVE TO EXPRESSIONS
         //
 
-        //get source environment header
+        // get source environment header
         $executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
         $header = $executer->getExpressionHeader();
 
-        //create new enviroment => combine given table ($topenv) and source table (from executer)
+        // create new enviroment => combine given table ($topenv) and source table (from executer)
         $giveToColumnsEnvironment = $topenv->newModifiableEnvironment();
         $oldtable = $topenv->getTable(); //save old table
         $oldTableRow = new UniversalFilterTableContentRow();
 
-        //build new environment
+        // build new environment
         if (!$oldtable->getHeader()->isSingleRowByConstruction()) {
 
             \App::abort(500, "Illegal location for ColumnSelectionFilter or FilterByExpressionFilter");
@@ -56,7 +56,7 @@ abstract class BaseEvaluationEnvironmentFilterExecuter extends AbstractUniversal
             $columnid = $oldtable->getHeader()->getColumnIdByIndex($oldtablecolumn);
             $column = $oldtable->getHeader()->getColumnInformationById($columnid);
 
-            //$oldtable->getContent()->getRow(0)->copyValueTo($oldTableRow, $columnid, $columnid);
+            // $oldtable->getContent()->getRow(0)->copyValueTo($oldTableRow, $columnid, $columnid);
 
             $giveToColumnsEnvironment->addSingleValue($column, $oldTableRow);
         }

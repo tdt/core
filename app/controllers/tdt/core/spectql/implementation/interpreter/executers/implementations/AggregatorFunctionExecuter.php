@@ -30,7 +30,7 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
     protected $header;
     protected $header1;
     protected $singleColumnSingleRow;
-    //private
+    // private
     private $executer1;
     private $evaluatorTable;
     private $topenv;
@@ -68,7 +68,7 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
         // Onit executer
         $this->executer1->initExpression($this->filter->getSource(), $evaluatorEnvironment, $interpreter, true);
 
-        //Check executer header
+        // Check executer header
         $evaluatedHeader = $this->executer1->getExpressionHeader();
         $this->typeInlineSelect = !$evaluatedHeader->isSingleRowByConstruction();
 
@@ -105,10 +105,10 @@ abstract class AggregatorFunctionExecuter extends AbstractUniversalFilterNodeExe
             $globalHeader = new UniversalFilterTableHeader($newColumns, $singleRow, true);
         }
 
-        //set the seen header
+        // set the seen header
         $this->header1 = $globalHeader;
 
-        //save context for content-generation
+        // save context for content-generation
         $this->topenv = $topenv;
 
 

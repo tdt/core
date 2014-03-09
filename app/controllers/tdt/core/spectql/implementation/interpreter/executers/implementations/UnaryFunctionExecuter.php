@@ -34,22 +34,22 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
 
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource());
 
-        //init
+        // init
         $this->executer1->initExpression($this->filter->getSource(), $topenv, $interpreter, true);
 
         $this->header1 = $this->executer1->getExpressionHeader();
 
-        //combined name
+        // combined name
         $combinedName = $this->getName(
                 $this->header1->getColumnNameById($this->header1->getColumnId()));
 
-        //column
+        // column
         $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
 
-        //single row?
+        // single row?
         $isSingleRowByConstruction = $this->header1->isSingleRowByConstruction();
 
-        //new Header
+        // new Header
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
@@ -88,7 +88,7 @@ class UnaryFunctionExecuter extends AbstractUniversalFilterNodeExecuter
 
         $table1content->tryDestroyTable();
 
-        //return the result
+        // return the result
         return $rows;
     }
 

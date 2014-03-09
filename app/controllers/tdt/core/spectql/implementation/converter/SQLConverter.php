@@ -103,7 +103,7 @@ class SQLConverter
     {
         $classname = get_class($tree);
         $method = "print_" . end(explode("\\", $classname));
-        //calls the correct clone method and then returns.
+        // calls the correct clone method and then returns.
         return $this->$method($tree);
     }
 

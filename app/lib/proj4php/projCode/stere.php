@@ -117,7 +117,7 @@ class Proj4phpProjStere
     	case $this->N_POLE:
     		$coslam = -$coslam;
     		$lat = -$lat;
-        //Note  no break here so it conitnues through S_POLE
+        // Note  no break here so it conitnues through S_POLE
     	case $this->S_POLE:
     		if (abs($lat - Proj4php::$common->HALF_PI) < $this->TOL) {
           F_ERROR;
@@ -164,7 +164,7 @@ class Proj4phpProjStere
   }
 
 
-//* Stereographic inverse equations--mapping x,y to lat/long
+// * Stereographic inverse equations--mapping x,y to lat/long
   public function inverse($p)
   {
     $x = ($p->x - $this->x0)/$this->a;   /* descale and de-offset */

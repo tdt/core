@@ -103,7 +103,7 @@ class Proj4phpProjSomerc
         Proj4php::reportError("omercFwdInfinity");
         return;
       }
-      //S = log(tan(PI / 4.0 + phy / 2.0));
+      // S = log(tan(PI / 4.0 + phy / 2.0));
       S = 1.0
               / $this->alpha
               * (log(tan($PI / 4.0 + $b / 2.0)) - $this->K)

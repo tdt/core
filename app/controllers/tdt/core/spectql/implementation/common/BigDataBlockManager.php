@@ -19,18 +19,18 @@ namespace tdt\core\spectql\implementation\common;
 use tdt\core\definitions\SPECTQLController;
 
 
-//TODO make this obsolete, if a resource it too big to handle, throw an error.
+// TODO make this obsolete, if a resource it too big to handle, throw an error.
 class BigDataBlockManager
 {
 
-    //private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
+    // private static $BLOCKTIMEOUT = 216000;//60*60*60 sec
     /*
      * If errors occur with DataBlockManager, up the COUNT_KEEP_IN_MEMORY
      * Somewhere along the line it goes wrong, some blocks wont get deleted.
      */
     private static $COUNT_KEEP_IN_MEMORY = PHP_INT_MAX;
     public static $instance;
-    //the things in memory:
+    // the things in memory:
     private $memoryblockarray;
     private $issavedtofile; //only for those currently in memory
     private $currentcountinmemory = 0;
@@ -58,7 +58,7 @@ class BigDataBlockManager
      * Current implementation: LRU (least recently used)
      */
 
-    //things used to implement LRU
+    // things used to implement LRU
     private $usetimelist = array();
     private $currentaccesstime = 0;
 
@@ -83,7 +83,7 @@ class BigDataBlockManager
         }
         unset($this->memoryblockarray->$oldestaccesskey); //remove from memory
         $this->currentcountinmemory--;
-        //echo "DUMP (".$this->currentcountinmemory.")<br/>";
+        // echo "DUMP (".$this->currentcountinmemory.")<br/>";
     }
 
     /**
@@ -93,10 +93,10 @@ class BigDataBlockManager
      */
     private function explicitSaveBlock($key, $value)
     {
-        //echo "save ".$key." (".$this->currentcountinmemory.")<br/>";
+        // echo "save ".$key." (".$this->currentcountinmemory.")<br/>";
         $filename = $this->fileNameFor($key);
         $serializedValue = serialize($value);
-        //WRITE FILE
+        // WRITE FILE
         \App::abort(500, 'Query is too big to be handled in memory');
         file_put_contents($filename, $serializedValue);
     }
@@ -116,7 +116,7 @@ class BigDataBlockManager
         $this->usetimelist[$key] = $this->currentaccesstime;
         $this->issavedtofile->$key = false;
         $this->currentcountinmemory++;
-        //echo "put ".$key." (".$this->currentcountinmemory.")<br/>";
+        // echo "put ".$key." (".$this->currentcountinmemory.")<br/>";
     }
 
     /**
@@ -126,24 +126,24 @@ class BigDataBlockManager
     private function deleteBlock($key)
     {
         if (isset($this->memoryblockarray->$key)) {
-            //echo "del_mem ".$key." (".$this->currentcountinmemory.")<br/>";
-            //kept and memory (and maybe also on file)
+            // echo "del_mem ".$key." (".$this->currentcountinmemory.")<br/>";
+            // kept and memory (and maybe also on file)
             unset($this->memoryblockarray->$key);
             unset($this->usetimelist[$key]);
             if ($this->issavedtofile->$key) {
                 $filename = $this->fileNameFor($key);
-                //DELETE FILE
+                // DELETE FILE
                 unlink($filename);
             }
             unset($this->issavedtofile->$key);
-            //echo "[".$this->currentcountinmemory." -> ".($this->currentcountinmemory-1)."]";
+            // echo "[".$this->currentcountinmemory." -> ".($this->currentcountinmemory-1)."]";
             $this->currentcountinmemory--;
         } else {
-            //echo "del_? ".$key." (".$this->currentcountinmemory.")<br/>";
-            //kept on file only OR does not exist
+            // echo "del_? ".$key." (".$this->currentcountinmemory.")<br/>";
+            // kept on file only OR does not exist
             if ($this->blockExistsOnFile($key)) {
                 $filename = $this->fileNameFor($key);
-                //DELETE FILE
+                // DELETE FILE
                 unlink($filename);
             }
         }
@@ -168,14 +168,14 @@ class BigDataBlockManager
     {
         $filename = $this->fileNameFor($key);
 
-        //READ FILE
+        // READ FILE
         $content = file_get_contents($this->fileNameFor($key));
 
         $this->currentaccesstime++; //a counter to implement LRU
         $this->memoryblockarray->$key = unserialize($content);
         $this->usetimelist[$key] = $this->currentaccesstime;
         $this->currentcountinmemory++;
-        //echo "load ".$key." (".$this->currentcountinmemory.")<br/>";
+        // echo "load ".$key." (".$this->currentcountinmemory.")<br/>";
     }
 
     /**
@@ -187,19 +187,19 @@ class BigDataBlockManager
     {
         if (!isset($this->memoryblockarray->$key)) {
             if ($this->blockExistsOnFile($key)) {
-                //not in memory... it got pushed out...
+                // not in memory... it got pushed out...
                 if ($this->currentcountinmemory >= BigDataBlockManager::$COUNT_KEEP_IN_MEMORY) {
                     $this->kickABlockFromMemory(); //kick another one out
                 }
-                //load it back in...
+                // load it back in...
                 $this->explicitLoadBlockFromFileInMemory($key);
             } else {
-                //sorry, that block does not exist
+                // sorry, that block does not exist
                 return null;
             }
         }
 
-        //so now it's in memory...
+        // so now it's in memory...
         $this->currentaccesstime++;
         $this->usetimelist[$key] = $this->currentaccesstime; //last used...
         return $this->memoryblockarray->$key;
@@ -229,7 +229,7 @@ class BigDataBlockManager
      */
     public function set($key, $value)
     {
-        //echo "set: $key<br/>";
+        // echo "set: $key<br/>";
         $this->setBlock($key, $value);
     }
 
@@ -240,7 +240,7 @@ class BigDataBlockManager
      */
     public function get($key)
     {
-        //echo "get: $key<br/>";
+        // echo "get: $key<br/>";
         return $this->getBlock($key);
     }
 
@@ -250,7 +250,7 @@ class BigDataBlockManager
      */
     public function delete($key)
     {
-        //echo "del: $key<br/>";
+        // echo "del: $key<br/>";
         $this->deleteBlock($key);
     }
 

@@ -37,7 +37,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
 
         $this->filter = $filter;
 
-        //get source environment header
+        // get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer = $executer;
 
@@ -95,7 +95,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                     }
                 }
 
-                //add the new column
+                // add the new column
                 array_push($columns, $columnInfo);
             }
         }
@@ -117,7 +117,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
         $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
 
-        //create a new empty output table
+        // create a new empty output table
         $newRows = new UniversalFilterTableContent();
 
         if (!$this->returnsSingleRow) {
@@ -128,19 +128,19 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             $newRows->addRow(new UniversalFilterTableContentRow());
         }
 
-        //loop all columnInterpreters
+        // loop all columnInterpreters
         foreach ($this->columnInterpreters as $columnIndex => $column) {
 
-            //this column
+            // this column
             $filterColumn = $column->getColumn();
 
-            //get executer
+            // get executer
             $exprexec = $this->columnExecuters[$columnIndex];
 
-            //get header (again)
+            // get header (again)
             $header = $exprexec->getExpressionHeader();
 
-            //evaluate
+            // evaluate
             $answer = $exprexec->evaluateAsExpression();
 
             for ($resultColumnIndex = 0; $resultColumnIndex < $header->getColumnCount(); $resultColumnIndex++) {
@@ -150,7 +150,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
 
                 if ($header->isSingleRowByConstruction()) {
 
-                    //copy single value to all rows
+                    // copy single value to all rows
                     $rowValue = $answer->getRow(0);
 
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
@@ -158,7 +158,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
                     }
                 } else {
 
-                    //copy values to corresponding rows
+                    // copy values to corresponding rows
                     for ($index = 0; $index < $newRows->getRowCount(); $index++) {
                         $rowValue = $answer->getRow($index);
                         $rowValue->copyValueTo($newRows->getRow($index), $columnId, $columnId);
@@ -180,7 +180,7 @@ class ColumnSelectionFilterExecuter extends BaseEvaluationEnvironmentFilterExecu
             $this->executer->cleanUp();
 
             foreach ($this->columnInterpreters as $columnIndex => $column) {
-                //get executer
+                // get executer
                 $exprexec = $this->columnExecuters[$columnIndex];
                 $exprexec->cleanUp();
             }

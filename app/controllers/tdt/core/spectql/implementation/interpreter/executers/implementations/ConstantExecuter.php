@@ -43,10 +43,10 @@ class ConstantExecuter extends AbstractUniversalFilterNodeExecuter
         $this->const = $filter->getConstant();
         $this->nameOfField = $this->getFieldName($this->const);
 
-        //column
+        // column
         $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($this->nameOfField));
 
-        //new Header
+        // new Header
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), true, true);
     }
 

@@ -62,7 +62,7 @@ class Proj4phpProjEqdc
     if ($this->mode != 0) {
       if (abs($this->lat1 + $this->lat2) < Proj4php::$common->EPSLN) {
             Proj4php::reportError("eqdc:Init:EqualLatitudes");
-            //return(81);
+            // return(81);
        }
        $this->sinphi=sin($this->lat2);
        $this->cosphi=cos($this->lat2);

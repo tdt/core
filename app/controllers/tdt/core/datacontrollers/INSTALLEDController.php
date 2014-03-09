@@ -62,7 +62,7 @@ class INSTALLEDController extends ADataController
                 $data_result = new Data();
                 $data_result->data = $installed->getData();
 
-                //if the installed resource wrapped the object in a Data object themself, just return this object.
+                // if the installed resource wrapped the object in a Data object themself, just return this object.
                 if ($data_result->data instanceof Data) {
                     return $data_result->data;
                 }

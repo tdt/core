@@ -36,7 +36,7 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
 
 
 
-        //get source environment header
+        // get source environment header
         $executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer = $executer;
 
@@ -50,7 +50,7 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         // BUILD OWN HEADER
         //
 
-        //create the new header
+        // create the new header
         //   -> It's the same as the source (we could copy it here...)
         $this->header = $this->executer->getExpressionHeader();
 
@@ -76,7 +76,7 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $this->finishChildEnvironment($this->childEnvironmentData);
         $this->giveToColumnsEnvironment->setTable(new UniversalFilterTable($sourceheader, $sourcecontent));
 
-        //get expression header
+        // get expression header
         $exprheader = $this->exprexec->getExpressionHeader();
 
         // filter the content
@@ -85,11 +85,11 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
         // calcultate the table with true and false
         $inResultTable = $this->exprexec->evaluateAsExpression();
 
-        //loop all rows
+        // loop all rows
         for ($index = 0; $index < $sourcecontent->getRowCount(); $index++) {
             $row = $sourcecontent->getRow($index);
 
-            //get the right value in the result
+            // get the right value in the result
             $answer = null;
             if ($index < $inResultTable->getRowCount()) {
                 $answer = $inResultTable->getRow($index);
@@ -97,7 +97,7 @@ class FilterByExpressionExecuter extends BaseEvaluationEnvironmentFilterExecuter
                 $answer = $inResultTable->getRow(0);
             }
 
-            //if the expression evaluates to true, then add the row
+            // if the expression evaluates to true, then add the row
             if ($answer->getCellValue($exprheader->getColumnId(), false) == "true") {
                 $filteredRows->addRow($row);
             }

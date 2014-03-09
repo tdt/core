@@ -46,7 +46,7 @@ class Proj4phpProjCea
 /* Initialize the Cylindrical Equal Area projection
   -------------------------------------------*/
 	public function init() {
-    //no-op
+    // no-op
   }
 
 

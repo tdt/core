@@ -53,7 +53,7 @@ abstract class AbstractUniversalFilterNodeExecuter
         $filter = $this->filter;
         $expectedheadernames = $this->getTableNames();
 
-        //sets the data on the filter
+        // sets the data on the filter
         $filter->attach(ExpectedHeaderNamesAttachment::$ATTACHMENTID, new ExpectedHeaderNamesAttachment($expectedheadernames));
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractUniversalFilterNodeExecuter
             }
         }
         if (count($foundsources) == 1) {
-            //only one source used
+            // only one source used
             return array(new SourceUsageData($filter, $parent, $parentIndex, $foundsources[0]));
         } else {
             return $arr;

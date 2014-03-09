@@ -71,7 +71,7 @@
               && $this->datum_params[6] == $dest->datum_params[6]);
     } elseif ($this->datum_type == Proj4php::$common->PJD_GRIDSHIFT) {
 	  throw(new Exception("Not implemented yet"));
-      //return strcmp(pj_param($this->params,"snadgrids").s,
+      // return strcmp(pj_param($this->params,"snadgrids").s,
       //              pj_param($dest->params,"snadgrids").s) == 0;
     } else {
       return true; // datums are equal
@@ -360,7 +360,7 @@ $maxiter = 30;
   {
 
     if ($this->datum_type == Proj4php::$common->PJD_3PARAM) {
-      //if(x[io] == HUGE_VAL)
+      // if(x[io] == HUGE_VAL)
       //    continue;
       $p->x -= $this->datum_params[0];
       $p->y -= $this->datum_params[1];
@@ -377,7 +377,7 @@ $maxiter = 30;
       $x_tmp = ($p->x - $Dx_BF) / $M_BF;
       $y_tmp = ($p->y - $Dy_BF) / $M_BF;
       $z_tmp = ($p->z - $Dz_BF) / $M_BF;
-      //if(x[io] == HUGE_VAL)
+      // if(x[io] == HUGE_VAL)
       //    continue;
 
       $p->x =        $x_tmp + $Rz_BF*$y_tmp - $Ry_BF*$z_tmp;

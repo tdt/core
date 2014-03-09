@@ -27,14 +27,14 @@ class TableToPhpObjectConverter
     {
         $newRows = array();
 
-        //initialize rows
+        // initialize rows
         for ($index = 0; $index < $table->getContent()->getRowCount(); $index++) {
             $row = $table->getContent()->getRow($index);
 
             array_push($newRows, array());
         }
 
-        //loop all columns
+        // loop all columns
         for ($index = 0; $index < $table->getHeader()->getColumnCount(); $index++) {
             $id = $table->getHeader()->getColumnIdByIndex($index);
             $name = $table->getHeader()->getColumnUniqueNameById($id);

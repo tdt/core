@@ -49,7 +49,7 @@ class TreePrinter
         $classname = get_class($tree);
         $class_name = explode("\\", $classname);
         $method = "print_" . end($class_name);
-        //calls the correct clone method and then returns.
+        // calls the correct clone method and then returns.
         $var = "";
         if (method_exists($this, $method)) {
             $var = $this->$method($tree);

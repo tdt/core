@@ -40,7 +40,7 @@ class SpectqlTest extends TestCase
                 // Check if the creation of the definition succeeded
                 $this->assertEquals(200, $response->getStatusCode());
 
-                //Fetch the queries from the test
+                // Fetch the queries from the test
                 $queries = $test['queries'];
 
                 // Perform the queries and assert the results

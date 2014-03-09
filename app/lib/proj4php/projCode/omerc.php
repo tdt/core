@@ -76,7 +76,7 @@ class Proj4phpProjOmerc
        $this->el = $this->f * pow($this->ts, $this->bl);
     }
 
-    //$this->longc=52.60353916666667;
+    // $this->longc=52.60353916666667;
 
     if ($this->mode != 0) {
        $this->g = .5 * ($this->f - 1.0/$this->f);
@@ -85,8 +85,8 @@ class Proj4phpProjOmerc
 
        /* Report parameters common to format B
        -------------------------------------*/
-       //genrpt(azimuth * R2D,"Azimuth of Central Line:    ");
-       //cenlon(lon_origin);
+       // genrpt(azimuth * R2D,"Azimuth of Central Line:    ");
+       // cenlon(lon_origin);
       // cenlat(lat_origin);
 
        $this->con = abs($this->lat0);
@@ -130,17 +130,17 @@ class Proj4phpProjOmerc
 
        if (abs($this->lat1 - $this->lat2) <= Proj4php::$common->EPSLN) {
           Proj4php::reportError("omercInitDataError");
-          //return(202);
+          // return(202);
        } else {
           $this->con = abs($this->lat1);
        }
        if (($this->con <= Proj4php::$common->EPSLN) || (abs($this->con - HALF_PI) <= Proj4php::$common->EPSLN)) {
            Proj4php::reportError("omercInitDataError");
-                //return(202);
+                // return(202);
        } else {
          if (abs(abs($this->lat0) - Proj4php::$common->HALF_PI) <= Proj4php::$common->EPSLN) {
             Proj4php::reportError("omercInitDataError");
-            //return(202);
+            // return(202);
          }
        }
 
@@ -204,9 +204,9 @@ class Proj4phpProjOmerc
        $us = $this->al * $lat / $this->bl;
     }
     if (abs(abs($ul) - 1.0) <= Proj4php::$common->EPSLN) {
-       //alert("Point projects into infinity","omer-for");
+       // alert("Point projects into infinity","omer-for");
        Proj4php::reportError("omercFwdInfinity");
-       //return(205);
+       // return(205);
     }
     $vs = .5 * $this->al * log((1.0 - $ul)/(1.0 + $ul)) / $this->bl;
     $us = $us - $this->u;
@@ -256,9 +256,9 @@ class Proj4phpProjOmerc
        $con = 1.0 / $this->bl;
        $ts1 =pow(($this->el / sqrt((1.0 + $ul) / (1.0 - $ul))), $con);
        $lat = Proj4php::$common.phi2z($this->e, $ts1);
-       //if (flag != 0)
-          //return(flag);
-       //~ con = cos($this->bl * us /al);
+       // if (flag != 0)
+          // return(flag);
+       // ~ con = cos($this->bl * us /al);
        $theta = $this->longc - atan2(($s * $this->cosgam - $vl * $this->singam), $con)/$this->bl;
        $lon = Proj4php::$common->adjust_lon($theta);
     }

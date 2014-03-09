@@ -53,44 +53,44 @@ class SPECTQLTokenizer
                 $itoken++;
             }
 
-            //store the tempstr as a token if there's something in it (there isn't at start, and also not when a symbol is placed right after another
+            // store the tempstr as a token if there's something in it (there isn't at start, and also not when a symbol is placed right after another
             if (strlen($tempstr) > 0) {
                 $this->tokens[] = $tempstr;
             }
-            //now store the symbols in the tokens array as well, if there is one
-            //first check whether 2 characters is a symbol!
+            // now store the symbols in the tokens array as well, if there is one
+            // first check whether 2 characters is a symbol!
             if (in_array(substr($querystring, $itoken, 2), $symbols)) {
                 $symbol = substr($querystring, $itoken, 2);
             } elseif (in_array(substr($querystring, $itoken, 1), $symbols)) {
                 $symbol = substr($querystring, $itoken, 1);
             }
-            //check if group, then just skip all
+            // check if group, then just skip all
             if ($symbol == "'") {
-                //shift 'zkhjbj... until end'
+                // shift 'zkhjbj... until end'
                 $itoken++;
                 $start = $itoken;
                 while (substr($querystring, $itoken, 1) != "'" || substr($querystring, $itoken, 2) == "''" && $itoken < strlen($querystring)) {
                     $itoken++;
                 }
                 $symbol = substr($querystring, $start, $itoken - $start);
-                //add another one for the other single quote
+                // add another one for the other single quote
                 if (substr($querystring, $itoken, 1) == "'") {
                     $itoken++;
                 }
-                //add 2 single quotes
+                // add 2 single quotes
                 $this->tokens[] = "'";
                 $this->tokens[] = $symbol;
                 $this->tokens[] = "'";
                 $i = $itoken;
             } elseif ($symbol != "") {
                 $this->tokens[] = $symbol;
-                //when a token is stored, give $i a new starting point. The new starting point lies behind the symbol that terminates the previous one
+                // when a token is stored, give $i a new starting point. The new starting point lies behind the symbol that terminates the previous one
                 $i = $itoken + strlen($symbol);
             } else {
                 $i = $itoken + strlen($symbol);
             }
         }
-        //DBG:var_dump($this->tokens);
+        // DBG:var_dump($this->tokens);
     }
 
     public function hasNext()

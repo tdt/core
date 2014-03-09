@@ -34,7 +34,7 @@ class Identifier extends UniversalFilterNode
 
         parent::__construct("IDENTIFIER");
         if (!is_object($value) && !is_array($value)) {
-            //Trim the value, identifiers itself will always be replaced by underscores in case of whitespaces
+            // Trim the value, identifiers itself will always be replaced by underscores in case of whitespaces
             $this->value = trim($value);
         }
     }

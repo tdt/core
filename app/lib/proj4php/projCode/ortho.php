@@ -37,7 +37,7 @@ class Proj4phpProjOrtho
     -------------------------------------*/
   public function init($def)
   {
-    //double temp;			/* temporary variable		*/
+    // double temp;			/* temporary variable		*/
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/;

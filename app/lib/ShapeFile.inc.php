@@ -34,16 +34,16 @@
  *
  * Example:
 
- //sets the options to show the polygon points, 'noparts' => true would skip that and save time
+ // sets the options to show the polygon points, 'noparts' => true would skip that and save time
  $options = array('noparts' => false);
  $shp = new ShapeFile("../../php/shapefile/file.shp",$options);
 
- //Dump the ten first records
+ // Dump the ten first records
  $i = 0;
  while ($record = $shp->getNext() and $i<10) {
  $dbf_data = $record->getDbfData();
  $shp_data = $record->getShpData();
- //Dump the information
+ // Dump the information
  var_dump($dbf_data);
  var_dump($shp_data);
  $i++;
@@ -74,9 +74,9 @@
  {
     private $file_name;
     private $fp;
-    //Used to fasten up the search between records;
+    // Used to fasten up the search between records;
     private $dbf_filename = null;
-    //Starting position is 100 for the records
+    // Starting position is 100 for the records
     private $fpos = 100;
 
     private $error_message = "";
@@ -91,9 +91,9 @@
         $this->options = $options;
 
         $this->file_name = $file_name;
-        //_d("Opening [$file_name]");
+        // _d("Opening [$file_name]");
         if (!is_readable($file_name)) {
-            //return $this->setError(sprintf(ERROR_FILE_NOT_FOUND, $file_name));
+            // return $this->setError(sprintf(ERROR_FILE_NOT_FOUND, $file_name));
             throw new Exception(sprintf(ERROR_FILE_NOT_FOUND, $file_name));
         }
 
@@ -101,7 +101,7 @@
 
         $this->_fetchShpBasicConfiguration();
 
-        //Set the dbf filename
+        // Set the dbf filename
         $this->dbf_filename = processDBFFileName($this->file_name);
 
     }
@@ -120,13 +120,13 @@
     // Data fetchers
     private function _fetchShpBasicConfiguration()
     {
-        //_d("Reading basic information");
+        // _d("Reading basic information");
         fseek($this->fp, 32, SEEK_SET);
         $this->shp_type = readAndUnpack("i", fread($this->fp, 4));
-        //_d("SHP type detected: ".$this->shp_type);
+        // _d("SHP type detected: ".$this->shp_type);
 
         $this->shp_bounding_box = readBoundingBox($this->fp);
-        ////_d("SHP bounding box detected: miX=".$this->shp_bounding_box["xmin"]." miY=".$this->shp_bounding_box["ymin"]." maX=".$this->shp_bounding_box["xmax"]." maY=".$this->shp_bounding_box["ymax"]);
+        // //_d("SHP bounding box detected: miX=".$this->shp_bounding_box["xmin"]." miY=".$this->shp_bounding_box["ymin"]." maX=".$this->shp_bounding_box["xmax"]." maY=".$this->shp_bounding_box["ymax"]);
     }
 
 
@@ -161,7 +161,7 @@
        }
     */
 
-//Not Used
+// Not Used
 /*	private function getDBFHeader(){
         $dbf_data = array();
         if (is_readable($dbf_data)) {
@@ -228,7 +228,7 @@ class ShapeRecord
         $this->fpos = ftell($fp);
         $this->options = $options;
 
-        //_d("Shape record created at byte ".ftell($fp));
+        // _d("Shape record created at byte ".ftell($fp));
 
         if (feof($fp)) {
             echo "end ";
@@ -251,17 +251,17 @@ class ShapeRecord
         $this->record_number     = readAndUnpack("N", fread($this->fp, 4));
         $this->content_length    = readAndUnpack("N", fread($this->fp, 4));
         $this->record_shape_type = readAndUnpack("i", fread($this->fp, 4));
-        //var_dump("Shape Record ID=".$this->record_number." ContentLength=".$this->content_length." RecordShapeType=".$this->record_shape_type."\nEnding byte ".ftell($this->fp)."\n");
-        //_d("Shape Record ID=".$this->record_number." ContentLength=".$this->content_length." RecordShapeType=".$this->record_shape_type."\nEnding byte ".ftell($this->fp)."\n");
+        // var_dump("Shape Record ID=".$this->record_number." ContentLength=".$this->content_length." RecordShapeType=".$this->record_shape_type."\nEnding byte ".ftell($this->fp)."\n");
+        // _d("Shape Record ID=".$this->record_number." ContentLength=".$this->content_length." RecordShapeType=".$this->record_shape_type."\nEnding byte ".ftell($this->fp)."\n");
     }
 
     public function getRecordClass()
     {
         if (!isset($this->record_class[$this->record_shape_type])) {
-            //_d("Unable to find record class ($this->record_shape_type) [".getArray($this->record_class)."]");
+            // _d("Unable to find record class ($this->record_shape_type) [".getArray($this->record_class)."]");
             return $this->setError(sprintf(INEXISTENT_RECORD_CLASS, $this->record_shape_type));
         }
-        //_d("Returning record class ($this->record_shape_type) ".$this->record_class[$this->record_shape_type]);
+        // _d("Returning record class ($this->record_shape_type) ".$this->record_class[$this->record_shape_type]);
         return $this->record_class[$this->record_shape_type];
     }
 
@@ -280,7 +280,7 @@ class ShapeRecord
     {
         $function_name = "read".$this->getRecordClass();
 
-        //_d("Calling reading function [$function_name] starting at byte ".ftell($fp));
+        // _d("Calling reading function [$function_name] starting at byte ".ftell($fp));
 
         if (function_exists($function_name)) {
             $this->shp_data = $function_name($this->fp, $this->options);
@@ -341,7 +341,7 @@ class ShapeRecord
 function readRecordNull(&$fp, $read_shape_type = false,$options = null) {
     $data = array();
     if($read_shape_type) $data += readShapeType($fp);
-    //_d("Returning Null shp_data array = ".getArray($data));
+    // _d("Returning Null shp_data array = ".getArray($data));
     return $data;
 }
 $point_count = 0;
@@ -352,7 +352,7 @@ function readRecordPoint(&$fp, $create_object = false,$options = null) {
     $data["x"] = readAndUnpack("d", fread($fp, 8));
     $data["y"] = readAndUnpack("d", fread($fp, 8));
 
-    ////_d("Returning Point shp_data array = ".getArray($data));
+    // //_d("Returning Point shp_data array = ".getArray($data));
     $point_count++;
     return $data;
 }
@@ -360,13 +360,13 @@ function readRecordPoint(&$fp, $create_object = false,$options = null) {
 function readRecordMultiPoint(&$fp,$options = null) {
     $data = readBoundingBox($fp);
     $data["numpoints"] = readAndUnpack("i", fread($fp, 4));
-    //_d("MultiPoint numpoints = ".$data["numpoints"]);
+    // _d("MultiPoint numpoints = ".$data["numpoints"]);
 
     for ($i = 0; $i <= $data["numpoints"]; $i++) {
         $data["points"][] = readRecordPoint($fp);
     }
 
-    //_d("Returning MultiPoint shp_data array = ".getArray($data));
+    // _d("Returning MultiPoint shp_data array = ".getArray($data));
     return $data;
 }
 
@@ -375,24 +375,24 @@ function readRecordPolyLine(&$fp,$options = null) {
     $data["numparts"]  = readAndUnpack("i", fread($fp, 4));
     $data["numpoints"] = readAndUnpack("i", fread($fp, 4));
 
-    //_d("PolyLine numparts = ".$data["numparts"]." numpoints = ".$data["numpoints"]);
+    // _d("PolyLine numparts = ".$data["numparts"]." numpoints = ".$data["numpoints"]);
     if (isset($options['noparts']) && $options['noparts']==true) {
-        //Skip the parts
+        // Skip the parts
         $points_initial_index = ftell($fp)+4*$data["numparts"];
         $points_read = $data["numpoints"];
     } else {
         for ($i=0; $i<$data["numparts"]; $i++) {
             $data["parts"][$i] = readAndUnpack("i", fread($fp, 4));
-            //_d("PolyLine adding point index= ".$data["parts"][$i]);
+            // _d("PolyLine adding point index= ".$data["parts"][$i]);
         }
 
         $points_initial_index = ftell($fp);
 
-        //_d("Reading points; initial index = $points_initial_index");
+        // _d("Reading points; initial index = $points_initial_index");
         $points_read = 0;
         foreach ($data["parts"] as $part_index => $point_index) {
-            //fseek($fp, $points_initial_index + $point_index);
-            //_d("Seeking initial index point [".($points_initial_index + $point_index)."]");
+            // fseek($fp, $points_initial_index + $point_index);
+            // _d("Seeking initial index point [".($points_initial_index + $point_index)."]");
             if (!isset($data["parts"][$part_index]["points"]) || !is_array($data["parts"][$part_index]["points"])) {
                 $data["parts"][$part_index] = array();
                 $data["parts"][$part_index]["points"] = array();
@@ -406,12 +406,12 @@ function readRecordPolyLine(&$fp,$options = null) {
 
     fseek($fp, $points_initial_index + ($points_read * XY_POINT_RECORD_LENGTH));
 
-    //_d("Seeking end of points section [".($points_initial_index + ($points_read * XY_POINT_RECORD_LENGTH))."]");
+    // _d("Seeking end of points section [".($points_initial_index + ($points_read * XY_POINT_RECORD_LENGTH))."]");
     return $data;
 }
 
 function readRecordPolygon(&$fp,$options = null) {
-    //_d("Polygon reading; applying readRecordPolyLine function");
+    // _d("Polygon reading; applying readRecordPolyLine function");
     return readRecordPolyLine($fp, $options);
 }
 
@@ -419,7 +419,7 @@ function readRecordPolygon(&$fp,$options = null) {
  * General functions
  */
 function processDBFFileName($dbf_filename) {
-    //_d("Received filename [$dbf_filename]");
+    // _d("Received filename [$dbf_filename]");
     if (!strstr($dbf_filename, ".")) {
         $dbf_filename .= ".dbf";
     }
@@ -427,7 +427,7 @@ function processDBFFileName($dbf_filename) {
     if (substr($dbf_filename, strlen($dbf_filename)-3, 3) != "dbf") {
         $dbf_filename = substr($dbf_filename, 0, strlen($dbf_filename)-3)."dbf";
     }
-    //_d("Ended up like [$dbf_filename]");
+    // _d("Ended up like [$dbf_filename]");
     return $dbf_filename;
 }
 
@@ -438,7 +438,7 @@ function readBoundingBox(&$fp) {
     $data["xmax"] = readAndUnpack("d",fread($fp, 8));
     $data["ymax"] = readAndUnpack("d",fread($fp, 8));
 
-    //_d("Bounding box read: miX=".$data["xmin"]." miY=".$data["ymin"]." maX=".$data["xmax"]." maY=".$data["ymax"]);
+    // _d("Bounding box read: miX=".$data["xmin"]." miY=".$data["ymin"]." maX=".$data["xmax"]." maY=".$data["ymax"]);
     return $data;
 }
 

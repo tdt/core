@@ -49,7 +49,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
 
         $this->filter = $filter;
 
-        //get source environment
+        // get source environment
         $this->executer = $interpreter->findExecuterFor($filter->getSource());
         $this->executer->initExpression($filter->getSource(), $topenv, $interpreter, $preferColumn);
 
@@ -91,7 +91,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
 
         $bigListOfGroups = new BigList();
         $bigGroupMap = new BigMap(); //of hashkey => array of indices in the rows of the source table that match the description
-        //loop through all rows and check if they are in the map
+        // loop through all rows and check if they are in the map
 
         for ($index = 0; $index < $sourcetablecontent->getRowCount(); $index++) {
 
@@ -106,7 +106,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
                 $isGrouped = $newColumn->isGrouped();
 
                 if (!$isGrouped) {
-                    //add to hash
+                    // add to hash
                     $hash .= $oldRow->getHashForField($oldId) . "%"; //% is separator
                 }
             }
@@ -161,7 +161,7 @@ abstract class BaseHashingFilterExecuter extends AbstractUniversalFilterNodeExec
                         $data->addRow($row);
                         $groupedColumnValues[$newId] = $data;
                     } else {
-                        //just set the value
+                        // just set the value
                         $groupedColumnValues[$newId] = $value;
                     }
                 }

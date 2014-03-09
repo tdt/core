@@ -36,7 +36,7 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
         $this->interpreter = $interpreter;
 
 
-        //get source environment header
+        // get source environment header
         $executerA = $interpreter->findExecuterFor($filter->getSource(0));
         $executerA->initExpression($filter->getSource(0), $topenv, $interpreter, false);
         $this->executerA = $executerA;
@@ -51,11 +51,11 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
         // BUILD OWN HEADER
         //
 
-        //older headers...
+        // older headers...
         $headerA = $executerA->getExpressionHeader();
         $headerB = $executerB->getExpressionHeader();
 
-        //todo: merge headers...
+        // todo: merge headers...
         $columns = array();
         for ($i = 0; $i < $headerA->getColumnCount(); $i++) {
             array_push($columns, $headerA->getColumnInformationByIndex($i)->cloneColumnNewId());
@@ -128,7 +128,7 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
 
 
 
-        //filtered rows
+        // filtered rows
         $filteredRows = null;
 
 
@@ -137,7 +137,7 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
             // table is ready
             $this->totaltable->setContent($totalcontent);
 
-            //get expression header
+            // get expression header
             $exprheader = $this->exprexec->getExpressionHeader();
 
             // filter the content
@@ -146,11 +146,11 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
             // calcultate the table with true and false
             $inResultTable = $this->exprexec->evaluateAsExpression();
 
-            //loop all rows
+            // loop all rows
             for ($index = 0; $index < $totalcontent->getRowCount(); $index++) {
                 $row = $totalcontent->getRow($index);
 
-                //get the right value in the result
+                // get the right value in the result
                 $answer = null;
                 if ($index < $inResultTable->getRowCount()) {
                     $answer = $inResultTable->getRow($index);
@@ -158,7 +158,7 @@ class DatasetJoinFilterExecuter extends BaseEvaluationEnvironmentFilterExecuter
                     $answer = $inResultTable->getRow(0);
                 }
 
-                //if the expression evaluates to true, then add the row
+                // if the expression evaluates to true, then add the row
                 if ($answer->getCellValue($exprheader->getColumnId(), false) == "true") {
                     $filteredRows->addRow($row);
                 }

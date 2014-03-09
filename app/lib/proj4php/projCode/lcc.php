@@ -27,25 +27,25 @@ ALGORITHM REFERENCES
 *******************************************************************************/
 
 
-//<2104> +proj=lcc +lat_1=10.16666666666667 +lat_0=10.16666666666667 +lon_0=-71.60561777777777 +k_0=1 +x0=-17044 +x0=-23139.97 +ellps=intl +units=m +no_defs  no_defs
+// <2104> +proj=lcc +lat_1=10.16666666666667 +lat_0=10.16666666666667 +lon_0=-71.60561777777777 +k_0=1 +x0=-17044 +x0=-23139.97 +ellps=intl +units=m +no_defs  no_defs
 
 // Initialize the Lambert Conformal conic projection
 // -----------------------------------------------------------------
 
-//class Proj4phpProjlcc = Class.create();
+// class Proj4phpProjlcc = Class.create();
 class Proj4phpProjLcc
 {
   public function init()
   {
     // array of:  r_maj,r_min,lat1,lat2,c_lon,c_lat,false_east,false_north
-    //double c_lat;                   /* center latitude                      */
-    //double c_lon;                   /* center longitude                     */
-    //double lat1;                    /* first standard parallel              */
-    //double lat2;                    /* second standard parallel             */
-    //double r_maj;                   /* major axis                           */
-    //double r_min;                   /* minor axis                           */
-    //double false_east;              /* x offset in meters                   */
-    //double false_north;             /* y offset in meters                   */
+    // double c_lat;                   /* center latitude                      */
+    // double c_lon;                   /* center longitude                     */
+    // double lat1;                    /* first standard parallel              */
+    // double lat2;                    /* second standard parallel             */
+    // double r_maj;                   /* major axis                           */
+    // double r_min;                   /* minor axis                           */
+    // double false_east;              /* x offset in meters                   */
+    // double false_north;             /* y offset in meters                   */
 
       if (!$this->lat2) {$this->lat2=$this->lat0;}//if lat2 is not defined
       if (!$this->k0) $this->k0 = 1.0;
@@ -92,8 +92,8 @@ class Proj4phpProjLcc
 
     // convert to radians
       if ($lat <= 90.0 && $lat >= -90.0 && $lon <= 180.0 && $lon >= -180.0) {
-        //lon = lon * Proj4php::$common.D2R;
-        //lat = lat * Proj4php::$common.D2R;
+        // lon = lon * Proj4php::$common.D2R;
+        // lat = lat * Proj4php::$common.D2R;
       } else {
         Proj4php::reportError("lcc:forward: llInputOutOfRange: ". $lon ." : " . $lat);
         return null;

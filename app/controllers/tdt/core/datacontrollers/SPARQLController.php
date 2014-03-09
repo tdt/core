@@ -267,7 +267,7 @@ class SPARQLController extends ADataController
 
             if (empty($elements)) {
 
-                //${name[0]}
+                // ${name[0]}
                 $index = strpos($placeholder, "[");
 
                 if ($index !== false) {

@@ -65,7 +65,7 @@ class BigList
         $this->size++;
         $this->setIndex($this->size - 1, $data);
         if (floor(($this->size - 1) / BigList::$BLOCKSIZE) != floor(($this->size - 2) / BigList::$BLOCKSIZE)) {
-            //echo "biglist expand... ".$this->id;
+            // echo "biglist expand... ".$this->id;
         }
     }
 
@@ -76,7 +76,7 @@ class BigList
 
     public function destroy()
     {
-        //echo "biglist destroyed... ".$this->id;
+        // echo "biglist destroyed... ".$this->id;
         $inst = BigDataBlockManager::getInstance();
         for ($i = 0; $i <= floor(($this->size - 1) / BigList::$BLOCKSIZE); $i++) {
             $inst->delete("BIGLIST_" . $this->id . "_" . $i);

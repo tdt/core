@@ -173,7 +173,7 @@ class PhpObjectTableConverter
 
                 if (!in_array($columnName, $columnNames)) {
 
-                    //new field: add header
+                    // new field: add header
                     array_push($columnNames, $columnName);
 
                     $isLinked = false;
@@ -182,7 +182,7 @@ class PhpObjectTableConverter
 
                     /* TODO: generate linked data info */
                     /* if (is_array($value) || is_object($value)) {
-                      //new field is subtable
+                      // new field is subtable
                       $isLinked=true;
                       $linkedTable=$totalId.".".$columnName;//TODO: totalId not defined !!!
                       $linkedTableKey=PhpObjectTableConverter::$ID_KEY.$columnName;//todo: check first if field does not exists...
@@ -194,9 +194,9 @@ class PhpObjectTableConverter
         }
 
         // add id field (just a field...)
-        //array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_FIELD), false, null, null)); //
+        // array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_FIELD), false, null, null)); //
         // add key_parent field
-        //array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_KEY.$nameOfTable), false, null, null));
+        // array_push($columns, new UniversalFilterTableHeaderColumnInfo(array(PhpObjectTableConverter::$ID_KEY.$nameOfTable), false, null, null));
 
         $header = new UniversalFilterTableHeader($columns, false, false);
 
@@ -279,14 +279,14 @@ class PhpObjectTableConverter
                 }
             }
 
-            //add value id field
-            //$columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
-            //$currentrow->defineValue($columnId, $parentindex);
-            //array_push($found, $columnId);
-            //add value key_parent field
-            //$columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
-            //$currentrow->defineValue($columnId, $index);
-            //array_push($found, $columnId);
+            // add value id field
+            // $columnId = $idMap[PhpObjectTableConverter::$ID_FIELD];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_FIELD);
+            // $currentrow->defineValue($columnId, $parentindex);
+            // array_push($found, $columnId);
+            // add value key_parent field
+            // $columnId = $idMap[PhpObjectTableConverter::$ID_KEY.$nameOfTable];//$header->getColumnIdByName(PhpObjectTableConverter::$ID_KEY.$nameOfTable);
+            // $currentrow->defineValue($columnId, $index);
+            // array_push($found, $columnId);
 
             $rows->addRow($currentrow);
         }

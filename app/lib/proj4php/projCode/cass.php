@@ -29,7 +29,7 @@ ALGORITHM REFERENCES
  * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
 
-//Proj4php.defs["EPSG:28191"] = "+proj=cass +lat_0=31.73409694444445 +lon_0=35.21208055555556 +x_0=170251.555 +y_0=126867.909 +a=6378300.789 +b=6356566.435 +towgs84=-275.722,94.7824,340.894,-8.001,-4.42,-11.821,1 +units=m +no_defs";
+// Proj4php.defs["EPSG:28191"] = "+proj=cass +lat_0=31.73409694444445 +lon_0=35.21208055555556 +x_0=170251.555 +y_0=126867.909 +a=6378300.789 +b=6356566.435 +towgs84=-275.722,94.7824,340.894,-8.001,-4.42,-11.821,1 +units=m +no_defs";
 
 // Initialize the Cassini projection
 // -----------------------------------------------------------------
@@ -66,7 +66,7 @@ class Proj4phpProjCass
       $x = asin(cos($phi) * sin($lam));
       $y = atan2(tan($phi) , cos($lam)) - $this->phi0;
     } else {
-        //ellipsoid
+        // ellipsoid
       $this->n = sin($phi);
       $this->c = cos($phi);
       $y = $this->pj_mlfn($phi, $this->n, $this->c, $this->en);
@@ -118,7 +118,7 @@ class Proj4phpProjCass
   }//lamazInv()
 
 
-  //code from the PROJ.4 pj_mlfn.c file;  this may be useful for other projections
+  // code from the PROJ.4 pj_mlfn.c file;  this may be useful for other projections
   public function pj_enfn($es)
   {
     $en = array();
@@ -146,8 +146,8 @@ class Proj4phpProjCass
     for ($i = Proj4php::$common->MAX_ITER; $i ; --$i) { /* rarely goes over 2 iterations */
       $s = sin($phi);
       $t = 1. - $es * $s * $s;
-      //t = $this->pj_mlfn(phi, s, cos(phi), en) - arg;
-      //phi -= t * (t * sqrt(t)) * k;
+      // t = $this->pj_mlfn(phi, s, cos(phi), en) - arg;
+      // phi -= t * (t * sqrt(t)) * k;
       $t = ($this->pj_mlfn($phi, $s, cos($phi), $en) - $arg) * ($t * sqrt($t)) * $k;
       $phi -= $t;
       if (abs($t) < Proj4php::$common->EPSLN)

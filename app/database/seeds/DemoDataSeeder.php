@@ -161,7 +161,7 @@ class DemoDataSeeder extends Seeder
 
             if (empty($definition)) {
 
-                //Create a new XmlDefinition
+                // Create a new XmlDefinition
                 $xml_def = new XmlDefinition();
                 $xml_def->uri = __DIR__ . '/../../storage/data/xml/' . $file . '.xml';
                 $xml_def->description = $description;
@@ -206,7 +206,7 @@ class DemoDataSeeder extends Seeder
 
             if (empty($definition)) {
 
-                //Create a new JsonDefinition
+                // Create a new JsonDefinition
                 $json_def = new JsonDefinition();
                 $json_def->uri = 'file://' . __DIR__ . '/../../storage/data/json/' . $file . '.json';
                 $json_def->description = $description;
@@ -283,7 +283,7 @@ class DemoDataSeeder extends Seeder
 
             if (empty($definition)) {
 
-                //Create a new XlsDefinition
+                // Create a new XlsDefinition
                 $xls_def = new XlsDefinition();
                 $xls_def->uri = __DIR__ . '/../../storage/data/xls/' . $file . '.xlsx';
                 $xls_def->description = $definition_info['description'];
@@ -437,7 +437,7 @@ class DemoDataSeeder extends Seeder
 
             if (empty($definition)) {
 
-                //Create a new ShpDefinition
+                // Create a new ShpDefinition
                 $shp_def = new ShpDefinition();
                 $shp_def->uri = __DIR__ . '/../../storage/data/shp/' . $directory . '/' . $info['file'] . '.shp';
                 $shp_def->description = $info['description'];

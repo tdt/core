@@ -195,7 +195,7 @@ class KMLFormatter implements IFormatter
             }
         }
 
-        //return $placemarks;
+        // return $placemarks;
     }
 
     /**

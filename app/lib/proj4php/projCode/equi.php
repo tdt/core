@@ -37,7 +37,7 @@ class Proj4phpProjEqui
     if(!$this->y0) $this->y0=0;
     if(!$this->lat0) $this->lat0=0;
     if(!$this->long0) $this->long0=0;
-    ///$this->t2;
+    // /$this->t2;
   }
 
 

@@ -72,7 +72,7 @@ class Proj4phpProjAeqd
       } else {
         $con = $cosz - $this->sin_p12 * sin($lat);
         if ((abs($con) < Proj4php::$common->EPSLN) && (abs($p->x) < Proj4php::$common->EPSLN)) {
-           //no-op, just keep the lon value as is
+           // no-op, just keep the lon value as is
         } else {
           $temp = atan2(($p->x * $sinz * $this->cos_p12), ($con * $rh));
           $lon = Proj4php::$common->adjust_lon($this->long0 + atan2(($p->x * $sinz * $this->cos_p12), ($con * $rh)));

@@ -31,15 +31,15 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-//static double r_major = a;		   /* major axis 				*/
-//static double r_minor = b;		   /* minor axis 				*/
-//static double lon_center = long0;	   /* Center longitude (projection center) */
-//static double lat_origin =  lat0;	   /* center latitude			*/
-//static double e,es;		           /* eccentricity constants		*/
-//static double m1;		               /* small value m			*/
-//static double false_northing = y0;   /* y offset in meters			*/
-//static double false_easting = x0;	   /* x offset in meters			*/
-//scale_fact = k0
+// static double r_major = a;		   /* major axis 				*/
+// static double r_minor = b;		   /* minor axis 				*/
+// static double lon_center = long0;	   /* Center longitude (projection center) */
+// static double lat_origin =  lat0;	   /* center latitude			*/
+// static double e,es;		           /* eccentricity constants		*/
+// static double m1;		               /* small value m			*/
+// static double false_northing = y0;   /* y offset in meters			*/
+// static double false_easting = x0;	   /* x offset in meters			*/
+// scale_fact = k0
 
 class Proj4phpProjMerc
 {
@@ -65,7 +65,7 @@ class Proj4phpProjMerc
 
   public function forward($p)
   {
-    //alert("ll2m coords : ".coords);
+    // alert("ll2m coords : ".coords);
     $lon = $p->x;
     $lat = $p->y;
     // convert to radians

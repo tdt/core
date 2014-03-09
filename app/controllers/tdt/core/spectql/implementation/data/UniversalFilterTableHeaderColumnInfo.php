@@ -48,7 +48,7 @@ class UniversalFilterTableHeaderColumnInfo
     public function getName()
     {
         return $this->getFullName();
-        //return $this->completeColumnNameParts[count($this->completeColumnNameParts) - 1]; //last
+        // return $this->completeColumnNameParts[count($this->completeColumnNameParts) - 1]; //last
     }
 
     public function getFullName($separator = ".")

@@ -265,8 +265,8 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
         // result is the resourceObject on which to call and pass the filter upon if it does
         $result = null;
         try {
-            //TODO check if a filter can be resolved through the strategy itself.
-            //$result = $model->isResourceIFilter($package, $resource);
+            // TODO check if a filter can be resolved through the strategy itself.
+            // $result = $model->isResourceIFilter($package, $resource);
         } catch (Exception $e) {
             return $query;
         }

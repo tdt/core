@@ -167,7 +167,7 @@ function getUnaryFilterForSQLFunction($sqlname, $arg1) {
  * Gets the universal name (and filter) for a binary SQLFunction
  */
 function getBinaryFunctionForSQLFunction($SQLname, $arg1, $arg2) {
-    //all binary functions like "+", "*", ... are defined in the grammar
+    // all binary functions like "+", "*", ... are defined in the grammar
     $SQLname = strtoupper($SQLname);
 
     $binarymap = array(

@@ -36,24 +36,24 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
         $this->executer1 = $interpreter->findExecuterFor($this->filter->getSource(0));
         $this->executer2 = $interpreter->findExecuterFor($this->filter->getSource(1));
 
-        //init down
+        // init down
         $this->executer1->initExpression($this->filter->getSource(0), $topenv, $interpreter, true);
         $this->executer2->initExpression($this->filter->getSource(1), $topenv, $interpreter, true);
 
         $this->header1 = $this->executer1->getExpressionHeader();
         $this->header2 = $this->executer2->getExpressionHeader();
 
-        //combined name
+        // combined name
         $combinedName = $this->getName(
                 $this->header1->getColumnNameById($this->header1->getColumnId()), $this->header2->getColumnNameById($this->header2->getColumnId()));
 
-        //column
+        // column
         $cominedHeaderColumn = new UniversalFilterTableHeaderColumnInfo(array($combinedName));
 
-        //single row?
+        // single row?
         $isSingleRowByConstruction = $this->header1->isSingleRowByConstruction() && $this->header2->isSingleRowByConstruction();
 
-        //new Header
+        // new Header
         $this->header = new UniversalFilterTableHeader(array($cominedHeaderColumn), $isSingleRowByConstruction, true);
     }
 
@@ -82,11 +82,11 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
 
         $size = max(array($table1content->getRowCount(), $table2content->getRowCount()));
 
-        //loop through all rows and evaluate the expression
+        // loop through all rows and evaluate the expression
         for ($i = 0; $i < $size; $i++) {
             $row = new UniversalFilterTableContentRow();
 
-            //get the value for index i for both tables
+            // get the value for index i for both tables
             $valueA = null;
             $valueB = null;
             if ($table1content->getRowCount() > $i) {
@@ -100,7 +100,7 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
                 $valueB = $table2content->getCellValue($idB, true);
             }
 
-            //evaluate
+            // evaluate
             $value = $this->doBinaryFunction($valueA, $valueB);
 
             $row->defineValue($finalid, $value);
@@ -111,7 +111,7 @@ abstract class BinaryFunctionExecuter extends AbstractUniversalFilterNodeExecute
         $table1content->tryDestroyTable();
         $table2content->tryDestroyTable();
 
-        //return the result
+        // return the result
         return $rows;
     }
 

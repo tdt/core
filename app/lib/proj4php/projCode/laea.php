@@ -189,7 +189,7 @@ class Proj4phpProjLaea
         }
     }
 
-    //v 1.0
+    // v 1.0
     /*
     $sin_lat=sin(lat);
     $cos_lat=cos(lat);
@@ -332,7 +332,7 @@ class Proj4phpProjLaea
       lat = $this->lat0;
     }
     */
-    //return(OK);
+    // return(OK);
     $p->x = Proj4php::$common->adjust_lon($this->long0+$lam);
     $p->y = $phi;
     return $p;
