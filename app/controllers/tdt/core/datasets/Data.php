@@ -30,9 +30,25 @@ class Data
 
     public $data;
 
+    /**
+     * Property that states if data is a semantic structure
+     */
     public $is_semantic = false;
 
     public $is_spectql = false;
 
+    /**
+     * List of prefixes with their corresponding URI
+     */
     public $semantic;
+
+    /**
+     * Property used to list all the available formats that are applicable to the data
+     */
+    public $formats;
+
+    /**
+     * Property used to construct the Link-Template header
+     */
+    public $template;
 }

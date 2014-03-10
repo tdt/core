@@ -64,6 +64,6 @@ class XlsDefinition extends SourceType
             $column->delete();
         }
 
-        parent::delete();
+        return parent::delete();
     }
 }

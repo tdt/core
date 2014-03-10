@@ -5,7 +5,7 @@ namespace repositories;
 use repositories\interfaces\JsonDefinitionRepositoryInterface;
 use tdt\core\datacontrollers\JSONController;
 
-class JsonDefinitionRepository extends BaseRepository implements JsonDefinitionRepositoryInterface
+class JsonDefinitionRepository extends BaseDefinitionRepository implements JsonDefinitionRepositoryInterface
 {
 
     protected $rules = array(
@@ -23,7 +23,6 @@ class JsonDefinitionRepository extends BaseRepository implements JsonDefinitionR
      */
     public function getCreateParameters()
     {
-
         return array(
             'uri' => array(
                 'required' => true,

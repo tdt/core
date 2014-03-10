@@ -4,7 +4,7 @@ namespace repositories;
 
 use repositories\interfaces\XmlDefinitionRepositoryInterface;
 
-class XmlDefinitionRepository extends BaseRepository implements XmlDefinitionRepositoryInterface
+class XmlDefinitionRepository extends BaseDefinitionRepository implements XmlDefinitionRepositoryInterface
 {
 
     protected $rules = array(

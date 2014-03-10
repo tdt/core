@@ -2,11 +2,9 @@
 
 namespace repositories;
 
-use Definition;
 use repositories\interfaces\DefinitionRepositoryInterface;
-use repositories\BaseRepository;
 
-class DefinitionRepository extends BaseRepository implements DefinitionRepositoryInterface
+class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
 
     protected $rules = array(
@@ -22,9 +20,8 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * Create a new definition with corresponding source type
      */
-    public function store($input)
+    public function store(array $input)
     {
-
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
@@ -60,7 +57,7 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
         return $definition->toArray();
     }
 
-    public function update($identifier, $input)
+    public function update($identifier, array $input)
     {
 
         // Process input (e.g. set default values to empty properties)
@@ -92,11 +89,11 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
      */
     public function delete($identifier)
     {
-
         $definition = $this->getEloquentDefinition($identifier);
 
-        if(!empty($definition))
+        if (!empty($definition)) {
             return $definition->delete();
+        }
     }
 
     /**
@@ -105,7 +102,6 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
      */
     public function exists($identifier)
     {
-
         $definition = $this->getByIdentifier($identifier);
 
         return !empty($definition);
@@ -142,7 +138,6 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
     public function getOldest()
     {
-
         $definition = \Definition::where('created_at', '=', \DB::table('definitions')->max('created_at'))->first();
 
         if(!empty($definition))
@@ -166,7 +161,6 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
     public function getDefinitionSource($id, $name)
     {
-
         $repository = \App::make('repositories\interfaces\\' . $name . 'RepositoryInterface');
 
         return $repository->getById($id);
@@ -175,9 +169,8 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     /**
      * Check if the given source type exists
      */
-    private function validateType($input)
+    private function validateType(array $input)
     {
-
         $type = @$input['type'];
 
         // Use the power of the IoC
@@ -193,7 +186,6 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
     public function getAllFullDescriptions($uri, $limit, $offset)
     {
-
         $definitions = array();
 
         foreach ($this->getAll($limit, $offset) as $definition) {
@@ -207,7 +199,6 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
     public function getAllDefinitionInfo($uri, $limit, $offset)
     {
-
         $definitions = array();
 
         foreach ($this->getAll($limit, $offset) as $definition) {
@@ -221,7 +212,6 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
 
     public function getDescriptionInfo($identifier)
     {
-
         $definition = $this->getEloquentDefinition($identifier);
 
         $properties = array();
@@ -241,13 +231,11 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
      */
     private function getEloquentDefinition($identifier)
     {
-
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
     }
 
     public function getFullDescription($identifier)
     {
-
         $definition = $this->getEloquentDefinition($identifier);
 
         $properties = array();
@@ -313,57 +301,57 @@ class DefinitionRepository extends BaseRepository implements DefinitionRepositor
     {
 
         return array(
-                'title' => array(
-                    'required' => false,
-                    'name' => 'Title',
-                    'description' => 'A name given to the resource.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'date' => array(
-                    'required' => false,
-                    'name' => 'Date',
-                    'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'source' => array(
-                    'required' => false,
-                    'name' => 'Source',
-                    'description' => 'A related resource from which the described resource is derived.',
-                    'type' => 'string',
-                    'group' => 'dc',
-                ),
-                'language' => array(
-                    'required' => false,
-                    'name' => 'Language',
-                    'description' => 'A language of the resource.',
-                    'type' => 'list',
-                    'list' => 'api/languages',
-                    'list_option' => 'name',
-                    'group' => 'dc',
-                ),
-                'rights' => array(
-                    'required' => false,
-                    'name' => 'Rights',
-                    'type' => 'list',
-                    'list' => 'api/licenses',
-                    'list_option' => 'title',
-                    'description' => 'Information about rights held in and over the resource.',
-                    'group' => 'dc',
-                ),
-                'cache_minutes' => array(
-                    'required' => false,
-                    'name' => 'Cache',
-                    'type' => 'integer',
-                    'description' => 'How long this resource should be cached (in minutes).',
-                ),
-                'draft' => array(
-                    'required' => false,
-                    'name' => 'Draft',
-                    'type' => 'boolean',
-                    'description' => 'Draft definitions are not shown to the public when created, however the URI space they take is reserved.',
-                ),
+            'title' => array(
+                'required' => false,
+                'name' => 'Title',
+                'description' => 'A name given to the resource.',
+                'type' => 'string',
+                'group' => 'dc',
+            ),
+            'date' => array(
+                'required' => false,
+                'name' => 'Date',
+                'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
+                'type' => 'string',
+                'group' => 'dc',
+            ),
+            'source' => array(
+                'required' => false,
+                'name' => 'Source',
+                'description' => 'A related resource from which the described resource is derived.',
+                'type' => 'string',
+                'group' => 'dc',
+            ),
+            'language' => array(
+                'required' => false,
+                'name' => 'Language',
+                'description' => 'A language of the resource.',
+                'type' => 'list',
+                'list' => 'api/languages',
+                'list_option' => 'name',
+                'group' => 'dc',
+            ),
+            'rights' => array(
+                'required' => false,
+                'name' => 'Rights',
+                'type' => 'list',
+                'list' => 'api/licenses',
+                'list_option' => 'title',
+                'description' => 'Information about rights held in and over the resource.',
+                'group' => 'dc',
+            ),
+            'cache_minutes' => array(
+                'required' => false,
+                'name' => 'Cache',
+                'type' => 'integer',
+                'description' => 'How long this resource should be cached (in minutes).',
+            ),
+            'draft' => array(
+                'required' => false,
+                'name' => 'Draft',
+                'type' => 'boolean',
+                'description' => 'Draft definitions are not shown to the public when created, however the URI space they take is reserved.',
+            ),
         );
     }
 }

@@ -12,4 +12,11 @@ interface LicenseRepositoryInterface
      * @return array License
      */
     function getByTitle($title);
+
+    /**
+     * Fetch all licenses
+     *
+     * @return array of License's
+     */
+    function getAll();
 }

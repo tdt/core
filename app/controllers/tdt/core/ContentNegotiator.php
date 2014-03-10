@@ -2,6 +2,8 @@
 
 namespace tdt\core;
 
+use tdt\core\formatters\FormatHelper;
+
 /**
  * Content negotiator
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
@@ -29,14 +31,15 @@ class ContentNegotiator extends Pager
     public static function getResponse($data, $extension = null)
     {
 
+        // Check Accept-header
+        $accept_header = \Request::header('Accept');
+
+        // Extract the accept parts
+        $mime_types = explode(',', $accept_header);
+
         // Extension has priority over Accept-header
         if (empty($extension)) {
-
-            // Check Accept-header
-            $accept_header = \Request::header('Accept');
-
-            $mimes = explode(',', $accept_header);
-            foreach ($mimes as $mime) {
+            foreach ($mime_types as $mime) {
 
                 if (!empty(ContentNegotiator::$mime_types_map[$mime])) {
                     // Matched mime type
@@ -62,8 +65,30 @@ class ContentNegotiator extends Pager
         $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';
 
         if (!class_exists($formatter_class)) {
-            \App::abort(400, "The request formatter, $extension, doesn't exist.");
+
+            // Use default formatter if */*;q=0.0 Accept header is not set
+            if(in_array('*/*;q=0.0', $mime_types)){
+
+                $format_helper = new FormatHelper();
+
+                $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
+                \App::abort(406, "The requested Content-Type is not supported, the supported formats for this resource are: " . $available_formats);
+            }else{
+                if(empty($data->semantic)){
+                    // Default formatter for non semantic data
+                    $extension = 'json';
+                }else{
+                    $extension = 'ttl';
+                }
+            }
+
+            // Safety first
+            $extension = strtoupper($extension);
+
+            // Formatter class
+            $formatter_class = '\\tdt\\core\\formatters\\'.$extension.'Formatter';
         }
+
 
         // Create the response from the designated formatter
         $response = $formatter_class::createResponse($data);

@@ -4,7 +4,7 @@ use tdt\core\definitions\DefinitionController;
 use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-include(__DIR__ . '/data/sparql/SparqlQueries.php');
+include(__DIR__ . '/../data/sparql/SparqlQueries.php');
 
 class SparqlTest extends TestCase
 {
@@ -55,9 +55,34 @@ class SparqlTest extends TestCase
         }
     }
 
+    public function test_update_api()
+    {
+        foreach (\SparqlQueries::$queries as $name => $query) {
+
+            $updated_description = 'An updated description for ' . $name;
+
+            $identifier = 'sparql/' . $name;
+
+            // Set the fields that we're going to update
+            $data = array(
+                'description' => 'An updated description',
+            );
+
+            // Set the correct headers
+            $headers = array('Content-Type' => 'application/tdt.definition+json');
+
+            $this->updateRequest('PATCH', $headers, $data);
+
+            // Test the patch function on the definition controller
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle($identifier);
+            $this->assertEquals(200, $response->getStatusCode());
+        }
+    }
+
     public function test_delete_api()
     {
-
         // Delete the published definition for each test json file.
         foreach (\SparqlQueries::$queries as $name => $query) {
 

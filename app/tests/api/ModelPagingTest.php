@@ -32,7 +32,7 @@ class ModelPagingTest extends TestCase
             $data = array(
                 'description' => "A CSV publication from the $file csv file.",
                 'delimiter' => ',',
-                'uri' => 'file://' . __DIR__ . "/data/csv/$file.csv",
+                'uri' => 'file://' . __DIR__ . "/../data/csv/$file.csv",
                 'type' => 'csv'
             );
 
@@ -170,7 +170,6 @@ class ModelPagingTest extends TestCase
         $dcat_array = $graph->toRdfPhp();
 
         $this->assertEquals(count($dcat_array), 3);
-
 
         $this->processLinkHeader($response);
     }

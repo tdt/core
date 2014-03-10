@@ -6,12 +6,19 @@ interface CsvDefinitionRepositoryInterface
 {
 
     /**
+     * Return all CsvDefinition objects
+     *
+     * @return array
+     */
+    public function getAll();
+
+    /**
      * Return a validator based on an hash array
      *
      * @param array $input
-     * return mixed
+     * return Illuminate\Validation\Validator
      */
-    public function getValidator($input);
+    public function getValidator(array $input);
 
     /**
      * Store a CsvDefinition object
@@ -19,7 +26,7 @@ interface CsvDefinitionRepositoryInterface
      * @param array $input
      * @return array CsvDefinition
      */
-    public function store($input);
+    public function store(array $input);
 
     /**
      * Update a CsvDefinition object
@@ -28,7 +35,7 @@ interface CsvDefinitionRepositoryInterface
      * @param array $input
      * @return array CsvDefinition
      */
-    public function update($model_id, $input);
+    public function update($model_id, array $input);
 
     /**
      * Delete a CsvDefinition

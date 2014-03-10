@@ -4,7 +4,7 @@ namespace repositories;
 
 use repositories\interfaces\GeoPropertyRepositoryInterface;
 
-class GeoPropertyRepository extends BaseRepository implements GeoPropertyRepositoryInterface
+class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPropertyRepositoryInterface
 {
 
     public static $geotypes = array('polygon', 'latitude', 'longitude', 'polyline', 'multiline', 'point');
@@ -19,21 +19,44 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
         'path' => 'required',
     );
 
-    public function store($input)
+    public function store(array $input)
     {
-
         return \GeoProperty::create($input);
     }
 
     public function getGeoProperties($property_id, $type)
     {
-
         return \GeoProperty::where('source_id', '=', $property_id)->where('source_type', '=', $type, 'AND')->get()->toArray();
     }
 
-    public function validate($input)
+    public function validateBulk(array $extracted_geo, array $provided_geo)
     {
 
+        // We don't have any extracted geo properties
+        // If the provided ones qualify, validation is ok
+        if (empty($extracted_geo)) {
+            $this->validate($provided_geo);
+
+            return $provided_geo;
+        }
+
+        // If we have extracted geo properties
+        // The provided ones will have to be the same
+        // as the extracted ones to pass validation
+        if (!empty($extracted_geo)) {
+
+            if (!empty($provided_geo) && $extracted_geo != $provided_geo) {
+               \App::abort(400, "The geo properties provided didn't match the geo properties that were extracted from the source.");
+            }
+
+            $this->validate($extracted_geo);
+
+            return $extracted_geo;
+        }
+    }
+
+    public function validate(array $input)
+    {
         foreach ($input as $geo) {
 
             // Validate the parameters to their rules
@@ -48,17 +71,16 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
 
             // Checkc if the given type is valid
             $type = mb_strtolower($geo['property']);
-            if (!in_array($type, self::$geotypes)) {
 
+            if (!in_array($type, self::$geotypes)) {
                 $types = implode(', ', self::$geotypes);
                 \App::abort(400, "The given geo type ($type) is not supported, the supported list is: $types.");
             }
         }
     }
 
-    public function storeBulk($property_id, $type, $input)
+    public function storeBulk($property_id, $type, array $input)
     {
-
         foreach ($input as $geo) {
             $geo['source_id'] = $property_id;
             $geo['source_type'] = $type;
@@ -68,7 +90,6 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
 
     public function deleteBulk($property_id, $type)
     {
-
         $geo_properties = \GeoProperty::where('source_id', '=', $property_id)->where('source_type', '=', $type, 'AND')->get();
 
         foreach ($geo_properties as $geo_property) {
@@ -81,7 +102,6 @@ class GeoPropertyRepository extends BaseRepository implements GeoPropertyReposit
      */
     public function getCreateParameters()
     {
-
         $geo_type_string = implode(',', self::$geotypes);
 
         return array(

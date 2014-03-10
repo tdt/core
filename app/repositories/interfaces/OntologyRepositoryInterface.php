@@ -16,7 +16,7 @@ interface OntologyRepositoryInterface
     /**
      * Fetch all Ontology objects
      *
-     * @return array Ontology
+     * @return array of Ontology's
      */
     public function getAll();
 }

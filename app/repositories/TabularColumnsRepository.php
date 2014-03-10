@@ -4,12 +4,12 @@ namespace repositories;
 
 use repositories\interfaces\TabularColumnsRepositoryInterface;
 
-class TabularColumnsRepository extends BaseRepository implements TabularColumnsRepositoryInterface
+class TabularColumnsRepository extends BaseDefinitionRepository implements TabularColumnsRepositoryInterface
 {
 
     protected $rules = array(
         'pk' => 'integer',
-        'index' => 'integer|required',
+        'index' => 'integer|min:0|required',
         'column_name' => 'required',
         'column_name_alias' => 'required',
     );
@@ -19,24 +19,25 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         $this->model = $model;
     }
 
-    public function store($input)
+    public function store(array $input)
     {
         return \TabularColumns::create($input);
     }
 
     /**
-     * Validate and store a set of columns and check for mismatches
+     * Validate a set of columns and check for mismatches
      * between a given set of columns and the extracted ones
      */
-    public function validate($extracted_columns, $provided_columns)
+    public function validateBulk(array $extracted_columns, array $provided_columns)
     {
 
         // If columns are provided, check if they exist and have the correct index
         if (!empty($provided_columns)) {
 
             // Validate the provided columns
-            foreach($provided_columns as $provided_column)
-                $this->validateColumn($provided_column);
+            foreach ($provided_columns as $provided_column) {
+                $this->validate($provided_column);
+            }
 
             $tmp = array();
 
@@ -115,10 +116,10 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
         }
     }
 
-    private function validateColumn($column)
+    public function validate(array $input)
     {
-
-        $validator = $this->getValidator($column);
+        dd($input);
+        $validator = $this->getValidator($input);
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
@@ -132,7 +133,6 @@ class TabularColumnsRepository extends BaseRepository implements TabularColumnsR
      */
     public function getCreateParameters()
     {
-
         return array(
             'column_name' => array(
                 'required' => false,

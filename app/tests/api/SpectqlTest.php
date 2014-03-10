@@ -6,14 +6,13 @@ use tdt\core\definitions\SpectqlController;
 use tdt\core\datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-include(__DIR__ . '/data/spectql/SpectqlQueries.php');
+include(__DIR__ . '/../data/spectql/SpectqlQueries.php');
 
 class SpectqlTest extends TestCase
 {
 
     public function test_spectql()
     {
-
 
         foreach (SpectqlQueries::$queries as $collection_uri => $tests) {
 
@@ -22,7 +21,7 @@ class SpectqlTest extends TestCase
                 // Add the definition
                 $definition = $test['definition'];
 
-                $definition['uri'] = 'file://' . __DIR__ . $definition['uri'];
+                $definition['uri'] = 'file://' . __DIR__ . '/../' . $definition['uri'];
 
                 // Set the headers
                 $headers = array(

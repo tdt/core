@@ -32,7 +32,7 @@ class XlsTest extends TestCase
             $data = array(
                 'description' => "An xls publication from the $file xls file.",
                 'sheet' => $sheet,
-                'uri' => __DIR__ . "/data/xls/$file" . '.' . $extension,
+                'uri' => __DIR__ . "/../data/xls/$file" . '.' . $extension,
                 'type' => 'xls'
             );
 
@@ -68,6 +68,35 @@ class XlsTest extends TestCase
             $controller = \App::make('tdt\core\datasets\DatasetController');
 
             $response = $controller->handle($uri);
+            $this->assertEquals(200, $response->getStatusCode());
+        }
+    }
+
+    public function test_update_api()
+    {
+
+        foreach($this->test_data as $entry){
+
+            $name = $entry['file'];
+
+            $updated_description = 'An updated description for ' . $name;
+
+            $identifier = 'xls/' . $name;
+
+            // Set the fields that we're going to update
+            $data = array(
+                'description' => 'An updated description',
+            );
+
+            // Set the correct headers
+            $headers = array('Content-Type' => 'application/tdt.definition+json');
+
+            $this->updateRequest('PATCH', $headers, $data);
+
+            // Test the patch function on the definition controller
+            $controller = \App::make('tdt\core\definitions\DefinitionController');
+
+            $response = $controller->handle($identifier);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }

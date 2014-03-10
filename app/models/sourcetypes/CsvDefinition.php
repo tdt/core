@@ -77,6 +77,6 @@ class CsvDefinition extends SourceType
             $geo_property->delete();
         }
 
-        parent::delete();
+        return parent::delete();
     }
 }

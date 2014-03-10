@@ -6,12 +6,19 @@ interface XmlDefinitionRepositoryInterface
 {
 
     /**
+     * Return all XmlDefinition objects
+     *
+     * @return array
+     */
+    public function getAll();
+
+    /**
      * Return a validator based on an hash array
      *
      * @param array $input
-     * return mixed
+     * return Illuminate\Validation\Validator
      */
-    public function getValidator($input);
+    public function getValidator(array $input);
 
     /**
      * Return an array of create parameters with info attached
@@ -40,7 +47,7 @@ interface XmlDefinitionRepositoryInterface
      * @param array $input
      * @return array XmlDefinition
      */
-    public function store($input);
+    public function store(array $input);
 
 
     /**
@@ -50,7 +57,7 @@ interface XmlDefinitionRepositoryInterface
      * @param array $input
      * @return array XmlDefinition
      */
-    public function update($xml_id, $input);
+    public function update($xml_id, array $input);
 
     /**
      * Delete a XmlDefinition

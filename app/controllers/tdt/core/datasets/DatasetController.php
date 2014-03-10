@@ -9,6 +9,7 @@ use tdt\core\definitions\DefinitionController;
 use tdt\core\datacontrollers\ADataController;
 use tdt\core\Pager;
 use tdt\core\ApiController;
+use tdt\core\formatters\FormatHelper;
 
 use repositories\DefinitionRepository;
 
@@ -92,6 +93,10 @@ class DatasetController extends ApiController
 
                     // Add source definition to the object
                     $data->source_definition = $source_definition;
+
+                    // Add the available, supported formats to the object
+                    $format_helper = new FormatHelper();
+                    $data->formats = $format_helper->getAvailableFormats($data);
 
                     // Store in cache
                     Cache::put($cache_string, $data, $source_definition['cache']);
