@@ -10,12 +10,12 @@ class ShpTest extends TestCase
     // This array holds the names of the files that can be used
     // to test the shp definitions.
     private $test_data = array(
-                array(
-                    'name' => 'boundaries',
-                    'file' => 'gis.osm_boundaries_v06',
-                    'epsg' => 4326
-                ),
-            );
+        array(
+            'name' => 'boundaries',
+            'file' => 'gis.osm_boundaries_v06',
+            'epsg' => 4326
+        ),
+    );
 
     public function test_put_api()
     {

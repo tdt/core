@@ -31,7 +31,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
             );
 
             // Test the CsvDefinitionRepository
-            $csv_repository = \App::make('repositories\interfaces\CsvDefinitionRepositoryInterface');
+            $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
 
             $csv_definition = $csv_repository->store($input);
 
@@ -45,7 +45,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
     public function test_get()
     {
 
-        $csv_repository = $csv_repository = \App::make('repositories\interfaces\CsvDefinitionRepositoryInterface');
+        $csv_repository = $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
 
         $all = $csv_repository->getAll();
 
@@ -73,7 +73,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
     public function test_update()
     {
 
-        $csv_repository = \App::make('repositories\interfaces\CsvDefinitionRepositoryInterface');
+        $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
 
         $all = $csv_repository->getAll();
 
@@ -90,7 +90,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
     public function test_delete()
     {
 
-        $csv_repository = \App::make('repositories\interfaces\CsvDefinitionRepositoryInterface');
+        $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
 
         $all = $csv_repository->getAll();
 
@@ -105,7 +105,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
     public function test_help_functions()
     {
 
-        $csv_repository = \App::make('repositories\interfaces\CsvDefinitionRepositoryInterface');
+        $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
 
         $this->assertTrue(is_array($csv_repository->getCreateParameters()));
         $this->assertTrue(is_array($csv_repository->getAllParameters()));

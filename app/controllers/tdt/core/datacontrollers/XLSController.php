@@ -32,7 +32,7 @@ class XLSController extends ADataController
         $start_row = $source_definition['start_row'] + 1;
 
         // Retrieve the columns from XLS
-        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $tabular_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
         $columns = $tabular_repository->getColumns($source_definition['id'], 'XlsDefinition');
 
         if (empty($columns)) {

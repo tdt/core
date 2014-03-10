@@ -8,7 +8,7 @@ use tdt\core\datasets\Data;
 use tdt\core\Pager;
 use tdt\core\ContentNegotiator;
 use tdt\core\ApiController;
-use repositories\DefinitionRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 
 /**
  * DefinitionController
@@ -22,7 +22,7 @@ class DefinitionController extends ApiController
 
     protected $definition;
 
-    public function __construct(\repositories\interfaces\DefinitionRepositoryInterface $definition)
+    public function __construct(DefinitionRepositoryInterface $definition)
     {
         $this->definition = $definition;
     }

@@ -49,7 +49,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
         }
 
         $data_controller = \App::make('tdt\core\datasets\DatasetController');
-        $def_controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $def_controller = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
 
         $data_result = $data_controller->fetchData($package . '/' . $resource . '/' . implode('/', $RESTparameters));
         $definition = $def_controller->getByIdentifier($package . '/' . $resource);
@@ -58,7 +58,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
 
         // If the data is tabular, it might occur that a primary key is being used
         // In spectql we don't take these into consideration and we'll have to throw them away
-        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $tabular_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
 
         // Get the columns and their aliases
         $columns_collection = $tabular_repository->getColumns($definition['source_type'], $definition['source_id']);
@@ -104,7 +104,7 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
 
         $packageresourcestring = implode("/", $identifierpieces);
 
-        $controller = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $controller = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
         $definition = $controller->getByIdentifier($packageresourcestring);
 
         // Tell the user the resource could not be found when no definition is fetched
@@ -172,11 +172,11 @@ class UniversalFilterTableManager implements IUniversalFilterTableManager
 
         try {
 
-            $definition_repo = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+            $definition_repo = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
 
             $definition = $definition_repo->getByIdentifier($this->getResourceIdentifier($globalTableIdentifier));
 
-            $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+            $tabular_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
 
             // Get the columns and their aliases
             $columns_collection = $tabular_repository->getColumns($definition['source_type'], $definition['source_id']);

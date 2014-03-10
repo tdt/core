@@ -18,7 +18,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
             );
 
             // Test the SparqlDefinitionRepository
-            $sparql_repository = \App::make('repositories\interfaces\SparqlDefinitionRepositoryInterface');
+            $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
 
             $sparql_definition = $sparql_repository->store($input);
 
@@ -32,7 +32,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
     public function test_get()
     {
 
-        $sparql_repository = $sparql_repository = \App::make('repositories\interfaces\SparqlDefinitionRepositoryInterface');
+        $sparql_repository = $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
 
         $all = $sparql_repository->getAll();
 
@@ -60,7 +60,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
     public function test_update()
     {
 
-        $sparql_repository = \App::make('repositories\interfaces\SparqlDefinitionRepositoryInterface');
+        $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
 
         $all = $sparql_repository->getAll();
 
@@ -77,7 +77,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
     public function test_delete()
     {
 
-        $sparql_repository = \App::make('repositories\interfaces\SparqlDefinitionRepositoryInterface');
+        $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
 
         $all = $sparql_repository->getAll();
 
@@ -91,7 +91,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
 
     public function test_help_functions()
     {
-        $sparql_repository = \App::make('repositories\interfaces\SparqlDefinitionRepositoryInterface');
+        $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
 
         $this->assertTrue(is_array($sparql_repository->getCreateParameters()));
         $this->assertTrue(is_array($sparql_repository->getAllParameters()));

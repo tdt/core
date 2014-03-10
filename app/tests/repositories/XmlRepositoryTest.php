@@ -24,7 +24,7 @@ class XmlDefinitionRepositoryTest extends TestCase
             );
 
             // Test the XmlDefinitionRepository
-            $xml_repository = \App::make('repositories\interfaces\XmlDefinitionRepositoryInterface');
+            $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
 
             $xml_definition = $xml_repository->store($input);
 
@@ -38,7 +38,7 @@ class XmlDefinitionRepositoryTest extends TestCase
     public function test_get()
     {
 
-        $xml_repository = $xml_repository = \App::make('repositories\interfaces\XmlDefinitionRepositoryInterface');
+        $xml_repository = $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
 
         $all = $xml_repository->getAll();
 
@@ -66,7 +66,7 @@ class XmlDefinitionRepositoryTest extends TestCase
     public function test_update()
     {
 
-        $xml_repository = \App::make('repositories\interfaces\XmlDefinitionRepositoryInterface');
+        $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
 
         $all = $xml_repository->getAll();
 
@@ -83,7 +83,7 @@ class XmlDefinitionRepositoryTest extends TestCase
     public function test_delete()
     {
 
-        $xml_repository = \App::make('repositories\interfaces\XmlDefinitionRepositoryInterface');
+        $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
 
         $all = $xml_repository->getAll();
 
@@ -98,7 +98,7 @@ class XmlDefinitionRepositoryTest extends TestCase
     public function test_help_functions()
     {
 
-        $xml_repository = \App::make('repositories\interfaces\XmlDefinitionRepositoryInterface');
+        $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
 
         $this->assertTrue(is_array($xml_repository->getCreateParameters()));
         $this->assertTrue(is_array($xml_repository->getAllParameters()));

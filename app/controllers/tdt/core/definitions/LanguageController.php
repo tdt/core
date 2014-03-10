@@ -48,7 +48,7 @@ class LanguageController extends ApiController
     private function getLanguages($uri)
     {
 
-        $lang_repository = \App::make('repositories\interfaces\LanguageRepositoryInterface');
+        $lang_repository = \App::make('Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface');
 
         return $this->makeResponse($lang_repository->getAll());
     }

@@ -161,7 +161,7 @@ class SPARQLController extends ADataController
 
             // Fetch the available namespaces and pass
             // them as a configuration of the semantic data result
-            $ontology_repository = \App::make('repositories\interfaces\OntologyRepositoryInterface');
+            $ontology_repository = \App::make('Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface');
 
             $ontologies = $ontology_repository->getAll();
 

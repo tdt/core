@@ -38,11 +38,11 @@ class CSVController extends ADataController
         $delimiter = $source_definition['delimiter'];
 
         // Get CSV columns
-        $tabular_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $tabular_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
         $columns = $tabular_repository->getColumns($source_definition['id'], 'CsvDefinition');
 
         // Get the geo properties
-        $geo_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
         $geo_properties = $geo_repository->getGeoProperties($source_definition['id'], 'CsvDefinition');
 
         $geo = array();

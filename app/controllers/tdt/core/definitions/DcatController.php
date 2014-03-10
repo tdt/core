@@ -115,7 +115,7 @@ class DcatController extends ApiController
 
                         if ($dc_term == 'rights') {
 
-                            $license_repository = \App::make('repositories\interfaces\LicenseRepositoryInterface');
+                            $license_repository = \App::make('Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface');
 
                             $license = $license_repository->getByTitle($definition[$dc_term]);
 
@@ -124,7 +124,7 @@ class DcatController extends ApiController
                             }
                         } elseif ($dc_term == 'language') {
 
-                            $lang_repository = \App::make('repositories\interfaces\LanguageRepositoryInterface');
+                            $lang_repository = \App::make('Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface');
 
                             $lang = $lang_repository->getById($definition[$dc_term]);
 

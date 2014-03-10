@@ -34,7 +34,7 @@ class XlsDefinitionRepositoryTest extends TestCase
             );
 
             // Test the XlsDefinitionRepository
-            $xls_repository = \App::make('repositories\interfaces\XlsDefinitionRepositoryInterface');
+            $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
 
             $xls_definition = $xls_repository->store($input);
 
@@ -48,7 +48,7 @@ class XlsDefinitionRepositoryTest extends TestCase
     public function test_get()
     {
 
-        $xls_repository = $xls_repository = \App::make('repositories\interfaces\XlsDefinitionRepositoryInterface');
+        $xls_repository = $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
 
         $all = $xls_repository->getAll();
 
@@ -80,7 +80,7 @@ class XlsDefinitionRepositoryTest extends TestCase
     public function test_update()
     {
 
-        $xls_repository = \App::make('repositories\interfaces\XlsDefinitionRepositoryInterface');
+        $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
 
         $all = $xls_repository->getAll();
 
@@ -97,7 +97,7 @@ class XlsDefinitionRepositoryTest extends TestCase
     public function test_delete()
     {
 
-        $xls_repository = \App::make('repositories\interfaces\XlsDefinitionRepositoryInterface');
+        $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
 
         $all = $xls_repository->getAll();
 
@@ -112,7 +112,7 @@ class XlsDefinitionRepositoryTest extends TestCase
     public function test_help_functions()
     {
 
-        $xls_repository = \App::make('repositories\interfaces\XlsDefinitionRepositoryInterface');
+        $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
 
         $this->assertTrue(is_array($xls_repository->getCreateParameters()));
         $this->assertTrue(is_array($xls_repository->getAllParameters()));

@@ -49,7 +49,7 @@ class TabularColumnsRepositoryTest extends TestCase
     public function test_put()
     {
 
-        $tab_column_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $tab_column_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
 
         foreach ($this->test_data as $column) {
 
@@ -75,7 +75,7 @@ class TabularColumnsRepositoryTest extends TestCase
     {
 
         // Make sure we have the same amount of columns we have put in
-        $tab_column_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $tab_column_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
 
         $this->assertEquals($this->amount_of_total_columns, count($tab_column_repository->getAll()));
 
@@ -152,7 +152,7 @@ class TabularColumnsRepositoryTest extends TestCase
     public function test_delete()
     {
 
-        $tab_column_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $tab_column_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
 
         foreach ($this->test_data as $column) {
 
@@ -167,7 +167,7 @@ class TabularColumnsRepositoryTest extends TestCase
     public function test_help_functions()
     {
 
-        $tab_column_repository = \App::make('repositories\interfaces\TabularColumnsRepositoryInterface');
+        $tab_column_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
 
         $this->assertTrue(is_array($tab_column_repository->getCreateParameters()));
     }

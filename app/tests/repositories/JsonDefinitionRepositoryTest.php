@@ -23,7 +23,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
             );
 
             // Test the JsonDefinitionRepository
-            $json_repository = \App::make('repositories\interfaces\JsonDefinitionRepositoryInterface');
+            $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
 
             $json_definition = $json_repository->store($input);
 
@@ -37,7 +37,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
     public function test_get()
     {
 
-        $json_repository = $json_repository = \App::make('repositories\interfaces\JsonDefinitionRepositoryInterface');
+        $json_repository = $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
 
         $all = $json_repository->getAll();
 
@@ -65,7 +65,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
     public function test_update()
     {
 
-        $json_repository = \App::make('repositories\interfaces\JsonDefinitionRepositoryInterface');
+        $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
 
         $all = $json_repository->getAll();
 
@@ -82,7 +82,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
     public function test_delete()
     {
 
-        $json_repository = \App::make('repositories\interfaces\JsonDefinitionRepositoryInterface');
+        $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
 
         $all = $json_repository->getAll();
 
@@ -97,7 +97,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
     public function test_help_functions()
     {
 
-        $json_repository = \App::make('repositories\interfaces\JsonDefinitionRepositoryInterface');
+        $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
 
         $this->assertTrue(is_array($json_repository->getCreateParameters()));
         $this->assertTrue(is_array($json_repository->getAllParameters()));

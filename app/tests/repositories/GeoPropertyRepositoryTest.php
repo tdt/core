@@ -40,7 +40,7 @@ class GeoPropertyRepositoryTest extends TestCase
 
     public function test_put()
     {
-        $geo_property_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
 
         foreach ($this->test_data as $geo_property){
 
@@ -65,7 +65,7 @@ class GeoPropertyRepositoryTest extends TestCase
     public function test_get()
     {
         // Make sure we have the same amount of columns we have put in
-        $geo_property_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
 
         $this->assertEquals($this->amount_of_total_columns, count($geo_property_repository->getAll()));
 
@@ -129,7 +129,7 @@ class GeoPropertyRepositoryTest extends TestCase
 
     public function test_delete()
     {
-        $geo_property_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
 
         foreach ($this->test_data as $geo){
 
@@ -143,7 +143,7 @@ class GeoPropertyRepositoryTest extends TestCase
 
     public function test_help_functions()
     {
-        $geo_property_repository = \App::make('repositories\interfaces\GeoPropertyRepositoryInterface');
+        $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
 
         $this->assertTrue(is_array($geo_property_repository->getCreateParameters()));
     }

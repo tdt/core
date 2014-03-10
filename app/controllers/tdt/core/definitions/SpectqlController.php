@@ -122,7 +122,7 @@ class SPECTQLController extends ApiController
 
         $definition_uri = $matches[1];
 
-        $definition_repo = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition_repo = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
         $definition = $definition_repo->getByIdentifier($definition_uri);
 
         if (!empty($definition)) {

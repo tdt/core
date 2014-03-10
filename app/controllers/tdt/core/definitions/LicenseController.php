@@ -42,7 +42,7 @@ class LicenseController extends ApiController
         Auth::requirePermissions('info.view');
 
         // Fetch the columns that can be shown in the result
-        $license_repository = \App::make('repositories\interfaces\LicenseRepositoryInterface');
+        $license_repository = \App::make('Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface');
 
         $licenses = $license_repository->getAll();
 

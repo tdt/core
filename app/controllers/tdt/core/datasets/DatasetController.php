@@ -11,8 +11,6 @@ use tdt\core\Pager;
 use tdt\core\ApiController;
 use tdt\core\formatters\FormatHelper;
 
-use repositories\DefinitionRepository;
-
 /**
  * DatasetController
  *
@@ -190,7 +188,7 @@ class DatasetController extends ApiController
     {
 
         // Retrieve the definition
-        $definition_repo = \App::make('repositories\interfaces\DefinitionRepositoryInterface');
+        $definition_repo = \App::make('Tdt\\Core\\Repositories\\Interfaces\\DefinitionRepositoryInterface');
         $definition = $definition_repo->getByIdentifier($uri);
 
         if ($definition) {

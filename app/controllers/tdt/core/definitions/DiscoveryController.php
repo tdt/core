@@ -123,7 +123,7 @@ class DiscoveryController extends ApiController
 
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
 
-                    $source_repository = 'repositories\interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
+                    $source_repository = 'Tdt\Core\Repositories\Interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
                     $source_repository = \App::make($source_repository);
 
                     $definition_type = strtolower($matches[1]);
@@ -196,7 +196,7 @@ class DiscoveryController extends ApiController
 
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
 
-                    $source_repository = 'repositories\interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
+                    $source_repository = 'Tdt\Core\Repositories\Interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
                     $source_repository = \App::make($source_repository);
 
                     $definition_type = strtolower($matches[1]);

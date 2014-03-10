@@ -41,7 +41,7 @@ class OntologyController extends ApiController
         // Set permission
         Auth::requirePermissions('info.view');
 
-        $ontology_repository = \App::make('repositories\interfaces\OntologyRepositoryInterface');
+        $ontology_repository = \App::make('Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface');
 
         $ontologies = $ontology_repository->getAll();
 

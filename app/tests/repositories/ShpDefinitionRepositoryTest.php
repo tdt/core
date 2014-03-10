@@ -29,7 +29,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
             );
 
             // Test the ShpDefinitionRepository
-            $shp_repository = \App::make('repositories\interfaces\ShpDefinitionRepositoryInterface');
+            $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
 
             $shp_definition = $shp_repository->store($input);
 
@@ -42,7 +42,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
 
     public function test_get()
     {
-        $shp_repository = $shp_repository = \App::make('repositories\interfaces\ShpDefinitionRepositoryInterface');
+        $shp_repository = $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
 
         $all = $shp_repository->getAll();
 
@@ -72,7 +72,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
     public function test_update()
     {
 
-        $shp_repository = \App::make('repositories\interfaces\ShpDefinitionRepositoryInterface');
+        $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
 
         $all = $shp_repository->getAll();
 
@@ -88,7 +88,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
     public function test_delete()
     {
 
-        $shp_repository = \App::make('repositories\interfaces\ShpDefinitionRepositoryInterface');
+        $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
 
         $all = $shp_repository->getAll();
 
@@ -101,7 +101,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
 
     public function test_help_functions()
     {
-        $shp_repository = \App::make('repositories\interfaces\ShpDefinitionRepositoryInterface');
+        $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
 
         $this->assertTrue(is_array($shp_repository->getCreateParameters()));
         $this->assertTrue(is_array($shp_repository->getAllParameters()));
