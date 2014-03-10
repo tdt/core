@@ -7,7 +7,7 @@
             <h3>Manage your groups <small>and permissions</small></h3>
         </div>
         <div class="col-sm-5 text-right">
-            @if(tdt\core\auth\Auth::hasAccess('admin.group.create'))
+            @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.create'))
                 <a href='' class='btn btn-primary margin-left' data-toggle="modal" data-target="#addGroup"
                     data-step='1'
                     data-intro='Add a new group to the system. <br/><br/>Groups have a series of <strong>permissions</strong> to allow or deny them actions.'
@@ -72,10 +72,10 @@
                                 @endif
                             </div>
                             <div class='col-sm-4 text-right'>
-                                @if(tdt\core\auth\Auth::hasAccess('admin.group.update') && $group->id > 2)
+                                @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.update') && $group->id > 2)
                                     <a href='#' class='btn edit-group' title='Rename this group'><i class='fa fa-edit'></i> Rename</a>
                                 @endif
-                                @if(tdt\core\auth\Auth::hasAccess('admin.group.delete') && $group->id > 2)
+                                @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.delete') && $group->id > 2)
                                     <a href='{{ URL::to('api/admin/groups/delete/'. $group->id) }}' class='btn delete' title='Delete this group'><i class='fa fa-times icon-only'></i></a>
                                 @endif
                             </div>
@@ -91,7 +91,7 @@
                                     @endif
                                 >
                                     <i class='fa fa-lock'></i>
-                                    @if($group->id > 2 && tdt\core\auth\Auth::hasAccess('admin.group.update'))
+                                    @if($group->id > 2 && Tdt\Core\Auth\Auth::hasAccess('admin.group.update'))
                                         Edit
                                     @else
                                         View
@@ -121,7 +121,7 @@
                                             <strong>{{ $perm_group }}</strong>
                                             <div class=''>
                                                 @foreach($permissions as $key => $permission)
-                                                    <input type='checkbox' id='input_{{ $group->id . '_' . $key }}' name='{{ $key }}' @if($group->id == 2 ||in_array($key, $group_permissions)) checked='checked' @endif @if($group->id <= 2 || !tdt\core\auth\Auth::hasAccess('admin.group.update')) disabled='disabled' @endif/><label for='input_{{ $group->id . '_' . $key }}'>{{ $permission }}</label>
+                                                    <input type='checkbox' id='input_{{ $group->id . '_' . $key }}' name='{{ $key }}' @if($group->id == 2 ||in_array($key, $group_permissions)) checked='checked' @endif @if($group->id <= 2 || !Tdt\Core\Auth\Auth::hasAccess('admin.group.update')) disabled='disabled' @endif/><label for='input_{{ $group->id . '_' . $key }}'>{{ $permission }}</label>
                                                 @endforeach
                                             </div>
                                         </div>

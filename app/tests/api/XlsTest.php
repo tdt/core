@@ -1,8 +1,8 @@
 <?php
 
 
-use tdt\core\definitions\DefinitionController;
-use tdt\core\datasets\DatasetController;
+use Tdt\Core\Definitions\DefinitionController;
+use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
 class XlsTest extends TestCase
@@ -44,7 +44,7 @@ class XlsTest extends TestCase
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
             $response = $controller->handle("xls/$file");
 
             // Check if the creation of the definition succeeded.
@@ -65,7 +65,7 @@ class XlsTest extends TestCase
             $uri = 'xls/'. $file .'.json';
             $this->updateRequest('GET');
 
-            $controller = \App::make('tdt\core\datasets\DatasetController');
+            $controller = \App::make('Tdt\Core\Datasets\DatasetController');
 
             $response = $controller->handle($uri);
             $this->assertEquals(200, $response->getStatusCode());
@@ -94,7 +94,7 @@ class XlsTest extends TestCase
             $this->updateRequest('PATCH', $headers, $data);
 
             // Test the patch function on the definition controller
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             $response = $controller->handle($identifier);
             $this->assertEquals(200, $response->getStatusCode());
@@ -111,7 +111,7 @@ class XlsTest extends TestCase
 
             $this->updateRequest('DELETE');
 
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             $response = $controller->handle("xls/$file");
             $this->assertEquals(200, $response->getStatusCode());

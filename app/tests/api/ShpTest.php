@@ -1,7 +1,7 @@
 <?php
 
-use tdt\core\definitions\DefinitionController;
-use tdt\core\datasets\DatasetController;
+use Tdt\Core\Definitions\DefinitionController;
+use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
 class ShpTest extends TestCase
@@ -42,7 +42,7 @@ class ShpTest extends TestCase
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
             $response = $controller->handle("shp/$name");
 
             // Check if the creation of the definition succeeded.
@@ -61,7 +61,7 @@ class ShpTest extends TestCase
             $uri = 'shp/'. $name .'.json';
             $this->updateRequest('GET');
 
-            $controller = \App::make('tdt\core\datasets\DatasetController');
+            $controller = \App::make('Tdt\Core\Datasets\DatasetController');
 
             $response = $controller->handle($uri);
             $this->assertEquals(200, $response->getStatusCode());
@@ -89,7 +89,7 @@ class ShpTest extends TestCase
             $this->updateRequest('PATCH', $headers, $data);
 
             // Test the patch function on the definition controller
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             $response = $controller->handle($identifier);
             $this->assertEquals(200, $response->getStatusCode());
@@ -105,7 +105,7 @@ class ShpTest extends TestCase
 
             $this->updateRequest('DELETE');
 
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             $response = $controller->handle("shp/$name");
             $this->assertEquals(200, $response->getStatusCode());

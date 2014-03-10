@@ -1,9 +1,9 @@
 <?php
 
 
-use tdt\core\definitions\DefinitionController;
-use tdt\core\definitions\SpectqlController;
-use tdt\core\datasets\DatasetController;
+use Tdt\Core\Definitions\DefinitionController;
+use Tdt\Core\Definitions\SpectqlController;
+use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
 include(__DIR__ . '/../data/spectql/SpectqlQueries.php');
@@ -33,7 +33,7 @@ class SpectqlTest extends TestCase
                 $uri = $collection_uri . '/' . $resource_name;
 
                 // Put the definition controller to the test
-                $controller = \App::make('tdt\core\definitions\DefinitionController');
+                $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
                 $response = $controller-> handle($uri);
 
                 // Check if the creation of the definition succeeded
@@ -67,7 +67,7 @@ class SpectqlTest extends TestCase
                 // Delete the definition
                 $this->updateRequest('DELETE');
 
-                $controller = \App::make('tdt\core\definitions\DefinitionController');
+                $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
                 $response = $controller-> handle($uri);
                 $this->assertEquals(200, $response->getStatusCode());

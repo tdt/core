@@ -7,7 +7,7 @@
             <h3>Manage your users</h3>
         </div>
         <div class="col-sm-5 text-right">
-            @if(tdt\core\auth\Auth::hasAccess('admin.user.create'))
+            @if(Tdt\Core\Auth\Auth::hasAccess('admin.user.create'))
                 <a href='' class='btn btn-primary margin-left' data-toggle="modal" data-target="#addUser"
                     data-step='1'
                     data-intro='Add a new user to the system. <br/><br/>User have a <strong>username</strong> and a <strong>password</strong> used to authenticate on the DataTank, the permissions they have are determined by the group they are in.'
@@ -73,7 +73,7 @@
                                 @endforeach
                             </div>
                             <div class='col-sm-4 text-right'>
-                                @if(tdt\core\auth\Auth::hasAccess('admin.user.update') && $user->id != 1)
+                                @if(Tdt\Core\Auth\Auth::hasAccess('admin.user.update') && $user->id != 1)
                                     <a href='#' class='btn edit-user' title='Edit this user'
                                         @if($user->id == 2)
                                             data-step='4'
@@ -82,7 +82,7 @@
                                         @endif
                                     ><i class='fa fa-edit'></i> Edit</a>
                                 @endif
-                                @if(tdt\core\auth\Auth::hasAccess('admin.user.delete') && $user->id > 2)
+                                @if(Tdt\Core\Auth\Auth::hasAccess('admin.user.delete') && $user->id > 2)
                                     <a href='{{ URL::to('api/admin/users/delete/'. $user->id) }}' class='btn delete' title='Delete this user'><i class='fa fa-times icon-only'></i></a>
                                 @endif
                             </div>

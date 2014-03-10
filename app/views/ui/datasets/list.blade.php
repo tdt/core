@@ -23,7 +23,7 @@
         <?php $i = 0; ?>
         @foreach($definitions as $definition)
 
-            <div class="panel dataset dataset-link button-row panel-default  @if(tdt\core\auth\Auth::hasAccess('admin.dataset.update')) clickable-row @endif" data-href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>
+            <div class="panel dataset dataset-link button-row panel-default  @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.update')) clickable-row @endif" data-href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>
                 <div class="panel-body"
                     @if($i==0)
                         data-step='3'
@@ -52,7 +52,7 @@
                                 </h4>
                             </div>
                             <div class='col-sm-4 text-right'>
-                                @if(tdt\core\auth\Auth::hasAccess('dataset.view'))
+                                @if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
                                     <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
                                         @if($i==0)
                                             data-step='4'
@@ -63,7 +63,7 @@
                                         <i class='fa fa-eye'></i> Data
                                     </a>
                                 @endif
-                                @if(tdt\core\auth\Auth::hasAccess('definition.view'))
+                                @if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
                                     <a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
 
                                         @if($i==0)
@@ -75,7 +75,7 @@
                                         <i class='fa fa-external-link'></i> Definition
                                     </a>
                                 @endif
-                                @if(tdt\core\auth\Auth::hasAccess('admin.dataset.delete'))
+                                @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
                                     <a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
 
                                        @if($i==0)

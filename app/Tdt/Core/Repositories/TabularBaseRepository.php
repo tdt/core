@@ -9,8 +9,8 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository{
 
     public function __construct()
     {
-        $this->tabular_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
-        $this->geo_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
+        $this->tabular_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\TabularColumnsRepositoryInterface');
+        $this->geo_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\GeoPropertyRepositoryInterface');
     }
 
     public function store(array $input)

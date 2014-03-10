@@ -4,7 +4,7 @@ namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface;
 
-use tdt\core\datacontrollers\XLSController;
+use Tdt\Core\DataControllers\XLSController;
 
 class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefinitionRepositoryInterface
 {

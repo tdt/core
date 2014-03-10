@@ -1,7 +1,7 @@
 <?php
 
-use tdt\core\definitions\DefinitionController;
-use tdt\core\datasets\DatasetController;
+use Tdt\Core\Definitions\DefinitionController;
+use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
 include(__DIR__ . '/../data/sparql/SparqlQueries.php');
@@ -31,7 +31,7 @@ class SparqlTest extends TestCase
             $this->updateRequest('PUT', $headers, $data);
 
             // Put the definition controller to the test!
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
             $response = $controller->handle("sparql/$name");
 
             // Check if the creation of the definition succeeded.
@@ -48,7 +48,7 @@ class SparqlTest extends TestCase
             $name = 'sparql/'. $name .'.json';
             $this->updateRequest('GET');
 
-            $controller = \App::make('tdt\core\datasets\DatasetController');
+            $controller = \App::make('Tdt\Core\Datasets\DatasetController');
 
             $response = $controller->handle($name);
             $this->assertEquals(200, $response->getStatusCode());
@@ -74,7 +74,7 @@ class SparqlTest extends TestCase
             $this->updateRequest('PATCH', $headers, $data);
 
             // Test the patch function on the definition controller
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             $response = $controller->handle($identifier);
             $this->assertEquals(200, $response->getStatusCode());
@@ -88,7 +88,7 @@ class SparqlTest extends TestCase
 
             $this->updateRequest('DELETE');
 
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             $response = $controller->handle("sparql/$name");
             $this->assertEquals(200, $response->getStatusCode());

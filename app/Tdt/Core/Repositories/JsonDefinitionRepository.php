@@ -3,7 +3,7 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface;
-use tdt\core\datacontrollers\JSONController;
+use Tdt\Core\DataControllers\JSONController;
 
 class JsonDefinitionRepository extends BaseDefinitionRepository implements JsonDefinitionRepositoryInterface
 {

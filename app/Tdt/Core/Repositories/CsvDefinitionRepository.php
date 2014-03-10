@@ -3,7 +3,7 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface;
-use tdt\core\datacontrollers\CSVController;
+use Tdt\Core\DataControllers\CSVController;
 
 class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefinitionRepositoryInterface
 {

@@ -3,7 +3,7 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface;
-use tdt\core\datacontrollers\SHPController;
+use Tdt\Core\DataControllers\SHPController;
 
 class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefinitionRepositoryInterface
 {

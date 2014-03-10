@@ -1,9 +1,9 @@
 <?php
 
 
-use tdt\core\definitions\DefinitionController;
-use tdt\core\definitions\InfoController;
-use tdt\core\definitions\DcatController;
+use Tdt\Core\Definitions\DefinitionController;
+use Tdt\Core\Definitions\InfoController;
+use Tdt\Core\Definitions\DcatController;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -43,7 +43,7 @@ class ModelPagingTest extends TestCase
 
             $this->updateRequest('PUT', $headers, $data);
 
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             // Put the definition controller to the test!
             $response = $controller->handle("csv/$file");
@@ -67,13 +67,13 @@ class ModelPagingTest extends TestCase
         Input::merge(array('limit' => 2));
 
         // Test the internal model through info
-        $controller = $controller = \App::make('tdt\core\definitions\InfoController');
+        $controller = $controller = \App::make('Tdt\Core\Definitions\InfoController');
         $this->processPaging($controller->handle(''));
 
         // Test the internal model through definitions
         $this->updateRequest('GET');
 
-        $controller = \App::make('tdt\core\definitions\DefinitionController');
+        $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
         $this->processPaging($controller->handle(''));
 
@@ -89,7 +89,7 @@ class ModelPagingTest extends TestCase
 
             $this->updateRequest('DELETE');
 
-            $controller = \App::make('tdt\core\definitions\DefinitionController');
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
             $response = $controller->handle("csv/$file");
             $this->assertEquals(200, $response->getStatusCode());
@@ -150,7 +150,7 @@ class ModelPagingTest extends TestCase
     private function processDcat()
     {
 
-        $controller = \App::make('tdt\core\definitions\DcatController');
+        $controller = \App::make('Tdt\Core\Definitions\DcatController');
 
         $response = $controller->handle('');
 

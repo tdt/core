@@ -11,5 +11,5 @@
 |
 */
 
-Artisan::add(new Export);
-Artisan::add(new Import);
+Artisan::add(new Tdt\Core\Commands\Export);
+Artisan::add(new Tdt\Core\Commands\Import);

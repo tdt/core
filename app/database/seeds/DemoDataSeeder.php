@@ -105,7 +105,7 @@ class DemoDataSeeder extends Seeder
                 // Create a new CsvDefinition
                 $csv_def = new CsvDefinition();
                 $csv_def->description = $definition_info['description'];
-                $csv_def->uri = 'file://' . __DIR__ . '/../../storage/data/csv/' . $file . '.csv';
+                $csv_def->uri = 'file://' . app_path() . '/storage/data/csv/' . $file . '.csv';
                 $csv_def->delimiter = ';';
                 $csv_def->has_header_row = 1;
                 $csv_def->start_row = 0;
@@ -163,7 +163,7 @@ class DemoDataSeeder extends Seeder
 
                 // Create a new XmlDefinition
                 $xml_def = new XmlDefinition();
-                $xml_def->uri = __DIR__ . '/../../storage/data/xml/' . $file . '.xml';
+                $xml_def->uri = app_path() . '/storage/data/xml/' . $file . '.xml';
                 $xml_def->description = $description;
                 $xml_def->save();
 
@@ -208,7 +208,7 @@ class DemoDataSeeder extends Seeder
 
                 // Create a new JsonDefinition
                 $json_def = new JsonDefinition();
-                $json_def->uri = 'file://' . __DIR__ . '/../../storage/data/json/' . $file . '.json';
+                $json_def->uri = 'file://' . app_path() . '/storage/data/json/' . $file . '.json';
                 $json_def->description = $description;
                 $json_def->save();
 
@@ -285,7 +285,7 @@ class DemoDataSeeder extends Seeder
 
                 // Create a new XlsDefinition
                 $xls_def = new XlsDefinition();
-                $xls_def->uri = __DIR__ . '/../../storage/data/xls/' . $file . '.xlsx';
+                $xls_def->uri = app_path() . '/storage/data/xls/' . $file . '.xlsx';
                 $xls_def->description = $definition_info['description'];
                 $xls_def->sheet = 'Sheet1';
                 $xls_def->has_header_row = 1;
@@ -439,7 +439,7 @@ class DemoDataSeeder extends Seeder
 
                 // Create a new ShpDefinition
                 $shp_def = new ShpDefinition();
-                $shp_def->uri = __DIR__ . '/../../storage/data/shp/' . $directory . '/' . $info['file'] . '.shp';
+                $shp_def->uri = app_path() . '/storage/data/shp/' . $directory . '/' . $info['file'] . '.shp';
                 $shp_def->description = $info['description'];
                 $shp_def->epsg = 4326;
                 $shp_def->save();

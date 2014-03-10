@@ -1,6 +1,6 @@
 <?php
 
-use tdt\core\datacontrollers\XLSController;
+use Tdt\Core\DataControllers\XLSController;
 
 /**
  * Excell definition model

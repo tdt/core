@@ -37,7 +37,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         // Enable your route filters, very important!
         Route::enableFilters();
-        Route::any('{all}', 'tdt\core\BaseController@handleRequest')->where('all', '.*');
+        Route::any('{all}', 'Tdt\Core\BaseController@handleRequest')->where('all', '.*');
         Mail::pretend(true);
     }
 

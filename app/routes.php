@@ -16,9 +16,9 @@ Route::group(array('prefix' => 'api/admin'), function () {
         return Redirect::to('api/admin/datasets');
     });
 
-    Route::controller('datasets', 'tdt\core\ui\DatasetController');
-    Route::controller('users', 'tdt\core\ui\UserController');
-    Route::controller('groups', 'tdt\core\ui\GroupController');
+    Route::controller('datasets', 'Tdt\\Core\\Ui\\DatasetController');
+    Route::controller('users', 'Tdt\\Core\\Ui\\UserController');
+    Route::controller('groups', 'Tdt\\Core\\Ui\\GroupController');
 });
 
 /*
@@ -27,7 +27,7 @@ Route::group(array('prefix' => 'api/admin'), function () {
  */
 App::before(function () {
     // The (in)famous catch-all
-    Route::any('{all}', 'tdt\core\BaseController@handleRequest')->where('all', '.*');
+    Route::any('{all}', 'Tdt\Core\BaseController@handleRequest')->where('all', '.*');
 });
 
 App::after(function ($request, $response) {
