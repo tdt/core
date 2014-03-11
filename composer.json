@@ -7,8 +7,6 @@
     "license": "AGPLv3",
     "autoload": {
         "classmap": [
-            "app/commands",
-            "app/controllers",
             "app/models",
             "app/database/migrations",
             "app/database/seeds",
