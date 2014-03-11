@@ -2,11 +2,11 @@
 
 namespace Tdt\Core\Repositories\Interfaces;
 
-interface JsonDefinitionRepositoryInterface
+interface RdfDefinitionRepositoryInterface
 {
 
     /**
-     * Return all JsonDefinition objects
+     * Return all RdfDefinition objects
      *
      * @return array
      */
@@ -42,25 +42,25 @@ interface JsonDefinitionRepositoryInterface
     public function getAllParameters();
 
     /**
-     * Store a JsonDefinition
+     * Store a RdfDefinition
      *
      * @param array $input
-     * @return array JsonDefinition
+     * @return array RdfDefinition
      */
     public function store(array $input);
 
 
     /**
-     * Update a JsonDefinition
+     * Update a RdfDefinition
      *
      * @param integer $id
      * @param array $input
-     * @return array JsonDefinition
+     * @return array RdfDefinition
      */
     public function update($id, array $input);
 
     /**
-     * Delete a JsonDefinition
+     * Delete a RdfDefinition
      *
      * @param integer $id
      * @return boolean|null
@@ -68,10 +68,10 @@ interface JsonDefinitionRepositoryInterface
     public function delete($id);
 
     /**
-     * Fetch a JsonDefinition by id
+     * Fetch a RdfDefinition by id
      *
      * @param integer $id
-     * @return array JsonDefinition
+     * @return array RdfDefinition
      */
     public function getById($id);
 }

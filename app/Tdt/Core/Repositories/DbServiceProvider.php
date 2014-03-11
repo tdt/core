@@ -75,5 +75,10 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface',
             'Tdt\Core\Repositories\OntologyRepository'
             );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\RdfDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\RdfDefinitionRepository'
+            );
     }
 }

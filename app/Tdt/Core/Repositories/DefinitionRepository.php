@@ -133,7 +133,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getByCollection($collection)
     {
-        return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($uri . '/'))->get()->toArray();
+        return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($collection . '/'))->get()->toArray();
     }
 
     public function getOldest()
