@@ -19,19 +19,23 @@ class RDFController extends ADataController
     {
         // Fetch the URI of the rdf file
         $uri = $source_definition['uri'];
+
         $format = strtolower($source_definition['format']);
 
         $content = file_get_contents($uri);
 
         // Try parsing the contents of the rdf file
         $graph = new \EasyRdf_Graph();
+
         $parser;
 
-        if($format == 'turtle'){
+        if ($format == 'turtle') {
             $parser = new \EasyRdf_Parser_Turtle();
-        }elseif($format == 'xml'){
+        } elseif($format == 'xml') {
+            // EasyRdf identifies rdfxml with rdf, not with xml as a format
+            $format = 'rdfxml';
             $parser = new \EasyRdf_Parser_RdfXml();
-        }else{
+        } else {
             \App::abort(500, "The format you added, $format, is not supported. The supported formats are turtle and xml.");
         }
 

@@ -24,7 +24,6 @@ class DatasetController extends ApiController
 
     public function get($uri)
     {
-
         // Set permission
         Auth::requirePermissions('dataset.view');
 

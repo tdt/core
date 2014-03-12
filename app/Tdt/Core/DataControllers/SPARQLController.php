@@ -119,8 +119,8 @@ class SPARQLController extends ADataController
         }
 
         // Prepare the query with proper encoding for the request
-
         $query = str_replace('%23', '#', $query);
+
         $q = urlencode($query);
         $q = str_replace("+", "%20", $q);
 

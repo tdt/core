@@ -16,7 +16,6 @@ class BaseController extends \Controller
      */
     public function handleRequest($uri)
     {
-
         // Save the original uri for controllers who don't want the uri lowercased
         $original_uri = rtrim($uri, '/');
 
