@@ -48,6 +48,18 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
 
         parent::tearDownAfterClass();
+
+        Definition::truncate();
+        CsvDefinition::truncate();
+        InstalledDefinition::truncate();
+        JsonDefinition::truncate();
+        // RdfDefinition::truncate();
+        ShpDefinition::truncate();
+        SparqlDefinition::truncate();
+        XlsDefinition::truncate();
+        XmlDefinition::truncate();
+        GeoProperty::truncate();
+        TabularColumns::truncate();
     }
 
     /**
