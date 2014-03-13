@@ -101,10 +101,11 @@ class ContentNegotiator extends Pager
         $cache_minutes = -1;
 
         if (\Config::get('cache.enabled', true)) {
+
             $cache_minutes = 1;
 
             // Cache per resource
-            if (!empty($data->source_definition)) {
+            if (!empty($data->source_definition['cache'])) {
                 $cache_minutes = $data->source_definition['cache'];
             }
         }
