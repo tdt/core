@@ -30,7 +30,6 @@ class ContentNegotiator extends Pager
      */
     public static function getResponse($data, $extension = null)
     {
-
         // Check Accept-header
         $accept_header = \Request::header('Accept');
 
@@ -49,10 +48,10 @@ class ContentNegotiator extends Pager
             }
 
             // Still nothing? Use default formatter
-            if (empty($extension) && empty($data->semantic)) {
+            if (empty($extension) && !$data->is_semantic) {
                 // Default formatter for non semantic data
                 $extension = 'json';
-            } elseif (empty($extension) && !empty($data->semantic)) {
+            } elseif (empty($extension) && $data->is_semantic) {
                 // Default formatter for semantic data is turtle
                 $extension = 'ttl';
             }

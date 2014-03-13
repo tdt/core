@@ -17,7 +17,6 @@ namespace Tdt\Core\Datasets;
  */
 class Data
 {
-
     public $definition;
 
     public $source_definition;
@@ -31,7 +30,7 @@ class Data
     public $data;
 
     /**
-     * Property that states if data is a semantic structure
+     * Property that states if data is a semantic structure ( = EasyRdf_Graph )
      */
     public $is_semantic = false;
 

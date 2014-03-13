@@ -25,7 +25,6 @@ class HTMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-
         // Query parameters
         $query_string = '';
 
@@ -36,6 +35,7 @@ class HTMLFormatter implements IFormatter
         // Links to pages
         $prev_link = '';
         $next_link = '';
+
         if (!empty($dataObj->paging)) {
             $input_array = array_except(\Input::all(), array('limit', 'offset'));
             if (!empty($dataObj->paging['previous'])) {
@@ -112,12 +112,17 @@ class HTMLFormatter implements IFormatter
                         break;
                 }
 
+            } else if($dataObj->is_semantic){
+
+                // The data object can be semantic without a specified source type
+                $view = 'dataset.code';
+                $data = $dataObj->data->serialise('turtle');
+
             } else {
                 // Collection view
                 $view = 'dataset.collection';
                 $data = $dataObj->data;
             }
-
         }
 
         // Render the view
