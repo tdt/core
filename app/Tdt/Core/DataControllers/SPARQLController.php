@@ -5,6 +5,7 @@ namespace Tdt\Core\DataControllers;
 use Tdt\Core\Datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
 use Tdt\Core\Pager;
+use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
 
 /**
  * SPARQL Controller
@@ -16,10 +17,15 @@ use Tdt\Core\Pager;
  */
 class SPARQLController extends ADataController
 {
+    private $ontologies;
+
+    public function __construct(OntologyRepositoryInterface $ontologies)
+    {
+        $this->ontologies = $ontologies;
+    }
 
     public function readData($source_definition, $rest_parameters = array())
     {
-
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Retrieve the necessary variables to read from a SPARQL endpoint
@@ -161,9 +167,7 @@ class SPARQLController extends ADataController
 
             // Fetch the available namespaces and pass
             // them as a configuration of the semantic data result
-            $ontology_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\OntologyRepositoryInterface');
-
-            $ontologies = $ontology_repository->getAll();
+            $ontologies = $this->ontologies->getAll();
 
             $prefixes = array();
 

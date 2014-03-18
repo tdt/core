@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 
 use Tdt\Core\Auth\Auth;
 use Tdt\Core\ApiController;
+use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 
 /**
  * LanguageController: Controller that handels the available dcat compliant languages
@@ -17,9 +18,15 @@ use Tdt\Core\ApiController;
 class LanguageController extends ApiController
 {
 
+    private $languages;
+
+    public function __construct(LanguageRepositoryInterface $languages)
+    {
+        $this->languages = $languages;
+    }
+
     public function get($uri)
     {
-
         // Set permission
         Auth::requirePermissions('info.view');
 
@@ -47,10 +54,7 @@ class LanguageController extends ApiController
      */
     private function getLanguages($uri)
     {
-
-        $lang_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\LanguageRepositoryInterface');
-
-        return $this->makeResponse($lang_repository->getAll());
+        return $this->makeResponse($this->languages->getAll());
     }
 
     /**
@@ -58,7 +62,6 @@ class LanguageController extends ApiController
      */
     private function makeResponse($data)
     {
-
          // Create response
         $response = \Response::make(str_replace('\/','/', json_encode($data)));
 

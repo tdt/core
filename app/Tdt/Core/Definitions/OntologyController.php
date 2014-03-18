@@ -5,6 +5,7 @@ namespace Tdt\Core\Definitions;
 use Illuminate\Routing\Router;
 use Tdt\Core\Auth\Auth;
 use Tdt\Core\ApiController;
+use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
 
 /**
  * OntologyController: Controller that handels the available ontologies and prefixes available for semantic data results
@@ -16,12 +17,18 @@ use Tdt\Core\ApiController;
 class OntologyController extends ApiController
 {
 
+    private $ontologies;
+
+    public function __construct(OntologyRepositoryInterface $ontologies)
+    {
+        $this->ontologies = $ontologies;
+    }
+
     /**
      * Return the headers of a call made to the uri given.
      */
     public function head($uri)
     {
-
         $response =  \Response::make(null, 200);
 
         // Set headers
@@ -37,13 +44,10 @@ class OntologyController extends ApiController
      */
     public function get($uri)
     {
-
         // Set permission
         Auth::requirePermissions('info.view');
 
-        $ontology_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\OntologyRepositoryInterface');
-
-        $ontologies = $ontology_repository->getAll();
+        $ontologies = $this->ontologies->getAll();
 
         return $this->makeResponse($ontologies);
     }

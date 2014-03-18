@@ -5,6 +5,7 @@ namespace Tdt\Core\Definitions;
 use Illuminate\Routing\Router;
 use Tdt\Core\Auth\Auth;
 use Tdt\Core\ApiController;
+use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
 
 /**
  * LicenseController: Controller that handels the available licenses for the DCAT
@@ -15,6 +16,13 @@ use Tdt\Core\ApiController;
  */
 class LicenseController extends ApiController
 {
+
+    private $licenses;
+
+    public function __construct(LicenseRepositoryInterface $licenses)
+    {
+        $this->licenses = $licenses;
+    }
 
     /**
      * Return the headers of a call made to the uri given.
@@ -54,7 +62,6 @@ class LicenseController extends ApiController
      */
     private function makeResponse($data)
     {
-
          // Create response
         $response = \Response::make(str_replace('\/','/', json_encode($data, true)));
 

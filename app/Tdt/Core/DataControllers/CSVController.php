@@ -4,6 +4,8 @@ namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
+use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
 
 /**
  * CSV Controller
@@ -19,6 +21,15 @@ class CSVController extends ADataController
 
     // Amount of characters in one row that can be read
     private static $MAX_LINE_LENGTH = 0;
+
+    private $tabular_columns;
+    private $geo_properties;
+
+    public function __construct(TabularColumnsRepositoryInterface $tabular_columns, GeoPropertyRepositoryInterface $geo_properties)
+    {
+        $this->tabular_columns = $tabular_columns;
+        $this->geo_properties = $geo_properties;
+    }
 
     public function readData($source_definition, $rest_parameters = array())
     {
@@ -38,12 +49,10 @@ class CSVController extends ADataController
         $delimiter = $source_definition['delimiter'];
 
         // Get CSV columns
-        $tabular_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->getColumns($source_definition['id'], 'CsvDefinition');
+        $columns = $this->tabular_columns->getColumns($source_definition['id'], 'CsvDefinition');
 
         // Get the geo properties
-        $geo_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\GeoPropertyRepositoryInterface');
-        $geo_properties = $geo_repository->getGeoProperties($source_definition['id'], 'CsvDefinition');
+        $geo_properties = $this->geo_properties->getGeoProperties($source_definition['id'], 'CsvDefinition');
 
         $geo = array();
 
@@ -58,7 +67,7 @@ class CSVController extends ADataController
         }
 
         // Create aliases for the columns
-        $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'CsvDefinition');
+        $aliases = $this->tabular_columns->getColumnAliases($source_definition['id'], 'CsvDefinition');
         $pk = null;
 
         foreach ($columns as $column) {

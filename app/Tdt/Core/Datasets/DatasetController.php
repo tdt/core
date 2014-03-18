@@ -64,7 +64,7 @@ class DatasetController extends ApiController
 
                     // Create the right datacontroller
                     $controller_class = 'Tdt\\Core\\DataControllers\\' . $source_type . 'Controller';
-                    $data_controller = new $controller_class();
+                    $data_controller = \App::make($controller_class);
 
                     // Get REST parameters
                     $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);
@@ -185,7 +185,6 @@ class DatasetController extends ApiController
      */
     public static function fetchData($uri)
     {
-
         // Retrieve the definition
         $definition_repo = \App::make('Tdt\\Core\\Repositories\\Interfaces\\DefinitionRepositoryInterface');
         $definition = $definition_repo->getByIdentifier($uri);
@@ -199,7 +198,7 @@ class DatasetController extends ApiController
 
                 // Create the correct datacontroller
                 $controller_class = 'Tdt\\Core\\DataControllers\\' . $source_definition['type'] . 'Controller';
-                $data_controller = new $controller_class();
+                $data_controller = \App::make($controller_class);
 
                 // Get REST parameters
                 $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);

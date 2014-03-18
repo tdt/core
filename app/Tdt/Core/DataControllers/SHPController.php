@@ -12,6 +12,8 @@ namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
+use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
 
 include_once(app_path() . "/lib/ShapeFile.inc.php");
 include_once(app_path() . "/lib/proj4php/proj4php.php");
@@ -19,9 +21,17 @@ include_once(app_path() . "/lib/proj4php/proj4php.php");
 class SHPController extends ADataController
 {
 
+    private $tabular_columns;
+    private $geo_property;
+
+    public function __construct(TabularColumnsRepositoryInterface $tabular_columns, GeoPropertyRepositoryInterface $geo_property)
+    {
+        $this->tabular_columns = $tabular_columns;
+        $this->geo_property = $geo_property;
+    }
+
     public function readData($source_definition, $rest_parameters = array())
     {
-
         // It may take a while for the SHP to be read
         set_time_limit(0);
 
@@ -44,12 +54,10 @@ class SHPController extends ADataController
         }
 
         // Get the columns
-        $tabular_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->getColumnAliases($source_definition['id'], 'ShpDefinition');
+        $columns = $this->tabular_columns->getColumnAliases($source_definition['id'], 'ShpDefinition');
 
         // Get the geo properties
-        $geo_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\GeoPropertyRepositoryInterface');
-        $geo_properties = $geo_repository->getGeoProperties($source_definition['id'], 'ShpDefinition');
+        $geo_properties = $this->geo_property->getGeoProperties($source_definition['id'], 'ShpDefinition');
 
         $geo = array();
 

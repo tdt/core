@@ -9,6 +9,9 @@ use Tdt\Core\Datasets\Data;
 use Tdt\Core\ContentNegotiator;
 use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
+use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 
 /**
  * DcatController
@@ -19,6 +22,13 @@ use Tdt\Core\ApiController;
  */
 class DcatController extends ApiController
 {
+
+    public function __construct(LanguageRepositoryInterface $languages, LicenseRepositoryInterface $licenses, DefinitionRepositoryInterface $definitions)
+    {
+        $this->languages = $languages;
+        $this->licenses = $licenses;
+        $this->definitions = $definitions;
+    }
 
     public function get($uri)
     {
@@ -45,7 +55,6 @@ class DcatController extends ApiController
      */
     private function createDcat()
     {
-
         // List all namespaces that can be used in a DCAT document
         $ns = array(
             'dcat' => 'http://www.w3.org/ns/dcat#',
@@ -72,13 +81,13 @@ class DcatController extends ApiController
         // Apply paging when fetching the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definition_count = $this->definition->countPublished();
+        $definition_count = $this->definitions->countPublished();
 
-        $definitions = $this->definition->getAllPublished($limit, $offset);
+        $definitions = $this->definitions->getAllPublished($limit, $offset);
 
         if (count($definitions) > 0) {
 
-            $last_mod_def = $this->definition->getOldest();
+            $last_mod_def = $this->definitions->getOldest();
 
             // Add the last modified timestamp in ISO8601
             $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($last_mod_def['updated_at'])));
@@ -115,18 +124,14 @@ class DcatController extends ApiController
 
                         if ($dc_term == 'rights') {
 
-                            $license_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\LicenseRepositoryInterface');
-
-                            $license = $license_repository->getByTitle($definition[$dc_term]);
+                            $license = $this->licenses->getByTitle($definition[$dc_term]);
 
                             if (!empty($license) && !empty($license['url'])) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
                             }
                         } elseif ($dc_term == 'language') {
 
-                            $lang_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\LanguageRepositoryInterface');
-
-                            $lang = $lang_repository->getById($definition[$dc_term]);
+                            $lang = $this->languages->getById($definition[$dc_term]);
 
                             if (!empty($lang)) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);

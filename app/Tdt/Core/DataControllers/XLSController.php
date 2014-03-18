@@ -4,6 +4,8 @@ namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
+use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
 use PHPExcel_IOFactory as IOFactory;
 
 /**
@@ -17,6 +19,15 @@ use PHPExcel_IOFactory as IOFactory;
  */
 class XLSController extends ADataController
 {
+
+    private $tabular_columns;
+    private $geo_properties;
+
+    public function __construct(TabularColumnsRepositoryInterface $tabular_columns, GeoPropertyRepositoryInterface $geo_properties)
+    {
+        $this->tabular_columns = $tabular_columns;
+        $this->geo_properties = $geo_properties;
+    }
 
     public function readData($source_definition, $rest_parameters = array())
     {
@@ -32,15 +43,14 @@ class XLSController extends ADataController
         $start_row = $source_definition['start_row'] + 1;
 
         // Retrieve the columns from XLS
-        $tabular_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\TabularColumnsRepositoryInterface');
-        $columns = $tabular_repository->getColumns($source_definition['id'], 'XlsDefinition');
+        $columns = $this->tabular_columns->getColumns($source_definition['id'], 'XlsDefinition');
 
         if (empty($columns)) {
             \App::abort(500, "Cannot find the columns from the XLS definition.");
         }
 
         // Create aliases for the columns
-        $aliases = $tabular_repository->getColumnAliases($source_definition['id'], 'XlsDefinition');
+        $aliases = $this->tabular_columns->getColumnAliases($source_definition['id'], 'XlsDefinition');
         $pk = null;
 
         foreach ($columns as $column) {
