@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Commands\Ie\Definitions;
 use Tdt\Core\Commands\Ie\Users;
 use Tdt\Core\Commands\Ie\Groups;
@@ -35,6 +36,10 @@ class Export extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->definitions = new Definitions();
+        $this->groups = new Groups();
+        $this->users = new Users();
     }
 
     /**
@@ -63,7 +68,7 @@ class Export extends Command
 
         if ($this->option('definitions')) {
 
-            $export_data->definitions = Definitions::export($identifier);
+            $export_data->definitions = $this->definitions->export($identifier);
 
             if (!empty($identifier)) {
 
@@ -76,29 +81,29 @@ class Export extends Command
                     $identifier = $this->ask('Provide the full identifier of the definition you want (e.g. csv/cities): ');
 
                     // Check if the resource id is legit
-                    $export_data->definitions = Definitions::export($identifier);
+                    $export_data->definitions = $this->definitions->export($identifier);
                 }
             }
 
         } elseif ($this->option('users')) {
 
             // Export users
-            $export_data->users = Users::export();
+            $export_data->users = $this->users->export();
+
             // Export groups
-            $export_data->groups = Groups::export();
+            $export_data->groups = $this->groups->export();
 
         } else {
 
             // Export definitions
-            $export_data->definitions = Definitions::export();
+            $export_data->definitions = $this->definitions->export();
 
             // Export users
-            $export_data->users = Users::export();
+            $export_data->users = $this->users->export();
 
             // Export groups
-            $export_data->groups = Groups::export();
+            $export_data->groups = $this->groups->export();
         }
-
 
         // JSON encode
         if (defined('JSON_PRETTY_PRINT')) {
@@ -109,7 +114,6 @@ class Export extends Command
 
         // JSON_UNESCAPED_SLASHES only available in PHP 5.4
         $export_data = str_replace('\/', '/', $export_data);
-
 
         // Output
         if (empty($filename)) {
@@ -125,7 +129,6 @@ class Export extends Command
                 die();
             }
         }
-
     }
 
     /**

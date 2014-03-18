@@ -111,7 +111,7 @@ interface DefinitionRepositoryInterface
      * @param integer $offset
      * @return array of Definition's
      */
-    public function getAllFullDescriptions($identifier, $limit, $offset);
+    public function getAllFullDescriptions($limit, $offset);
 
     /**
      * Retrieve all the public information of all published Defintion's
@@ -121,7 +121,7 @@ interface DefinitionRepositoryInterface
      * @param integer $offset
      * @return array of Definition's
      */
-    public function getAllDefinitionInfo($identifier, $limit, $offset);
+    public function getAllDefinitionInfo($limit, $offset);
 
     /**
      * Retrieve the full description of a definition

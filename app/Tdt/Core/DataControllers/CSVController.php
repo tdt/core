@@ -166,11 +166,15 @@ class CSVController extends ADataController
         // Get the columns out of the csv file before saving the csv definition
         // If columns are being passed using the json body or request parameters
         // allow them to function as aliases, aliases have to be passed as index (0:n-1) => alias
-        $aliases = @$config['columns'];
+        $columns_info = @$config['columns'];
         $pk = @$config['pk'];
 
-        if (empty($aliases)) {
-            $aliases = array();
+        $aliases = array();
+
+        if (!empty($columns_info)) {
+            foreach ($columns_info as $column_info) {
+                $aliases[$column_info['index']] = $column_info['column_name_alias'];
+            }
         }
 
         $columns = array();
@@ -210,7 +214,13 @@ class CSVController extends ADataController
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array('index' => $i, 'column_name' => trim($line[$i]), 'column_name_alias' => $alias, 'is_pk' => ($pk === $i)));
+                    array_push($columns, array(
+                        'index' => $i,
+                        'column_name' => trim($line[$i]),
+                        'column_name_alias' => $alias,
+                        'is_pk' => ($pk === $i)
+                        )
+                    );
                 }
             } else {
                 \App::abort(400, "The columns could not be retrieved from the csv file on location $uri.");

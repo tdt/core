@@ -12,7 +12,7 @@ namespace Tdt\Core\Commands\Ie;
 interface IImportExport
 {
 
-    public static function import($data);
-    public static function export($identifier = null);
+    public function import($data);
+    public function export($identifier = null);
 
 }

@@ -32,7 +32,6 @@ class DefinitionController extends ApiController
      */
     public function put($uri)
     {
-
         // Check for the correct content type header if set
         if (!empty($content_type) && $content_type != 'application/tdt.definition+json') {
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
@@ -68,7 +67,6 @@ class DefinitionController extends ApiController
      */
     public function delete($uri)
     {
-
         $this->definition->delete($uri);
 
         return \Response::make(null, 200);
@@ -134,9 +132,23 @@ class DefinitionController extends ApiController
     public function get($uri)
     {
 
+        if (!empty($uri)) {
+
+            if (!$this->definition->exists($uri)) {
+                \App::abort(404, "No resource was found identified with " . $uri);
+            }
+
+            $description = $this->definition->getFullDescription($uri);
+
+            $result = new Data();
+            $result->data = $description;
+
+            return ContentNegotiator::getResponse($result, 'json');
+        }
+
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions = $this->definition->getAllFullDescriptions($uri, $limit, $offset);
+        $definitions = $this->definition->getAllFullDescriptions($limit, $offset);
 
         $definition_count = $this->definition->count();
 

@@ -121,7 +121,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getByIdentifier($identifier)
     {
-
         $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
 
         if(empty($definition))
@@ -184,7 +183,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
     }
 
-    public function getAllFullDescriptions($uri, $limit, $offset)
+    public function getAllFullDescriptions($limit = PHP_INT_MAX, $offset = 0)
     {
         $definitions = array();
 
@@ -197,7 +196,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return $definitions;
     }
 
-    public function getAllDefinitionInfo($uri, $limit, $offset)
+    public function getAllDefinitionInfo($limit, $offset)
     {
         $definitions = array();
 

@@ -207,14 +207,16 @@ class XLSController extends ADataController
      */
     public static function parseColumns($input)
     {
-
-        $aliases = @$input['columns'];
+        $columns_info = @$input['columns'];
         $pk = @$input['pk'];
 
-        if (empty($aliases)) {
-            $aliases = array();
-        }
+        $aliases = array();
 
+        if (!empty($columns_info)) {
+            foreach ($columns_info as $column_info) {
+                $aliases[$column_info['index']] = $column_info['column_name_alias'];
+            }
+        }
 
         $columns = array();
         $tmp_dir = sys_get_temp_dir();
@@ -276,7 +278,11 @@ class XLSController extends ADataController
                                 $alias = $cell_value;
                             }
 
-                            array_push($columns, array('index' => $column_index, 'column_name' => $cell->getCalculatedValue(), 'column_name_alias' => $alias, 'is_pk' => ($pk === $column_index)));
+                            array_push($columns, array(
+                                'index' => $column_index,
+                                'column_name' => $cell->getCalculatedValue(),
+                                'column_name_alias' => $alias,
+                                'is_pk' => ($pk === $column_index)));
                         }
                         $column_index++;
                     }

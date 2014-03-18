@@ -264,7 +264,6 @@ class SHPController extends ADataController
      */
     public static function parseGeoProperty($options, $columns)
     {
-
         // Make sure the geo property's path is mapped onto the column alias
         $aliases = array();
 

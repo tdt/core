@@ -46,6 +46,10 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository{
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
 
+        // Unset the pk property, only used for easy pk configuration of a column
+        // is not included in the tabular model itself, but part of the tabularcolumns table
+        unset($input['pk']);
+
         $tabular_definition = $this->model->create($input);
 
         $model_name = $this->getModelName();

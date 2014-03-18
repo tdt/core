@@ -11,7 +11,7 @@ namespace Tdt\Core\Commands\Ie;
 class Groups implements IImportExport
 {
 
-    public static function import($groups)
+    public function import($groups)
     {
 
         $messages = array();
@@ -35,7 +35,7 @@ class Groups implements IImportExport
         return $messages;
     }
 
-    public static function export($identifier = null)
+    public function export($identifier = null)
     {
 
         // Request all the group

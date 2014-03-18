@@ -61,10 +61,23 @@ class InfoController extends ApiController
      */
     private function getInfo($uri)
     {
+        if (!empty($uri)) {
+
+            if (!$this->definition->exists($uri)) {
+                \App::abort(404, "No resource was found identified with " . $uri);
+            }
+
+            $description = $this->definition->getDefinitionInfo($uri);
+
+            $result = new Data();
+            $result->data = $description;
+
+            return ContentNegotiator::getResponse($result, 'json');
+        }
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions_info = $this->definition->getAllDefinitionInfo($uri, $limit, $offset);
+        $definitions_info = $this->definition->getAllDefinitionInfo($limit, $offset);
 
         $definition_count = $this->definition->countPublished();
 

@@ -4,6 +4,7 @@ namespace Tdt\Core\Commands\Ie;
 
 /**
  * Import/export users
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -11,12 +12,13 @@ namespace Tdt\Core\Commands\Ie;
 class Users implements IImportExport
 {
 
-    public static function import($users)
+    public function import($users)
     {
 
         $messages = array();
 
         foreach ($users as $user) {
+
             $groups = $user['groups'];
             $primary_group = array_shift($groups);
 
@@ -35,6 +37,7 @@ class Users implements IImportExport
 
                 // Try adding user to groups
                 try {
+
                     // Find the group using the group name
                     $group = \Sentry::findGroupByName($primary_group);
 
@@ -57,7 +60,7 @@ class Users implements IImportExport
         return $messages;
     }
 
-    public static function export($identifier = null)
+    public function export($identifier = null)
     {
         // Request all the users
         $sentry_data = \Sentry::findAllUsers();

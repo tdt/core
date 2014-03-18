@@ -2,10 +2,12 @@
 
 namespace Tdt\Core\Commands\Ie;
 
+use Tdt\Core\Repositories\DefinitionRepository;
 use Tdt\Core\Definitions\DefinitionController;
 
 /**
  * Import/export definitions
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -13,7 +15,15 @@ use Tdt\Core\Definitions\DefinitionController;
 class Definitions implements IImportExport
 {
 
-    public static function import($data)
+    protected $definition_controller;
+
+    public function __construct()
+    {
+        $this->definition_controller = \App::make('Tdt\Core\Definitions\DefinitionController');
+        $this->definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+    }
+
+    public function import($data)
     {
 
         $definitions = $data['definitions'];
@@ -35,7 +45,7 @@ class Definitions implements IImportExport
             self::updateRequest('PUT', $headers, $definition_params);
 
             // Add the new definition
-            $response = DefinitionController::handle($identifier);
+            $response = $this->definition_controller->handle($identifier);
             $status_code = $response->getStatusCode();
 
             $messages[$identifier] = ($status_code == 200);
@@ -45,15 +55,15 @@ class Definitions implements IImportExport
 
     }
 
-    public static function export($identifier = null)
+    public function export($identifier = null)
     {
         if (empty($identifier)) {
             // Request all of the definitions
-            return DefinitionController::getAllDefinitions();
+            return $this->definitions->getAllFullDescriptions();
         } else {
             // Request a single definition
-            $definition =  DefinitionController::get($identifier);
-            return array($identifier => $definition->getAllParameters());
+            $definition =  $this->definitions->getFullDescription($identifier);
+            return array($identifier => $definition);
         }
     }
 
@@ -61,9 +71,8 @@ class Definitions implements IImportExport
     /**
      * Custom API call function
      */
-    public static function updateRequest($method, $headers = array(), $data = array())
+    public function updateRequest($method, $headers = array(), $data = array())
     {
-
         // Set the custom headers.
         \Request::getFacadeRoot()->headers->replace($headers);
 

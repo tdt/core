@@ -30,7 +30,6 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
      */
     public function validateBulk(array $extracted_columns, array $provided_columns)
     {
-
         // If columns are provided, check if they exist and have the correct index
         if (!empty($provided_columns)) {
 
@@ -58,7 +57,7 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
                 $tmp_column = $tmp_columns[$column_name];
 
                 if (empty($tmp_column)) {
-                    \App::abort(404, "The column name ($column_name) was not found in the CSV file.");
+                    \App::abort(404, "The column name ($column_name) was not found in the tabular datasource.");
                 }
 
                 if ($tmp_column['index'] != $column['index']) {
@@ -118,7 +117,6 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
 
     public function validate(array $input)
     {
-        dd($input);
         $validator = $this->getValidator($input);
 
         if ($validator->fails()) {
@@ -126,7 +124,6 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
             \App::abort(400, $message);
         }
     }
-
 
     /**
      * Retrieve the set of create parameters that make up a TabularColumn model.

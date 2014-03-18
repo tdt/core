@@ -36,6 +36,10 @@ class Import extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->definitions = new Definitions();
+        $this->groups = new Groups();
+        $this->users = new Users();
     }
 
     /**
@@ -66,7 +70,7 @@ class Import extends Command
                     $this->info("——————————————————————————————————");
 
                     // Import groups
-                    $messages = Groups::import($content['groups']);
+                    $messages = $this->groups->import($content['groups']);
 
                     foreach ($messages as $group => $status) {
                         if ($status) {
@@ -77,7 +81,7 @@ class Import extends Command
                     }
 
                     // Import users
-                    $messages = Users::import($content['users']);
+                    $messages = $this->users->import($content['users']);
 
                     foreach ($messages as $user => $status) {
                         if ($status) {
@@ -104,7 +108,7 @@ class Import extends Command
                     $data['password'] = $password;
                     $data['definitions'] = $content['definitions'];
 
-                    $messages = Definitions::import($data);
+                    $messages = $this->definitions->import($data);
 
                     foreach ($messages as $identifier => $status) {
                         if ($status) {

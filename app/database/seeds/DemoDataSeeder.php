@@ -19,19 +19,19 @@ class DemoDataSeeder extends Seeder
         Eloquent::unguard();
 
         // Add csv definitions
-        $this->seedCsv();
+        /*$this->seedCsv();
 
         // Add the json definitions
         $this->seedJson();
 
         // Add the xml definitions
-        $this->seedXml();
+        $this->seedXml();*/
 
         // Add the shp definitions
         $this->seedShp();
 
         // Add the xls definitions
-        $this->seedXls();
+        //$this->seedXls();
     }
 
     /**
@@ -361,7 +361,7 @@ class DemoDataSeeder extends Seeder
                                         ),
                                     array(
                                         'column_name' => 'parts',
-                                        'index' => 3,
+                                        'index' => 4,
                                         'column_name_alias' => 'parts',
                                         'is_pk' => 0
                                         ),
@@ -404,13 +404,13 @@ class DemoDataSeeder extends Seeder
                                     ),
                                 array(
                                     'column_name' => 'x',
-                                    'index' => 3,
+                                    'index' => 4,
                                     'column_name_alias' => 'x',
                                     'is_pk' => 0
                                     ),
                                 array(
                                     'column_name' => 'y',
-                                    'index' => 3,
+                                    'index' => 5,
                                     'column_name_alias' => 'y',
                                     'is_pk' => 0
                                     ),
