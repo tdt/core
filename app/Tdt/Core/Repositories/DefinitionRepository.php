@@ -173,7 +173,11 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $type = @$input['type'];
 
         // Use the power of the IoC
-        $source_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst($type) . 'DefinitionRepositoryInterface');
+        try {
+            $source_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst($type) . 'DefinitionRepositoryInterface');
+        } catch (\ReflectionException $ex) {
+            \App::abort(400, "The provided source type " . $type . " is not supported.");
+        }
 
         $validator = $source_repository->getValidator($input);
 

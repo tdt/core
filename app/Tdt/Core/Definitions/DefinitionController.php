@@ -111,7 +111,6 @@ class DefinitionController extends ApiController
      */
     public function head($uri)
     {
-
         if ($this->definition->exists($uri)) {
             \App::abort(404, "No resource has been found with the uri $uri");
         }

@@ -19,19 +19,19 @@ class DemoDataSeeder extends Seeder
         Eloquent::unguard();
 
         // Add csv definitions
-        /*$this->seedCsv();
+        $this->seedCsv();
 
         // Add the json definitions
         $this->seedJson();
 
         // Add the xml definitions
-        $this->seedXml();*/
+        $this->seedXml();
 
         // Add the shp definitions
         $this->seedShp();
 
         // Add the xls definitions
-        //$this->seedXls();
+        $this->seedXls();
     }
 
     /**
