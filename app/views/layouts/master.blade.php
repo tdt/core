@@ -15,7 +15,7 @@
         <nav class="navbar navbar-fixed-top">
             <a class="navbar-brand" href="{{ URL::to('') }} ">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
-                <h1>@if (!empty($page_title)) {{ $page_title }}@endif&nbsp;</h1>
+                <h1>@if(!empty($page_title)){{ $page_title }}@endif</h1>
             </a>
 
             @yield('navigation')
