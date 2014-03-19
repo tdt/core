@@ -4,6 +4,7 @@ namespace Tdt\Core\Formatters;
 
 /**
  * KML Formatter
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -13,13 +14,11 @@ namespace Tdt\Core\Formatters;
 class KMLFormatter implements IFormatter
 {
 
-
     private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude');
     private static $LATITUDE_PREFIXES = array('lat', 'latitude');
 
     public static function createResponse($dataObj)
     {
-
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 
@@ -31,7 +30,6 @@ class KMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-
         // Build the body
         // KML header
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -39,7 +37,6 @@ class KMLFormatter implements IFormatter
 
         // Add the document
         $body .= "<Document>";
-
 
         $body .= self::getPlacemarks($dataObj);
 
@@ -112,7 +109,7 @@ class KMLFormatter implements IFormatter
 
                 foreach (self::$LONGITUDE_PREFIXES as $prefix) {
 
-                    $longkey = self::array_key_exists_nc($prefix, $array);
+                    $longkey = self::keyExists($prefix, $array);
 
                     if ($longkey) {
                         break;
@@ -121,17 +118,17 @@ class KMLFormatter implements IFormatter
 
                 foreach (self::$LATITUDE_PREFIXES as $prefix) {
 
-                    $latkey = self::array_key_exists_nc($prefix, $array);
+                    $latkey = self::keyExists($prefix, $array);
 
                     if ($latkey) {
                         break;
                     }
                 }
 
-                $coordskey = self::array_key_exists_nc("coords",$array);
+                $coordskey = self::keyExists("coords", $array);
 
                 if (!$coordskey) {
-                    $coordskey = self::array_key_exists_nc("coordinates",$array);
+                    $coordskey = self::keyExists("coordinates", $array);
                 }
 
                 if ($longkey && $latkey) {
@@ -141,11 +138,12 @@ class KMLFormatter implements IFormatter
 
                     unset($array[$longkey]);
                     unset($array[$latkey]);
+
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
                 } elseif ($coordskey) {
 
-                    $coords = explode(";",$array[$coordskey]);
+                    $coords = explode(";", $array[$coordskey]);
                     unset($array[$coordskey]);
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
@@ -162,16 +160,17 @@ class KMLFormatter implements IFormatter
 
                         // For data read from XML latitude and longitude will be an array of @value = 3.342...
 
-                        if(is_array($lat))
+                        if (is_array($lat)) {
                             $lat_val = reset($lat);
-                        else
+                        } else {
                             $lat_val = $lat;
+                        }
 
-
-                        if(is_array($long))
+                        if (is_array($long)) {
                             $lon_val = reset($long);
-                        else
+                        } else {
                             $lon_val = $long;
+                        }
 
                         if ($lat_val != 0 || $lon_val != 0) {
                             echo "<Point><coordinates>".$lon_val.",".$lat_val."</coordinates></Point>";
@@ -190,12 +189,9 @@ class KMLFormatter implements IFormatter
                         }
                     }
                     echo "</Placemark>";
-
                 }
             }
         }
-
-        // return $placemarks;
     }
 
     /**
@@ -281,7 +277,7 @@ class KMLFormatter implements IFormatter
      * @param array $search
      * @return string|false
      */
-    private static function array_key_exists_nc($key, $search)
+    private static function keyExists($key, $search)
     {
 
         if (array_key_exists($key, $search)) {

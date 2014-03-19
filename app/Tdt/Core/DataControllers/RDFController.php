@@ -31,7 +31,7 @@ class RDFController extends ADataController
 
         if ($format == 'turtle') {
             $parser = new \EasyRdf_Parser_Turtle();
-        } elseif($format == 'xml') {
+        } elseif ($format == 'xml') {
             // EasyRdf identifies rdfxml with rdf, not with xml as a format
             $format = 'rdfxml';
             $parser = new \EasyRdf_Parser_RdfXml();

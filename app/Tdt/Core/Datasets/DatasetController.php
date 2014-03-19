@@ -121,7 +121,7 @@ class DatasetController extends ApiController
                         // Check if it's a subcollection or a dataset
                         $collection_uri = rtrim($res->collection_uri, '/');
                         if ($collection_uri == $uri) {
-                            array_push($data->data->datasets,  \URL::to($collection_uri . '/' . $res->resource_name));
+                            array_push($data->data->datasets, \URL::to($collection_uri . '/' . $res->resource_name));
                         } else {
                             // Push the subcollection if it's not already in the array
                             if (!in_array(\URL::to($collection_uri), $data->data->collections)) {

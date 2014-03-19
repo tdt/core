@@ -66,17 +66,17 @@ class ContentNegotiator extends Pager
         if (!class_exists($formatter_class)) {
 
             // Use default formatter if */*;q=0.0 Accept header is not set
-            if(in_array('*/*;q=0.0', $mime_types)){
+            if (in_array('*/*;q=0.0', $mime_types)) {
 
                 $format_helper = new FormatHelper();
 
                 $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
                 \App::abort(406, "The requested Content-Type is not supported, the supported formats for this resource are: " . $available_formats);
-            }else{
-                if(empty($data->semantic)){
+            } else {
+                if (empty($data->semantic)) {
                     // Default formatter for non semantic data
                     $extension = 'json';
-                }else{
+                } else {
                     $extension = 'ttl';
                 }
             }

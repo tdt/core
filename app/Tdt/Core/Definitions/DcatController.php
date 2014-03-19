@@ -23,8 +23,11 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 class DcatController extends ApiController
 {
 
-    public function __construct(LanguageRepositoryInterface $languages, LicenseRepositoryInterface $licenses, DefinitionRepositoryInterface $definitions)
-    {
+    public function __construct(
+        LanguageRepositoryInterface $languages,
+        LicenseRepositoryInterface $licenses,
+        DefinitionRepositoryInterface $definitions
+    ) {
         $this->languages = $languages;
         $this->licenses = $licenses;
         $this->definitions = $definitions;
@@ -32,7 +35,6 @@ class DcatController extends ApiController
 
     public function get($uri)
     {
-
         // Ask permission
         Auth::requirePermissions('info.view');
 

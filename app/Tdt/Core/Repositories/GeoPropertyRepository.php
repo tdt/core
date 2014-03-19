@@ -31,10 +31,10 @@ class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPrope
 
     public function validateBulk(array $extracted_geo, array $provided_geo)
     {
-
         // We don't have any extracted geo properties
         // If the provided ones qualify, validation is ok
         if (empty($extracted_geo)) {
+
             $this->validate($provided_geo);
 
             return $provided_geo;
@@ -46,7 +46,7 @@ class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPrope
         if (!empty($extracted_geo)) {
 
             if (!empty($provided_geo) && $extracted_geo != $provided_geo) {
-               \App::abort(400, "The geo properties provided didn't match the geo properties that were extracted from the source.");
+                \App::abort(400, "The geo properties provided didn't match the geo properties that were extracted from the source.");
             }
 
             $this->validate($extracted_geo);

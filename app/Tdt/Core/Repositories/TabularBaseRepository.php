@@ -2,7 +2,8 @@
 
 namespace Tdt\Core\Repositories;
 
-abstract class TabularBaseRepository extends BaseDefinitionRepository{
+abstract class TabularBaseRepository extends BaseDefinitionRepository
+{
 
     protected $tabular_repository;
     protected $geo_repository;

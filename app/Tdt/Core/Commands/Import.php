@@ -62,8 +62,8 @@ class Import extends Command
             if ($content) {
 
                 // Check for user & groups
-                if(!empty($content['users']) && is_array($content['users'])
-                    && !empty($content['groups']) && is_array($content['groups'])){
+                if (!empty($content['users']) && is_array($content['users'])
+                    && !empty($content['groups']) && is_array($content['groups'])) {
 
                     $this->info("\n——————————————————————————————————");
                     $this->info("Users & groups found, importing...");

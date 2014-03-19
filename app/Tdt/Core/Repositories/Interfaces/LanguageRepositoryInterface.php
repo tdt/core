@@ -11,12 +11,12 @@ interface LanguageRepositoryInterface
      * @param integer $id
      * @return array Language
      */
-    function getById($language_id);
+    public function getById($language_id);
 
     /**
      * Fetch all languages
      *
      * @return array of Language's
      */
-    function getAll();
+    public function getAll();
 }

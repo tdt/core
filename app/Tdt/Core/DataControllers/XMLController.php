@@ -31,7 +31,7 @@ class XMLController extends ADataController
 
             $data =@ file_get_contents($uri);
             if (!empty($data)) {
-                $data = $this->xmlstr_to_array($data);
+                $data = $this->XMLStringToArray($data);
                 Cache::put($uri, $data, $source_definition['cache']);
             } else {
                 $uri = $source_definition['uri'];
@@ -48,17 +48,17 @@ class XMLController extends ADataController
     /**
      * Initialize recursion.
      */
-    private function xmlstr_to_array($xmlstr)
+    private function XMLStringToArray($xmlstr)
     {
         $doc = new \DOMDocument();
         $doc->loadXML($xmlstr);
-        return $this->domnode_to_array($doc->documentElement);
+        return $this->convertDomNodeToArray($doc->documentElement);
     }
 
     /**
      * Convert node to a PHP array.
      */
-    private function domnode_to_array($node)
+    private function convertDomNodeToArray($node)
     {
 
         $output = array();
@@ -79,7 +79,7 @@ class XMLController extends ADataController
                     $child = $node->childNodes->item($i);
 
                     // Recursive fetch child XML
-                    $value = $this->domnode_to_array($child);
+                    $value = $this->convertDomNodeToArray($child);
 
                     // Check if child is a tag
                     if (isset($child->tagName)) {

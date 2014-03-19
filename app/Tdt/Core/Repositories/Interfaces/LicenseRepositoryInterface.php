@@ -11,12 +11,12 @@ interface LicenseRepositoryInterface
      * @param string $title
      * @return array License
      */
-    function getByTitle($title);
+    public function getByTitle($title);
 
     /**
      * Fetch all licenses
      *
      * @return array of License's
      */
-    function getAll();
+    public function getAll();
 }

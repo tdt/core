@@ -49,12 +49,7 @@ class LicenseController extends ApiController
          // Set permission
         Auth::requirePermissions('info.view');
 
-        // Fetch the columns that can be shown in the result
-        $license_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\LicenseRepositoryInterface');
-
-        $licenses = $license_repository->getAll();
-
-        return $this->makeResponse($licenses);
+        return $this->makeResponse($this->licenses->getAll());
     }
 
     /**
@@ -63,7 +58,7 @@ class LicenseController extends ApiController
     private function makeResponse($data)
     {
          // Create response
-        $response = \Response::make(str_replace('\/','/', json_encode($data, true)));
+        $response = \Response::make(str_replace('\/', '/', json_encode($data, true)));
 
         // Set headers
         $response->header('Content-Type', 'application/json;charset=UTF-8');

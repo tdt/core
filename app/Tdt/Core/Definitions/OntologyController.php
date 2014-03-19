@@ -57,9 +57,8 @@ class OntologyController extends ApiController
      */
     private function makeResponse($data)
     {
-
          // Create response
-        $response = \Response::make(str_replace('\/','/', json_encode($data)));
+        $response = \Response::make(str_replace('\/', '/', json_encode($data)));
 
         // Set headers
         $response->header('Content-Type', 'application/json;charset=UTF-8');

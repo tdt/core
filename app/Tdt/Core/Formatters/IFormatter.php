@@ -16,5 +16,4 @@ interface IFormatter
     public static function getBody($dataObj);
 
     public static function getDocumentation();
-
 }

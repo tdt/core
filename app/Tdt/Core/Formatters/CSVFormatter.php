@@ -39,7 +39,7 @@ class CSVFormatter implements IFormatter
         $header_printed = false;
         foreach ($dataObj->data as $row) {
             if (is_object($row)) {
-               $row = get_object_vars($row);
+                $row = get_object_vars($row);
             } elseif (!is_array($row)) {
                 $body .= $row . "\n";
                 continue;

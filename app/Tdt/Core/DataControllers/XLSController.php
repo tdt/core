@@ -9,7 +9,7 @@ use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
 use PHPExcel_IOFactory as IOFactory;
 
 /**
- * Excell Controller
+ * Excel Controller
  *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
@@ -72,7 +72,7 @@ class XLSController extends ADataController
 
         try {
 
-            if (substr($uri , 0, 4) == "http") {
+            if (substr($uri, 0, 4) == "http") {
 
                 $tmpFile = uniqid();
                 file_put_contents($tmp_path . "/" . $tmpFile, file_get_contents($uri));
@@ -111,7 +111,7 @@ class XLSController extends ADataController
                     $cell_iterator->setIterateOnlyExistingCells(false);
 
                     // Only read rows that are allowed in the current requested page
-                   if ($offset <= $total_rows && $offset + $limit > $total_rows) {
+                    if ($offset <= $total_rows && $offset + $limit > $total_rows) {
 
                         $rowobject = new \stdClass();
 
@@ -168,7 +168,7 @@ class XLSController extends ADataController
      */
     public static function getFileExtension($file)
     {
-        return strtolower(substr(strrchr($file,'.'), 1));
+        return strtolower(substr(strrchr($file, '.'), 1));
     }
 
     /**
@@ -237,16 +237,17 @@ class XLSController extends ADataController
                 mkdir($tmp_dir);
             }
 
-            $is_uri = (substr($input['uri'] , 0, 4) == "http");
+            $is_uri = (substr($input['uri'], 0, 4) == "http");
 
             try {
                 if ($is_uri) {
-                $tmp_file = uniqid();
+
+                    $tmp_file = uniqid();
 
                     file_put_contents($tmp_dir. "/" . $tmp_file, file_get_contents($input['uri']));
                     $php_obj = self::loadExcel($tmp_dir ."/" . $tmp_file, self::getFileExtension($input['uri']), $input['sheet']);
                 } else {
-                    $php_obj = self::loadExcel($input['uri'], self::getFileExtension($input['uri']),$input['sheet']);
+                    $php_obj = self::loadExcel($input['uri'], self::getFileExtension($input['uri']), $input['sheet']);
                 }
 
                 $worksheet = $php_obj->getSheetByName($input['sheet']);

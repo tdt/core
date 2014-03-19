@@ -223,11 +223,13 @@ class CSVController extends ADataController
                         $alias = trim($line[$i]);
                     }
 
-                    array_push($columns, array(
-                        'index' => $i,
-                        'column_name' => trim($line[$i]),
-                        'column_name_alias' => $alias,
-                        'is_pk' => ($pk === $i)
+                    array_push(
+                        $columns,
+                        array(
+                            'index' => $i,
+                            'column_name' => trim($line[$i]),
+                            'column_name_alias' => $alias,
+                            'is_pk' => ($pk === $i)
                         )
                     );
                 }

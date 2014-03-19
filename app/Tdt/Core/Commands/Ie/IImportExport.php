@@ -14,5 +14,4 @@ interface IImportExport
 
     public function import($data);
     public function export($identifier = null);
-
 }

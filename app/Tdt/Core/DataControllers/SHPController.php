@@ -77,7 +77,7 @@ class SHPController extends ADataController
             // Prepare the options to read the SHP file
             $options = array('noparts' => false);
 
-            $is_url = (substr($uri , 0, 4) == "http");
+            $is_url = (substr($uri, 0, 4) == "http");
 
             // If the shape files are located on an HTTP address, fetch them and store them locally
             if ($is_url) {
@@ -121,8 +121,8 @@ class SHPController extends ADataController
 
                     if (!empty($epsg)) {
                         $proj4 = new \Proj4php();
-                        $projSrc = new \Proj4phpProj('EPSG:'. $epsg,$proj4);
-                        $projDest = new \Proj4phpProj('EPSG:4326',$proj4);
+                        $projSrc = new \Proj4phpProj('EPSG:'. $epsg, $proj4);
+                        $projDest = new \Proj4phpProj('EPSG:4326', $proj4);
                     }
 
                     // It it's not a point, it's a collection of coordinates describing a shape
@@ -151,7 +151,7 @@ class SHPController extends ADataController
 
                                 $points[] = $x.','.$y;
                             }
-                            array_push($parts,implode(" ",$points));
+                            array_push($parts, implode(" ", $points));
                         }
 
                         // Parts only contains 1 shape, thus 1 geo entry
@@ -203,8 +203,7 @@ class SHPController extends ADataController
      */
     public static function parseColumns($options)
     {
-
-        $is_url = (substr($options['uri'] , 0, 4) == "http");
+        $is_url = (substr($options['uri'], 0, 4) == "http");
         $tmp_dir = sys_get_temp_dir();
         $columns = array();
 

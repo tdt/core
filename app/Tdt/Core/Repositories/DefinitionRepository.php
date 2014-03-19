@@ -31,10 +31,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         // Delete the identifier (PUT = overwrite)
         $this->delete($input['collection_uri'] . '/' . $input['resource_name']);
 
-        $type = $input['type'];
+        $type = ucfirst(strtolower($input['type']));
 
         // Use the power of the IoC
-        $source_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst($type) . 'DefinitionRepositoryInterface');
+        $source_repository = $this->getSourceRepository($type);
 
         // Create the new source type
         $source = $source_repository->store($input);
@@ -59,7 +59,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function update($identifier, array $input)
     {
-
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
@@ -67,11 +66,13 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $source = $this->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
+        $type = ucfirst(strtolower($source['type']));
+
         if (empty($definition)) {
             \App::abort(404, "The resource with identifier '$identifier' could not be found.");
         }
 
-        $source_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst(strtolower($source['type'])) . 'DefinitionRepositoryInterface');
+        $source_repository = $this->getSourceRepository($type);
 
         $this->validateType($input);
 
@@ -123,8 +124,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
 
-        if(empty($definition))
+        if (empty($definition)) {
             return array();
+        }
 
         return $definition->toArray();
     }
@@ -139,8 +141,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $definition = \Definition::where('created_at', '=', \DB::table('definitions')->max('created_at'))->first();
 
-        if(!empty($definition))
+        if (!empty($definition)) {
             return $definition->toArray();
+        }
 
         return $definition;
     }
@@ -174,7 +177,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Use the power of the IoC
         try {
-            $source_repository = \App::make('Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst($type) . 'DefinitionRepositoryInterface');
+            $type = ucfirst(strtolower($type));
+            $source_repository = $this->getSourceRepository($type);
         } catch (\ReflectionException $ex) {
             \App::abort(400, "The provided source type " . $type . " is not supported.");
         }
@@ -295,6 +299,21 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $properties['type'] = strtolower($source_definition->type);
 
         return $properties;
+    }
+
+    /**
+     * Provide a source type repository
+     *
+     * @param string $type
+     * @return mixed
+     */
+    private function getSourceRepository($type)
+    {
+        try {
+            return \App::make('Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst($type) . 'DefinitionRepositoryInterface');
+        } catch (\ReflectionException $ex) {
+            \App::abort(400, "The type " . $type . " is not supported.");
+        }
     }
 
     /**

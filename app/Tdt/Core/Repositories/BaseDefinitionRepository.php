@@ -57,8 +57,9 @@ class BaseDefinitionRepository
     {
         $model = $this->model->find($model_id);
 
-        if(!empty($model))
+        if (!empty($model)) {
             return $model->toArray();
+        }
 
         return $model;
     }
@@ -67,7 +68,7 @@ class BaseDefinitionRepository
     {
         $model = $this->model->find($model_id);
 
-        if(!empty($model)){
+        if (!empty($model)) {
             return $model->delete();
         }
     }

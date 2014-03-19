@@ -28,15 +28,21 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
      */
     public function getAllParameters()
     {
-
-        $column_params = array('columns' => array('description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
-                                                'parameters' => $this->tabular_repository->getCreateParameters(),
-                                            )
+        $column_params = array(
+            'columns' =>
+                array(
+                    'description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
+                    'parameters' => $this->tabular_repository->getCreateParameters(),
+                )
         );
 
-        $geo_params = array('geo' => array('description' => 'Geo must be an array of objects of which the template is described in the parameters section.',
-                                            'parameters' => $this->geo_repository->getCreateParameters(),
-        ));
+        $geo_params = array(
+            'geo' =>
+                array(
+                    'description' => 'Geo must be an array of objects of which the template is described in the parameters section.',
+                    'parameters' => $this->geo_repository->getCreateParameters(),
+                )
+        );
 
         return array_merge($this->getCreateParameters(), $column_params, $geo_params);
     }
@@ -88,7 +94,9 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
                 'pk' => array(
                     'required' => false,
                     'name' => 'Primary key',
-                    'description' => 'This is a shortcut to define a primary key of this dataset. The value must be the index of the column you want each row to be mapped on. The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
+                    'description' => 'This is a shortcut to define a primary key of this dataset.
+                                    The value must be the index of the column you want each row to be mapped on.
+                                    The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
                     'type' => 'integer',
                 ),
         );

@@ -14,7 +14,7 @@ abstract class ADataController
 
     protected static $DEFAULT_PAGE_SIZE = 350;
 
-    public abstract function readData($source_definitions, $rest_parameters = null);
+    abstract public function readData($source_definitions, $rest_parameters = null);
 
     /**
      * Retrieve the optional request parameters, used in GET requests

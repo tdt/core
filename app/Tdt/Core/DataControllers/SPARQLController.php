@@ -46,9 +46,9 @@ class SPARQLController extends ADataController
 
         // If a select statement has been passed, we ask for JSON results
         // If a construct statement has been passed, we ask for RDF/XML
-        if (stripos($query,"select") !== false) { // SELECT query
+        if (stripos($query, "select") !== false) { // SELECT query
             $keyword = "select";
-        } elseif (stripos($query,"construct") !== false) { // CONSTRUCT query
+        } elseif (stripos($query, "construct") !== false) { // CONSTRUCT query
             $keyword = "construct";
         } else { // No valid SPARQL keyword has been found, is checked during validation
             \App::abort(500, "No CONSTRUCT or SELECT statement has been found in the given query: $query");
@@ -188,10 +188,9 @@ class SPARQLController extends ADataController
      */
     private function executeUri($uri, $user = '', $password = '')
     {
-
         // Check if curl is installed on this machine
         if (!function_exists('curl_init')) {
-           \App::abort(500, "cURL is not installed as an executable on this server, this is necessary to execute the SPARQL query properly.");
+            \App::abort(500, "cURL is not installed as an executable on this server, this is necessary to execute the SPARQL query properly.");
         }
 
         // Initiate the curl statement
@@ -265,8 +264,9 @@ class SPARQLController extends ADataController
                 $placeholder = trim($elements[0][1]);
             }
 
-            if (!empty($elements[0]) && count($elements[0]) > 0 && count($elements[0]) != 5)
+            if (!empty($elements[0]) && count($elements[0]) > 0 && count($elements[0]) != 5) {
                 \App::abort(400, "The added placeholder is malformed");
+            }
 
             if (empty($elements)) {
 
@@ -275,7 +275,7 @@ class SPARQLController extends ADataController
 
                 if ($index !== false) {
 
-                    $placeholder_name = substr($placeholder,0, $index);
+                    $placeholder_name = substr($placeholder, 0, $index);
                     $placeholder_index = substr($placeholder, $index + 1, -1);
 
                     if (!isset($parameters[$placeholder_name])) {
@@ -293,8 +293,9 @@ class SPARQLController extends ADataController
                         $value = $parameters[$placeholder];
                     }
 
-                    if (is_array($value))
+                    if (is_array($value)) {
                         \App::abort(400, "The parameter $placeholder is single value, however an array as value is given.");
+                    }
                 }
 
                 $value = addslashes($value);
@@ -324,10 +325,11 @@ class SPARQLController extends ADataController
         // the count query as well as the given query
         foreach ($parameters as $key => $value) {
 
-            if(is_array($value))
+            if (is_array($value)) {
                 $log_value = implode(', ', $value);
-            else
+            } else {
                 $log_value = $value;
+            }
 
             \Log::warning("The parameter $key with value $log_value was given as a SPARQL query parameter, but no placeholder in the SPARQL query named $key was found.");
         }
@@ -342,19 +344,23 @@ class SPARQLController extends ADataController
 
         switch ($function) {
             case "each":
-            if (!is_array($values))
-                $values = array($values);
 
-            $arr_result = array();
-            foreach ($values as $value)
-                $arr_result[] = str_replace("\$_", "\"$value\"", $pattern);
+                if (!is_array($values)) {
+                    $values = array($values);
+                }
 
-            $result = implode($concat, $arr_result);
+                $arr_result = array();
+
+                foreach ($values as $value) {
+                    $arr_result[] = str_replace("\$_", "\"$value\"", $pattern);
+                }
+
+                $result = implode($concat, $arr_result);
 
             break;
 
             default:
-            \App::abort(400, "Unknown placeholder function $function");
+                \App::abort(400, "Unknown placeholder function $function");
         }
 
         return $result;

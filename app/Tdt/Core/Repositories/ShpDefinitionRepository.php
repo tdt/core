@@ -64,9 +64,12 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
      */
     public function getAllParameters()
     {
-         $column_params = array('columns' => array('description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
-                                                'parameters' => $this->tabular_repository->getCreateParameters(),
-                                            )
+         $column_params = array(
+            'columns' =>
+                array(
+                    'description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
+                    'parameters' => $this->tabular_repository->getCreateParameters(),
+                )
         );
 
         return array_merge($this->getCreateParameters(), $column_params);

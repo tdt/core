@@ -13,7 +13,8 @@ class InstalledDefinitionRepository extends BaseDefinitionRepository implements 
         'description' => 'required',
     );
 
-    function __construct(\InstalledDefinition $model) {
+    public function __construct(\InstalledDefinition $model)
+    {
         $this->model = $model;
     }
 

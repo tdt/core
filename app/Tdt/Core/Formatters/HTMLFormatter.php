@@ -4,6 +4,7 @@ namespace Tdt\Core\Formatters;
 
 /**
  * HTML Formatter
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -13,7 +14,6 @@ class HTMLFormatter implements IFormatter
 
     public static function createResponse($dataObj)
     {
-
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 
@@ -112,7 +112,7 @@ class HTMLFormatter implements IFormatter
                         break;
                 }
 
-            } else if($dataObj->is_semantic){
+            } else if ($dataObj->is_semantic) {
 
                 // The data object can be semantic without a specified source type
                 $view = 'dataset.code';
@@ -155,6 +155,6 @@ class HTMLFormatter implements IFormatter
             $formattedJSON = json_encode($data);
         }
 
-        return str_replace("\/","/", $formattedJSON);
+        return str_replace("\/", "/", $formattedJSON);
     }
 }

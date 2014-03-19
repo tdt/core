@@ -1,6 +1,7 @@
 <?php
 
 namespace Tdt\Core\Auth;
+
 /**
  * Auth Controller
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
