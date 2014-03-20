@@ -67,7 +67,6 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
 
     public function update($tabular_id, array $input)
     {
-
         // Process input (e.g. set default values to empty properties)
         $input = $this->patchInput($tabular_id, $input);
 
@@ -107,6 +106,12 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
         // All has been validated, let's replace the current meta-data
         $this->tabular_repository->deleteBulk($tabular_id, $model_name);
         $this->geo_repository->deleteBulk($tabular_id, $model_name);
+
+        // Check for a primary key, and add it to the columns
+        $pk = @$input['pk'];
+        if (!is_null($pk) && is_numeric($pk) && $pk >= 0 && $pk < count($columns)) {
+            $columns[$pk]['is_pk'] = 1;
+        }
 
         // Store the columns and geo meta-data
         $this->tabular_repository->storeBulk($tabular_id, $model_name, $columns);

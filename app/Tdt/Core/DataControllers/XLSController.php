@@ -34,10 +34,16 @@ class XLSController extends ADataController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
+        // Disregard the paging when rest parameters are given
+        if (!empty($rest_parameters)) {
+            $limit = PHP_INT_MAX;
+            $offset = 0;
+        }
+
         $uri = $source_definition['uri'];
         $sheet = $source_definition['sheet'];
-        $has_header_row = $source_definition['has_header_row']
-        ;
+        $has_header_row = $source_definition['has_header_row'];
+
         // Rows start at 1 in XLS, we have however documented that they start at 0 to be consistent with common sense and other
         // tabular sources such as CSV.
         $start_row = $source_definition['start_row'] + 1;

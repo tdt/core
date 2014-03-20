@@ -18,6 +18,7 @@ use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
 class SPARQLController extends ADataController
 {
     private $ontologies;
+    private static $MAX_LIMIT = 10000;
 
     public function __construct(OntologyRepositoryInterface $ontologies)
     {
@@ -27,6 +28,12 @@ class SPARQLController extends ADataController
     public function readData($source_definition, $rest_parameters = array())
     {
         list($limit, $offset) = Pager::calculateLimitAndOffset();
+
+        // Sparql endpoints often have a built in limit on the amount of rows that they return
+        // Avoid problems by capping the given limit by the Pager class
+        if ($limit > self::$MAX_LIMIT) {
+            $limit = self::$MAX_LIMIT;
+        }
 
         // Retrieve the necessary variables to read from a SPARQL endpoint
         $uri = \Request::url();
@@ -357,7 +364,7 @@ class SPARQLController extends ADataController
 
                 $result = implode($concat, $arr_result);
 
-            break;
+                break;
 
             default:
                 \App::abort(400, "Unknown placeholder function $function");

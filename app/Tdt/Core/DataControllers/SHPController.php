@@ -38,6 +38,12 @@ class SHPController extends ADataController
         // Get the limit and offset
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
+        // Disregard the paging when rest parameters are given
+        if (!empty($rest_parameters)) {
+            $limit = PHP_INT_MAX;
+            $offset = 0;
+        }
+
         $uri = $source_definition['uri'];
 
         $columns = array();

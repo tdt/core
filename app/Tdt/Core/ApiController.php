@@ -30,7 +30,7 @@ abstract class ApiController extends \Controller
         // Delegate the request based on the used http method
         $method = \Request::getMethod();
 
-        switch($method){
+        switch ($method) {
             case "PUT":
                 return $this->put($uri);
                 break;

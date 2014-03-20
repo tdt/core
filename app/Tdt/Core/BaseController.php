@@ -28,14 +28,12 @@ class BaseController extends \Controller
                 // Discovery document
                 $controller = 'Tdt\\Core\\Definitions\\DiscoveryController';
                 break;
-            // TODO: don't hardcode this part
             case 'api':
                 switch(\Request::segment(2)){
 
                     case 'definitions':
                         // Definitions request
                         $controller = 'Tdt\\Core\\Definitions\\DefinitionController';
-
                         $uri = str_replace('api/definitions', '', $uri);
                         break;
                     case 'info':

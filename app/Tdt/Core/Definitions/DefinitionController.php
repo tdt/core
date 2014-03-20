@@ -77,7 +77,6 @@ class DefinitionController extends ApiController
      */
     public function patch($uri)
     {
-
         // Check for the correct content type header if set
         if (!empty($content_type) && $content_type != 'application/tdt.definition+json') {
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");

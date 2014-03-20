@@ -36,6 +36,12 @@ class CSVController extends ADataController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
+        // Disregard the paging when rest parameters are given
+        if (!empty($rest_parameters)) {
+            $limit = PHP_INT_MAX;
+            $offset = 0;
+        }
+
         // Check the given URI
         if (!empty($source_definition['uri'])) {
             $uri = $source_definition['uri'];

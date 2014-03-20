@@ -120,7 +120,6 @@ return array(
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Cartalyst\Sentry\SentryServiceProvider',
         'Tdt\Core\Repositories\DbServiceProvider',
-
     ),
 
     /*

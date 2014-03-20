@@ -72,7 +72,13 @@ class CsvTest extends TestCase
 
         foreach ($this->test_data as $file) {
 
-            $updated_description = 'An updated description for ' . $file;
+            // Test the patch function on the definition controller
+            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
+
+            $definition = $controller->handle('csv/' . $file)->getOriginalContent();
+            $definition = json_decode($definition, true);
+
+            $previous_description = $definition['description'];
 
             $identifier = 'csv/' . $file;
 
@@ -86,11 +92,17 @@ class CsvTest extends TestCase
 
             $this->updateRequest('PATCH', $headers, $data);
 
-            // Test the patch function on the definition controller
-            $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
-
             $response = $controller->handle($identifier);
             $this->assertEquals(200, $response->getStatusCode());
+
+            $this->updateRequest('GET', array());
+
+            $definition = $controller->handle('csv/' . $file)->getOriginalContent();
+            $definition = json_decode($definition, true);
+
+            $updated_description = $definition['description'];
+
+            $this->assertTrue($updated_description != $previous_description);
         }
     }
 

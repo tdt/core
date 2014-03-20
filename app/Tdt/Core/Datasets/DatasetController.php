@@ -12,16 +12,23 @@ use Tdt\Core\ApiController;
 use Tdt\Core\Formatters\FormatHelper;
 
 /**
- * DatasetController
+ *  DatasetController
  *
- * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
- * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  * @author Jan Vansteenlandt <jan@okfn.be>
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
+ * @license AGPLv3
  */
 class DatasetController extends ApiController
 {
 
+    /**
+     * Retrieve a Data object identified by $uri
+     *
+     * @param string $uri The identifier that identifies a resource
+     *
+     * @return Tdt\Core\Datasets\Data
+     */
     public function get($uri)
     {
         // Set permission
@@ -150,6 +157,10 @@ class DatasetController extends ApiController
 
     /**
      * Apply RESTful filtering of the data (case insensitive)
+     *
+     * @param mixed $data        The data to be filtered
+     * @param array $rest_params The data to be filtered
+     *
      * @return mixed filtered object
      */
     private static function applyRestFilter($data, $rest_params)
@@ -181,13 +192,17 @@ class DatasetController extends ApiController
     }
 
     /**
-     * Check if a uri resembles a definition, if so return the data
+     * Check if a uri resembles a definition, if so return a data object
+     *
+     * @param string $identifier The identifier of a resource
+     *
+     * @return Tdt\Core\Datasets\Data
      */
-    public static function fetchData($uri)
+    public static function fetchData($identifier)
     {
         // Retrieve the definition
         $definition_repo = \App::make('Tdt\\Core\\Repositories\\Interfaces\\DefinitionRepositoryInterface');
-        $definition = $definition_repo->getByIdentifier($uri);
+        $definition = $definition_repo->getByIdentifier($identifier);
 
         if ($definition) {
 
@@ -201,7 +216,7 @@ class DatasetController extends ApiController
                 $data_controller = \App::make($controller_class);
 
                 // Get REST parameters
-                $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);
+                $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $identifier);
                 $rest_parameters = ltrim($rest_parameters, '/');
                 $rest_parameters = explode('/', $rest_parameters);
 
@@ -229,6 +244,11 @@ class DatasetController extends ApiController
 
     /**
      * Case insensitive search for a property of an object
+     *
+     * @param stdClass $object   The object submissive to be searched
+     * @param string   $property The property name that is looked for in the $object
+     *
+     * @return boolean
      */
     private static function propertyExists($object, $property)
     {
@@ -246,6 +266,11 @@ class DatasetController extends ApiController
 
     /**
      * Case insensitive search for a key in an array
+     *
+     * @param array  $array    The array that undergoes the search
+     * @param string $property The property that is looked for in the array
+     *
+     * @return boolean
      */
     private static function keyExists($array, $property)
     {
