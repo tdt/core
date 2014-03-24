@@ -27,6 +27,11 @@ class ContentNegotiator extends Pager
 
     /**
      * Format using requested formatter (via extension, Accept-header or default)
+     *
+     * @param Tdt\Core\Datasets\Data $data The data object on which the response will be based
+     * @param string                       The preferred format in which the data should be returned
+     *
+     * @return \Response
      */
     public static function getResponse($data, $extension = null)
     {

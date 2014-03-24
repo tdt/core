@@ -32,6 +32,12 @@ class DiscoveryController extends ApiController
             $discovery_document->resources->input = $discovery_class::createDiscoveryDocument();
         }
 
+        // If the triples package is installed, add it to the discovery document
+        if (class_exists('Tdt\Triples\Controllers\DiscoveryController')) {
+            $discovery_class = 'Tdt\Triples\Controllers\DiscoveryController';
+            $discovery_document->resources->triples = $discovery_class::createDiscoveryDocument();
+        }
+
         return self::makeResponse(str_replace("\/", "/", json_encode($discovery_document)));
     }
 

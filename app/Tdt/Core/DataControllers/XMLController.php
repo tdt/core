@@ -89,6 +89,7 @@ class XMLController extends ADataController
 
                         // Check if current tag is already defined
                         if (!isset($output[$tag])) {
+
                             // If not, inititialize array
                             $output[$tag] = array();
                         }
@@ -96,8 +97,8 @@ class XMLController extends ADataController
                         // Push the child tag on the array
                         $output[$tag][] = $value;
                     } elseif ($value) {
-                        // Child is plain text
-                        $output = (string) $value;
+                        // Child is plain text, preliminary solution
+                        $output['@text'][] = (string) $value;//= (string) $value;
                     }
                 }
 
