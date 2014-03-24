@@ -93,6 +93,8 @@ class XMLFormatter implements IFormatter
                     $object .= self::transformToXML($value, 'attributes');
                 } elseif (is_numeric($key)) {
                     $object .= self::transformToXML($value, 'element');
+                } elseif ($key == '@text') {
+                    $object .= self::transformToXML($value, 'text');
                 } else {
                     $object .= self::transformToXML($value, $key);
                 }
