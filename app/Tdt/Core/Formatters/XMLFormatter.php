@@ -55,17 +55,19 @@ class XMLFormatter implements IFormatter
     private static function transformToXML($data, $nameobject)
     {
 
-        // Rename empty elements to 'element'
-        // if($nameobject == null) $nameobject = 'element';
-
-        // Open tag
+        // Set the tagname
         $xml_tag = str_replace(' ', '_', $nameobject);
-        $object = "<$xml_tag>";
 
-        if (is_array($data)) {
+        // Start an empty object to add to the document
+        $object = '';
+
+        if (self::isAssociative($data)) {
+
+            $object = "<$xml_tag>";
 
             // Check for attributes
             if (!empty($data['@attributes'])) {
+
                 $attributes = $data['@attributes'];
 
                 if (is_array($attributes) && count($attributes) > 0) {
@@ -79,9 +81,9 @@ class XMLFormatter implements IFormatter
 
                     $object .= '>';
                 }
-
-                unset($data['@attributes']);
             }
+
+            unset($data['@attributes']);
 
             // Data is an array (translates to elements)
             foreach ($data as $key => $value) {
@@ -92,27 +94,45 @@ class XMLFormatter implements IFormatter
                 } elseif ($key == '@attributes') {
                     $object .= self::transformToXML($value, 'attributes');
                 } elseif (is_numeric($key)) {
-                    $object .= self::transformToXML($value, 'element');
+                    $object .= self::transformToXML($value, 'key');
                 } elseif ($key == '@text') {
-                    $object .= self::transformToXML($value, 'text');
+                    $object .= $value;
                 } else {
                     $object .= self::transformToXML($value, $key);
                 }
 
             }
+
+            // Close tag
+            $object .= "</$xml_tag>";
         } elseif (is_object($data)) {
+
+            $object = "<$xml_tag>";
+
             // Data is object
             foreach ($data as $key => $value) {
                 // Recursively add elements
                 $object .= self::transformToXML($value, $key);
             }
+
+            // Close tag
+            $object .= "</$xml_tag>";
+
+        } elseif (is_array($data)) {
+
+            // We have a list of elements
+            foreach ($data as $element) {
+
+                $object .= self::transformToXML($element, $xml_tag);
+            }
+
         } else {
+
             // Data is string append it
             $object .= self::getXMLString($data);
         }
 
-        // Close tag
-        $object .= "</$xml_tag>";
+
 
         return $object;
     }
@@ -125,6 +145,11 @@ class XMLFormatter implements IFormatter
         }
 
         return $string;
+    }
+
+    private static function isAssociative($arr)
+    {
+        return (bool)count(array_filter(array_keys($arr), 'is_string'));
     }
 
     public static function getDocumentation()

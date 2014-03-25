@@ -96,9 +96,15 @@ class XMLController extends ADataController
 
                         // Push the child tag on the array
                         $output[$tag][] = $value;
+
                     } elseif ($value) {
+
                         // Child is plain text, preliminary solution
-                        $output['@text'][] = (string) $value;//= (string) $value;
+                        if (empty($output['@text'])) {
+                            $output['@text'] = '';
+                        }
+
+                        $output['@text'] .= (string) $value;//= (string) $value;
                     }
                 }
 
@@ -106,37 +112,48 @@ class XMLController extends ADataController
                 if (is_array($output)) {
 
                     // Check if element has attributes
-                    if ($node->attributes->length) {
-                        $attritubes = array();
-                        foreach ($node->attributes as $name => $attr) {
-                            $attritubes[$name] = (string) $attr->value;
-                        }
-                        $output['@attributes'] = $attritubes;
-                    }
+                    if ($node->attributes->length > 0) {
 
+                        $attributes = array();
+
+                        foreach ($node->attributes as $name => $attr) {
+                            $attributes[$name] = (string) $attr->value;
+                        }
+
+                        if (!empty($attributes)) {
+                            $output['@attributes'] = $attributes;
+                        }
+
+                    }
                     // For each of the element's children
                     foreach ($output as $tag => $value) {
-                        if (is_array($value) && count($value)==1) {
+
+                        if (is_array($value) && count($value) == 1 && $tag != '@attributes') {
                             $output[$tag] = @$value[0];
                         }
                     }
 
-                } else {
 
+                } else {
                     // Element is a text node, but can still have attributes
                     $value = $output;
-                    $output = array();
+                    //$output = array();
 
                     // Check if element has attributes
-                    if ($node->attributes->length) {
-                        $attritubes = array();
+                    if ($node->attributes->length > 0) {
+
+                        $attributes = array();
+
                         foreach ($node->attributes as $name => $attr) {
-                            $attritubes[$name] = (string) $attr->value;
+                            $attributes[$name] = (string) $attr->value;
                         }
-                        $output['@attributes'] = $attritubes;
+
+                        if (!empty($attributes)) {
+                            $output['@attributes'] = $attributes;
+                        }
                     }
 
-                    $output['@value'] = $value;
+                    $output['@text'] .= $value;
 
                 }
                 break;
