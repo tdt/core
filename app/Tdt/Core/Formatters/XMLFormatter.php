@@ -55,13 +55,13 @@ class XMLFormatter implements IFormatter
     private static function transformToXML($data, $nameobject)
     {
 
-        // Set the tagname
+        // Set the tagname, replace whitespaces with an underscore
         $xml_tag = str_replace(' ', '_', $nameobject);
 
         // Start an empty object to add to the document
         $object = '';
 
-        if (self::isAssociative($data)) {
+        if (is_array($data) && self::isAssociative($data)) {
 
             $object = "<$xml_tag>";
 
@@ -91,10 +91,8 @@ class XMLFormatter implements IFormatter
                 // Check for special keys, then add elements recursively
                 if ($key === '@value') {
                     $object .= self::getXMLString($value);
-                } elseif ($key == '@attributes') {
-                    $object .= self::transformToXML($value, 'attributes');
                 } elseif (is_numeric($key)) {
-                    $object .= self::transformToXML($value, 'key');
+                    $object .= self::transformToXML($value, 'i' . $key);
                 } elseif ($key == '@text') {
                     $object .= $value;
                 } else {
@@ -107,12 +105,17 @@ class XMLFormatter implements IFormatter
             $object .= "</$xml_tag>";
         } elseif (is_object($data)) {
 
-            $object = "<$xml_tag>";
+            $object .= "<$xml_tag>";
+
+            $data = get_object_vars($data);
 
             // Data is object
-            foreach ($data as $key => $value) {
-                // Recursively add elements
-                $object .= self::transformToXML($value, $key);
+            foreach ($data as $key => $element) {
+                if (is_numeric($key)) {
+                    $object .= self::transformToXML($element, 'i' . $key);
+                } else {
+                    $object .= self::transformToXML($element, $key);
+                }
             }
 
             // Close tag
@@ -120,16 +123,26 @@ class XMLFormatter implements IFormatter
 
         } elseif (is_array($data)) {
 
-            // We have a list of elements
-            foreach ($data as $element) {
+            $object .= "<$xml_tag>";
 
-                $object .= self::transformToXML($element, $xml_tag);
+            // We have a list of elements
+            foreach ($data as $key => $element) {
+
+                if (is_numeric($key)) {
+                    $object .= self::transformToXML($element, 'i' . $key);
+                } else {
+                    $object .= self::transformToXML($element, $key);
+                }
             }
+
+            $object .= "</$xml_tag>";
 
         } else {
 
+            $object .= "<$xml_tag>";
             // Data is string append it
             $object .= self::getXMLString($data);
+            $object .= "</$xml_tag>";
         }
 
 
@@ -139,6 +152,7 @@ class XMLFormatter implements IFormatter
 
     private static function getXMLString($string)
     {
+
         // Check for XML syntax to escape
         if (preg_match('/[<>&]+/', $string)) {
             $string = '<![CDATA[' . $string . ']]>';
