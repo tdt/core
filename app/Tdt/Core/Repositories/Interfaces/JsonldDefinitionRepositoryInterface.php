@@ -49,7 +49,6 @@ interface JsonldDefinitionRepositoryInterface
      */
     public function store(array $input);
 
-
     /**
      * Update a JsonldDefinition
      *

@@ -7,12 +7,6 @@ use Tdt\Core\Datasets\Data;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use ML\JsonLD\JsonLD;
-use ML\JsonLD\NQuads;
-use ML\JsonLD\Exception\JsonLdException;
-use ML\JsonLD\Exception\ParseException;
-use ML\JsonLD\Exception\InvalidQuadException;
-
 /**
  * JSON-LD Controller
  *
@@ -30,17 +24,15 @@ class JSONLDController extends ADataController
         // If the parsing in the document fails, a JsonLdException is thrown
         try {
 
-            $data = @file_get_contents($uri);
-
             $graph = new \EasyRdf_Graph();
-            $parser = new \EasyRdf_Parser_JsonLd();
 
-            $parser->parse($graph, $data, 'jsonld', null);
-            //$rdf = JsonLD::toRdf($uri);
+            if ((substr($uri, 0, 4) == "http")) {
+                $graph = \EasyRdf_Graph::newAndLoad($uri);
+            } else {
+                $graph->parseFile($uri);
+            }
 
-        } catch (JsonLdException $ex) {
-            \App::abort(500, "The JSON LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             \App::abort(500, "The JSON LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
         }
 
