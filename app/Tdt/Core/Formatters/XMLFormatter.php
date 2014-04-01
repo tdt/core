@@ -92,7 +92,7 @@ class XMLFormatter implements IFormatter
                     $object .= self::getXMLString($value);
                 } elseif (is_numeric($key)) {
                     $object .= self::transformToXML($value, 'i' . $key);
-                } elseif ($key == '#text') {
+                } elseif ($key == '@text') {
                     if (is_array($value)) {
                         $object .= implode(' ', $value);
                     } else {

@@ -101,11 +101,11 @@ class XMLController extends ADataController
                     } elseif ($value) {
 
                         // Child is plain text, preliminary solution
-                        if (empty($output['#text'])) {
-                            $output['#text'] = array();
+                        if (empty($output['@text'])) {
+                            $output['@text'] = array();
                         }
 
-                        array_push($output['#text'], (string) $value);
+                        array_push($output['@text'], (string) $value);
                     }
                 }
 
@@ -154,7 +154,7 @@ class XMLController extends ADataController
                         }
                     }
 
-                    array_push($output['#text'], $value);
+                    array_push($output['@text'], $value);
 
                 }
                 break;
