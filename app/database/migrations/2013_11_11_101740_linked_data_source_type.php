@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class LinkedDataSourceType extends Migration {
+class LinkedDataSourceType extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -34,5 +35,4 @@ class LinkedDataSourceType extends Migration {
 		// Drop the lddefinitions table
 		Schema::drop('lddefinitions');
 	}
-
 }

@@ -1,18 +1,18 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4js from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodmap.com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodmap.com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  class proj4phpPoint {
- 
+
 	public $x;
 	public $y;
 	public $z;
- 
+
     /**
      * Constructor: Proj4js.Point
      *
@@ -22,12 +22,13 @@
      * - y {float} the second component
      * - z {float} the third component, optional.
      */
-    public function __construct($x,$y,$z=null) {
+    public function __construct($x, $y, $z=null)
+    {
       if (is_object($x)) {
         $this->x = $x[0];
         $this->y = $x[1];
         $this->z = (sizeof($x)>=3)?$x[2]:0.0;
-      } else if (is_string($x) && !is_numeric($y)) {
+      } elseif (is_string($x) && !is_numeric($y)) {
         $coords = explode(',',$x);
         $this->x = floatval($coords[0]);
         $this->y = floatval($coords[1]);
@@ -44,11 +45,12 @@
      * Build a copy of a Proj4js.Point object.
      *
 	 * renamed because of PHP keyword.
-	 * 
+	 *
      * Return:
      * {Proj4js}.Point the cloned point.
      */
-    public function _clone() {
+    public function _clone()
+    {
       return new Proj4phpPoint($this->x, $this->y, $this->z);
     }
 
@@ -57,23 +59,25 @@
      * Return a readable string version of the point
      *
      * Return:
-     * {String} String representation of Proj4js.Point object. 
+     * {String} String representation of Proj4js.Point object.
      *           (ex. <i>"x=5,y=42"</i>)
      */
-    public function toString() {
+    public function toString()
+    {
         return "x=" . $this->x . ",y=" . $this->y;
     }
 
-    /** 
+    /**
      * APIMethod: toShortString
      * Return a short string version of the point.
      *
      * Return:
-     * {String} Shortened String representation of Proj4js.Point object. 
+     * {String} Shortened String representation of Proj4js.Point object.
      *         (ex. <i>"5, 42"</i>)
      */
-    public function toShortString() {
+    public function toShortString()
+    {
         return $this->x . ", " . $this->y;
     }
- 
+
  }

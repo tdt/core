@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class JsonDefinitionInit extends Migration {
+class JsonDefinitionInit extends Migration
+{
 
     /**
      * Run the migrations.
@@ -33,5 +34,4 @@ class JsonDefinitionInit extends Migration {
         // Drop the table for the JSONDefinition model.
         Schema::drop('jsondefinitions');
     }
-
 }

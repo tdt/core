@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class ShpDefinitionInit extends Migration {
+class ShpDefinitionInit extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -35,5 +36,4 @@ class ShpDefinitionInit extends Migration {
 		// Drop the table for the SHPDefinition model.
 		Schema::drop('shpdefinitions');
 	}
-
 }

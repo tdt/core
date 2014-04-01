@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class XmlDefinitionInit extends Migration {
+class XmlDefinitionInit extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -34,5 +35,4 @@ class XmlDefinitionInit extends Migration {
 		// Drop the xml definition table
 		Schema::drop('xmldefinitions');
 	}
-
 }

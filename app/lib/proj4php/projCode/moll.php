@@ -1,12 +1,12 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
 NAME                            MOLLWEIDE
 
@@ -32,17 +32,20 @@ ALGORITHM REFERENCES
     State Government Printing Office, Washington D.C., 1987.
 *******************************************************************************/
 
-class Proj4phpProjMoll  {
+class Proj4phpProjMoll
+{
 
   /* Initialize the Mollweide projection
     ------------------------------------*/
-  public function init(){
-    //no-op
+  public function init()
+  {
+    // no-op
   }
 
   /* Mollweide forward equations--mapping lat,long to x,y
     ----------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
 
     /* Forward equations
       -----------------*/
@@ -61,7 +64,7 @@ class Proj4phpProjMoll  {
        if (abs($delta_theta) < Proj4php::$common->EPSLN) break;
        if (i >= 50) {
           Proj4php::reportError("moll:Fwd:IterationError");
-         //return(241);
+         // return(241);
        }
     }
     $theta /= 2.0;
@@ -78,14 +81,15 @@ class Proj4phpProjMoll  {
     return $p;
   }
 
-  public function inverse($p){
+  public function inverse($p)
+  {
     $theta;
     $arg;
 
     /* Inverse equations
       -----------------*/
     $p->x-= $this->x0;
-    //~ $p->y -= $this->y0;
+    // ~ $p->y -= $this->y0;
     $arg = $p->y /  (1.4142135623731 * $this->a);
 
     /* Because of division by zero problems, 'arg' can not be 1.0.  Therefore
@@ -99,7 +103,7 @@ class Proj4phpProjMoll  {
     $arg = (2.0 * $theta + sin(2.0 * $theta)) / Proj4php::$common->PI;
     if(abs($arg) > 1.0) $arg=1.0;
     $lat = asin($arg);
-    //return(OK);
+    // return(OK);
 
     $p->x=$lon;
     $p->y=$lat;

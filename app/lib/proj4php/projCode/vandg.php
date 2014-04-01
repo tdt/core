@@ -1,29 +1,29 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
-NAME                    VAN DER GRINTEN 
+NAME                    VAN DER GRINTEN
 
 PURPOSE:	Transforms input Easting and Northing to longitude and
 		latitude for the Van der Grinten projection.  The
 		Easting and Northing must be in meters.  The longitude
 		and latitude values will be returned in radians.
 
-PROGRAMMER              DATE            
-----------              ----           
+PROGRAMMER              DATE
+----------              ----
 T. Mittan		March, 1993
 
 This function was adapted from the Van Der Grinten projection code
 (FORTRAN) in the General Cartographic Transformation Package software
 which is available from the U.S. Geological Survey National Mapping Division.
- 
+
 ALGORITHM REFERENCES
 
 1.  "New Equal-Area Map Projections for Noncircular Regions", John P. Snyder,
@@ -37,7 +37,8 @@ ALGORITHM REFERENCES
     Package", U.S. Geological Survey National Mapping Division, May 1982.
 *******************************************************************************/
 
-class Proj4phpProjVandg  {
+class Proj4phpProjVandg
+{
 
 /* Initialize the Van Der Grinten projection
   ----------------------------------------*/
@@ -48,7 +49,7 @@ class Proj4phpProjVandg  {
 	public function forward($p) {
 
 		$lon=$p->x;
-		$lat=$p->y;	
+		$lat=$p->y;
 
 		/* Forward equations
 		-----------------*/
@@ -119,7 +120,7 @@ class Proj4phpProjVandg  {
 		$c3 = -2.0 * $c1 + 1.0 + 2.0 * $yy * $yy + $xys * $xys;
 		$d = $yy * $yy / $c3 + (2.0 * $c2 * $c2 * $c2 / $c3 / $c3 / $c3 - 9.0 * $c1 * $c2 / $c3 /$c3) / 27.0;
 		$a1 = ($c1 - $c2 * $c2 / 3.0 / $c3) / $c3;
-		$m1 = 2.0 * sqrt( -$a1 / 3.0);
+		$m1 = 2.0 * sqrt(-$a1 / 3.0);
 		$con = ((3.0 * $d) / $a1) / $m1;
 		if (abs($con) > 1.0) {
 			if ($con >= 0.0) {

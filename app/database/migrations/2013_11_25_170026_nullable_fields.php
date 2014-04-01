@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class NullableFields extends Migration {
+class NullableFields extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -21,5 +22,4 @@ class NullableFields extends Migration {
 	public function down()
 	{
 	}
-
 }

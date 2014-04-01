@@ -1,10 +1,10 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4js from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodmap.com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodmap.com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
 
 class Proj4phpProj
@@ -13,33 +13,33 @@ class Proj4phpProj
    * Property: readyToUse
    * Flag to indicate if initialization is complete for $this Proj object
    */
-  public $readyToUse = false;  
-  
+  public $readyToUse = false;
+
   /**
    * Property: title
    * The title to describe the projection
    */
   public $title = null;
-  
+
   /**
    * Property: projName
    * The projection class for $this projection, e.g. lcc (lambert conformal conic,
-   * or merc for mercator).  These are exactly equivalent to their Proj4 
+   * or merc for mercator).  These are exactly equivalent to their Proj4
    * counterparts.
    */
   public $projName= null;
-  
+
   public $datumCode = null;
   public $datum_params = null;
   public $to_meter = null;
   public $sphere = null;
-  
+
   /**
    * Property: units
    * The units of the projection.  Values include 'm' and 'degrees'
    */
   public $units= null;
-  
+
   /**
    * Property: datum
    * The datum specified for the projection
@@ -70,10 +70,11 @@ class Proj4phpProj
   * $srsCode - a code for map projection definition parameters.  These are usually
   * (but not always) EPSG codes.
   */
-  public function __construct($srsCode) {
+  public function __construct($srsCode)
+  {
       $this->srsCodeInput = $srsCode;
-      
-      //check to see if $this is a WKT string
+
+      // check to see if $this is a WKT string
       if ((strpos($srsCode,'GEOGCS') !== false) ||
           (strpos($srsCode,'GEOCCS') !== false) ||
           (strpos($srsCode,'PROJCS') !== false) ||
@@ -83,25 +84,25 @@ class Proj4phpProj
             $this->loadProjCode($this->projName);
             return;
       }
-      
+
       // DGR 2008-08-03 : support urn and url
       if (strpos($srsCode,'urn:') === 0) {
-          //urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
+          // urn:ORIGINATOR:def:crs:CODESPACE:VERSION:ID
           $urn = explode(':',$srsCode);
           if (($urn[1] == 'ogc' || $urn[1] =='x-ogc') &&
               ($urn[2] =='def') &&
               ($urn[3] =='crs')) {
               $srsCode = $urn[4].':'.$urn[strlen($urn)-1];
           }
-      } else if (strpos($srsCode,'http://') === 0) {
-          //url#ID
+      } elseif (strpos($srsCode,'http://') === 0) {
+          // url#ID
           $url = explode('#',$srsCode);
           if (preg_match("/epsg.org/",$url[0])) {
             // http://www.epsg.org/#
             $srsCode = 'EPSG:'.$url[1];
-          } else if (preg_match("/RIG.xml/",$url[0])) {
-            //http://librairies.ign.fr/geoportail/resources/RIG.xml#
-            //http://interop.ign.fr/registers/ign/RIG.xml#
+          } elseif (preg_match("/RIG.xml/",$url[0])) {
+            // http://librairies.ign.fr/geoportail/resources/RIG.xml#
+            // http://interop.ign.fr/registers/ign/RIG.xml#
             $srsCode = 'IGNF:'.$url[1];
           }
       }
@@ -111,12 +112,12 @@ class Proj4phpProj
           $this->srsAuth = 'epsg';
           $this->srsProjNumber = substr($this->srsCode,5);
       // DGR 2007-11-20 : authority IGNF
-      } else if (strpos($this->srsCode,"IGNF") === 0) {
+      } elseif (strpos($this->srsCode,"IGNF") === 0) {
           $this->srsCode = $this->srsCode;
           $this->srsAuth = 'IGNF';
           $this->srsProjNumber = substr($this->srsCode,5);
       // DGR 2008-06-19 : pseudo-authority CRS for WMS
-      } else if (strpos($this->srsCode,"CRS") === 0) {
+      } elseif (strpos($this->srsCode,"CRS") === 0) {
           $this->srsCode = $this->srsCode;
           $this->srsAuth = 'CRS';
           $this->srsProjNumber = substr($this->srsCode,4);
@@ -126,53 +127,49 @@ class Proj4phpProj
       }
       $this->loadProjDefinition();
   }
-  
+
 /**
  * Function: loadProjDefinition
  *    Loads the coordinate system initialization string if required.
- *    Note that dynamic loading happens asynchronously so an application must 
+ *    Note that dynamic loading happens asynchronously so an application must
  *    wait for the readyToUse property is set to true.
  *    To prevent dynamic loading, include the defs through a script tag in
  *    your application.
  *
  */
-    public function loadProjDefinition() {
-      //check in memory
+    public function loadProjDefinition()
+    {
+      // check in memory
       if (array_key_exists($this->srsCode,Proj4php::$defs)) {
         $this->defsLoaded();
         return;
       }
-      //else check for def on the server
+      // else check for def on the server
       $filename = dirname(__FILE__). '/defs/' . strtoupper($this->srsAuth) . $this->srsProjNumber . '.php';
-	  
-	  try
-	  {
+
+	  try {
         Proj4php::loadScript($filename);
 		$this->defsLoaded(); // succes
-	  }
-	  catch(Exception $e)
-	  {
+	  } catch (Exception $e) {
 		$this->loadFromService(); // fail
 	  }
     }
 
 /**
  * Function: loadFromService
- *    Creates the REST URL for loading the definition from a web service and 
+ *    Creates the REST URL for loading the definition from a web service and
  *    loads it.
  *
  *
  * DO IT AGAIN. : SHOULD PHP CODE BE GET BY WEBSERVICES ?
  */
-    public function loadFromService() {
-      //else load from web service
+    public function loadFromService()
+    {
+      // else load from web service
       $url = Proj4php::defsLookupService .'/' . $this->srsAuth .'/'. $this->srsProjNumber . '/proj4js/';
-	  try
-	  {
+	  try {
 		Proj4php::loadScript($url);
-	  }
-	  catch(Exception $e)
-	  {
+	  } catch (Exception $e) {
 	    $this->defsFailed();
 	  }
     }
@@ -182,17 +179,19 @@ class Proj4phpProj
  * Continues the Proj object initilization once the def file is loaded
  *
  */
-    public function defsLoaded() {
+    public function defsLoaded()
+    {
       $this->parseDefs();
       $this->loadProjCode($this->projName);
     }
-    
+
 /**
  * Function: checkDefsLoaded
  *    $this is the loadCheck method to see if the def object exists
  *
  */
-    public function checkDefsLoaded() {
+    public function checkDefsLoaded()
+    {
       if (Proj4php::$defs[$this->srsCode]) {
         return true;
       } else {
@@ -205,7 +204,8 @@ class Proj4phpProj
  *    Report an error in loading the defs file, but continue on using WGS84
  *
  */
-   public function defsFailed() {
+   public function defsFailed()
+   {
       Proj4php::reportError('failed to load projection definition for: '.$this->srsCode);
       Proj4php::$defs[$this->srsCode] = Proj4php::$defs['WGS84'];  //set it to something so it can at least continue
       $this->defsLoaded();
@@ -219,23 +219,21 @@ class Proj4phpProj
  *
  * An exception occurs if the projection is not found.
  */
-    public function loadProjCode($projName) {
-	
+    public function loadProjCode($projName)
+    {
+
       if (array_key_exists($projName,Proj4php::$proj)) {
         $this->initTransforms();
         return;
       }
-      //the filename for the projection code
+      // the filename for the projection code
       $filename = dirname(__FILE__).'/projCode/'.$projName. '.php';
-	  
-	  try
-	  {
+
+	  try {
 		Proj4php::loadScript($filename);
-		
+
 		$this->loadProjCodeSuccess($projName);
-	  }
-	  catch(Exception $e)
-	  {
+	  } catch (Exception $e) {
 		$this->loadProjCodeFailure($projName);
 	  }
     }
@@ -245,12 +243,13 @@ class Proj4phpProj
  *    Loads any proj dependencies or continue on to final initialization.
  *
  */
-    public function loadProjCodeSuccess($projName) {
-      //if (Proj4php::$proj[$projName]->dependsOn){
+    public function loadProjCodeSuccess($projName)
+    {
+      // if (Proj4php::$proj[$projName]->dependsOn) {
       //  $this->loadProjCode(Proj4php::$proj[$projName]->dependsOn);
-      //} else {
+      // } else {
         $this->initTransforms();
-      //}
+      // }
     }
 
  /**
@@ -259,17 +258,19 @@ class Proj4phpProj
  *    object has failed and the readyToUse flag will never be set.
  *
  */
-    public function loadProjCodeFailure($projName) {
+    public function loadProjCodeFailure($projName)
+    {
       Proj4php::reportError("failed to find projection file for: " . $projName);
-      //TBD initialize with identity transforms so proj will still work?
+      // TBD initialize with identity transforms so proj will still work?
     }
-    
+
 /**
  * Function: checkCodeLoaded
  *    $this is the loadCheck method to see if the projection code is loaded
  *
  */
-    public function checkCodeLoaded($projName) {
+    public function checkCodeLoaded($projName)
+    {
       if (Proj4php::$proj[$projName]) {
         return true;
       } else {
@@ -283,7 +284,7 @@ class Proj4phpProj
  *
  */
     public function initTransforms()
-	{
+    {
       Proj4php::extend(Proj4php::$proj[$this->projName],$this);
       $this->init();
       $this->readyToUse = true;
@@ -293,18 +294,18 @@ class Proj4phpProj
 	{
 		Proj4php::$proj[$this->projName]->init();
 	}
-	
+
 	public function forward($pt)
 	{
 		return Proj4php::$proj[$this->projName]->forward($pt);
 	}
-	
+
 	public function inverse($pt)
 	{
 		return Proj4php::$proj[$this->projName]->inverse($pt);
 	}
-  
-  
+
+
 /**
  * Function: parseWKT
  * Parses a WKT string to get initialization parameters
@@ -312,9 +313,10 @@ class Proj4phpProj
  */
  protected $wktRE =  '/^(\w+)\[(.*)\]$/';
 
- public function parseWKT($wkt) {
-    $match = preg_match($this->wktRE,$wkt,$wktMatch);
-	
+ public function parseWKT($wkt)
+ {
+    $match = preg_match($this->wktRE, $wkt, $wktMatch);
+
     if (!$match) return;
     $wktObject = $wktMatch[1];
     $wktContent = $wktMatch[2];
@@ -322,7 +324,7 @@ class Proj4phpProj
     $wktName = array_shift($wktTemp);
     $wktName = preg_replace('/^\"/',"",$wktName);
     $wktName = preg_replace('/\"$/',"",$wktName);
-    
+
     /*
     $wktContent = implode(",",$wktTemp);
     $wktArray = explode("],",$wktContent);
@@ -330,7 +332,7 @@ class Proj4phpProj
       $wktArray[$i] .= "]";
     }
     */
-    
+
     $wktArray =array();
     $bkCount = 0;
     $obj = "";
@@ -342,15 +344,15 @@ class Proj4phpProj
       }
       $obj .= $token;
       if ($bkCount === 0) {
-        array_push($wktArray,$obj);
+        array_push($wktArray, $obj);
         $obj = "";
       } else {
         $obj .= ",";
       }
     }
-    
-    //do something based on the type of the wktObject being parsed
-    //add in variations in the spelling as required
+
+    // do something based on the type of the wktObject being parsed
+    // add in variations in the spelling as required
     switch ($wktObject) {
       case 'LOCAL_CS':
         $this->projName = 'identity';
@@ -391,8 +393,8 @@ class Proj4phpProj
       case 'PARAMETER':
         $name = strtolower($wktName);
         $value = floatval(array_shift($wktArray));
-        //there may be many variations on the wktName values, add in case
-        //statements as required
+        // there may be many variations on the wktName values, add in case
+        // statements as required
         switch ($name) {
           case 'false_easting':
             $this->x0 = $value;
@@ -418,7 +420,7 @@ class Proj4phpProj
       case 'TOWGS84':
         $this->datum_params = $wktArray;
         break;
-      //DGR 2010-11-12: AXIS
+      // DGR 2010-11-12: AXIS
       case 'AXIS':
         $name= strtolower($wktName);
         $value= array_shift($wktArray);
@@ -444,7 +446,7 @@ class Proj4phpProj
       default:
         break;
     }
-    for($i=0; $i<sizeof($wktArray); ++$i) {
+    for ($i=0; $i<sizeof($wktArray); ++$i) {
       $this->parseWKT($wktArray[$i]);
     }
  }
@@ -454,23 +456,22 @@ class Proj4phpProj
  * Parses the PROJ.4 initialization string and sets the associated properties.
  *
  */
-  public function parseDefs() {
+  public function parseDefs()
+  {
       $this->defData = Proj4php::$defs[$this->srsCode];
       $paramName; $paramVal;
       if (!$this->defData) {
         return;
       }
       $paramArray=explode("+",$this->defData);
-      for ($prop=0; $prop<sizeof($paramArray); $prop++)
-	  {
+      for ($prop=0; $prop<sizeof($paramArray); $prop++) {
 		  if (strlen($paramArray[$prop])==0) continue;
           $property = explode("=",$paramArray[$prop]);
 		  $paramName = strtolower($property[0]);
-		  if (sizeof($property)>=2)
-		  {
+		  if (sizeof($property)>=2) {
 			$paramVal = $property[1];
 		  }
-		  
+
           switch (trim($paramName)) {  // trim out spaces
               case "": break;   // throw away nameless parameter
               case "title":  $this->title = $paramVal; break;
@@ -505,7 +506,7 @@ class Proj4phpProj
               case "pm":     $paramVal = trim($paramVal);
                              $this->from_greenwich = Proj4php::$primeMeridian[$paramVal] ?
                                 Proj4php::$primeMeridian[$paramVal] : floatval($paramVal);
-                             $this->from_greenwich *= Proj4php::$common->D2R; 
+                             $this->from_greenwich *= Proj4php::$common->D2R;
                              break;
               // DGR 2010-11-12: axis
               case "axis":   $paramVal = trim($paramVal);
@@ -517,7 +518,7 @@ class Proj4phpProj
                                 $this->axis= $paramVal;
                              } //FIXME: be silent ?
                              break;
-              case "no_defs": break; 
+              case "no_defs": break;
               default: //alert("Unrecognized parameter: " . paramName);
           } // switch()
       } // for paramArray
@@ -530,7 +531,8 @@ class Proj4phpProj
  *     parameters.
  *
  */
-  public function deriveConstants() {
+  public function deriveConstants()
+  {
       if (isset($this->nagrids) && $this->nagrids == '@null') $this->datumCode = 'none';
       if (isset($this->datumCode) && $this->datumCode && $this->datumCode != 'none') {
         $datumDef = Proj4php::$datum[$this->datumCode];
@@ -541,8 +543,8 @@ class Proj4phpProj
         }
       }
       if (!isset($this->a)) {    // do we have an ellipsoid?
-		  
-	  
+
+
 		  if (!isset($this->ellps) || strlen($this->ellps)==0 || !array_key_exists($this->ellps,Proj4php::$ellipsoid))
 			$ellipse = Proj4php::$ellipsoid['WGS84'];
 		  else
@@ -551,7 +553,7 @@ class Proj4phpProj
 		  }
           Proj4php::extend($this, $ellipse);
       }
-	  
+
       if (isset($this->rf) && !isset($this->b)) $this->b = (1.0 - 1.0/$this->rf) * $this->a;
       if (abs($this->a - $this->b)<Proj4php::$common->EPSLN) {
         $this->sphere = true;
@@ -569,7 +571,7 @@ class Proj4phpProj
       }
       $this->ep2=($this->a2-$this->b2)/$this->b2; // used in geocentric
       if (!isset($this->k0)) $this->k0 = 1.0;    //default value
-      //DGR 2010-11-12: axis
+      // DGR 2010-11-12: axis
       if (!isset($this->axis)) { $this->axis= "enu"; }
 
       $this->datum = new Proj4phpDatum($this);

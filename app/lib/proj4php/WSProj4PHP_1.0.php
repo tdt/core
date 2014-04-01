@@ -2,46 +2,36 @@
 
 $error = false;
 
-if ($_GET['x'])
-{
+if ($_GET['x']) {
    $x = $_GET['x'];
-}
-else
+} else
 	$error = true;
-if ($_GET['y'])
-{
+if ($_GET['y']) {
    $y = $_GET['y'];
-}
-else
+} else
 	$error = true;
-if ($_GET['projectionxy'])
-{
+if ($_GET['projectionxy']) {
    $projectionxy = $_GET['projectionxy'];
    $projectionxy = str_replace('::',':',$projectionxy);
-}
-else
+} else
 	$projectionxy = 'EPSG:2154';
-if ($_GET['projection'])
-{
+if ($_GET['projection']) {
    $projection = $_GET['projection'];
    $projection = str_replace('::',':',$projection);
-}
-else
+} else
 	$projection = 'EPSG:4326';
-if ($_GET['format'])
-{
+if ($_GET['format']) {
    $format = $_GET['format'];
    if (!($format=='xml' || $format=='json'))
 	 $error = true;
-}
-else
+} else
 	$format = 'xml';
 
 include_once("proj4php.php");
 
 $proj4 = new Proj4php();
-$projsource = new Proj4phpProj($projectionxy,$proj4);
-$projdest = new Proj4phpProj($projection,$proj4);
+$projsource = new Proj4phpProj($projectionxy, $proj4);
+$projdest = new Proj4phpProj($projection, $proj4);
 
 // check the projections
 if (Proj4php::$defs[$projectionxy]==Proj4php::$defs['WGS84'] && $projectionxy!='EPSG:4326')
@@ -49,15 +39,11 @@ if (Proj4php::$defs[$projectionxy]==Proj4php::$defs['WGS84'] && $projectionxy!='
 if (Proj4php::$defs[$projection]==Proj4php::$defs['WGS84'] && $projection!='EPSG:4326')
   $error = true;
 
-if ($error)
-{
-	if ($format=='json')
-	{
+if ($error) {
+	if ($format=='json') {
 		echo "{\"status\":\"error\", \"erreur\": {\"code\": 2, \"message\": \"Wrong parameters.\"} }";
 		exit;
-	}
-	else
-	{
+	} else {
 		echo "<reponse>";
 		echo "  <erreur>";
 		echo "    <code>2</code>";
@@ -68,18 +54,15 @@ if ($error)
 	}
 }
 
-$pointSrc = new proj4phpPoint($x,$y);
-$pointDest = $proj4->transform($projsource,$projdest,$pointSrc);
+$pointSrc = new proj4phpPoint($x, $y);
+$pointDest = $proj4->transform($projsource, $projdest, $pointSrc);
 
 $projection = str_replace(':','::',$projection);
 
-if ($format=='json')
-{
+if ($format=='json') {
 	echo "{\"status\" :\"success\", \"point\" : {\"x\":".$pointDest->x.", \"y\":".$pointDest->y.",\"projection\" :\"".$projection."\"}}";
 	exit;
-}
-else
-{
+} else {
 	echo "<reponse>";
     echo "<point>";
     echo "<x>".$pointDest->x."</x>";

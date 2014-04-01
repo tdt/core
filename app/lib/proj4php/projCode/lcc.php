@@ -1,12 +1,12 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
 NAME                            LAMBERT CONFORMAL CONIC
 
@@ -27,25 +27,27 @@ ALGORITHM REFERENCES
 *******************************************************************************/
 
 
-//<2104> +proj=lcc +lat_1=10.16666666666667 +lat_0=10.16666666666667 +lon_0=-71.60561777777777 +k_0=1 +x0=-17044 +x0=-23139.97 +ellps=intl +units=m +no_defs  no_defs
+// <2104> +proj=lcc +lat_1=10.16666666666667 +lat_0=10.16666666666667 +lon_0=-71.60561777777777 +k_0=1 +x0=-17044 +x0=-23139.97 +ellps=intl +units=m +no_defs  no_defs
 
 // Initialize the Lambert Conformal conic projection
 // -----------------------------------------------------------------
 
-//class Proj4phpProjlcc = Class.create();
-class Proj4phpProjLcc  {
-  public function init() {
+// class Proj4phpProjlcc = Class.create();
+class Proj4phpProjLcc
+{
+  public function init()
+  {
     // array of:  r_maj,r_min,lat1,lat2,c_lon,c_lat,false_east,false_north
-    //double c_lat;                   /* center latitude                      */
-    //double c_lon;                   /* center longitude                     */
-    //double lat1;                    /* first standard parallel              */
-    //double lat2;                    /* second standard parallel             */
-    //double r_maj;                   /* major axis                           */
-    //double r_min;                   /* minor axis                           */
-    //double false_east;              /* x offset in meters                   */
-    //double false_north;             /* y offset in meters                   */
+    // double c_lat;                   /* center latitude                      */
+    // double c_lon;                   /* center longitude                     */
+    // double lat1;                    /* first standard parallel              */
+    // double lat2;                    /* second standard parallel             */
+    // double r_maj;                   /* major axis                           */
+    // double r_min;                   /* minor axis                           */
+    // double false_east;              /* x offset in meters                   */
+    // double false_north;             /* y offset in meters                   */
 
-      if (!$this->lat2){$this->lat2=$this->lat0;}//if lat2 is not defined
+      if (!$this->lat2) {$this->lat2=$this->lat0;}//if lat2 is not defined
       if (!$this->k0) $this->k0 = 1.0;
 
     // Standard Parallels cannot be equal and on opposite sides of the equator
@@ -82,24 +84,25 @@ class Proj4phpProjLcc  {
 
     // Lambert Conformal conic forward equations--mapping lat,long to x,y
     // -----------------------------------------------------------------
-    public function forward($p) {
+    public function forward($p)
+    {
 
       $lon = $p->x;
       $lat = $p->y;
 
     // convert to radians
-      if ( $lat <= 90.0 && $lat >= -90.0 && $lon <= 180.0 && $lon >= -180.0) {
-        //lon = lon * Proj4php::$common.D2R;
-        //lat = lat * Proj4php::$common.D2R;
+      if ($lat <= 90.0 && $lat >= -90.0 && $lon <= 180.0 && $lon >= -180.0) {
+        // lon = lon * Proj4php::$common.D2R;
+        // lat = lat * Proj4php::$common.D2R;
       } else {
         Proj4php::reportError("lcc:forward: llInputOutOfRange: ". $lon ." : " . $lat);
         return null;
       }
 
-      $con  = abs( abs($lat) - Proj4php::$common->HALF_PI);
+      $con  = abs(abs($lat) - Proj4php::$common->HALF_PI);
       $ts;$rh1;
       if ($con > Proj4php::$common->EPSLN) {
-        $ts = Proj4php::$common->tsfnz($this->e, $lat, sin($lat) );
+        $ts = Proj4php::$common->tsfnz($this->e, $lat, sin($lat));
         $rh1 = $this->a * $this->f0 * pow($ts, $this->ns);
       } else {
         $con = $lat * $this->ns;
@@ -118,7 +121,8 @@ class Proj4phpProjLcc  {
 
   // Lambert Conformal Conic inverse equations--mapping x,y to lat/long
   // -----------------------------------------------------------------
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $rh1; $con; $ts;
     $lat; $lon;

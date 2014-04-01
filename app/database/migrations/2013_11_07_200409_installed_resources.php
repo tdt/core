@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class InstalledResources extends Migration {
+class InstalledResources extends Migration
+{
 
     /**
      * Run the migrations.
@@ -34,6 +35,4 @@ class InstalledResources extends Migration {
         // Drop the table for the model.
         Schema::drop('installeddefinitions');
     }
-
-
 }

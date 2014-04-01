@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class OntologyPrefixes extends Migration {
+class OntologyPrefixes extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -29,5 +30,4 @@ class OntologyPrefixes extends Migration {
 		// Drop the ontologies table
 		Schema::drop('ontologies');
 	}
-
 }

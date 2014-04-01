@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class RemodelDocumentation extends Migration {
+class RemodelDocumentation extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -21,5 +22,4 @@ class RemodelDocumentation extends Migration {
 	public function down()
 	{
 	}
-
 }

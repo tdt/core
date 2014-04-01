@@ -1,17 +1,19 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
-class Proj4phpProjSterea {
+
+
+class Proj4phpProjSterea
+{
   protected $dependsOn = 'gauss';
 
-  public function init() {
+  public function init()
+  {
     Proj4php::$proj['gauss']->init->apply($this);
     if (!$this->rc) {
       Proj4php::reportError("sterea:init:E_ERROR_0");
@@ -23,7 +25,8 @@ class Proj4phpProjSterea {
     if (!$this->title) $this->title = "Oblique Stereographic Alternative";
   }
 
-  public function forward($p) {
+  public function forward($p)
+  {
     $p->x = Proj4php::$common->adjust_lon($p->x-$this->long0); /* adjust del longitude */
     Proj4php::$proj['gauss']->forward->apply($this, array($p));
     $sinc = sin($p->y);
@@ -37,14 +40,15 @@ class Proj4phpProjSterea {
     return $p;
   }
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $lon;$lat;
     $p->x = ($p->x - $this->x0) / $this->a; /* descale and de-offset */
     $p->y = ($p->y - $this->y0) / $this->a;
 
     $p->x /= $this->k0;
     $p->y /= $this->k0;
-    if ( ($rho = sqrt($p->x*$p->x + $p->y*$p->y)) ) {
+    if (($rho = sqrt($p->x*$p->x + $p->y*$p->y))) {
       $c = 2.0 * atan2($rho, $this->R2);
       $sinc = sin($c);
       $cosc = cos($c);

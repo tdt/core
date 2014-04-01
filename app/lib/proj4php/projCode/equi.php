@@ -1,14 +1,14 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
-NAME                             EQUIRECTANGULAR 
+NAME                             EQUIRECTANGULAR
 
 PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Equirectangular projection.  The
@@ -31,22 +31,24 @@ ALGORITHM REFERENCES
 *******************************************************************************/
 class Proj4phpProjEqui
 {
-  public function init() {
+  public function init()
+  {
     if(!$this->x0) $this->x0=0;
     if(!$this->y0) $this->y0=0;
     if(!$this->lat0) $this->lat0=0;
     if(!$this->long0) $this->long0=0;
-    ///$this->t2;
+    // /$this->t2;
   }
 
 
 
 /* Equirectangular forward equations--mapping lat,long to x,y
   ---------------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
 
-    $lon=$p->x;				
-    $lat=$p->y;			
+    $lon=$p->x;
+    $lat=$p->y;
 
     $dlon = Proj4php::$common->adjust_lon($lon - $this->long0);
     $x = $this->x0 +$this-> a * $dlon *cos($this->lat0);
@@ -63,13 +65,14 @@ class Proj4phpProjEqui
 
 /* Equirectangular inverse equations--mapping x,y to lat/long
   ---------------------------------------------------------*/
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $p->x -= $this->x0;
     $p->y -= $this->y0;
     $lat = $p->y /$this-> a;
 
-    if ( abs($lat) > Proj4php::$common->HALF_PI) {
+    if (abs($lat) > Proj4php::$common->HALF_PI) {
         Proj4php::reportError("equi:Inv:DataError");
     }
     $lon = Proj4php::$common->adjust_lon($this->long0 + $p->x / ($this->a * cos($this->lat0)));

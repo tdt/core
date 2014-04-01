@@ -1,13 +1,13 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
 NAME                            TRANSVERSE MERCATOR
 
@@ -32,10 +32,12 @@ ALGORITHM REFERENCES
   Initialize Transverse Mercator projection
 */
 
-class Proj4phpProjTmerc  {
+class Proj4phpProjTmerc
+{
   public $dependsOn = null;
 
-  public function init() {
+  public function init()
+  {
     $this->e0 = Proj4php::$common->e0fn($this->es);
     $this->e1 = Proj4php::$common->e1fn($this->es);
     $this->e2 = Proj4php::$common->e2fn($this->es);
@@ -47,7 +49,8 @@ class Proj4phpProjTmerc  {
     Transverse Mercator Forward  - long/lat to x/y
     long/lat in radians
   */
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon = $p->x;
     $lat = $p->y;
 
@@ -59,7 +62,7 @@ class Proj4phpProjTmerc  {
 
     if ($this->sphere) {  /* spherical form */
       $b = $cos_phi * sin($delta_lon);
-      if ((abs(abs($b) - 1.0)) < .0000000001)  {
+      if ((abs(abs($b) - 1.0)) < .0000000001) {
         Proj4php::reportError("tmerc:forward: Point projects into infinity");
         return(93);
       } else {
@@ -89,7 +92,8 @@ class Proj4phpProjTmerc  {
   /**
     Transverse Mercator Inverse  -  x/y to long/lat
   */
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $con; $phi;  /* temporary angles       */
     $delta_phi; /* difference between longitudes    */
     $i;
@@ -108,7 +112,7 @@ class Proj4phpProjTmerc  {
       if (($g == 0) && ($h == 0)) {
         $lon = $this->long0;
       } else {
-        $lon = Proj4php::$common->adjust_lon(atan2($g,$h) + $this->long0);
+        $lon = Proj4php::$common->adjust_lon(atan2($g, $h) + $this->long0);
       }
     } else {    // ellipsoidal form
       $x = $p->x - $this->x0;

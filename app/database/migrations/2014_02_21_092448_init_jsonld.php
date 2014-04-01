@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class InitJsonld extends Migration {
+class InitJsonld extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -31,5 +32,4 @@ class InitJsonld extends Migration {
 		// Drop the table
 		Schema::drop('jsonlddefinitions');
 	}
-
 }

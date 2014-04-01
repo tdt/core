@@ -2,11 +2,12 @@
 
 /**
  * Seeder for user
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class UserSeeder extends Seeder {
+class UserSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.
@@ -60,5 +61,4 @@ class UserSeeder extends Seeder {
         $this->command->info('Succesfully added user "admin".');
 
     }
-
 }

@@ -9,37 +9,37 @@
 /**
  * Admin routes
  */
-Route::group(array('prefix' => 'api/admin'), function(){
+Route::group(array('prefix' => 'api/admin'), function () {
 
-    Route::any('', function(){
+    Route::any('', function () {
         // Redirect default admin page
         return Redirect::to('api/admin/datasets');
     });
 
-    Route::controller('datasets', 'tdt\core\ui\DatasetController');
-    Route::controller('users', 'tdt\core\ui\UserController');
-    Route::controller('groups', 'tdt\core\ui\GroupController');
+    Route::controller('datasets', 'Tdt\\Core\\Ui\\DatasetController');
+    Route::controller('users', 'Tdt\\Core\\Ui\\UserController');
+    Route::controller('groups', 'Tdt\\Core\\Ui\\GroupController');
 });
 
 /*
  * IMPORTANT!
  * The catch-all route to catch all other request is added last to allow packages to still have their own routes
  */
-App::before(function(){
+App::before(function () {
     // The (in)famous catch-all
-    Route::any('{all}', 'tdt\core\BaseController@handleRequest')->where('all', '.*');
+    Route::any('{all}', 'Tdt\Core\BaseController@handleRequest')->where('all', '.*');
 });
 
-App::after(function($request, $response){
+App::after(function ($request, $response) {
     // Remove cookie(s)
-    $response->headers->removeCookie( 'tdt_auth' );
-    $response->headers->removeCookie( 'laravel_session' );
+    $response->headers->removeCookie('tdt_auth');
+    $response->headers->removeCookie('laravel_session');
 });
 
 /*
  * Proper error handling
  */
-App::error(function($exception, $code){
+App::error(function ($exception, $code) {
 
     // Log error
     Log::error($exception);
@@ -48,13 +48,14 @@ App::error(function($exception, $code){
     $accept_header = \Request::header('Accept');
     $mimes = explode(',', $accept_header);
 
-    if(in_array('text/html', $mimes) || in_array('application/xhtml+xml', $mimes)){
+    if (in_array('text/html', $mimes) || in_array('application/xhtml+xml', $mimes)) {
 
         // Create HTML response, seperate templates for status codes
         switch ($code)
         {
             case 403:
                 return Response::view('errors.403', array('exception' => $exception), 403);
+                break;
 
             case 404:
                 return Response::view('errors.404', array('exception' => $exception), 404);
@@ -65,7 +66,7 @@ App::error(function($exception, $code){
             default:
                 return Response::view('errors.default', array('exception' => $exception), $code);
         }
-    }else{
+    } else {
 
         // Display a JSON error
         $error_json = new stdClass();

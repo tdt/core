@@ -1,0 +1,28 @@
+build_settings:
+    verbose: true
+    ignore:
+        - "app/tests"
+        - "app/config"
+        - "app/database"
+        - "app/storage"
+        - "app/lang"
+        - "app/start"
+        - "app/filters.php"
+        - "app/routes.php"
+        - "app/views"
+        - "app/lib"
+        - "vendor"
+        - "bootstrap"
+        - "dev"
+
+setup:
+
+test:
+    php_unit:
+       config: "phpunit.xml"
+    lint:
+    php_mess_detector:
+        allow_failures: true
+    php_code_sniffer:
+        standard: "PSR2"
+    php_loc:

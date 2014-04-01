@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CsvDefinitionInit extends Migration {
+class CsvDefinitionInit extends Migration
+{
 
     /**
      * Run the migrations.
@@ -37,5 +38,4 @@ class CsvDefinitionInit extends Migration {
         // Drop the table for CSVDefinition model
         Schema::drop('csvdefinitions');
     }
-
 }

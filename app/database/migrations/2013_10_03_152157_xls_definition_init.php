@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class XlsDefinitionInit extends Migration {
+class XlsDefinitionInit extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -36,5 +37,4 @@ class XlsDefinitionInit extends Migration {
 		// Drop the XLS definition table.
 		Schema::drop('xlsdefinitions');
 	}
-
 }

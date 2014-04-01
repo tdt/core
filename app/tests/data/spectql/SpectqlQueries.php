@@ -5,7 +5,8 @@
  *
  * @author Jan Vansteenlandt jan@okfn.be
  */
-class SpectqlQueries{
+class SpectqlQueries
+{
 
     public static $queries = array(
 

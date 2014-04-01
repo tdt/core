@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class DocumentationToDescription extends Migration {
+class DocumentationToDescription extends Migration
+{
 
 	/**
 	 * Run the migrations.

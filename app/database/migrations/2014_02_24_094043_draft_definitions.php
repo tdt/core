@@ -3,7 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DraftDefinitions extends Migration {
+class DraftDefinitions extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -31,5 +32,4 @@ class DraftDefinitions extends Migration {
 			$table->dropColumn('draft');
 		});
 	}
-
 }

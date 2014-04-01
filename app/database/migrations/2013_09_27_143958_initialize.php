@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class Initialize extends Migration {
+class Initialize extends Migration
+{
 
     /**
      * Run the migrations.
@@ -35,5 +36,4 @@ class Initialize extends Migration {
         // Drop the definitions table
         Schema::drop('definitions');
     }
-
 }

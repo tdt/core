@@ -19,21 +19,21 @@
             </a>
 
             <ul class="nav navbar-nav">
-                @if(tdt\core\auth\Auth::hasAccess('admin.dataset.view'))
+                @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.view'))
                     <li @if(Request::segment(3) == '' || Request::segment(3) == 'datasets')  class='active' @endif>
                         <a href="{{ URL::to('api/admin/datasets') }}">
                             <i class='fa fa-table'></i> Datasets
                         </a>
                     </li>
                 @endif
-                @if(tdt\core\auth\Auth::hasAccess('admin.user.view'))
+                @if(Tdt\Core\Auth\Auth::hasAccess('admin.user.view'))
                     <li @if(Request::segment(3) == 'users')  class='active' @endif>
                         <a href="{{ URL::to('api/admin/users') }}">
                             <i class='fa fa-user'></i> Users
                         </a>
                     </li>
                 @endif
-                @if(tdt\core\auth\Auth::hasAccess('admin.group.view'))
+                @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.view'))
                     <li @if(Request::segment(3) == 'groups')  class='active' @endif>
                         <a href="{{ URL::to('api/admin/groups') }}">
                             <i class='fa fa-group'></i> Groups

@@ -1,13 +1,13 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /*******************************************************************************
 NAME                            NEW ZEALAND MAP GRID
 
@@ -123,7 +123,8 @@ LICENSE
   Initialize New Zealand Map Grip projection
 */
 
-class Proj4phpProjNzmg  {
+class Proj4phpProjNzmg
+{
 
   /**
    * iterations: Number of iterations to refine inverse transform.
@@ -133,7 +134,8 @@ class Proj4phpProjNzmg  {
    */
   protected $iterations= 1,
 
-  public function init() {
+  public function init()
+  {
     $this->A = array();
     $this->A[1]  = +0.6399175073;
     $this->A[2]  = -0.1358797613;
@@ -178,7 +180,8 @@ class Proj4phpProjNzmg  {
     New Zealand Map Grid Forward  - long/lat to x/y
     long/lat in radians
   */
-  public function forward($p) {
+  public function forward($p)
+  {
     $lon = $p->x;
     $lat = $p->y;
 
@@ -223,7 +226,8 @@ class Proj4phpProjNzmg  {
   /**
     New Zealand Map Grid Inverse  -  x/y to long/lat
   */
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $x = $p->x;
     $y = $p->y;

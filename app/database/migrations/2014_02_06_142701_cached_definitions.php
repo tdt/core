@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CachedDefinitions extends Migration {
+class CachedDefinitions extends Migration
+{
 
     /**
      * Run the migrations.

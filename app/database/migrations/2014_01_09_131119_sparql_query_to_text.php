@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class SparqlQueryToText extends Migration {
+class SparqlQueryToText extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -22,5 +23,4 @@ class SparqlQueryToText extends Migration {
 	{
 		// Do not roll this back, query has to be text
 	}
-
 }

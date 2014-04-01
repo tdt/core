@@ -1,6 +1,7 @@
 <?php
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase {
+class TestCase extends Illuminate\Foundation\Testing\TestCase
+{
 
     /**
      * Creates the application.
@@ -20,7 +21,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     /**
      * Default preparation for each test
      */
-    public function setUp(){
+    public function setUp()
+    {
 
         parent::setUp();
 
@@ -30,26 +32,41 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     /**
      * Prepare for the tests to be run.
      */
-    public function prepareForTests(){
+    public function prepareForTests()
+    {
 
         // Enable your route filters, very important!
         Route::enableFilters();
-        Route::any('{all}', 'tdt\core\BaseController@handleRequest')->where('all', '.*');
+        Route::any('{all}', 'Tdt\Core\BaseController@handleRequest')->where('all', '.*');
         Mail::pretend(true);
     }
 
     /**
      * Delete everything out of our testing database.
      */
-    public static function tearDownAfterClass(){
+    public static function tearDownAfterClass()
+    {
 
         parent::tearDownAfterClass();
+
+        Definition::truncate();
+        CsvDefinition::truncate();
+        InstalledDefinition::truncate();
+        JsonDefinition::truncate();
+        // RdfDefinition::truncate();
+        ShpDefinition::truncate();
+        SparqlDefinition::truncate();
+        XlsDefinition::truncate();
+        XmlDefinition::truncate();
+        GeoProperty::truncate();
+        TabularColumns::truncate();
     }
 
     /**
      * Custom API call function
      */
-    public function updateRequest($method, $headers = array(), $data = array()){
+    public function updateRequest($method, $headers = array(), $data = array())
+    {
 
         // Log in as admin - header
         $headers['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
@@ -61,7 +78,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         \Request::setMethod($method);
 
         // Set the content body.
-        if(is_array($data)){
+        if (is_array($data)) {
             \Input::merge($data);
         }
     }

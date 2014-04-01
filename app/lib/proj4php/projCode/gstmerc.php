@@ -1,15 +1,16 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  class Proj4phpProjGstmerc  {
-  public function init() {
+  public function init()
+  {
 
     // array of:  a, b, lon0, lat0, k0, x0, y0
       $temp= $this->b / $this->a;
@@ -19,7 +20,7 @@
       $sinz= sin($this->lat0);
       $pc= asin($sinz/$this->rs);
       $sinzpc= sin($pc);
-      $this->cp= Proj4php::$common->latiso(0.0,$pc,$sinzpc)-$this->rs*Proj4php::$common->latiso($this->e,$this->lat0,$sinz);
+      $this->cp= Proj4php::$common->latiso(0.0,$pc,$sinzpc)-$this->rs*Proj4php::$common->latiso($this->e, $this->lat0, $sinz);
       $this->n2= $this->k0*$this->a*sqrt(1.0-$this->e*$this->e)/(1.0-$this->e*$this->e*$sinz*$sinz);
       $this->xs= $this->x0;
       $this->ys= $this->y0-$this->n2*$pc;
@@ -30,13 +31,14 @@
 
     // forward equations--mapping lat,long to x,y
     // -----------------------------------------------------------------
-    public function forward($p) {
+    public function forward($p)
+    {
 
       $lon= $p->x;
       $lat= $p->y;
 
       $L= $this->rs*($lon-$this->lc);
-      $Ls= $this->cp+($this->rs*Proj4php::$common->latiso($this->e,$lat,sin($lat)));
+      $Ls= $this->cp+($this->rs*Proj4php::$common->latiso($this->e, $lat,sin($lat)));
       $lat1= asin(sin($L)/Proj4php::$common.cosh($Ls));
       $Ls1= Proj4php::$common.latiso(0.0,$lat1,sin($lat1));
       $p->x= $this->xs+($this->n2*$Ls1);
@@ -46,7 +48,8 @@
 
   // inverse equations--mapping x,y to lat/long
   // -----------------------------------------------------------------
-  public function inverse($p) {
+  public function inverse($p)
+  {
 
     $x= $p->x;
     $y= $p->y;

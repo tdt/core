@@ -1,14 +1,14 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
+
  /*******************************************************************************
-NAME                             ORTHOGRAPHIC 
+NAME                             ORTHOGRAPHIC
 
 PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Orthographic projection.  The
@@ -30,36 +30,39 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-class Proj4phpProjOrtho  {
+class Proj4phpProjOrtho
+{
 
   /* Initialize the Orthographic projection
     -------------------------------------*/
-  public function init($def) {
-    //double temp;			/* temporary variable		*/
+  public function init($def)
+  {
+    // double temp;			/* temporary variable		*/
 
     /* Place parameters in static storage for common use
       -------------------------------------------------*/;
     $this->sin_p14=sin($this->lat0);
-    $this->cos_p14=cos($this->lat0);	
+    $this->cos_p14=cos($this->lat0);
   }
 
 
   /* Orthographic forward equations--mapping lat,long to x,y
     ---------------------------------------------------*/
-  public function forward($p) {
+  public function forward($p)
+  {
     $sinphi;$cosphi;	/* sin and cos value				*/
     $dlon;		/* delta longitude value			*/
     $coslon;		/* cos of longitude				*/
     $ksp;		/* scale factor					*/
-    $g;		
+    $g;
     $lon=$p->x;
-    $lat=$p->y;	
+    $lat=$p->y;
     /* Forward equations
       -----------------*/
     $dlon = Proj4php::$common->adjust_lon($lon - $this->long0);
 
     $sinphi=sin($lat);
-    $cosphi=cos($lat);	
+    $cosphi=cos($lat);
 
     $coslon = cos($dlon);
     $g = $this->sin_p14 * sinphi + $this->cos_p14 * $cosphi * $coslon;
@@ -76,7 +79,8 @@ class Proj4phpProjOrtho  {
   }
 
 
-  public function inverse($p) {
+  public function inverse($p)
+  {
     $rh;		/* height above ellipsoid			*/
     $z;		/* angle					*/
     $sinz;$cosz;	/* sin of z and cos of z			*/
@@ -98,7 +102,7 @@ class Proj4phpProjOrtho  {
 
     $lon = $this->long0;
     if (abs($rh) <= Proj4php::$common->EPSLN) {
-      $lat = $this->lat0; 
+      $lat = $this->lat0;
     }
     $lat = Proj4php::$common.asinz($cosz * $this->sin_p14 + ($p->y * $sinz * $this->cos_p14)/$rh);
     $con = abs($this->lat0) - Proj4php::$common->HALF_PI;

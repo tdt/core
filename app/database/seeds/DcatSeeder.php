@@ -2,11 +2,12 @@
 
 /**
  * Seeder for dcat meta-data
- * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
+ * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-class DcatSeeder extends Seeder {
+class DcatSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.
@@ -37,8 +38,7 @@ class DcatSeeder extends Seeder {
         // Fetch the licenses from the json file
         $licenses = json_decode(file_get_contents(app_path() . '/database/seeds/data/licenses.json'));
 
-        foreach($licenses as $license)
-        {
+        foreach ($licenses as $license) {
             \License::create(array(
                 'domain_content' => $license->domain_content,
                 'domain_data' => $license->domain_data,
@@ -71,8 +71,7 @@ class DcatSeeder extends Seeder {
         // Fetch the languages from the json file
         $languages = json_decode(file_get_contents(app_path() . '/database/seeds/data/languages.json'));
 
-        foreach($languages as $language)
-        {
+        foreach ($languages as $language) {
             \Language::create(array(
                 'lang_id' => $language->id,
                 'lang_code' =>$language->lang_code,

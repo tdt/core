@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class TableColumns extends Migration {
+class TableColumns extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -37,5 +38,4 @@ class TableColumns extends Migration {
 		// Drop the tabular columns table.
 		Schema::drop('tabularcolumns');
 	}
-
 }

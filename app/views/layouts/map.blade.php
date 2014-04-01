@@ -26,7 +26,7 @@
 
             var track = new L.KML('<?php echo preg_replace("/'/", "\\'", $kml) ?>');
             var data = new L.FeatureGroup();
-            for(i in track._layers){
+            for (i in track._layers) {
                 data.addLayer(track._layers[i]);
             }
             data.addTo(map);

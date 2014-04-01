@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class DcatLicensesLanguages extends Migration {
+class DcatLicensesLanguages extends Migration
+{
 
     /**
      * Run the migrations.
@@ -51,5 +52,4 @@ class DcatLicensesLanguages extends Migration {
         Schema::drop('licenses');
         Schema::drop('languages');
     }
-
 }

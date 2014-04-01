@@ -1,17 +1,17 @@
 <?php
 /**
  * Author : Julien Moquet
- * 
+ *
  * Inspired by Proj4php from Mike Adair madairATdmsolutions.ca
- *                      and Richard Greenwood rich@greenwoodma$p->com 
- * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html 
+ *                      and Richard Greenwood rich@greenwoodma$p->com
+ * License: LGPL as per: http://www.gnu.org/copyleft/lesser.html
  */
- 
- 
+
+
  /* Function to compute, phi4, the latitude for the inverse of the
    Polyconic projection.
 ------------------------------------------------------------*/
-function phi4z ($eccent,$e0,$e1,$e2,$e3,$a,$b,$c,$phi) {
+function phi4z ($eccent, $e0, $e1, $e2, $e3, $a, $b, $c, $phi) {
 	$sinphi; $sin2ph; $tanph; $ml; $mlp; $con1; $con2; $con3; $dphi; $i;
 
 	$phi = $a;
@@ -31,7 +31,7 @@ function phi4z ($eccent,$e0,$e1,$e2,$e3,$a,$b,$c,$phi) {
 		$con3 = 2.0 * ($a - $ml) * ($c * $mlp - 2.0 / $sin2ph) - 2.0 * $mlp;
 		$dphi = $con1 / ($con2 + $con3);
 		$phi += $dphi;
-		if (abs($dphi) <= .0000000001 ) return($phi);   
+		if (abs($dphi) <= .0000000001) return($phi);
 	}
 	Proj4php::reportError("phi4z: No convergence");
 	return null;
@@ -46,7 +46,7 @@ function e4fn($x) {
 	$con; $com;
 	$con = 1.0 + $x;
 	$com = 1.0 - $x;
-	return (sqrt((pow($con,$con))*(pow($com,$com))));
+	return (sqrt((pow($con, $con))*(pow($com, $com))));
 }
 
 
@@ -54,7 +54,7 @@ function e4fn($x) {
 
 
 /*******************************************************************************
-NAME                             POLYCONIC 
+NAME                             POLYCONIC
 
 PURPOSE:	Transforms input longitude and latitude to Easting and
 		Northing for the Polyconic projection.  The
@@ -76,7 +76,8 @@ ALGORITHM REFERENCES
     Printing Office, Washington D.C., 1989.
 *******************************************************************************/
 
-class Proj4phpProjPoly  {
+class Proj4phpProjPoly
+{
 
 	/* Initialize the POLYCONIC projection
 	  ----------------------------------*/
@@ -87,13 +88,13 @@ class Proj4phpProjPoly  {
 		/* Place parameters in static storage for common use
 		  -------------------------------------------------*/
 		$this->temp = $this->b / $this->a;
-		$this->es = 1.0 - pow($this->temp,2);// devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles 
+		$this->es = 1.0 - pow($this->temp,2);// devait etre dans tmerc.js mais n y est pas donc je commente sinon retour de valeurs nulles
 		$this->e = sqrt($this->es);
 		$this->e0 = Proj4php::$common.e0fn($this->es);
 		$this->e1 = Proj4php::$common.e1fn($this->es);
 		$this->e2 = Proj4php::$common.e2fn($this->es);
 		$this->e3 = Proj4php::$common.e3fn($this->es);
-		$this->ml0 = Proj4php::$common.mlfn($this->e0, $this->e1,$this->e2, $this->e3, $this->lat0);//si que des zeros le calcul ne se fait pas
+		$this->ml0 = Proj4php::$common.mlfn($this->e0, $this->e1, $this->e2, $this->e3, $this->lat0);//si que des zeros le calcul ne se fait pas
 		//if (!$this->ml0) {$this->ml0=0;}
 	}
 
@@ -109,7 +110,7 @@ class Proj4phpProjPoly  {
 		$x;$y;
 
 		$lon=$p->x;
-		$lat=$p->y;	
+		$lat=$p->y;
 
 		$con = Proj4php::$common->adjust_lon($lon - $this->long0);
 		if (abs($lat) <= .0000001) {
@@ -117,17 +118,17 @@ class Proj4phpProjPoly  {
 			$y = $this->y0 - $this->a * $this->ml0;
 		} else {
 			$sinphi = sin($lat);
-			$cosphi = cos($lat);	   
+			$cosphi = cos($lat);
 
 			$ml = Proj4php::$common.mlfn($this->e0, $this->e1, $this->e2, $this->e3, $lat);
-			$ms = Proj4php::$common.msfnz($this->e,$sinphi,$cosphi);
+			$ms = Proj4php::$common.msfnz($this->e, $sinphi, $cosphi);
 			$con = sinphi;
 			$x = $this->x0 + $this->a * $ms * sin($con)/$sinphi;
 			$y = $this->y0 + $this->a * ($ml - $this->ml0 + $ms * (1.0 - cos($con))/$sinphi);
 		}
 
 		$p->x=$x;
-		$p->y=$y;   
+		$p->y=$y;
 		return $p;
 	}
 
@@ -152,7 +153,7 @@ class Proj4phpProjPoly  {
 			$lat = 0.0;
 		} else {
 			$b = $al * $al + ($p->x/$this->a) * ($p->x/$this->a);
-			$iflg = phi4z($this->es,$this->e0,$this->e1,$this->e2,$this->e3,$this->al,$b,$c,$lat);
+			$iflg = phi4z($this->es, $this->e0, $this->e1, $this->e2, $this->e3, $this->al, $b, $c, $lat);
 			if ($iflg != 1) return(iflg);
 			$lon = Proj4php::$common->adjust_lon((Proj4php::$common->asinz($p->x * $ / $this->a) / sin($lat)) + $this->long0);
 		}
