@@ -54,7 +54,6 @@ class XMLFormatter implements IFormatter
 
     private static function transformToXML($data, $nameobject)
     {
-
         // Set the tagname, replace whitespaces with an underscore
         $xml_tag = str_replace(' ', '_', $nameobject);
 
@@ -93,16 +92,20 @@ class XMLFormatter implements IFormatter
                     $object .= self::getXMLString($value);
                 } elseif (is_numeric($key)) {
                     $object .= self::transformToXML($value, 'i' . $key);
-                } elseif ($key == '@text') {
-                    $object .= $value;
+                } elseif ($key == '#text') {
+                    if (is_array($value)) {
+                        $object .= implode(' ', $value);
+                    } else {
+                        $object .= $value;
+                    }
                 } else {
                     $object .= self::transformToXML($value, $key);
                 }
-
             }
 
             // Close tag
             $object .= "</$xml_tag>";
+
         } elseif (is_object($data)) {
 
             $object .= "<$xml_tag>";
@@ -123,19 +126,15 @@ class XMLFormatter implements IFormatter
 
         } elseif (is_array($data)) {
 
-            $object .= "<$xml_tag>";
-
             // We have a list of elements
             foreach ($data as $key => $element) {
 
                 if (is_numeric($key)) {
-                    $object .= self::transformToXML($element, 'i' . $key);
+                    $object .= self::transformToXML($element, $xml_tag);
                 } else {
                     $object .= self::transformToXML($element, $key);
                 }
             }
-
-            $object .= "</$xml_tag>";
 
         } else {
 

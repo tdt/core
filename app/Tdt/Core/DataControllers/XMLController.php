@@ -30,6 +30,7 @@ class XMLController extends ADataController
             // Fetch the data
 
             $data =@ file_get_contents($uri);
+
             if (!empty($data)) {
                 $data = $this->XMLStringToArray($data);
                 Cache::put($uri, $data, $source_definition['cache']);
@@ -100,11 +101,11 @@ class XMLController extends ADataController
                     } elseif ($value) {
 
                         // Child is plain text, preliminary solution
-                        if (empty($output['@text'])) {
-                            $output['@text'] = '';
+                        if (empty($output['#text'])) {
+                            $output['#text'] = array();
                         }
 
-                        $output['@text'] .= (string) $value;//= (string) $value;
+                        array_push($output['#text'], (string) $value);
                     }
                 }
 
@@ -153,7 +154,7 @@ class XMLController extends ADataController
                         }
                     }
 
-                    $output['@text'] .= $value;
+                    array_push($output['#text'], $value);
 
                 }
                 break;
