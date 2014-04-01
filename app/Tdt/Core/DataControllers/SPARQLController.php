@@ -115,6 +115,11 @@ class SPARQLController extends ADataController
         $response = $this->executeUri($count_uri, $endpoint_user, $endpoint_password);
         $response = json_decode($response);
 
+        // If something goes wrong, the resonse will either be null or false
+        if (!$response) {
+            \App::abort(500, "Something went wrong while executing the count query. The assembled URI was: $count_uri");
+        }
+
         $count = $response->results->bindings[0]->count->value;
 
         // Calculate page link headers, previous, next and last based on the count from the previous query

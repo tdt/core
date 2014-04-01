@@ -27,8 +27,8 @@ class XMLController extends ADataController
         if (Cache::has($uri)) {
             $data = Cache::get($uri);
         } else {
-            // Fetch the data
 
+            // Fetch the data
             $data =@ file_get_contents($uri);
 
             if (!empty($data)) {
