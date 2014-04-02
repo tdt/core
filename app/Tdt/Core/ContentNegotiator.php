@@ -105,7 +105,6 @@ class ContentNegotiator extends Pager
         // Set the URI template header
         if (!empty($data->optional_parameters) || !empty($data->rest_parameters)) {
 
-            // http://tools.ietf.org/search/rfc6570#section-1.1
             // http://www.mnot.net/blog/2006/10/04/uri_templating
             $link_template = self::fetchUrl($extension);
 
