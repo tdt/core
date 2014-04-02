@@ -17,16 +17,39 @@ namespace Tdt\Core\Datasets;
  */
 class Data
 {
+    /**
+     * The definition configuration
+     */
     public $definition;
 
+    /**
+     * The source definition configuration
+     */
     public $source_definition;
 
-    public $rest_parameters;
+    /**
+     * Parameters that are part of the URI
+     */
+    public $rest_parameters = array();
 
+    /**
+     *  Parameters that are part of the query string
+     */
+    public $optional_parameters = array();
+
+    /**
+     * Contains paging information about the requested resource
+     */
     public $paging;
 
+    /**
+     * Contains geo information about the requested resource
+     */
     public $geo;
 
+    /**
+     * The raw data object (in PHP or an EasyRdf_Graph, the is_semantic property should be true if so)
+     */
     public $data;
 
     /**

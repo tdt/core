@@ -17,9 +17,9 @@
         }
     },
     "require": {
-        "laravel/framework": "4.1.12",
-        "phpoffice/phpexcel": "1.7.9",
-        "phpunit/phpunit" : "3.7.*",
+        "laravel/framework": "4.1.*",
+        "phpoffice/phpexcel": "1.*",
+        "phpunit/phpunit" : "4.0.*",
         "easyrdf/easyrdf" : "dev-devel",
         "kriswallsmith/buzz": "0.*",
         "cartalyst/sentry": "2.1.*",

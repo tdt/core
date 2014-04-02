@@ -18,7 +18,7 @@ use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
 class SPARQLController extends ADataController
 {
     private $ontologies;
-    private static $MAX_LIMIT = 10000;
+    private static $MAX_LIMIT = 10000; // Default max rows returned in Virtuoso
 
     public function __construct(OntologyRepositoryInterface $ontologies)
     {
@@ -170,6 +170,7 @@ class SPARQLController extends ADataController
             $is_semantic = true;
         }
 
+        // Create the data object to return
         $data = new Data();
         $data->data = $result;
         $data->paging = $paging;
@@ -190,6 +191,24 @@ class SPARQLController extends ADataController
             $data->semantic = new \stdClass();
             $data->semantic->conf = array('ns' => $prefixes);
         }
+
+        // Determine which parameters were given in the query
+        $matches = array();
+        $query_parameters = array();
+
+        preg_match_all("/\\$\\{(.+?)\\}/", $source_definition['query'], $matches);
+
+        if (!empty($matches[1])) {
+
+            $matches = $matches[1];
+
+
+            foreach ($matches as $entry) {
+                array_push($query_parameters, $entry);
+            }
+        }
+
+        $data->optional_parameters = $query_parameters;
 
         return $data;
     }
@@ -249,7 +268,6 @@ class SPARQLController extends ADataController
      */
     private function processParameters($query)
     {
-
         // Fetch the request parameters
         $parameters = \Request::all();
 
