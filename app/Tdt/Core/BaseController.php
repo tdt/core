@@ -10,7 +10,6 @@ namespace Tdt\Core;
  */
 class BaseController extends \Controller
 {
-
     /*
      * Handles all core requests
      */
