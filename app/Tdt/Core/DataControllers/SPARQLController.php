@@ -245,7 +245,7 @@ class SPARQLController extends ADataController
 
         if (!$response) {
             $curl_err = curl_error($ch);
-            \App::abort(500, "Something went wrong while executhing query. The request we put together was: $uri.");
+            \App::abort(500, "Something went wrong while executing query. The request we put together was: $uri.");
         }
 
         $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
