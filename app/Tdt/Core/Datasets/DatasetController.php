@@ -167,7 +167,7 @@ class DatasetController extends ApiController
         // of checks to find out if it introduces a formatter
         $uri_parts = explode('.', $uri);
 
-        $possible_extension = array_pop($uri_parts);
+        $possible_extension = strtoupper(array_pop($uri_parts));
 
         $uri = implode('.', $uri_parts);
 
@@ -175,7 +175,8 @@ class DatasetController extends ApiController
 
         if (!class_exists($formatter_class)) {
 
-            $uri .= $possible_extension;
+            // Re-attach the dot with the latter part of the uri
+            $uri .= '.' . $possible_extension;
 
             return array($uri, null);
         }
