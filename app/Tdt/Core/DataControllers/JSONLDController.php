@@ -29,7 +29,7 @@ class JSONLDController extends ADataController
             if ((substr($uri, 0, 4) == "http")) {
                 $graph = \EasyRdf_Graph::newAndLoad($uri);
             } else {
-                $graph->parseFile($uri);
+                $graph->parseFile($uri, 'jsonld');
             }
 
         } catch (\Exception $ex) {
