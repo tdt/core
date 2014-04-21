@@ -22,7 +22,6 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
  */
 class DcatController extends ApiController
 {
-
     public function __construct(
         LanguageRepositoryInterface $languages,
         LicenseRepositoryInterface $licenses,

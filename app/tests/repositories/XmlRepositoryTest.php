@@ -38,7 +38,7 @@ class XmlDefinitionRepositoryTest extends TestCase
     public function test_get()
     {
 
-        $xml_repository = $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
+        $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
 
         $all = $xml_repository->getAll();
 
@@ -65,7 +65,6 @@ class XmlDefinitionRepositoryTest extends TestCase
 
     public function test_update()
     {
-
         $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
 
         $all = $xml_repository->getAll();
