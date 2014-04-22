@@ -18,7 +18,7 @@ use Tdt\Core\ApiController;
 class DiscoveryController extends ApiController
 {
 
-    public function get($uri)
+    public function get($uri = null)
     {
 
         // Set permission
@@ -27,7 +27,7 @@ class DiscoveryController extends ApiController
         $discovery_document = self::createDiscoveryDocument();
 
         // If the input package is installed, add it to the discovery document
-        if (class_exists('tdt\input\controllers\DiscoveryController')) {
+        if (class_exists('Tdt\Input\Controllers\DiscoveryController')) {
             $discovery_class = 'tdt\input\controllers\DiscoveryController';
             $discovery_document->resources->input = $discovery_class::createDiscoveryDocument();
         }
@@ -44,7 +44,7 @@ class DiscoveryController extends ApiController
     /**
      * Create the discovery document
      */
-    private function createDiscoveryDocument()
+    public function createDiscoveryDocument()
     {
 
         // Create and return a dument that holds a self-explanatory document
