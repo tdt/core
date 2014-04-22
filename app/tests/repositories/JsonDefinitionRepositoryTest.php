@@ -1,8 +1,12 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class JsonDefinitionRepositoryTest extends TestCase{
+class JsonDefinitionRepositoryTest extends TestCase
+{
 
     // This array holds the names of the files that can be used
     // to test the json definitions.
@@ -11,7 +15,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
         'simple_persons',
     );
 
-    public function test_put()
+    public function testPut()
     {
         // Publish each CSV file in the test json data folder.
         foreach ($this->test_data as $file) {
@@ -34,7 +38,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
 
         $json_repository = $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
@@ -62,7 +66,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_update()
+    public function testUpdate()
     {
 
         $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
@@ -79,7 +83,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
 
         $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');
@@ -94,7 +98,7 @@ class JsonDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
 
         $json_repository = \App::make('Tdt\Core\Repositories\Interfaces\JsonDefinitionRepositoryInterface');

@@ -1,5 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class XlsDefinitionRepositoryTest extends TestCase
@@ -15,7 +18,7 @@ class XlsDefinitionRepositoryTest extends TestCase
         ),
     );
 
-    public function test_put()
+    public function testPut()
     {
 
         // Publish each XLS file in the test csv data folder.
@@ -45,7 +48,7 @@ class XlsDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
 
         $xls_repository = $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
@@ -77,7 +80,7 @@ class XlsDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_update()
+    public function testUpdate()
     {
 
         $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
@@ -94,7 +97,7 @@ class XlsDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
 
         $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
@@ -109,7 +112,7 @@ class XlsDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
 
         $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');

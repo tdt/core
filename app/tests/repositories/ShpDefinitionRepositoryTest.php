@@ -1,8 +1,12 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class ShpDefinitionRepositoryTest extends TestCase{
+class ShpDefinitionRepositoryTest extends TestCase
+{
 
     // This array holds the names of the files that can be used
     // to test the shp definitions.
@@ -14,7 +18,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
         ),
     );
 
-    public function test_put()
+    public function testPut()
     {
         // Publish each CSV file in the test shp data folder.
         foreach ($this->test_data as $entry) {
@@ -34,13 +38,13 @@ class ShpDefinitionRepositoryTest extends TestCase{
             $shp_definition = $shp_repository->store($input);
 
             // Check for properties
-            foreach ($input as $property => $value){
+            foreach ($input as $property => $value) {
                 $this->assertEquals($value, $shp_definition[$property]);
             }
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
         $shp_repository = $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
 
@@ -69,7 +73,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_update()
+    public function testUpdate()
     {
 
         $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
@@ -85,7 +89,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
 
         $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
@@ -99,7 +103,7 @@ class ShpDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
         $shp_repository = \App::make('Tdt\Core\Repositories\Interfaces\ShpDefinitionRepositoryInterface');
 

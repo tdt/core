@@ -1,14 +1,18 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
+use Tdt\Core\Tests\Data\Sparql\SparqlQueries;
 use Symfony\Component\HttpFoundation\Request;
 
 class SparqlDefinitionRepositoryTest extends TestCase
 {
 
-    public function test_put()
+    public function testPut()
     {
         // Publish each SPARQL file in the test csv data folder.
-        foreach (\SparqlQueries::$queries as $name => $query) {
+        foreach (SparqlQueries::$queries as $name => $query) {
 
             // Set the definition parameters.
             $input = array(
@@ -29,14 +33,14 @@ class SparqlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
 
         $sparql_repository = $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
 
         $all = $sparql_repository->getAll();
 
-        $this->assertEquals(count(\SparqlQueries::$queries), count($all));
+        $this->assertEquals(count(SparqlQueries::$queries), count($all));
 
         foreach ($all as $sparql_definition) {
 
@@ -47,7 +51,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
         }
 
         // Test against the properties we've stored
-        foreach (\SparqlQueries::$queries as $name => $query) {
+        foreach (SparqlQueries::$queries as $name => $query) {
 
             $sparql_definition = array_shift($all);
 
@@ -57,7 +61,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_update()
+    public function testUpdate()
     {
 
         $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
@@ -74,7 +78,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
 
         $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
@@ -89,7 +93,7 @@ class SparqlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
         $sparql_repository = \App::make('Tdt\Core\Repositories\Interfaces\SparqlDefinitionRepositoryInterface');
 

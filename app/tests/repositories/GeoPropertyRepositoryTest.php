@@ -1,5 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class GeoPropertyRepositoryTest extends TestCase
@@ -38,31 +41,31 @@ class GeoPropertyRepositoryTest extends TestCase
         ),
     );
 
-    public function test_put()
+    public function testPut()
     {
         $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
 
-        foreach ($this->test_data as $geo_property){
+        foreach ($this->test_data as $geo_property) {
 
             $input = array(
                 'source_id' => $geo_property['source_id'],
                 'source_type' => $geo_property['source_type'],
                 );
 
-            foreach ($geo_property['geo_props'] as $geo_info){
+            foreach ($geo_property['geo_props'] as $geo_info) {
 
                 $input = array_merge($input, $geo_info);
 
                 $stored_geo = $geo_property_repository->store($input);
 
-                foreach ($input as $key => $value){
+                foreach ($input as $key => $value) {
                     $this->assertEquals($value, $stored_geo[$key]);
                 }
             }
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
         // Make sure we have the same amount of columns we have put in
         $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
@@ -127,11 +130,11 @@ class GeoPropertyRepositoryTest extends TestCase
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
         $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
 
-        foreach ($this->test_data as $geo){
+        foreach ($this->test_data as $geo) {
 
             $source_id = $geo['source_id'];
             $source_type = $geo['source_type'];
@@ -141,7 +144,7 @@ class GeoPropertyRepositoryTest extends TestCase
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
         $geo_property_repository = \App::make('Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface');
 

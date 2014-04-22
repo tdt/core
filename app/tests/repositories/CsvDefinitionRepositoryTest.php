@@ -1,8 +1,12 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class CsvDefinitionRepositoryTest extends TestCase{
+class CsvDefinitionRepositoryTest extends TestCase
+{
 
     // This array holds the names of the files that can be used
     // to test the csv definitions.
@@ -17,7 +21,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
         'utf8',
     );
 
-    public function test_put()
+    public function testPut()
     {
 
         // Publish each CSV file in the test csv data folder.
@@ -42,7 +46,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
 
         $csv_repository = $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
@@ -70,7 +74,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_update()
+    public function testUpdate()
     {
 
         $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
@@ -87,7 +91,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
 
         $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');
@@ -102,7 +106,7 @@ class CsvDefinitionRepositoryTest extends TestCase{
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
 
         $csv_repository = \App::make('Tdt\Core\Repositories\Interfaces\CsvDefinitionRepositoryInterface');

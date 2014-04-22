@@ -1,5 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class XmlDefinitionRepositoryTest extends TestCase
@@ -11,7 +14,7 @@ class XmlDefinitionRepositoryTest extends TestCase
         'persons',
     );
 
-    public function test_put()
+    public function testPut()
     {
 
         // Publish each CSV file in the test json data folder.
@@ -35,7 +38,7 @@ class XmlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
 
         $xml_repository = $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
@@ -63,7 +66,7 @@ class XmlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_update()
+    public function testUpdate()
     {
 
         $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
@@ -80,7 +83,7 @@ class XmlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
 
         $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');
@@ -95,7 +98,7 @@ class XmlDefinitionRepositoryTest extends TestCase
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
 
         $xml_repository = \App::make('Tdt\Core\Repositories\Interfaces\XmlDefinitionRepositoryInterface');

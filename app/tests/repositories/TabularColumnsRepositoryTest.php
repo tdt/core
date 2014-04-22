@@ -1,5 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class TabularColumnsRepositoryTest extends TestCase
@@ -46,7 +49,7 @@ class TabularColumnsRepositoryTest extends TestCase
         ),
     );
 
-    public function test_put()
+    public function testPut()
     {
 
         $tab_column_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
@@ -71,7 +74,7 @@ class TabularColumnsRepositoryTest extends TestCase
         }
     }
 
-    public function test_get()
+    public function testGet()
     {
 
         // Make sure we have the same amount of columns we have put in
@@ -149,7 +152,7 @@ class TabularColumnsRepositoryTest extends TestCase
         }
     }
 
-    public function test_delete()
+    public function testDelete()
     {
 
         $tab_column_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
@@ -164,7 +167,7 @@ class TabularColumnsRepositoryTest extends TestCase
         }
     }
 
-    public function test_help_functions()
+    public function testHelpFunctions()
     {
 
         $tab_column_repository = \App::make('Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface');
