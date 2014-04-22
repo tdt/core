@@ -23,7 +23,7 @@ class JsonDefinitionRepositoryTest extends TestCase
             // Set the definition parameters.
             $input = array(
                 'description' => "A JSON publication from the $file json file.",
-                'uri' => 'file://' . __DIR__ . "/../data/json/$file.json",
+                'uri' => app_path() . "/storage/data/tests/json/$file.json",
             );
 
             // Test the JsonDefinitionRepository
@@ -62,7 +62,7 @@ class JsonDefinitionRepositoryTest extends TestCase
 
             $this->assertEquals($json_definition['description'], "A JSON publication from the $file json file.");
 
-            $this->assertEquals($json_definition['uri'], 'file://' . __DIR__ . "/../data/json/$file.json");
+            $this->assertEquals($json_definition['uri'], app_path() . "/storage/data/tests/json/$file.json");
         }
     }
 

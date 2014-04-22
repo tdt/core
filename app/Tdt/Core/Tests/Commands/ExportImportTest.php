@@ -4,11 +4,11 @@ namespace Tdt\Core\Tests\Commands;
 
 use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Commands\Export;
-use Illuminate\Console\Application;
-use Illuminate\Filesystem\Filesystem;
 use Tdt\Core\Commands\Ie\Definitions;
 use Tdt\Core\Commands\Ie\Users;
 use Tdt\Core\Commands\Ie\Groups;
+use Illuminate\Console\Application;
+use Illuminate\Filesystem\Filesystem;
 
 class ExportImportTest extends TestCase
 {
@@ -19,14 +19,14 @@ class ExportImportTest extends TestCase
     public function testExportDefinitions()
     {
         // Seed the database with definitions to export
-        Artisan::call('db:seed', array("--class" => "DemoDataSeeder"));
+        \Artisan::call('db:seed', array("--class" => "DemoDataSeeder"));
 
         // Call the export command and catch the output
         ob_start();
 
         $outputStream = new \Symfony\Component\Console\Output\StreamOutput(fopen('php://output', 'w'));
 
-        Artisan::call('datatank:export', array('--definitions' => 'definitions'), $outputStream);
+        \Artisan::call('datatank:export', array('--definitions' => 'definitions'), $outputStream);
 
         $export_body = json_decode(ob_get_clean(), true);
 
@@ -67,7 +67,7 @@ class ExportImportTest extends TestCase
 
         ob_start();
 
-        Artisan::call('datatank:export', array('--users' => 'users'), $outputStream);
+        \Artisan::call('datatank:export', array('--users' => 'users'), $outputStream);
 
         $export_body = json_decode(ob_get_clean(), true);
 
@@ -140,6 +140,6 @@ class ExportImportTest extends TestCase
      */
     private function getCommandTestFolder()
     {
-        return app_path() . '/tests/commands/';
+        return app_path() . '/Tdt/Core/Tests/Commands/';
     }
 }

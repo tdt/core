@@ -29,7 +29,7 @@ class ShpDefinitionRepositoryTest extends TestCase
             $input = array(
                 'description' => "A shp publication from the $file shp file.",
                 'epsg' => '4326',
-                'uri' => 'file://' . __DIR__ . "/../data/shp/$file.shp",
+                'uri' => app_path() . "/storage/data/tests/shp/$file.shp",
             );
 
             // Test the ShpDefinitionRepository
@@ -69,7 +69,7 @@ class ShpDefinitionRepositoryTest extends TestCase
 
             $this->assertEquals($shp_definition['description'], "A shp publication from the $file shp file.");
             $this->assertEquals($shp_definition['epsg'], 4326);
-            $this->assertEquals($shp_definition['uri'], 'file://' . __DIR__ . "/../data/shp/$file.shp");
+            $this->assertEquals($shp_definition['uri'], app_path() . "/storage/data/tests/shp/$file.shp");
         }
     }
 

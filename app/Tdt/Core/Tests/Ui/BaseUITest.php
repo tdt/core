@@ -10,13 +10,14 @@ abstract class BaseUITest extends TestCase
     protected $headers = array(
         "HTTP_Authorization" => "Basic YWRtaW46YWRtaW4=",
     );
+
     /**
      * Seed the demo data for UI tests
      */
     public function prepareForTests()
     {
         parent::prepareForTests();
-        Artisan::call('db:seed', array('--class'=>'DemoDataSeeder'));
+        \Artisan::call('db:seed', array('--class'=>'DemoDataSeeder'));
     }
 
     /**

@@ -33,7 +33,7 @@ class ShpTest extends TestCase
             $data = array(
                 'description' => "A shp publication from the $file shp file.",
                 'epsg' => '4326',
-                'uri' => __DIR__ . "/../data/shp/$file.shp",
+                'uri' => app_path() . "/storage/data/tests/shp/$file.shp",
                 'type' => 'shp'
                 );
 

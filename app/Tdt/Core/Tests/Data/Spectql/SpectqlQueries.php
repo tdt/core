@@ -1,5 +1,7 @@
 <?php
 
+namespace Tdt\Core\Tests\Data\Spectql;
+
 /**
  * Class containing SpectQL queries for unittesting purposes.
  *
@@ -15,7 +17,7 @@ class SpectqlQueries
                 'definition' => array(
                     'type' => 'csv',
                     'delimiter' => ';',
-                    'uri' => "/data/csv/geo_csv.csv",
+                    'uri' => "/csv/geo_csv.csv",
                     'description' => 'csv geo',
                 ),
                 'queries' => array(

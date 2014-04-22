@@ -4,11 +4,9 @@ namespace Tdt\Core\Tests\Api;
 
 use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
-use Tdt\Core\Definitions\SpectqlController;
 use Tdt\Core\Datasets\DatasetController;
+use Tdt\Core\Tests\Data\Spectql\SpectqlQueries;
 use Symfony\Component\HttpFoundation\Request;
-
-include(app_path() . '/tests/data/spectql/SpectqlQueries.php');
 
 class SpectqlTest extends TestCase
 {
@@ -23,7 +21,7 @@ class SpectqlTest extends TestCase
                 // Add the definition
                 $definition = $test['definition'];
 
-                $definition['uri'] = 'file://' . __DIR__ . '/../' . $definition['uri'];
+                $definition['uri'] = app_path() . '/storage/data/tests/' . $definition['uri'];
 
                 // Set the headers
                 $headers = array(

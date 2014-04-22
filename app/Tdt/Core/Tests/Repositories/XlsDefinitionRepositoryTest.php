@@ -32,7 +32,7 @@ class XlsDefinitionRepositoryTest extends TestCase
             $input = array(
                 'description' => "An XLS publication from the $file xls file.",
                 'sheet' => $sheet,
-                'uri' => __DIR__ . "/../data/xls/$file" . '.' . $extension,
+                'uri' => app_path() . "/storage/data/tests/xls/$file" . '.' . $extension,
                 'type' => 'XLS'
             );
 
@@ -76,7 +76,7 @@ class XlsDefinitionRepositoryTest extends TestCase
 
             $this->assertEquals($xls_definition['description'], "An XLS publication from the $file xls file.");
             $this->assertEquals($xls_definition['sheet'], $sheet);
-            $this->assertEquals($xls_definition['uri'], __DIR__ . "/../data/xls/$file" . '.' . $extension);
+            $this->assertEquals($xls_definition['uri'], app_path() . "/storage/data/tests/xls/$file" . '.' . $extension);
         }
     }
 

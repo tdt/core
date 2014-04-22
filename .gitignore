@@ -6,7 +6,6 @@ Makefile
 tmp/*
 /vendor
 composer.phar
-composer.lock
 /app/config/local
 /app/config/staging
 /app/config/production

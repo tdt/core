@@ -6,29 +6,51 @@ use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
+use \Definition;
+use \JsonldDefinition;
 
-class JsonTest extends TestCase
+class JsonldTest extends TestCase
 {
 
     // This array holds the names of the files that can be used
     // to test the json definitions.
     private $test_data = array(
-                'complex_persons',
-                'simple_persons',
+                array(
+                    'type' => 'file',
+                    'uri' => 'example1',
+                    'cname' => 'example1',
+                ),
+                array(
+                    'type' => 'uri',
+                    'uri' => 'http://me.markus-lanthaler.com/',
+                    'cname' => 'http example',
+                ),
             );
 
     public function testPutApi()
     {
-
         // Publish each json file in the test json data folder.
-        foreach ($this->test_data as $file) {
+        foreach ($this->test_data as $file_config) {
+
+            $name = $file_config['cname'];
+
+            $uri = '';
+
+            if ($file_config['type'] == 'file') {
+
+                $file = $file_config['uri'];
+                $uri = app_path() . "/storage/data/tests/jsonld/$file.jsonld";
+
+            } else {
+                $uri = $file_config['uri'];
+            }
 
             // Set the definition parameters.
             $data = array(
-                'description' => "A JSON publication from the $file json file.",
-                'uri' => 'file://' . __DIR__ . "/../data/json/$file.json",
-                'type' => 'json'
-                );
+                'description' => "A JSON-LD publication from the $name jsonld file.",
+                'uri' => $uri,
+                'type' => 'jsonld'
+            );
 
             // Set the headers.
             $headers = array(
@@ -40,7 +62,7 @@ class JsonTest extends TestCase
             // Put the definition controller to the test!
             $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
-            $response = $controller->handle("json/$file");
+            $response = $controller->handle("jsonld/$name");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -49,11 +71,12 @@ class JsonTest extends TestCase
 
     public function testGetApi()
     {
+        // Request the data for each of the test json-ld files.
+        foreach ($this->test_data as $file_config) {
 
-        // Request the data for each of the test json files.
-        foreach ($this->test_data as $file) {
+            $name = $file_config['cname'];
 
-            $file = 'json/'. $file .'.json';
+            $file = 'jsonld/'. $name .'.jsonld';
             $this->updateRequest('GET');
 
             $controller = \App::make('Tdt\Core\Datasets\DatasetController');
@@ -65,12 +88,13 @@ class JsonTest extends TestCase
 
     public function testUpdateApi()
     {
+        foreach ($this->test_data as $file_config) {
 
-        foreach ($this->test_data as $file) {
+            $name = $file_config['cname'];
 
-            $updated_description = 'An updated description for ' . $file;
+            $updated_description = 'An updated description for ' . $name;
 
-            $identifier = 'json/' . $file;
+            $identifier = 'jsonld/' . $name;
 
             // Set the fields that we're going to update
             $data = array(
@@ -93,21 +117,23 @@ class JsonTest extends TestCase
     public function testDeleteApi()
     {
         // Delete the published definition for each test json file.
-        foreach ($this->test_data as $file) {
+        foreach ($this->test_data as $file_config) {
+
+            $name = $file_config['cname'];
 
             $this->updateRequest('DELETE');
 
             $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
-            $response = $controller->handle("json/$file");
+            $response = $controller->handle("jsonld/$name");
             $this->assertEquals(200, $response->getStatusCode());
         }
 
         // Check if everything is deleted properly.
-        $definitions_count = \Definition::all()->count();
-        $json_count = \JsonDefinition::all()->count();
+        $definitions_count = Definition::all()->count();
+        $jsonld_count = JsonldDefinition::all()->count();
 
-        $this->assertTrue($json_count == 0);
+        $this->assertTrue($jsonld_count == 0);
         $this->assertTrue($definitions_count == 0);
     }
 }

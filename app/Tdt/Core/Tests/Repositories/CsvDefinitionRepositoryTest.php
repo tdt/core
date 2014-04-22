@@ -31,7 +31,7 @@ class CsvDefinitionRepositoryTest extends TestCase
             $input = array(
                 'description' => "A CSV publication from the $file csv file.",
                 'delimiter' => ',',
-                'uri' => 'file://' . __DIR__ . "/../data/csv/$file.csv",
+                'uri' => app_path() . "/storage/data/tests/csv/$file.csv",
             );
 
             // Test the CsvDefinitionRepository
@@ -70,7 +70,7 @@ class CsvDefinitionRepositoryTest extends TestCase
 
             $this->assertEquals($csv_definition['description'], "A CSV publication from the $file csv file.");
             $this->assertEquals($csv_definition['delimiter'], ',');
-            $this->assertEquals($csv_definition['uri'], 'file://' . __DIR__ . "/../data/csv/$file.csv");
+            $this->assertEquals($csv_definition['uri'], app_path() . "/storage/data/tests/csv/$file.csv");
         }
     }
 

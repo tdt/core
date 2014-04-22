@@ -33,7 +33,7 @@ class CsvTest extends TestCase
             $data = array(
                 'description' => "A CSV publication from the $file csv file.",
                 'delimiter' => ',',
-                'uri' => 'file://' . __DIR__ . "/../data/csv/$file.csv",
+                'uri' => app_path() . "/storage/data/tests/csv/$file.csv",
                 'type' => 'csv'
             );
 

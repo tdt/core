@@ -1,5 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Repositories;
+
+use Tdt\Core\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class InstalledDefinitionRepositoryTest extends TestCase
@@ -10,7 +13,7 @@ class InstalledDefinitionRepositoryTest extends TestCase
     private $test_data = array(
         'example1' => array(
             'class' => 'Example.php',
-            'path' => '/../data/installed/Example.php',
+            'path' =>  '/storage/data/tests/installed/Example.php',
         ),
     );
 
@@ -22,7 +25,7 @@ class InstalledDefinitionRepositoryTest extends TestCase
             $input = array(
                 'description' => "Data retrieved from an installed resource",
                 'class' => $config['class'],
-                'path' => __DIR__ . $config['path'],
+                'path' => app_path() . $config['path'],
             );
 
             include_once($input['path']);

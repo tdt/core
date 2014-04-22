@@ -23,7 +23,7 @@ class XmlDefinitionRepositoryTest extends TestCase
             // Set the definition parameters.
             $input = array(
                 'description' => "A xml publication from the $file xml file.",
-                'uri' => 'file://' . __DIR__ . "/../data/xml/$file.xml",
+                'uri' => app_path() . "/storage/data/tests/xml/$file.xml",
             );
 
             // Test the XmlDefinitionRepository
@@ -62,7 +62,7 @@ class XmlDefinitionRepositoryTest extends TestCase
 
             $this->assertEquals($xml_definition['description'], "A xml publication from the $file xml file.");
 
-            $this->assertEquals($xml_definition['uri'], 'file://' . __DIR__ . "/../data/xml/$file.xml");
+            $this->assertEquals($xml_definition['uri'], app_path() . "/storage/data/tests/xml/$file.xml");
         }
     }
 

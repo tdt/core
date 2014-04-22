@@ -9,20 +9,19 @@
         "classmap": [
             "app/models",
             "app/database/migrations",
-            "app/database/seeds",
-            "app/tests/TestCase.php"
+            "app/database/seeds"
         ],
         "psr-0": {
             "Tdt\\Core": "app/"
         }
     },
     "require": {
-        "laravel/framework": "4.1.*",
-        "phpoffice/phpexcel": "1.*",
-        "phpunit/phpunit" : "4.0.*",
+        "laravel/framework": "4.1.28",
+        "phpoffice/phpexcel": "1.8.0",
+        "phpunit/phpunit" : "4.0.17",
         "easyrdf/easyrdf" : "dev-devel",
-        "kriswallsmith/buzz": "0.*",
-        "cartalyst/sentry": "2.1.*",
+        "kriswallsmith/buzz": "0.10",
+        "cartalyst/sentry": "2.1.1",
         "ml/json-ld" : "@dev"
     },
     "scripts": {
@@ -45,5 +44,5 @@
             "php artisan key:generate"
         ]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }

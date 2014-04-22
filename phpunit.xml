@@ -12,16 +12,10 @@
 >
     <testsuites>
         <testsuite name="Application Test Suite">
-            <!-- <directory>./app/tests/api</directory> -->
-            <file>./app/tests/api/CsvTest.php</file>
-            <file>./app/tests/api/JsonTest.php</file>
-            <file>./app/tests/api/ModelPagingTest.php</file>
-            <file>./app/tests/api/ShpTest.php</file>
-            <!-- <file>./app/tests/api/SparqlTest.php</file> -->
-            <!-- <file>./app/tests/api/SpectqlTest.php</file> -->
-            <file>./app/tests/api/XlsTest.php</file>
-            <directory>./app/tests/repositories</directory>
-            <directory>./app/tests/ui</directory>
+            <directory>./app/Tdt/Core/Tests/Api</directory>
+            <directory>./app/Tdt/Core/Tests/Repositories</directory>
+            <directory>./app/Tdt/Core/Tests/Commands</directory>
+            <directory>./app/Tdt/Core/Tests/Ui</directory>
         </testsuite>
     </testsuites>
 </phpunit>

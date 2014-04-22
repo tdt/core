@@ -5,29 +5,37 @@ namespace Tdt\Core\Tests\Api;
 use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Datasets\DatasetController;
-
 use Symfony\Component\HttpFoundation\Request;
 
-class XmlTest extends TestCase
+class XlsTest extends TestCase
 {
 
-    // This array holds the names of the files that can be used
-    // to test the xml definitions.
+    // This array holds the names of the files and their correspondive
+    // sheets that can be used to test the xls definitions.
     private $test_data = array(
-                'persons',
+                array(
+                    'file' => 'tabular',
+                    'extension' => 'xlsx',
+                    'sheet' => 'Sheet1',
+                ),
             );
 
     public function testPutApi()
     {
 
-        // Publish each xml file in the test xml data folder.
-        foreach ($this->test_data as $file) {
+        // Publish each xls file in the test xls data folder.
+        foreach ($this->test_data as $entry) {
+
+            $file = $entry['file'];
+            $extension = $entry['extension'];
+            $sheet = $entry['sheet'];
 
             // Set the definition parameters.
             $data = array(
-                'description' => "A xml publication from the $file xml file.",
-                'uri' => __DIR__ . "/../data/xml/$file.xml",
-                'type' => 'xml'
+                'description' => "An xls publication from the $file xls file.",
+                'sheet' => $sheet,
+                'uri' => app_path() . "/storage/data/tests/xls/$file" . '.' . $extension,
+                'type' => 'xls'
             );
 
             // Set the headers.
@@ -39,7 +47,7 @@ class XmlTest extends TestCase
 
             // Put the definition controller to the test!
             $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
-            $response = $controller->handle("xml/$file");
+            $response = $controller->handle("xls/$file");
 
             // Check if the creation of the definition succeeded.
             $this->assertEquals(200, $response->getStatusCode());
@@ -49,26 +57,31 @@ class XmlTest extends TestCase
     public function testGetApi()
     {
 
-        // Request the data for each of the test xml files.
-        foreach ($this->test_data as $file) {
+        // Request the data for each of the test xls files.
+        foreach ($this->test_data as $entry) {
 
-            $file = 'xml/'. $file .'.json';
+            $file = $entry['file'];
+            $extension = $entry['extension'];
+            $sheet = $entry['sheet'];
+
+            $uri = 'xls/'. $file .'.json';
             $this->updateRequest('GET');
 
             $controller = \App::make('Tdt\Core\Datasets\DatasetController');
 
-            $response = $controller->handle($file);
+            $response = $controller->handle($uri);
             $this->assertEquals(200, $response->getStatusCode());
         }
     }
 
     public function testUpdateApi()
     {
-        foreach ($this->test_data as $file) {
 
-            $updated_description = 'An updated description for ' . $file;
+        foreach ($this->test_data as $entry) {
 
-            $identifier = 'xml/' . $file;
+            $name = $entry['file'];
+            $updated_description = 'An updated description for ' . $name;
+            $identifier = 'xls/' . $name;
 
             // Set the fields that we're going to update
             $data = array(
@@ -90,22 +103,25 @@ class XmlTest extends TestCase
 
     public function testDeleteApi()
     {
-        // Delete the published definition for each test xml file.
-        foreach ($this->test_data as $file) {
+
+        // Delete the published definition for each test xls file.
+        foreach ($this->test_data as $entry) {
+
+            $file = $entry['file'];
 
             $this->updateRequest('DELETE');
 
             $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
-            $response = $controller->handle("xml/$file");
+            $response = $controller->handle("xls/$file");
             $this->assertEquals(200, $response->getStatusCode());
         }
 
         // Check if everything is deleted properly.
         $definitions_count = \Definition::all()->count();
-        $xml_count = \XmlDefinition::all()->count();
+        $xls_count = \XlsDefinition::all()->count();
 
-        $this->assertTrue($xml_count == 0);
+        $this->assertTrue($xls_count == 0);
         $this->assertTrue($definitions_count == 0);
     }
 }
