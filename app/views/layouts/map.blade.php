@@ -7,7 +7,7 @@
         <meta name="DC.title" content="{{ $title }}"/>
         <base target="_parent" />
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
         <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
         <style>
@@ -19,9 +19,9 @@
         <div id='map'></div>
         <script>
             var map = L.map('map').setView([51,3], 7);
-            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors</a>',
-                maxZoom: 18
+            L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+                minZoom: 3
             }).addTo(map);
 
             var track = new L.KML('<?php echo preg_replace("/'/", "\\'", $kml) ?>');
@@ -30,7 +30,7 @@
                 data.addLayer(track._layers[i]);
             }
             data.addTo(map);
-            map.fitBounds(data.getBounds());
+            map.fitBounds(data.getBounds(), {padding: [20, 20]});
         </script>
     </body>
 </html>

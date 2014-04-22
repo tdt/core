@@ -52,41 +52,43 @@
                                 </h4>
                             </div>
                             <div class='col-sm-4 text-right'>
-                                @if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
-                                    <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
-                                        @if($i==0)
-                                            data-step='4'
-                                            data-intro='<strong>View</strong> your dataset.'
-                                            data-position="left"
-                                        @endif
-                                        >
-                                        <i class='fa fa-eye'></i> Data
-                                    </a>
-                                @endif
-                                @if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
-                                    <a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
+                                <div class='btn-group'>
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
+                                        <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
+                                            @if($i==0)
+                                                data-step='4'
+                                                data-intro='<strong>View</strong> your dataset.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-eye'></i> Data
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
+                                        <a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
 
-                                        @if($i==0)
-                                            data-step='5'
-                                            data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
-                                            data-position="left"
-                                        @endif
-                                        >
-                                        <i class='fa fa-external-link'></i> Definition
-                                    </a>
-                                @endif
-                                @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
-                                    <a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
+                                            @if($i==0)
+                                                data-step='5'
+                                                data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-external-link'></i> Definition
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
+                                        <a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
 
-                                       @if($i==0)
-                                           data-step='6'
-                                           data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
-                                           data-position="left"
-                                       @endif
-                                        >
-                                        <i class='fa fa-times icon-only'></i>
-                                    </a>
-                                @endif
+                                           @if($i==0)
+                                               data-step='6'
+                                               data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
+                                               data-position="left"
+                                           @endif
+                                            >
+                                            <i class='fa fa-times icon-only'></i>
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -119,7 +121,7 @@
 
 @section('navigation')
 
-    <div class="search pull-right">
+    <div class="search pull-right hidden-xs">
         <input id='dataset-filter' type="text" placeholder='Search for datasets' spellcheck='false'>
         <i class='fa fa-search'></i>
     </div>
