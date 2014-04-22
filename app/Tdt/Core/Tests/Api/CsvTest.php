@@ -78,6 +78,7 @@ class CsvTest extends TestCase
             // Test the patch function on the definition controller
             $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
 
+            $this->updateRequest('GET');
             $definition = $controller->handle('csv/' . $file)->getOriginalContent();
             $definition = json_decode($definition, true);
 
