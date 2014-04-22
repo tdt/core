@@ -140,6 +140,6 @@ class ExportImportTest extends TestCase
      */
     private function getCommandTestFolder()
     {
-        return sys_get_temp_dir();
+        return sys_get_temp_dir() . '/';
     }
 }
