@@ -125,13 +125,14 @@ class ContentNegotiator extends Pager
             // Add the optional parameters
             if (!empty($data->optional_parameters)) {
 
-                $link_template .= '?';
+                $link_template .= '{?';
 
                 foreach ($data->optional_parameters as $optional_parameter) {
-                    $link_template .= $optional_parameter . '={' . $optional_parameter . '}&';
+                    $link_template .= $optional_parameter . ', ';
                 }
 
-                $link_template = rtrim($link_template, '&');
+                $link_template = rtrim($link_template, ', ');
+                $link_template .= '}';
             }
 
             $response->header('Link-Template', $link_template);
