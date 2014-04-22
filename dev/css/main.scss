@@ -707,6 +707,17 @@ button.close {
     color: $disabled-color;
 }
 
+.formats{
+    .btn{
+        font-size: 10px;
+        font-weight: bold;
+    }
+}
+
+.no-padding{
+    padding: 0px;
+}
+
 @media(max-width:768px){
 
     body{
