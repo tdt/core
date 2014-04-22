@@ -16,6 +16,10 @@ Route::group(array('prefix' => 'api/admin'), function () {
         return Redirect::to('api/admin/datasets');
     });
 
+    Route::get('login', 'Tdt\\Core\\Ui\\AuthController@getLogin');
+    Route::post('login', 'Tdt\\Core\\Ui\\AuthController@postLogin');
+    Route::get('logout', 'Tdt\\Core\\Ui\\AuthController@getLogout');
+
     Route::controller('datasets', 'Tdt\\Core\\Ui\\DatasetController');
     Route::controller('users', 'Tdt\\Core\\Ui\\UserController');
     Route::controller('groups', 'Tdt\\Core\\Ui\\GroupController');

@@ -43,6 +43,16 @@
             </ul>
 
             @yield('navigation')
+
+            @if(\Request::header('Authorization', null) === null)
+                <ul class='pull-right nav navbar-nav'>
+                    <li>
+                        <a href="{{ URL::to('api/admin/logout') }}">
+                            <i class='fa fa-sign-out'></i> Sign out
+                        </a>
+                    </li>
+                </ul>
+            @endif
         </nav>
 
         <div class="wrapper">

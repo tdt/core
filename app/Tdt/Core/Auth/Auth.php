@@ -69,15 +69,28 @@ class Auth extends \Controller
      */
     protected static function logIn()
     {
-
-        // Basic auth, TODO: remove check
-        if (\App::environment() != 'testing') {
-            header('WWW-Authenticate: Basic');
-            header('HTTP/1.0 401 Unauthorized');
-        }
-
         // Fix basic auth on some servers;
         self::basicAuth();
+
+        // Show login form for browser requests
+        $mime_types = explode(',', \Request::header('Accept'));
+        if (empty(self::$user) && count($mime_types) > 0 && $mime_types[0] == 'text/html') {
+            if (\Sentry::check()) {
+                return true;
+            } else {
+                // Redirect to login
+                header('Location: ' . \URL::to('api/admin/login?return=' . \Request::path()));
+                die();
+            }
+        } else {
+            // Basic auth, TODO: remove check
+            if (\App::environment() != 'testing') {
+                header('WWW-Authenticate: Basic');
+                header('HTTP/1.0 401 Unauthorized');
+            }
+
+        }
+
 
         if (isset(self::$user)) {
             try {
@@ -124,7 +137,7 @@ class Auth extends \Controller
         $auth_header = \Request::header('Authorization');
 
         if (!empty($auth_header)) {
-            list(self::$user, self::$password) = explode(':', base64_decode(substr(\Request::header('Authorization'), 6)));
+            list(self::$user, self::$password) = explode(':', base64_decode(substr($auth_header, 6)));
         }
     }
 

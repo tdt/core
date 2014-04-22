@@ -477,6 +477,10 @@ footer{
         border-color: $border-color-soft;
     }
 
+    .panel-body{
+        padding: 12px 8px;
+    }
+
     &.dataset{
         clear: both;
         margin: 0px;
