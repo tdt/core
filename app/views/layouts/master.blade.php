@@ -2,7 +2,7 @@
 <html lang='en'>
     <head profile="http://dublincore.org/documents/dcq-html/">
         <title>{{ $title }}</title>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="DC.title" content="{{ $title }}"/>
@@ -13,7 +13,7 @@
 
     <body>
         <nav class="navbar navbar-fixed-top">
-            <a class="navbar-brand" href="{{ URL::to('') }} ">
+            <a class="navbar-brand" href="{{ URL::to('') }}">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
                 <h1>@if(!empty($page_title)){{ $page_title }}@endif</h1>
             </a>

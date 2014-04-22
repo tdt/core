@@ -24,9 +24,8 @@ class FormatHelper
     {
 
         $formats = array(
-            'php' => 'php',
             'json' => 'json',
-            'xml' => 'xml',
+            'php' => 'php',
         );
 
         // Check for tabular sources
@@ -44,6 +43,7 @@ class FormatHelper
         // Check for geographical properties
         if (!empty($data->geo)) {
             $formats['map'] = 'map';
+            $formats['kml'] = 'kml';
         }
 
         return $formats;
