@@ -1,6 +1,8 @@
 <?php
 
-class HomeControllerTest extends TestCase
+namespace Tdt\Core\Tests\Ui;
+
+class HomeControllerTest extends BaseUITest
 {
 
     /**

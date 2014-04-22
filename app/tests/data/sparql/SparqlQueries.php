@@ -1,5 +1,7 @@
 <?php
 
+namespace Tdt\Core\Tests\Data\Sparql;
+
 /**
  * Class containing SPARQL queries that are used in the unittesting.
  *
@@ -55,5 +57,4 @@ class SparqlQueries
             OPTIONAL { ?drug db:indication ?indication . }
         }",*/
     );
-
 }

@@ -1,12 +1,9 @@
 <?php
 
-class HTMLFormatterTEst extends TestCase
-{
+namespace Tdt\Core\Tests\Ui;
 
-    public function prepareForTests(){
-        parent::prepareForTests();
-        Artisan::call('db:seed', array('--class'=>'DemoDataSeeder'));
-    }
+class HTMLFormatterTEst extends BaseUITest
+{
 
     /**
      * Test tabular view

@@ -1,5 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Commands;
+
+use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Commands\Export;
 use Illuminate\Console\Application;
 use Illuminate\Filesystem\Filesystem;
@@ -13,7 +16,7 @@ class ExportImportTest extends TestCase
     /**
      * Test the export command on definitions
      */
-    public function test_export_definitions()
+    public function testExportDefinitions()
     {
         // Seed the database with definitions to export
         Artisan::call('db:seed', array("--class" => "DemoDataSeeder"));
@@ -57,7 +60,7 @@ class ExportImportTest extends TestCase
     /**
      * Text the export command on the users
      */
-    public function test_export_users()
+    public function testExportUsers()
     {
         // Call the users export command and catch the output
         $outputStream = new \Symfony\Component\Console\Output\StreamOutput(fopen('php://output', 'w'));
@@ -98,7 +101,7 @@ class ExportImportTest extends TestCase
     /**
      * Test the import command for the definitions
      */
-    public function test_import_definitions()
+    public function testImportDefinitions()
     {
         // Read the definitions json file and import
         $fs = new Filesystem();
@@ -126,7 +129,7 @@ class ExportImportTest extends TestCase
     /**
      * Test the import command for the users
      */
-    public function test_import_users()
+    public function testImportUsers()
     {
 
         // Read the users json file and import

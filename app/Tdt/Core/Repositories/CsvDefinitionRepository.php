@@ -58,47 +58,47 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
     public function getCreateParameters()
     {
         return array(
-                'uri' => array(
-                    'required' => true,
-                    'name' => 'URI',
-                    'description' => 'The location of the CSV file, either a URL or a local file location.',
-                    'type' => 'string',
-                ),
-                'description' => array(
-                    'required' => true,
-                    'name' => 'Description',
-                    'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                    'type' => 'string',
-                ),
-                'delimiter' => array(
-                    'required' => false,
-                    'name' => 'Delimiter',
-                    'description' => 'The delimiter of the separated value file.',
-                    'default_value' => ',',
-                    'type' => 'string',
-                ),
-                'has_header_row' => array(
-                    'required' => false,
-                    'name' => 'Header row',
-                    'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
-                    'default_value' => 1,
-                    'type' => 'boolean',
-                ),
-                'start_row' => array(
-                    'required' => false,
-                    'name' => 'Start row',
-                    'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
-                    'default_value' => 0,
-                    'type' => 'integer',
-                ),
-                'pk' => array(
-                    'required' => false,
-                    'name' => 'Primary key',
-                    'description' => 'This is a shortcut to define a primary key of this dataset.
-                                    The value must be the index of the column you want each row to be mapped on.
-                                    The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
-                    'type' => 'integer',
-                ),
+            'uri' => array(
+                'required' => true,
+                'name' => 'URI',
+                'description' => 'The location of the CSV file, either a URL or a local file location.',
+                'type' => 'string',
+            ),
+            'description' => array(
+                'required' => true,
+                'name' => 'Description',
+                'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                'type' => 'string',
+            ),
+            'delimiter' => array(
+                'required' => false,
+                'name' => 'Delimiter',
+                'description' => 'The delimiter of the separated value file.',
+                'default_value' => ',',
+                'type' => 'string',
+            ),
+            'has_header_row' => array(
+                'required' => false,
+                'name' => 'Header row',
+                'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
+                'default_value' => 1,
+                'type' => 'boolean',
+            ),
+            'start_row' => array(
+                'required' => false,
+                'name' => 'Start row',
+                'description' => 'Defines the row at which the data (and header row if present) starts in the file.',
+                'default_value' => 0,
+                'type' => 'integer',
+            ),
+            'pk' => array(
+                'required' => false,
+                'name' => 'Primary key',
+                'description' => 'This is a shortcut to define a primary key of this dataset.
+                                The value must be the index of the column you want each row to be mapped on.
+                                The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
+                'type' => 'integer',
+            ),
         );
     }
 }

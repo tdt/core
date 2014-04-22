@@ -1,6 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Api;
 
+use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Definitions\InfoController;
 use Tdt\Core\Definitions\DcatController;
@@ -22,7 +24,7 @@ class ModelPagingTest extends TestCase
                 'utf8',
             );
 
-    public function test_put_api()
+    public function testPutApi()
     {
 
         // Add the CSV definitions
@@ -60,11 +62,11 @@ class ModelPagingTest extends TestCase
      * Note: don't name the private functions testXXX, this will result in
      * phpunit warnings as it will try to use it as a proper testcase.
      */
-    public function test_get_api()
+    public function testGetApi()
     {
 
         // Set paging to 2
-        Input::merge(array('limit' => 2));
+        \Input::merge(array('limit' => 2));
 
         // Test the internal model through info
         $controller = $controller = \App::make('Tdt\Core\Definitions\InfoController');
@@ -81,7 +83,7 @@ class ModelPagingTest extends TestCase
         $this->processDcat();
     }
 
-    public function test_delete_api()
+    public function testDeleteApi()
     {
 
         // Delete the published definition for each test csv file.
@@ -96,8 +98,8 @@ class ModelPagingTest extends TestCase
         }
 
         // Check if everything is deleted properly.
-        $definitions_count = Definition::all()->count();
-        $csv_count = CsvDefinition::all()->count();
+        $definitions_count = \Definition::all()->count();
+        $csv_count = \CsvDefinition::all()->count();
 
         $this->assertTrue($csv_count == 0);
         $this->assertTrue($definitions_count == 0);

@@ -1,6 +1,8 @@
 <?php
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase
+namespace Tdt\Core\Tests;
+
+class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
 
     /**
@@ -36,9 +38,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
 
         // Enable your route filters, very important!
-        Route::enableFilters();
-        Route::any('{all}', 'Tdt\Core\BaseController@handleRequest')->where('all', '.*');
-        Mail::pretend(true);
+        \Route::enableFilters();
+        \Route::any('{all}', 'Tdt\Core\BaseController@handleRequest')->where('all', '.*');
+        \Mail::pretend(true);
     }
 
     /**
@@ -49,17 +51,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         parent::tearDownAfterClass();
 
-        Definition::truncate();
-        CsvDefinition::truncate();
-        InstalledDefinition::truncate();
-        JsonDefinition::truncate();
+        \Definition::truncate();
+        \CsvDefinition::truncate();
+        \InstalledDefinition::truncate();
+        \JsonDefinition::truncate();
         // RdfDefinition::truncate();
-        ShpDefinition::truncate();
-        SparqlDefinition::truncate();
-        XlsDefinition::truncate();
-        XmlDefinition::truncate();
-        GeoProperty::truncate();
-        TabularColumns::truncate();
+        \ShpDefinition::truncate();
+        \SparqlDefinition::truncate();
+        \XlsDefinition::truncate();
+        \XmlDefinition::truncate();
+        \GeoProperty::truncate();
+        \TabularColumns::truncate();
     }
 
     /**

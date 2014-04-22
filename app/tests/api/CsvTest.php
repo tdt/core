@@ -1,5 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Api;
+
+use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +23,7 @@ class CsvTest extends TestCase
                 'utf8',
             );
 
-    public function test_put_api()
+    public function testPutApi()
     {
 
         // Publish each CSV file in the test csv data folder.
@@ -51,7 +54,7 @@ class CsvTest extends TestCase
         }
     }
 
-    public function test_get_api()
+    public function testGetApi()
     {
 
         // Request the data for each of the test csv files.
@@ -67,7 +70,7 @@ class CsvTest extends TestCase
         }
     }
 
-    public function test_update_api()
+    public function testUpdateApi()
     {
 
         foreach ($this->test_data as $file) {
@@ -106,7 +109,7 @@ class CsvTest extends TestCase
         }
     }
 
-    public function test_delete_api()
+    public function testDeleteApi()
     {
         // Delete the published definition for each test csv file.
         foreach ($this->test_data as $file) {
@@ -120,8 +123,8 @@ class CsvTest extends TestCase
         }
 
         // Check if everything is deleted properly.
-        $definitions_count = Definition::all()->count();
-        $csv_count = CsvDefinition::all()->count();
+        $definitions_count = \Definition::all()->count();
+        $csv_count = \CsvDefinition::all()->count();
 
         $this->assertTrue($csv_count == 0);
         $this->assertTrue($definitions_count == 0);

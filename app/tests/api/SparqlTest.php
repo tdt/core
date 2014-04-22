@@ -1,19 +1,20 @@
 <?php
 
+namespace Tdt\Core\Tests\Api;
+
+use Tdt\Core\Tests\TestCase;
+use Tdt\Core\Tests\Data\Sparql\SparqlQueries;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Datasets\DatasetController;
-use Symfony\Component\HttpFoundation\Request;
-
-include(__DIR__ . '/../data/sparql/SparqlQueries.php');
 
 class SparqlTest extends TestCase
 {
 
-    public function test_put_api()
+    public function testPutApi()
     {
 
         // PUT the sparql definitions via the API
-        foreach (\SparqlQueries::$queries as $name => $query) {
+        foreach (SparqlQueries::$queries as $name => $query) {
 
             // Set the definition parameters.
             $data = array(
@@ -39,11 +40,11 @@ class SparqlTest extends TestCase
         }
     }
 
-    public function test_get_api()
+    public function testGetApi()
     {
 
         // Request the data for each of the test json files.
-        foreach (\SparqlQueries::$queries as $name => $query) {
+        foreach (SparqlQueries::$queries as $name => $query) {
 
             $name = 'sparql/'. $name .'.json';
             $this->updateRequest('GET');
@@ -55,9 +56,9 @@ class SparqlTest extends TestCase
         }
     }
 
-    public function test_update_api()
+    public function testUpdateApi()
     {
-        foreach (\SparqlQueries::$queries as $name => $query) {
+        foreach (SparqlQueries::$queries as $name => $query) {
 
             $updated_description = 'An updated description for ' . $name;
 
@@ -81,10 +82,10 @@ class SparqlTest extends TestCase
         }
     }
 
-    public function test_delete_api()
+    public function testDeleteApi()
     {
         // Delete the published definition for each test json file.
-        foreach (\SparqlQueries::$queries as $name => $query) {
+        foreach (SparqlQueries::$queries as $name => $query) {
 
             $this->updateRequest('DELETE');
 
@@ -95,8 +96,8 @@ class SparqlTest extends TestCase
         }
 
         // Check if everything is deleted properly.
-        $definitions_count = Definition::all()->count();
-        $sparql_count = SparqlDefinition::all()->count();
+        $definitions_count = \Definition::all()->count();
+        $sparql_count = \SparqlDefinition::all()->count();
 
         $this->assertTrue($sparql_count == 0);
         $this->assertTrue($definitions_count == 0);

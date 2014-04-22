@@ -1,6 +1,8 @@
 <?php
 
+namespace Tdt\Core\Tests\Api;
 
+use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +17,7 @@ class JsonTest extends TestCase
                 'simple_persons',
             );
 
-    public function test_put_api()
+    public function testPutApi()
     {
 
         // Publish each json file in the test json data folder.
@@ -45,7 +47,7 @@ class JsonTest extends TestCase
         }
     }
 
-    public function test_get_api()
+    public function testGetApi()
     {
 
         // Request the data for each of the test json files.
@@ -61,7 +63,7 @@ class JsonTest extends TestCase
         }
     }
 
-    public function test_update_api()
+    public function testUpdateApi()
     {
 
         foreach ($this->test_data as $file) {
@@ -88,7 +90,7 @@ class JsonTest extends TestCase
         }
     }
 
-    public function test_delete_api()
+    public function testDeleteApi()
     {
         // Delete the published definition for each test json file.
         foreach ($this->test_data as $file) {
@@ -102,8 +104,8 @@ class JsonTest extends TestCase
         }
 
         // Check if everything is deleted properly.
-        $definitions_count = Definition::all()->count();
-        $json_count = JsonDefinition::all()->count();
+        $definitions_count = \Definition::all()->count();
+        $json_count = \JsonDefinition::all()->count();
 
         $this->assertTrue($json_count == 0);
         $this->assertTrue($definitions_count == 0);

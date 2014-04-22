@@ -1,17 +1,19 @@
 <?php
 
+namespace Tdt\Core\Tests\Api;
 
+use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Definitions\SpectqlController;
 use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 
-include(__DIR__ . '/../data/spectql/SpectqlQueries.php');
+include(app_path() . '/tests/data/spectql/SpectqlQueries.php');
 
 class SpectqlTest extends TestCase
 {
 
-    public function test_spectql()
+    public function testSpectql()
     {
 
         foreach (SpectqlQueries::$queries as $collection_uri => $tests) {
