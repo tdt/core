@@ -97,9 +97,45 @@ class ContentNegotiator extends Pager
         // Create the response from the designated formatter
         $response = $formatter_class::createResponse($data);
 
-        // Set the paging headers
+        // Set the paging header
         if (!empty($data->paging)) {
             $response->header('Link', self::getLinkHeader($data->paging));
+        }
+
+        // Set the URI template header
+        if (!empty($data->optional_parameters) || !empty($data->rest_parameters)) {
+
+            // http://www.mnot.net/blog/2006/10/04/uri_templating
+            $link_template = self::fetchUrl($extension);
+
+            if (substr($link_template, -1, 1) == '/') {
+                $link_template = substr($link_template, 0, -1);
+            }
+
+            // Add the required parameters
+            foreach ($data->rest_parameters as $required_parameter) {
+                $link_template .= '/{' . $required_parameter . '}';
+            }
+
+            // Add the extension if given
+            if (!empty($extension)) {
+                $link_template .= '.' . strtolower($extension);
+            }
+
+            // Add the optional parameters
+            if (!empty($data->optional_parameters)) {
+
+                $link_template .= '{?';
+
+                foreach ($data->optional_parameters as $optional_parameter) {
+                    $link_template .= $optional_parameter . ', ';
+                }
+
+                $link_template = rtrim($link_template, ', ');
+                $link_template .= '}';
+            }
+
+            $response->header('Link-Template', $link_template);
         }
 
         // Cache settings
@@ -122,5 +158,29 @@ class ContentNegotiator extends Pager
 
         // Return formatted response
         return $response;
+    }
+
+    /**
+     * Fetch the url without the extension
+     *
+     * @param string $extension The extracted extension from the request
+     *
+     * @return string
+     */
+    private static function fetchUrl($extension = '')
+    {
+        $url = \Request::url();
+
+        if (!empty($extension)) {
+            $extension = '.' . strtolower($extension);
+        }
+
+        $pos = strrpos($url, $extension);
+
+        if ($pos !== false) {
+            $url = substr_replace($url, '', $pos, strlen($extension));
+        }
+
+        return $url;
     }
 }

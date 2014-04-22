@@ -157,7 +157,7 @@ class CSVController extends ADataController
 
         foreach ($columns as $column) {
             if (!empty($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
-                $result[$column['column_name_alias']] = utf8_encode(@$data[$column['index']]);
+                $result[$column['column_name_alias']] = @$data[$column['index']];
             } else {
 
                 $index = $column['index'];

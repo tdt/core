@@ -20,7 +20,7 @@
         "laravel/framework": "4.1.*",
         "phpoffice/phpexcel": "1.*",
         "phpunit/phpunit" : "4.0.*",
-        "easyrdf/easyrdf" : "0.8.*",
+        "easyrdf/easyrdf" : "dev-devel",
         "kriswallsmith/buzz": "0.*",
         "cartalyst/sentry": "2.1.*",
         "ml/json-ld" : "@dev"
@@ -39,12 +39,11 @@
         "post-update-cmd": [
             "php artisan optimize",
             "php artisan migrate",
-            "php artisan migrate --package=tdt/input",
             "php artisan migrate --package=cartalyst/sentry"
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
         ]
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
