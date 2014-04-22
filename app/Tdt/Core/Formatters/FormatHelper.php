@@ -32,20 +32,20 @@ class FormatHelper
             $formats['CSV'] = 'csv';
         }
 
-        // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph
-        if (is_object($data->data) && get_class($data->data) == 'EasyRdf_Graph') {
-            $formats['JSON-LD'] = 'jsonld';
-            $formats['N-Triples'] = 'nt';
-            $formats['Turtle'] = 'ttl';
-        }
-
         // Check for geographical properties
         if (!empty($data->geo)) {
             $formats = array_merge(array('Fullscreen' => 'map'), $formats);
             $formats['KML'] = 'kml';
         }
 
-        $formats['PHP'] = 'php';
+        // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph
+        if (is_object($data->data) && get_class($data->data) == 'EasyRdf_Graph') {
+            $formats['JSON-LD'] = 'jsonld';
+            $formats['N-Triples'] = 'nt';
+            $formats['Turtle'] = 'ttl';
+        } else {
+            $formats['PHP'] = 'php';
+        }
 
         return $formats;
     }
