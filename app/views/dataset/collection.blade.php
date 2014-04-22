@@ -72,10 +72,10 @@
     </div>
 
     <div class="col-sm-3">
-        <a href="{{ $dataset_link }}.json" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
-
-        <br/>
         <ul class="list-group">
+            <li class="list-group-item no-padding">
+                <a href="{{ $dataset_link }}.json{{ $query_string }}" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
+            </li>
             <li class="list-group-item">
                 <h5 class="list-group-item-heading">Collection</h5>
                 <p class="list-group-item-text">
