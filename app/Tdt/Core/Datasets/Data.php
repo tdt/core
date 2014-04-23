@@ -68,9 +68,4 @@ class Data
      * Property used to list all the available formats that are applicable to the data
      */
     public $formats;
-
-    /**
-     * Property used to construct the Link-Template header
-     */
-    public $template;
 }
