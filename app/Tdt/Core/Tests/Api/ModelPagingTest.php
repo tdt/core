@@ -165,7 +165,7 @@ class ModelPagingTest extends TestCase
         $total_triples = $parser->parse($graph, $turtle, 'turtle', '');
 
         // Make sure triples are created and inserted into the graph
-        $this->assertEquals($total_triples, 16);
+        $this->assertEquals(14, $total_triples);
 
         // This array will hold 3 entries, one for the Dcat catalog entry itself
         // and the two first entries of the definitions it gets from the controller

@@ -24,6 +24,9 @@
         "cartalyst/sentry": "2.1.1",
         "ml/json-ld" : "@dev"
     },
+    "require-dev": {
+        "mockery/mockery": "dev-master@dev"
+    },
     "scripts": {
         "post-install-cmd": [
             "php artisan optimize",

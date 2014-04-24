@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "566febf443e091dc9853797119ac3c6e",
+    "hash": "fe3dbc51740776842608461a16c44bb0",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -597,17 +597,17 @@
         },
         {
             "name": "ml/json-ld",
-            "version": "dev-master",
+            "version": "1.0.0",
             "target-dir": "ML/JsonLD",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lanthaler/JsonLD.git",
-                "reference": "728f3379a460488b32e80f288dee074f751a5810"
+                "reference": "7fa16d5c0cacee0a184683d8b3c2172a84842997"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lanthaler/JsonLD/zipball/728f3379a460488b32e80f288dee074f751a5810",
-                "reference": "728f3379a460488b32e80f288dee074f751a5810",
+                "url": "https://api.github.com/repos/lanthaler/JsonLD/zipball/7fa16d5c0cacee0a184683d8b3c2172a84842997",
+                "reference": "7fa16d5c0cacee0a184683d8b3c2172a84842997",
                 "shasum": ""
             },
             "require": {
@@ -642,20 +642,20 @@
                 "JSON-LD",
                 "jsonld"
             ],
-            "time": "2014-03-20 19:49:19"
+            "time": "2014-03-19 22:57:09"
         },
         {
             "name": "monolog/monolog",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c"
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1afc39690e7414412face1f8cbf67b73db34485c",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
                 "shasum": ""
             },
             "require": {
@@ -710,7 +710,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-20 16:41:26"
+            "time": "2014-04-24 13:29:03"
         },
         {
             "name": "nesbot/carbon",
@@ -2632,15 +2632,81 @@
         }
     ],
     "packages-dev": [
-
+        {
+            "name": "mockery/mockery",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/padraic/mockery.git",
+                "reference": "1cd0f9516d3c39126b31bf50bcbf873dc65f29bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/1cd0f9516d3c39126b31bf50bcbf873dc65f29bf",
+                "reference": "1cd0f9516d3c39126b31bf50bcbf873dc65f29bf",
+                "shasum": ""
+            },
+            "require": {
+                "lib-pcre": ">=7.0",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "hamcrest/hamcrest-php": "~1.1",
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.7@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Mockery": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pádraic Brady",
+                    "email": "padraic.brady@gmail.com",
+                    "homepage": "http://blog.astrumfutura.com"
+                },
+                {
+                    "name": "Dave Marshall",
+                    "email": "dave.marshall@atstsolutions.co.uk",
+                    "homepage": "http://davedevelopment.co.uk"
+                }
+            ],
+            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succint API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
+            "homepage": "http://github.com/padraic/mockery",
+            "keywords": [
+                "BDD",
+                "TDD",
+                "library",
+                "mock",
+                "mock objects",
+                "mockery",
+                "stub",
+                "test",
+                "test double",
+                "testing"
+            ],
+            "time": "2014-04-21 19:33:11"
+        }
     ],
     "aliases": [
 
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "easyrdf/easyrdf": 20,
-        "ml/json-ld": 20
+        "ml/json-ld": 20,
+        "mockery/mockery": 20
     },
     "platform": [
 
