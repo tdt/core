@@ -126,15 +126,19 @@ class XMLFormatter implements IFormatter
 
         } elseif (is_array($data)) {
 
+            $object .= "<$xml_tag>";
+
             // We have a list of elements
             foreach ($data as $key => $element) {
 
                 if (is_numeric($key)) {
-                    $object .= self::transformToXML($element, $xml_tag);
+                    $object .= self::transformToXML($element, 'element');
                 } else {
                     $object .= self::transformToXML($element, $key);
                 }
             }
+
+            $object .= "</$xml_tag>";
 
         } else {
 
