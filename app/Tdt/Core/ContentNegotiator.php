@@ -49,7 +49,7 @@ class ContentNegotiator extends Pager
         // Formatter class
         $formatter_class = 'Tdt\\Core\\Formatters\\' . $extension . 'Formatter';
 
-        if (!class_exists($formatter_class)) {
+        if (empty($extension)) {
 
             $negotiator = new FormatNegotiator();
 
@@ -86,6 +86,13 @@ class ContentNegotiator extends Pager
 
             // Formatter class
             $formatter_class = 'Tdt\\Core\\Formatters\\' . $extension . 'Formatter';
+        } else if (!class_exists($formatter_class)) {
+
+            $format_helper = new FormatHelper();
+
+            $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
+
+            \App::abort(406, "The requested Content-Type is not supported, the supported formats for this resource are: " . $available_formats);
         }
 
 
