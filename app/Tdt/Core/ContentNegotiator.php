@@ -3,6 +3,7 @@
 namespace Tdt\Core;
 
 use Tdt\Core\Formatters\FormatHelper;
+use Negotiation\FormatNegotiator;
 
 /**
  * Content Negotiator
@@ -24,13 +25,16 @@ class ContentNegotiator extends Pager
         'application/xml' => 'XML',
         'application/xslt+xml' => 'XML',
         'application/xhtml+xml' => 'HTML',
+        'text/turtle' => 'ttl',
+        'application/n-triples' => 'nt',
+        'application/ld+json' => 'jsonld',
     );
 
     /**
      * Format using requested formatter (via extension, Accept-header or default)
      *
-     * @param Tdt\Core\Datasets\Data $data The data object on which the response will be based
-     * @param string                       The preferred format in which the data should be returned
+     * @param Tdt\Core\Datasets\Data $data      The data object on which the response will be based
+     * @param string                 $extension The preferred format in which the data should be returned
      *
      * @return \Response
      */
@@ -38,30 +42,6 @@ class ContentNegotiator extends Pager
     {
         // Check Accept-header
         $accept_header = \Request::header('Accept');
-
-        // Extract the accept parts
-        $mime_types = explode(',', $accept_header);
-
-        // Extension has priority over Accept-header
-        if (empty($extension)) {
-            foreach ($mime_types as $mime) {
-
-                if (!empty(ContentNegotiator::$mime_types_map[$mime])) {
-                    // Matched mime type
-                    $extension = ContentNegotiator::$mime_types_map[$mime];
-                    break;
-                }
-            }
-
-            // Still nothing? Use default formatter
-            if (empty($extension) && !$data->is_semantic) {
-                // Default formatter for non semantic data
-                $extension = 'json';
-            } elseif (empty($extension) && $data->is_semantic) {
-                // Default formatter for semantic data is turtle
-                $extension = 'ttl';
-            }
-        }
 
         // Safety first
         $extension = strtoupper($extension);
@@ -71,24 +51,38 @@ class ContentNegotiator extends Pager
 
         if (!class_exists($formatter_class)) {
 
-            // Use default formatter if */*;q=0.0 Accept header is not set
-            if (in_array('*/*;q=0.0', $mime_types)) {
+            $negotiator = new FormatNegotiator();
+
+            foreach (self::$mime_types_map as $mime => $format_name) {
+                $negotiator->registerFormat($format_name, array($mime), true);
+            }
+
+            // Add our own priorities, based on the type of data
+            $priorities = array('*/*');
+
+            if (empty($data->is_semantic) && !$data->is_semantic) {
+                // Default formatter for non semantic data
+                array_push($priorities, 'json');
+            } else {
+                array_push($priorities, 'ttl');
+            }
+
+            // Always head back to the html formatter as a last priority
+            array_push($priorities, 'html');
+
+            $format = $negotiator->getBestFormat($accept_header, $priorities);
+
+            if (empty($format)) {
 
                 $format_helper = new FormatHelper();
 
                 $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
+
                 \App::abort(406, "The requested Content-Type is not supported, the supported formats for this resource are: " . $available_formats);
-            } else {
-                if (empty($data->semantic)) {
-                    // Default formatter for non semantic data
-                    $extension = 'json';
-                } else {
-                    $extension = 'ttl';
-                }
             }
 
             // Safety first
-            $extension = strtoupper($extension);
+            $extension = strtoupper($format);
 
             // Formatter class
             $formatter_class = 'Tdt\\Core\\Formatters\\' . $extension . 'Formatter';

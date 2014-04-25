@@ -22,7 +22,8 @@
         "easyrdf/easyrdf" : "dev-devel",
         "kriswallsmith/buzz": "0.10",
         "cartalyst/sentry": "2.1.1",
-        "ml/json-ld" : "@dev"
+        "ml/json-ld" : "@dev",
+        "willdurand/negotiation" : "1.3.2"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
