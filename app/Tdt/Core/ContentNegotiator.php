@@ -19,15 +19,13 @@ class ContentNegotiator extends Pager
      * Map MIME-types on formatters for Accept-header
      */
     public static $mime_types_map = array(
-        'text/csv' => 'CSV',
-        'text/html' => 'HTML',
-        'application/json' => 'JSON',
-        'application/xml' => 'XML',
-        'application/xslt+xml' => 'XML',
-        'application/xhtml+xml' => 'HTML',
-        'text/turtle' => 'ttl',
-        'application/n-triples' => 'nt',
-        'application/ld+json' => 'jsonld',
+        'csv' => array('text/csv'),
+        'html' => array('text/html'),
+        'json' => array('application/json'),
+        'xml' => array('application/xslt+xml','text/xml', 'application/xml', 'application/x-xml', 'application/xhtml+xml', 'application/rdf+xml'),
+        'ttl' => array('text/turtle'),
+        'nt' => array('application/n-triples'),
+        'jsonld' => array('application/ld+json')
     );
 
     /**
@@ -53,8 +51,8 @@ class ContentNegotiator extends Pager
 
             $negotiator = new FormatNegotiator();
 
-            foreach (self::$mime_types_map as $mime => $format_name) {
-                $negotiator->registerFormat($format_name, array($mime), true);
+            foreach (self::$mime_types_map as $format_name => $mime_types) {
+                $negotiator->registerFormat($format_name, $mime_types, true);
             }
 
             // Add our own priorities, based on the type of data

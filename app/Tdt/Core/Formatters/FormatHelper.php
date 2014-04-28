@@ -43,6 +43,7 @@ class FormatHelper
             $formats['JSON-LD'] = 'jsonld';
             $formats['N-Triples'] = 'nt';
             $formats['Turtle'] = 'ttl';
+            $formats['RDF'] = 'xml';
         } else {
             $formats['PHP'] = 'php';
         }

@@ -2,12 +2,12 @@
 
 namespace Tdt\Core\Formatters;
 
-
 define("NUMBER_TAG_PREFIX", "_");
 define("DEFAULT_ROOTNAME", "data");
 
 /**
  * XML Formatter
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -22,7 +22,13 @@ class XMLFormatter implements IFormatter
         $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
-        $response->header('Content-Type', 'text/xml;charset=UTF-8');
+
+        if ($dataObj->is_semantic) {
+            // The response contains rdf+xml
+            $response->header('Content-Type', 'application/rdf+xml');
+        } else {
+            $response->header('Content-Type', 'text/xml;charset=UTF-8');
+        }
 
         return $response;
     }
