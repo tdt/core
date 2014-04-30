@@ -25,6 +25,7 @@ class FormatHelper
 
         $formats = array(
             'JSON' => 'json',
+            'XML' => 'xml',
         );
 
         // Check for tabular sources

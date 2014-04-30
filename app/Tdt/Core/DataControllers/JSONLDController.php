@@ -40,7 +40,13 @@ class JSONLDController extends ADataController
         $data = new Data();
         $data->data = $graph;
         $data->is_semantic = true;
+        $data->preferred_formats = $this->getPreferredFormats();
 
         return $data;
+    }
+
+    protected function getPreferredFormats()
+    {
+        return array('jsonld', 'ttl', 'rdf');
     }
 }

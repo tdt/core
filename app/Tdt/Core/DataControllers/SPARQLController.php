@@ -175,6 +175,7 @@ class SPARQLController extends ADataController
         $data->data = $result;
         $data->paging = $paging;
         $data->is_semantic = $is_semantic;
+        $data->preferred_formats = $this->getPreferredFormats();
 
         if ($is_semantic) {
 
@@ -190,6 +191,7 @@ class SPARQLController extends ADataController
 
             $data->semantic = new \stdClass();
             $data->semantic->conf = array('ns' => $prefixes);
+            $data->preferred_formats = array('ttl', 'jsonld', 'rdf');
         }
 
         // Determine which parameters were given in the query

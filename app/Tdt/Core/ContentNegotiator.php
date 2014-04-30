@@ -22,7 +22,15 @@ class ContentNegotiator extends Pager
         'csv' => array('text/csv'),
         'html' => array('text/html'),
         'json' => array('application/json'),
-        'xml' => array('application/xslt+xml','text/xml', 'application/xml', 'application/x-xml', 'application/xhtml+xml', 'application/rdf+xml'),
+        'xml' => array(
+            'application/xslt+xml',
+            'text/xml',
+            'application/xml',
+            'application/x-xml',
+            'application/xhtml+xml',
+            'application/rdf+xml',
+            'application/xml'
+            ),
         'ttl' => array('text/turtle'),
         'nt' => array('application/n-triples'),
         'jsonld' => array('application/ld+json')
@@ -55,28 +63,50 @@ class ContentNegotiator extends Pager
                 $negotiator->registerFormat($format_name, $mime_types, true);
             }
 
-            // Add our own priorities, based on the type of data
-            $priorities = array('*/*');
+            // Create a priority list of formats
+            $priorities = array();
 
-            if (empty($data->is_semantic) && !$data->is_semantic) {
-                // Default formatter for non semantic data
-                array_push($priorities, 'json');
-            } else {
-                array_push($priorities, 'ttl');
+            $format_helper = new FormatHelper();
+
+            if (empty($data->preferred_formats)) {
+                 // Still nothing? Use default formatter
+
+                if (empty($extension) && !$data->is_semantic) {
+                    // Default formatter for non semantic data
+                    $data->preferred_formats = array('json');
+
+                } elseif (empty($extension) && $data->is_semantic) {
+                    // Default formatter for semantic data is turtle
+                    $data->preferred_formats = array('ttl');
+                }
             }
 
-            // Always head back to the html formatter as a last priority
-            array_push($priorities, 'html');
+            if (!in_array('html', $priorities)) {
+                array_push($priorities, 'html');
+            }
+
+            $priorities = array_merge($data->preferred_formats, $priorities);
+
+            // Add support for our other formatters as well, if they're not already in the priorities
+            foreach ($format_helper->getAvailableFormats($data) as $format) {
+                if (!in_array($format, $priorities)) {
+                    array_push($priorities, $format);
+                }
+            }
+
+            array_push($priorities, '*/*');
 
             $format = $negotiator->getBestFormat($accept_header, $priorities);
 
-            if (empty($format)) {
+            $format_object = $negotiator->getBest($accept_header, $priorities);
+
+            if (!$format || $format_object->getQuality() == 0) {
 
                 $format_helper = new FormatHelper();
 
                 $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
 
-                \App::abort(406, "The requested Content-Type is not supported, the supported formats for this resource are: " . $available_formats);
+                \App::abort(406, "The requested Content-Type is not supported, or the best quality we found was 0. The supported formats for this resource are: " . $available_formats);
             }
 
             // Safety first
@@ -90,9 +120,8 @@ class ContentNegotiator extends Pager
 
             $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
 
-            \App::abort(406, "The requested Content-Type is not supported, the supported formats for this resource are: " . $available_formats);
+            \App::abort(406, "The requested Content-Type is not supported, or the best quality we found was 0. The supported formats for this resource are: " . $available_formats);
         }
-
 
         // Create the response from the designated formatter
         $response = $formatter_class::createResponse($data);

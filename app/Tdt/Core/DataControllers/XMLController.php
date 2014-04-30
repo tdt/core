@@ -46,6 +46,7 @@ class XMLController extends ADataController
         $data_result = new Data();
         $data_result->data = $data;
         $data_result->semantic = $this->prefixes;
+        $data_result->preferred_formats = $this->getPreferredFormats();
 
         return $data_result;
     }

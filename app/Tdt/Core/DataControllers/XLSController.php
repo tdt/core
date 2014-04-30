@@ -161,6 +161,7 @@ class XLSController extends ADataController
             $data_result = new Data();
             $data_result->data = $row_objects;
             $data_result->paging = $paging;
+            $data_result->preferred_formats = $this->getPreferredFormats();
 
             return $data_result;
 

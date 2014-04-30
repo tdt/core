@@ -58,11 +58,7 @@ class ContentNegotiationTest extends TestCase
      */
     public function testNoFormatSupported()
     {
-        $response = $this->makeRequest(array('Accept' => 'application/notaformat,*/*;q=0.0'));
-
-        $content_type = $response->headers->get('Content-Type');
-
-        $this->assertEquals('text/xml;charset=UTF-8', $content_type);
+        $response = $this->makeRequest(array('Accept' => '*/*;q=0.0'));
     }
 
     private function makeRequest(array $accept_header, $semantic = false)

@@ -44,7 +44,13 @@ class RDFController extends ADataController
         $data = new Data();
         $data->data = $graph;
         $data->is_semantic = true;
+        $data->preferred_formats = $this->getPreferredFormats();
 
         return $data;
+    }
+
+    protected function getPreferredFormats()
+    {
+        array('rdf', 'ttl', 'jsonld');
     }
 }

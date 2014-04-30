@@ -67,5 +67,10 @@ class Data
     /**
      * Property used to list all the available formats that are applicable to the data
      */
-    public $formats;
+    public $formats = array();
+
+    /**
+     * Property used to list the formats in a prioritized way
+     */
+    public $preferred_formats = array();
 }
