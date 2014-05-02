@@ -96,9 +96,6 @@ class BaseController extends \Controller
             return $response;
         } else {
 
-            // Regular response, add headers and forget Sentry's cookie
-            \Sentry::logout();
-
             // Make sure cross origin requests are allowed for GET
             $response->header('Access-Control-Allow-Origin', '*');
             $response->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
