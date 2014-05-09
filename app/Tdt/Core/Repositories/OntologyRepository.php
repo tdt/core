@@ -3,6 +3,7 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OntologyRepository implements OntologyRepositoryInterface
 {
@@ -15,5 +16,14 @@ class OntologyRepository implements OntologyRepositoryInterface
     public function getAll()
     {
         return \Ontology::all(array('prefix', 'uri'))->toArray();
+    }
+
+    public function getByPrefix($prefix)
+    {
+        try {
+            return \Ontology::where('prefix', $prefix)->firstOrFail()->toArray();
+        } catch (ModelNotFoundException $ex) {
+            return null;
+        }
     }
 }

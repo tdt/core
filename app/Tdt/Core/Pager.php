@@ -19,7 +19,6 @@ class Pager
      */
     protected static function getLinkHeader($paging)
     {
-
         $link_value = '';
 
         foreach ($paging as $keyword => $page_info) {
@@ -51,7 +50,6 @@ class Pager
      */
     private static function buildQuerystring()
     {
-
         $request_params = \Request::all();
         $request_params = array_except($request_params, array('limit', 'offset'));
         $request_string = '';
@@ -65,7 +63,9 @@ class Pager
     }
 
     /**
-     * Calculate the link meta-data for paging purposes
+     * Calculate the link meta-data for paging purposes, return an array with paging information
+     *
+     * @return array
      */
     public static function calculatePagingHeaders($limit, $offset, $total_rows)
     {
