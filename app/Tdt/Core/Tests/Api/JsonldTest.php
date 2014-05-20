@@ -133,7 +133,7 @@ class JsonldTest extends TestCase
         $definitions_count = Definition::all()->count();
         $jsonld_count = JsonldDefinition::all()->count();
 
-        $this->assertTrue($jsonld_count == 0);
-        $this->assertTrue($definitions_count == 0);
+        $this->assertEquals(0, $jsonld_count);
+        $this->assertEquals(0, $definitions_count);
     }
 }

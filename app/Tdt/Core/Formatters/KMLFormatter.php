@@ -17,6 +17,8 @@ class KMLFormatter implements IFormatter
     private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude');
     private static $LATITUDE_PREFIXES = array('lat', 'latitude');
 
+    private static $definition;
+
     public static function createResponse($dataObj)
     {
         // Create response
@@ -30,6 +32,8 @@ class KMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
+        self::$definition = $dataObj->definition;
+
         // Build the body
         // KML header
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
@@ -153,7 +157,20 @@ class KMLFormatter implements IFormatter
 
                 if (($lat != "" && $long != "") || count($coords) != 0) {
 
-                    echo "<Placemark><name>". htmlspecialchars($key) ."</name><Description>".$name."</Description>";
+                    $name = htmlspecialchars($key);
+
+                    if (!empty(self::$definition['map_property']) && !empty($array[self::$definition['map_property']])) {
+                        $name = $array[self::$definition['map_property']];
+                    }
+
+                    $description = '';
+
+                    if (!empty($key) && is_numeric($key)) {
+                        $description = "<![CDATA[<a href='" . \URL::to(self::$definition['collection_uri'] . '/' . self::$definition['resource_name']) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to(self::$definition['collection_uri'] . '/' . self::$definition['resource_name']) . '/' .  htmlspecialchars($key) ."</a>]]>";
+                    }
+
+                    echo "<Placemark><name>" . $name . "</name><Description>" . $description . "</Description>";
+
                     echo $extendeddata;
 
                     if ($lat != "" && $long != "") {
@@ -173,17 +190,17 @@ class KMLFormatter implements IFormatter
                         }
 
                         if ($lat_val != 0 || $lon_val != 0) {
-                            echo "<Point><coordinates>".$lon_val.",".$lat_val."</coordinates></Point>";
+                            echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "</coordinates></Point>";
                         }
                     }
 
                     if (count($coords)  > 0) {
                         if (count($coords)  == 1) {
-                            echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>".$coords[0]."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>" . $coords[0] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
                         } else {
                             echo "<MultiGeometry>";
                             foreach ($coords as $coord) {
-                                echo "<LineString><coordinates>".$coord."</coordinates></LineString>";
+                                echo "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
                             }
                             echo "</MultiGeometry>";
                         }
@@ -200,10 +217,13 @@ class KMLFormatter implements IFormatter
      */
     private static function getArray($dataObj, $geo)
     {
-
         $body = "";
 
         $data = $dataObj->data;
+
+        if (is_object($data)) {
+            $data = (array) $data;
+        }
 
         foreach ($data as $key => $value) {
 
@@ -226,18 +246,29 @@ class KMLFormatter implements IFormatter
             if (!empty($entry)) {
 
                 $name = htmlspecialchars($key);
+
                 if (!empty($entry['name'])) {
                     $name = $entry['name'];
                 }
+
+                $body .= implode($entry);
+
+
+                if (!empty($dataObj->definition['map_property']) && !empty($entry[$dataObj->definition['map_property']])) {
+                    $name = $entry[$dataObj->definition['map_property']];
+                }
+
                 $extendeddata = self::getExtendedDataElement($entry);
 
                 $description = "";
+
                 if (!empty($key) && is_numeric($key)) {
                     $description = "<![CDATA[<a href='" . \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key) ."</a>]]>";
                 }
 
-                $body .= "<Placemark><name>".$name."</name><description>".$description."</description>";
+                $body .= "<Placemark><name>" . $name . "</name><description>" . $description . "</description>";
                 $body .= $extendeddata;
+
                 if ($is_point) {
 
                     if (count($geo) > 1) {

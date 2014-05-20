@@ -62,6 +62,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         \XmlDefinition::truncate();
         \GeoProperty::truncate();
         \TabularColumns::truncate();
+        \JsonldDefinition::truncate();
     }
 
     /**
