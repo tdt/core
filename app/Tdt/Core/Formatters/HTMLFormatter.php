@@ -92,7 +92,7 @@ class HTMLFormatter implements IFormatter
                         if ($dataObj->is_semantic) {
 
                             // This data object is always semantic
-                            $view = 'dataset.code';
+                            $view = 'dataset.turtle';
 
                             // Check if a configuration is given
                             $conf = array();
