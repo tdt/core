@@ -17,6 +17,9 @@ class DcatRepository implements DcatRepositoryInterface
     {
         $graph = new \EasyRdf_Graph();
 
+        $this->licenses = \App::make('Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface');
+        $this->languages = \App::make('Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface');
+
         $uri = \Request::root();
 
         // Add the catalog and a title
@@ -59,6 +62,7 @@ class DcatRepository implements DcatRepositoryInterface
                 $optional = array('title', 'date', 'language', 'rights');
 
                 foreach ($optional as $dc_term) {
+
                     if (!empty($definition[$dc_term])) {
 
                         if ($dc_term == 'rights') {
