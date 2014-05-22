@@ -780,6 +780,10 @@ button.close {
 
 }
 
+div.leaflet-container{
+    min-height: 600px;
+}
+
 
 @media(max-width:500px){
     .navbar{
