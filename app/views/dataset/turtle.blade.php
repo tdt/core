@@ -18,6 +18,7 @@
     <script id="turtle" type="text/turtle">
         {{ $body }}
     </script>
+    <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
     <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
     <script textype="text/javascript" src='{{ URL::to("js/rdf2html.min.js") }}'></script>
     <script type="text/javascript">
