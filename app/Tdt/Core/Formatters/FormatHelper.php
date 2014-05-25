@@ -45,6 +45,7 @@ class FormatHelper
             $formats['N-Triples'] = 'nt';
             $formats['Turtle'] = 'ttl';
             $formats['RDF'] = 'xml';
+            unset($formats['XML']);
         } else {
             $formats['PHP'] = 'php';
         }
