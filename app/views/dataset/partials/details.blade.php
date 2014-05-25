@@ -4,7 +4,7 @@
         <div class="btn-group formats">
             <?php $i = 0; ?>
             @foreach($formats as $format => $extension)
-                <a href="{{ $dataset_link }}.{{ $extension }}{{ $query_string }}" class="btn @if($i == 0){{ 'btn-primary' }}@endif">
+                <a href="{{ $dataset_link }}.{{ $extension }}{{ $query_string }}" class="btn">
                     @if($i == 0)
                         @if($extension == 'map')
                             <i class='fa fa-expand'></i>
