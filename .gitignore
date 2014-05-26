@@ -13,3 +13,5 @@ composer.phar
 /installed/*
 !/installed/.gitkeep
 app/config/workbench.php
+public/packages
+workbench

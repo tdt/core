@@ -73,8 +73,7 @@ class Auth extends \Controller
         self::basicAuth();
 
         // Show login form for browser requests
-        $mime_types = explode(',', \Request::header('Accept'));
-        if (empty(self::$user) && count($mime_types) > 0 && $mime_types[0] == 'text/html') {
+        if (empty(self::$user)) {
             if (\Sentry::check()) {
                 return true;
             } else {
@@ -156,7 +155,7 @@ class Auth extends \Controller
         $superadmin = \Sentry::findGroupByName('superadmin');
 
         // Check permissions
-        if ($user->hasAccess($permissions) || $user->inGroup($superadmin)) {
+        if ($user->inGroup($superadmin) || $user->hasAccess($permissions)) {
             // Share user in views
             \View::share('current_user', $user);
             return true;

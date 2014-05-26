@@ -187,7 +187,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
-            \App::abort(400, "Something went wrong during validation, the message we got is: " . $message);
+            \App::abort(400, $message);
         }
     }
 
