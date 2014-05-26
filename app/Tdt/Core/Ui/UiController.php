@@ -78,8 +78,6 @@ class UiController extends \Controller
         }
 
         // Sort menu's
-
-
         usort($menu, function ($a, $b) {
             return $a['priority'] - $b['priority'];
         });

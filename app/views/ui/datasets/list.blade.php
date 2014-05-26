@@ -120,10 +120,10 @@
 @stop
 
 @section('navigation')
-
-    <div class="search pull-right hidden-xs">
-        <input id='dataset-filter' type="text" placeholder='Search for datasets' spellcheck='false'>
-        <i class='fa fa-search'></i>
-    </div>
-
+    @if(count($definitions) > 0)
+        <div class="search pull-right hidden-xs">
+            <input id='dataset-filter' type="text" placeholder='Search for datasets' spellcheck='false'>
+            <i class='fa fa-search'></i>
+        </div>
+    @endif
 @stop
