@@ -784,6 +784,10 @@ div.leaflet-container{
     min-height: 450px;
 }
 
+ul.nav-tabs + div.panel{
+    margin-top: -1px;
+}
+
 
 @media(max-width:500px){
     .navbar{
