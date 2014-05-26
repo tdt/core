@@ -19,27 +19,15 @@
             </a>
 
             <ul class="nav navbar-nav">
-                @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.view'))
-                    <li @if(Request::segment(3) == '' || Request::segment(3) == 'datasets')  class='active' @endif>
-                        <a href="{{ URL::to('api/admin/datasets') }}">
-                            <i class='fa fa-table'></i> Datasets
-                        </a>
-                    </li>
-                @endif
-                @if(Tdt\Core\Auth\Auth::hasAccess('admin.user.view'))
-                    <li @if(Request::segment(3) == 'users')  class='active' @endif>
-                        <a href="{{ URL::to('api/admin/users') }}">
-                            <i class='fa fa-user'></i> Users
-                        </a>
-                    </li>
-                @endif
-                @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.view'))
-                    <li @if(Request::segment(3) == 'groups')  class='active' @endif>
-                        <a href="{{ URL::to('api/admin/groups') }}">
-                            <i class='fa fa-group'></i> Groups
-                        </a>
-                    </li>
-                @endif
+                @foreach($menu as $item)
+                     @if(empty($item['permission']) || Tdt\Core\Auth\Auth::hasAccess($item['permission']))
+                        <li @if(Request::segment(3) == '' || Request::segment(3) == $item['slug'])  class='active' @endif>
+                            <a href="{{ URL::to('api/admin/' . $item['slug']) }}">
+                                <i class='fa {{ $item['icon'] }}'></i> {{ $item['title'] }}
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
             </ul>
 
             @yield('navigation')

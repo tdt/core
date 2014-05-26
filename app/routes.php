@@ -23,6 +23,8 @@ Route::group(array('prefix' => 'api/admin'), function () {
     Route::controller('datasets', 'Tdt\\Core\\Ui\\DatasetController');
     Route::controller('users', 'Tdt\\Core\\Ui\\UserController');
     Route::controller('groups', 'Tdt\\Core\\Ui\\GroupController');
+
+    Route::any('{all}', 'Tdt\\Core\\Ui\\UiController@handleRequest')->where('all', '.*');
 });
 
 /*

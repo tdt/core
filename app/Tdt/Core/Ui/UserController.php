@@ -11,7 +11,7 @@ namespace Tdt\Core\Ui;
 use Tdt\Core\Auth\Auth;
 use Tdt\Core\Ui\Helpers\Flash;
 
-class UserController extends \Controller
+class UserController extends UiController
 {
 
     /**
