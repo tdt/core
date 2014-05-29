@@ -14,7 +14,7 @@ namespace Tdt\Core\Formatters;
 class KMLFormatter implements IFormatter
 {
 
-    private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude');
+    private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude', 'lng');
     private static $LATITUDE_PREFIXES = array('lat', 'latitude');
 
     private static $definition;

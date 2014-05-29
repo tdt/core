@@ -33,7 +33,7 @@ class DiscoveryController extends ApiController
         }
 
         // If the triples package is installed, add it to the discovery document
-        if (class_exists('Tdt\Triples\Controllers\DiscoveryController')) {
+        if (class_exists('Tdt\Triples\TriplesServiceProvider')) {
             $discovery_class = 'Tdt\Triples\Controllers\DiscoveryController';
             $discovery_document->resources->triples = $discovery_class::createDiscoveryDocument();
         }
