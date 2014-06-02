@@ -52,7 +52,7 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
                 'required' => false,
                 'name' => 'XLS sheet',
                 'description' => 'The sheet name in which the tabular data resides.',
-                'default_value' => ',',
+                'default_value' => 'Sheet1',
                 'type' => 'string',
             ),
             'has_header_row' => array(

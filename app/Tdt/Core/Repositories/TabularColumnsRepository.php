@@ -87,7 +87,6 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
 
     public function getColumns($tabular_id, $type)
     {
-
         return \TabularColumns::where('tabular_id', '=', $tabular_id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
     }
 

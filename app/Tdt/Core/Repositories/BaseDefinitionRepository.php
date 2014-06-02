@@ -92,10 +92,9 @@ class BaseDefinitionRepository
      */
     protected function processInput(array $input)
     {
-
         foreach ($this->getCreateParameters() as $key => $info) {
 
-            if (empty($input[$key]) && !empty($info['default_value']) || is_numeric(@$info['default_value'])) {
+            if (empty($input[$key]) && (!empty($info['default_value']) || !is_null(@$info['default_value']))) {
                 $input[$key] = @$info['default_value'];
             } elseif (empty($input[$key])) {
                 $input[$key] = null;

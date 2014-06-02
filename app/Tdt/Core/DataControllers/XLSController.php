@@ -31,7 +31,6 @@ class XLSController extends ADataController
 
     public function readData($source_definition, $rest_parameters = array())
     {
-
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Disregard the paging when rest parameters are given
@@ -204,15 +203,18 @@ class XLSController extends ADataController
      */
     private function createValues($columns, $data)
     {
-
         $result = array();
 
         foreach ($columns as $column) {
-            if (isset($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
+
+            $value = @$data[$column['index']];
+
+            if (!is_null($value)) {
                 $result[$column['column_name_alias']] = $data[$column['index']];
             } else {
                 $index = $column['index'];
-                \App::abort(500, "The index $index could not be found in the XLS file. Index count starts at 0.");
+
+                \Log::warning("The column $index contained an empty value in the XLS file.");
             }
         }
 
@@ -284,7 +286,7 @@ class XLSController extends ADataController
 
                     foreach ($cell_iterator as $cell) {
 
-                        if ($cell->getCalculatedValue() != "") {
+                        if ($cell->getValue() != "") {
 
                             $cell_value = trim($cell->getCalculatedValue());
 
@@ -302,6 +304,7 @@ class XLSController extends ADataController
                                 'column_name_alias' => $alias,
                                 'is_pk' => ($pk === $column_index)));
                         }
+
                         $column_index++;
                     }
 

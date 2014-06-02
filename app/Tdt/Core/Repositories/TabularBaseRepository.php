@@ -16,7 +16,6 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
 
     public function store(array $input)
     {
-
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
@@ -109,6 +108,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
 
         // Check for a primary key, and add it to the columns
         $pk = @$input['pk'];
+
         if (!is_null($pk) && is_numeric($pk) && $pk >= 0 && $pk < count($columns)) {
             $columns[$pk]['is_pk'] = 1;
         }
