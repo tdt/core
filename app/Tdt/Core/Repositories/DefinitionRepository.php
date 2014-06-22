@@ -231,6 +231,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $properties['type'] = strtolower($source_definition->type);
         $properties['description'] = @$source_definition->description;
 
+        unset($properties['map_property']);
+        unset($properties['draft']);
+
         return $properties;
     }
 
