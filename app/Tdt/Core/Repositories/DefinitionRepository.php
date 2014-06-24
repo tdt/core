@@ -229,6 +229,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         $properties['type'] = strtolower($source_definition->type);
+        $properties['description'] = @$source_definition->description;
+
+        unset($properties['map_property']);
+        unset($properties['draft']);
 
         return $properties;
     }
@@ -333,13 +337,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'required' => false,
                 'name' => 'Date',
                 'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
-                'type' => 'string',
-                'group' => 'dc',
-            ),
-            'source' => array(
-                'required' => false,
-                'name' => 'Source',
-                'description' => 'A related resource from which the described resource is derived.',
                 'type' => 'string',
                 'group' => 'dc',
             ),

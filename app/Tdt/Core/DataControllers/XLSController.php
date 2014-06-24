@@ -215,6 +215,7 @@ class XLSController extends ADataController
                 $index = $column['index'];
 
                 \Log::warning("The column $index contained an empty value in the XLS file.");
+                $result[$column['column_name_alias']] = '';
             }
         }
 
