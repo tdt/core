@@ -27,7 +27,8 @@
                         <div class='row'>
                             <div class='col-sm-5'>
                                 <h4 class='dataset-title'>
-                                    <a href='{{ URL::to($collection) }}'>{{ $collection_name }}</a>
+
+                                    <a href='{{ $collection }}'>{{ $collection_name }}</a>
                                 </h4>
                             </div>
                         </div>
@@ -51,7 +52,7 @@
                         <div class='row'>
                             <div class='col-sm-5'>
                                 <h4 class='dataset-title'>
-                                    <a href='{{ URL::to($definition) }}'>{{ $definition_name }}</a>
+                                    <a href='{{ $definition }}'>{{ $definition_name }}</a>
                                 </h4>
                             </div>
                         </div>

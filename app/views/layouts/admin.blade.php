@@ -21,7 +21,7 @@
             <ul class="nav navbar-nav">
                 @foreach($menu as $item)
                      @if(empty($item['permission']) || Tdt\Core\Auth\Auth::hasAccess($item['permission']))
-                        <li @if(Request::segment(3) == '' || Request::segment(3) == $item['slug'])  class='active' @endif>
+                        <li @if(Request::segment(3) == $item['slug'])  class='active' @endif>
                             <a href="{{ URL::to('api/admin/' . $item['slug']) }}">
                                 <i class='fa {{ $item['icon'] }}'></i> {{ $item['title'] }}
                             </a>
