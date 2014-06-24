@@ -20,7 +20,6 @@ class XMLFormatter implements IFormatter
 
     public static function createResponse($dataObj)
     {
-
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 
@@ -128,7 +127,8 @@ class XMLFormatter implements IFormatter
                     foreach ($attributes as $name => $value) {
 
                         $name = self::getFullName($name);
-                        $object .= " $name='".$value."'";
+
+                        $object .= " " . $name . '=' . '"' . htmlspecialchars($value) . "'";
                     }
 
                     $object .= '>';
@@ -149,7 +149,8 @@ class XMLFormatter implements IFormatter
                     if (is_array($value)) {
                         $object .= implode(' ', $value);
                     } else {
-                        $object .= $value;
+                        // Replace XML entities: < > & ' "
+                        $object .= htmlspecialchars($value);
                     }
                 } else {
                     $object .= self::transformToXML($value, $key);
@@ -196,6 +197,7 @@ class XMLFormatter implements IFormatter
         } else {
 
             $object .= "<$xml_tag>";
+
             // Data is string append it
             $object .= self::getXMLString($data);
             $object .= "</$xml_tag>";
@@ -208,13 +210,14 @@ class XMLFormatter implements IFormatter
 
     private static function getXMLString($string)
     {
-
         // Check for XML syntax to escape
         if (preg_match('/[<>&]+/', $string)) {
             $string = '<![CDATA[' . $string . ']]>';
         }
 
-        return $string;
+        // Replace XML entities: < > & ' "
+
+        return htmlspecialchars($string);
     }
 
     private static function isAssociative($arr)

@@ -152,7 +152,6 @@ class CSVController extends ADataController
      */
     private function createValues($columns, $data)
     {
-
         $result = array();
 
         foreach ($columns as $column) {
@@ -164,7 +163,7 @@ class CSVController extends ADataController
 
                 \Log::warning("We expected a value for index $index, yet no value was given. Filling in an empty value.");
 
-                $result[$column['column_name_alias']] = null;
+                $result[$column['column_name_alias']] = '';
             }
         }
 
@@ -224,15 +223,23 @@ class CSVController extends ADataController
                     // then just take the column value as alias
                     $alias = @$aliases[$i];
 
+                    $column_name = trim($line[$i]);
+
                     if (empty($alias)) {
-                        $alias = trim($line[$i]);
+                        $alias = $column_name;
+                    }
+
+                    if (empty($column_name)) {
+                        $column_name = 'column_' . $i;
+
+                        $alias = $column_name;
                     }
 
                     array_push(
                         $columns,
                         array(
                             'index' => $i,
-                            'column_name' => trim($line[$i]),
+                            'column_name' => $column_name,
                             'column_name_alias' => $alias,
                             'is_pk' => ($pk === $i)
                         )

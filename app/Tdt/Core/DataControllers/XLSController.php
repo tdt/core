@@ -287,24 +287,35 @@ class XLSController extends ADataController
 
                     foreach ($cell_iterator as $cell) {
 
+                        $column_name = '';
+
                         if ($cell->getValue() != "") {
 
-                            $cell_value = trim($cell->getCalculatedValue());
+                            $column_name = trim($cell->getCalculatedValue());
 
-                            // Try to get an alias from the options, if it's empty
-                            // then just take the column value as alias
-                            $alias = @$aliases[$column_index];
+                        } else {
 
-                            if (empty($alias)) {
-                                $alias = $cell_value;
-                            }
+                            $column_name = 'column_' . $column_index;
 
-                            array_push($columns, array(
-                                'index' => $column_index,
-                                'column_name' => $cell->getCalculatedValue(),
-                                'column_name_alias' => $alias,
-                                'is_pk' => ($pk === $column_index)));
                         }
+
+                        // Try to get an alias from the options, if it's empty
+                        // then just take the column value as alias
+                        $alias = @$aliases[$column_index];
+
+                        if (empty($alias)) {
+                            $alias = $column_name;
+                        }
+
+                        array_push(
+                            $columns,
+                            array(
+                            'index' => $column_index,
+                            'column_name' => $column_name,
+                            'column_name_alias' => $alias,
+                            'is_pk' => ($pk === $column_index)
+                            )
+                        );
 
                         $column_index++;
                     }
