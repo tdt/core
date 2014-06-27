@@ -27,11 +27,11 @@ class DatasetController extends ApiController
      *
      * @param string $uri The identifier that identifies a resource
      *
-     * @return Tdt\Core\Datasets\Data
+     * @return \Response
      */
     public function get($uri)
     {
-        // Set permission
+        // Check permissions
         Auth::requirePermissions('dataset.view');
 
         // Split for an (optional) extension
@@ -147,6 +147,37 @@ class DatasetController extends ApiController
             }
 
         }
+    }
+
+    /**
+     * Return a HEAD response indicating if a URI is reachable for the user agent
+     *
+     * @param string $uri The identifier that identifies a resource
+     *
+     * @return \Response
+     */
+    public function head($uri)
+    {
+        // Check permissions
+        Auth::requirePermissions('dataset.view');
+
+        // Split for an (optional) extension
+        list($uri, $extension) = $this->processURI($uri);
+
+        // Get definition
+        $definition = $this->definition->getByIdentifier($uri);
+
+        $response = new \Response();
+
+        if ($definition) {
+
+            $response = \Response::make(null, 200);
+
+        } else {
+            $response = \Response::make(null, 404);
+        }
+
+        return $response;
     }
 
     /**
