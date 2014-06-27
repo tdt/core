@@ -26,7 +26,7 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
 
     /**
      * Validate a set of columns and check for mismatches
-     * between a given set of columns and the extracted ones
+     * between the given set of columns and the extracted ones
      */
     public function validateBulk(array $extracted_columns, array $provided_columns)
     {

@@ -78,11 +78,25 @@ class HTMLFormatter implements IFormatter
                 switch($type){
                     case 'XLS':
                     case 'CSV':
-                        $view = 'dataset.tabular';
-                        $data = $dataObj->data;
+
+                        $first_row = array_shift($dataObj->data);
+                        array_unshift($dataObj->data, $first_row);
+
+                        if (is_array($first_row) || is_object($first_row)) {
+
+                            $view = 'dataset.tabular';
+                            $data = $dataObj->data;
+
+                        } else {
+
+                            $view = 'dataset.code';
+                            $data =  $data = self::displayTree($dataObj->data);
+
+                        }
 
                         break;
                     case 'SHP':
+
                         $view = 'dataset.map';
                         $data = $dataset_link . '.map' . $query_string;
 
@@ -150,6 +164,7 @@ class HTMLFormatter implements IFormatter
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
+
         if (defined('JSON_PRETTY_PRINT')) {
             $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         } else {

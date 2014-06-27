@@ -31,6 +31,6 @@ class InitRdfDefinition extends Migration {
     public function down()
     {
         // Drop the table for the rdf definition
-        Schema::create('rdfdefinitions');
+        Schema::drop('rdfdefinitions');
     }
 }
