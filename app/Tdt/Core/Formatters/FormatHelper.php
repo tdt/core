@@ -24,26 +24,30 @@ class FormatHelper
     {
 
         $formats = array(
-            'php' => 'php',
-            'json' => 'json',
-            'xml' => 'xml',
+            'JSON' => 'json',
+            'XML' => 'xml',
         );
 
         // Check for tabular sources
         if (in_array(strtolower($data->source_definition['type']), self::$tabular_sources)) {
-            $formats['csv'] = 'csv';
-        }
-
-        // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph
-        if (is_object($data->data) && get_class($data->data) == 'EasyRdf_Graph') {
-            $formats['json-ld'] = 'jsonld';
-            $formats['ntriples'] = 'nt';
-            $formats['turtle'] = 'ttl';
+            $formats['CSV'] = 'csv';
         }
 
         // Check for geographical properties
         if (!empty($data->geo)) {
-            $formats['map'] = 'map';
+            $formats = array_merge(array('Fullscreen' => 'map'), $formats);
+            $formats['KML'] = 'kml';
+        }
+
+        // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph
+        if (is_object($data->data) && get_class($data->data) == 'EasyRdf_Graph') {
+            $formats['JSON-LD'] = 'jsonld';
+            $formats['N-Triples'] = 'nt';
+            $formats['Turtle'] = 'ttl';
+            $formats['RDF'] = 'xml';
+            unset($formats['XML']);
+        } else {
+            $formats['PHP'] = 'php';
         }
 
         return $formats;

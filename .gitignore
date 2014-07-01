@@ -6,7 +6,6 @@ Makefile
 tmp/*
 /vendor
 composer.phar
-composer.lock
 /app/config/local
 /app/config/staging
 /app/config/production
@@ -14,3 +13,5 @@ composer.lock
 /installed/*
 !/installed/.gitkeep
 app/config/workbench.php
+public/packages
+workbench

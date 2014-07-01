@@ -9,21 +9,24 @@
         "classmap": [
             "app/models",
             "app/database/migrations",
-            "app/database/seeds",
-            "app/tests/TestCase.php"
+            "app/database/seeds"
         ],
         "psr-0": {
             "Tdt\\Core": "app/"
         }
     },
     "require": {
-        "laravel/framework": "4.1.*",
-        "phpoffice/phpexcel": "1.*",
-        "phpunit/phpunit" : "4.0.*",
-        "easyrdf/easyrdf" : "0.8.*",
-        "kriswallsmith/buzz": "0.*",
-        "cartalyst/sentry": "2.1.*",
-        "ml/json-ld" : "@dev"
+        "laravel/framework": "4.1.28",
+        "phpoffice/phpexcel": "1.8.0",
+        "phpunit/phpunit" : "4.0.17",
+        "easyrdf/easyrdf" : "dev-devel",
+        "kriswallsmith/buzz": "0.10",
+        "cartalyst/sentry": "2.1.1",
+        "ml/json-ld" : "@dev",
+        "willdurand/negotiation" : "1.3.2"
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master@dev"
     },
     "scripts": {
         "post-install-cmd": [
@@ -39,12 +42,12 @@
         "post-update-cmd": [
             "php artisan optimize",
             "php artisan migrate",
-            "php artisan migrate --package=tdt/input",
             "php artisan migrate --package=cartalyst/sentry"
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
         ]
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

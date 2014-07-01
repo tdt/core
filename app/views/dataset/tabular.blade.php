@@ -32,24 +32,7 @@
     </div>
 
     <div class="col-sm-3">
-        <a href="{{ $dataset_link }}.json{{ $query_string }}" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
-        <a href="{{ $dataset_link }}.csv{{ $query_string }}" class="btn btn-block"><i class='fa fa-table'></i> Download CSV</a>
-
-        <br/>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <h5 class="list-group-item-heading">Description</h5>
-                <p class="list-group-item-text">
-                    {{ $source_definition['description'] }}
-                </p>
-            </li>
-            <li class="list-group-item">
-                <h5 class="list-group-item-heading">Source Type</h5>
-                <p class="list-group-item-text">
-                    {{ strtoupper($source_definition['type']) }}
-                </p>
-            </li>
-        </ul>
+        @include('dataset/partials/details')
     </div>
 
 @stop

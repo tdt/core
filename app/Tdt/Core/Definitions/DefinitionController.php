@@ -32,6 +32,9 @@ class DefinitionController extends ApiController
      */
     public function put($uri)
     {
+        // Set permission
+        Auth::requirePermissions('definition.create');
+
         // Check for the correct content type header if set
         if (!empty($content_type) && $content_type != 'application/tdt.definition+json') {
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
@@ -50,7 +53,7 @@ class DefinitionController extends ApiController
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
-            \App::abort(400, "Something went wrong during validation, the message we got is: " . $message);
+            \App::abort(400, $message);
         }
 
         // Create the new definition
@@ -67,6 +70,9 @@ class DefinitionController extends ApiController
      */
     public function delete($uri)
     {
+        // Set permission
+        Auth::requirePermissions('definition.delete');
+
         $this->definition->delete($uri);
 
         return \Response::make(null, 200);
@@ -77,6 +83,9 @@ class DefinitionController extends ApiController
      */
     public function patch($uri)
     {
+        // Set permission
+        Auth::requirePermissions('definition.update');
+
         // Check for the correct content type header if set
         if (!empty($content_type) && $content_type != 'application/tdt.definition+json') {
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
@@ -95,7 +104,7 @@ class DefinitionController extends ApiController
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
-            \App::abort(400, "Something went wrong during validation, the message we got is: " . $message);
+            \App::abort(400, $message);
         }
 
         $this->definition->update($uri, $input);
@@ -110,6 +119,9 @@ class DefinitionController extends ApiController
      */
     public function head($uri)
     {
+        // Set permission
+        Auth::requirePermissions('definition.view');
+
         if ($this->definition->exists($uri)) {
             \App::abort(404, "No resource has been found with the uri $uri");
         }
@@ -129,6 +141,8 @@ class DefinitionController extends ApiController
      */
     public function get($uri)
     {
+        // Set permission
+        Auth::requirePermissions('definition.view');
 
         if (!empty($uri)) {
 

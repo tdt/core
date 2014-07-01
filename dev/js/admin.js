@@ -93,6 +93,7 @@ $('.btn-add-dataset').on('click', function(e){
         data: JSON.stringify(data),
         method: 'PUT',
         headers: {
+            'Accept' : 'application/json',
             'Content-Type': 'application/tdt.definition+json',
             'Authorization': authHeader
         },
@@ -144,6 +145,7 @@ $('.btn-edit-dataset').on('click', function(e){
         data: JSON.stringify(data),
         method: 'POST',
         headers: {
+            'Accept' : 'application/json',
             'Authorization': authHeader
         },
         success: function(e){

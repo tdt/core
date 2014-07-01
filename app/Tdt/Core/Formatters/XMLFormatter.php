@@ -2,12 +2,12 @@
 
 namespace Tdt\Core\Formatters;
 
-
 define("NUMBER_TAG_PREFIX", "_");
 define("DEFAULT_ROOTNAME", "data");
 
 /**
  * XML Formatter
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -15,14 +15,22 @@ define("DEFAULT_ROOTNAME", "data");
 class XMLFormatter implements IFormatter
 {
 
+    public static $prefixes = array();
+    public static $isRootElement = true;
+
     public static function createResponse($dataObj)
     {
-
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
-        $response->header('Content-Type', 'text/xml;charset=UTF-8');
+
+        if ($dataObj->is_semantic) {
+            // The response contains rdf+xml
+            $response->header('Content-Type', 'application/rdf+xml;charset=UTF-8');
+        } else {
+            $response->header('Content-Type', 'text/xml;charset=UTF-8');
+        }
 
         return $response;
     }
@@ -47,9 +55,38 @@ class XMLFormatter implements IFormatter
 
         // Build the body
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
+
+        self::$prefixes = $dataObj->semantic;
+
         $body .= self::transformToXML($dataObj->data, $rootname);
 
         return $body;
+    }
+
+    /**
+     * Return a valid xml tag name, use URI prefixes if necessary
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    private static function getFullName($name)
+    {
+        // If the name contains a http:// then it should be prefixed
+
+        if (strpos($name, '://')) {
+
+            foreach (self::$prefixes as $prefix => $uri) {
+
+                $prefixedName = str_replace($uri, $prefix . ':', $name);
+
+                if ($prefixedName != $name) {
+                    return $prefixedName;
+                }
+            }
+        }
+
+        return $name;
     }
 
     private static function transformToXML($data, $nameobject)
@@ -57,12 +94,25 @@ class XMLFormatter implements IFormatter
         // Set the tagname, replace whitespaces with an underscore
         $xml_tag = str_replace(' ', '_', $nameobject);
 
+        $xml_tag = self::getFullName($xml_tag);
+
         // Start an empty object to add to the document
         $object = '';
 
         if (is_array($data) && self::isAssociative($data)) {
 
-            $object = "<$xml_tag>";
+            $object = "<$xml_tag";
+
+            if (self::$isRootElement) {
+
+                self::$isRootElement = false;
+
+                foreach (self::$prefixes as $prefix => $uri) {
+                    $object .= " xmlns:" . $prefix . "=\"$uri\"";
+                }
+            }
+
+            $object .=">";
 
             // Check for attributes
             if (!empty($data['@attributes'])) {
@@ -75,7 +125,10 @@ class XMLFormatter implements IFormatter
 
                     // Add attributes
                     foreach ($attributes as $name => $value) {
-                        $object .= " $name='".$value."'";
+
+                        $name = self::getFullName($name);
+
+                        $object .= " " . $name . '=' . '"' . htmlspecialchars($value) . "'";
                     }
 
                     $object .= '>';
@@ -96,7 +149,8 @@ class XMLFormatter implements IFormatter
                     if (is_array($value)) {
                         $object .= implode(' ', $value);
                     } else {
-                        $object .= $value;
+                        // Replace XML entities: < > & ' "
+                        $object .= htmlspecialchars($value);
                     }
                 } else {
                     $object .= self::transformToXML($value, $key);
@@ -126,19 +180,24 @@ class XMLFormatter implements IFormatter
 
         } elseif (is_array($data)) {
 
+            $object .= "<$xml_tag>";
+
             // We have a list of elements
             foreach ($data as $key => $element) {
 
                 if (is_numeric($key)) {
-                    $object .= self::transformToXML($element, $xml_tag);
+                    $object .= self::transformToXML($element, 'element');
                 } else {
                     $object .= self::transformToXML($element, $key);
                 }
             }
 
+            $object .= "</$xml_tag>";
+
         } else {
 
             $object .= "<$xml_tag>";
+
             // Data is string append it
             $object .= self::getXMLString($data);
             $object .= "</$xml_tag>";
@@ -151,13 +210,14 @@ class XMLFormatter implements IFormatter
 
     private static function getXMLString($string)
     {
-
         // Check for XML syntax to escape
         if (preg_match('/[<>&]+/', $string)) {
             $string = '<![CDATA[' . $string . ']]>';
         }
 
-        return $string;
+        // Replace XML entities: < > & ' "
+
+        return htmlspecialchars($string);
     }
 
     private static function isAssociative($arr)

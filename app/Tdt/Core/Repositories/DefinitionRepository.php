@@ -187,7 +187,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
-            \App::abort(400, "Something went wrong during validation, the message we got is: " . $message);
+            \App::abort(400, $message);
         }
     }
 
@@ -229,6 +229,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         $properties['type'] = strtolower($source_definition->type);
+        $properties['description'] = @$source_definition->description;
+
+        unset($properties['map_property']);
+        unset($properties['draft']);
 
         return $properties;
     }
@@ -321,7 +325,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
      */
     public function getCreateParameters()
     {
-
         return array(
             'title' => array(
                 'required' => false,
@@ -334,13 +337,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'required' => false,
                 'name' => 'Date',
                 'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
-                'type' => 'string',
-                'group' => 'dc',
-            ),
-            'source' => array(
-                'required' => false,
-                'name' => 'Source',
-                'description' => 'A related resource from which the described resource is derived.',
                 'type' => 'string',
                 'group' => 'dc',
             ),
@@ -373,6 +369,12 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'name' => 'Draft',
                 'type' => 'boolean',
                 'description' => 'Draft definitions are not shown to the public when created, however the URI space they take is reserved.',
+            ),
+            'map_property' => array(
+                'required' => false,
+                'name' => 'Map property',
+                'type' => 'string',
+                'description' => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable. Non geo-graphical datasets are not affected by this property.',
             ),
         );
     }

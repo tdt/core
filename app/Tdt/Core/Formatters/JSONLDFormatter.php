@@ -2,6 +2,8 @@
 
 namespace Tdt\Core\Formatters;
 
+use ML\JsonLD\JsonLD;
+
 /**
  * JSON-LD Formatter
  *
@@ -30,11 +32,45 @@ class JSONLDFormatter implements IFormatter
 
             // Check if a configuration is given
             $conf = array();
+
             if (!empty($dataObj->semantic->conf)) {
+
                 $conf = $dataObj->semantic->conf;
+
+                foreach ($conf as $prefix => $uri) {
+                    \EasyRdf_Namespace::set($prefix, $uri);
+                }
             }
 
-            return $dataObj->data->serialise('jsonld');
+            // Add the configured ontology prefixes
+            $ontologies =\App::make('Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface');
+
+            $context = array();
+
+            // Only add the common namespaces
+            $namespaces = array('hydra', 'rdf', 'rdfs', 'foaf', 'void', 'xsd', 'skos', 'xs');
+
+            foreach ($namespaces as $ns) {
+
+                $namespace = $ontologies->getByPrefix($ns);
+
+                if (!empty($namespace)) {
+                    $context[$ns] = $namespace['uri'];
+                }
+            }
+
+            $output = $dataObj->data->serialise('jsonld');
+
+            // Next, encode the context as JSON
+            $jsonContext = json_encode($context);
+
+            // Compact the JsonLD by using @context -> Needs tweaking can only return the
+            // URI spaces that are used in the document.
+            $compacted = JsonLD::compact($output, $jsonContext);
+
+            // Print the resulting JSON-LD!
+            return JsonLD::toString($compacted, true);
+
         } else {
             \App::abort(400, "The data is not a semantically linked document, a linked data JSON representation is not possible.");
         }
@@ -43,6 +79,6 @@ class JSONLDFormatter implements IFormatter
 
     public static function getDocumentation()
     {
-        return "A JSON-LD formatter.";
+        return "A JsonLD formatter.";
     }
 }

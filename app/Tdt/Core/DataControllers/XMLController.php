@@ -23,6 +23,9 @@ class XMLController extends ADataController
 
         $uri = $source_definition['uri'];
 
+        // Keep track of the prefix URI's
+        $this->prefixes = array();
+
         // Check for caching
         if (Cache::has($uri)) {
             $data = Cache::get($uri);
@@ -42,6 +45,8 @@ class XMLController extends ADataController
 
         $data_result = new Data();
         $data_result->data = $data;
+        $data_result->semantic = $this->prefixes;
+        $data_result->preferred_formats = $this->getPreferredFormats();
 
         return $data_result;
     }
@@ -53,7 +58,46 @@ class XMLController extends ADataController
     {
         $doc = new \DOMDocument();
         $doc->loadXML($xmlstr);
+
         return $this->convertDomNodeToArray($doc->documentElement);
+    }
+
+    /**
+     * Get the full name of an element or attribute, namespace + name
+     *
+     * @param DOMElement $element (either DomAttr or DOMElement)
+     * @param boolean    $isAttribute
+     *
+     * @return string
+     */
+    private function getFullName($element, $isAttribute = false)
+    {
+        $prefix = $element->prefix;
+
+        if (!empty($prefix)) {
+
+            // Register the namespace and prefix
+            $this->prefixes[$prefix] = $element->namespaceURI;
+
+            if ($isAttribute) {
+
+                $attrName = $element->name;
+
+                return $element->namespaceURI . $attrName;
+            } else {
+
+                $tagName = $element->tagName;
+
+                return str_replace($prefix . ':', $element->namespaceURI, $tagName);
+            }
+        } else {
+            if (!empty($element->tagName)) {
+                return $element->tagName;
+            } else {
+                return $element->name;
+            }
+
+        }
     }
 
     /**
@@ -61,13 +105,13 @@ class XMLController extends ADataController
      */
     private function convertDomNodeToArray($node)
     {
-
         $output = array();
 
         switch ($node->nodeType) {
 
             case XML_CDATA_SECTION_NODE:
             case XML_TEXT_NODE:
+
                 $output = trim($node->textContent);
                 break;
 
@@ -86,7 +130,7 @@ class XMLController extends ADataController
                     if (isset($child->tagName)) {
 
                         // Current tag
-                        $tag = $child->tagName;
+                        $tag = $this->getFullName($child);
 
                         // Check if current tag is already defined
                         if (!isset($output[$tag])) {
@@ -113,12 +157,18 @@ class XMLController extends ADataController
                 if (is_array($output)) {
 
                     // Check if element has attributes
-                    if ($node->attributes->length > 0) {
+                    $attributesLength = $node->attributes->length;
+
+                    if ($attributesLength > 0) {
 
                         $attributes = array();
 
-                        foreach ($node->attributes as $name => $attr) {
-                            $attributes[$name] = (string) $attr->value;
+                        for ($i = 0; $i < $attributesLength; $i++) {
+
+                            $attribute = $node->attributes->item($i);
+
+                            $attributeName = $this->getFullName($attribute, true);
+                            $attributes[$attributeName] = (string) $attribute->value;
                         }
 
                         if (!empty($attributes)) {
@@ -133,20 +183,22 @@ class XMLController extends ADataController
                             $output[$tag] = @$value[0];
                         }
                     }
-
-
                 } else {
                     // Element is a text node, but can still have attributes
                     $value = $output;
-                    //$output = array();
 
                     // Check if element has attributes
-                    if ($node->attributes->length > 0) {
+                    $attributesLength = $node->attributes->length;
+                    if ($attributesLength > 0) {
 
                         $attributes = array();
 
-                        foreach ($node->attributes as $name => $attr) {
-                            $attributes[$name] = (string) $attr->value;
+                        for ($i = 0; $i < $attributesLength; $i++) {
+
+                            $attribute = $node->attributes->item($i);
+
+                            $attributeName = $this->getFullName($attribute, true);
+                            $attributes[$attributeName] = (string) $attribute->value;
                         }
 
                         if (!empty($attributes)) {

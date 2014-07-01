@@ -28,9 +28,11 @@ class MAPFormatter implements IFormatter
 
         // Parse a kml from the objectToPrint, and convert it to a geojson
         ob_start();
+
         echo KMLFormatter::getBody($dataObj);
 
         $kml = ob_get_contents();
+
         ob_end_clean();
 
         // Render the view

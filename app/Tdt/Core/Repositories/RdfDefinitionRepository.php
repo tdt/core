@@ -14,7 +14,7 @@ class RdfDefinitionRepository extends BaseDefinitionRepository implements RdfDef
 {
     protected $rules = array(
         'uri' => 'required|uri',
-        'description' => 'required',
+        'description' => 'required'
     );
 
     public function __construct(\RdfDefinition $model)

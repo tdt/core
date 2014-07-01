@@ -26,7 +26,7 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
 
     /**
      * Validate a set of columns and check for mismatches
-     * between a given set of columns and the extracted ones
+     * between the given set of columns and the extracted ones
      */
     public function validateBulk(array $extracted_columns, array $provided_columns)
     {
@@ -87,7 +87,6 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
 
     public function getColumns($tabular_id, $type)
     {
-
         return \TabularColumns::where('tabular_id', '=', $tabular_id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
     }
 

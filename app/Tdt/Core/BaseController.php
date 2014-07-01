@@ -10,7 +10,6 @@ namespace Tdt\Core;
  */
 class BaseController extends \Controller
 {
-
     /*
      * Handles all core requests
      */
@@ -96,9 +95,6 @@ class BaseController extends \Controller
             // Redirect and that's it
             return $response;
         } else {
-
-            // Regular response, add headers and forget Sentry's cookie
-            \Sentry::logout();
 
             // Make sure cross origin requests are allowed for GET
             $response->header('Access-Control-Allow-Origin', '*');

@@ -4,6 +4,7 @@ namespace Tdt\Core\DataControllers;
 
 /**
  * CSV Controller
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
@@ -39,5 +40,14 @@ abstract class ADataController
                         'description' => "Represents the offset from which results are returned (e.g. ?offset=12&limit=5 will return 5 results starting from 12)."
             ),
         );
+    }
+
+    /**
+     * Provide an array a formatter priorities
+     */
+    protected function getPreferredFormats()
+    {
+        // Both semantic and raw data structures support json
+        return array('json');
     }
 }

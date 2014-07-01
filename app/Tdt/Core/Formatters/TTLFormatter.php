@@ -23,7 +23,7 @@ class TTLFormatter implements IFormatter
         $response = \Response::make(self::getBody($dataObj), 200);
 
         // Set headers
-        $response->header('Content-Type', 'text/turtle; charset=UTF-8');
+        $response->header('Content-Type', 'text/turtle;charset=UTF-8');
 
         return $response;
     }

@@ -10,7 +10,7 @@ namespace Tdt\Core\Ui;
 
 use Tdt\Core\Auth\Auth;
 
-class DatasetController extends \Controller
+class DatasetController extends UiController
 {
 
     /**
@@ -28,8 +28,6 @@ class DatasetController extends \Controller
         return \View::make('ui.datasets.list')
                     ->with('title', 'Dataset management | The Datatank')
                     ->with('definitions', $definitions);
-
-        return \Response::make($view);
     }
 
     /**

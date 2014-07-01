@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Installed Controller
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -18,7 +19,7 @@ class INSTALLEDController extends ADataController
     {
 
         // Include the class
-        $class_file = app_path() . '/../installed/' .  $source_definition['path'];
+        $class_file = app_path() . '/../Installed/' .  $source_definition['path'];
 
         if (file_exists($class_file)) {
             require_once $class_file;

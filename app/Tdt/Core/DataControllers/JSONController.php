@@ -40,6 +40,8 @@ class JSONController extends ADataController
 
         $data_result = new Data();
         $data_result->data = $php_object;
+        $data_result->preferred_formats = $this->getPreferredFormats();
+
         return $data_result;
     }
 }

@@ -31,7 +31,6 @@ class XLSController extends ADataController
 
     public function readData($source_definition, $rest_parameters = array())
     {
-
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Disregard the paging when rest parameters are given
@@ -161,6 +160,7 @@ class XLSController extends ADataController
             $data_result = new Data();
             $data_result->data = $row_objects;
             $data_result->paging = $paging;
+            $data_result->preferred_formats = $this->getPreferredFormats();
 
             return $data_result;
 
@@ -203,15 +203,19 @@ class XLSController extends ADataController
      */
     private function createValues($columns, $data)
     {
-
         $result = array();
 
         foreach ($columns as $column) {
-            if (isset($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
+
+            $value = @$data[$column['index']];
+
+            if (!is_null($value)) {
                 $result[$column['column_name_alias']] = $data[$column['index']];
             } else {
                 $index = $column['index'];
-                \App::abort(500, "The index $index could not be found in the XLS file. Index count starts at 0.");
+
+                \Log::warning("The column $index contained an empty value in the XLS file.");
+                $result[$column['column_name_alias']] = '';
             }
         }
 
@@ -283,24 +287,36 @@ class XLSController extends ADataController
 
                     foreach ($cell_iterator as $cell) {
 
-                        if ($cell->getCalculatedValue() != "") {
+                        $column_name = '';
 
-                            $cell_value = trim($cell->getCalculatedValue());
+                        if ($cell->getValue() != "") {
 
-                            // Try to get an alias from the options, if it's empty
-                            // then just take the column value as alias
-                            $alias = @$aliases[$column_index];
+                            $column_name = trim($cell->getCalculatedValue());
 
-                            if (empty($alias)) {
-                                $alias = $cell_value;
-                            }
+                        } else {
 
-                            array_push($columns, array(
-                                'index' => $column_index,
-                                'column_name' => $cell->getCalculatedValue(),
-                                'column_name_alias' => $alias,
-                                'is_pk' => ($pk === $column_index)));
+                            $column_name = 'column_' . $column_index;
+
                         }
+
+                        // Try to get an alias from the options, if it's empty
+                        // then just take the column value as alias
+                        $alias = @$aliases[$column_index];
+
+                        if (empty($alias)) {
+                            $alias = $column_name;
+                        }
+
+                        array_push(
+                            $columns,
+                            array(
+                            'index' => $column_index,
+                            'column_name' => $column_name,
+                            'column_name_alias' => $alias,
+                            'is_pk' => ($pk === $column_index)
+                            )
+                        );
+
                         $column_index++;
                     }
 

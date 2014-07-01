@@ -80,5 +80,15 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\RdfDefinitionRepositoryInterface',
             'Tdt\Core\Repositories\RdfDefinitionRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\JsonldDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\JsonldDefinitionRepository'
+        );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface',
+            'Tdt\Core\Repositories\DcatRepository'
+        );
     }
 }

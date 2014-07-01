@@ -18,7 +18,7 @@ use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
 class SPARQLController extends ADataController
 {
     private $ontologies;
-    private static $MAX_LIMIT = 10000;
+    private static $MAX_LIMIT = 10000; // Default max rows returned in Virtuoso
 
     public function __construct(OntologyRepositoryInterface $ontologies)
     {
@@ -170,10 +170,12 @@ class SPARQLController extends ADataController
             $is_semantic = true;
         }
 
+        // Create the data object to return
         $data = new Data();
         $data->data = $result;
         $data->paging = $paging;
         $data->is_semantic = $is_semantic;
+        $data->preferred_formats = $this->getPreferredFormats();
 
         if ($is_semantic) {
 
@@ -189,7 +191,26 @@ class SPARQLController extends ADataController
 
             $data->semantic = new \stdClass();
             $data->semantic->conf = array('ns' => $prefixes);
+            $data->preferred_formats = array('ttl', 'jsonld', 'rdf');
         }
+
+        // Determine which parameters were given in the query
+        $matches = array();
+        $query_parameters = array();
+
+        preg_match_all("/\\$\\{(.+?)\\}/", $source_definition['query'], $matches);
+
+        if (!empty($matches[1])) {
+
+            $matches = $matches[1];
+
+
+            foreach ($matches as $entry) {
+                array_push($query_parameters, $entry);
+            }
+        }
+
+        $data->optional_parameters = $query_parameters;
 
         return $data;
     }
@@ -226,7 +247,7 @@ class SPARQLController extends ADataController
 
         if (!$response) {
             $curl_err = curl_error($ch);
-            \App::abort(500, "Something went wrong while executhing query. The request we put together was: $uri.");
+            \App::abort(500, "Something went wrong while executing query. The request we put together was: $uri.");
         }
 
         $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -249,7 +270,6 @@ class SPARQLController extends ADataController
      */
     private function processParameters($query)
     {
-
         // Fetch the request parameters
         $parameters = \Request::all();
 

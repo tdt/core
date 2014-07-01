@@ -27,21 +27,15 @@ class DatasetController extends ApiController
      *
      * @param string $uri The identifier that identifies a resource
      *
-     * @return Tdt\Core\Datasets\Data
+     * @return \Response
      */
     public function get($uri)
     {
-        // Set permission
+        // Check permissions
         Auth::requirePermissions('dataset.view');
 
         // Split for an (optional) extension
-        preg_match('/([^\.]*)(?:\.(.*))?$/', $uri, $matches);
-
-        // URI is always the first match
-        $uri = $matches[1];
-
-        // Get extension (if set)
-        $extension = (!empty($matches[2]))? $matches[2]: null;
+        list($uri, $extension) = $this->processURI($uri);
 
         // Check for caching
         // Based on: URI / Rest parameters / Query parameters / Paging headers
@@ -153,6 +147,72 @@ class DatasetController extends ApiController
             }
 
         }
+    }
+
+    /**
+     * Return a HEAD response indicating if a URI is reachable for the user agent
+     *
+     * @param string $uri The identifier that identifies a resource
+     *
+     * @return \Response
+     */
+    public function head($uri)
+    {
+        // Check permissions
+        Auth::requirePermissions('dataset.view');
+
+        // Split for an (optional) extension
+        list($uri, $extension) = $this->processURI($uri);
+
+        // Get definition
+        $definition = $this->definition->getByIdentifier($uri);
+
+        $response = new \Response();
+
+        if ($definition) {
+
+            $response = \Response::make(null, 200);
+
+        } else {
+            $response = \Response::make(null, 404);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Process the URI and return the extension (=format) and the resource identifier URI
+     *
+     * @param string $uri The URI that has been passed
+     * @return array
+     */
+    private function processURI($uri)
+    {
+        $dot_position = strrpos($uri, '.');
+
+        if (!$dot_position) {
+            return array($uri, null);
+        }
+
+        // If a dot has been found, do a couple
+        // of checks to find out if it introduces a formatter
+        $uri_parts = explode('.', $uri);
+
+        $possible_extension = strtoupper(array_pop($uri_parts));
+
+        $uri = implode('.', $uri_parts);
+
+        $formatter_class = 'Tdt\\Core\\Formatters\\' . $possible_extension . 'Formatter';
+
+        if (!class_exists($formatter_class)) {
+
+            // Re-attach the dot with the latter part of the uri
+            $uri .= '.' . $possible_extension;
+
+            return array($uri, null);
+        }
+
+        return array($uri, $possible_extension);
     }
 
     /**

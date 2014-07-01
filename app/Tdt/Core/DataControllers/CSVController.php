@@ -18,7 +18,6 @@ use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
  */
 class CSVController extends ADataController
 {
-
     // Amount of characters in one row that can be read
     private static $MAX_LINE_LENGTH = 0;
 
@@ -143,6 +142,7 @@ class CSVController extends ADataController
         $data_result->data = $row_objects;
         $data_result->paging = $paging;
         $data_result->geo = $geo;
+        $data_result->preferred_formats = $this->getPreferredFormats();
 
         return $data_result;
     }
@@ -152,19 +152,18 @@ class CSVController extends ADataController
      */
     private function createValues($columns, $data)
     {
-
         $result = array();
 
         foreach ($columns as $column) {
             if (!empty($data[$column['index']]) || is_numeric(@$data[$column['index']])) {
-                $result[$column['column_name_alias']] = utf8_encode(@$data[$column['index']]);
+                $result[$column['column_name_alias']] = @$data[$column['index']];
             } else {
 
                 $index = $column['index'];
 
                 \Log::warning("We expected a value for index $index, yet no value was given. Filling in an empty value.");
 
-                $result[$column['column_name_alias']] = null;
+                $result[$column['column_name_alias']] = '';
             }
         }
 
@@ -177,7 +176,6 @@ class CSVController extends ADataController
      */
     public static function parseColumns($config)
     {
-
         // Get the columns out of the csv file before saving the csv definition
         // If columns are being passed using the json body or request parameters
         // allow them to function as aliases, aliases have to be passed as index (0:n-1) => alias
@@ -225,15 +223,23 @@ class CSVController extends ADataController
                     // then just take the column value as alias
                     $alias = @$aliases[$i];
 
+                    $column_name = trim($line[$i]);
+
                     if (empty($alias)) {
-                        $alias = trim($line[$i]);
+                        $alias = $column_name;
+                    }
+
+                    if (empty($column_name)) {
+                        $column_name = 'column_' . $i;
+
+                        $alias = $column_name;
                     }
 
                     array_push(
                         $columns,
                         array(
                             'index' => $i,
-                            'column_name' => trim($line[$i]),
+                            'column_name' => $column_name,
                             'column_name_alias' => $alias,
                             'is_pk' => ($pk === $i)
                         )

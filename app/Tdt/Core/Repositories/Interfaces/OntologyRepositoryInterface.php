@@ -9,6 +9,7 @@ interface OntologyRepositoryInterface
      * Fetch an Ontology by id
      *
      * @param integer $ontology_id
+     *
      * @return array Ontology
      */
     public function getById($ontology_id);
@@ -19,4 +20,13 @@ interface OntologyRepositoryInterface
      * @return array of Ontology's
      */
     public function getAll();
+
+    /**
+     * Fetch a URI by its prefix
+     *
+     * @param  string $prefix
+     *
+     * @return string
+     */
+    public function getByPrefix($prefix);
 }
