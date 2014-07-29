@@ -15,6 +15,7 @@ class DcatLicensesLanguages extends Migration
         // Create the license and language table
         Schema::create('languages', function($table){
 
+            $table->increments('id');
             // Id, 3 character code
             $table->string('lang_id', 3);
             $table->string('lang_code', 2);
