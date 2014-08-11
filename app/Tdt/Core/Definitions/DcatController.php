@@ -74,7 +74,15 @@ class DcatController extends ApiController
 
         $oldest = $this->definitions->getOldest();
 
-        $graph = $this->dcat->getDcatDocument($definitions, $oldest);
+        $describedDefinitions = array();
+
+        // Add the source type description to the definition
+        foreach ($definitions as $definition) {
+            $definition = array_merge($definition, $this->definitions->getFullDescription($definition['collection_uri'] . '/' . $definition['resource_name']));
+            array_push($describedDefinitions, $definition);
+        }
+
+        $graph = $this->dcat->getDcatDocument($describedDefinitions, $oldest);
 
         // Return the dcat feed in our internal data object
         $data_result = new Data();
