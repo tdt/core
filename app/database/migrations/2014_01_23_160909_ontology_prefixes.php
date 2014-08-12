@@ -14,6 +14,7 @@ class OntologyPrefixes extends Migration
 	{
 		// Create the table to store ontology URI's and corresponding prefixes
 		Schema::create('ontologies', function($table){
+			$table->increments('id');
 			$table->string('prefix', 255);
 			$table->string('uri', 255);
 			$table->timestamps();

@@ -73,7 +73,7 @@ class DcatSeeder extends Seeder
 
         foreach ($languages as $language) {
             \Language::create(array(
-                'lang_id' => $language->id,
+                'lang_id' => $language->lang_id,
                 'lang_code' =>$language->lang_code,
                 'name' => $language->name,
             ));

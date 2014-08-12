@@ -130,6 +130,7 @@ class DemoDataSeeder extends Seeder
                 $definition->resource_name = $file;
                 $definition->source_id = $csv_def->id;
                 $definition->source_type = 'CsvDefinition';
+                $definition->draft = false;
                 $definition->save();
 
                 $this->command->info("Published a CSV file with name $file on uri (relative to the root) csv/$file .");
@@ -173,6 +174,7 @@ class DemoDataSeeder extends Seeder
                 $definition->resource_name = $file;
                 $definition->source_id = $xml_def->id;
                 $definition->source_type = 'XmlDefinition';
+                $definition->draft = false;
                 $definition->save();
 
                 $this->command->info("Published an XML file with file name $file on uri (relative to the root) xml/$file .");
@@ -218,6 +220,7 @@ class DemoDataSeeder extends Seeder
                 $definition->resource_name = $file;
                 $definition->source_id = $json_def->id;
                 $definition->source_type = 'JsonDefinition';
+                $definition->draft = false;
                 $definition->save();
 
                 $this->command->info("Published a JSON file, $file, on uri (relative to the root) json/$file .");
@@ -311,6 +314,7 @@ class DemoDataSeeder extends Seeder
                 $definition->resource_name = $file;
                 $definition->source_id = $xls_def->id;
                 $definition->source_type = 'XlsDefinition';
+                $definition->draft = false;
                 $definition->save();
 
                 $this->command->info("Published an XLS file, $file, on uri (relative to the root) xls/$file .");
@@ -474,6 +478,7 @@ class DemoDataSeeder extends Seeder
                 $definition->resource_name = $info['name'];
                 $definition->source_id = $shp_def->id;
                 $definition->source_type = 'ShpDefinition';
+                $definition->draft = false;
                 $definition->save();
 
                 $this->command->info("Published a SHP file.");
