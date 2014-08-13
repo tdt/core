@@ -1,11 +1,3 @@
-
-# BeRoads DataTank
-
-This is the BeRoads DataTank repository forked from [https://github.com/tdt/core](https://github.com/tdt/core).
-
-Custom installed resources are present in the installed directory. To create
-the definitions, just import the sql files from the /sql directory.
-
 # tdt/core
 
 
