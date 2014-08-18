@@ -58,6 +58,10 @@ class XMLFormatter implements IFormatter
 
         self::$prefixes = $dataObj->semantic;
 
+        if (is_null(self::$prefixes)) {
+            self::$prefixes = array();
+        }
+
         $body .= self::transformToXML($dataObj->data, $rootname);
 
         return $body;
