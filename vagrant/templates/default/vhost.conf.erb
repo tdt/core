@@ -7,8 +7,8 @@ Group vagrant
   ServerName <%= node[:host_name]  %>
   ServerAlias <%= node[:host_aliases].join(" ") %>
   
-  DocumentRoot /vagrant/tdt/public
-  <Directory "/vagrant/tdt/public">
+  DocumentRoot /vagrant/public
+  <Directory "/vagrant/public">
     AllowOverride All
     Options FollowSymLinks
     Order allow,deny

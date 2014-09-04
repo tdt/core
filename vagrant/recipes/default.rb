@@ -102,11 +102,9 @@ end
 bash "Clone The DataTank repo" do
   user "vagrant"
   cwd "/vagrant"
-  not_if "test -d /vagrant/tdt"
   code <<-EOH
   set -e
-  git clone https://github.com/tdt/core.git tdt
-  chmod -R  777 tdt/app/storage
+  chmod -R  777 app/storage
   EOH
 end
 
@@ -120,13 +118,13 @@ bash "Create database" do
   EOH
 end
 
-template "/vagrant/tdt/app/config/database.php" do
+template "/vagrant/app/config/database.php" do
   user "vagrant"
   group "vagrant"
   source "database.php"
 end
 
-template "/vagrant/tdt/app/config/app.php" do
+template "/vagrant/app/config/app.php" do
   user "vagrant"
   group "vagrant"
   source "app.php"
@@ -134,18 +132,18 @@ end
 
 bash "run composer" do
   user "vagrant"
-  cwd "/vagrant/tdt"
+  cwd "/vagrant"
   not_if "echo 'show tables' | mysql -u root datatank | grep migrations"
   code <<-EOH
   set -e
   export COMPOSER_HOME=/home/vagrant
-  ../composer.phar install
+  php composer.phar install
   EOH
 end
 
 bash "Load test data" do
   user "vagrant"
-  cwd "/vagrant/tdt"
+  cwd "/vagrant"
   only_if { node[:provcmd] == 'testdata' }
   code <<-EOH
   php artisan db:seed --class=DemoDataSeeder
