@@ -34,10 +34,9 @@ class JSONLDFormatter implements IFormatter
             $conf = array();
 
             if (!empty($dataObj->semantic->conf)) {
-
                 $conf = $dataObj->semantic->conf;
 
-                foreach ($conf as $prefix => $uri) {
+                foreach ($conf['ns'] as $prefix => $uri) {
                     \EasyRdf_Namespace::set($prefix, $uri);
                 }
             }
