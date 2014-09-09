@@ -15,6 +15,7 @@ class DcatRepository implements DcatRepositoryInterface
      */
     public function getDcatDocument(array $definitions, $oldest_definition)
     {
+        // Create a new EasyRDF graph
         $graph = new \EasyRdf_Graph();
 
         $this->licenses = \App::make('Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface');
@@ -23,17 +24,15 @@ class DcatRepository implements DcatRepositoryInterface
         $uri = \Request::root();
 
         // Add the catalog and a title
-        $graph->addResource($uri . '/info/dcat', 'a', 'dcat:Catalog');
-        $graph->addLiteral($uri . '/info/dcat', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
-
-        // Create a new EasyRDF graph
-        $graph = new \EasyRdf_Graph();
+        $graph->addResource($uri . '/api/dcat', 'a', 'dcat:Catalog');
+        $graph->addLiteral($uri . '/api/dcat', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
+        $graph->addResource($uri . '/api/dcat', 'dct:rights', 'http://www.opendefinition.org/licenses/cc-zero');
+        $graph->addResource($uri . '/api/dcat', 'foaf:homepage', $uri);
 
         if (count($definitions) > 0) {
 
             // Add the last modified timestamp in ISO8601
-            $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($oldest_definition['updated_at'])));
-            $graph->addLiteral($uri . '/info/dcat', 'foaf:homepage', $uri);
+            $graph->addLiteral($uri . '/api/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($oldest_definition['updated_at'])));
 
             foreach ($definitions as $definition) {
 
@@ -44,7 +43,7 @@ class DcatRepository implements DcatRepositoryInterface
                 $source_type = $definition['type'];
 
                 // Add the dataset link to the catalog
-                $graph->addResource($uri . '/info/dcat', 'dcat:dataset', $dataset_uri);
+                $graph->addResource($uri . '/api/dcat', 'dcat:dataset', $dataset_uri);
 
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');

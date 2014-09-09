@@ -139,7 +139,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getOldest()
     {
-        $definition = \Definition::where('created_at', '=', \DB::table('definitions')->max('created_at'))->first();
+        $definition = \Definition::where('updated_at', '=', \DB::table('definitions')->max('updated_at'))->first();
 
         if (!empty($definition)) {
             return $definition->toArray();
