@@ -25,9 +25,10 @@ class DcatRepository implements DcatRepositoryInterface
 
         // Add the catalog and a title
         $graph->addResource($uri . '/api/dcat', 'a', 'dcat:Catalog');
-        $graph->addLiteral($uri . '/api/dcat', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
-        $graph->addResource($uri . '/api/dcat', 'dct:rights', 'http://www.opendefinition.org/licenses/cc-zero');
+        $graph->addLiteral($uri . '/api/dcat', 'dct:title', 'The DataTank Datasets');
+        $graph->addLiteral($uri . '/api/dcat', 'dct:description', 'A list of datasets published by The DataTank.');
         $graph->addResource($uri . '/api/dcat', 'foaf:homepage', $uri);
+        $graph->addResource($uri . '/api/dcat', 'dct:rights', 'http://www.opendefinition.org/licenses/cc-zero');
 
         if (count($definitions) > 0) {
 
@@ -41,6 +42,7 @@ class DcatRepository implements DcatRepositoryInterface
                 $dataset_uri = str_replace(' ', '%20', $dataset_uri);
 
                 $source_type = $definition['type'];
+
 
                 // Add the dataset link to the catalog
                 $graph->addResource($uri . '/api/dcat', 'dcat:dataset', $dataset_uri);
