@@ -17,6 +17,8 @@ class DcatCatalog extends Migration {
 
 			$table->string('key', 255);
 			$table->string('value', 255);
+
+			$table->timestamps();
 		});
 	}
 

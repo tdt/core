@@ -13,6 +13,7 @@ use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
 
 /**
  * DcatController
@@ -27,12 +28,14 @@ class DcatController extends ApiController
         LanguageRepositoryInterface $languages,
         LicenseRepositoryInterface $licenses,
         DefinitionRepositoryInterface $definitions,
-        DcatRepositoryInterface $dcat
+        DcatRepositoryInterface $dcat,
+        SettingsRepositoryInterface $settings
     ) {
         $this->languages = $languages;
         $this->licenses = $licenses;
         $this->definitions = $definitions;
         $this->dcat = $dcat;
+        $this->settings = $settings;
     }
 
     public function get($uri)
