@@ -88,14 +88,14 @@ class SettingsRepository implements SettingsRepositoryInterface
      */
     public function getAll()
     {
-        $allSettings = array();
+        $all_settings = array();
 
         $settings = Setting::all(array('key', 'value'))->toArray();
 
         foreach ($settings as $setting) {
-            $allSettings[$setting['key']] = $setting['value'];
+            $all_settings[$setting['key']] = $setting['value'];
         }
 
-        return $allSettings;
+        return $all_settings;
     }
 }
