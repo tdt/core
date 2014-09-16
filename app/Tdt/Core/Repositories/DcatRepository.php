@@ -78,21 +78,11 @@ class DcatRepository implements DcatRepositoryInterface
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
 
-                // Add the distribution of the dataset
-                $graph->addResource($dataset_uri, 'dcat:distribution', $dataset_uri . '.json');
-                $graph->addResource($dataset_uri . '.json', 'a', 'dcat:Distribution');
-                $graph->addLiteral($dataset_uri . '.json', 'dct:description', 'A json feed of ' . $dataset_uri);
-                $graph->addLiteral($dataset_uri . '.json', 'dct:mediaType', 'application/json');
-
-                // Add the license to the distribution
-                if (!empty($definition['rights'])) {
-
-                    $license = $this->licenses->getByTitle($definition['rights']);
-
-                    if (!empty($license) && !empty($license['url'])) {
-                        $graph->addResource($dataset_uri . '.json', 'dct:license', $license['url']);
-                        $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
-                    }
+                // Add the title to the dataset resource of the catalog
+                if (!empty($definition['title'])) {
+                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['title']);
+                } else {
+                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['collection_uri'] . '/' . $definition['resource_name']);
                 }
 
                 // Add the description, identifier, issues, modified of the dataset
@@ -101,11 +91,19 @@ class DcatRepository implements DcatRepositoryInterface
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
 
-                // Add the title to the dataset resource of the catalog
-                if (!empty($definition['title'])) {
-                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['title']);
-                } else {
-                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['collection_uri'] . '/' . $definition['resource_name']);
+                // Add the publisher resource to the dataset
+                if (!empty($definition['publisher_name']) && !empty($definition['publisher_uri'])) {
+
+                    $graph->addResource($dataset_uri, 'dct:publisher', $definition['publisher_uri']);
+                    $graph->addResource($definition['publisher_uri'], 'a', 'foaf:Agent');
+                    $graph->addLiteral($definition['publisher_uri'], 'foaf:name', $definition['publisher_name']);
+                }
+
+                // Add the keywords to the dataset
+                if (!empty($definition['keywords'])) {
+                    foreach (explode(',', $definition['keywords']) as $keyword) {
+                        $graph->addLiteral($dataset_uri, 'dcat:keyword', $keyword);
+                    }
                 }
 
                 // Add the source resource if it's a URI
@@ -130,6 +128,23 @@ class DcatRepository implements DcatRepositoryInterface
                         } else {
                             $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
                         }
+                    }
+                }
+
+                // Add the distribution of the dataset
+                $graph->addResource($dataset_uri, 'dcat:distribution', $dataset_uri . '.json');
+                $graph->addResource($dataset_uri . '.json', 'a', 'dcat:Distribution');
+                $graph->addLiteral($dataset_uri . '.json', 'dct:description', 'A json feed of ' . $dataset_uri);
+                $graph->addLiteral($dataset_uri . '.json', 'dct:mediaType', 'application/json');
+
+                // Add the license to the distribution
+                if (!empty($definition['rights'])) {
+
+                    $license = $this->licenses->getByTitle($definition['rights']);
+
+                    if (!empty($license) && !empty($license['url'])) {
+                        $graph->addResource($dataset_uri . '.json', 'dct:license', $license['url']);
+                        $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
                     }
                 }
             }
