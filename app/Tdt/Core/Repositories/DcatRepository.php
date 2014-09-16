@@ -3,10 +3,25 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
 use User;
 
 class DcatRepository implements DcatRepositoryInterface
 {
+
+    public function __construct
+    (
+        LicenseRepositoryInterface $licenses,
+        LanguageRepositoryInterface $languages,
+        SettingsRepositoryInterface $settings
+    ) {
+        $this->licenses = $licenses;
+        $this->languages = $languages;
+        $this->settings = $settings;
+    }
+
     /**
      * Return a DCAT document based on the definitions that are passed
      *
@@ -18,10 +33,6 @@ class DcatRepository implements DcatRepositoryInterface
     {
         // Create a new EasyRDF graph
         $graph = new \EasyRdf_Graph();
-
-        $this->licenses = \App::make('Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface');
-        $this->languages = \App::make('Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface');
-        $this->settings = \App::make('Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface');
 
         $all_settings = $this->settings->getAll();
 
@@ -39,12 +50,13 @@ class DcatRepository implements DcatRepositoryInterface
 
         // Fetch the homepage and rights
         $graph->addResource($uri . '/api/dcat', 'foaf:homepage', $uri);
-        $graph->addResource($uri . '/api/dcat', 'dct:rights', 'http://www.opendefinition.org/licenses/cc-zero');
+        $graph->addResource($uri . '/api/dcat', 'dct:license', 'http://www.opendefinition.org/licenses/cc-zero');
+        $graph->addResource('http://www.opendefinition.org/licenses/cc-zero', 'a', 'dct:LicenseDocument');
 
         // Add the publisher resource to the catalog
         $graph->addResource($uri . '/api/dcat', 'dct:publisher', $all_settings['catalog_publisher_uri']);
-        $graph->addResource('http://thedatatank.com', 'a', 'foaf:Agent');
-        $graph->addLiteral('http://thedatatank.com', 'foaf:name', $all_settings['catalog_publisher_name']);
+        $graph->addResource($all_settings['catalog_publisher_uri'], 'a', 'foaf:Agent');
+        $graph->addLiteral($all_settings['catalog_publisher_uri'], 'foaf:name', $all_settings['catalog_publisher_name']);
 
         if (count($definitions) > 0) {
 
@@ -65,6 +77,25 @@ class DcatRepository implements DcatRepositoryInterface
 
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
+
+                // Add the distribution of the dataset
+                $graph->addResource($dataset_uri, 'dcat:distribution', $dataset_uri . '.json');
+                $graph->addResource($dataset_uri . '.json', 'a', 'dcat:Distribution');
+                $graph->addLiteral($dataset_uri . '.json', 'dct:description', 'A json feed of ' . $dataset_uri);
+                $graph->addLiteral($dataset_uri . '.json', 'dct:mediaType', 'application/json');
+
+                // Add the license to the distribution
+                if (!empty($definition['rights'])) {
+
+                    $license = $this->licenses->getByTitle($definition['rights']);
+
+                    if (!empty($license) && !empty($license['url'])) {
+                        $graph->addResource($dataset_uri . '.json', 'dct:license', $license['url']);
+                        $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
+                    }
+                }
+
+                // Add the description, identifier, issues, modified of the dataset
                 $graph->addLiteral($dataset_uri, 'dct:description', @$definition['description']);
                 $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition['collection_uri'] . '/' . $definition['resource_name']));
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
@@ -76,20 +107,13 @@ class DcatRepository implements DcatRepositoryInterface
                 }
 
                 // Optional dct terms
-                $optional = array('title', 'date', 'language', 'rights');
+                $optional = array('title', 'date', 'language');
 
                 foreach ($optional as $dc_term) {
 
                     if (!empty($definition[$dc_term])) {
 
-                        if ($dc_term == 'rights') {
-
-                            $license = $this->licenses->getByTitle($definition[$dc_term]);
-
-                            if (!empty($license) && !empty($license['url'])) {
-                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
-                            }
-                        } elseif ($dc_term == 'language') {
+                        if ($dc_term == 'language') {
 
                             $lang = $this->languages->getById($definition[$dc_term]);
 
