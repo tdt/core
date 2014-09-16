@@ -53,49 +53,33 @@ class SettingController extends UiController
     /**
      * Admin.settings.update
      */
-    public function postUpdate()
+    public function postIndex()
     {
 
         // Set permission
         Auth::requirePermissions('admin.dataset.view');
 
-        try {
-            if (empty($id)) {
-                $id = \Input::get('id');
-            }
-            // Find the user using the user id
-            $user = \Sentry::findUserById($id);
+        $settings_allowed = array(
+                            'catalog_title',
+                            'catalog_description',
+                            'catalog_language',
+                            'catalog_publisher_uri',
+                            'catalog_publisher_name',
+                            );
 
-            // Update account
-            if ($id > 2 && \Input::get('name')) {
-                $user->email = strtolower(\Input::get('name'));
-            }
+        $values = \Input::all();
 
-            // Update password (not for the everyone account)
-            if ($id > 1 && \Input::get('password')) {
-                $resetCode = $user->getResetPasswordCode();
-                $user->attemptResetPassword($resetCode, \Input::get('password'));
-            }
-
-            $user->save();
-
-            // Find the group using the group id
-            $group = \Sentry::findGroupById(\Input::get('group'));
-
-            if ($id > 2) {
-                // Remove user from previous groups
-                foreach ($user->getGroups() as $g) {
-                    $user->removeGroup($g);
+        foreach ($values as $key => $value) {
+            if (in_array($key, $settings_allowed)) {
+                if ($key === 'catalog_publisher_uri') {
+                    if (!filter_var($values['catalog_publisher_uri'], FILTER_VALIDATE_URL)) {
+                        Flash::set('Publisher URI is not a valid URI.');
+                        continue;
+                    }
                 }
 
-                // Assign the group to the user
-                $user->addGroup($group);
+                $this->settings->storeValue($key, $value);
             }
-
-        } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
-            // Ignore and redirect back
-        } catch (\Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
-            // Ignore and redirect back
         }
 
         return \Redirect::to('api/admin/settings');

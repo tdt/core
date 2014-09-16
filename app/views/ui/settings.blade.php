@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <form class="form-horizontal edit-dataset" role="form">
+    <form class="form-horizontal edit-dataset" role="form" method="post" action="">
         <div class='row header'>
             <div class="col-sm-7">
                 <h3>General settings</h3>
             </div>
             <div class="col-sm-5 text-right">
-                <button type='submit' class='btn btn-cta btn-edit-dataset margin-left'><i class='fa fa-save'></i> Save</button>
+                <button type='submit' class='btn btn-cta margin-left'><i class='fa fa-save'></i> Save</button>
             </div>
         </div>
 
