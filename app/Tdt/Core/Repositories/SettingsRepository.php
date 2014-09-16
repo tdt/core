@@ -15,36 +15,6 @@ class SettingsRepository implements SettingsRepositoryInterface
 {
 
     /**
-     * Return the value for the given key
-     *
-     * @param string $key
-     *
-     * @return string|null
-     */
-    public function getValue($key)
-    {
-        $setting = Setting::where('key', $key)->first();
-
-        if (!empty($setting)) {
-            return $setting->value;
-        }
-
-        return null;
-    }
-
-    /**
-     * Return a boolean indicating if the given key exists in the settings
-     *
-     * @param string $key
-     *
-     * @return boolean
-     */
-    public function keyExists($key)
-    {
-        return !is_null($this->getValue($key));
-    }
-
-    /**
      * Store/update a value in the settings
      *
      * @param string $key
@@ -63,32 +33,19 @@ class SettingsRepository implements SettingsRepositoryInterface
     }
 
     /**
-     * Delete a value in the settings
-     *
-     * @param string $key
-     * @param string $value
-     *
-     * @return boolean|null
-     */
-    public function deleteValue($key)
-    {
-        $setting = Setting::where('key', $key)->first();
-
-        if (!empty($setting)) {
-            return $setting->delete();
-        }
-
-        return null;
-    }
-
-    /**
      * Get all the key value pairs that are in the settings table
      *
      * @return array
      */
     public function getAll()
     {
-        $all_settings = array();
+        $all_settings = array(
+                            'catalog_title' => 'The DataTank',
+                            'catalog_description' => 'A catalog of datasets published by The DataTank.',
+                            'catalog_language' => 'en',
+                            'catalog_publisher_uri' => 'http://thedatatank.com',
+                            'catalog_publisher_name' => 'The DataTank',
+                        );
 
         $settings = Setting::all(array('key', 'value'))->toArray();
 

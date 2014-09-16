@@ -23,29 +23,28 @@ class DcatRepository implements DcatRepositoryInterface
         $this->languages = \App::make('Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface');
         $this->settings = \App::make('Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface');
 
+        $all_settings = $this->settings->getAll();
+
         $uri = \Request::root();
 
         // Add the catalog and a title
         $graph->addResource($uri . '/api/dcat', 'a', 'dcat:Catalog');
 
-        $catalog_title = $this->getCatalogTitle();
+        $graph->addLiteral($uri . '/api/dcat', 'dct:title', $all_settings['catalog_title']);
 
-        $graph->addLiteral($uri . '/api/dcat', 'dct:title', $catalog_title);
-
-        // Fetch the catalog description or fill in the default
-        $catalog_description = $this->getCatalogDescription();
-
-        $graph->addLiteral($uri . '/api/dcat', 'dct:description', $catalog_description);
+        // Fetch the catalog description, issued date and language
+        $graph->addLiteral($uri . '/api/dcat', 'dct:description', $all_settings['catalog_description']);
         $graph->addLiteral($uri . '/api/dcat', 'dct:issued', $this->getIssuedDate());
-        $graph->addLiteral($uri . '/api/dcat', 'dct:language', $this->getCatalogLanguage());
+        $graph->addLiteral($uri . '/api/dcat', 'dct:language', $all_settings['catalog_language']);
 
+        // Fetch the homepage and rights
         $graph->addResource($uri . '/api/dcat', 'foaf:homepage', $uri);
         $graph->addResource($uri . '/api/dcat', 'dct:rights', 'http://www.opendefinition.org/licenses/cc-zero');
 
-        // Add the publisher of the data catalog
-        $graph->addResource($uri . '/api/dcat', 'dct:publisher', $this->getCatalogPublisherUri());
+        // Add the publisher resource to the catalog
+        $graph->addResource($uri . '/api/dcat', 'dct:publisher', $all_settings['catalog_publisher_uri']);
         $graph->addResource('http://thedatatank.com', 'a', 'foaf:Agent');
-        $graph->addLiteral('http://thedatatank.com', 'foaf:name', $this->getCatalogPublisherName());
+        $graph->addLiteral('http://thedatatank.com', 'foaf:name', $all_settings['catalog_publisher_name']);
 
         if (count($definitions) > 0) {
 
@@ -120,97 +119,6 @@ class DcatRepository implements DcatRepositoryInterface
         $created_at = \DB::table('users')->min('created_at');
 
         return date(\DateTime::ISO8601, strtotime($created_at));
-    }
-
-    /**
-     * Return the title of the catalog
-     *
-     * @return string
-     */
-    private function getCatalogTitle()
-    {
-        // Fetch the title, or fill in the default title
-        $catalog_title = 'The DataTank Datasets';
-
-        $title_setting = $this->settings->getValue('catalog_title');
-
-        if (!empty($title_setting)) {
-            $catalog_title = $title_setting;
-        }
-
-        return $catalog_title;
-    }
-
-    /**
-     * Return the description of the catalog
-     *
-     * @return string
-     */
-    private function getCatalogDescription()
-    {
-        $catalog_description = 'A list of datasets published by The DataTank.';
-
-        $description_setting = $this->settings->getValue('catalog_description');
-
-        if (!empty($description_setting)) {
-            $catalog_description = $description_setting;
-        }
-
-        return $catalog_description;
-    }
-
-    /**
-     * Return the language of the catalog
-     *
-     * @return string
-     */
-    private function getCatalogLanguage()
-    {
-        $catalog_language = 'en';
-
-        $language_setting = $this->settings->getValue('catalog_language');
-
-        if (!empty($language_setting)) {
-            $catalog_language = $language_setting;
-        }
-
-        return $catalog_language;
-    }
-
-    /**
-     * Return the publisher URI of the catalog
-     *
-     * @return string
-     */
-    private function getCatalogPublisherUri()
-    {
-        $catalog_publisher_uri = 'http://thedatatank.com';
-
-        $publisher_uri_setting = $this->settings->getValue('catalog_publisher_uri');
-
-        if (!empty($publisher_uri_setting)) {
-            $catalog_publisher_uri = $publisher_uri_setting;
-        }
-
-        return $catalog_publisher_uri;
-    }
-
-    /**
-     * Return the publisher name of the catalog
-     *
-     * @return string
-     */
-    private function getCatalogPublisherName()
-    {
-        $catalog_publisher_name = 'The DataTank';
-
-        $publisher_name_setting = $this->settings->getValue('catalog_publisher_name');
-
-        if (!empty($publisher_name_setting)) {
-            $catalog_publisher_name = $publisher_name_setting;
-        }
-
-        return $catalog_publisher_name;
     }
 
     /**

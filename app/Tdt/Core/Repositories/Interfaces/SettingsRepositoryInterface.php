@@ -9,13 +9,7 @@ namespace Tdt\Core\Repositories\Interfaces;
 interface SettingsRepositoryInterface
 {
 
-    public function getValue($key);
-
-    public function keyExists($key);
-
     public function storeValue($key, $value);
-
-    public function deleteValue($key);
 
     public function getAll();
 }
