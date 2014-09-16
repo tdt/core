@@ -50,7 +50,9 @@ class SettingsRepository implements SettingsRepositoryInterface
         $settings = Setting::all(array('key', 'value'))->toArray();
 
         foreach ($settings as $setting) {
-            $all_settings[$setting['key']] = $setting['value'];
+            if (!empty($setting['value'])) {
+                $all_settings[$setting['key']] = $setting['value'];
+            }
         }
 
         return $all_settings;
