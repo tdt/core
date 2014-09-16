@@ -30,6 +30,12 @@ class SparqlDefinitionRepository extends BaseDefinitionRepository implements Spa
                 'description' => 'The uri of the SPARQL end-point (e.g. http://foobar:8890/sparql-auth).',
                 'type' => 'string',
             ),
+            'title' => array(
+                'required' => true,
+                'name' => 'Title',
+                'description' => 'A name given to the resource.',
+                'type' => 'string',
+            ),
             'description' => array(
                 'required' => true,
                 'name' => 'Description',

@@ -36,6 +36,12 @@ class InstalledDefinitionRepository extends BaseDefinitionRepository implements 
                 'description' => 'The location of the class file, relative from the "/installed" folder.',
                 'type' => 'string',
             ),
+            'title' => array(
+                'required' => true,
+                'name' => 'Title',
+                'description' => 'A name given to the resource.',
+                'type' => 'string',
+            ),
             'description' => array(
                 'required' => true,
                 'name' => 'Description',

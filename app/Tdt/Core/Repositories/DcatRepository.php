@@ -101,13 +101,20 @@ class DcatRepository implements DcatRepositoryInterface
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
 
+                // Add the title to the dataset resource of the catalog
+                if (!empty($definition['title'])) {
+                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['title']);
+                } else {
+                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['collection_uri'] . '/' . $definition['resource_name']);
+                }
+
                 // Add the source resource if it's a URI
                 if (strpos($definition['source'], 'http://') !== false || strpos($definition['source'], 'https://')) {
                     $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition['source']));
                 }
 
                 // Optional dct terms
-                $optional = array('title', 'date', 'language');
+                $optional = array('date', 'language');
 
                 foreach ($optional as $dc_term) {
 

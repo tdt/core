@@ -42,6 +42,12 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
                 'description' => 'The location of the SHP file, either a URL or a local file location.',
                 'type' => 'string',
             ),
+            'title' => array(
+                'required' => true,
+                'name' => 'Title',
+                'description' => 'A name given to the resource.',
+                'type' => 'string',
+            ),
             'description' => array(
                 'required' => true,
                 'name' => 'Description',
