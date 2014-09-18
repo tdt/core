@@ -6,12 +6,12 @@ interface LanguageRepositoryInterface
 {
 
     /**
-     * Fetch a Language by id
+     * Fetch a Language by code
      *
-     * @param integer $id
+     * @param integer $code
      * @return array Language
      */
-    public function getById($language_id);
+    public function getByCode($language_code);
 
     /**
      * Fetch all languages
@@ -19,4 +19,12 @@ interface LanguageRepositoryInterface
      * @return array of Language's
      */
     public function getAll();
+
+    /**
+     * Fetch a Language by name
+     *
+     * @param integer $name
+     * @return array Language
+     */
+    public function getByName($name);
 }

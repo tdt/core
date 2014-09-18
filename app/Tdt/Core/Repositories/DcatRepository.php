@@ -46,7 +46,13 @@ class DcatRepository implements DcatRepositoryInterface
         // Fetch the catalog description, issued date and language
         $graph->addLiteral($uri . '/api/dcat', 'dct:description', $all_settings['catalog_description']);
         $graph->addLiteral($uri . '/api/dcat', 'dct:issued', $this->getIssuedDate());
-        $graph->addLiteral($uri . '/api/dcat', 'dct:language', $all_settings['catalog_language']);
+
+        $lang = $this->languages->getByCode($all_settings['catalog_language']);
+
+        if (!empty($lang)) {
+            $graph->addResource($uri . '/api/dcat', 'dct:language', 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+            $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
+        }
 
         // Fetch the homepage and rights
         $graph->addResource($uri . '/api/dcat', 'foaf:homepage', $uri);
@@ -120,10 +126,11 @@ class DcatRepository implements DcatRepositoryInterface
 
                         if ($dc_term == 'language') {
 
-                            $lang = $this->languages->getById($definition[$dc_term]);
+                            $lang = $this->languages->getByName($definition[$dc_term]);
 
                             if (!empty($lang)) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+                                $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
                             }
                         } else {
                             $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
