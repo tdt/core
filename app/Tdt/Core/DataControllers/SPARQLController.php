@@ -142,33 +142,17 @@ class SPARQLController extends ADataController
         $q = urlencode($query);
         $q = str_replace("+", "%20", $q);
 
-        if ($keyword == 'select') {
+        $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("text/rdf+n3");
 
-            $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/sparql-results+json");
-
-            $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
-            $result = json_decode($response);
-
-            if (!$result) {
-                \App::abort(500, 'The query has been executed, but the endpoint failed to return sparql results in JSON.');
-            }
-
-            $is_semantic = false;
-
-        } else {
-
-            $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
-
-            $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
+        $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
 
             // Parse the triple response and retrieve the triples from them
-            $result = new \EasyRdf_Graph();
-            $parser = new \EasyRdf_Parser_RdfXml();
+        $result = new \EasyRdf_Graph();
+        $parser = new \EasyRdf_Parser_Turtle();
 
-            $parser->parse($result, $response, 'rdfxml', null);
+        $parser->parse($result, $response, 'turtle', null);
 
-            $is_semantic = true;
-        }
+        $is_semantic = true;
 
         // Create the data object to return
         $data = new Data();

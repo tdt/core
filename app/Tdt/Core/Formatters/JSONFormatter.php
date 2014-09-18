@@ -27,21 +27,18 @@ class JSONFormatter implements IFormatter
     public static function getBody($dataObj)
     {
 
-        // Build the body
+        // If the data is semantic return the data in a json-ld format
+        if ($dataObj->is_semantic) {
+
+            $jsonld_formatter = new JSONLDFormatter();
+
+            return $jsonld_formatter->getBody($dataObj);
+        }
+
+        // If not semantic, build the json body
         $body = $dataObj->data;
         if (is_object($dataObj->data)) {
             $body = get_object_vars($dataObj->data);
-        }
-
-        if ($dataObj->is_semantic) {
-
-            // Check if a configuration is given
-            $conf = array();
-            if (!empty($dataObj->semantic->conf)) {
-                $conf = $dataObj->semantic->conf;
-            }
-
-            return $dataObj->data->serialise('json');
         }
 
         // Unescape slashes
