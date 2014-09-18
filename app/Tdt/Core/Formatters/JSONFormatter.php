@@ -27,6 +27,14 @@ class JSONFormatter implements IFormatter
     public static function getBody($dataObj)
     {
 
+        // If the data is semantic, return json ld
+        if ($dataObj->is_semantic) {
+
+            $jsonld_formatter = new JSONLDFormatter();
+
+            return $jsonld_formatter->getBody($dataObj);
+        }
+
         // Build the body
         $body = $dataObj->data;
         if (is_object($dataObj->data)) {
