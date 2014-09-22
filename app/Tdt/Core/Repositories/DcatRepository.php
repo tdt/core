@@ -77,7 +77,6 @@ class DcatRepository implements DcatRepositoryInterface
 
                 $source_type = $definition['type'];
 
-
                 // Add the dataset link to the catalog
                 $graph->addResource($uri . '/api/dcat', 'dcat:dataset', $dataset_uri);
 

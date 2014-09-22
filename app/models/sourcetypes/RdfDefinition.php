@@ -11,7 +11,7 @@ class RdfDefinition extends SourceType
 {
     protected $table = 'rdfdefinitions';
 
-    protected $fillable = array('uri', 'description', 'format');
+    protected $fillable = array('uri', 'description', 'format', 'title');
 
     /**
      * Relationship with the Definition model

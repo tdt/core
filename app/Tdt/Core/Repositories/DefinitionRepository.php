@@ -80,6 +80,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $definition_object = \Definition::find($definition['id']);
 
+        \Log::info(http_build_query($input));
+        \Log::info(implode(',', array_keys($this->getCreateParameters())));
+
         $definition_object->update(array_only($input, array_keys($this->getCreateParameters())));
 
         return $definition_object->toArray();

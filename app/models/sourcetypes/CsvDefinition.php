@@ -11,7 +11,7 @@ class CsvDefinition extends SourceType
 
     protected $table = 'csvdefinitions';
 
-    protected $fillable = array('uri', 'delimiter', 'has_header_row', 'start_row', 'description');
+    protected $fillable = array('uri', 'delimiter', 'has_header_row', 'start_row', 'description', 'title');
 
     /**
      * Relationship with the TabularColumns model.

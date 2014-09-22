@@ -11,5 +11,5 @@ class XmlDefinition extends SourceType
 
     protected $table = 'xmldefinitions';
 
-    protected $fillable = array('uri', 'description');
+    protected $fillable = array('uri', 'description', 'title');
 }
