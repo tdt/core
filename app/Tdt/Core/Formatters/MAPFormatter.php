@@ -4,6 +4,7 @@ namespace Tdt\Core\Formatters;
 
 /**
  * Map Formatter
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
@@ -25,7 +26,6 @@ class MAPFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-
         // Parse a kml from the objectToPrint, and convert it to a geojson
         ob_start();
 
