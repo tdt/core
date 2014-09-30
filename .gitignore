@@ -6,6 +6,7 @@ Makefile
 tmp/*
 /vendor
 composer.phar
+/app/config/*
 /app/config/local
 /app/config/staging
 /app/config/production
@@ -15,3 +16,4 @@ composer.phar
 app/config/workbench.php
 public/packages
 workbench
+/app/storage/*
