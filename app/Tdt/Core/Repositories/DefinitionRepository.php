@@ -80,8 +80,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $definition_object = \Definition::find($definition['id']);
 
-        \Log::info(http_build_query($input));
-        \Log::info(implode(',', array_keys($this->getCreateParameters())));
+        \Log::info('Update request with http query:' . http_build_query($input));
+        \Log::info('Create parameters are: ' . implode(',', array_keys($this->getCreateParameters())));
 
         $definition_object->update(array_only($input, array_keys($this->getCreateParameters())));
 
@@ -137,7 +137,13 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getByCollection($collection)
     {
-        return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($collection . '/'))->get()->toArray();
+        $collection = \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($collection . '/'))->get();
+
+        if (!empty($collection)) {
+            return $collection->toArray();
+        }
+
+        return $collection;
     }
 
     public function getOldest()
@@ -180,8 +186,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Use the power of the IoC
         try {
+
             $type = ucfirst(strtolower($type));
             $source_repository = $this->getSourceRepository($type);
+
         } catch (\ReflectionException $ex) {
             \App::abort(400, "The provided source type " . $type . " is not supported.");
         }
@@ -352,6 +360,15 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'list' => 'api/licenses',
                 'list_option' => 'title',
                 'description' => 'Information about rights held in and over the resource.',
+                'group' => 'dc',
+            ),
+            'theme' => array(
+                'required' => false,
+                'name' => 'Theme',
+                'type' => 'list',
+                'list' => 'api/themes',
+                'list_option' => 'label',
+                'description' => 'The theme or category that the dataset belongs to.',
                 'group' => 'dc',
             ),
             'cache_minutes' => array(

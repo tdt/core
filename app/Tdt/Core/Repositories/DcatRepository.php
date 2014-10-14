@@ -6,6 +6,7 @@ use Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\ThemeRepositoryInterface;
 use User;
 
 class DcatRepository implements DcatRepositoryInterface
@@ -15,11 +16,13 @@ class DcatRepository implements DcatRepositoryInterface
     (
         LicenseRepositoryInterface $licenses,
         LanguageRepositoryInterface $languages,
-        SettingsRepositoryInterface $settings
+        SettingsRepositoryInterface $settings,
+        ThemeRepositoryInterface $themes
     ) {
         $this->licenses = $licenses;
         $this->languages = $languages;
         $this->settings = $settings;
+        $this->themes = $themes;
     }
 
     /**
@@ -117,7 +120,7 @@ class DcatRepository implements DcatRepositoryInterface
                 }
 
                 // Optional dct terms
-                $optional = array('date', 'language');
+                $optional = array('date', 'language', 'theme');
 
                 foreach ($optional as $dc_term) {
 
@@ -131,6 +134,15 @@ class DcatRepository implements DcatRepositoryInterface
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
                                 $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
                             }
+                        } else if ($dc_term == 'theme') {
+
+                            $theme = $this->themes->getByLabel($definition[$dc_term]);
+
+                            if (!empty($theme)) {
+                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, $theme['uri']);
+                                $graph->addLiteral($theme['uri'], 'rdfs:label', $theme['label']);
+                            }
+
                         } else {
                             $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
                         }

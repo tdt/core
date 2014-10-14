@@ -20,7 +20,8 @@ class Definition extends Eloquent
         'map_property',
         'keywords',
         'publisher_uri',
-        'publisher_name'
+        'publisher_name',
+        'theme'
     );
 
     /**
