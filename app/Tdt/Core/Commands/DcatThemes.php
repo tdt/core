@@ -61,8 +61,9 @@ class DcatThemes extends Command
     protected function getArguments()
     {
         return array(
-            array('uri', InputArgument::REQUIRED, 'The URI of the taxonomy that lists themes, themes will be searched on the
+            array('uri', InputArgument::REQUIRED, 'The URI of the document that holds the taxonomy that lists themes, themes will be searched on the
                 basis of a skos:inScheme relationship and require a label.'),
+            array('taxonomy_uri', InputArgument::OPTIONAL, 'The URI that points to the taxonomy inside the document.', ''),
         );
     }
 
@@ -88,6 +89,12 @@ class DcatThemes extends Command
 
         $base_uri = $this->argument('uri');
 
+        $taxonomy_uri = $this->argument('taxonomy_uri');
+
+        if (empty($taxonomy_uri)) {
+            $taxonomy_uri = $base_uri;
+        }
+
         // Try to get the themes from the ns.thedatatank.com (semantic data)
         try {
 
@@ -107,23 +114,54 @@ class DcatThemes extends Command
                 \Theme::truncate();
             }
 
+            // Fetch the resources with a skos:conceptScheme relationship
+            $resources = $themes_graph->allOfType('skos:ConceptScheme');
+
+            $taxonomy_uris = array();
+
+            foreach ($resources as $r) {
+                array_push($taxonomy_uris, $r->getUri());
+            }
+
+            if (!empty($taxonomy_uris)) {
+                if (count($taxonomy_uris) == 1) {
+                    $taxonomy_uri = $taxonomy_uris[0];
+                } else {
+
+                    // Check if one of the possible taxonomy uris compares to the uri of the document
+                    foreach ($taxonomy_uris as $tax_uri) {
+                        if ($base_uri == $tax_uri) {
+                            $taxonomy_uri = $tax_uri;
+                            break;
+                        }
+
+                        $this->error('None of the URIs that have the skos:ConceptScheme property matched the URI of the document, please specify the taxonomy URI as a second parameter.');
+                    }
+                }
+            } else {
+                $this->error('No resource has been found with a property of skos:ConceptScheme.');
+            }
+
             // Fetch all of the themes
-            foreach ($themes_graph->resources('skos:inScheme', $base_uri . '#Taxonomy') as $theme) {
+            foreach ($themes_graph->resourcesMatching('skos:inScheme') as $theme) {
 
-                $uri = $theme->getUri();
+                if ($theme->get('skos:inScheme')->getUri() == $taxonomy_uri) {
 
-                $label = $theme->getLiteral('rdfs:label');
+                    $uri = $theme->getUri();
 
-                if (!empty($label) && !empty($uri)) {
+                    $label = $theme->getLiteral('rdfs:label');
 
-                    $label = $label->getValue();
+                    if (!empty($label) && !empty($uri)) {
 
-                    $this->info('Added ' . $uri . ' with label ' . $label);
+                        $label = $label->getValue();
 
-                    \Theme::create(array(
-                        'uri' => $uri,
-                        'label' => $label
-                        ));
+                        $this->info('Added ' . $uri . ' with label ' . $label);
+
+                        \Theme::create(array(
+                            'uri' => $uri,
+                            'label' => $label
+                            ));
+                    }
                 }
             }
 

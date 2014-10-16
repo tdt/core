@@ -122,9 +122,7 @@ class DcatSeeder extends Seeder
     {
         $this->command->info('---- DCAT Themes ----');
 
-        $base_uri = 'http://ns.thedatatank.com/dcat/themes';
-
-        $uri = $base_uri . '.ttl';
+        $uri = 'http://ns.thedatatank.com/dcat/themes#Taxonomy';
 
         $themes_fetched = false;
 
@@ -147,20 +145,25 @@ class DcatSeeder extends Seeder
             }
 
             // Fetch all of the themes
-            foreach ($themes_graph->resources('skos:inScheme', $uri . '#Taxonomy') as $theme) {
+            foreach ($themes_graph->resourcesMatching('skos:inScheme') as $theme) {
 
-                $uri = $theme->getUri();
+                if ($theme->get('skos:inScheme')->getUri() == $uri) {
 
-                $label = $theme->getLiteral('rdfs:label');
+                    $theme_uri = $theme->getUri();
 
-                if (!empty($label) && !empty($uri)) {
+                    $label = $theme->getLiteral('rdfs:label');
 
-                    $label = $label->getValue();
+                    if (!empty($label) && !empty($theme_uri)) {
 
-                    \Theme::create(array(
-                        'uri' => $uri,
-                        'label' => $label
-                        ));
+                        $label = $label->getValue();
+
+                        $this->command->info('Added ' . $uri . ' with label ' . $label);
+
+                        \Theme::create(array(
+                            'uri' => $theme_uri,
+                            'label' => $label
+                            ));
+                    }
                 }
             }
 
