@@ -16,7 +16,7 @@
         }
     },
     "require": {
-        "laravel/framework": "4.1.28",
+        "laravel/framework": "4.1.29",
         "phpoffice/phpexcel": "1.8.0",
         "phpunit/phpunit" : "4.0.17",
         "easyrdf/easyrdf" : "dev-devel",
