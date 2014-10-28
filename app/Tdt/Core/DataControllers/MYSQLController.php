@@ -81,8 +81,6 @@ class MYSQLController extends ADataController
         // Make a database connection
         $db = \DB::connection('mysqltmp');
 
-        $pdo = $db->getPdo();
-
         // Check if a select statement has been given
         // If not, return all columns
         $select = \Request::get('select', null);

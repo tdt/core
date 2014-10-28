@@ -6,7 +6,7 @@ interface MysqlDefinitionRepositoryInterface
 {
 
     /**
-     * Return all CsvDefinition objects
+     * Return all MysqlDefinition objects
      *
      * @return array
      */
@@ -21,24 +21,24 @@ interface MysqlDefinitionRepositoryInterface
     public function getValidator(array $input);
 
     /**
-     * Store a CsvDefinition object
+     * Store a MysqlDefinition object
      *
      * @param array $input
-     * @return array CsvDefinition
+     * @return array MysqlDefinition
      */
     public function store(array $input);
 
     /**
-     * Update a CsvDefinition object
+     * Update a MysqlDefinition object
      *
      * @param integer $model_id
      * @param array $input
-     * @return array CsvDefinition
+     * @return array MysqlDefinition
      */
     public function update($model_id, array $input);
 
     /**
-     * Delete a CsvDefinition
+     * Delete a MysqlDefinition
      *
      * @param integer $model_id
      * @return boolean|null
@@ -46,7 +46,7 @@ interface MysqlDefinitionRepositoryInterface
     public function delete($model_id);
 
     /**
-     * Fetch a CsvDefinition by id
+     * Fetch a MysqlDefinition by id
      *
      * @param integer $model_id
      * @return array object
@@ -70,7 +70,7 @@ interface MysqlDefinitionRepositoryInterface
      * Return an array of all the create parameters, also the parameters
      * that are necessary for further internal relationships
      *
-     * (e.g. CSV needs columns, in an RDBMS as back-end this results in model relationships)
+     * (e.g. Mysql needs columns, in an RDBMS as back-end this results in model relationships)
      * @return array
      */
     public function getAllParameters();
