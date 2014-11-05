@@ -19,39 +19,39 @@ class TitleOnSourcetype extends Migration {
         });
 
         Schema::table('csvdefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('installeddefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('jsondefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('jsonlddefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('rdfdefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('shpdefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('sparqldefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('xlsdefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
 
         Schema::table('xmldefinitions', function ($table) {
-            $table->string('title', 255);
+            $table->string('title', 255)->nullable();
         });
     }
 
