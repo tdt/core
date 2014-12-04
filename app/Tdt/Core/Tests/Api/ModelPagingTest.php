@@ -69,7 +69,7 @@ class ModelPagingTest extends TestCase
         \Input::merge(array('limit' => 2));
 
         // Test the internal model through info
-        $controller = $controller = \App::make('Tdt\Core\Definitions\InfoController');
+        $controller = \App::make('Tdt\Core\Definitions\InfoController');
         $this->processPaging($controller->handle(''));
 
         // Test the internal model through definitions
@@ -164,7 +164,7 @@ class ModelPagingTest extends TestCase
         $total_triples = $parser->parse($graph, $turtle, 'turtle', '');
 
         // Make sure triples are created and inserted into the graph
-        $this->assertEquals(33, $total_triples);
+        $this->assertEquals(35, $total_triples);
 
         // This array will hold 7 entries, one for the Dcat catalog entry itself
         // and the two first entries of the definitions it gets from the controller
