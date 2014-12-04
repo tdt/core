@@ -96,7 +96,6 @@ class HTMLFormatter implements IFormatter
 
                         break;
                     case 'SHP':
-
                         $view = 'dataset.map';
                         $data = $dataset_link . '.map' . $query_string;
 

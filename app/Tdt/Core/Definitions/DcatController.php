@@ -13,6 +13,7 @@ use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
 
 /**
  * DcatController
@@ -27,12 +28,14 @@ class DcatController extends ApiController
         LanguageRepositoryInterface $languages,
         LicenseRepositoryInterface $licenses,
         DefinitionRepositoryInterface $definitions,
-        DcatRepositoryInterface $dcat
+        DcatRepositoryInterface $dcat,
+        SettingsRepositoryInterface $settings
     ) {
         $this->languages = $languages;
         $this->licenses = $licenses;
         $this->definitions = $definitions;
         $this->dcat = $dcat;
+        $this->settings = $settings;
     }
 
     public function get($uri)
@@ -74,7 +77,15 @@ class DcatController extends ApiController
 
         $oldest = $this->definitions->getOldest();
 
-        $graph = $this->dcat->getDcatDocument($definitions, $oldest);
+        $describedDefinitions = array();
+
+        // Add the source type description to the definition
+        foreach ($definitions as $definition) {
+            $definition = array_merge($definition, $this->definitions->getFullDescription($definition['collection_uri'] . '/' . $definition['resource_name']));
+            array_push($describedDefinitions, $definition);
+        }
+
+        $graph = $this->dcat->getDcatDocument($describedDefinitions, $oldest);
 
         // Return the dcat feed in our internal data object
         $data_result = new Data();

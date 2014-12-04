@@ -20,6 +20,7 @@ Route::group(array('prefix' => 'api/admin'), function () {
     Route::post('login', 'Tdt\\Core\\Ui\\AuthController@postLogin');
     Route::get('logout', 'Tdt\\Core\\Ui\\AuthController@getLogout');
 
+    Route::controller('settings', 'Tdt\\Core\\Ui\\SettingController');
     Route::controller('datasets', 'Tdt\\Core\\Ui\\DatasetController');
     Route::controller('users', 'Tdt\\Core\\Ui\\UserController');
     Route::controller('groups', 'Tdt\\Core\\Ui\\GroupController');

@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class OntologyPrefixes extends Migration
-{
+class CreateThemesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,11 @@ class OntologyPrefixes extends Migration
 	 */
 	public function up()
 	{
-		// Create the table to store ontology URI's and corresponding prefixes
-		Schema::create('ontologies', function($table){
+		// Create the themes table
+		Schema::create('themes', function($table) {
 			$table->increments('id');
-			$table->string('prefix', 255);
 			$table->string('uri', 255);
+			$table->string('label', 255);
 			$table->timestamps();
 		});
 	}
@@ -28,7 +28,7 @@ class OntologyPrefixes extends Migration
 	 */
 	public function down()
 	{
-		// Drop the ontologies table
-		Schema::drop('ontologies');
+		//  Drop the themes table
+		Schema::drop('themes');
 	}
 }

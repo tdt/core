@@ -60,6 +60,11 @@ class BaseController extends \Controller
                         $controller = 'Tdt\\Core\\Definitions\\OntologyController';
                         $uri = str_replace('api/prefixes', '', $uri);
                         break;
+                    case 'themes':
+                        // Supported themes request
+                        $controller = 'Tdt\\Core\\Definitions\\ThemeController';
+                        $uri = str_replace('api/themes', '', $uri);
+                        break;
                     default:
                         \App::abort(404, "Page not found.");
                         break;

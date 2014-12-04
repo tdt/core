@@ -134,12 +134,18 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getByCollection($collection)
     {
-        return \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($collection . '/'))->get()->toArray();
+        $collection = \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($collection . '/'))->get();
+
+        if (!empty($collection)) {
+            return $collection->toArray();
+        }
+
+        return $collection;
     }
 
     public function getOldest()
     {
-        $definition = \Definition::where('created_at', '=', \DB::table('definitions')->max('created_at'))->first();
+        $definition = \Definition::where('updated_at', '=', \DB::table('definitions')->max('updated_at'))->first();
 
         if (!empty($definition)) {
             return $definition->toArray();
@@ -177,8 +183,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Use the power of the IoC
         try {
+
             $type = ucfirst(strtolower($type));
             $source_repository = $this->getSourceRepository($type);
+
         } catch (\ReflectionException $ex) {
             \App::abort(400, "The provided source type " . $type . " is not supported.");
         }
@@ -326,13 +334,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     public function getCreateParameters()
     {
         return array(
-            'title' => array(
-                'required' => false,
-                'name' => 'Title',
-                'description' => 'A name given to the resource.',
-                'type' => 'string',
-                'group' => 'dc',
-            ),
             'date' => array(
                 'required' => false,
                 'name' => 'Date',
@@ -358,6 +359,15 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'description' => 'Information about rights held in and over the resource.',
                 'group' => 'dc',
             ),
+            'theme' => array(
+                'required' => false,
+                'name' => 'Theme',
+                'type' => 'list',
+                'list' => 'api/themes',
+                'list_option' => 'label',
+                'description' => 'The theme or category that the dataset belongs to.',
+                'group' => 'dc',
+            ),
             'cache_minutes' => array(
                 'required' => false,
                 'name' => 'Cache',
@@ -375,6 +385,27 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'name' => 'Map property',
                 'type' => 'string',
                 'description' => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable. Non geo-graphical datasets are not affected by this property.',
+            ),
+            'publisher_uri' => array(
+                'required' => false,
+                'name' => 'Publisher URI',
+                'type' => 'string',
+                'description' => 'The URI of the entity responsible for publishing the dataset (e.g. http://gov.be). ',
+                'group' => 'dc',
+            ),
+            'publisher_name' => array(
+                'required' => false,
+                'name' => 'Publisher name',
+                'type' => 'string',
+                'description' => 'The name of the entity responsible for publishing the dataset.',
+                'group' => 'dc',
+            ),
+            'keywords' => array(
+                'required' => false,
+                'name' => 'Keywords',
+                'type' => 'string',
+                'description' => 'A comma separated list of keywords regarding the dataset.',
+                'group' => 'dc',
             ),
         );
     }
