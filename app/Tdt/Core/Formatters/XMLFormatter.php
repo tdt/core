@@ -37,7 +37,6 @@ class XMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-
         // Rootname equals resource name
         $rootname = 'root';
 
