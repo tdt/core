@@ -3,9 +3,28 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\ThemeRepositoryInterface;
+use User;
 
 class DcatRepository implements DcatRepositoryInterface
 {
+
+    public function __construct
+    (
+        LicenseRepositoryInterface $licenses,
+        LanguageRepositoryInterface $languages,
+        SettingsRepositoryInterface $settings,
+        ThemeRepositoryInterface $themes
+    ) {
+        $this->licenses = $licenses;
+        $this->languages = $languages;
+        $this->settings = $settings;
+        $this->themes = $themes;
+    }
+
     /**
      * Return a DCAT document based on the definitions that are passed
      *
@@ -15,25 +34,43 @@ class DcatRepository implements DcatRepositoryInterface
      */
     public function getDcatDocument(array $definitions, $oldest_definition)
     {
+        // Create a new EasyRDF graph
         $graph = new \EasyRdf_Graph();
 
-        $this->licenses = \App::make('Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface');
-        $this->languages = \App::make('Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface');
+        $all_settings = $this->settings->getAll();
 
         $uri = \Request::root();
 
         // Add the catalog and a title
-        $graph->addResource($uri . '/info/dcat', 'a', 'dcat:Catalog');
-        $graph->addLiteral($uri . '/info/dcat', 'dct:title', 'A DCAT feed of datasets published by The DataTank.');
+        $graph->addResource($uri . '/api/dcat', 'a', 'dcat:Catalog');
 
-        // Create a new EasyRDF graph
-        $graph = new \EasyRdf_Graph();
+        $graph->addLiteral($uri . '/api/dcat', 'dct:title', $all_settings['catalog_title']);
+
+        // Fetch the catalog description, issued date and language
+        $graph->addLiteral($uri . '/api/dcat', 'dct:description', $all_settings['catalog_description']);
+        $graph->addLiteral($uri . '/api/dcat', 'dct:issued', $this->getIssuedDate());
+
+        $lang = $this->languages->getByCode($all_settings['catalog_language']);
+
+        if (!empty($lang)) {
+            $graph->addResource($uri . '/api/dcat', 'dct:language', 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+            $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
+        }
+
+        // Fetch the homepage and rights
+        $graph->addResource($uri . '/api/dcat', 'foaf:homepage', $uri);
+        $graph->addResource($uri . '/api/dcat', 'dct:license', 'http://www.opendefinition.org/licenses/cc-zero');
+        $graph->addResource('http://www.opendefinition.org/licenses/cc-zero', 'a', 'dct:LicenseDocument');
+
+        // Add the publisher resource to the catalog
+        $graph->addResource($uri . '/api/dcat', 'dct:publisher', $all_settings['catalog_publisher_uri']);
+        $graph->addResource($all_settings['catalog_publisher_uri'], 'a', 'foaf:Agent');
+        $graph->addLiteral($all_settings['catalog_publisher_uri'], 'foaf:name', $all_settings['catalog_publisher_name']);
 
         if (count($definitions) > 0) {
 
             // Add the last modified timestamp in ISO8601
-            $graph->addLiteral($uri . '/info/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($oldest_definition['updated_at'])));
-            $graph->addLiteral($uri . '/info/dcat', 'foaf:homepage', $uri);
+            $graph->addLiteral($uri . '/api/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($oldest_definition['updated_at'])));
 
             foreach ($definitions as $definition) {
 
@@ -44,14 +81,38 @@ class DcatRepository implements DcatRepositoryInterface
                 $source_type = $definition['type'];
 
                 // Add the dataset link to the catalog
-                $graph->addResource($uri . '/info/dcat', 'dcat:dataset', $dataset_uri);
+                $graph->addResource($uri . '/api/dcat', 'dcat:dataset', $dataset_uri);
 
                 // Add the dataset resource and its description
                 $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
-                $graph->addLiteral($dataset_uri, 'dct:description', @$source_type->description);
+
+                // Add the title to the dataset resource of the catalog
+                if (!empty($definition['title'])) {
+                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['title']);
+                } else {
+                    $graph->addLiteral($dataset_uri, 'dct:title', $definition['collection_uri'] . '/' . $definition['resource_name']);
+                }
+
+                // Add the description, identifier, issues, modified of the dataset
+                $graph->addLiteral($dataset_uri, 'dct:description', @$definition['description']);
                 $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition['collection_uri'] . '/' . $definition['resource_name']));
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
+
+                // Add the publisher resource to the dataset
+                if (!empty($definition['publisher_name']) && !empty($definition['publisher_uri'])) {
+
+                    $graph->addResource($dataset_uri, 'dct:publisher', $definition['publisher_uri']);
+                    $graph->addResource($definition['publisher_uri'], 'a', 'foaf:Agent');
+                    $graph->addLiteral($definition['publisher_uri'], 'foaf:name', $definition['publisher_name']);
+                }
+
+                // Add the keywords to the dataset
+                if (!empty($definition['keywords'])) {
+                    foreach (explode(',', $definition['keywords']) as $keyword) {
+                        $graph->addLiteral($dataset_uri, 'dcat:keyword', $keyword);
+                    }
+                }
 
                 // Add the source resource if it's a URI
                 if (strpos($definition['source'], 'http://') !== false || strpos($definition['source'], 'https://')) {
@@ -59,35 +120,69 @@ class DcatRepository implements DcatRepositoryInterface
                 }
 
                 // Optional dct terms
-                $optional = array('title', 'date', 'language', 'rights');
+                $optional = array('date', 'language', 'theme');
 
                 foreach ($optional as $dc_term) {
 
                     if (!empty($definition[$dc_term])) {
 
-                        if ($dc_term == 'rights') {
+                        if ($dc_term == 'language') {
 
-                            $license = $this->licenses->getByTitle($definition[$dc_term]);
-
-                            if (!empty($license) && !empty($license['url'])) {
-                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, $license['url']);
-                            }
-                        } elseif ($dc_term == 'language') {
-
-                            $lang = $this->languages->getById($definition[$dc_term]);
+                            $lang = $this->languages->getByName($definition[$dc_term]);
 
                             if (!empty($lang)) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+                                $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
                             }
+                        } else if ($dc_term == 'theme') {
+
+                            $theme = $this->themes->getByLabel($definition[$dc_term]);
+
+                            if (!empty($theme)) {
+                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, $theme['uri']);
+                                $graph->addLiteral($theme['uri'], 'rdfs:label', $theme['label']);
+                            }
+
                         } else {
                             $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
                         }
+                    }
+                }
+
+                // Add the distribution of the dataset
+                $graph->addResource($dataset_uri, 'dcat:distribution', $dataset_uri . '.json');
+                $graph->addResource($dataset_uri . '.json', 'a', 'dcat:Distribution');
+                $graph->addLiteral($dataset_uri . '.json', 'dct:description', 'A json feed of ' . $dataset_uri);
+                $graph->addLiteral($dataset_uri . '.json', 'dct:mediaType', 'application/json');
+
+                // Add the license to the distribution
+                if (!empty($definition['rights'])) {
+
+                    $license = $this->licenses->getByTitle($definition['rights']);
+
+                    if (!empty($license) && !empty($license['url'])) {
+                        $graph->addResource($dataset_uri . '.json', 'dct:license', $license['url']);
+                        $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
                     }
                 }
             }
         }
 
         return $graph;
+    }
+
+    /**
+     * Return the issued date (in ISO8601 standard) of the catalog
+     *
+     * @return string
+     */
+    private function getIssuedDate()
+    {
+        // Fetch the youngest user, and retrieve the timestamp
+        // as this user has been created during the installation of the datatank
+        $created_at = \DB::table('users')->min('created_at');
+
+        return date(\DateTime::ISO8601, strtotime($created_at));
     }
 
     /**

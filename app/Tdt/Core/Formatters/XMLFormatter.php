@@ -37,7 +37,6 @@ class XMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-
         // Rootname equals resource name
         $rootname = 'root';
 
@@ -57,6 +56,10 @@ class XMLFormatter implements IFormatter
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
 
         self::$prefixes = $dataObj->semantic;
+
+        if (is_null(self::$prefixes)) {
+            self::$prefixes = array();
+        }
 
         $body .= self::transformToXML($dataObj->data, $rootname);
 

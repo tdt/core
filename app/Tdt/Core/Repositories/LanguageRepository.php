@@ -7,10 +7,10 @@ use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 class LanguageRepository implements LanguageRepositoryInterface
 {
 
-    public function getById($language_id)
+    public function getByCode($language_code)
     {
 
-        $lang = \Language::where('lang_id', '=', $language_id)->first();
+        $lang = \Language::where('lang_code', '=', $language_code)->first();
 
         if (!empty($lang)) {
             return $lang->toArray();
@@ -22,5 +22,23 @@ class LanguageRepository implements LanguageRepositoryInterface
     public function getAll()
     {
         return \Language::all(array('lang_id','lang_code','name'))->toArray();
+    }
+
+    /**
+     * Get a language by its given name
+     *
+     * @param string $name
+     *
+     * @return array Language
+     */
+    public function getByName($name)
+    {
+        $lang = \Language::where('name', '=', $name)->first();
+
+        if (!empty($lang)) {
+            return $lang->toArray();
+        }
+
+        return $lang;
     }
 }

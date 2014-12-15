@@ -16,6 +16,13 @@ class UiController extends \Controller
 
     protected $core_menu = array(
             array(
+                'title' => 'General',
+                'slug' => 'settings',
+                'permission' => 'admin.dataset.view',
+                'icon' => 'fa-cog',
+                'priority' => 5
+                ),
+            array(
                 'title' => 'Datasets',
                 'slug' => 'datasets',
                 'permission' => 'admin.dataset.view',

@@ -17,7 +17,7 @@ class ShpDefinition extends SourceType
 
     protected $table = 'shpdefinitions';
 
-    protected $fillable = array('uri', 'epsg', 'description');
+    protected $fillable = array('uri', 'epsg', 'description', 'title');
 
     /**
      * Relationship with the TabularColumns model.

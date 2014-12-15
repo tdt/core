@@ -11,5 +11,5 @@ class InstalledDefinition extends SourceType
 
     protected $table = 'installeddefinitions';
 
-    protected $fillable = array('path', 'description', 'class');
+    protected $fillable = array('path', 'description', 'class', 'title');
 }

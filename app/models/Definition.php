@@ -9,7 +9,20 @@
 class Definition extends Eloquent
 {
 
-    protected $fillable = array('title','description','type','language','rights', 'cache_minutes', 'draft', 'map_property');
+    protected $fillable = array(
+        'title',
+        'description',
+        'type',
+        'language',
+        'rights',
+        'cache_minutes',
+        'draft',
+        'map_property',
+        'keywords',
+        'publisher_uri',
+        'publisher_name',
+        'theme'
+    );
 
     /**
      * Return the poly morphic relationship with a source type.

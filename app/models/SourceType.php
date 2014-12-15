@@ -2,6 +2,7 @@
 
 /**
  * Base model for every publishable source (CSV, SHP, ...).
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
@@ -27,8 +28,9 @@ class SourceType extends Eloquent
     public function getCacheAttribute()
     {
 
-        if(!empty($this->definition))
+        if(!empty($this->definition)) {
             return (is_null($this->definition->cache_minutes))? 1 : $this->definition->cache_minutes;
+        }
 
         return 1;
     }

@@ -1,0 +1,75 @@
+[
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#CulturalEvents",
+        "label": "Government"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#CulturalHeritage",
+        "label": "Cultural Heritage"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Demography",
+        "label": "Demography"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Economy",
+        "label": "Economy"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Education",
+        "label": "Education"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Environment",
+        "label": "Environment"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Financing",
+        "label": "Financing"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Government",
+        "label": "Government"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Law",
+        "label": "Law"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#LivingHealthWelfare",
+        "label": "Living, health and Welfare"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Media",
+        "label": "Media"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Mobility",
+        "label": "Mobility"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Research",
+        "label": "Research"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#SafetyAndJustice",
+        "label": "Safety and Justice"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Sport",
+        "label": "Sport"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Taxonomy",
+        "@type": "skos:ConceptScheme",
+        "label": "The DataTank's standard theme taxonomy"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Tourism",
+        "label": "Tourism"
+    },
+    {
+        "uri": "http://ns.thedatatank.com/dcat/themes#Work",
+        "label": "Work"
+    }
+]

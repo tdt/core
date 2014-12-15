@@ -90,5 +90,15 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface',
             'Tdt\Core\Repositories\DcatRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface',
+            'Tdt\Core\Repositories\SettingsRepository'
+        );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\ThemeRepositoryInterface',
+            'Tdt\Core\Repositories\ThemeRepository'
+        );
     }
 }

@@ -42,6 +42,12 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
                 'description' => 'The location of the XLS file, either a URL or a local file location.',
                 'type' => 'string',
             ),
+            'title' => array(
+                'required' => true,
+                'name' => 'Title',
+                'description' => 'A name given to the resource.',
+                'type' => 'string',
+            ),
             'description' => array(
                 'required' => true,
                 'name' => 'Description',

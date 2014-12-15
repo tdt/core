@@ -184,6 +184,7 @@ class ContentNegotiator extends Pager
         $response->header('Cache-Control', 'public, max-age='. $cache_minutes*60 .', pre-check='. $cache_minutes*60 .'');
         $response->header('Pragma', 'public');
         $response->header('Expires', date(DATE_RFC822, strtotime("$cache_minutes minute")));
+        $response->header('Vary', 'Accept, Accept-encoding');
 
         // Return formatted response
         return $response;

@@ -11,6 +11,6 @@ class JsonldDefinition extends SourceType
 
     protected $table = 'jsonlddefinitions';
 
-    protected $fillable = array('uri', 'description');
+    protected $fillable = array('uri', 'description', 'title');
 
 }
