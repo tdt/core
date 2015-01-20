@@ -153,7 +153,7 @@ class DcatRepository implements DcatRepositoryInterface
                 $graph->addResource($dataset_uri, 'dcat:distribution', $dataset_uri . '.json');
                 $graph->addResource($dataset_uri . '.json', 'a', 'dcat:Distribution');
                 $graph->addLiteral($dataset_uri . '.json', 'dct:description', 'A json feed of ' . $dataset_uri);
-                $graph->addLiteral($dataset_uri . '.json', 'dct:mediaType', 'application/json');
+                $graph->addLiteral($dataset_uri . '.json', 'dcat:mediaType', 'application/json');
 
                 // Add the license to the distribution
                 if (!empty($definition['rights'])) {
