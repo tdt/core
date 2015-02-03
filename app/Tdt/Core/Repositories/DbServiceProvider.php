@@ -100,5 +100,10 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\ThemeRepositoryInterface',
             'Tdt\Core\Repositories\ThemeRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\RmlDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\RmlDefinitionRepository'
+        );
     }
 }
