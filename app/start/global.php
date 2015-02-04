@@ -31,6 +31,14 @@ ClassLoader::addDirectories(array(
 
 Log::useFiles(storage_path().'/logs/laravel.log');
 
+$mongoHandler = new Monolog\Handler\MongoDBHandler(
+    new MongoClient(Config::get('mongolog.server')),
+    Config::get('mongolog.database'),
+    Config::get('mongolog.collection')
+);
+
+Log::getMonolog()->pushHandler($mongoHandler);
+
 /*
 |--------------------------------------------------------------------------
 | Application Error Handler

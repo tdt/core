@@ -82,7 +82,6 @@ return array(
 			'password' => '',
 			'prefix'   => '',
 		),
-
 	),
 
 	/*
