@@ -5,6 +5,7 @@ php:
 env:
   - DB=mysql
 before_script:
+  - pecl -q install mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - mysql -e 'CREATE DATABASE core_test;'
   - sudo hostname test.travis-ci.org
   - composer install
