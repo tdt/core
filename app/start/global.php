@@ -32,7 +32,7 @@ ClassLoader::addDirectories(array(
 Log::useFiles(storage_path().'/logs/laravel.log');
 
 $mongoHandler = new Monolog\Handler\MongoDBHandler(
-    new MongoClient(Config::get('mongolog.global_log.server')),
+    new \MongoClient(Config::get('mongolog.global_log.server')),
     Config::get('mongolog.global_log.database'),
     Config::get('mongolog.global_log.collection')
 );
