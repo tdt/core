@@ -65,6 +65,14 @@ class BaseController extends \Controller
                         $controller = 'Tdt\\Core\\Definitions\\ThemeController';
                         $uri = str_replace('api/themes', '', $uri);
                         break;
+                    case 'rml':
+                        if (\Request::segment(3) == 'logs') {
+                            $controller = 'Tdt\\Core\\Definitions\\RmlLogController';
+                            $uri = str_replace('api/rml/logs', '', $uri);
+                            break;
+                        }
+
+                        // No break when the segments was not logs
                     default:
                         \App::abort(404, "Page not found.");
                         break;

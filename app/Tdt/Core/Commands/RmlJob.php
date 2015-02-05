@@ -31,6 +31,8 @@ class RmlJob extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->logs = \App::make('Tdt\Core\Repositories\Interfaces\RmlLogRepositoryInterface');
     }
 
     /**
@@ -54,14 +56,18 @@ class RmlJob extends Command
         $def_repo = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
         $rml_repo = \App::make('Tdt\Core\Repositories\Interfaces\RmlDefinitionRepositoryInterface');
 
-        $identifier = $this->argument('uri');
+        // Set the timestamp of the job execution
+        $this->timestamp = time();
 
-        $definition = $def_repo->getByIdentifier($identifier);
+        $this->identifier = $this->argument('uri');
+
+        $definition = $def_repo->getByIdentifier($this->identifier);
 
         // Check if it's an RML definition
         if (empty($definition) || $definition['source_type'] != 'RmlDefinition') {
 
             $this->error('The given identifier was not found or does not represent an RML definition.');
+
             die();
         }
 
@@ -71,14 +77,19 @@ class RmlJob extends Command
         // Execute the mvn command that triggers the RML
 
         // Create the file path to write the triples to
-        $file = $this->output_file_prefix . str_replace('/', '_', $identifier) . '.nt';
+        $file = $this->output_file_prefix . str_replace('/', '_', $this->identifier) . '.nt';
 
         $rml_home = \Config::get('input::rml.rml_home');
 
         $command = "cd $rml_home;mvn exec:java -Dexec.args=\"" . $rml_definition['mapping_document'] . " $file\"";
 
-        $this->info("executing the following command(s): " . $command);
-        $this->info(shell_exec($command));
+        $this->addLog("Executing the following command: " . $command);
+
+        $shell_output = shell_exec($command);
+
+        $this->info($shell_output);
+
+        $this->addLog($shell_output);
     }
 
     /**
@@ -104,5 +115,23 @@ class RmlJob extends Command
     {
         return array(
         );
+    }
+
+    /**
+     * Log something to the database
+     *
+     * @param array $message The message to be logged
+     *
+     * @return void
+     */
+    private function addLog($message)
+    {
+        $log = array(
+            'message' => $message,
+            'execution_timestamp' => $this->timestamp,
+            'identifier' => $this->identifier
+        );
+
+        $this->logs->insert($this->identifier, $log);
     }
 }
