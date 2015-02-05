@@ -73,6 +73,8 @@ class DefinitionController extends ApiController
         // Set permission
         Auth::requirePermissions('definition.delete');
 
+        // If the definition was an RML definition, delete all entries of its logs
+
         $this->definition->delete($uri);
 
         return \Response::make(null, 200);
