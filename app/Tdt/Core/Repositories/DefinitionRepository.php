@@ -3,6 +3,7 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\RmlLogRepositoryInterface;
 
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
@@ -12,9 +13,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         'collection_uri' => 'required|collectionuri'
     );
 
-    public function __construct(\Definition $model)
+    public function __construct(\Definition $model, RmlLogRepositoryInterface $rml_logs)
     {
         $this->model = $model;
+        $this->rml_logs = $rml_logs;
     }
 
     /**
@@ -86,20 +88,57 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     }
 
     /**
-     * Delete a definition
+     * Delete a definition by its identifier
+     *
+     * @param string $identifier
+     *
+     * @return bool
      */
     public function delete($identifier)
     {
+        \Log::info("Deleting definition with identifier: " . $identifier);
+
         $definition = $this->getEloquentDefinition($identifier);
 
         if (!empty($definition)) {
+
+            $this->rml_logs->delete($identifier);
+
             return $definition->delete();
         }
     }
 
     /**
+     * Delete a definition by id
+     *
+     * @param integer $id
+     *
+     * @return bool
+     */
+    public function deleteById($id)
+    {
+        $definition = $this->model->find($id);
+
+        if (!empty($definition)) {
+
+            $identifier = $definition->collection_uri . '/' . $definition->resource_name;
+
+            \Log::info("Deleting definition with identifier: " . $identifier);
+
+            $this->rml_logs->delete($identifier);
+
+            return $definition->delete();
+        }
+    }
+
+
+    /**
      * Return true|false based on whether the identifier is
      * a resource or not
+     *
+     * @param string $identifier
+     *
+     * @return bool|null
      */
     public function exists($identifier)
     {
@@ -194,7 +233,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $validator = $source_repository->getValidator($input);
 
         if ($validator->fails()) {
+
             $message = $validator->messages()->first();
+
             \App::abort(400, $message);
         }
     }

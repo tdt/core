@@ -8,6 +8,8 @@
 namespace Tdt\Core\Ui;
 
 use Tdt\Core\Auth\Auth;
+use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\RmlLogRepositoryInterface;
 
 class UiController extends \Controller
 {
@@ -48,8 +50,10 @@ class UiController extends \Controller
     /**
      * Check for added admin menu's
      */
-    public function __construct()
+    public function __construct (DefinitionRepositoryInterface $definitions)
     {
+        $this->definitions = $definitions;
+
         // Get loaded providers
         $providers = array_keys(\App::getLoadedProviders());
 

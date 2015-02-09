@@ -82,6 +82,7 @@ class BaseDefinitionRepository
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
+
         $model_object->update($input);
 
         return $model_object->toArray();

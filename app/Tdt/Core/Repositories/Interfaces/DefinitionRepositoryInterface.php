@@ -31,6 +31,15 @@ interface DefinitionRepositoryInterface
     public function delete($identifier);
 
     /**
+     * Delete by id
+     *
+     * @param integer $id
+     *
+     * @return bool
+     */
+    public function deleteById($id);
+
+    /**
      * Check if a definition exists with a given identifier
      *
      * @param string $identifier

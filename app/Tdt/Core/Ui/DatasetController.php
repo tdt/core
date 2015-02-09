@@ -241,11 +241,7 @@ class DatasetController extends UiController
         Auth::requirePermissions('admin.dataset.delete');
 
         if (is_numeric($id)) {
-            $definition = \Definition::find($id);
-            if ($definition) {
-                // Delete it (with cascade)
-                $definition->delete();
-            }
+            $this->definitions->deleteById($id);
         }
 
         return \Redirect::to('api/admin/datasets');

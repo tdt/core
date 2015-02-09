@@ -8,8 +8,7 @@ class RmlDefinitionRepository extends BaseDefinitionRepository implements RmlDef
 {
 
     protected $rules = array(
-        'mapping_document' => 'json|uri|required',
-        'output_file' => '',
+        'mapping_document' => 'uri|required',
         'description' => 'required',
     );
 

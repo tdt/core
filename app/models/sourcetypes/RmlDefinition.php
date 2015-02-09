@@ -11,6 +11,6 @@ class RmlDefinition extends SourceType
 
     protected $table = 'rmldefinitions';
 
-    protected $fillable = array('mapping_document');
+    protected $fillable = array('mapping_document', 'title', 'description');
 
 }

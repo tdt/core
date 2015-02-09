@@ -9,6 +9,7 @@ use Tdt\Core\Pager;
 use Tdt\Core\ContentNegotiator;
 use Tdt\Core\ApiController;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
+use Tdt\Core\Repositories\Interfaces\RmlLogRepositoryInterface;
 
 /**
  * DefinitionController
@@ -22,13 +23,21 @@ class DefinitionController extends ApiController
 
     protected $definition;
 
-    public function __construct(DefinitionRepositoryInterface $definition)
-    {
+    public function __construct
+    (
+        DefinitionRepositoryInterface $definition,
+        RmlLogRepositoryInterface $rml_logs
+    ) {
         $this->definition = $definition;
+        $this->rml_logs = $rml_logs;
     }
 
     /**
      * Create a new definition based on the PUT parameters given and content-type
+     *
+     * @param string $uri
+     *
+     * @return \Response
      */
     public function put($uri)
     {
@@ -67,13 +76,20 @@ class DefinitionController extends ApiController
 
     /**
      * Delete a definition based on the URI given.
+     *
+     * @param string $uri The identifier of the definition
+     *
+     * @return \Response
      */
     public function delete($uri)
     {
         // Set permission
         Auth::requirePermissions('definition.delete');
 
+        \Log::info('Removing the definition with uri: ' . $uri);
+
         // If the definition was an RML definition, delete all entries of its logs
+        $this->rml_logs->delete($uri);
 
         $this->definition->delete($uri);
 
@@ -82,6 +98,10 @@ class DefinitionController extends ApiController
 
     /**
      * PATCH a definition based on the PATCH parameters and URI.
+     *
+     * @param string $uri
+     *
+     * @return \Response
      */
     public function patch($uri)
     {
@@ -118,6 +138,10 @@ class DefinitionController extends ApiController
 
     /**
      * Return the headers of a call made to the uri given.
+     *
+     * @param string $uri
+     *
+     * @return \Response
      */
     public function head($uri)
     {
@@ -138,8 +162,12 @@ class DefinitionController extends ApiController
         return $response;
     }
 
-    /*
+    /**
      * GET a definition based on the uri provided
+     *
+     * @param string $uri
+     *
+     * @return \Response
      */
     public function get($uri)
     {

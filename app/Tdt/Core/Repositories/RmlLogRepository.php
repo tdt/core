@@ -48,11 +48,23 @@ class RmlLogRepository implements RmlLogRepositoryInterface
      *
      * @param string $identifier The identifier of the job
      *
-     * @return bool
+     * @return void
      */
     public function delete($identifier)
     {
+        $collection = $this->getMongoCollection();
 
+        $result = $collection->remove(
+            array(
+                'identifier' => $identifier
+            )
+        );
+
+        if ($result) {
+            \Log::info('Removed RML job logs for the identifier ' . $identifier);
+        } else {
+            \Log::info('No RML job logs removed, it was either not a job, or no log records have been removed/found.');
+        }
     }
 
     /**
