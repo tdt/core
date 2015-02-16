@@ -24,5 +24,21 @@
   "person" : "http://www.w3.org/ns/person#",
   "localgov" : "http://purl.org/oslo/ns/localgov#",
   "source" : "http://foo.bar/",
-  "schema" : "http://schema.org/"
+  "schema" : "http://schema.org/",
+  "sioc": "http://rdfs.org/sioc/ns#",
+  "neologism" : "http://spi-fm.uca.es/neologism/cerif#",
+  "im" : "http://semweb.mmlab.be/ns/im#",
+  "rr":    "http://www.w3.org/ns/r2rml#",
+  "rml"    : "http://semweb.mmlab.be/ns/rml#",
+  "dc"     : "http://purl.org/dc/elements/1.1/",
+  "ql"     : "http://semweb.mmlab.be/ns/ql#",
+  "rdfs"   : "http://www.w3.org/2000/01/rdf-schema#",
+  "xsd"    : "http://www.w3.org/2001/XMLSchema#",
+  "iminds" : "http://explore.iminds.be/",
+  "im"     : "http://semweb.mmlab.be/ns/im#",
+  "cerif"  : "http://spi-fm.uca.es/neologism/cerif#",
+  "xsd"    : "http://www.w3.org/2001/XMLSchema#",
+  "bibo"   : "http://purl.org/ontology/bibo/",
+  "foaf"     : "http://xmlns.com/foaf/0.1/",
+  "dcterms": "http://purl.org/dc/terms/"
 }

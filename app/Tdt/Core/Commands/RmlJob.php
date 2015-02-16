@@ -79,7 +79,7 @@ class RmlJob extends Command
         // Create the file path to write the triples to
         $file = $this->output_file_prefix . str_replace('/', '_', $this->identifier) . '.nt';
 
-        $rml_home = \Config::get('input::rml.rml_home');
+        $rml_home = \Config::get('rml.rml_home');
 
         $command = "cd $rml_home;mvn exec:java -Dexec.args=\"" . $rml_definition['mapping_document'] . " $file\"";
 
