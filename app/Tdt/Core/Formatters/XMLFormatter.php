@@ -131,7 +131,7 @@ class XMLFormatter implements IFormatter
 
                         $name = self::getFullName($name);
 
-                        $object .= " " . $name . '=' . '"' . htmlspecialchars($value) . "'";
+                        $object .= " " . $name . '=' . '"' . htmlspecialchars($value) . '"';
                     }
 
                     $object .= '>';
