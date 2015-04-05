@@ -23,6 +23,9 @@ You can then add an RML mapping document as you would configure any other dataso
 php artisan rml:execute {name of identifier}
 
 
+Note that with each model we add some meta-data such as source and datePublished to keep track of doubles.
+
+
 # Upload to Virtuoso
 
 At the time of writing the RMLProcessor doesn't load any triples into a triple store yet, instead it puts the triples into a file. If you're finding yourself wanting to upload this file into a triple store like Virtuoso, log into the conductor application, head to "Linked Data" -> "Quad Store Upload" -> choose your file with triples and upload it to a graph.
