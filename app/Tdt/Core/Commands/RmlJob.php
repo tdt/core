@@ -81,7 +81,7 @@ class RmlJob extends Command
 
         $rml_home = \Config::get('rml.rml_home');
 
-        $command = "cd $rml_home;mvn exec:java -Dexec.args=\"" . $rml_definition['mapping_document'] . " $file\"";
+        $command = "cd $rml_home;java -jar RMLMapper-0.1.jar -m " . $rml_definition['mapping_document'] . " -f $file -o ntriples";
 
         $this->addLog("Executing the following command: " . $command);
 

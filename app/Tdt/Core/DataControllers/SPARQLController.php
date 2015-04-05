@@ -286,6 +286,7 @@ class SPARQLController extends ADataController
             // Strip the array notation of the placeholder then keep its placeholders name
             $placeholder_name_pieces = explode('[', $placeholder);
             $placeholder_name = array_shift($placeholder_name_pieces);
+
             array_push($used_parameters, $placeholder_name);
 
             $elements = array();
@@ -316,13 +317,23 @@ class SPARQLController extends ADataController
                         $value = '?' . $placeholder . '_' . $placeholder_index;
                     } else {
                         $value = $parameters[$placeholder_name][$placeholder_index];
+
+                        if (filter_var($value, FILTER_VALIDATE_URL)) {
+                            $value = '<' . $value . '>';
+                        }
+
                     }
                 } else {
 
                     if (!isset($parameters[$placeholder])) {
                         $value = '?' . $placeholder;
                     } else {
+
                         $value = $parameters[$placeholder];
+
+                        if (filter_var($value, FILTER_VALIDATE_URL)) {
+                            $value = '<' . $value . '>';
+                        }
                     }
 
                     if (is_array($value)) {
