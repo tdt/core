@@ -1,5 +1,7 @@
 # tdt/core
 
+[![Join the chat at https://gitter.im/tdt/core](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tdt/core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 [![Latest Stable Version](https://poser.pugx.org/tdt/core/version.png)](https://packagist.org/packages/tdt/core)
 [![Build Status](https://travis-ci.org/tdt/core.png?branch=development)](https://travis-ci.org/tdt/core) [![Dependency Status](https://www.versioneye.com/php/tdt:core/badge.png)](https://www.versioneye.com/php/tdt:core)
