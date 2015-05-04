@@ -43,6 +43,9 @@ class SPARQLController extends ADataController
         $endpoint_password = $source_definition['endpoint_password'];
         $query = $source_definition['query'];
 
+        // Process the if and ifnot-statements in the query
+        $query = $this->processLogicalStatements($query);
+
         // Process the parameters in the uri (to catch hashtag values for example)
         $query = $this->processParameters($query);
 
@@ -126,6 +129,7 @@ class SPARQLController extends ADataController
         $paging = Pager::calculatePagingHeaders($limit, $offset, $count);
 
         $query = $source_definition['query'];
+        $query = $this->processLogicalStatements($query);
         $query = $this->processParameters($query);
 
         if (!empty($offset)) {
@@ -176,6 +180,8 @@ class SPARQLController extends ADataController
         $data->paging = $paging;
         $data->is_semantic = $is_semantic;
         $data->preferred_formats = $this->getPreferredFormats();
+
+        \Log::info("SPARQL query: $query");
 
         if ($is_semantic) {
 
@@ -364,6 +370,43 @@ class SPARQLController extends ADataController
             }
 
             \Log::warning("The parameter $key with value $log_value was given as a SPARQL query parameter, but no placeholder in the SPARQL query named $key was found.");
+        }
+
+        return $query;
+    }
+
+    private function processLogicalStatements($query)
+    {
+        $parameters = \Request::all();
+
+        $elements = [];
+
+        preg_match_all("/.*(ifisset\((.*)\)\{(.*)\}).*/", $query, $elements, PREG_SET_ORDER);
+
+        foreach ($elements as $element) {
+
+            // Keyword is in the 3rd match
+            if (array_key_exists($element[2], $parameters)) {
+
+                // Remove the templated piece, replace it with the value
+                $query = str_replace($element[0], $element[3], $query);
+            } else {
+                $query = str_replace($element[0], '', $query);
+            }
+        }
+
+        preg_match_all("/.*(ifnotset\((.*)\)\{(.*)\}).*/", $query, $elements, PREG_SET_ORDER);
+
+        foreach ($elements as $element) {
+
+            // Keyword is in the 3rd match
+            if (!array_key_exists($element[2], $parameters)) {
+
+                // Remove the templated piece, replace it with the value
+                $query = str_replace($element[0], $element[3], $query);
+            } else {
+                $query = str_replace($element[0], '', $query);
+            }
         }
 
         return $query;
