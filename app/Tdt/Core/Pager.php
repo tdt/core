@@ -85,7 +85,6 @@ class Pager
             } else {
                 $paging['last'] = array(($last_full_page - 1) * $limit, $limit);
             }
-
         }
 
         if ($offset > 0 && $total_rows > 0) {

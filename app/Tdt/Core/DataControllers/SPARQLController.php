@@ -322,6 +322,10 @@ class SPARQLController extends ADataController
                         $value = '?' . $placeholder . '_' . $placeholder_index;
                     } else {
                         $value = $parameters[$placeholder_name][$placeholder_index];
+
+                        if (filter_var($value, FILTER_VALIDATE_URL)) {
+                            $value = '<' . $value . '>';
+                        }
                     }
                 } else {
 
@@ -329,6 +333,10 @@ class SPARQLController extends ADataController
                         $value = '?' . $placeholder;
                     } else {
                         $value = $parameters[$placeholder];
+
+                        if (filter_var($value, FILTER_VALIDATE_URL)) {
+                            $value = '<' . $value . '>';
+                        }
                     }
 
                     if (is_array($value)) {
