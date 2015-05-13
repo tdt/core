@@ -39,6 +39,9 @@ class XLSController extends ADataController
             $offset = 0;
         }
 
+        // Get the current column configuration for the XLS sheet data
+        $parsed_columns = self::parseColumns($source_definition);
+
         $uri = $source_definition['uri'];
         $sheet = $source_definition['sheet'];
         $has_header_row = $source_definition['has_header_row'];
@@ -49,6 +52,34 @@ class XLSController extends ADataController
 
         // Retrieve the columns from XLS
         $columns = $this->tabular_columns->getColumns($source_definition['id'], 'XlsDefinition');
+
+        // Check if they match with the freshly parsed columns
+        if (count($parsed_columns) != count($columns)) {
+
+            // Save the new config
+            $this->tabular_columns->deleteBulk($source_definition['id'], 'XlsDefinition');
+            $this->tabular_columns->storeBulk($source_definition['id'], 'XlsDefinition', $columns);
+
+        } else {
+            foreach ($parsed_columns as $parsed_column) {
+
+                $column = array_shift($columns);
+
+                foreach ($parsed_column as $key => $val) {
+                    if ($val != $column[$key]) {
+
+                        // Save the new config
+                        $this->tabular_columns->deleteBulk($source_definition['id'], 'XlsDefinition');
+                        $this->tabular_columns->storeBulk($source_definition['id'], 'XlsDefinition', $columns);
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        // In any case (changed column configuration or not) we can set the columns to the parsed ones
+        $columns = $parsed_columns;
 
         if (empty($columns)) {
             \App::abort(500, "Cannot find the columns from the XLS definition.");

@@ -41,6 +41,9 @@ class CSVController extends ADataController
             $offset = 0;
         }
 
+        // Get the current column configuration from the CSV file
+        $parsed_columns = self::parseColumns($source_definition);
+
         // Check the given URI
         if (!empty($source_definition['uri'])) {
             $uri = $source_definition['uri'];
@@ -55,6 +58,34 @@ class CSVController extends ADataController
 
         // Get CSV columns
         $columns = $this->tabular_columns->getColumns($source_definition['id'], 'CsvDefinition');
+
+        // Check if they match with the freshly parsed columns
+        if (count($parsed_columns) != count($columns)) {
+
+            // Save the new config
+            $this->tabular_columns->deleteBulk($source_definition['id'], 'CsvDefinition');
+            $this->tabular_columns->storeBulk($source_definition['id'], 'CsvDefinition', $columns);
+
+        } else {
+            foreach ($parsed_columns as $parsed_column) {
+
+                $column = array_shift($columns);
+
+                foreach ($parsed_column as $key => $val) {
+                    if ($val != $column[$key]) {
+
+                        // Save the new config
+                        $this->tabular_columns->deleteBulk($source_definition['id'], 'CsvDefinition');
+                        $this->tabular_columns->storeBulk($source_definition['id'], 'CsvDefinition', $columns);
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        // In any case (changed column configuration or not) we can set the columns to the parsed ones
+        $columns = $parsed_columns;
 
         // Get the geo properties
         $geo_properties = $this->geo_properties->getGeoProperties($source_definition['id'], 'CsvDefinition');
@@ -102,11 +133,10 @@ class CSVController extends ADataController
 
                 if ($total_rows >= $start_row) {
 
-                    $num = count($data);
-
                     // Create the values array, containing the (aliased) name of the column
                     // to the value of a the row which $data represents
                     $values = $this->createValues($columns, $data);
+
                     if ($offset <= $hits && $offset + $limit > $hits) {
 
                         $obj = new \stdClass();
@@ -128,6 +158,7 @@ class CSVController extends ADataController
                     }
                     $hits++;
                 }
+
                 $total_rows++;
             }
             fclose($handle);
