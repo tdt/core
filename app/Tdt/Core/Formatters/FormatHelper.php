@@ -37,6 +37,8 @@ class FormatHelper
         if (!empty($data->geo)) {
             $formats = array_merge(array('Fullscreen' => 'map'), $formats);
             $formats['KML'] = 'kml';
+            $formats['GOEJSON'] = 'geojson';
+            $formats['WKT'] = 'wkt';
         }
 
         // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph
