@@ -81,10 +81,10 @@ class SPARQLController extends ADataController
 
             $regex = $keyword . $where_clause;
 
-            preg_match_all("/(.*)$regex/msi", $query, $matches);
+            preg_match_all("/(.*?)$regex/msi", $query, $matches);
         } else {
 
-            preg_match_all("/(.*)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
+            preg_match_all("/(.*?)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
         }
 
         $prefix = $matches[1][0];
