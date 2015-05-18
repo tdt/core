@@ -40,12 +40,9 @@ class KMLFormatter implements IFormatter
         $body .= '<kml xmlns="http://www.opengis.net/kml/2.2">';
 
         // Add the document
-        $body .= "<Document>";
-
         $body .= self::getPlacemarks($dataObj);
 
         // Close tags
-        $body .= "</Document>";
         $body .= "</kml>";
 
         return $body;
@@ -53,8 +50,8 @@ class KMLFormatter implements IFormatter
 
     private static function getPlacemarks($dataObj)
     {
-
         $data = $dataObj->data;
+
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
@@ -63,9 +60,13 @@ class KMLFormatter implements IFormatter
         if (empty($dataObj->geo)) {
 
             $placemarks = "";
+
             ob_start();
+
             self::printArray($dataObj->data, $placemarks);
+
             $placemarks = ob_get_contents();
+
             ob_end_clean();
 
             return $placemarks;
@@ -92,11 +93,11 @@ class KMLFormatter implements IFormatter
 
     private static function printArray($val, $placemarks)
     {
-
         foreach ($val as $key => $value) {
 
             $long = "";
             $lat = "";
+
             $coords = array();
 
             if (is_array($value)) {
@@ -250,9 +251,6 @@ class KMLFormatter implements IFormatter
                 if (!empty($entry['name'])) {
                     $name = $entry['name'];
                 }
-
-                $body .= implode($entry);
-
 
                 if (!empty($dataObj->definition['map_property']) && !empty($entry[$dataObj->definition['map_property']])) {
                     $name = $entry[$dataObj->definition['map_property']];
