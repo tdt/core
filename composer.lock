@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cf8044f22640510faf3fa5cf4b32e913",
+    "hash": "711cef067f38dbb74100f0ca1c950453",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -438,16 +438,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.1.28",
+            "version": "v4.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4"
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
                 "shasum": ""
             },
             "require": {
@@ -474,7 +474,7 @@
                 "symfony/http-kernel": "2.4.*",
                 "symfony/process": "2.4.*",
                 "symfony/routing": "2.4.*",
-                "symfony/security": "2.4.*",
+                "symfony/security-core": "2.4.*",
                 "symfony/translation": "2.4.*"
             },
             "replace": {
@@ -542,7 +542,7 @@
                     "name": "Taylor Otwell",
                     "email": "taylorotwell@gmail.com",
                     "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "role": "Creator of Laravel"
                 }
             ],
             "description": "The Laravel Framework.",
@@ -550,7 +550,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-04-17 17:16:42"
+            "time": "2014-05-20 13:22:03"
         },
         {
             "name": "ml/iri",
