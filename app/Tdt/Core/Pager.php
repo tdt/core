@@ -8,6 +8,7 @@ namespace Tdt\Core;
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
+ * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class Pager
 {
@@ -66,11 +67,20 @@ class Pager
     /**
      * Calculate the link meta-data for paging purposes, return an array with paging information
      *
+     * @param integer $limit
+     * @param integer $offset
+     * @param integer $total_rows The total amount of objects
+     *
      * @return array
      */
     public static function calculatePagingHeaders($limit, $offset, $total_rows)
     {
         $paging = array();
+
+        // Check if limit and offset are integers
+        if (!is_integer($limit) || !is_integer($offset)) {
+            \App::abort(400, "Please make sure limit and offset are integers.");
+        }
 
         // Calculate the paging parameters and pass them with the data object
         if ($offset + $limit < $total_rows) {
