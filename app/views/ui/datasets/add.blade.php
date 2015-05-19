@@ -189,7 +189,11 @@
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}">
                                                 <option></option>
                                                 @foreach($object->list as $option)
-                                                    <option>{{ $option }}</option>
+                                                    @if(@$object->default_value == $option)
+                                                        <option selected>{{ $option }}</option>
+                                                    @else
+                                                        <option>{{ $option }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         @endif
