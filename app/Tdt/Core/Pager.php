@@ -78,7 +78,7 @@ class Pager
         $paging = array();
 
         // Check if limit and offset are integers
-        if (!is_integer($limit) || !is_integer($offset)) {
+        if (!is_integer((int)$limit) || !is_integer((int)$offset)) {
             \App::abort(400, "Please make sure limit and offset are integers.");
         }
 
