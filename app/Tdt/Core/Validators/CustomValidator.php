@@ -90,6 +90,18 @@ class CustomValidator extends \Illuminate\Validation\Validator
     }
 
     /**
+     * Check if the MySQL query is legitimate
+     */
+    public function validateMysqlquery($attribute, $value, $parameters)
+    {
+        if (stripos($value, 'select') === false || stripos($value, 'from') === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Check if the collection uri doesn't contain preserved namespaces
      */
     public function validateCollectionuri($attribute, $value, $parameters)

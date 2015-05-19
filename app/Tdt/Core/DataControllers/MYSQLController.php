@@ -27,7 +27,14 @@ class MYSQLController extends ADataController
 
     public function readData($source_definition, $rest_parameters = array())
     {
-        list($limit, $offset) = Pager::calculateLimitAndOffset();
+        //Check if the query is already paged.
+        $limitInQuery = false;
+
+        if (stripos($source_definition['query'], 'limit')) {
+            $limitInQuery = true;
+        } else {
+            list($limit, $offset) = Pager::calculateLimitAndOffset();
+        }
 
         // Disregard the paging when rest parameters are given
         if (!empty($rest_parameters)) {
@@ -81,53 +88,36 @@ class MYSQLController extends ADataController
         // Make a database connection
         $db = \DB::connection('mysqltmp');
 
-        // Check if a select statement has been given
-        // If not, return all columns
-        $select = \Request::get('select', null);
-
-        if (empty($select)) {
-            foreach ($columns as $column) {
-                $select .= $column['column_name'] . ' AS ' . $column['column_name_alias'];
-                $select .= ',';
-            }
-
-            $select = rtrim($select, ',');
-        }
-
-        $query_builder = $db->table($source_definition['datatable']);
-
-        // Check for where statements in the query string
-        $or_where = \Request::get('orWhere', null);
-
-        $and_where = \Request::get('where', null);
-
-        // Add the different where (and | or) statements
-        if (!empty($and_where)) {
-            if (is_array($and_where)) {
-                foreach ($and_where as $stmt) {
-                    $query_builder->whereRaw($stmt);
-                }
-            } else {
-                $query_builder->whereRaw($and_where);
-            }
-        }
-
-        if (!empty($or_where)) {
-            if (is_array($or_where)) {
-                foreach ($or_where as $stmt) {
-                    $query_builder->orWhereRaw($stmt);
-                }
-            } else {
-                $query_builder->orWhereRaw($or_where);
-            }
-        }
-
         try {
 
-            // Get the total amount of records for the query for pagination purposes
-            $total_rows = $query_builder->selectRaw($select)->skip($offset)->limit($limit)->count();
+            $query = $source_definition['query'];
 
-            $result = $query_builder->selectRaw($select)->skip($offset)->limit($limit)->get();
+            // Get the total amount of records for the query for pagination
+            preg_match("/select.*?(from.*)/msi", $query, $matches);
+
+            if (empty($matches[1])) {
+                \App::abort(400, 'Failed to make a count statement, make sure the SQL query is valid.');
+            }
+
+            $count_query = 'select count(*) as count ' . $matches[1];
+
+            $count_result = $db->select($count_query);
+
+            $total_rows = $count_result[0]->count;
+
+            if (!$limitInQuery) {
+
+                if (!empty($limit)) {
+                    $query .= ' limit ' . $limit;
+                }
+
+                if (!empty($offset)) {
+                    $query .= ' offset ' . $offset;
+                }
+            }
+
+            $result = $db->select($query);
+
         } catch (QueryException $ex) {
             \App::abort(400, "A bad query has been made, make sure all passed statements are SQL friendly. The error message was: " . $ex->getMessage());
         }
@@ -147,18 +137,6 @@ class MYSQLController extends ADataController
     public static function getParameters()
     {
         $parameters = array(
-            'select' => array(
-                'required' => false,
-                'description' => 'A selection of columns, will be used as select statement in the mysql query. e.g. columnA, columnB'
-            ),
-            'where' => array(
-                'required' => false,
-                'description' => 'An and-where filter confirm to the MySQL specification. e.g. columnA > 1 In order to provide multiple filters use the [] notation e.g. where[]=id=1&where[]=name="Andy"'
-            ),
-            'orWhere' => array(
-                'required' => false,
-                'description' => 'An or-where filter confirm to the MySQL specification. e.g. columnA="this" In order to provide multiple filters use the [] notation e.g. orWhere[]=id=1&orWhere[]=name="Andy"'
-            ),
         );
 
         return array_merge(parent::getParameters(), $parameters);

@@ -10,9 +10,9 @@ class MysqlDefinitionRepository extends TabularBaseRepository implements MysqlDe
     protected $rules = array(
         'host' => 'required',
         'port' => 'integer',
-        'datatable' => 'required',
         'database' => 'required',
         'username' => 'required',
+        'query' => 'required|mysqlquery',
     );
 
     public function __construct(\MysqlDefinition $model)
@@ -67,9 +67,14 @@ class MysqlDefinitionRepository extends TabularBaseRepository implements MysqlDe
 
         // Get the schema builder of the database connection
         $schema = $db->getSchemaBuilder();
+        $connection = $schema->getConnection();
+        $result = $connection->selectOne($input['query']);
 
-        // Get the columns of the table through the schema
-        $db_columns = $schema->getColumnListing($input['datatable']);
+        if (empty($result)) {
+            \App::abort(400, 'The query did not return any results.');
+        }
+
+        $db_columns = array_keys((array)$result);
 
         $columns_info = @$config['columns'];
         $pk = @$config['pk'];
@@ -123,12 +128,6 @@ class MysqlDefinitionRepository extends TabularBaseRepository implements MysqlDe
                 'description' => 'The name of the database where the datatable, that needs to be published, resides.',
                 'type' => 'string',
             ),
-            'datatable' => array(
-                'required' => true,
-                'name' => 'Datatable',
-                'description' => 'The name of the table from which the data will be published.',
-                'type' => 'string',
-            ),
             'username' => array(
                 'required' => true,
                 'name' => 'Username',
@@ -157,6 +156,12 @@ class MysqlDefinitionRepository extends TabularBaseRepository implements MysqlDe
                                 The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
                 'type' => 'integer',
             ),
+            'query' => array(
+                'required' => true,
+                'name' => 'Query',
+                'description' => 'The query of which the results will be published as open data.',
+                'type' => 'text'
+            )
         );
     }
 }
