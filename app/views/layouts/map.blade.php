@@ -9,7 +9,7 @@
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
-        <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
+        <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}?v=1.0" />
         <style>
             body { margin:0; padding:0; }
             #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -24,13 +24,23 @@
                 minZoom: 3
             }).addTo(map);
 
-            var track = new L.KML('<?php echo preg_replace("/'/", "\\'", $kml) ?>');
-            var data = new L.FeatureGroup();
-            for (i in track._layers) {
-                data.addLayer(track._layers[i]);
-            }
-            data.addTo(map);
-            map.fitBounds(data.getBounds(), {padding: [20, 20]});
+
+            var data = omnivore.kml('{{ $url }}')
+                .on('ready', function() {
+                    map.fitBounds(data.getBounds(), {padding: [20, 20]});
+
+                    data.eachLayer(function(layer) {
+                        var popup = "<strong>" + layer.feature.properties.name + "</strong>\n";
+                        var description = layer.feature.properties.description;
+
+                        if (description) {
+                            popup += description;
+                        }
+
+                        layer.bindPopup(popup);
+                    });
+                })
+                .addTo(map);
         </script>
     </body>
 </html>

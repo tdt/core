@@ -2,6 +2,7 @@
 
 namespace Tdt\Core\Formatters;
 
+use Request;
 /**
  * Map Formatter
  *
@@ -26,18 +27,18 @@ class MAPFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-        // Parse a kml from the objectToPrint, and convert it to a geojson
-        ob_start();
+        $url = Request::url();
+        $url = preg_replace('/\.([^\.]*)$/m', '.kml', $url);
 
-        echo KMLFormatter::getBody($dataObj);
+        if (substr($url, -4) != '.kml'){
+            $url .= '.kml';
+        }
 
-        $kml = ob_get_contents();
-
-        ob_end_clean();
+        $resource = $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'];
 
         // Render the view
-        return \View::make('layouts.map')->with('title', 'Dataset: ' . $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'] . ' map | The Datatank')
-                                          ->with('kml', $kml);
+        return \View::make('layouts.map')->with('title', 'Dataset: ' . $resource . ' map | The Datatank')
+                                          ->with('url', $url);
     }
 
     public static function getDocumentation()
