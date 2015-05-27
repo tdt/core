@@ -139,7 +139,7 @@ class DcatRepository implements DcatRepositoryInterface
                             $theme = $this->themes->getByLabel($definition[$dc_term]);
 
                             if (!empty($theme)) {
-                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, $theme['uri']);
+                                $graph->addResource($dataset_uri, 'dcat:' . $dc_term, $theme['uri']);
                                 $graph->addLiteral($theme['uri'], 'rdfs:label', $theme['label']);
                             }
 
