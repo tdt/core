@@ -16,6 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class JSONController extends ADataController
 {
+    public static function getParameters()
+    {
+        return [];
+    }
 
     public function readData($source_definition, $rest_parameters = array())
     {
