@@ -405,21 +405,20 @@ class SPARQLController extends ADataController
 
         $elements = [];
 
-        preg_match_all("/.*(ifisset\((.*)\)\{(.*)\}).*/", $query, $elements, PREG_SET_ORDER);
+        preg_match_all("/.*(ifisset\((.*?)\).*?\{(.*?)\}).*/m", $query, $elements, PREG_SET_ORDER);
 
         foreach ($elements as $element) {
-
             // Keyword is in the 3rd match
             if (array_key_exists($element[2], $parameters)) {
 
                 // Remove the templated piece, replace it with the value
-                $query = str_replace($element[0], $element[3], $query);
+                $query = str_replace($element[1], $element[3], $query);
             } else {
-                $query = str_replace($element[0], '', $query);
+                $query = str_replace($element[1], '', $query);
             }
         }
 
-        preg_match_all("/.*(ifnotset\((.*)\)\{(.*)\}).*/", $query, $elements, PREG_SET_ORDER);
+        preg_match_all("/.*(ifnotset\((.*)\).*?\{(.*?)\}).*/m", $query, $elements, PREG_SET_ORDER);
 
         foreach ($elements as $element) {
 
@@ -427,12 +426,12 @@ class SPARQLController extends ADataController
             if (!array_key_exists($element[2], $parameters)) {
 
                 // Remove the templated piece, replace it with the value
-                $query = str_replace($element[0], $element[3], $query);
+                $query = str_replace($element[1], $element[3], $query);
             } else {
-                $query = str_replace($element[0], '', $query);
+                $query = str_replace($element[1], '', $query);
             }
         }
-
+        var_dump($query);
         return $query;
     }
 
