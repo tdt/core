@@ -133,12 +133,4 @@ class MYSQLController extends ADataController
 
         return $data_result;
     }
-
-    public static function getParameters()
-    {
-        $parameters = array(
-        );
-
-        return array_merge(parent::getParameters(), $parameters);
-    }
 }
