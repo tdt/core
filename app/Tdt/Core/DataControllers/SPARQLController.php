@@ -431,7 +431,7 @@ class SPARQLController extends ADataController
                 $query = str_replace($element[1], '', $query);
             }
         }
-        var_dump($query);
+
         return $query;
     }
 
