@@ -66,16 +66,15 @@ class CustomValidator extends \Illuminate\Validation\Validator
      */
     public function validateInstalled($attribute, $value, $parameters)
     {
-
         try {
 
             $class_file = app_path() . '/../installed/' .  $value;
+
             return file_exists($class_file);
 
         } catch (Exception $ex) {
             return false;
         }
-
     }
 
     /**
@@ -83,15 +82,19 @@ class CustomValidator extends \Illuminate\Validation\Validator
      */
     public function validateSparqlquery($attribute, $value, $parameters)
     {
-
-        // No LIMIT or OFFSET statement can be given in the query, also a construct or select
-        // statement must be present
-        if (stripos($value, 'limit') !== false || stripos($value, 'offset') !== false) {
-
+        if (stripos($value, 'construct') === false && stripos($value, 'select') === false) {
             return false;
         }
 
-        if (stripos($value, 'construct') === false && stripos($value, 'select') === false) {
+        return true;
+    }
+
+    /**
+     * Check if the MySQL query is legitimate
+     */
+    public function validateMysqlquery($attribute, $value, $parameters)
+    {
+        if (stripos($value, 'select') === false || stripos($value, 'from') === false) {
             return false;
         }
 
@@ -103,7 +106,6 @@ class CustomValidator extends \Illuminate\Validation\Validator
      */
     public function validateCollectionuri($attribute, $value, $parameters)
     {
-
         $preserved_ns = array('discovery', 'api');
 
         $collection_uri = explode('/', $value);

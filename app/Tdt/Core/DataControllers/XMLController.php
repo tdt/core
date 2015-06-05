@@ -17,6 +17,10 @@ use Tdt\Core\utils\XMLSerializer;
  */
 class XMLController extends ADataController
 {
+    public static function getParameters()
+    {
+        return [];
+    }
 
     public function readData($source_definition, $rest_parameters = array())
     {

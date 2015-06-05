@@ -13,7 +13,6 @@ use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
- * @author Michiel Vancoillie <michiel@okfn.be>
  */
 class SPARQLController extends ADataController
 {
@@ -27,21 +26,32 @@ class SPARQLController extends ADataController
 
     public function readData($source_definition, $rest_parameters = array())
     {
-        list($limit, $offset) = Pager::calculateLimitAndOffset();
+        $endpoint = $source_definition['endpoint'];
+        $endpoint_user = $source_definition['endpoint_user'];
+        $endpoint_password = $source_definition['endpoint_password'];
+        $query = $source_definition['query'];
 
-        // Sparql endpoints often have a built in limit on the amount of rows that they return
-        // Avoid problems by capping the given limit by the Pager class
-        if ($limit > self::$MAX_LIMIT) {
-            $limit = self::$MAX_LIMIT;
+        $limitInQuery = false;
+
+        //Check if the query is already paged.
+        if (stripos($source_definition['query'], 'limit')) {
+            $limitInQuery = true;
+        } else {
+
+            list($limit, $offset) = Pager::calculateLimitAndOffset();
+
+            // Sparql endpoints often have a built in limit on the amount of rows that they return
+            // Avoid problems by capping the given limit by the Pager class
+            if ($limit > self::$MAX_LIMIT) {
+                $limit = self::$MAX_LIMIT;
+            }
         }
 
         // Retrieve the necessary variables to read from a SPARQL endpoint
         $uri = \Request::url();
 
-        $endpoint = $source_definition['endpoint'];
-        $endpoint_user = $source_definition['endpoint_user'];
-        $endpoint_password = $source_definition['endpoint_password'];
-        $query = $source_definition['query'];
+        // Process the if and ifnot-statements in the query
+        $query = $this->processLogicalStatements($query);
 
         // Process the parameters in the uri (to catch hashtag values for example)
         $query = $this->processParameters($query);
@@ -78,10 +88,10 @@ class SPARQLController extends ADataController
 
             $regex = $keyword . $where_clause;
 
-            preg_match_all("/(.*)$regex/msi", $query, $matches);
+            preg_match_all("/(.*?)$regex/msi", $query, $matches);
         } else {
 
-            preg_match_all("/(.*)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
+            preg_match_all("/(.*?)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
         }
 
         $prefix = $matches[1][0];
@@ -104,36 +114,42 @@ class SPARQLController extends ADataController
             \App::abort(500, "Failed to retrieve the where clause from the query: $query");
         }
 
-        // Prepare the query to count results
-        $count_query = $matches[1][0] . ' SELECT (count(*) AS ?count) ' . $filter;
+        if (!$limitInQuery) {
 
-        $count_query = urlencode($count_query);
-        $count_query = str_replace("+", "%20", $count_query);
+            // Prepare the query to count results
+            $count_query = $matches[1][0] . ' SELECT (count(*) AS ?count) ' . $filter;
 
-        $count_uri = $endpoint . '?query=' . $count_query . '&format=' . urlencode("application/sparql-results+json");
+            $count_query = urlencode($count_query);
+            $count_query = str_replace("+", "%20", $count_query);
 
-        $response = $this->executeUri($count_uri, $endpoint_user, $endpoint_password);
-        $response = json_decode($response);
+            $count_uri = $endpoint . '?query=' . $count_query . '&format=' . urlencode("application/sparql-results+json");
 
-        // If something goes wrong, the resonse will either be null or false
-        if (!$response) {
-            \App::abort(500, "Something went wrong while executing the count query. The assembled URI was: $count_uri");
+            $response = $this->executeUri($count_uri, $endpoint_user, $endpoint_password);
+            $response = json_decode($response);
+
+            // If something goes wrong, the resonse will either be null or false
+            if (!$response) {
+                \App::abort(500, "Something went wrong while executing the count query. The assembled URI was: $count_uri");
+            }
+
+            $count = $response->results->bindings[0]->count->value;
+
+            // Calculate page link headers, previous, next and last based on the count from the previous query
+            $paging = Pager::calculatePagingHeaders($limit, $offset, $count);
         }
-
-        $count = $response->results->bindings[0]->count->value;
-
-        // Calculate page link headers, previous, next and last based on the count from the previous query
-        $paging = Pager::calculatePagingHeaders($limit, $offset, $count);
 
         $query = $source_definition['query'];
+        $query = $this->processLogicalStatements($query);
         $query = $this->processParameters($query);
 
-        if (!empty($offset)) {
-            $query = $query . " OFFSET $offset ";
-        }
+        if (!$limitInQuery) {
+            if (!empty($offset)) {
+                $query = $query . " OFFSET $offset ";
+            }
 
-        if (!empty($limit)) {
-            $query = $query . " LIMIT $limit";
+            if (!empty($limit)) {
+                $query = $query . " LIMIT $limit";
+            }
         }
 
         // Prepare the query with proper encoding for the request
@@ -173,9 +189,15 @@ class SPARQLController extends ADataController
         // Create the data object to return
         $data = new Data();
         $data->data = $result;
-        $data->paging = $paging;
+
+        if (!$limitInQuery) {
+            $data->paging = $paging;
+        }
+
         $data->is_semantic = $is_semantic;
         $data->preferred_formats = $this->getPreferredFormats();
+
+        \Log::info("SPARQL query: $query");
 
         if ($is_semantic) {
 
@@ -316,6 +338,10 @@ class SPARQLController extends ADataController
                         $value = '?' . $placeholder . '_' . $placeholder_index;
                     } else {
                         $value = $parameters[$placeholder_name][$placeholder_index];
+
+                        if (filter_var($value, FILTER_VALIDATE_URL)) {
+                            $value = '<' . $value . '>';
+                        }
                     }
                 } else {
 
@@ -323,6 +349,10 @@ class SPARQLController extends ADataController
                         $value = '?' . $placeholder;
                     } else {
                         $value = $parameters[$placeholder];
+
+                        if (filter_var($value, FILTER_VALIDATE_URL)) {
+                            $value = '<' . $value . '>';
+                        }
                     }
 
                     if (is_array($value)) {
@@ -364,6 +394,42 @@ class SPARQLController extends ADataController
             }
 
             \Log::warning("The parameter $key with value $log_value was given as a SPARQL query parameter, but no placeholder in the SPARQL query named $key was found.");
+        }
+
+        return $query;
+    }
+
+    private function processLogicalStatements($query)
+    {
+        $parameters = \Request::all();
+
+        $elements = [];
+
+        preg_match_all("/.*(ifisset\((.*?)\).*?\{(.*?)\}).*/m", $query, $elements, PREG_SET_ORDER);
+
+        foreach ($elements as $element) {
+            // Keyword is in the 3rd match
+            if (array_key_exists($element[2], $parameters)) {
+
+                // Remove the templated piece, replace it with the value
+                $query = str_replace($element[1], $element[3], $query);
+            } else {
+                $query = str_replace($element[1], '', $query);
+            }
+        }
+
+        preg_match_all("/.*(ifnotset\((.*)\).*?\{(.*?)\}).*/m", $query, $elements, PREG_SET_ORDER);
+
+        foreach ($elements as $element) {
+
+            // Keyword is in the 3rd match
+            if (!array_key_exists($element[2], $parameters)) {
+
+                // Remove the templated piece, replace it with the value
+                $query = str_replace($element[1], $element[3], $query);
+            } else {
+                $query = str_replace($element[1], '', $query);
+            }
         }
 
         return $query;

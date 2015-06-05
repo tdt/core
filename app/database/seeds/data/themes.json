@@ -12,7 +12,7 @@
         "label": "Demography"
     },
     {
-        "uri": "http://ns.thedatatank.com/dcat/themes#Economy",
+        "uri": "http://ns.thedatatank.com/dcat/themes#Economy",´
         "label": "Economy"
     },
     {
@@ -58,11 +58,6 @@
     {
         "uri": "http://ns.thedatatank.com/dcat/themes#Sport",
         "label": "Sport"
-    },
-    {
-        "uri": "http://ns.thedatatank.com/dcat/themes#Taxonomy",
-        "@type": "skos:ConceptScheme",
-        "label": "The DataTank's standard theme taxonomy"
     },
     {
         "uri": "http://ns.thedatatank.com/dcat/themes#Tourism",

@@ -21,7 +21,8 @@ class Definition extends Eloquent
         'keywords',
         'publisher_uri',
         'publisher_name',
-        'theme'
+        'theme',
+        'date'
     );
 
     /**

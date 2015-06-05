@@ -358,6 +358,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'list_option' => 'title',
                 'description' => 'Information about rights held in and over the resource.',
                 'group' => 'dc',
+                'default_value' => 'License Not Specified'
             ),
             'theme' => array(
                 'required' => false,

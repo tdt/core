@@ -32,4 +32,12 @@
             {{ strtoupper($source_definition['type']) }}
         </p>
     </li>
+    @if(!empty($definition['rights']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">License</h5>
+            <p class="list-group-item-text">
+                {{ $definition['rights'] }}
+            </p>
+        </li>
+    @endif
 </ul>

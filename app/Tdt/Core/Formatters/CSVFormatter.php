@@ -12,10 +12,8 @@ namespace Tdt\Core\Formatters;
  */
 class CSVFormatter implements IFormatter
 {
-
     public static function createResponse($dataObj)
     {
-
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 
@@ -99,7 +97,11 @@ class CSVFormatter implements IFormatter
     {
         $element = rtrim($element, '"');
         $element = ltrim($element, '"');
+
+        // RFC-4180 - 2.7
+        $element = str_replace('"', '""', $element);
+
         $element = '"'.$element.'"';
-        return utf8_encode($element);
+        return $element;
     }
 }
