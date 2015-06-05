@@ -97,6 +97,10 @@ class CSVFormatter implements IFormatter
     {
         $element = rtrim($element, '"');
         $element = ltrim($element, '"');
+
+        // RFC-4180 - 2.7
+        $element = str_replace('"', '""', $element);
+
         $element = '"'.$element.'"';
         return $element;
     }
