@@ -23,17 +23,19 @@
                     </div>
                     <div>
                         <div class='row'>
-                            <div class='col-sm-5'>
+                            <div class='col-md-5'>
                                 <h4 class='dataset-title'>
                                     <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}'>{{ $definition->collection_uri . '/' . $definition->resource_name }}</a>
                                 </h4>
+                                <div class='note dataset-description'>
+                                    {{ $definition->source()->first()->description }}
+                                </div>
                             </div>
-                            <div class='col-sm-7 text-right hidden-sm hidden-xs'>
-                                <span class='note'>{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}</span>
+                            <div class='col-md-7 text-right hidden-sm hidden-xs'>
+                                <span class='note'>
+                                    {{ $definition->rights }}
+                                </span>
                             </div>
-                        </div>
-                        <div class='note dataset-description'>
-                            {{ $definition->source()->first()->description }}
                         </div>
                     </div>
                 </div>
