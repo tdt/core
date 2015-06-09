@@ -117,7 +117,8 @@ class SHPController extends ADataController
                     $dbf_data = $record->getDbfData();
 
                     foreach ($dbf_data as $property => $value) {
-                        $property = strtolower($property);
+                        $property_alias = $columns[$property];
+                        //$property = trim($property);
                         $property_alias = $columns[$property];
                         $rowobject->$property_alias = trim($value);
                     }
@@ -250,7 +251,9 @@ class SHPController extends ADataController
 
         foreach ($dbf_fields as $field) {
 
-            $property = strtolower($field["fieldname"]);
+            // Remove non-printable characters
+            $property = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $field["fieldname"]);
+
             array_push($columns, array('index' => $column_index, 'column_name' => $property, 'column_name_alias' => $property, 'is_pk' => ($pk === $column_index)));
             $column_index++;
         }
