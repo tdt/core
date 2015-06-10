@@ -38,23 +38,23 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
                 $this->validate($provided_column);
             }
 
-            $tmp = array();
+            $provided_columns_map = array();
 
             // Index the column objects on the column name
             foreach ($provided_columns as $column) {
-                $tmp[$column['column_name']] = $column;
+                $provided_columns_map[$column['column_name']] = $column;
             }
 
-            $tmp_columns = array();
+            $extracted_columns_map = array();
 
             foreach ($extracted_columns as $column) {
-                $tmp_columns[$column['column_name']] = $column;
+                $extracted_columns_map[$column['column_name']] = $column;
             }
 
             // If the column name of a provided column doesn't exist, or an index doesn't match, abort
-            foreach ($tmp as $column_name => $column) {
+            foreach ($provided_columns_map as $column_name => $column) {
 
-                $tmp_column = $tmp_columns[$column_name];
+                $tmp_column = $extracted_columns_map[$column_name];
 
                 if (empty($tmp_column)) {
                     \App::abort(404, "The column name ($column_name) was not found in the tabular datasource.");
@@ -73,7 +73,6 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
 
     public function getColumnAliases($tabular_id, $type)
     {
-
         $tabular_columns = \TabularColumns::where('tabular_id', '=', $tabular_id)->where('tabular_type', '=', $type, 'AND')->get()->toArray();
 
         $columns = array();
@@ -92,7 +91,6 @@ class TabularColumnsRepository extends BaseDefinitionRepository implements Tabul
 
     public function storeBulk($tabular_id, $type, $columns)
     {
-
         foreach ($columns as $column) {
 
             $column['tabular_id'] = $tabular_id;
