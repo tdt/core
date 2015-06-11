@@ -163,16 +163,31 @@ class ModelPagingTest extends TestCase
 
         $total_triples = $parser->parse($graph, $turtle, 'turtle', '');
 
+        $datasets = $graph->allOfType('dcat:Dataset');
+
         // Make sure triples are created and inserted into the graph
-        $this->assertEquals(33, $total_triples);
+        $this->assertEquals(2, count($datasets));
 
-        // This array will hold 7 entries, one for the Dcat catalog entry itself
-        // and the two first entries of the definitions it gets from the controller
-        // their distributions
-        // and the various license entries
-        $dcat_array = $graph->toRdfPhp();
+        foreach ($datasets as $dataset) {
 
-        $this->assertEquals(7, count($dcat_array));
+            $literal_properties = ['dc:title', 'dc:description', 'dc:identifier', 'dc:issued', 'dc:modified'];
+
+            foreach ($literal_properties as $property) {
+
+                $literal = $dataset->getLiteral($property);
+
+                $this->assertNotEmpty($literal);
+            }
+
+            // Get the distribution
+            $distribution = $dataset->getResource('dcat:distribution');
+
+            $this->assertNotEmpty($distribution);
+        }
+
+        $catalog = $graph->allOfType('dcat:Catalog');
+
+        $this->assertEquals(1, count($catalog));
 
         $this->processLinkHeader($response);
     }
