@@ -16,8 +16,6 @@ use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
 use muka\ShapeReader\ShapeReader;
 
-//include_once(app_path() . "/lib/ShapeFile.inc.php");
-
 class SHPController extends ADataController
 {
 
