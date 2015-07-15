@@ -29,9 +29,7 @@
         </div>
 
         <div class="col-sm-6 panel panel-default dataset-parameters">
-
             @if(!empty($parameters_optional))
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
                     </label>

@@ -108,7 +108,8 @@ class BaseDefinitionRepository
      * Patch the input given with the existing properties of a model and return the resulting array
      *
      * @param integer $id
-     * @param array $input
+     * @param array   $input
+     *
      * @return array model
      */
     protected function patchInput($model_id, array $input)

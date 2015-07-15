@@ -18,7 +18,6 @@ class DatasetController extends UiController
      */
     public function getIndex()
     {
-
         // Set permission
         Auth::requirePermissions('admin.dataset.view');
 
@@ -47,8 +46,8 @@ class DatasetController extends UiController
         // Sort parameters for each media type
         $mediatypes = array();
         $lists = array();
-        foreach ($mediatypes_spec as $mediatype => $type) {
 
+        foreach ($mediatypes_spec as $mediatype => $type) {
             $parameters_required = array();
             $parameters_optional = array();
             $parameters_dc = array();
@@ -56,14 +55,10 @@ class DatasetController extends UiController
             $parameters_geo = array();
 
             foreach ($type->parameters as $parameter => $object) {
-
                 // Filter array type parameters
-
                 if (empty($object->parameters)) {
-
                     // Filter Dublin core parameters
                     if (!empty($object->group) && $object->group == 'dc') {
-
                         // Fetch autocomplete DC fields
                         if ($object->type == 'list') {
                             $uri = $object->list;
@@ -101,8 +96,6 @@ class DatasetController extends UiController
                         }
                     }
                 } else {
-
-
                     switch ($parameter) {
                         case 'columns':
                             foreach ($object->parameters as $param => $obj) {
@@ -145,13 +138,11 @@ class DatasetController extends UiController
      */
     public function getEdit($id)
     {
-
         // Set permission
         Auth::requirePermissions('admin.dataset.update');
 
         $definition = \Definition::find($id);
         if ($definition) {
-
             // Get source defintion
             $source_definition = $definition->source()->first();
 

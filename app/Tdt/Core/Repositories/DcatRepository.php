@@ -12,8 +12,7 @@ use User;
 class DcatRepository implements DcatRepositoryInterface
 {
 
-    public function __construct
-    (
+    public function __construct(
         LicenseRepositoryInterface $licenses,
         LanguageRepositoryInterface $languages,
         SettingsRepositoryInterface $settings,
@@ -68,12 +67,10 @@ class DcatRepository implements DcatRepositoryInterface
         $graph->addLiteral($all_settings['catalog_publisher_uri'], 'foaf:name', $all_settings['catalog_publisher_name']);
 
         if (count($definitions) > 0) {
-
             // Add the last modified timestamp in ISO8601
             $graph->addLiteral($uri . '/api/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($oldest_definition['updated_at'])));
 
             foreach ($definitions as $definition) {
-
                 // Create the dataset uri
                 $dataset_uri = $uri . "/" . $definition['collection_uri'] . "/" . $definition['resource_name'];
                 $dataset_uri = str_replace(' ', '%20', $dataset_uri);
@@ -101,7 +98,6 @@ class DcatRepository implements DcatRepositoryInterface
 
                 // Add the publisher resource to the dataset
                 if (!empty($definition['publisher_name']) && !empty($definition['publisher_uri'])) {
-
                     $graph->addResource($dataset_uri, 'dct:publisher', $definition['publisher_uri']);
                     $graph->addResource($definition['publisher_uri'], 'a', 'foaf:Agent');
                     $graph->addLiteral($definition['publisher_uri'], 'foaf:name', $definition['publisher_name']);
@@ -123,19 +119,15 @@ class DcatRepository implements DcatRepositoryInterface
                 $optional = array('date', 'language', 'theme');
 
                 foreach ($optional as $dc_term) {
-
                     if (!empty($definition[$dc_term])) {
-
                         if ($dc_term == 'language') {
-
                             $lang = $this->languages->getByName($definition[$dc_term]);
 
                             if (!empty($lang)) {
                                 $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
                                 $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
                             }
-                        } else if ($dc_term == 'theme') {
-
+                        } elseif ($dc_term == 'theme') {
                             $theme = $this->themes->getByLabel($definition[$dc_term]);
 
                             if (!empty($theme)) {
@@ -154,10 +146,10 @@ class DcatRepository implements DcatRepositoryInterface
                 $graph->addResource($dataset_uri . '.json', 'a', 'dcat:Distribution');
                 $graph->addLiteral($dataset_uri . '.json', 'dct:description', 'A json feed of ' . $dataset_uri);
                 $graph->addLiteral($dataset_uri . '.json', 'dcat:mediaType', 'application/json');
+                $graph->addResource($dataset_uri . '.json', 'dcat:downloadURL', $dataset_uri . '.json');
 
                 // Add the license to the distribution
                 if (!empty($definition['rights'])) {
-
                     $license = $this->licenses->getByTitle($definition['rights']);
 
                     if (!empty($license) && !empty($license['url'])) {

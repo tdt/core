@@ -19,7 +19,6 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
  */
 class DefinitionController extends ApiController
 {
-
     protected $definition;
 
     public function __construct(DefinitionRepositoryInterface $definition)
