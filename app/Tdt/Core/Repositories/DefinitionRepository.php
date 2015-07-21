@@ -6,7 +6,6 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
-
     protected $rules = array(
         'resource_name' => 'required',
         'collection_uri' => 'required|collectionuri'

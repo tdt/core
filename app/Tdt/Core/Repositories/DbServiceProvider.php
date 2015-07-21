@@ -105,5 +105,10 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\MysqlDefinitionRepositoryInterface',
             'Tdt\Core\Repositories\MysqlDefinitionRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\MongoDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\MongoDefinitionRepository'
+        );
     }
 }
