@@ -132,7 +132,7 @@
                             @if($object->type == 'string')
                                 <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
                             @elseif($object->type == 'list')
-                                <select id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
                                     <option></option>
                                     @foreach($object->list as $option)
                                         <option @if ($definition->{$parameter} == $option) {{ 'selected="selected"' }}@endif>{{ $option }}</option>

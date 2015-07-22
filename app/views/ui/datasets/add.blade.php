@@ -186,7 +186,7 @@
                                         @if($object->type == 'string')
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
                                         @elseif($object->type == 'list')
-                                            <select id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                            <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
                                                 <option></option>
                                                 @foreach($object->list as $option)
                                                     @if(@$object->default_value == $option)
