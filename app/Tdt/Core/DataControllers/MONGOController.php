@@ -19,7 +19,17 @@ class MONGOController extends ADataController
 
         $collection = $this->getCollection($source_definition);
 
+        // Parse the parameters from the query string (prefixed by q.)
+        $all_parameters = \Input::get();
+
         $query = [];
+
+        foreach ($all_parameters as $key => $val) {
+            if (substr($key, 0, 2) == 'q_') {
+                $key = str_replace('q_', '', $key);
+                $query[$key] = $val;
+            }
+        }
 
         $total_objects = $collection->count($query);
 
