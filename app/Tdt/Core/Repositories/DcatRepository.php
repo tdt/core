@@ -106,6 +106,7 @@ class DcatRepository implements DcatRepositoryInterface
                 // Add the keywords to the dataset
                 if (!empty($definition['keywords'])) {
                     foreach (explode(',', $definition['keywords']) as $keyword) {
+                        $keyword = trim($keyword);
                         $graph->addLiteral($dataset_uri, 'dcat:keyword', $keyword);
                     }
                 }
