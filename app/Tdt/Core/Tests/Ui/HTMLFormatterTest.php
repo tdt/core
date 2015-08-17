@@ -2,7 +2,7 @@
 
 namespace Tdt\Core\Tests\Ui;
 
-class HTMLFormatterTEst extends BaseUITest
+class HTMLFormatterTest extends BaseUITest
 {
 
     /**

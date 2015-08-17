@@ -14,9 +14,9 @@ use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
 use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
+use muka\ShapeReader\ShapeReader;
 
-include_once(app_path() . "/lib/ShapeFile.inc.php");
-include_once(app_path() . "/lib/proj4php/proj4php.php");
+//include_once(app_path() . "/lib/ShapeFile.inc.php");
 
 class SHPController extends ADataController
 {
@@ -96,10 +96,10 @@ class SHPController extends ADataController
                 file_put_contents($tmp_file . ".shx", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shx"));
 
                 // Along this file the class will use file.shx and file.dbf
-                $shp = new \ShapeFile($tmp_file . ".shp", $options);
+                $shp = new ShapeReader($tmp_file . ".shp", $options);
             } else {
 
-                $shp = new \ShapeFile($uri, $options); // along this file the class will use file.shx and file.dbf
+                $shp = new ShapeReader($uri, $options); // along this file the class will use file.shx and file.dbf
             }
 
             // Keep track of the total amount of rows
@@ -117,7 +117,9 @@ class SHPController extends ADataController
                     $dbf_data = $record->getDbfData();
 
                     foreach ($dbf_data as $property => $value) {
-                        $property = strtolower($property);
+
+                        $property_alias = $columns[$property];
+                        $property = trim($property);
                         $property_alias = $columns[$property];
                         $rowobject->$property_alias = trim($value);
                     }
@@ -221,16 +223,17 @@ class SHPController extends ADataController
 
                 // This remains untested
                 $tmp_file = uniqid();
+
                 file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shp"));
                 file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".dbf"));
                 file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
 
                 // Along this file the class will use file.shx and file.dbf
-                $shp = new \ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+                $shp = new ShapeReader($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
             } else {
 
                // along this file the class will use file.shx and file.dbf
-                $shp = new \ShapeFile($options['uri'], array('noparts' => false));
+                $shp = new ShapeReader($options['uri'], array('noparts' => false));
             }
         } catch (Exception $e) {
             \App::abort(400, "The shape contents couldn't be retrieved, make sure the shape file is valid, zipped shape files are not yet supported.");
@@ -245,12 +248,15 @@ class SHPController extends ADataController
         }
 
         // Get the dBASE fields
-        $dbf_fields = $record->getDbfFields();
+        $dbf_fields = $record->getDbfData();
+
         $column_index = 0;
 
-        foreach ($dbf_fields as $field) {
+        foreach ($dbf_fields as $field => $value) {
 
-            $property = strtolower($field["fieldname"]);
+            // Remove non-printable characters
+            $property = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $field);
+
             array_push($columns, array('index' => $column_index, 'column_name' => $property, 'column_name_alias' => $property, 'is_pk' => ($pk === $column_index)));
             $column_index++;
         }
@@ -297,9 +303,9 @@ class SHPController extends ADataController
             file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".dbf"));
             file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
 
-            $shp = new \ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+            $shp = new ShapeReader($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
         } else {
-            $shp = new \ShapeFile($options['uri'], array('noparts' => false));
+            $shp = new ShapeReader($options['uri'], array('noparts' => false));
         }
 
         $record = $shp->getNext();
@@ -311,18 +317,19 @@ class SHPController extends ADataController
         }
 
         $shp_data = $record->getShpData();
-        $shape_type = strtolower($record->getRecordClass());
+        $shape_type = strtolower($record->getTypeLabel());
 
         $geo_properties = array();
+
 
         // Get the geographical column names
         // Either multiple coordinates will be set (identified by the parts)
         // or a lat long pair will be set (identified by x and y)
         if (!empty($shp_data['parts'])) {
-            if (strpos($shape_type, 'polyline')) {
+            if ($shape_type === 'polyline') {
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
-            } elseif (strpos($shape_type, 'polygon')) {
+            } elseif ($shape_type === 'polygon') {
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
             } else { // TODO support more types

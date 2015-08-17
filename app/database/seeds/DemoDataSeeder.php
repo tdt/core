@@ -15,7 +15,6 @@ class DemoDataSeeder extends Seeder
      */
     public function run()
     {
-
         Eloquent::unguard();
 
         // Add csv definitions
@@ -364,8 +363,14 @@ class DemoDataSeeder extends Seeder
                                         'is_pk' => 0
                                         ),
                                     array(
-                                        'column_name' => 'parts',
+                                        'column_name' => 'deleted',
                                         'index' => 4,
+                                        'column_name_alias' => 'deleted',
+                                        'is_pk' => 0
+                                        ),
+                                    array(
+                                        'column_name' => 'parts',
+                                        'index' => 5,
                                         'column_name_alias' => 'parts',
                                         'is_pk' => 0
                                         ),
@@ -407,14 +412,20 @@ class DemoDataSeeder extends Seeder
                                     'is_pk' => 0
                                     ),
                                 array(
-                                    'column_name' => 'x',
+                                    'column_name' => 'deleted',
                                     'index' => 4,
+                                    'column_name_alias' => 'deleted',
+                                    'is_pk' => 0
+                                    ),
+                                array(
+                                    'column_name' => 'x',
+                                    'index' => 5,
                                     'column_name_alias' => 'x',
                                     'is_pk' => 0
                                     ),
                                 array(
                                     'column_name' => 'y',
-                                    'index' => 5,
+                                    'index' => 6,
                                     'column_name_alias' => 'y',
                                     'is_pk' => 0
                                     ),

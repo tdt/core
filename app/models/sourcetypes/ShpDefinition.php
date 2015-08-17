@@ -1,10 +1,5 @@
 <?php
 
-
-// PHP SHP libraries arent PSR-0 yet so we have to include them
-include_once(app_path() . "/lib/ShapeFile.inc.php");
-include_once(app_path() . "/lib/proj4php/proj4php.php");
-
 /**
  * Shape definition model, all processing is done based on the
  * SHP specification http://www.esri.com/library/whitepapers/pdfs/shapefile.pdf.

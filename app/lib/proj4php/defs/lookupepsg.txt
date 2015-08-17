@@ -1,1 +1,0 @@
-http://spatialreference.org/ref/epsg/31300/
