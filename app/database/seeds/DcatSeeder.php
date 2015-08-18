@@ -2,6 +2,7 @@
 
 /**
  * Seeder for dcat meta-data
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
@@ -37,41 +38,8 @@ class DcatSeeder extends Seeder
     {
         // Fetch the licenses from the json file
         $this->command->info('---- DCAT Licenses ----');
-        $this->command->info('Trying to fetch the licenses from a local json file.');
 
-        $licenses = json_decode(file_get_contents(app_path() . '/database/seeds/data/licenses.json'));
-
-        if (!empty($licenses)) {
-
-            $this->command->info('Licenses have been found, deleting the current ones, and replacing them with the new ones.');
-
-            // Empty the licenses table
-            $this->command->info('Emptying the current licenses table.');
-
-            \License::truncate();
-
-            foreach ($licenses as $license) {
-                \License::create(array(
-                    'domain_content' => $license->domain_content,
-                    'domain_data' => $license->domain_data,
-                    'domain_software' => $license->domain_software,
-                    'family' => $license->family,
-                    'license_id' => $license->license_id,
-                    'is_generic' => @$license->is_generic,
-                    'is_okd_compliant' => $license->is_okd_compliant,
-                    'is_osi_compliant' => $license->is_osi_compliant,
-                    'maintainer' => $license->maintainer,
-                    'status' => $license->status,
-                    'title' => $license->title,
-                    'url' => $license->url
-                    ));
-            }
-
-            $this->command->info('Added the licenses from a local json file.');
-
-        } else {
-            $this->command->info('The licenses from the json file were empty, the old ones will not be replaced.');
-        }
+        \Artisan::call('datatank:licenses');
     }
 
     /**
@@ -90,7 +58,6 @@ class DcatSeeder extends Seeder
         $languages = json_decode(file_get_contents(app_path() . '/database/seeds/data/languages.json'));
 
         if (!empty($languages)) {
-
             $this->command->info('Languages have been found, deleting the current ones, and replacing them with the new ones.');
 
             $this->command->info('Emptying the current languages table.');
