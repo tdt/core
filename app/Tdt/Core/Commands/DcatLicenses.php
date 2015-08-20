@@ -32,7 +32,14 @@ class DcatLicenses extends Command
      *
      * @var string
      */
-    protected $uri_licenses = 'https://raw.githubusercontent.com/tdt/licenses/master/international_licenses.json';
+    protected $licenses_uri = 'https://raw.githubusercontent.com/tdt/licenses/master/';
+
+    /**
+     * The default license
+     *
+     * @var string
+     */
+    protected $DEFAULT_LICENSE = 'international_licenses';
 
     /**
      * Create a new command instance.
@@ -67,7 +74,7 @@ class DcatLicenses extends Command
     protected function getArguments()
     {
         return array(
-            array('name', InputArgument::OPTIONAL, 'The name of the licenses document on github.com/tdt/licenses that should be seeded into the datatank.', ''),
+            array('name', InputArgument::OPTIONAL, 'The name of the licenses document hosted on https://github.com/tdt/licenses that should be seeded into the datatank. Default value is international_licenses.', $this->DEFAULT_LICENSE),
         );
     }
 
@@ -85,34 +92,46 @@ class DcatLicenses extends Command
     /**
      * Seed the themes
      *
-     * return @void
+     * @return @void
      */
     private function seedLicenses()
     {
         $this->info('---- Seeding new licenses ----');
 
-        // TODO check if argument is given, use default licenses
+        $license_name = $this->argument('name');
 
-        $uri_licenses = $this->uri_licenses;
+        $license_uri = $this->licenses_uri . $license_name;
+
+        if (substr($license_uri, -5) != '.json') {
+            $license_uri .= '.json';
+        }
 
         // Try to get the themes from the ns.thedatatank.com (semantic data)
         try {
-            $this->info('Trying to fetch triples from the uri: ' . $uri_licenses);
+            $this->info('Trying to fetch triples from the uri: ' . $license_uri);
 
-            $themes_graph = \EasyRdf_Graph::newAndLoad($uri_licenses, 'jsonld');
+            try {
+                $licenses_graph = \EasyRdf_Graph::newAndLoad($license_uri, 'jsonld');
+            } catch (\EasyRdf_Http_Exception $ex) {
+                $this->info('We could not fetch licenses from the URL ' . $license_uri . ', defaulting to ' . $this->DEFAULT_LICENSE . '.');
 
-            if ($themes_graph->isEmpty()) {
-                $this->info('We could not reach the online themes.');
+                $licenses_graph = $this->fetchDefaultGraph();
+            }
+
+            if ($licenses_graph->isEmpty()) {
+                $this->info('We could not fetch licenses from the URL ' . $license_uri . ', defaulting to ' . $this->DEFAULT_LICENSE . '.');
+
+                $licenses_graph = $this->fetchDefaultGraph();
 
             } else {
-                $this->info('Found new themes online, removing the old ones.');
+                $this->info('Fetched new licenses, removing the old ones.');
 
-                // Empty the themes table
+                // Empty the licenses table
                 \License::truncate();
             }
 
             // Fetch the resources with a skos:conceptScheme relationship
-            $licenses = $themes_graph->allOfType('cc:License');
+            $licenses = $licenses_graph->allOfType('cc:License');
 
             $taxonomy_uris = array();
 
@@ -148,5 +167,17 @@ class DcatLicenses extends Command
         } catch (EasyRdf_Exception $ex) {
             $this->info('An error occurred when we tried to fetch online themes.');
         }
+    }
+
+    /**
+     * Fetch the default licenses
+     *
+     * @return \EasyRdf_Graph
+     */
+    private function fetchDefaultGraph()
+    {
+        $license_uri = $this->licenses_uri . $this->DEFAULT_LICENSE . '.json';
+
+        return \EasyRdf_Graph::newAndLoad($license_uri, 'jsonld');
     }
 }
