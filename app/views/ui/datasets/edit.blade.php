@@ -10,7 +10,7 @@
                     <a href='{{ URL::to('api/admin/datasets') }}' class='back'>
                         <i class='fa fa-angle-left'></i>
                     </a>
-                    Edit a dataset
+                    {{ trans('admin.edit_dataset') }}
                 </h3>
             </div>
             <div class="col-sm-5 text-right">
@@ -34,14 +34,14 @@
                     <label class="col-sm-2 control-label">
                     </label>
                     <div class="col-sm-10">
-                        <h4>Parameters</h4>
+                        <h4>{{ trans('admin.parameters') }}</h4>
                     </div>
                 </div>
 
 
                 <div class="form-group">
                     <label for="input_identifier" class="col-sm-2 control-label">
-                        Source type
+                        {{ trans('admin.source_type') }}
                     </label>
                     <div class="col-sm-10">
                         <label class="control-label">
@@ -52,7 +52,7 @@
 
                 <div class="form-group">
                     <label for="input_identifier" class="col-sm-2 control-label">
-                        Identifier
+                        {{ trans('admin.identifier') }}
                     </label>
                     <div class="col-sm-10">
 
@@ -93,22 +93,22 @@
                 <label class="col-sm-2 control-label">
                 </label>
                 <div class="col-sm-10">
-                    <h4><i class='fa fa-clock-o'></i> Caching</h4>
+                    <h4><i class='fa fa-clock-o'></i> {{ trans('admin.caching') }}</h4>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="input_cache_minutes" class="col-sm-2 control-label">
-                    Cache for
+                    {{ trans('admin.cache_for') }}
                 </label>
                 <div class="col-sm-10">
                     <div class="input-group input-medium">
                         <input type="text" class="form-control" id="input_cache_minutes" name="cache_minutes" placeholder="" value="{{ $definition->cache_minutes }}">
-                        <span class="input-group-addon">minute(s)</span>
+                        <span class="input-group-addon">{{ trans('admin.minute') }}</span>
                     </div>
 
                     <div class='help-block'>
-                        How long should this dataset be cached? Fill out '0' or '-1' to disable caching for this resource (not recommended).
+                        {{ trans('admin.cache_help') }}
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
                     <label class="col-sm-2 control-label">
                     </label>
                     <div class="col-sm-10">
-                        <h4><i class='fa fa-info-circle'></i> Describe your data</h4>
+                        <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }}</h4>
                     </div>
                 </div>
 
@@ -148,7 +148,5 @@
 
             @endif
         </div>
-
-
     </form>
 @stop

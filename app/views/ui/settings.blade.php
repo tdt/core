@@ -5,10 +5,10 @@
     <form class="form-horizontal edit-dataset" role="form" method="post" action="">
         <div class='row header'>
             <div class="col-sm-7">
-                <h3>General settings</h3>
+                <h3>{{ trans('settings.header') }}</h3>
             </div>
             <div class="col-sm-5 text-right">
-                <button type='submit' class='btn btn-cta margin-left'><i class='fa fa-save'></i> Save</button>
+                <button type='submit' class='btn btn-cta margin-left'><i class='fa fa-save'></i> {{ trans('settings.save') }}</button>
             </div>
         </div>
 
@@ -25,47 +25,47 @@
 
             <div class="form-group">
                 <label for="input_" class="col-sm-2 control-label">
-                    Title
+                    {{ trans('settings.title') }}
                 </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="catalog_title" placeholder=""  value="{{ $settings['catalog_title'] }}"/>
                     <div class='help-block'>
-                        The name given to the catalog of datasets
+                        {{ trans('settings.title_help') }}
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="input_" class="col-sm-2 control-label">
-                    Description
+                    {{ trans('settings.description') }}
                 </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="catalog_description" placeholder="" value="{{ $settings['catalog_description'] }}"/>
                     <div class='help-block'>
-                        Description of the general theme of the datasets
+                        {{ trans('settings.description_help') }}
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="input_" class="col-sm-2 control-label">
-                    Publisher
+                    {{ trans('settings.publisher') }}
                 </label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="catalog_publisher_name" placeholder=""  value="{{ $settings['catalog_publisher_name'] }}"/>
                     <div class='help-block'>
-                        The name of the entity responsible for publishing the catalog
+                        {{ trans('settings.publisher_help') }}
                     </div>
                     <input type="text" class="form-control" name="catalog_publisher_uri" placeholder="" value="{{ $settings['catalog_publisher_uri'] }}" />
                     <div class='help-block'>
-                        <strong>The URI</strong> of the entity responsible for publishing the catalog
+                        {{ trans('settings.publisher_uri_help') }}
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="input_" class="col-sm-2 control-label">
-                    Language
+                    {{ trans('settings.language') }}
                 </label>
                 <div class="col-sm-10">
                     <select name="catalog_language">
@@ -74,7 +74,7 @@
                         @endforeach
                     </select>
                     <div class='help-block'>
-                        The language of the majority of datasets
+                        {{ trans('settings.language_help') }}
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
 
         <div class='row'>
             <div class="col-md-6 col-md-offset-3 text-right">
-                <a href='{{ URL::to("api/dcat") }}'>DCAT-AP feed <i class='fa fa-link'></i></a>
+                <a href='{{ URL::to("api/dcat") }}'>{{ trans('settings.dcat_link') }} <i class='fa fa-link'></i></a>
             </div>
         </div>
 

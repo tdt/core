@@ -50,9 +50,9 @@
             <div class="panel-body note">
                 <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
                 @if(count($definitions) == 0)
-                    This datatank is hungry for data, no datasets were added yet.
+                    {{ trans('datasets.no_datasets_message') }}
                 @else
-                    No dataset(s) found with the filter <strong>'<span class='dataset-filter'></span>'</strong>
+                    {{ trans('datasets.no_datasets_filter_message') }}<strong>'<span class='dataset-filter'></span>'</strong>
                 @endif
             </div>
         </div>
@@ -63,7 +63,7 @@
 @section('navigation')
 
     <div class="search pull-right hidden-xs">
-        <input id='dataset-filter' type="text" placeholder='Search for datasets' spellcheck='false'>
+        <input id='dataset-filter' type="text" placeholder="{{ trans('datasets.search_datasets') }}" spellcheck='false'>
         <i class='fa fa-search'></i>
     </div>
 

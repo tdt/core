@@ -7,4 +7,5 @@ return array(
     'contact_us'        => 'If this error persists, get in touch with us!',
     'submit_issue'      => 'Submit an issue to the repository.',
     'visit_site'        => 'Visit our website',
+    'message'           => 'Message',
 );

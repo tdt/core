@@ -12,4 +12,5 @@ return array(
     "language"                   => "Language",
     "language_help"              => "The language of the majority of datasets",
     "dcat_link"                  => "DCAT-AP feed",
+    "save"                       => "Save",
 );

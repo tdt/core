@@ -31,6 +31,7 @@ return array(
     "all"                        => "All",
     "save_permissions"           => "Save permissions",
     "add_group"                  => "Add a group",
+    "delete_group"               => "Delete this group",
     "name"                       => "Name",
     "cancel"                     => "Cancel",
     "rename_group"               => "Rename a group",
@@ -44,7 +45,7 @@ return array(
     "password"                   => "Password",
     "password_help"              => "Leave blank if you want to keep the current password.",
     "sign_out"                   => "Sign out",
-    "admin"                      => "Admin",
+    "admin_header"               => "Admin",
     "sign_in_header"             => "Please sign in",
     "sign_in"                    => "Sign in",
 );

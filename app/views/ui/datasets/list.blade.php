@@ -4,14 +4,14 @@
 
     <div class='row header'>
         <div class="col-sm-7">
-            <h3>Manage your data</h3>
+            <h3>{{ trans('admin.header_dataset_panel') }}</h3>
         </div>
         <div class="col-sm-5 text-right">
             <a href='{{ URL::to('api/admin/datasets/add') }}' class='btn btn-primary margin-left'
                 data-step='1'
                 data-intro='Add a new dataset to the system.'
                 data-position="left">
-                <i class='fa fa-plus'></i> Add
+                <i class='fa fa-plus'></i> {{ trans('admin.add_button') }}
             </a>
         </div>
     </div>
@@ -61,7 +61,7 @@
                                                 data-position="left"
                                             @endif
                                             >
-                                            <i class='fa fa-eye'></i> Data
+                                            <i class='fa fa-eye'></i> {{ trans('admin.view_data') }}
                                         </a>
                                     @endif
                                     @if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
@@ -73,7 +73,7 @@
                                                 data-position="left"
                                             @endif
                                             >
-                                            <i class='fa fa-external-link'></i> Definition
+                                            <i class='fa fa-external-link'></i> {{ trans('admin.view_definition') }}
                                         </a>
                                     @endif
                                     @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))

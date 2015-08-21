@@ -4,7 +4,7 @@
 
     <div class='row header'>
         <div class="col-sm-7">
-            <h3>Manage your groups <small>and permissions</small></h3>
+            <h3>{{ trans('admin.header_group_panel') }}</h3>
         </div>
         <div class="col-sm-5 text-right">
             @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.create'))
@@ -12,7 +12,7 @@
                     data-step='1'
                     data-intro='Add a new group to the system. <br/><br/>Groups have a series of <strong>permissions</strong> to allow or deny them actions.'
                     data-position="left">
-                    <i class='fa fa-plus'></i> Add
+                    <i class='fa fa-plus'></i> {{ trans('admin.add_button') }}
                 </a>
             @endif
         </div>
@@ -29,16 +29,16 @@
         @foreach($groups as $group)
 
             <?php
-                $group_permissions = $group->getPermissions();
-                $group_permissions = array_keys($group_permissions);
+            $group_permissions = $group->getPermissions();
+            $group_permissions = array_keys($group_permissions);
 
-                $users_string = '';
-                foreach ($users as $user) {
-                    if ($user->inGroup($group)) {
-                        $users_string .= $user->email . ', ';
-                    }
+            $users_string = '';
+            foreach ($users as $user) {
+                if ($user->inGroup($group)) {
+                    $users_string .= $user->email . ', ';
                 }
-                $users_string = rtrim($users_string, ', ');
+            }
+            $users_string = rtrim($users_string, ', ');
             ?>
 
             <div class="panel dataset dataset-link button-row panel-default"
@@ -73,10 +73,10 @@
                             </div>
                             <div class='col-sm-4 text-right'>
                                 @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.update') && $group->id > 2)
-                                    <a href='#' class='btn edit-group' title='Rename this group'><i class='fa fa-edit'></i> Rename</a>
+                                    <a href='#' class='btn edit-group' title='Rename this group'><i class='fa fa-edit'></i> {{ trans('admin.rename') }}</a>
                                 @endif
                                 @if(Tdt\Core\Auth\Auth::hasAccess('admin.group.delete') && $group->id > 2)
-                                    <a href='{{ URL::to('api/admin/groups/delete/'. $group->id) }}' class='btn delete' title='Delete this group'><i class='fa fa-times icon-only'></i></a>
+                                    <a href='{{ URL::to('api/admin/groups/delete/'. $group->id) }}' class='btn delete' title="{{ trans('admin.delete_group') }}"><i class='fa fa-times icon-only'></i></a>
                                 @endif
                             </div>
                         </div>
@@ -92,19 +92,19 @@
                                 >
                                     <i class='fa fa-lock'></i>
                                     @if($group->id > 2 && Tdt\Core\Auth\Auth::hasAccess('admin.group.update'))
-                                        Edit
+                                        {{ trans('admin.edit') }}
                                     @else
-                                        View
+                                        {{ trans('admin.view') }}
                                     @endif
-                                    permissions</a>
+                                    {{ trans('admin.permissions') }}</a>
                             </div>
                             <div class='col-sm-8'>
                                 @if($group->id != 2)
                                     <strong>{{ count($group_permissions) }}</strong>
                                 @else
-                                    <strong>All</strong>
+                                    <strong>{{ trans('admin.all') }}</strong>
                                 @endif
-                                permissions
+                                {{ trans('admin.permissions') }}
                             </div>
                         </div>
                         <div class='row permissions'>
