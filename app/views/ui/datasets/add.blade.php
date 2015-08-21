@@ -8,7 +8,7 @@
                 <a href='{{ URL::to('api/admin/datasets') }}' class='back'>
                     <i class='fa fa-angle-left'></i>
                 </a>
-                Add a dataset
+                {{ trans('admin.add_dataset') }}
             </h3>
         </div>
         <div class='col-sm-8'>
