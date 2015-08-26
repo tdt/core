@@ -45,7 +45,11 @@ return array(
     "password"                   => "Password",
     "password_help"              => "Leave blank if you want to keep the current password.",
     "sign_out"                   => "Sign out",
-    "admin_header"               => "Admin",
+    "admin_header"               => "Datasets",
     "sign_in_header"             => "Please sign in",
     "sign_in"                    => "Sign in",
+    "menu_settings"              => "General",
+    "menu_datasets"              => "Datasets",
+    "menu_users"                 => "Users",
+    "menu_groups"                => "Groups"
 );

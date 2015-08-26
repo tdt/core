@@ -47,4 +47,9 @@ return array(
     "admin"                      => "Admin",
     "sign_in_header"             => "Gelieve in te loggen",
     "sign_in"                    => "Log in",
+    "admin_header"               => "Datasets",
+    "menu_settings"              => "Algemeen",
+    "menu_datasets"              => "Datasets",
+    "menu_users"                 => "Gebruikers",
+    "menu_groups"                => "Groepen"
 );
