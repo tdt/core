@@ -10,9 +10,6 @@ class DatasetControllerAdminTest extends BaseUITest
      */
     public function testRedirect()
     {
-        // var_dump();
-        // var_dump(get_class($this->client));
-        // die();
         $crawler = $this->client->request('GET', '/api/admin');
         $this->assertRedirectedTo('/api/admin/datasets');
     }
