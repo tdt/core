@@ -77,7 +77,6 @@ class KMLFormatter implements IFormatter
 
     private static function xmlgetelement($value)
     {
-        // TODO decide what to do with the CDATA element
         $result = "<![CDATA[";
         $result .= "]]>";
         return $result;
@@ -85,7 +84,6 @@ class KMLFormatter implements IFormatter
 
     private static function getExtendedDataElement($value)
     {
-        // TODO decide what to do with extended data element
         $result = "<ExtendedData>";
         $result .= "</ExtendedData>";
         return $result;
@@ -102,6 +100,7 @@ class KMLFormatter implements IFormatter
             if (is_array($value)) {
                 $array = $value;
             }
+
             if (is_object($value)) {
                 $array = get_object_vars($value);
             }
@@ -175,7 +174,6 @@ class KMLFormatter implements IFormatter
 
                     if ($lat != "" && $long != "") {
                         // For data read from XML latitude and longitude will be an array of @value = 3.342...
-
                         if (is_array($lat)) {
                             $lat_val = reset($lat);
                         } else {
