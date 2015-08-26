@@ -147,6 +147,11 @@ class KMLFormatter implements IFormatter
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
                 } elseif ($coordskey) {
+                    if (is_array($array[$coordskey])) {
+                        if(!empty($array[$coordskey]['@text'])) {
+                            $array[$coordskey] = $array[$coordskey]['@text'];
+                        }
+                    }
 
                     $coords = explode(";", $array[$coordskey]);
                     unset($array[$coordskey]);
