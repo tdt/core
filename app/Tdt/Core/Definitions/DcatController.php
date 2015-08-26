@@ -57,7 +57,6 @@ class DcatController extends ApiController
     /**
      * Create the DCAT document of the published (non-draft) resources
      *
-     * @param $pieces array of uri pieces
      * @return mixed \Data object with a graph of DCAT information
      */
     private function createDcat()

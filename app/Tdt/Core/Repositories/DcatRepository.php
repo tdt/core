@@ -11,6 +11,7 @@ use User;
 
 class DcatRepository implements DcatRepositoryInterface
 {
+    private $GEO_TYPES = ['ShpDefinition'];
 
     public function __construct(
         LicenseRepositoryInterface $licenses,
@@ -143,18 +144,25 @@ class DcatRepository implements DcatRepositoryInterface
                 }
 
                 // Add the distribution of the dataset
-                $graph->addResource($dataset_uri, 'dcat:distribution', $dataset_uri . '.json');
-                $graph->addResource($dataset_uri . '.json', 'a', 'dcat:Distribution');
-                $graph->addLiteral($dataset_uri . '.json', 'dct:description', 'A json feed of ' . $dataset_uri);
-                $graph->addLiteral($dataset_uri . '.json', 'dcat:mediaType', 'application/json');
-                $graph->addResource($dataset_uri . '.json', 'dcat:downloadURL', $dataset_uri . '.json');
+                $format = '.json';
+
+                if (in_array($definition['source_type'], $this->GEO_TYPES)) {
+                    $format = '.geojson';
+                }
+
+                $graph->addResource($dataset_uri, 'dcat:distribution', $dataset_uri . $format);
+
+                $graph->addResource($dataset_uri . $format, 'a', 'dcat:Distribution');
+                $graph->addLiteral($dataset_uri . $format, 'dct:description', 'A json feed of ' . $dataset_uri);
+                $graph->addLiteral($dataset_uri . $format, 'dcat:mediaType', 'application/json');
+                $graph->addResource($dataset_uri . $format, 'dcat:downloadURL', $dataset_uri . $format);
 
                 // Add the license to the distribution
                 if (!empty($definition['rights'])) {
                     $license = $this->licenses->getByTitle($definition['rights']);
 
                     if (!empty($license) && !empty($license['url'])) {
-                        $graph->addResource($dataset_uri . '.json', 'dct:license', $license['url']);
+                        $graph->addResource($dataset_uri . $format, 'dct:license', $license['url']);
                         $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
                     }
                 }
