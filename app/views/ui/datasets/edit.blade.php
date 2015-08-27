@@ -14,7 +14,7 @@
                 </h3>
             </div>
             <div class="col-sm-5 text-right">
-                <button type='submit' class='btn btn-cta btn-edit-dataset margin-left'><i class='fa fa-save'></i> Save</button>
+                <button type='submit' class='btn btn-cta btn-edit-dataset margin-left'><i class='fa fa-save'></i> {{ trans('admin.save') }}</button>
             </div>
         </div>
 

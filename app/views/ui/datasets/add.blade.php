@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class='col-sm-1 text-right'>
-            <button type='submit' class='btn btn-cta btn-add-dataset margin-left'><i class='fa fa-plus'></i> Add</button>
+            <button type='submit' class='btn btn-cta btn-add-dataset margin-left'><i class='fa fa-plus'></i> {{ trans('admin.add_button') }}</button>
         </div>
     </div>
 

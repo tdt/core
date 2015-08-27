@@ -50,17 +50,14 @@ class DatasetController extends ApiController
         if (Cache::has($cache_string)) {
             return ContentNegotiator::getResponse(Cache::get($cache_string), $extension);
         } else {
-
             // Get definition
             $definition = $this->definition->getByIdentifier($uri);
 
             if ($definition) {
-
                 // Get source definition
                 $source_definition = $this->definition->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
                 if ($source_definition) {
-
                     $source_type = $source_definition['type'];
 
                     // Create the right datacontroller
@@ -106,19 +103,16 @@ class DatasetController extends ApiController
                 }
 
             } else {
-
                 // Coulnd't find a definition, but it might be a collection
                 $resources = $this->definition->getByCollection($uri);
 
                 if (count($resources) > 0) {
-
                     $data = new Data();
                     $data->data = new \stdClass();
                     $data->data->datasets = array();
                     $data->data->collections = array();
 
                     foreach ($resources as $res) {
-
                         // Check if it's a subcollection or a dataset
                         $collection_uri = rtrim($res['collection_uri'], '/');
                         if ($collection_uri == $uri) {
@@ -170,7 +164,6 @@ class DatasetController extends ApiController
         $response = new \Response();
 
         if ($definition) {
-
             $response = \Response::make(null, 200);
 
         } else {
@@ -205,7 +198,6 @@ class DatasetController extends ApiController
         $formatter_class = 'Tdt\\Core\\Formatters\\' . $possible_extension . 'Formatter';
 
         if (!class_exists($formatter_class)) {
-
             // Re-attach the dot with the latter part of the uri
             $uri .= '.' . $possible_extension;
 
@@ -227,11 +219,9 @@ class DatasetController extends ApiController
     {
 
         foreach ($rest_params as $rest_param) {
-
             if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
                 $data = $data->$key;
             } elseif (is_array($data)) {
-
                 if ($key = self::keyExists($data, $rest_param)) {
                     $data = $data[$key];
                 } elseif (is_numeric($rest_param)) {
@@ -265,12 +255,10 @@ class DatasetController extends ApiController
         $definition = $definition_repo->getByIdentifier($identifier);
 
         if ($definition) {
-
             // Get the source definition
             $source_definition = $definition_repo->getDefinitionSource($definition['source_id'], $definition['source_type']);
 
             if ($source_definition) {
-
                 // Create the correct datacontroller
                 $controller_class = 'Tdt\\Core\\DataControllers\\' . $source_definition['type'] . 'Controller';
                 $data_controller = \App::make($controller_class);

@@ -56,7 +56,6 @@ class ContentNegotiator extends Pager
         $formatter_class = 'Tdt\\Core\\Formatters\\' . $extension . 'Formatter';
 
         if (empty($extension)) {
-
             $negotiator = new FormatNegotiator();
 
             foreach (self::$mime_types_map as $format_name => $mime_types) {
@@ -101,7 +100,6 @@ class ContentNegotiator extends Pager
             $format_object = $negotiator->getBest($accept_header, $priorities);
 
             if (!$format || $format_object->getQuality() == 0) {
-
                 $format_helper = new FormatHelper();
 
                 $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
@@ -114,8 +112,7 @@ class ContentNegotiator extends Pager
 
             // Formatter class
             $formatter_class = 'Tdt\\Core\\Formatters\\' . $extension . 'Formatter';
-        } else if (!class_exists($formatter_class)) {
-
+        } elseif (!class_exists($formatter_class)) {
             $format_helper = new FormatHelper();
 
             $available_formats = implode(', ', array_values($format_helper->getAvailableFormats($data)));
@@ -133,7 +130,6 @@ class ContentNegotiator extends Pager
 
         // Set the URI template header
         if (!empty($data->optional_parameters) || !empty($data->rest_parameters)) {
-
             // http://www.mnot.net/blog/2006/10/04/uri_templating
             $link_template = self::fetchUrl($extension);
 
@@ -153,7 +149,6 @@ class ContentNegotiator extends Pager
 
             // Add the optional parameters
             if (!empty($data->optional_parameters)) {
-
                 $link_template .= '{?';
 
                 foreach ($data->optional_parameters as $optional_parameter) {
@@ -171,7 +166,6 @@ class ContentNegotiator extends Pager
         $cache_minutes = -1;
 
         if (\Config::get('cache.enabled', true)) {
-
             $cache_minutes = 1;
 
             // Cache per resource

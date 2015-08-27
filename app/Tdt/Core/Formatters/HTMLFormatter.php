@@ -11,6 +11,7 @@ namespace Tdt\Core\Formatters;
  */
 class HTMLFormatter implements IFormatter
 {
+    private $GEO_TYPES = ['ShpDefinition'];
 
     public static function createResponse($dataObj)
     {
@@ -61,7 +62,6 @@ class HTMLFormatter implements IFormatter
             $data = self::displayTree($dataObj->data);
 
         } else {
-
             // Create the link to the dataset
             $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
 
@@ -71,24 +71,20 @@ class HTMLFormatter implements IFormatter
             }
 
             if (!empty($dataObj->source_definition)) {
-
                 $type = $dataObj->source_definition['type'];
 
                 // Check if other views need to be served
-                switch($type){
+                switch ($type) {
                     case 'XLS':
                     case 'CSV':
-
                         $first_row = array_shift($dataObj->data);
                         array_unshift($dataObj->data, $first_row);
 
                         if (is_array($first_row) || is_object($first_row)) {
-
                             $view = 'dataset.tabular';
                             $data = $dataObj->data;
 
                         } else {
-
                             $view = 'dataset.code';
                             $data =  $data = self::displayTree($dataObj->data);
 
@@ -103,7 +99,6 @@ class HTMLFormatter implements IFormatter
 
                     default:
                         if ($dataObj->is_semantic) {
-
                             // This data object is always semantic
                             $view = 'dataset.turtle';
 
@@ -116,7 +111,6 @@ class HTMLFormatter implements IFormatter
 
                             $data = $dataObj->data->serialise('turtle');
                         } else {
-
                             $view = 'dataset.code';
                             $data = self::displayTree($dataObj->data);
 
@@ -125,8 +119,7 @@ class HTMLFormatter implements IFormatter
                         break;
                 }
 
-            } else if ($dataObj->is_semantic) {
-
+            } elseif ($dataObj->is_semantic) {
                 // The data object can be semantic without a specified source type
                 $view = 'dataset.code';
                 $data = $dataObj->data->serialise('turtle');
@@ -137,6 +130,78 @@ class HTMLFormatter implements IFormatter
                 $data = $dataObj->data;
             }
         }
+
+        // Gather data to inject as meta-data in JSON-LD to be picked up by search engines
+        $definition = $dataObj->definition;
+
+        $uri = \Request::root();
+        $graph = new \EasyRdf_Graph();
+
+        // Create the dataset uri
+        $dataset_uri = $uri . "/" . $definition['collection_uri'] . "/" . $definition['resource_name'];
+        $dataset_uri = str_replace(' ', '%20', $dataset_uri);
+
+        // Add the dataset resource and its description
+        $graph->addResource($dataset_uri, 'a', 'schema:Dataset');
+
+        // Add the title to the dataset resource of the catalog
+        if (!empty($definition['title'])) {
+            $graph->addLiteral($dataset_uri, 'schema:headline', $definition['title']);
+        }
+
+        // Add the description, identifier, issues, modified of the dataset
+        $graph->addLiteral($dataset_uri, 'schema:description', @$definition['description']);
+        $graph->addLiteral($dataset_uri, 'schema:dateCreated', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
+        $graph->addLiteral($dataset_uri, 'schema:dateModified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
+
+        // Add the publisher resource to the dataset
+        if (!empty($definition['publisher_name']) && !empty($definition['publisher_uri'])) {
+            $graph->addResource($dataset_uri, 'schema:publisher', $definition['publisher_uri']);
+        }
+
+        // Optional dct terms
+        $optional = array('date', 'language');
+        $languages = \App::make('Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface');
+        $licenses = \App::make('Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface');
+
+        foreach ($optional as $dc_term) {
+            if (!empty($definition[$dc_term])) {
+                if ($dc_term == 'language') {
+                    $lang = $languages->getByName($definition[$dc_term]);
+
+                    if (!empty($lang)) {
+                        $graph->addResource($dataset_uri, 'schema:inLanguage', 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+                    }
+                } else {
+                    $graph->addLiteral($dataset_uri, 'schema:datasetTimeInterval', $definition[$dc_term]);
+                }
+            }
+        }
+
+                // Add the distribution of the dataset
+        $format = '.json';
+
+        if ($definition['source_type'] == 'ShpDefinition') {
+            $format = '.geojson';
+        }
+
+        // uri :distribution _:qdsf. _:qsdf a :DataDownload
+        $dataDownload = $graph->newBNode();
+
+        $graph->addResource($dataset_uri, 'schema:distribution', $dataDownload);
+        $graph->addResource($dataDownload, 'a', 'schema:DataDownload');
+        $graph->addResource($dataDownload, 'schema:contentUrl', $dataset_uri . $format);
+
+        // Add the license to the distribution
+        if (!empty($definition['rights'])) {
+            $license = $licenses->getByTitle($definition['rights']);
+
+            if (!empty($license) && !empty($license['url'])) {
+                $graph->addResource($dataset_uri, 'schema:license', $license['url']);
+            }
+        }
+
+        $jsonld = $graph->serialise('jsonld');
 
         // Render the view
         return \View::make($view)->with('title', 'Dataset: '. $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'] . ' | The Datatank')
@@ -149,7 +214,8 @@ class HTMLFormatter implements IFormatter
                                  ->with('dataset_link', $dataset_link)
                                  ->with('prev_link', $prev_link)
                                  ->with('next_link', $next_link)
-                                 ->with('query_string', $query_string);
+                                 ->with('query_string', $query_string)
+                                 ->with('json_ld', $jsonld);
     }
 
     public static function getDocumentation()
