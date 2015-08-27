@@ -4,15 +4,19 @@
         <div class="btn-group formats">
             <?php $i = 0; ?>
             @foreach($formats as $format => $extension)
-                <a href="{{ $dataset_link }}.{{ $extension }}{{ $query_string }}" class="btn">
-                    @if($i == 0)
-                        @if($extension == 'map')
-                            <i class='fa fa-expand'></i>
-                        @else
-                            <i class='fa fa-file-text-o'></i>
-                        @endif
+                @if ($extension == 'csv')
+                    <a href="{{ $dataset_link }}.{{ $extension }}?limit=-1" class="btn">
+                @else
+                    <a href="{{ $dataset_link }}.{{ $extension }}{{ $query_string }}" class="btn">
+                @endif
+                @if($i == 0)
+                    @if($extension == 'map')
+                        <i class='fa fa-expand'></i>
+                    @else
+                        <i class='fa fa-file-text-o'></i>
                     @endif
-                    {{ $format }}
+                @endif
+                {{ $format }}
                 </a>
                 <?php $i++; ?>
             @endforeach
