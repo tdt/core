@@ -207,12 +207,12 @@ class DatasetController extends ApiController
         if (!class_exists($formatter_class)) {
 
             // Re-attach the dot with the latter part of the uri
-            $uri .= '.' . $possible_extension;
+	    $uri .= '.' . strtolower($possible_extension);
 
             return array($uri, null);
         }
 
-        return array($uri, $possible_extension);
+        return array($uri, strtolower($possible_extension));
     }
 
     /**
