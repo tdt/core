@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dab39de7e92543a9af60488577aa923b",
+    "hash": "b64c08077e38b6e75ed10a61b5019b19",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -227,16 +227,16 @@
         },
         {
             "name": "easyrdf/easyrdf",
-            "version": "dev-devel",
+            "version": "0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/njh/easyrdf.git",
-                "reference": "0745f82dbcfea0e846319eda9d1b854585ff2fb4"
+                "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/njh/easyrdf/zipball/0745f82dbcfea0e846319eda9d1b854585ff2fb4",
-                "reference": "0745f82dbcfea0e846319eda9d1b854585ff2fb4",
+                "url": "https://api.github.com/repos/njh/easyrdf/zipball/acd09dfe0555fbcfa254291e433c45fdd4652566",
+                "reference": "acd09dfe0555fbcfa254291e433c45fdd4652566",
                 "shasum": ""
             },
             "require": {
@@ -244,12 +244,9 @@
                 "ext-pcre": "*",
                 "php": ">=5.2.8"
             },
-            "replace": {
-                "njh/easyrdf": "self.version"
-            },
             "require-dev": {
                 "phpunit/phpunit": "~3.5",
-                "sami/sami": "dev-master",
+                "sami/sami": "~1.4",
                 "squizlabs/php_codesniffer": "~1.4.3"
             },
             "suggest": {
@@ -271,6 +268,11 @@
                     "email": "njh@aelius.com",
                     "homepage": "http://www.aelius.com/njh/",
                     "role": "Developer"
+                },
+                {
+                    "name": "Alexey Zakhlestin",
+                    "email": "indeyets@gmail.com",
+                    "role": "Developer"
                 }
             ],
             "description": "EasyRdf is a PHP library designed to make it easy to consume and produce RDF.",
@@ -283,7 +285,7 @@
                 "rdfa",
                 "sparql"
             ],
-            "time": "2014-05-19 21:45:44"
+            "time": "2015-02-27 09:45:49"
         },
         {
             "name": "filp/whoops",
@@ -2870,12 +2872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "e585573c91b0c821e511afd14666b4503ef7255b"
+                "reference": "22b57c778cfd1fc46e14bff071c5126d9cd50820"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/e585573c91b0c821e511afd14666b4503ef7255b",
-                "reference": "e585573c91b0c821e511afd14666b4503ef7255b",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/22b57c778cfd1fc46e14bff071c5126d9cd50820",
+                "reference": "22b57c778cfd1fc46e14bff071c5126d9cd50820",
                 "shasum": ""
             },
             "require": {
@@ -2927,13 +2929,12 @@
                 "test double",
                 "testing"
             ],
-            "time": "2015-07-31 13:51:58"
+            "time": "2015-09-10 18:19:39"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "easyrdf/easyrdf": 20,
         "ml/json-ld": 20,
         "coreation/gisconverter": 20,
         "jsor/proj4php": 20,

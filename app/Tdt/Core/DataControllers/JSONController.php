@@ -31,7 +31,18 @@ class JSONController extends ADataController
             $data = Cache::get($uri);
         } else {
             // Fetch the data
-            $data =@ file_get_contents($uri);
+            $data = [];
+
+            if (!filter_var($uri, FILTER_VALIDATE_URL) === false) {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $uri);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $data = curl_exec($ch);
+                curl_close($ch);
+            } else {
+                $data =@ file_get_contents($uri);
+            }
+
             if ($data) {
                 Cache::put($uri, $data, $source_definition['cache']);
             } else {
