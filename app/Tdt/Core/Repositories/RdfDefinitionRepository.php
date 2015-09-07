@@ -31,7 +31,7 @@ class RdfDefinitionRepository extends BaseDefinitionRepository implements RdfDef
             'uri' => array(
                 'required' => true,
                 'name' => 'URI',
-                'description' => 'The URI of the turtle file.',
+                'description' => 'The URI of the RDF file.',
                 'type' => 'string',
             ),
             'title' => array(
