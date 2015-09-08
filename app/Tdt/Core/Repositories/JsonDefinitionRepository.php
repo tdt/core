@@ -9,7 +9,7 @@ class JsonDefinitionRepository extends BaseDefinitionRepository implements JsonD
 {
 
     protected $rules = array(
-        'uri' => 'json|uri|required',
+        'uri' => 'json|required',
         'description' => 'required',
     );
 
