@@ -48,8 +48,17 @@ class CustomValidator extends \Illuminate\Validation\Validator
     {
 
         try {
+            $data = [];
 
-            $data = json_decode(file_get_contents($value));
+            if (!filter_var($value, FILTER_VALIDATE_URL) === false) {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $value);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $data = curl_exec($ch);
+                curl_close($ch);
+            } else {
+                $data =@ file_get_contents($value);
+            }
 
             if (empty($data)) {
                 return false;

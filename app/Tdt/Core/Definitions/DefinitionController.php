@@ -19,7 +19,6 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
  */
 class DefinitionController extends ApiController
 {
-
     protected $definition;
 
     public function __construct(DefinitionRepositoryInterface $definition)
@@ -145,7 +144,6 @@ class DefinitionController extends ApiController
         Auth::requirePermissions('definition.view');
 
         if (!empty($uri)) {
-
             if (!$this->definition->exists($uri)) {
                 \App::abort(404, "No resource was found identified with " . $uri);
             }

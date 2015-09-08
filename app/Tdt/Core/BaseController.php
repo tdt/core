@@ -97,11 +97,9 @@ class BaseController extends \Controller
 
         // Check the response type
         if ($response instanceof \Illuminate\Http\RedirectResponse) {
-
             // Redirect and that's it
             return $response;
         } else {
-
             // Make sure cross origin requests are allowed for GET
             $response->header('Access-Control-Allow-Origin', '*');
             $response->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');
