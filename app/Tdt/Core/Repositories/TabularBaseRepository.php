@@ -123,7 +123,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
         return $csv_def_object->toArray();
     }
 
-    private function getModelName()
+    protected function getModelName()
     {
         // This only works if you follow the naming conventions for source types and their repositories
         // If you want to extend, please take this as a guideline

@@ -26,9 +26,8 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-    'local' => array('*.local', '*-local', 'local', '*.dev'),
     'testing' => array('*.travis-ci.org'),
-
+    'local'   => array('*.local'),
 ));
 
 /*

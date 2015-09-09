@@ -24,8 +24,7 @@
         "cartalyst/sentry": "2.1.1",
         "ml/json-ld" : "@dev",
         "willdurand/negotiation" : "1.3.2",
-        "doctrine/dbal": "~2.3",
-        "semsol/arc2": "dev-master"
+        "neitanod/forceutf8": "dev-master"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
