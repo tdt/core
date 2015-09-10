@@ -162,7 +162,7 @@ class DcatRepository implements DcatRepositoryInterface
                     $license = $this->licenses->getByTitle($definition['rights']);
 
                     if (!empty($license) && !empty($license['url'])) {
-                        $graph->addResource($dataset_uri . $format, 'dct:license', $license['url']);
+                        $graph->addResource($distribution_uri, 'dct:license', $license['url']);
                         $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
                     }
                 }
