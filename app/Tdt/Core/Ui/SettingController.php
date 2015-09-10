@@ -15,7 +15,6 @@ use Tdt\Core\Repositories\SettingsRepository;
 
 class SettingController extends UiController
 {
-
     protected $settings;
 
     public function __construct(SettingsRepository $settings)

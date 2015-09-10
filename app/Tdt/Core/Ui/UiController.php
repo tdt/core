@@ -50,10 +50,8 @@ class UiController extends \Controller
     /**
      * Check for added admin menu's
      */
-    public function __construct (DefinitionRepositoryInterface $definitions)
+    public function __construct ()
     {
-        $this->definitions = $definitions;
-
         // Get loaded providers
         $providers = array_keys(\App::getLoadedProviders());
 
