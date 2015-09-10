@@ -17,7 +17,6 @@ class Definition extends Eloquent
         'rights',
         'cache_minutes',
         'draft',
-        'map_property',
         'keywords',
         'publisher_uri',
         'publisher_name',

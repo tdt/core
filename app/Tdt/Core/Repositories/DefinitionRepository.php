@@ -380,12 +380,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'type' => 'boolean',
                 'description' => 'Draft definitions are not shown to the public when created, however the URI space they take is reserved.',
             ),
-            'map_property' => array(
-                'required' => false,
-                'name' => 'Map property',
-                'type' => 'string',
-                'description' => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable. Non geo-graphical datasets are not affected by this property.',
-            ),
             'publisher_uri' => array(
                 'required' => false,
                 'name' => 'Publisher URI',

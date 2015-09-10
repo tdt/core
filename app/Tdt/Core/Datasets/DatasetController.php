@@ -21,7 +21,6 @@ use Tdt\Core\Formatters\FormatHelper;
  */
 class DatasetController extends ApiController
 {
-
     /**
      * Retrieve a Data object identified by $uri
      *

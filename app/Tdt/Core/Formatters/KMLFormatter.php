@@ -13,11 +13,11 @@ namespace Tdt\Core\Formatters;
  */
 class KMLFormatter implements IFormatter
 {
-
     private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude', 'lng');
     private static $LATITUDE_PREFIXES = array('lat', 'latitude');
 
     private static $definition;
+    private static $map_property;
 
     public static function createResponse($dataObj)
     {
@@ -33,6 +33,7 @@ class KMLFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         self::$definition = $dataObj->definition;
+        self::$map_property = $dataObj->source_definition['map_property'];
 
         // Build the body
         // KML header
@@ -158,8 +159,8 @@ class KMLFormatter implements IFormatter
                 if (($lat != "" && $long != "") || count($coords) != 0) {
                     $name = htmlspecialchars($key);
 
-                    if (!empty(self::$definition['map_property']) && !empty($array[self::$definition['map_property']])) {
-                        $name = $array[self::$definition['map_property']];
+                    if (!empty(self::$map_property) && !empty($array[self::$map_property])) {
+                        $name = $array[self::$map_property];
                     }
 
                     $description = '';
@@ -247,8 +248,8 @@ class KMLFormatter implements IFormatter
                     $name = $entry['name'];
                 }
 
-                if (!empty($dataObj->definition['map_property']) && !empty($entry[$dataObj->definition['map_property']])) {
-                    $name = $entry[$dataObj->definition['map_property']];
+                if (!empty($dataObj->map_property) && !empty($entry[$dataObj->map_property])) {
+                    $name = $entry[$dataObj->map_property];
                 }
 
                 $extendeddata = self::getExtendedDataElement($entry);
