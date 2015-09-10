@@ -103,7 +103,6 @@ class UserController extends UiController
             // Illegal group -> ignore
         }
 
-
         return \Redirect::to('api/admin/users');
     }
 
