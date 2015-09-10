@@ -14,7 +14,7 @@ return array(
 	| Supported: "file", "database", "apc", "memcached", "redis", "array"
 	|
 	*/
-    'enabled' => false,
+    'enabled' => true,
 
 	'driver' => 'file',
 
