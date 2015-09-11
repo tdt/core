@@ -101,4 +101,16 @@ class DcatController extends ApiController
 
         return $data_result;
     }
+
+    public function head($uri)
+    {
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'text/turtle;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
+    }
 }
