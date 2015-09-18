@@ -51,24 +51,12 @@ class KMLFormatter implements IFormatter
 
     private static function getPlacemarks($dataObj)
     {
-        $data = $dataObj->data;
-
-        if (is_object($data)) {
-            $data = get_object_vars($data);
-        }
-
         // If no geo property is given, don't bother creating a KML
         if (empty($dataObj->geo)) {
-            $placemarks = "";
-
             ob_start();
-
-            self::printArray($dataObj->data, $placemarks);
-
+            self::printArray($dataObj->data);
             $placemarks = ob_get_contents();
-
             ob_end_clean();
-
             return $placemarks;
         }
 
@@ -89,7 +77,7 @@ class KMLFormatter implements IFormatter
         return $result;
     }
 
-    private static function printArray($val, $placemarks)
+    private static function printArray($val)
     {
         foreach ($val as $key => $value) {
             $long = "";
@@ -97,11 +85,8 @@ class KMLFormatter implements IFormatter
 
             $coords = array();
 
-            if (is_array($value)) {
-                $array = $value;
-            }
-
-            if (is_object($value)) {
+            $array = $value;
+            if (is_object($array)) {
                 $array = get_object_vars($value);
             }
 
@@ -152,7 +137,7 @@ class KMLFormatter implements IFormatter
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
                 } else {
-                    self::printArray($array, $placemarks);
+                    self::printArray($array);
                 }
 
                 if (($lat != "" && $long != "") || count($coords) != 0) {
