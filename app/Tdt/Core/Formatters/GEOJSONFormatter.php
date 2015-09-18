@@ -32,7 +32,7 @@ class GEOJSONFormatter implements IFormatter
 
         // Build the body
         $body = $dataObj->data;
-        if (is_object($dataObj->data)) {
+        if (is_object($body)) {
             $body = get_object_vars($dataObj->data);
         }
 
@@ -50,6 +50,10 @@ class GEOJSONFormatter implements IFormatter
                 'geometry' => $geomIDs_geom[1],
                 'properties' => $dataRow
             );
+            if (!empty($id_prop = $dataObj->source_definition['map_property']) && !empty($dataRow[$id_prop])) {
+                $feature['id'] = $dataRow[$id_prop];
+                unset($dataRow[$id_prop]);
+            }
             array_push($features, $feature);
         }
 
