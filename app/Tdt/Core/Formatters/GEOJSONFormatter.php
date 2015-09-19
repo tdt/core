@@ -25,11 +25,6 @@ class GEOJSONFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-        if (empty($dataObj->geo)) {
-            //Todo: try to guess geo colums, see KMLFormatter
-            \App::abort(404, "This resource doesn't contain geographical information.");
-        }
-
         // Build the body
         $body = $dataObj->data;
         if (is_object($body)) {
@@ -41,10 +36,25 @@ class GEOJSONFormatter implements IFormatter
             if (is_object($dataRow)) {
                 $dataRow = get_object_vars($dataRow);
             }
-            $geomIDs_geom = self::findGeometry($dataObj->geo, $dataRow);
+
+            $geo = $dataObj->geo;
+
+            //Guess lat/lon if no geo information was given for this
+            if (empty($geo)) {
+                if ($lat_long = GeoHelper::findLatLong($dataRow)) {
+                    $geo = array(
+                        "latitude" => $lat_long[0],
+                        "longitude" => $lat_long[1]);
+                }
+            }
+
+            $geomIDs_geom = self::findGeometry($geo, $dataRow);
+
+            //Prevent geo information being duplicated in properties
             foreach ($geomIDs_geom[0] as $geomID) {
                 unset($dataRow[$geomID]);
             }
+
             $feature = array(
                 'type' => 'Feature',
                 'geometry' => $geomIDs_geom[1],
