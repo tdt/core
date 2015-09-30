@@ -13,9 +13,6 @@ namespace Tdt\Core\Formatters;
  */
 class KMLFormatter implements IFormatter
 {
-    private static $LONGITUDE_PREFIXES = array('long', 'lon', 'longitude', 'lng');
-    private static $LATITUDE_PREFIXES = array('lat', 'latitude');
-
     private static $definition;
     private static $map_property;
 
@@ -51,24 +48,12 @@ class KMLFormatter implements IFormatter
 
     private static function getPlacemarks($dataObj)
     {
-        $data = $dataObj->data;
-
-        if (is_object($data)) {
-            $data = get_object_vars($data);
-        }
-
         // If no geo property is given, don't bother creating a KML
         if (empty($dataObj->geo)) {
-            $placemarks = "";
-
             ob_start();
-
-            self::printArray($dataObj->data, $placemarks);
-
+            self::printArray($dataObj->data);
             $placemarks = ob_get_contents();
-
             ob_end_clean();
-
             return $placemarks;
         }
 
@@ -89,54 +74,28 @@ class KMLFormatter implements IFormatter
         return $result;
     }
 
-    private static function printArray($val, $placemarks)
+    private static function printArray($val)
     {
         foreach ($val as $key => $value) {
-            $long = "";
-            $lat = "";
-
-            $coords = array();
-
-            if (is_array($value)) {
-                $array = $value;
-            }
-
-            if (is_object($value)) {
+            $array = $value;
+            if (is_object($array)) {
                 $array = get_object_vars($value);
             }
 
+            $lat_long = GeoHelper::findLatLong($array);
+
+            $coords = array();
+
             if (!empty($array)) {
-                $longkey = false;
-                $latkey = false;
-
-                foreach (self::$LONGITUDE_PREFIXES as $prefix) {
-                    $longkey = self::keyExists($prefix, $array);
-
-                    if ($longkey) {
-                        break;
-                    }
-                }
-
-                foreach (self::$LATITUDE_PREFIXES as $prefix) {
-                    $latkey = self::keyExists($prefix, $array);
-
-                    if ($latkey) {
-                        break;
-                    }
-                }
-
-                $coordskey = self::keyExists("coords", $array);
+                $coordskey = GeoHelper::keyExists("coords", $array);
 
                 if (!$coordskey) {
-                    $coordskey = self::keyExists("coordinates", $array);
+                    $coordskey = GeoHelper::keyExists("coordinates", $array);
                 }
 
-                if ($longkey && $latkey) {
-                    $long = $array[$longkey];
-                    $lat = $array[$latkey];
-
-                    unset($array[$longkey]);
-                    unset($array[$latkey]);
+                if ($lat_long) {
+                    unset($array[$lat_long[0]]);
+                    unset($array[$lat_long[1]]);
 
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
@@ -152,10 +111,10 @@ class KMLFormatter implements IFormatter
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
                 } else {
-                    self::printArray($array, $placemarks);
+                    self::printArray($array);
                 }
 
-                if (($lat != "" && $long != "") || count($coords) != 0) {
+                if ($lat_long || count($coords) != 0) {
                     $name = htmlspecialchars($key);
 
                     if (!empty(self::$map_property) && !empty($array[self::$map_property])) {
@@ -172,18 +131,15 @@ class KMLFormatter implements IFormatter
 
                     echo $extendeddata;
 
-                    if ($lat != "" && $long != "") {
+                    if ($lat_long) {
                         // For data read from XML latitude and longitude will be an array of @value = 3.342...
-                        if (is_array($lat)) {
+                        $lat_val = $array[$lat_long[0]];
+                        $lon_val = $array[$lat_long[1]];
+                        if (is_array($lat_val)) {
                             $lat_val = reset($lat);
-                        } else {
-                            $lat_val = $lat;
                         }
-
-                        if (is_array($long)) {
-                            $lon_val = reset($long);
-                        } else {
-                            $lon_val = $long;
+                        if (is_array($lon_val)) {
+                            $lon_val = reset($lon_val);
                         }
 
                         if ($lat_val != 0 || $lon_val != 0) {
@@ -289,36 +245,6 @@ class KMLFormatter implements IFormatter
 
         return $body;
     }
-
-    /**
-     * Case insensitive version of array_key_exists.
-     * Returns the matching key on success, else false.
-     *
-     * @param string $key
-     * @param array $search
-     * @return string|false
-     */
-    private static function keyExists($key, $search)
-    {
-
-        if (array_key_exists($key, $search)) {
-            return $key;
-        }
-
-        if (!(is_string($key) && is_array($search) && count($search))) {
-            return false;
-        }
-
-        $key = strtolower($key);
-
-        foreach ($search as $k => $v) {
-            if (strtolower($k) == $key) {
-                return $k;
-            }
-        }
-        return false;
-    }
-
 
     public static function getDocumentation()
     {
