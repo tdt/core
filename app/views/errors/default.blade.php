@@ -18,7 +18,7 @@
                 </div>
                 <div class='col-md-9'>
                     <h1>{{ $exception->getStatusCode() }}</h1>
-                    <h3>Something went terribly wrong!</h1>
+                    <h3>{{ trans('errors.400') }}</h1>
                     <p>{{ $exception->getMessage() }}</p>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    '400'               => "Oops, er ging iets mis.",
     '403'               => "Oops, je hebt onvoldoende rechten om deze actie te voltooien.",
     '404'               => 'Oops, er lijkt hier helemaal niets te zijn!',
     '500'               => 'Oops, er ging iets fout!',
