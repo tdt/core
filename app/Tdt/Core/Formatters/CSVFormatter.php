@@ -56,21 +56,9 @@ class CSVFormatter implements IFormatter
             $i = 0;
             foreach ($row as $element) {
                 if (is_object($element)) {
-                    if (isset($element->id)) {
-                        $body .= $element->id;
-                    } elseif (isset($element->name)) {
-                        $body .= $element->name;
-                    } else {
-                        $body .= "n/a";
-                    }
+                    \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
                 } elseif (is_array($element)) {
-                    if (isset($element["id"])) {
-                        $body .= $element["id"];
-                    } elseif (isset($element["name"])) {
-                        $body .= $element["name"];
-                    } else {
-                        $body .= "n/a";
-                    }
+                    \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
                 } else {
                     $body .= CSVFormatter::enclose($element);
                 }
