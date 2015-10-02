@@ -24,7 +24,6 @@ class XMLController extends ADataController
 
     public function readData($source_definition, $rest_parameters = array())
     {
-
         $uri = $source_definition['uri'];
 
         // Keep track of the prefix URI's
@@ -34,7 +33,6 @@ class XMLController extends ADataController
         if (Cache::has($uri)) {
             $data = Cache::get($uri);
         } else {
-
             // Fetch the data
             $data =@ file_get_contents($uri);
 
@@ -79,17 +77,14 @@ class XMLController extends ADataController
         $prefix = $element->prefix;
 
         if (!empty($prefix)) {
-
             // Register the namespace and prefix
             $this->prefixes[$prefix] = $element->namespaceURI;
 
             if ($isAttribute) {
-
                 $attrName = $element->name;
 
                 return $element->namespaceURI . $attrName;
             } else {
-
                 $tagName = $element->tagName;
 
                 return str_replace($prefix . ':', $element->namespaceURI, $tagName);
@@ -112,18 +107,14 @@ class XMLController extends ADataController
         $output = array();
 
         switch ($node->nodeType) {
-
             case XML_CDATA_SECTION_NODE:
             case XML_TEXT_NODE:
-
                 $output = trim($node->textContent);
                 break;
 
             case XML_ELEMENT_NODE:
-
                 // Check children
                 for ($i = 0; $i < $node->childNodes->length; $i++) {
-
                     // Get child
                     $child = $node->childNodes->item($i);
 
@@ -132,13 +123,11 @@ class XMLController extends ADataController
 
                     // Check if child is a tag
                     if (isset($child->tagName)) {
-
                         // Current tag
                         $tag = $this->getFullName($child);
 
                         // Check if current tag is already defined
                         if (!isset($output[$tag])) {
-
                             // If not, inititialize array
                             $output[$tag] = array();
                         }
@@ -147,7 +136,6 @@ class XMLController extends ADataController
                         $output[$tag][] = $value;
 
                     } elseif ($value) {
-
                         // Child is plain text, preliminary solution
                         if (empty($output['@text'])) {
                             $output['@text'] = array();
@@ -159,16 +147,13 @@ class XMLController extends ADataController
 
                 // Element is not a text node
                 if (is_array($output)) {
-
                     // Check if element has attributes
                     $attributesLength = $node->attributes->length;
 
                     if ($attributesLength > 0) {
-
                         $attributes = array();
 
                         for ($i = 0; $i < $attributesLength; $i++) {
-
                             $attribute = $node->attributes->item($i);
 
                             $attributeName = $this->getFullName($attribute, true);
@@ -182,7 +167,6 @@ class XMLController extends ADataController
                     }
                     // For each of the element's children
                     foreach ($output as $tag => $value) {
-
                         if (is_array($value) && count($value) == 1 && $tag != '@attributes') {
                             $output[$tag] = @$value[0];
                         }
@@ -194,11 +178,9 @@ class XMLController extends ADataController
                     // Check if element has attributes
                     $attributesLength = $node->attributes->length;
                     if ($attributesLength > 0) {
-
                         $attributes = array();
 
                         for ($i = 0; $i < $attributesLength; $i++) {
-
                             $attribute = $node->attributes->item($i);
 
                             $attributeName = $this->getFullName($attribute, true);

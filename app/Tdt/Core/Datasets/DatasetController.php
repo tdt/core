@@ -59,6 +59,13 @@ class DatasetController extends ApiController
                 if ($source_definition) {
                     $source_type = $source_definition['type'];
 
+                    // If source type and formatting type are the same, simply return the original file
+                    // If the source type is XML, just return the XML contents, don't transform
+                    if (strtolower($source_type) == strtolower($extension)) {
+                        return \Response::download($source_definition['uri']);
+                    }
+
+
                     // Create the right datacontroller
                     $controller_class = 'Tdt\\Core\\DataControllers\\' . $source_type . 'Controller';
                     $data_controller = \App::make($controller_class);

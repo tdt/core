@@ -74,7 +74,6 @@ class SHPController extends ADataController
         }
 
         try {
-
             // Create the array in which all the resulting objects will be placed
             $arrayOfRowObjects = array();
 
@@ -85,7 +84,6 @@ class SHPController extends ADataController
 
             // If the shape files are located on an HTTP address, fetch them and store them locally
             if ($is_url) {
-
                 $tmp_file_name = uniqid();
                 $tmp_file = $tmp_path . "/" . $tmp_file_name;
 
@@ -96,7 +94,6 @@ class SHPController extends ADataController
                 // Along this file the class will use file.shx and file.dbf
                 $shp = new ShapeReader($tmp_file . ".shp", $options);
             } else {
-
                 $shp = new ShapeReader($uri, $options); // along this file the class will use file.shx and file.dbf
             }
 
@@ -105,9 +102,7 @@ class SHPController extends ADataController
 
             // Get the shape records in the binary file
             while ($record = $shp->getNext()) {
-
                 if ($offset <= $total_rows && $offset + $limit > $total_rows) {
-
                     // Every shape record is parsed as an anonymous object with the properties attached to it
                     $rowobject = new \stdClass();
 
@@ -115,7 +110,6 @@ class SHPController extends ADataController
                     $dbf_data = $record->getDbfData();
 
                     foreach ($dbf_data as $property => $value) {
-
                         $property_alias = $columns[$property];
                         $property = trim($property);
                         $property_alias = $columns[$property];
@@ -133,21 +127,16 @@ class SHPController extends ADataController
 
                     // It it's not a point, it's a collection of coordinates describing a shape
                     if (!empty($shp_data['parts'])) {
-
                         $parts = array();
-
                         foreach ($shp_data['parts'] as $part) {
-
                             $points = array();
 
                             foreach ($part['points'] as $point) {
-
                                 $x = $point['x'];
                                 $y = $point['y'];
 
                                 // Translate the coordinates to WSG84 geo coordinates
                                 if (!empty($epsg)) {
-
                                     $pointSrc = new \proj4phpPoint($x, $y);
 
                                     $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
@@ -167,12 +156,10 @@ class SHPController extends ADataController
                     }
 
                     if (isset($shp_data['x'])) {
-
                         $x = $shp_data['x'];
                         $y = $shp_data['y'];
 
                         if (!empty($epsg)) {
-
                             $pointSrc = new \proj4phpPoint($x, $y);
                             $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
                             $x = $pointDest->x;
@@ -186,6 +173,9 @@ class SHPController extends ADataController
                     array_push($arrayOfRowObjects, $rowobject);
                 }
                 $total_rows++;
+                if ($total_rows >= 10000) {
+                    break;
+                }
             }
 
             // Calculate the paging headers properties
@@ -200,7 +190,6 @@ class SHPController extends ADataController
             return $data_result;
 
         } catch (Exception $ex) {
-
             \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
     }
@@ -218,7 +207,6 @@ class SHPController extends ADataController
 
         try {
             if ($is_url) {
-
                 // This remains untested
                 $tmp_file = uniqid();
 
@@ -229,7 +217,6 @@ class SHPController extends ADataController
                 // Along this file the class will use file.shx and file.dbf
                 $shp = new ShapeReader($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
             } else {
-
                // along this file the class will use file.shx and file.dbf
                 $shp = new ShapeReader($options['uri'], array('noparts' => false));
             }
@@ -251,7 +238,6 @@ class SHPController extends ADataController
         $column_index = 0;
 
         foreach ($dbf_fields as $field => $value) {
-
             // Remove non-printable characters
             $property = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $field);
 
@@ -294,7 +280,6 @@ class SHPController extends ADataController
         $geo_properties = array();
 
         if ($is_url) {
-
             // This remains untested
             $tmp_file = uniqid();
             file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shp"));
