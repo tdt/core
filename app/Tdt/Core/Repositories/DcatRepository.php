@@ -37,6 +37,8 @@ class DcatRepository implements DcatRepositoryInterface
         // Create a new EasyRDF graph
         $graph = new \EasyRdf_Graph();
 
+        \EasyRdf_Namespace::set('adms', 'http://www.w3.org/ns/adms#');
+
         $all_settings = $this->settings->getAll();
 
         $uri = \Request::root();
@@ -93,12 +95,17 @@ class DcatRepository implements DcatRepositoryInterface
                 }
                 $graph->addLiteral($dataset_uri, 'dct:title', $title);
 
-                // Add the description, identifier, issues, modified and landing page of the dataset
+                // Add the description, identifier, issued date, modified date, contact point and landing page of the dataset
                 $graph->addLiteral($dataset_uri, 'dct:description', @$definition['description']);
                 $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition['collection_uri'] . '/' . $definition['resource_name']));
                 $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
                 $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
                 $graph->addResource($dataset_uri, 'dcat:landingPage', $dataset_uri);
+
+                // Backwards compatibility
+                if (!empty($definition['contact_point'])) {
+                    $graph->addResource($dataset_uri, 'adms:contactPoint', $definition['contact_point']);
+                }
 
                 // Add the publisher resource to the dataset
                 if (!empty($definition['publisher_name']) && !empty($definition['publisher_uri'])) {

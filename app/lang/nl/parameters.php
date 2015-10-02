@@ -35,6 +35,8 @@ return array(
     'definition_publisher_name_desc'    => 'De naam van de entiteit die verantwoordelijk is om deze dataset te publiceren.',
     'definition_keywords'               => 'Trefwoorden',
     'definition_keywords_desc'          => 'Een lijst van trefwoorden gescheiden met een komma die deze dataset aangaan.',
+    'definition_contact_point'          => 'Contactpunt',
+    'definition_contact_point_desc'     => 'Een link waar mensen terecht kunnen met feedback of fouten.',
     'json_uri'                          => 'URI',
     'json_uri_desc'                     => 'De locatie van het JSON bestand, dit kan een URL zijn of een lokaal pad.',
     'json_title'                        => 'Titel',

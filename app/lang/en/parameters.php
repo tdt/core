@@ -37,6 +37,8 @@ return array(
     'definition_publisher_name_desc'    => 'The name of the entity responsible for publishing the dataset.',
     'definition_keywords'               => 'Keywords',
     'definition_keywords_desc'          => 'A comma separated list of keywords regarding the dataset.',
+    'definition_contact_point'          => 'Contact point',
+    'definition_contact_point_desc'     => 'A link on which people can provide feedback or flag errors.',
     'json_uri'                          => 'URI',
     'json_uri_desc'                     => 'The location of the JSON file, this should either be a URL or a local file location.',
     'json_title'                        => 'Title',

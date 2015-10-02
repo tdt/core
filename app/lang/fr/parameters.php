@@ -37,6 +37,8 @@ return array(
     'definition_publisher_name_desc'    => "Le nom de l'entité responsable de la publication du jeu de données.",
     'definition_keywords'               => 'Mots-clés',
     'definition_keywords_desc'          => "Une virgule liste de mots clés concernant l'ensemble de données séparée.",
+    'definition_contact_point'          => 'Point de contact',
+    'definition_contact_point_desc'     => 'Un lien sur lequel les gens peuvent fournir des commentaires.',
     'json_uri'                          => 'URI',
     'json_uri_desc'                     => "L'emplacement du fichier JSON, une URL ou un emplacement de fichier local.",
     'json_title'                        => 'Titre',

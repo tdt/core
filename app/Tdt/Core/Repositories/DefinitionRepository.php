@@ -8,7 +8,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 {
     protected $rules = array(
         'resource_name' => 'required',
-        'collection_uri' => 'required|collectionuri'
+        'collection_uri' => 'required|collectionuri',
+        'contact_point' => 'uri',
     );
 
     public function __construct(\Definition $model)
@@ -182,7 +183,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Use the power of the IoC
         try {
-
             $type = ucfirst(strtolower($type));
             $source_repository = $this->getSourceRepository($type);
 
@@ -203,7 +203,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definitions = array();
 
         foreach ($this->getAll($limit, $offset) as $definition) {
-
             $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
             $definitions[$identifier] = $this->getFullDescription($identifier);
         }
@@ -216,7 +215,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definitions = array();
 
         foreach ($this->getAll($limit, $offset) as $definition) {
-
             $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
             $definitions[$identifier] = $this->getDescriptionInfo($identifier);
         }
@@ -270,7 +268,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // If the source type has a relationship with tabular columns, then attach those to the properties
         if (method_exists(get_class($source_definition), 'tabularColumns')) {
-
             $columns = $source_definition->tabularColumns();
             $columns = $columns->getResults();
 
@@ -289,13 +286,11 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // If the source type has a relationship with geoproperties, attach those to the properties
         if (method_exists(get_class($source_definition), 'geoProperties')) {
-
             $geo_props = $source_definition->geoProperties();
             $geo_props = $geo_props->getResults();
 
             $geo_props_arr = array();
             foreach ($geo_props as $geo_prop) {
-
                 $geo_entry = new \stdClass();
 
                 $geo_entry->path = $geo_prop->path;
@@ -399,6 +394,13 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'name' => 'Keywords',
                 'type' => 'string',
                 'description' => 'A comma separated list of keywords regarding the dataset.',
+                'group' => 'dc',
+            ),
+            'contact_point' => array(
+                'required' => false,
+                'name' => 'Contact point',
+                'type' => 'string',
+                'description' => 'A link on which people can provide feedback or flag errors.',
                 'group' => 'dc',
             ),
         );

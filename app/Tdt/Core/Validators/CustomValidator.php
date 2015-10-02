@@ -18,7 +18,6 @@ class CustomValidator extends \Illuminate\Validation\Validator
     {
 
         try {
-
             file_get_contents($value);
             return true;
         } catch (\Exception $ex) {
@@ -33,7 +32,6 @@ class CustomValidator extends \Illuminate\Validation\Validator
     {
 
         try {
-
             $handle = fopen($value, 'r');
             return $handle;
         } catch (\Exception $ex) {
@@ -76,7 +74,6 @@ class CustomValidator extends \Illuminate\Validation\Validator
     public function validateInstalled($attribute, $value, $parameters)
     {
         try {
-
             $class_file = app_path() . '/../installed/' .  $value;
 
             return file_exists($class_file);
