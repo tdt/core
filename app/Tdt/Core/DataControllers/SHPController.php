@@ -187,7 +187,12 @@ class SHPController extends ADataController
                     }
                     array_push($arrayOfRowObjects, $rowobject);
                 }
+
                 $total_rows++;
+
+                if ($total_rows >= 10000) {
+                    break;
+                }
             }
 
             // Calculate the paging headers properties

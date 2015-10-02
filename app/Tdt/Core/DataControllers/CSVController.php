@@ -159,6 +159,10 @@ class CSVController extends ADataController
                 }
 
                 $total_rows++;
+
+                if ($total_rows >= 10000) {
+                    break;
+                }
             }
             fclose($handle);
 
