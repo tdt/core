@@ -77,7 +77,7 @@ class DatasetController extends ApiController
 
 
                     // If the source type is XML, just return the XML contents, don't transform
-                    if (strtolower($source_type) == 'xml') {
+                    if (strtolower($source_type) == 'xml' && $extension == 'xml') {
                         return $this->createXMLResponse($data->data);
                     }
 

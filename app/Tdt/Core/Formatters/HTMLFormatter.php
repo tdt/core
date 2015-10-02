@@ -48,90 +48,80 @@ class HTMLFormatter implements IFormatter
             }
         }
 
-        if ($dataObj->is_spectql) {
             // Create the link to the dataset
-            $dataset_link  = \URL::to('spectql/' . $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
+        $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
 
             // Append rest parameters
-            if (!empty($dataObj->rest_parameters)) {
-                $dataset_link .= implode('/', $dataObj->rest_parameters);
-                $dataset_link = substr($dataset_link, 0, -5);
-            }
-
-            $view = 'dataset.spectql';
-            $data = self::displayTree($dataObj->data);
-
-        } else {
-            // Create the link to the dataset
-            $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
-
-            // Append rest parameters
-            if (!empty($dataObj->rest_parameters)) {
-                $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
-            }
-
-            if (!empty($dataObj->source_definition)) {
-                $type = $dataObj->source_definition['type'];
-
-                // Check if other views need to be served
-                switch ($type) {
-                    case 'XLS':
-                    case 'CSV':
-                        $first_row = array_shift($dataObj->data);
-                        array_unshift($dataObj->data, $first_row);
-
-                        if (is_array($first_row) || is_object($first_row)) {
-                            $view = 'dataset.tabular';
-                            $data = $dataObj->data;
-
-                        } else {
-                            $view = 'dataset.code';
-                            $data =  $data = self::displayTree($dataObj->data);
-
-                        }
-
-                        break;
-                    case 'SHP':
-                        $view = 'dataset.map';
-                        $data = $dataset_link . '.map' . $query_string;
-
-                        break;
-
-                    default:
-                        if ($dataObj->is_semantic) {
-                            // This data object is always semantic
-                            $view = 'dataset.turtle';
-
-                            // Check if a configuration is given
-                            $conf = array();
-
-                            if (!empty($dataObj->semantic->conf)) {
-                                $conf = $dataObj->semantic->conf;
-                            }
-
-                            $data = $dataObj->data->serialise('turtle');
-                        } else {
-                            $view = 'dataset.code';
-                            $data = self::displayTree($dataObj->data);
-
-                        }
-
-                        break;
-                }
-
-            } elseif ($dataObj->is_semantic) {
-                // The data object can be semantic without a specified source type
-                $view = 'dataset.code';
-                $data = $dataObj->data->serialise('turtle');
-
-            } else {
-                // Collection view
-                $view = 'dataset.collection';
-                $data = $dataObj->data;
-            }
+        if (!empty($dataObj->rest_parameters)) {
+            $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
         }
 
-        // Gather data to inject as meta-data in JSON-LD to be picked up by search engines
+        if (!empty($dataObj->source_definition)) {
+            $type = $dataObj->source_definition['type'];
+
+                // Check if other views need to be served
+            switch ($type) {
+                case 'XLS':
+                case 'CSV':
+                    $first_row = array_shift($dataObj->data);
+                    array_unshift($dataObj->data, $first_row);
+
+                    if (is_array($first_row) || is_object($first_row)) {
+                        $view = 'dataset.tabular';
+                        $data = $dataObj->data;
+
+                    } else {
+                        $view = 'dataset.code';
+                        $data = self::displayTree($dataObj->data);
+
+                    }
+
+                    break;
+                case 'SHP':
+                    $view = 'dataset.map';
+                    $data = $dataset_link . '.map' . $query_string;
+
+                    break;
+
+                case 'XML':
+                    $view = 'dataset.code';
+                    $data = self::displayTree($dataObj->data, 'xml');
+                    break;
+
+                default:
+                    if ($dataObj->is_semantic) {
+                                // This data object is always semantic
+                        $view = 'dataset.turtle';
+
+                                // Check if a configuration is given
+                        $conf = array();
+
+                        if (!empty($dataObj->semantic->conf)) {
+                            $conf = $dataObj->semantic->conf;
+                        }
+
+                        $data = $dataObj->data->serialise('turtle');
+                    } else {
+                        $view = 'dataset.code';
+                        $data = self::displayTree($dataObj->data);
+                    }
+
+                    break;
+            }
+
+        } elseif ($dataObj->is_semantic) {
+                // The data object can be semantic without a specified source type
+            $view = 'dataset.code';
+            $data = $dataObj->data->serialise('turtle');
+
+        } else {
+                // Collection view
+            $view = 'dataset.collection';
+            $data = $dataObj->data;
+        }
+
+
+        // Gather meta-data to inject as a JSON-LD document so it can be picked up by search engines
         $definition = $dataObj->definition;
 
         $uri = \Request::root();
@@ -205,17 +195,17 @@ class HTMLFormatter implements IFormatter
 
         // Render the view
         return \View::make($view)->with('title', 'Dataset: '. $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'] . ' | The Datatank')
-                                 ->with('body', $data)
-                                 ->with('page_title', $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'])
-                                 ->with('definition', $dataObj->definition)
-                                 ->with('paging', $dataObj->paging)
-                                 ->with('source_definition', $dataObj->source_definition)
-                                 ->with('formats', $dataObj->formats)
-                                 ->with('dataset_link', $dataset_link)
-                                 ->with('prev_link', $prev_link)
-                                 ->with('next_link', $next_link)
-                                 ->with('query_string', $query_string)
-                                 ->with('json_ld', $jsonld);
+        ->with('body', $data)
+        ->with('page_title', $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'])
+        ->with('definition', $dataObj->definition)
+        ->with('paging', $dataObj->paging)
+        ->with('source_definition', $dataObj->source_definition)
+        ->with('formats', $dataObj->formats)
+        ->with('dataset_link', $dataset_link)
+        ->with('prev_link', $prev_link)
+        ->with('next_link', $next_link)
+        ->with('query_string', $query_string)
+        ->with('json_ld', $jsonld);
     }
 
     public static function getDocumentation()
@@ -223,19 +213,64 @@ class HTMLFormatter implements IFormatter
         return "The HTML formatter is a formatter which prints output for humans. It prints everything in the internal object and extra links towards meta-data and documentation.";
     }
 
-    private static function displayTree($data)
+    private static function displayTree($data, $format = 'json')
     {
+        if ($format == 'json') {
+            if (is_object($data)) {
+                $data = get_object_vars($data);
+            }
 
-        if (is_object($data)) {
-            $data = get_object_vars($data);
-        }
+            if (defined('JSON_PRETTY_PRINT')) {
+                $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            } else {
+                $formattedJSON = json_encode($data);
+            }
 
-        if (defined('JSON_PRETTY_PRINT')) {
-            $formattedJSON = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            return str_replace("\/", "/", $formattedJSON);
+        } elseif ($format == 'xml') {
+            return self::xmlPrettify($data, true);
         } else {
-            $formattedJSON = json_encode($data);
+            \App::abort('400', "The requested format ($format) is not supported.");
+        }
+    }
+
+    /**
+     * Prettifies an XML string into a human-readable form
+     *
+     * @param string $xml The XML as a string
+     * @param boolean $html_output True if the output should be escaped (for use in HTML)
+     *
+     * @return string
+     */
+    private static function xmlPrettify($xml)
+    {
+        $xml_obj = new \SimpleXMLElement($xml);
+        $level = 4;
+        $level = 4;
+        $indent = 0;
+        $pretty = array();
+
+        $xml = explode("\n", preg_replace('/>\s*</', ">\n<", $xml_obj->asXML()));
+
+        if (count($xml) && preg_match('/^<\?\s*xml/', $xml[0])) {
+            $pretty[] = array_shift($xml);
         }
 
-        return str_replace("\/", "/", $formattedJSON);
+        foreach ($xml as $el) {
+            if (preg_match('/^<([\w])+[^>\/]*>$/U', $el)) {
+                $pretty[] = str_repeat(' ', $indent) . $el;
+                $indent += $level;
+            } else {
+                if (preg_match('/^<\/.+>$/', $el)) {
+                    $indent -= $level;
+                }
+                if ($indent < 0) {
+                    $indent += $level;
+                }
+                $pretty[] = str_repeat(' ', $indent) . $el;
+            }
+        }
+        $xml = implode("\n", $pretty);
+        return htmlentities($xml);
     }
 }
