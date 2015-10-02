@@ -59,13 +59,6 @@ class DatasetController extends ApiController
                 if ($source_definition) {
                     $source_type = $source_definition['type'];
 
-                    // If source type and formatting type are the same, simply return the original file
-                    // If the source type is XML, just return the XML contents, don't transform
-                    if (strtolower($source_type) == strtolower($extension)) {
-                        return \Response::download($source_definition['uri']);
-                    }
-
-
                     // Create the right datacontroller
                     $controller_class = 'Tdt\\Core\\DataControllers\\' . $source_type . 'Controller';
                     $data_controller = \App::make($controller_class);
@@ -81,6 +74,12 @@ class DatasetController extends ApiController
 
                     // Retrieve dataobject from datacontroller
                     $data = $data_controller->readData($source_definition, $rest_parameters);
+
+
+                    // If the source type is XML, just return the XML contents, don't transform
+                    if (strtolower($source_type) == 'xml') {
+                        return $this->createXMLResponse($data->data);
+                    }
 
                     $data->rest_parameters = $rest_parameters;
 
@@ -336,5 +335,19 @@ class DatasetController extends ApiController
             }
         }
         return false;
+    }
+
+    /**
+     * Return an XML response
+     *
+     * @return \Response
+     */
+    public function createXMLResponse($data)
+    {
+        // Create response
+        $response = \Response::make($data, 200);
+
+        // Set headers
+        return $response->header('Content-Type', 'text/xml;charset=UTF-8');
     }
 }

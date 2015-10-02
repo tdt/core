@@ -12,14 +12,25 @@ class CustomValidator extends \Illuminate\Validation\Validator
 {
 
     /**
-     * Check if the given uri can be resolved by using file_get_contents().
+     * Check if the URI can be resolved externally or locally
      */
     public function validateUri($attribute, $value, $parameters)
     {
-
         try {
-            file_get_contents($value);
-            return true;
+            if (!filter_var($value, FILTER_VALIDATE_URL) === false) {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $value);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                $data = curl_exec($ch);
+                curl_close($ch);
+
+                return !empty($data);
+            } else {
+                $data =@ file_get_contents($value);
+
+                return !empty($data);
+            }
         } catch (\Exception $ex) {
             return false;
         }
@@ -44,7 +55,6 @@ class CustomValidator extends \Illuminate\Validation\Validator
      */
     public function validateJson($attribute, $value, $parameters)
     {
-
         try {
             $data = [];
 

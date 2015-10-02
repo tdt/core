@@ -27,7 +27,6 @@ class JSONLDController extends ADataController
 
         // If the parsing in the document fails, a JsonLdException is thrown
         try {
-
             $graph = new \EasyRdf_Graph();
 
             if ((substr($uri, 0, 4) == "http")) {

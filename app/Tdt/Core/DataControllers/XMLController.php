@@ -37,7 +37,6 @@ class XMLController extends ADataController
             $data =@ file_get_contents($uri);
 
             if (!empty($data)) {
-                $data = $this->XMLStringToArray($data);
                 Cache::put($uri, $data, $source_definition['cache']);
             } else {
                 $uri = $source_definition['uri'];
@@ -51,6 +50,15 @@ class XMLController extends ADataController
         $data_result->preferred_formats = $this->getPreferredFormats();
 
         return $data_result;
+    }
+
+    /**
+     * Provide an array a formatter priorities
+     */
+    protected function getPreferredFormats()
+    {
+        // Both semantic and raw data structures support json
+        return array('xml');
     }
 
     /**
