@@ -127,18 +127,14 @@ class ModelPagingTest extends TestCase
         // Check for link to next and last
         // Don't let the order of these links be a hassle
         foreach ($links as $link) {
-
             if (preg_match('/(.*)\?(limit|offset)=(\d+)&(limit|offset)=(\d+);rel=(.*)/', $link, $matches)) {
-
-                if ($matches[6] == 'last') {
-
+                if ($matches[6] == 'http://www.hydra-cg.com/spec/latest/core/#hydra:lastPage') {
                     if ($matches[2] == 'offset') {
                         $this->assertEquals($matches[3], 6);
                     } else {
                         $this->assertEquals($matches[5], 2);
                     }
                 } else {
-
                     if ($matches[2] == 'offset') {
                         $this->assertEquals($matches[3], 2);
                     } else {
