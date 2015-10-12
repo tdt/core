@@ -142,4 +142,12 @@ return array(
     'xml_description_desc'              => "Le texte descriptif ou d'information qui fournit un certain contexte pour vous publié des ensembles de données.",
     'xml_geo_formatted'                 => 'KML',
     'xml_geo_formatted_desc'            => 'Est-ce que le format du fichier XML, KML?',
+    'installed_class'                   => 'Classe',
+    'installed_class_desc'              => 'Le nom du classe qui vous voulez publicer.',
+    'installed_path'                    => 'Chemin de classe',
+    'installed_path_desc'               => 'Le chemin due classe, relative du dossier "/installed".',
+    'installed_title'                   => 'Titre',
+    'installed_title_desc'              => 'Un nom donné à la ressource.',
+    'installed_description'             => 'Description',
+    'installed_description_desc'        => "Le texte descriptif ou d'information qui fournit un certain contexte pour vous publié des ensembles de données.",
 );

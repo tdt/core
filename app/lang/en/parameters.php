@@ -140,4 +140,12 @@ return array(
     'xml_description_desc'              => 'The descriptive or informational string that provides some context for you published dataset.',
     'xml_geo_formatted'                 => 'KML',
     'xml_geo_formatted_desc'            => 'Is the XML document a KML document.',
+    'installed_class'                   => 'Class',
+    'installed_class_desc'              => 'The name of the class that holds the data publishing functionalities.',
+    'installed_path'                    => 'Class path',
+    'installed_path_desc'               => 'The location of the class file, relative from the "/installed" folder.',
+    'installed_title'                   => 'Title',
+    'installed_title_desc'              => 'A name given to the resource.',
+    'installed_description'             => 'Description',
+    'installed_description_desc'        => 'The descriptive or informational string that provides some context for you published dataset.',
 );

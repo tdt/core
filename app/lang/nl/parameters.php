@@ -136,4 +136,12 @@ return array(
     'xml_description_desc'              => 'Een korte tekst die context en extra informatie geeft bij de dataset.',
     'xml_description'                   => 'KML',
     'xml_description_desc'              => 'Is het XML document een KML?',
+    'installed_class'                   => 'Klasse',
+    'installed_class_desc'              => 'De naam van de installed resource klasse.',
+    'installed_path'                    => 'Pad',
+    'installed_path_desc'               => 'Het pad van de klasse, relatief van de /installed map.',
+    'installed_uri'                     => 'URI',
+    'installed_uri_desc'                => 'De locatie van het CSV bestand, dit kan een URL zijn of een lokaal pad.',
+    'installed_title'                   => 'Titel',
+    'installed_title_desc'              => 'Een titel voor de dataset.',
 );
