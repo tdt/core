@@ -88,6 +88,8 @@ return array(
     'mysql_query_desc'                  => 'The query of which the results will be published as open data.',
     'mysql_map_property'                => 'Map property',
     'mysql_map_property_desc'           => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable.',
+    'mysql_description'                 => 'Description',
+    'mysql_description_desc'            => 'The descriptive or informational string that provides some context for you published dataset.',
     'rdf_uri'                           => 'URI',
     'rdf_uri_desc'                      => 'The URI of the RDF file.',
     'rdf_title'                         => 'Title',

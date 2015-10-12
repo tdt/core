@@ -82,6 +82,8 @@ return array(
     'mysql_pk_desc'                     => 'Indien dit ingevuld wordt met de index van een kolom dan wordt de MySQL data gemapped als een object, met als key de waarde van de ingevulde kolom.',
     'mysql_query'                       => 'Query',
     'mysql_query_desc'                  => 'De query waarvan de resultaten als open data worden gepubliceerd.',
+    'mysql_description'                 => 'Beschrijving',
+    'mysql_description_desc'            => 'Een korte tekst die context en extra informatie geeft bij de dataset.',
     'mysql_map_property'                => 'Geo-eigenschap',
     'mysql_map_property_desc'           => 'De naam van de kolom die wordt getoond op een map visualisatie, indien de CSV geografische data bevat.',
     'rdf_uri'                           => 'URI',
