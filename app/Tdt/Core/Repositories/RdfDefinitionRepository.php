@@ -44,7 +44,7 @@ class RdfDefinitionRepository extends BaseDefinitionRepository implements RdfDef
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'format' => array(
                 'required' => true,

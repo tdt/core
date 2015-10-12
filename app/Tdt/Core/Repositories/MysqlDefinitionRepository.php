@@ -141,6 +141,12 @@ class MysqlDefinitionRepository extends TabularBaseRepository implements MysqlDe
                 'default_value' => '',
                 'type' => 'string',
             ),
+            'description' => array(
+                'required' => true,
+                'name' => 'Description',
+                'description' => 'The descriptive or informational string that provides some context for you published dataset.',
+                'type' => 'text',
+            ),
             'collation' => array(
                 'required' => false,
                 'name' => 'Collation',

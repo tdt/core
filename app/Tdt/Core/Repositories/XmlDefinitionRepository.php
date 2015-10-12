@@ -39,7 +39,7 @@ class XmlDefinitionRepository extends BaseDefinitionRepository implements XmlDef
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'geo_formatted' => array(
                 'required' => true,

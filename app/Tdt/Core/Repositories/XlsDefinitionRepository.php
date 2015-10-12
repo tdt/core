@@ -52,7 +52,7 @@ class XlsDefinitionRepository extends TabularBaseRepository implements XlsDefini
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'sheet' => array(
                 'required' => false,

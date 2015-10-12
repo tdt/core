@@ -74,7 +74,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'delimiter' => array(
                 'required' => false,

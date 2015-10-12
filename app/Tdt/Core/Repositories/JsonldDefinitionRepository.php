@@ -40,7 +40,7 @@ class JsonldDefinitionRepository extends BaseDefinitionRepository implements Jso
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             )
         );
     }

@@ -52,7 +52,7 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'epsg' => array(
                 'required' => false,
