@@ -8,10 +8,16 @@ namespace Tdt\Core;
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
+ * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class Pager
 {
-    protected static $PAGING_KEYWORDS = array('next', 'last', 'previous', 'first');
+    protected static $PAGING_KEYWORDS = array(
+                    'next' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:nextPage',
+                    'last' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:lastPage',
+                    'previous' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:previousPage',
+                    'first' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:firstPage'
+                    );
 
     protected static $DEFAULT_PAGE_SIZE = 500;
 
@@ -23,10 +29,8 @@ class Pager
         $link_value = '';
 
         foreach ($paging as $keyword => $page_info) {
-
-            if (!in_array($keyword, self::$PAGING_KEYWORDS)) {
-
-                $key_words = implode(', ', self::$PAGING_KEYWORDS);
+            if (!in_array($keyword, array_keys(self::$PAGING_KEYWORDS))) {
+                $key_words = implode(', ', array_keys(self::$PAGING_KEYWORDS));
                 \App::abort(400, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
 
             } elseif (count($page_info) != 2) {
@@ -35,7 +39,7 @@ class Pager
 
             $request_string = self::buildQuerystring();
 
-            $link_value .= \Request::url() . '?offset=' . $page_info[0] . '&limit=' . $page_info[1] . $request_string .';rel=' . $keyword . ',';
+            $link_value .= \Request::url() . '?offset=' . $page_info[0] . '&limit=' . $page_info[1] . $request_string .';rel=' . self::$PAGING_KEYWORDS[$keyword] . ',';
         }
 
         // Trim the most right comma off.
@@ -66,20 +70,33 @@ class Pager
     /**
      * Calculate the link meta-data for paging purposes, return an array with paging information
      *
+     * @param integer $limit
+     * @param integer $offset
+     * @param integer $total_rows The total amount of objects
+     *
      * @return array
      */
     public static function calculatePagingHeaders($limit, $offset, $total_rows)
     {
-
         $paging = array();
+
+        // Check if limit and offset are integers
+        if (!is_integer((int)$limit) || !is_integer((int)$offset)) {
+            \App::abort(400, "Please make sure limit and offset are integers.");
+        }
 
         // Calculate the paging parameters and pass them with the data object
         if ($offset + $limit < $total_rows) {
-
             $paging['next'] = array($limit + $offset, $limit);
 
-            $last_page = round($total_rows / $limit, 0);
-            $paging['last'] = array(($last_page - 1) * $limit, $limit);
+            $last_page = round($total_rows / $limit, 1);
+            $last_full_page = round($total_rows / $limit, 0);
+
+            if ($last_page - $last_full_page > 0) {
+                $paging['last'] = array(($last_full_page) * $limit, $limit);
+            } else {
+                $paging['last'] = array(($last_full_page - 1) * $limit, $limit);
+            }
         }
 
         if ($offset > 0 && $total_rows > 0) {
@@ -105,17 +122,14 @@ class Pager
 
         // Calculate the limit and offset, if only page and optionally page_size are given
         if ($limit == self::$DEFAULT_PAGE_SIZE && $offset == 0) {
-
             $page = \Input::get('page', 1);
             $page_size = \Input::get('page_size', self::$DEFAULT_PAGE_SIZE);
 
             // Don't do extra work when page and page_size are also default values
             if ($page > 1 || $page_size != self::$DEFAULT_PAGE_SIZE) {
-
                 $offset = ($page -1)*$page_size;
                 $limit = $page_size;
             } elseif ($page == -1) {
-
                 $limit = PHP_INT_MAX;
                 $offset= 0;
             }
