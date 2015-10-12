@@ -49,6 +49,10 @@ class XMLController extends ADataController
         $data_result->semantic = $this->prefixes;
         $data_result->preferred_formats = $this->getPreferredFormats();
 
+        if (!empty($source_definition['geo_formatted']) && $source_definition['geo_formatted']) {
+            $data_result->geo_formatted = true;
+        }
+
         return $data_result;
     }
 
@@ -59,153 +63,5 @@ class XMLController extends ADataController
     {
         // Both semantic and raw data structures support json
         return array('xml');
-    }
-
-    /**
-     * Initialize recursion.
-     */
-    private function XMLStringToArray($xmlstr)
-    {
-        $doc = new \DOMDocument();
-        $doc->loadXML($xmlstr);
-
-        return $this->convertDomNodeToArray($doc->documentElement);
-    }
-
-    /**
-     * Get the full name of an element or attribute, namespace + name
-     *
-     * @param DOMElement $element (either DomAttr or DOMElement)
-     * @param boolean    $isAttribute
-     *
-     * @return string
-     */
-    private function getFullName($element, $isAttribute = false)
-    {
-        $prefix = $element->prefix;
-
-        if (!empty($prefix)) {
-            // Register the namespace and prefix
-            $this->prefixes[$prefix] = $element->namespaceURI;
-
-            if ($isAttribute) {
-                $attrName = $element->name;
-
-                return $element->namespaceURI . $attrName;
-            } else {
-                $tagName = $element->tagName;
-
-                return str_replace($prefix . ':', $element->namespaceURI, $tagName);
-            }
-        } else {
-            if (!empty($element->tagName)) {
-                return $element->tagName;
-            } else {
-                return $element->name;
-            }
-
-        }
-    }
-
-    /**
-     * Convert node to a PHP array.
-     */
-    private function convertDomNodeToArray($node)
-    {
-        $output = array();
-
-        switch ($node->nodeType) {
-            case XML_CDATA_SECTION_NODE:
-            case XML_TEXT_NODE:
-                $output = trim($node->textContent);
-                break;
-
-            case XML_ELEMENT_NODE:
-                // Check children
-                for ($i = 0; $i < $node->childNodes->length; $i++) {
-                    // Get child
-                    $child = $node->childNodes->item($i);
-
-                    // Recursive fetch child XML
-                    $value = $this->convertDomNodeToArray($child);
-
-                    // Check if child is a tag
-                    if (isset($child->tagName)) {
-                        // Current tag
-                        $tag = $this->getFullName($child);
-
-                        // Check if current tag is already defined
-                        if (!isset($output[$tag])) {
-                            // If not, inititialize array
-                            $output[$tag] = array();
-                        }
-
-                        // Push the child tag on the array
-                        $output[$tag][] = $value;
-
-                    } elseif ($value) {
-                        // Child is plain text, preliminary solution
-                        if (empty($output['@text'])) {
-                            $output['@text'] = array();
-                        }
-
-                        array_push($output['@text'], (string) $value);
-                    }
-                }
-
-                // Element is not a text node
-                if (is_array($output)) {
-                    // Check if element has attributes
-                    $attributesLength = $node->attributes->length;
-
-                    if ($attributesLength > 0) {
-                        $attributes = array();
-
-                        for ($i = 0; $i < $attributesLength; $i++) {
-                            $attribute = $node->attributes->item($i);
-
-                            $attributeName = $this->getFullName($attribute, true);
-                            $attributes[$attributeName] = (string) $attribute->value;
-                        }
-
-                        if (!empty($attributes)) {
-                            $output['@attributes'] = $attributes;
-                        }
-
-                    }
-                    // For each of the element's children
-                    foreach ($output as $tag => $value) {
-                        if (is_array($value) && count($value) == 1 && $tag != '@attributes') {
-                            $output[$tag] = @$value[0];
-                        }
-                    }
-                } else {
-                    // Element is a text node, but can still have attributes
-                    $value = $output;
-
-                    // Check if element has attributes
-                    $attributesLength = $node->attributes->length;
-                    if ($attributesLength > 0) {
-                        $attributes = array();
-
-                        for ($i = 0; $i < $attributesLength; $i++) {
-                            $attribute = $node->attributes->item($i);
-
-                            $attributeName = $this->getFullName($attribute, true);
-                            $attributes[$attributeName] = (string) $attribute->value;
-                        }
-
-                        if (!empty($attributes)) {
-                            $output['@attributes'] = $attributes;
-                        }
-                    }
-
-                    array_push($output['@text'], $value);
-
-                }
-                break;
-        }
-
-        return $output;
     }
 }

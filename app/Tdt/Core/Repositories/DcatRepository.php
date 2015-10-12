@@ -155,8 +155,11 @@ class DcatRepository implements DcatRepositoryInterface
                 }
 
                 // Add the distribution of the dataset
-
-                $distribution_uri = $dataset_uri . '.json';
+                if ($this->isDataGeoFormatted($definition)) {
+                    $distribution_uri = $dataset_uri . '.geojson';
+                } else {
+                    $distribution_uri = $dataset_uri . '.json';
+                }
 
                 $graph->addResource($dataset_uri, 'dcat:distribution', $distribution_uri);
                 $graph->addResource($distribution_uri, 'a', 'dcat:Distribution');
@@ -179,6 +182,15 @@ class DcatRepository implements DcatRepositoryInterface
         }
 
         return $graph;
+    }
+
+    private function isDataGeoFormatted($definition)
+    {
+        return (
+            $definition['type'] == 'shp' ||
+            ($definition['type'] == 'json' && !empty($definition['geo_formatted']) && $definition['geo_formatted']) ||
+            ($definition['type'] == 'xml' && !empty($definition['geo_formatted']) && $definition['geo_formatted'])
+            );
     }
 
     /**

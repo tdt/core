@@ -87,7 +87,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
                 'required' => false,
                 'name' => 'Header row',
                 'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
-                'default_value' => 1,
+                'default_value' => true,
                 'type' => 'boolean',
             ),
             'start_row' => array(

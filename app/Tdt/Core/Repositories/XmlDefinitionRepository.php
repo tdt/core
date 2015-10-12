@@ -40,7 +40,14 @@ class XmlDefinitionRepository extends BaseDefinitionRepository implements XmlDef
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
                 'type' => 'string',
-            )
+            ),
+            'geo_formatted' => array(
+                'required' => true,
+                'name' => 'KML',
+                'description' => 'Is the XML document a KML document?',
+                'type' => 'boolean',
+                'default_value' => false,
+            ),
         );
     }
 }

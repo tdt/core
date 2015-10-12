@@ -46,6 +46,8 @@ return array(
     'json_description'                  => 'Description',
     'json_description_desc'             => "Le texte descriptif ou d'information qui fournit un certain contexte pour vous publié des ensembles de données.",
     'json_map_property'                 => 'Carte propriété',
+    'json_geo_formatted'                => 'GeoJSON',
+    'json_geo_formatted_desc'           => 'Est-ce que le format du fichier JSON, GeoJSON?',
     'jsonld_uri'                        => 'URI',
     'jsonld_uri_desc'                   => "L'emplacement du fichier JSON-LD, une URL ou un emplacement de fichier local.",
     'jsonld_title'                      => 'Titre',
@@ -138,4 +140,6 @@ return array(
     'xml_title_desc'                    => 'Un nom donné à la ressource.',
     'xml_description'                   => 'Description',
     'xml_description_desc'              => "Le texte descriptif ou d'information qui fournit un certain contexte pour vous publié des ensembles de données.",
+    'xml_geo_formatted'                 => 'KML',
+    'xml_geo_formatted_desc'            => 'Est-ce que le format du fichier XML, KML?',
 );

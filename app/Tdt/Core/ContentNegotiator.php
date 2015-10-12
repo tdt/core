@@ -33,7 +33,8 @@ class ContentNegotiator extends Pager
             ),
         'ttl' => array('text/turtle'),
         'nt' => array('application/n-triples'),
-        'jsonld' => array('application/ld+json')
+        'jsonld' => array('application/ld+json'),
+        'geojson' => array('application/vnd.geo+json'),
     );
 
     /**

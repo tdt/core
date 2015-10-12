@@ -41,7 +41,14 @@ class JsonDefinitionRepository extends BaseDefinitionRepository implements JsonD
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
                 'type' => 'string',
-            )
+            ),
+            'geo_formatted' => array(
+                'required' => true,
+                'name' => 'GeoJSON',
+                'description' => 'Is the JSON document a GeoJSON document?',
+                'type' => 'boolean',
+                'default_value' => false,
+            ),
         );
     }
 }

@@ -94,7 +94,7 @@
                                         @elseif($object->type == 'integer')
                                             <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" @if(isset($object->default_value)) value='{{ $object->default_value }}' @endif>
                                         @elseif($object->type == 'boolean')
-                                            <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" checked='checked'/>
+                                            <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" @if(isset($object->default_value) && $object->default_value) checked='checked' @endif/>
                                         @endif
                                         <div class='help-block'>
                                             {{ $object->description }}

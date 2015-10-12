@@ -11,7 +11,6 @@ namespace Tdt\Core\Formatters;
  */
 class FormatHelper
 {
-
     private static $tabular_sources = array('csv', 'xls', 'shp');
 
     /**
@@ -22,14 +21,19 @@ class FormatHelper
      */
     public function getAvailableFormats($data)
     {
-
         $formats = array(
-            'JSON' => 'json',
-            'XML' => 'xml',
         );
 
+        $source_type = $data->source_definition['type'];
+
+        if (strtolower($source_type) != 'xml') {
+            $formats['JSON'] = 'json';
+        } else {
+            $formats['XML'] = 'xml';
+        }
+
         // Check for tabular sources
-        if (in_array(strtolower($data->source_definition['type']), self::$tabular_sources)) {
+        if (in_array(strtolower($source_type), self::$tabular_sources)) {
             $formats['CSV'] = 'csv';
         }
 
@@ -39,6 +43,14 @@ class FormatHelper
             $formats['KML'] = 'kml';
             $formats['GeoJSON'] = 'geojson';
             $formats['WKT'] = 'wkt';
+        } elseif (!empty($data->geo_formatted) && $data->geo_formatted) {
+            if (strtolower($source_type) == 'xml') {
+                $formats['KML'] = 'kml';
+                unset($formats['XML']);
+            } elseif (strtolower($source_type) == 'json' && $data->geo_formatted) {
+                $formats['GeoJSON'] = 'geojson';
+                unset($formats['JSON']);
+            }
         }
 
         // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph

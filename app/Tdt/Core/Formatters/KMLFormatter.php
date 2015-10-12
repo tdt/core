@@ -2,6 +2,8 @@
 
 namespace Tdt\Core\Formatters;
 
+use Tdt\Core\Formatters\XMLFormatter;
+
 /**
  * KML Formatter
  *
@@ -29,6 +31,11 @@ class KMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
+         // Check if the original data is not GeoJSON
+        if ($dataObj->source_definition['type'] == 'XML' && !empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
+            return $dataObj->data;
+        }
+
         self::$definition = $dataObj->definition;
         self::$map_property = $dataObj->source_definition['map_property'];
 

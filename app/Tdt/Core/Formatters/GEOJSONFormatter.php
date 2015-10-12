@@ -2,8 +2,11 @@
 
 namespace Tdt\Core\Formatters;
 
+use Tdt\Core\Formatters\XMLFormatter;
+use Symm\Gisconverter\Gisconverter;
+
 /**
- * GEOJson Formatter
+ * GeoJSON Formatter
  *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
@@ -25,6 +28,11 @@ class GEOJSONFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
+        // Check if the original data is not GeoJSON
+        if ($dataObj->source_definition['type'] == 'JSON' && !empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
+            return json_encode($dataObj->data);
+        }
+
         // Build the body
         $body = $dataObj->data;
         if (is_object($body)) {

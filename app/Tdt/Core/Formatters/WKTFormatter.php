@@ -32,7 +32,6 @@ class WKTFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-        // Get the KML and transform it to GeoJSON
         $kml = KMLFormatter::getBody($dataObj);
 
         return Gisconverter::kmlToWkt($kml);

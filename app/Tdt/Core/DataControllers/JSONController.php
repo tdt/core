@@ -57,6 +57,10 @@ class JSONController extends ADataController
         $data_result->data = $php_object;
         $data_result->preferred_formats = $this->getPreferredFormats();
 
+        if (!empty($source_definition['geo_formatted']) && $source_definition['geo_formatted']) {
+            $data_result->geo_formatted = true;
+        }
+
         return $data_result;
     }
 }

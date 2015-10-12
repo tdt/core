@@ -43,6 +43,8 @@ return array(
     'json_title_desc'                   => 'Een titel voor de dataset.',
     'json_description'                  => 'Beschrijving',
     'json_description_desc'             => 'Een korte tekst die context en extra informatie geeft bij de dataset.',
+    'json_geo_formatted'                => 'GeoJSON',
+    'json_geo_formatted_desc'           => 'Is het JSON document een GeoJSON.',
     'json_map_property'                 => 'Map eigenschap',
     'jsonld_uri'                        => 'URI',
     'jsonld_uri_desc'                   => 'De locatie van het JSON-LD bestand, dit kan een URL zijn of een lokaal pad.',
@@ -132,4 +134,6 @@ return array(
     'xml_title_desc'                    => 'Een titel voor de dataset.',
     'xml_description'                   => 'Beschrijving',
     'xml_description_desc'              => 'Een korte tekst die context en extra informatie geeft bij de dataset.',
+    'xml_description'                   => 'KML',
+    'xml_description_desc'              => 'Is het XML document een KML?',
 );

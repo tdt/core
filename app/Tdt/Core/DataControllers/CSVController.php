@@ -185,8 +185,6 @@ class CSVController extends ADataController
             } else {
                 $index = $column['index'];
 
-                \Log::warning("We expected a value for index $index, yet no value was given. Filling in an empty value.");
-
                 $result[$column['column_name_alias']] = '';
             }
         }

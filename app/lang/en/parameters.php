@@ -45,6 +45,8 @@ return array(
     'json_title_desc'                   => 'A name given to the resource.',
     'json_description'                  => 'Description',
     'json_description_desc'             => 'The descriptive or informational string that provides some context for you published dataset.',
+    'json_geo_formatted'                => 'GeoJSON',
+    'json_geo_formatted_desc'           => 'Is the JSON document a GeoJSON document.',
     'json_map_property'                 => 'Map property',
     'jsonld_uri'                        => 'URI',
     'jsonld_uri_desc'                   => 'The location of the JSON-LD file, this should either be a URL or a local file location.',
@@ -136,4 +138,6 @@ return array(
     'xml_title_desc'                    => 'A name given to the resource.',
     'xml_description'                   => 'Description',
     'xml_description_desc'              => 'The descriptive or informational string that provides some context for you published dataset.',
+    'xml_geo_formatted'                 => 'KML',
+    'xml_geo_formatted_desc'            => 'Is the XML document a KML document.',
 );

@@ -222,7 +222,6 @@ class DatasetController extends ApiController
      */
     private static function applyRestFilter($data, $rest_params)
     {
-
         foreach ($rest_params as $rest_param) {
             if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
                 $data = $data->$key;
