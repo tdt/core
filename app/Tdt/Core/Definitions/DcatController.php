@@ -68,7 +68,9 @@ class DcatController extends ApiController
         }
 
         // If limit is empty, provide a custom page size for the DCAT document
-        if (empty(\Input::get('limit'))) {
+
+        $limit = \Input::get('limit');
+        if (empty($limit)) {
             \Input::merge(array('limit' => 100));
         }
 
