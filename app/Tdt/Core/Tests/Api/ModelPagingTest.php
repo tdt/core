@@ -29,7 +29,6 @@ class ModelPagingTest extends TestCase
 
         // Add the CSV definitions
         foreach ($this->test_data as $file) {
-
             // Set the definition parameters.
             $data = array(
                 'description' => "A CSV publication from the $file csv file.",
@@ -88,7 +87,6 @@ class ModelPagingTest extends TestCase
 
         // Delete the published definition for each test csv file.
         foreach ($this->test_data as $file) {
-
             $this->updateRequest('DELETE');
 
             $controller = \App::make('Tdt\Core\Definitions\DefinitionController');
@@ -128,7 +126,7 @@ class ModelPagingTest extends TestCase
         // Don't let the order of these links be a hassle
         foreach ($links as $link) {
             if (preg_match('/(.*)\?(limit|offset)=(\d+)&(limit|offset)=(\d+);rel=(.*)/', $link, $matches)) {
-                if ($matches[6] == 'http://www.hydra-cg.com/spec/latest/core/#hydra:lastPage') {
+                if ($matches[6] == 'http://www.w3.org/ns/hydra/core#lastPage') {
                     if ($matches[2] == 'offset') {
                         $this->assertEquals($matches[3], 6);
                     } else {
@@ -165,11 +163,9 @@ class ModelPagingTest extends TestCase
         $this->assertEquals(2, count($datasets));
 
         foreach ($datasets as $dataset) {
-
             $literal_properties = ['dc:title', 'dc:description', 'dc:identifier', 'dc:issued', 'dc:modified'];
 
             foreach ($literal_properties as $property) {
-
                 $literal = $dataset->getLiteral($property);
 
                 $this->assertNotEmpty($literal);
