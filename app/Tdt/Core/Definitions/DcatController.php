@@ -67,6 +67,11 @@ class DcatController extends ApiController
             \EasyRdf_Namespace::set($prefix, $uri);
         }
 
+        // If limit is empty, provide a custom page size for the DCAT document
+        if (empty(\Input::get('limit'))) {
+            \Input::merge(array('limit' => 100));
+        }
+
         // Apply paging when fetching the definitions
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
