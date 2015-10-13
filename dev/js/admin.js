@@ -79,7 +79,7 @@ $('.btn-add-dataset').on('click', function(e){
             }else{
                 // Regular fields
                 if($(this).attr('type') == 'checkbox'){
-                    data[$(this).attr('name')] = $(this).attr('checked') ? 1 : 0;
+                    data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
                 }else{
                     data[$(this).attr('name')] = $(this).val();
                 }
@@ -132,7 +132,7 @@ $('.btn-edit-dataset').on('click', function(e){
     $('input, textarea, select', form).each(function(){
         if($(this).attr('name')){
             if($(this).attr('type') == 'checkbox'){
-                data[$(this).attr('name')] = $(this).attr('checked') ? 1 : 0;
+                data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
             }else{
                 data[$(this).attr('name')] = $(this).val();
             }
