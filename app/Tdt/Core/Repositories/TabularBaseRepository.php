@@ -41,7 +41,9 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
             $geo = $input['geo'];
         }
 
-        $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        if (!empty($geo) || !empty($extracted_geo)) {
+            $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        }
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
@@ -94,7 +96,11 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
             $geo = $input['geo'];
         }
 
-        $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        if (!empty($geo) || !empty($extracted_geo)) {
+            $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        } else {
+            $geo = $this->geo_repository->getGeoProperties($tabular_id, $model_name);
+        }
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));

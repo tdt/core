@@ -34,7 +34,6 @@ class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPrope
         // We don't have any extracted geo properties
         // If the provided ones qualify, validation is ok
         if (empty($extracted_geo)) {
-
             $this->validate($provided_geo);
 
             return $provided_geo;
@@ -44,7 +43,6 @@ class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPrope
         // The provided ones will have to be the same
         // as the extracted ones to pass validation
         if (!empty($extracted_geo)) {
-
             if (!empty($provided_geo) && $extracted_geo != $provided_geo) {
                 \App::abort(400, "The geo properties provided didn't match the geo properties that were extracted from the source.");
             }
@@ -58,13 +56,11 @@ class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPrope
     public function validate(array $input)
     {
         foreach ($input as $geo) {
-
             // Validate the parameters to their rules
             $validator = $this->getValidator($geo);
 
             // If any validation fails, return a message and abort the workflow
             if ($validator->fails()) {
-
                 $messages = $validator->messages();
                 \App::abort(400, $messages->first());
             }
