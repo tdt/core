@@ -13,10 +13,10 @@ namespace Tdt\Core;
 class Pager
 {
     protected static $PAGING_KEYWORDS = array(
-                    'next' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:nextPage',
-                    'last' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:lastPage',
-                    'previous' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:previousPage',
-                    'first' => 'http://www.hydra-cg.com/spec/latest/core/#hydra:firstPage'
+                    'next' => 'http://www.w3.org/ns/hydra/core#nextPage',
+                    'last' => 'http://www.w3.org/ns/hydra/core#lastPage',
+                    'previous' => 'http://www.w3.org/ns/hydra/core#previousPage',
+                    'first' => 'http://www.w3.org/ns/hydra/core#firstPage'
                     );
 
     protected static $DEFAULT_PAGE_SIZE = 500;
@@ -53,7 +53,7 @@ class Pager
      *
      * @return string
      */
-    private static function buildQuerystring()
+    public static function buildQuerystring()
     {
         $request_params = \Request::all();
         $request_params = array_except($request_params, array('limit', 'offset'));

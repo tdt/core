@@ -37,7 +37,6 @@ class SPARQLController extends ADataController
         if (stripos($source_definition['query'], 'limit')) {
             $limitInQuery = true;
         } else {
-
             list($limit, $offset) = Pager::calculateLimitAndOffset();
 
             // Sparql endpoints often have a built in limit on the amount of rows that they return
@@ -85,12 +84,10 @@ class SPARQLController extends ADataController
         $matches = array();
 
         if ($keyword == 'select') {
-
             $regex = $keyword . $where_clause;
 
             preg_match_all("/(.*?)$regex/msi", $query, $matches);
         } else {
-
             preg_match_all("/(.*?)$keyword(\s*\{[^{]+\})$where_clause/mis", $query, $matches);
         }
 
@@ -115,7 +112,6 @@ class SPARQLController extends ADataController
         }
 
         if (!$limitInQuery) {
-
             // Prepare the query to count results
             $count_query = $matches[1][0] . ' SELECT (count(*) AS ?count) ' . $filter;
 
@@ -159,7 +155,6 @@ class SPARQLController extends ADataController
         $q = str_replace("+", "%20", $q);
 
         if ($keyword == 'select') {
-
             $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/sparql-results+json");
 
             $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
@@ -172,7 +167,6 @@ class SPARQLController extends ADataController
             $is_semantic = false;
 
         } else {
-
             $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/rdf+xml");
 
             $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
@@ -188,19 +182,16 @@ class SPARQLController extends ADataController
 
         // Create the data object to return
         $data = new Data();
-        $data->data = $result;
 
         if (!$limitInQuery) {
             $data->paging = $paging;
         }
 
+        $data->data = $result;
         $data->is_semantic = $is_semantic;
         $data->preferred_formats = $this->getPreferredFormats();
 
-        \Log::info("SPARQL query: $query");
-
         if ($is_semantic) {
-
             // Fetch the available namespaces and pass
             // them as a configuration of the semantic data result
             $ontologies = $this->ontologies->getAll();
@@ -223,7 +214,6 @@ class SPARQLController extends ADataController
         preg_match_all("/\\$\\{(.+?)\\}/", $source_definition['query'], $matches);
 
         if (!empty($matches[1])) {
-
             $matches = $matches[1];
 
 
@@ -253,7 +243,6 @@ class SPARQLController extends ADataController
 
         // If credentials are given, put the HTTP auth header in the cURL request
         if (!empty($user)) {
-
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
             curl_setopt($ch, CURLOPT_USERPWD, $user . ":" . $password);
         }
@@ -302,7 +291,6 @@ class SPARQLController extends ADataController
         preg_match_all("/\\$\\{(.+?)\\}/", $query, $placeholders, PREG_SET_ORDER);
 
         for ($i = 0; $i < count($placeholders); $i++) {
-
             $placeholder = trim($placeholders[$i][1]);
 
             // Strip the array notation of the placeholder then keep its placeholders name
@@ -323,12 +311,10 @@ class SPARQLController extends ADataController
             }
 
             if (empty($elements)) {
-
                 // ${name[0]}
                 $index = strpos($placeholder, "[");
 
                 if ($index !== false) {
-
                     $placeholder_name = substr($placeholder, 0, $index);
                     $placeholder_index = substr($placeholder, $index + 1, -1);
 
@@ -344,7 +330,6 @@ class SPARQLController extends ADataController
                         }
                     }
                 } else {
-
                     if (!isset($parameters[$placeholder])) {
                         $value = '?' . $placeholder;
                     } else {
@@ -386,7 +371,6 @@ class SPARQLController extends ADataController
         // Note that the logging of invalid parameters will happen twice, as we construct and execute
         // the count query as well as the given query
         foreach ($parameters as $key => $value) {
-
             if (is_array($value)) {
                 $log_value = implode(', ', $value);
             } else {
@@ -410,7 +394,6 @@ class SPARQLController extends ADataController
         foreach ($elements as $element) {
             // Keyword is in the 3rd match
             if (array_key_exists($element[2], $parameters)) {
-
                 // Remove the templated piece, replace it with the value
                 $query = str_replace($element[1], $element[3], $query);
             } else {
@@ -421,10 +404,8 @@ class SPARQLController extends ADataController
         preg_match_all("/.*(ifnotset\((.*)\).*?\{(.*?)\}).*/m", $query, $elements, PREG_SET_ORDER);
 
         foreach ($elements as $element) {
-
             // Keyword is in the 3rd match
             if (!array_key_exists($element[2], $parameters)) {
-
                 // Remove the templated piece, replace it with the value
                 $query = str_replace($element[1], $element[3], $query);
             } else {
@@ -442,7 +423,6 @@ class SPARQLController extends ADataController
 
         switch ($function) {
             case "each":
-
                 if (!is_array($values)) {
                     $values = array($values);
                 }

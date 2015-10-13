@@ -75,7 +75,6 @@ class DatasetController extends ApiController
                     // Retrieve dataobject from datacontroller
                     $data = $data_controller->readData($source_definition, $rest_parameters);
 
-
                     // If the source type is XML, just return the XML contents, don't transform
                     if (strtolower($source_type) == 'xml' && $extension == 'xml') {
                         return $this->createXMLResponse($data->data);
@@ -86,6 +85,50 @@ class DatasetController extends ApiController
                     // REST filtering
                     if ($source_type != 'INSTALLED' && count($data->rest_parameters) > 0) {
                         $data->data = self::applyRestFilter($data->data, $data->rest_parameters);
+                    }
+
+                    // Semantic paging with the hydra voc
+                    if ($data->is_semantic && !empty($data->paging)) {
+                        \EasyRdf_Namespace::set('hydra', 'http://www.w3.org/ns/hydra/core#');
+                        $graph = $data->data;
+                        $url = \URL::to($definition['collection_uri'] . '/' . $definition['resource_name']);
+
+                        $request_url = \Request::url();
+                        $graph->addResource($request_url, 'void:subset', $url);
+
+                        foreach ($data->paging as $key => $val) {
+                            $paged_url = $request_url . '?offset=' . $val[0] . '&limit=' . $val[1] . Pager::buildQuerystring();
+
+                            switch ($key) {
+                                case 'next':
+                                    $graph->addResource($request_url, 'hydra:nextPage', $paged_url);
+                                    break;
+                                case 'previous':
+                                    $graph->addResource($request_url, 'hydra:previousPage', $paged_url);
+                                    break;
+                                case 'last':
+                                    $graph->addResource($request_url, 'hydra:lastPage', $paged_url);
+                                    break;
+                                case 'first':
+                                    $graph->addResource($request_url, 'hydra:firstPage', $paged_url);
+                                    break;
+                            }
+                        }
+
+                        $graph->addResource($url, 'a', 'dcat:Dataset');
+
+                        $title = null;
+                        if (!empty($definition['title'])) {
+                            $title = $definition['title'];
+                        } else {
+                            $title = $definition['collection_uri'] . '/' . $definition['resource_name'];
+                        }
+
+                        $graph->addLiteral($url, 'dc:title', $title);
+                        $graph->addLiteral($url, 'dc:description', $source_definition['description']);
+                        $graph->addResource($url, 'dcat:distribution', $url . '.json');
+
+                        $data->data = $graph;
                     }
 
                     // Add definition to the object
