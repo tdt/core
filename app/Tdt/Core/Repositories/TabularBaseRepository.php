@@ -98,7 +98,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
 
         if (!empty($geo) || !empty($extracted_geo)) {
             $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
-        } else {
+        } elseif (!isset($geo)) {
             $geo = $this->geo_repository->getGeoProperties($tabular_id, $model_name);
         }
 
