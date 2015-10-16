@@ -110,5 +110,10 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\MongoDefinitionRepositoryInterface',
             'Tdt\Core\Repositories\MongoDefinitionRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\ElasticsearchDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\ElasticsearchDefinitionRepository'
+        );
     }
 }
