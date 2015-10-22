@@ -72,6 +72,11 @@ class DatasetController extends ApiController
                         $rest_parameters = array();
                     }
 
+                    $throttle_response = $this->applyThrottle($definition);
+                    if (!empty($throttle_response)) {
+                        return $throttle_response;
+                    }
+
                     // Retrieve dataobject from datacontroller
                     $data = $data_controller->readData($source_definition, $rest_parameters);
 
@@ -391,5 +396,38 @@ class DatasetController extends ApiController
 
         // Set headers
         return $response->header('Content-Type', 'text/xml;charset=UTF-8');
+    }
+
+    /**
+     * Throttle on the basis of source type
+     *
+     * @param array $definition
+     *
+     * @return Response
+     */
+    private function applyThrottle($definition)
+    {
+        if ($definition['source_type'] == 'ElasticsearchDefinition') {
+            $requestsPerHour = 720;
+
+            // Rate limit by IP address
+            $key = sprintf('api:%s', \Request::getClientIp());
+
+            // Add if doesn't exist
+            // Remember for 1 hour
+            \Cache::add($key, 0, 60);
+
+            // Add to count
+            $count = \Cache::get($key);
+
+            if ($count > $requestsPerHour) {
+                $response = \Response::make('', 429);
+                $response->setContent('Rate limit exceeded, maximum of ' . $requestsPerHour . ' requests per hour has been reached.');
+
+                return $response;
+            } else {
+                \Cache::increment($key);
+            }
+        }
     }
 }

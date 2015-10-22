@@ -26,7 +26,7 @@ return array(
     | functionality.
     |
     */
-    'version' => '5.6.1',
+    'version' => '5.12.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,6 @@ return array(
     |
     */
     'providers' => array(
-
         'Illuminate\Foundation\Providers\ArtisanServiceProvider',
         'Illuminate\Auth\AuthServiceProvider',
         'Illuminate\Cache\CacheServiceProvider',
