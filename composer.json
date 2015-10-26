@@ -19,7 +19,7 @@
         "laravel/framework": "4.1.29",
         "phpoffice/phpexcel": "1.8.0",
         "phpunit/phpunit" : "4.0.17",
-        "easyrdf/easyrdf" : "dev-devel",
+        "easyrdf/easyrdf" : "dev-master",
         "kriswallsmith/buzz": "0.10",
         "cartalyst/sentry": "2.1.1",
         "ml/json-ld" : "@dev",
