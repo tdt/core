@@ -29,8 +29,9 @@ class DiscoveryTest extends TestCase
         $this->assertNotNull($document->resources->definitions->methods->put->body->json);
         $this->assertNotNull($document->resources->definitions->methods->put->body->shp);
         $this->assertNotNull($document->resources->definitions->methods->put->body->xls);
-        $this->assertNotNull($document->resources->definitions->methods->put->body->jsonld);
         $this->assertNotNull($document->resources->definitions->methods->put->body->sparql);
         $this->assertNotNull($document->resources->definitions->methods->put->body->rdf);
+        $this->assertNotNull($document->resources->definitions->methods->put->body->elasticsearch);
+        $this->assertNotNull($document->resources->definitions->methods->put->body->mongo);
     }
 }
