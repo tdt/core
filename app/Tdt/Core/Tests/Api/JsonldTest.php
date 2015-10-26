@@ -7,7 +7,7 @@ use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Datasets\DatasetController;
 use Symfony\Component\HttpFoundation\Request;
 use \Definition;
-use \JsonldDefinition;
+use \JsonDefinition;
 
 class JsonldTest extends TestCase
 {
@@ -31,13 +31,11 @@ class JsonldTest extends TestCase
     {
         // Publish each json file in the test json data folder.
         foreach ($this->test_data as $file_config) {
-
             $name = $file_config['cname'];
 
             $uri = '';
 
             if ($file_config['type'] == 'file') {
-
                 $file = $file_config['uri'];
                 $uri = app_path() . "/storage/data/tests/jsonld/$file.jsonld";
 
@@ -49,7 +47,8 @@ class JsonldTest extends TestCase
             $data = array(
                 'description' => "A JSON-LD publication from the $name jsonld file.",
                 'uri' => $uri,
-                'type' => 'jsonld'
+                'type' => 'json',
+                'jsontype' => 'JSON-LD'
             );
 
             // Set the headers.
@@ -73,7 +72,6 @@ class JsonldTest extends TestCase
     {
         // Request the data for each of the test json-ld files.
         foreach ($this->test_data as $file_config) {
-
             $name = $file_config['cname'];
 
             $file = 'jsonld/'. $name .'.jsonld';
@@ -89,7 +87,6 @@ class JsonldTest extends TestCase
     public function testUpdateApi()
     {
         foreach ($this->test_data as $file_config) {
-
             $name = $file_config['cname'];
 
             $updated_description = 'An updated description for ' . $name;
@@ -118,7 +115,6 @@ class JsonldTest extends TestCase
     {
         // Delete the published definition for each test json file.
         foreach ($this->test_data as $file_config) {
-
             $name = $file_config['cname'];
 
             $this->updateRequest('DELETE');
@@ -131,7 +127,7 @@ class JsonldTest extends TestCase
 
         // Check if everything is deleted properly.
         $definitions_count = Definition::all()->count();
-        $jsonld_count = JsonldDefinition::all()->count();
+        $jsonld_count = JsonDefinition::where('jsontype', 'JSON-LD')->count();
 
         $this->assertEquals(0, $jsonld_count);
         $this->assertEquals(0, $definitions_count);

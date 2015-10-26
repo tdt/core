@@ -84,7 +84,11 @@ class DatasetController extends UiController
                         $parameters_dc[$parameter] = $object;
 
                     } else {
-                        // Fitler optional vs required
+                        // Filter optional vs required
+                        if ($object->type == 'list') {
+                            $object->list = explode('|', $object->list);
+                        }
+
                         if ($object->required) {
                             // Filter the type parameter
                             if ($parameter != 'type') {

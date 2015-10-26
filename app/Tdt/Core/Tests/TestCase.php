@@ -55,14 +55,12 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         \CsvDefinition::truncate();
         \InstalledDefinition::truncate();
         \JsonDefinition::truncate();
-        // RdfDefinition::truncate();
         \ShpDefinition::truncate();
         \SparqlDefinition::truncate();
         \XlsDefinition::truncate();
         \XmlDefinition::truncate();
         \GeoProperty::truncate();
         \TabularColumns::truncate();
-        \JsonldDefinition::truncate();
     }
 
     /**

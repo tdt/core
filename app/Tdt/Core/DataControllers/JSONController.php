@@ -23,33 +23,64 @@ class JSONController extends ADataController
 
     public function readData($source_definition, $rest_parameters = array())
     {
-
         $uri = $source_definition['uri'];
 
-        // Check for caching
-        if (Cache::has($uri)) {
-            $data = Cache::get($uri);
-        } else {
-            // Fetch the data
-            $data = [];
+        $this->cache = $source_definition['cache'];
 
-            if (!filter_var($uri, FILTER_VALIDATE_URL) === false) {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $uri);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $data = curl_exec($ch);
-                curl_close($ch);
-            } else {
-                $data =@ file_get_contents($uri);
-            }
-
-            if ($data) {
-                Cache::put($uri, $data, $source_definition['cache']);
-            } else {
-                $uri = $source_definition['uri'];
-                \App::abort(500, "Cannot retrieve data from the JSON file located on $uri.");
-            }
+        switch ($source_definition['jsontype']) {
+            case 'GeoJSON':
+                return $this->makeGeoResponse($uri);
+                break;
+            case 'JSON-LD':
+                return $this->makeSemanticResponse($uri);
+                break;
+            default:
+                return $this->makePlainResponse($uri);
+                break;
         }
+    }
+
+    private function makeGeoResponse($uri)
+    {
+        $data = $this->getPlainJson($uri);
+
+        $php_object = json_decode($data);
+
+        $data_result = new Data();
+        $data_result->data = $php_object;
+        $data_result->preferred_formats = ['geojson'];
+        $data_result->geo_formatted = true;
+
+        return $data_result;
+    }
+
+    private function makeSemanticResponse($uri)
+    {
+        try {
+            $graph = new \EasyRdf_Graph();
+
+            if ((substr($uri, 0, 4) == "http")) {
+                $graph = \EasyRdf_Graph::newAndLoad($uri);
+            } else {
+                $graph->parseFile($uri, 'jsonld');
+            }
+
+        } catch (\Exception $ex) {
+            \App::abort(500, "The JSON-LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
+        }
+
+        // Return the data object with the graph
+        $data = new Data();
+        $data->data = $graph;
+        $data->is_semantic = true;
+        $data->preferred_formats = ['jsonld', 'ttl', 'rdf'];
+
+        return $data;
+    }
+
+    private function makePlainResponse($uri)
+    {
+        $data = $this->getPlainJson($uri);
 
         $php_object = json_decode($data);
 
@@ -57,10 +88,34 @@ class JSONController extends ADataController
         $data_result->data = $php_object;
         $data_result->preferred_formats = $this->getPreferredFormats();
 
-        if (!empty($source_definition['geo_formatted']) && $source_definition['geo_formatted']) {
-            $data_result->geo_formatted = true;
+        return $data_result;
+    }
+
+    private function getPlainJson($uri)
+    {
+        $data = [];
+
+        if (Cache::has($uri)) {
+            return Cache::get($uri);
         }
 
-        return $data_result;
+        if (!filter_var($uri, FILTER_VALIDATE_URL) === false) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $uri);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $data = curl_exec($ch);
+            curl_close($ch);
+        } else {
+            $data =@ file_get_contents($uri);
+        }
+
+        if ($data) {
+            Cache::put($uri, $data, $this->cache);
+        } else {
+            $uri = $source_definition['uri'];
+            \App::abort(500, "Cannot retrieve data from the JSON file located on $uri.");
+        }
+
+        return $data;
     }
 }

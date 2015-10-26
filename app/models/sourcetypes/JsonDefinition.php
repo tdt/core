@@ -11,6 +11,6 @@ class JsonDefinition extends SourceType
 
     protected $table = 'jsondefinitions';
 
-    protected $fillable = array('uri', 'description', 'title', 'geo_formatted');
+    protected $fillable = array('uri', 'description', 'title', 'jsontype');
 
 }
