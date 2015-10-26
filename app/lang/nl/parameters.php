@@ -100,6 +100,8 @@ return array(
     'shp_description_desc'              => 'Een korte tekst die context en extra informatie geeft bij de dataset.',
     'shp_epsg'                          => 'EPSG',
     'shp_epsg_desc'                     => 'De EPSG code van het SHP bestand.',
+    'shp_map_property'                  => 'Geo-eigenschap',
+    'shp_map_property_desc'             => 'De naam van de kolom die wordt getoond op een map visualisatie, indien de CSV geografische data bevat.',
     'sparql_endpoint'                   => 'SPARQL endpoint',
     'sparql_endpoint_desc'              => 'De URI van het SPARQL end-point (e.g. http://foobar:8890/sparql-auth).',
     'sparql_title'                      => 'Titel',
