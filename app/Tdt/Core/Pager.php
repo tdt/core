@@ -3,7 +3,7 @@
 namespace Tdt\Core;
 
 /**
- * Pager class.
+ * Pager class
  *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
@@ -23,9 +23,7 @@ class Pager
         $link_value = '';
 
         foreach ($paging as $keyword => $page_info) {
-
             if (!in_array($keyword, self::$PAGING_KEYWORDS)) {
-
                 $key_words = implode(', ', self::$PAGING_KEYWORDS);
                 \App::abort(400, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
 
@@ -75,7 +73,6 @@ class Pager
 
         // Calculate the paging parameters and pass them with the data object
         if ($offset + $limit < $total_rows) {
-
             $paging['next'] = array($limit + $offset, $limit);
 
             $last_page = round($total_rows / $limit, 0);
@@ -99,23 +96,19 @@ class Pager
      */
     public static function calculateLimitAndOffset()
     {
-
         $limit = \Input::get('limit', self::$DEFAULT_PAGE_SIZE);
         $offset = \Input::get('offset', 0);
 
         // Calculate the limit and offset, if only page and optionally page_size are given
         if ($limit == self::$DEFAULT_PAGE_SIZE && $offset == 0) {
-
             $page = \Input::get('page', 1);
             $page_size = \Input::get('page_size', self::$DEFAULT_PAGE_SIZE);
 
             // Don't do extra work when page and page_size are also default values
             if ($page > 1 || $page_size != self::$DEFAULT_PAGE_SIZE) {
-
                 $offset = ($page -1)*$page_size;
                 $limit = $page_size;
             } elseif ($page == -1) {
-
                 $limit = PHP_INT_MAX;
                 $offset= 0;
             }
