@@ -60,7 +60,8 @@ class GEOJSONFormatter implements IFormatter
                 'geometry' => $geomIDs_geom[1],
                 'properties' => $dataRow
             );
-            if (!empty($id_prop = $dataObj->source_definition['map_property']) && !empty($dataRow[$id_prop])) {
+
+            if (!empty($dataObj->definition['map_property']) && !empty($dataRow[$id_prop])) {
                 $feature['id'] = $dataRow[$id_prop];
                 unset($dataRow[$id_prop]);
             }
