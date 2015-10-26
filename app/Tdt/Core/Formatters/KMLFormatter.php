@@ -30,7 +30,7 @@ class KMLFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         self::$definition = $dataObj->definition;
-        self::$map_property = $dataObj->source_definition['map_property'];
+        self::$map_property = $dataObj->definition['map_property'];
 
         // Build the body
         // KML header
