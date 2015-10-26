@@ -209,8 +209,8 @@ class KMLFormatter implements IFormatter
                     $name = $entry['name'];
                 }
 
-                if (!empty($dataObj->map_property) && !empty($entry[$dataObj->map_property])) {
-                    $name = $entry[$dataObj->map_property];
+                if (!empty(self::$map_property) && !empty($entry[self::$map_property])) {
+                    $name = $entry[self::$map_property];
                 }
 
                 $extendeddata = self::getExtendedDataElement($entry);
