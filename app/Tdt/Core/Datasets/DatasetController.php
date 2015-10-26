@@ -68,13 +68,10 @@ class DatasetController extends ApiController
                     $data_controller = \App::make($controller_class);
 
                     // Get REST parameters
-                    $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);
-                    $rest_parameters = ltrim($rest_parameters, '/');
-                    $rest_parameters = explode('/', $rest_parameters);
 
-                    if (empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])) {
-                        $rest_parameters = array();
-                    }
+                    $uri_segments = \Request::segments();
+                    $rest_parameters = array_diff($uri_segments, array($definition['collection_uri'], $definition['resource_name']));
+                    $rest_parameters = array_values($rest_parameters);
 
                     // Retrieve dataobject from datacontroller
                     $data = $data_controller->readData($source_definition, $rest_parameters);
@@ -276,13 +273,9 @@ class DatasetController extends ApiController
                 $data_controller = \App::make($controller_class);
 
                 // Get REST parameters
-                $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $identifier);
-                $rest_parameters = ltrim($rest_parameters, '/');
-                $rest_parameters = explode('/', $rest_parameters);
-
-                if (empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])) {
-                    $rest_parameters = array();
-                }
+                $uri_segments = \Request::segments();
+                $rest_parameters = array_diff($uri_segments, array($definition['collection_uri'], $definition['resource_name']));
+                $rest_parameters = array_values($rest_parameters);
 
                 // Retrieve dataobject from datacontroller
                 $data = $data_controller->readData($source_definition, $rest_parameters);
