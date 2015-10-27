@@ -40,7 +40,43 @@
         <li class="list-group-item">
             <h5 class="list-group-item-heading">License</h5>
             <p class="list-group-item-text">
+            @if (!empty($definition['rights_uri']) && filter_var($definition['rights_uri'], FILTER_VALIDATE_URL))
+                <a href="{{ $definition['rights_uri'] }}">{{ $definition['rights'] }}</a>
+            @else
                 {{ $definition['rights'] }}
+            @endif
+            </p>
+        </li>
+    @endif
+    @if(!empty($definition['contact_point']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">Contact</h5>
+            <p class="list-group-item-text">
+            @if(filter_var($definition['contact_point'], FILTER_VALIDATE_URL))
+                <a href="{{ $definition['contact_point'] }}">{{ $definition['contact_point'] }}</a>
+            @else
+                {{ $definition['contact_point'] }}
+            @endif
+            </p>
+        </li>
+    @endif
+    @if(!empty($definition['publisher_name']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">Publisher</h5>
+            <p class="list-group-item-text">
+                @if(!empty($definition['publisher_uri']) && filter_var($definition['publisher_uri'], FILTER_VALIDATE_URL))
+                    <a href="{{ $definition['publisher_uri'] }}">{{ $definition['publisher_name'] }}</a>
+                @else
+                    {{ $definition['publisher_name'] }}
+                @endif
+            </p>
+        </li>
+    @endif
+    @if(!empty($definition['keywords']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">Keywords</h5>
+            <p class="list-group-item-text">
+                {{ $definition['keywords'] }}
             </p>
         </li>
     @endif

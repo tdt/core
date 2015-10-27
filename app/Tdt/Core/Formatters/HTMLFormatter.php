@@ -54,10 +54,10 @@ class HTMLFormatter implements IFormatter
             }
         }
 
-            // Create the link to the dataset
+        // Create the link to the dataset
         $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
 
-            // Append rest parameters
+        // Append rest parameters
         if (!empty($dataObj->rest_parameters)) {
             $dataset_link .= '/' . implode('/', $dataObj->rest_parameters);
         }
@@ -96,10 +96,10 @@ class HTMLFormatter implements IFormatter
 
                 default:
                     if ($dataObj->is_semantic) {
-                                // This data object is always semantic
+                        // This data object is always semantic
                         $view = 'dataset.turtle';
 
-                                // Check if a configuration is given
+                        // Check if a configuration is given
                         $conf = array();
 
                         if (!empty($dataObj->semantic->conf)) {
@@ -116,12 +116,12 @@ class HTMLFormatter implements IFormatter
             }
 
         } elseif ($dataObj->is_semantic) {
-                // The data object can be semantic without a specified source type
+            // The data object can be semantic without a specified source type
             $view = 'dataset.code';
             $data = $dataObj->data->serialise('turtle');
 
         } else {
-                // Collection view
+            // Collection view
             $view = 'dataset.collection';
             $data = $dataObj->data;
         }
@@ -174,14 +174,13 @@ class HTMLFormatter implements IFormatter
             }
         }
 
-                // Add the distribution of the dataset
+        // Add the distribution of the dataset for SEO
         $format = '.json';
 
         if ($definition['source_type'] == 'ShpDefinition') {
             $format = '.geojson';
         }
 
-        // uri :distribution _:qdsf. _:qsdf a :DataDownload
         $dataDownload = $graph->newBNode();
 
         $graph->addResource($dataset_uri, 'schema:distribution', $dataDownload);
@@ -194,6 +193,10 @@ class HTMLFormatter implements IFormatter
 
             if (!empty($license) && !empty($license['url'])) {
                 $graph->addResource($dataset_uri, 'schema:license', $license['url']);
+            }
+
+            if (!empty($license)) {
+                $dataObj->definition['rights_uri'] = $license['url'];
             }
         }
 
