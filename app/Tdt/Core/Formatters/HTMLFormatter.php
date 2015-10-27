@@ -39,12 +39,18 @@ class HTMLFormatter implements IFormatter
 
         if (!empty($dataObj->paging)) {
             $input_array = array_except(\Input::all(), array('limit', 'offset'));
+
+            $query_string = '';
+            if (!empty($input_array)) {
+                $query_string = '&' . http_build_query($input_array);
+            }
+
             if (!empty($dataObj->paging['previous'])) {
-                $prev_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['previous'][0] . '&limit=' . $dataObj->paging['previous'][1];
+                $prev_link = '?offset=' . $dataObj->paging['previous'][0] . '&limit=' . $dataObj->paging['previous'][1] . $query_string;
             }
 
             if (!empty($dataObj->paging['next'])) {
-                $next_link = '?' . http_build_query($input_array) . '&offset=' . $dataObj->paging['next'][0] . '&limit=' . $dataObj->paging['next'][1];
+                $next_link = '?offset=' . $dataObj->paging['next'][0] . '&limit=' . $dataObj->paging['next'][1] . $query_string;
             }
         }
 
