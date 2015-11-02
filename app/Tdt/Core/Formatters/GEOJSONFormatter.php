@@ -126,7 +126,14 @@ class GEOJSONFormatter implements IFormatter
                 'type' => 'Polygon',
                 'coordinates' => self::convertCoordinateMultiArray($dataRow[$geo['polygon']])
             );
+        } elseif (!empty($geo['multipoint'])) {
+            array_push($identifiers, $geo['multipoint']);
+            $geometry = array(
+                'type' => 'MultiPoint',
+                'coordinates' => self::convertCoordinateSingleArray($dataRow[$geo['multipoint']])
+            );
         }
+
         return array($identifiers, $geometry);
     }
 
@@ -153,6 +160,20 @@ class GEOJSONFormatter implements IFormatter
         $result = array();
         foreach (explode(';', $str) as $coordinateArrayStr) {
             array_push($result, self::convertCoordinateArray($coordinateArrayStr));
+        }
+        return $result;
+    }
+
+    /**
+     * @param $str string eg: "1.1,2.2; 3.3,4.4; 5.5,6.6"
+     * @return array eg: ((1.1, 2.2), (3.3, 4.4), (5.5, 6.6), (7.7, 8.8))
+     */
+    public static function convertCoordinateSingleArray($str)
+    {
+        $result = array();
+        foreach (explode(';', $str) as $coordinateArrayStr) {
+            $coordinatesArray = explode(',', $coordinateArrayStr);
+            array_push($result, array(floatval($coordinatesArray[0]), floatval($coordinatesArray[1])));
         }
         return $result;
     }

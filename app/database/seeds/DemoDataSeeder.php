@@ -433,11 +433,11 @@ class DemoDataSeeder extends Seeder
                                 'geo' => array(
                                             array(
                                                 'path' => 'x',
-                                                'property' => 'latitude',
+                                                'property' => 'longitude',
                                             ),
                                             array(
                                                 'path' => 'y',
-                                                'property' => 'longitude',
+                                                'property' => 'latitude',
                                             ),
                                         ),
                                 ),

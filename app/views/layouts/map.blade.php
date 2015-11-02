@@ -24,18 +24,16 @@
                 minZoom: 3
             }).addTo(map);
 
-
             var data = omnivore.kml('{{ $url }}')
                 .on('ready', function() {
-                    map.fitBounds(data.getBounds(), {padding: [20, 20]});
 
                     data.eachLayer(function(layer) {
-                        var popup = "<strong>" + layer.feature.properties.name + "</strong>\n";
-                        var description = layer.feature.properties.description;
-
-                        if (description) {
-                            popup += description;
-                        }
+                        var popup = '';
+                        $.each(layer.feature.properties, function (key, val) {
+                            if (key != 'name' && key != 'description') {
+                                popup += "<strong>" + key + ": " + val + "</strong>\n";
+                            }
+                        });
 
                         layer.bindPopup(popup);
                     });

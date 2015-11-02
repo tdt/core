@@ -22,6 +22,22 @@ class SHPController extends ADataController
     private $tabular_columns;
     private $geo_property;
 
+    private static $RECORD_TYPES = [
+      0 => "Null Shape",
+      1 => "Point",
+      3 => "PolyLine",
+      5 => "Polygon",
+      8 => "MultiPoint",
+      11 => "PointZ",
+      13 => "PolyLineZ",
+      15 => "PolygonZ",
+      18 => "MultiPointZ",
+      21 => "PointM",
+      23 => "PolyLineM",
+      25 => "PolygonM",
+      28 => "MultiPointM",
+    ];
+
     public function __construct(TabularColumnsRepositoryInterface $tabular_columns, GeoPropertyRepositoryInterface $geo_property)
     {
         $this->tabular_columns = $tabular_columns;
@@ -46,7 +62,7 @@ class SHPController extends ADataController
 
         $columns = array();
 
-        $epsg = $source_definition['epsg'];
+        $this->epsg = $source_definition['epsg'];
 
         // The tmp folder of the system, if none is given
         // abort the process
@@ -119,57 +135,34 @@ class SHPController extends ADataController
                     // Read the shape data
                     $shp_data = $record->getShpData();
 
-                    if (!empty($epsg)) {
-                        $proj4 = new \Proj4php();
-                        $projSrc = new \Proj4phpProj('EPSG:'. $epsg, $proj4);
-                        $projDest = new \Proj4phpProj('EPSG:4326', $proj4);
+                    $shape_type = self::$RECORD_TYPES[$record->getTypeCode()];
+
+                    // Prepare the projection class
+                    $this->proj4 = new \Proj4php();
+
+                    $this->projSrc = new \Proj4phpProj('EPSG:'. $this->epsg, $this->proj4);
+                    $this->projDest = new \Proj4phpProj('EPSG:4326', $this->proj4);
+
+                    $geometry = [];
+
+                    switch (strtolower($shape_type)) {
+                        case 'point':
+                            $point = $this->parsePoint($shp_data);
+
+                            $rowobject->x = $point['x'];
+                            $rowobject->y = $point['y'];
+                            break;
+                        case 'polyline':
+                            $rowobject->parts = $this->parsePolyline($shp_data);
+                            break;
+                        case 'polygon':
+                            $rowobject->parts = $this->parsePolygon($shp_data);
+                            break;
+                        case 'multipoint':
+                            $rowobject->points = $this->parseMultipoint($shp_data);
+                            break;
                     }
 
-                    // It it's not a point, it's a collection of coordinates describing a shape
-                    if (!empty($shp_data['parts'])) {
-                        $parts = array();
-                        foreach ($shp_data['parts'] as $part) {
-                            $points = array();
-
-                            foreach ($part['points'] as $point) {
-                                $x = $point['x'];
-                                $y = $point['y'];
-
-                                // Translate the coordinates to WSG84 geo coordinates
-                                if (!empty($epsg)) {
-                                    $pointSrc = new \proj4phpPoint($x, $y);
-
-                                    $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
-                                    $x = $pointDest->x;
-                                    $y = $pointDest->y;
-                                }
-
-                                $points[] = $x.','.$y;
-                            }
-                            array_push($parts, implode(" ", $points));
-                        }
-
-                        // Parts only contains 1 shape, thus 1 geo entry
-                        $alias = reset($geo);
-
-                        $rowobject->$alias = implode(';', $parts);
-                    }
-
-                    if (isset($shp_data['x'])) {
-                        $x = $shp_data['x'];
-                        $y = $shp_data['y'];
-
-                        if (!empty($epsg)) {
-                            $pointSrc = new \proj4phpPoint($x, $y);
-                            $pointDest = $proj4->transform($projSrc, $projDest, $pointSrc);
-                            $x = $pointDest->x;
-                            $y = $pointDest->y;
-
-                        }
-
-                        $rowobject->$geo['longitude'] = $x;
-                        $rowobject->$geo['latitude'] = $y;
-                    }
                     array_push($arrayOfRowObjects, $rowobject);
                 }
 
@@ -187,13 +180,121 @@ class SHPController extends ADataController
             $data_result->data = $arrayOfRowObjects;
             $data_result->geo = $geo;
             $data_result->paging = $paging;
-            $data_result->preferred_formats = array('map');
+            $data_result->preferred_formats = array('map', 'geojson');
 
             return $data_result;
 
         } catch (Exception $ex) {
             \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
+    }
+
+    private function parsePoint($shp_data)
+    {
+        // x = long, y = lat
+        $x = $shp_data['x'];
+        $y = $shp_data['y'];
+
+        if (!empty($x) && !empty($y)) {
+            if (!empty($this->epsg) && $this->epsg != 4326) {
+                $pointSrc = new \proj4phpPoint($x, $y);
+
+                $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+                $x = $pointDest->x;
+                $y = $pointDest->y;
+            }
+
+            $geo['x'] = $x;
+            $geo['y'] = $y;
+        }
+
+        return $geo;
+    }
+
+    private function parsePolyline($shp_data)
+    {
+        $parts = array();
+
+        foreach ($shp_data['parts'] as $part) {
+            $points = array();
+
+            foreach ($part['points'] as $point) {
+                $x = $point['x'];
+                $y = $point['y'];
+
+                // Translate the coordinates to WSG84 geo coordinates
+                if (!empty($this->epsg)) {
+                    $pointSrc = new \proj4phpPoint($x, $y);
+
+                    $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+                    $x = $pointDest->x;
+                    $y = $pointDest->y;
+                }
+
+                $points[] = $x.','.$y;
+            }
+            array_push($parts, implode(" ", $points));
+        }
+
+        // Parts only contains 1 shape, thus 1 geo entry
+        $alias = reset($geo);
+
+        return implode(';', $parts);
+    }
+
+    private function parsePolygon($shp_data)
+    {
+        $parts = array();
+
+        foreach ($shp_data['parts'] as $part) {
+            $points = array();
+
+            foreach ($part['points'] as $point) {
+                $x = $point['x'];
+                $y = $point['y'];
+
+                // Translate the coordinates to WSG84 geo coordinates
+                if (!empty($this->epsg)) {
+                    $pointSrc = new \proj4phpPoint($x, $y);
+
+                    $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+                    $x = $pointDest->x;
+                    $y = $pointDest->y;
+                }
+
+                $points[] = $x.','.$y;
+            }
+            array_push($parts, implode(" ", $points));
+        }
+
+        // Parts only contains 1 shape, thus 1 geo entry
+        $alias = reset($geo);
+
+        return $parts = implode(';', $parts);
+    }
+
+    private function parseMultipoint($shp_data)
+    {
+        //dd($shp_data);
+        foreach ($shp_data['points'] as $point) {
+            $x = $point['x'];
+            $y = $point['y'];
+
+            if (!empty($x) && !empty($y)) {
+                if (!empty($this->epsg)) {
+                    $pointSrc = new \proj4phpPoint($x, $y);
+
+                    $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+
+                    $x = $pointDest->x;
+                    $y = $pointDest->y;
+                }
+
+                $points[] = $x . ',' . $y;
+            }
+        }
+
+        return implode(';', $points);
     }
 
     /**
@@ -252,11 +353,14 @@ class SHPController extends ADataController
         // Get the geographical column names
         // Either coords will be set (identified by the parts)
         // or a lat long will be set (identified by x and y)
+
         if (!empty($shp_data['parts'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
         } elseif (!empty($shp_data['x'])) {
             array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
             array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
+        } elseif (!empty($shp_data['points'])) {
+            array_push($columns, array('index' => $column_index, 'column_name' => 'points', 'column_name_alias' => 'points', 'is_pk' => 0));
         } else {
             \App::abort(400, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported. The supported geometries are Null Shape, Point, PolyLine, Polygon and MultiPoint');
         }
@@ -310,21 +414,30 @@ class SHPController extends ADataController
         // Get the geographical column names
         // Either multiple coordinates will be set (identified by the parts)
         // or a lat long pair will be set (identified by x and y)
-        if (!empty($shp_data['parts'])) {
-            if ($shape_type === 'polyline') {
+        $shp_data = $record->getShpData();
+
+        $shape_type = self::$RECORD_TYPES[$record->getTypeCode()];
+
+        switch (strtolower($shape_type)) {
+            case 'point':
+                $x = $aliases['x'];
+                $y = $aliases['y'];
+
+                array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
+                array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
+                break;
+            case 'polyline':
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
-            } elseif ($shape_type === 'polygon') {
+                break;
+            case 'polygon':
                 $parts = $aliases['parts'];
-                array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
-            } else { // TODO support more types
-                \App::abort(400, 'Provided geometric type ($shape_type) is not supported');
-            }
-        } elseif (isset($shp_data['x'])) {
-            $x = $aliases['x'];
-            $y = $aliases['y'];
-            array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
-            array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
+                array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
+                break;
+            case 'multipoint':
+                $parts = $aliases['points'];
+                array_push($geo_properties, array('property' => 'multipoint', 'path' => $parts));
+                break;
         }
 
         return $geo_properties;

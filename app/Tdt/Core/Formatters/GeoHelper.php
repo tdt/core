@@ -1,4 +1,7 @@
 <?php
+
+namespace Tdt\Core\Formatters;
+
 /**
  * Helper class for formatters for geo related things.
  *
@@ -6,9 +9,6 @@
  * @license AGPLv3
  * @author Dieter De Paepe
  */
-
-namespace Tdt\Core\Formatters;
-
 
 class GeoHelper
 {

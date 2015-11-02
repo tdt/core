@@ -74,9 +74,20 @@ class KMLFormatter implements IFormatter
         return $result;
     }
 
-    private static function getExtendedDataElement($value)
+    private static function getExtendedDataElement($values)
     {
         $result = "<ExtendedData>";
+        $ignore = ['parts', 'points', 'point'];
+
+        foreach ($values as $key => $val) {
+            if (!in_array($key, $ignore)) {
+                $result .= '<Data name="' . $key . '">';
+                $result .= '<displayName>' . $key . '</displayName>';
+                $result .= '<value>' . $val . '</value>';
+                $result .= '</Data>';
+            }
+        }
+
         $result .= "</ExtendedData>";
         return $result;
     }
@@ -242,6 +253,12 @@ class KMLFormatter implements IFormatter
 
                     } elseif ($geo_type == 'polygon') {
                         $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] ."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                    } elseif ($geo_type == 'multipoint') {
+                        $body .= "<MultiGeometry>";
+                        foreach (explode(';', $entry[$geo['multipoint']]) as $point) {
+                            $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
+                        }
+                        $body .= '</MultiGeometry>';
                     } else {
                         \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
                     }
