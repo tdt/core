@@ -236,9 +236,6 @@ class SHPController extends ADataController
             array_push($parts, implode(" ", $points));
         }
 
-        // Parts only contains 1 shape, thus 1 geo entry
-        $alias = reset($geo);
-
         return implode(';', $parts);
     }
 
@@ -266,9 +263,6 @@ class SHPController extends ADataController
             }
             array_push($parts, implode(" ", $points));
         }
-
-        // Parts only contains 1 shape, thus 1 geo entry
-        $alias = reset($geo);
 
         return $parts = implode(';', $parts);
     }
