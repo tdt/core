@@ -26,6 +26,7 @@
 
             var data = omnivore.kml('{{ $url }}')
                 .on('ready', function() {
+                    map.fitBounds(data.getBounds(), {padding: [20, 20]});
 
                     data.eachLayer(function(layer) {
                         var popup = '';

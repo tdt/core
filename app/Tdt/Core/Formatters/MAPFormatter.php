@@ -31,10 +31,6 @@ class MAPFormatter implements IFormatter
         $url = Request::url();
         $url = preg_replace('/\.([^\.]*)$/m', '.kml', $url);
 
-        /*if (substr($url, -7) != '.kml') {
-            $url .= '.kml';
-        }*/
-
         $resource = $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'];
 
         // Render the view
