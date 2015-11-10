@@ -80,6 +80,11 @@ class GEOJSONFormatter implements IFormatter
             'type' => 'FeatureCollection',
             'features' => $features);
 
+        // Only add bounding box if we have features and are viewing the entire dataset.
+        if (!empty($features) && empty($dataObj->paging)) {
+            $result['bbox'] = self::boundingBox($features);
+        }
+
         return json_encode($result);
     }
 
@@ -170,6 +175,74 @@ class GEOJSONFormatter implements IFormatter
         }
 
         return array($identifiers, $geometry);
+    }
+
+    /**
+     * Returns an array of n*2 numbers, where n is the maximum dimension of each
+     * coordinate present in the dataset. The first n numbers are the lower bounds of each
+     * dimension, the latter n numbers are the upper bounds of each dimension.
+     * @param $features array features for which to calculate the bounds
+     * @return array
+     */
+    public static function boundingBox($features)
+    {
+        //The maximum dimensionality shared by all features (most likely 2 or 3).
+        // E.g.: Some features may be 2D, some may be 3D, in which case this value
+        // will be set to 2.
+        $maxDimension = 100;
+        $lowbounds = array();
+        $topbounds = array();
+        foreach ($features as $feature) {
+            if (empty($feature['geometry'])) {
+                // Geometry can be null.
+                continue;
+            }
+
+            $coordinateList = array();
+            self::toCoordinateList($feature['geometry']['coordinates'], $coordinateList);
+
+            foreach ($coordinateList as $coordinate) {
+                $maxDimension = min($maxDimension, count($coordinate));
+                for ($dim = 0; $dim < $maxDimension; $dim += 1) {
+                    if (empty($lowbounds[$dim])) {
+                        // First coordinate encountered
+                        $lowbounds[$dim] = $coordinate[$dim];
+                        $topbounds[$dim] = $coordinate[$dim];
+                    } else {
+                        $lowbounds[$dim] = min($lowbounds[$dim], $coordinate[$dim]);
+                        $topbounds[$dim] = max($topbounds[$dim], $coordinate[$dim]);
+                    }
+                }
+            }
+        }
+        return array_merge(
+            array_slice($lowbounds, 0, $maxDimension),
+            array_slice($topbounds, 0, $maxDimension));
+    }
+
+    /**
+     * Converts a coordinate array of a feature of any type to an array containing
+     * all used coordinates. Each coordinate is represented by an array of numbers, with one
+     * number for each dimension.
+     * @param $coordinatesArray
+     * @param $out array eg for 2D data: ((1, 1), (2, 2), (3, 3))
+     */
+    public static function toCoordinateList($coordinatesArray, &$out)
+    {
+        if (!empty($coordinatesArray) && !is_array($coordinatesArray[0])) {
+            array_push($out, $coordinatesArray);
+            return;
+        }
+
+        foreach ($coordinatesArray as $array) {
+            if (empty($array))
+                continue;
+            if (is_array($array[0])) {
+                self::toCoordinateList($array, $out);
+            } else {
+                array_push($out, $array);
+            }
+        }
     }
 
     /**
