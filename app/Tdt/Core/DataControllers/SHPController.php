@@ -10,11 +10,15 @@
 
 namespace Tdt\Core\DataControllers;
 
+use proj4php\Proj;
+use proj4php\Proj4php;
+use proj4php\Point;
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
 use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
 use muka\ShapeReader\ShapeReader;
+use Tdt\Core\Repositories\Interfaces\GeoprojectionRepositoryInterface;
 
 class SHPController extends ADataController
 {
@@ -23,25 +27,29 @@ class SHPController extends ADataController
     private $geo_property;
 
     private static $RECORD_TYPES = [
-      0 => "Null Shape",
-      1 => "Point",
-      3 => "PolyLine",
-      5 => "Polygon",
-      8 => "MultiPoint",
-      11 => "PointZ",
-      13 => "PolyLineZ",
-      15 => "PolygonZ",
-      18 => "MultiPointZ",
-      21 => "PointM",
-      23 => "PolyLineM",
-      25 => "PolygonM",
-      28 => "MultiPointM",
+        0 => "Null Shape",
+        1 => "Point",
+        3 => "PolyLine",
+        5 => "Polygon",
+        8 => "MultiPoint",
+        11 => "PointZ",
+        13 => "PolyLineZ",
+        15 => "PolygonZ",
+        18 => "MultiPointZ",
+        21 => "PointM",
+        23 => "PolyLineM",
+        25 => "PolygonM",
+        28 => "MultiPointM",
     ];
 
-    public function __construct(TabularColumnsRepositoryInterface $tabular_columns, GeoPropertyRepositoryInterface $geo_property)
-    {
+    public function __construct(
+        TabularColumnsRepositoryInterface $tabular_columns,
+        GeoPropertyRepositoryInterface $geo_property,
+        GeoprojectionRepositoryInterface $projections
+    ) {
         $this->tabular_columns = $tabular_columns;
         $this->geo_property = $geo_property;
+        $this->projections = $projections;
     }
 
     public function readData($source_definition, $rest_parameters = array())
@@ -137,11 +145,18 @@ class SHPController extends ADataController
 
                     $shape_type = self::$RECORD_TYPES[$record->getTypeCode()];
 
-                    // Prepare the projection class
-                    $this->proj4 = new \Proj4php();
+                    // Get the projection code
+                    $projection = $this->projections->getByCode($this->epsg);
+                    $projCode = $projection['projection'];
 
-                    $this->projSrc = new \Proj4phpProj('EPSG:'. $this->epsg, $this->proj4);
-                    $this->projDest = new \Proj4phpProj('EPSG:4326', $this->proj4);
+                    if (empty($projCode)) {
+                        \App::abort(400, "Could not find a supported EPSG code.");
+                    }
+
+                    $this->proj4 = new Proj4php();
+
+                    $this->projSrc = new Proj('EPSG:' . $this->epsg, $this->proj4);
+                    $this->projDest = new Proj('EPSG:4326', $this->proj4);
 
                     $geometry = [];
 
@@ -160,6 +175,22 @@ class SHPController extends ADataController
                             break;
                         case 'multipoint':
                             $rowobject->points = $this->parseMultipoint($shp_data);
+                            break;
+                        case 'pointz':
+                            $point = $this->parsePointZ($shp_data);
+
+                            $rowobject->x = $point['x'];
+                            $rowobject->y = $point['y'];
+                            $rowobject->z = $point['z'];
+                            break;
+                        case 'polylinez':
+                            $rowobject->parts = $this->parsePolylineZ($shp_data);
+                            break;
+                        case 'polygonz':
+                            $rowobject->parts = $this->parsePolygonZ($shp_data);
+                            break;
+                        case 'multipointz':
+                            $rowobject->points = $this->parseMultiPointZ($shp_data);
                             break;
                     }
 
@@ -183,7 +214,6 @@ class SHPController extends ADataController
             $data_result->preferred_formats = array('map', 'geojson');
 
             return $data_result;
-
         } catch (Exception $ex) {
             \App::abort(500, "Something went wrong while putting the SHP files in a temporary directory or during the extraction of the SHP data. The error message is: $ex->getMessage().");
         }
@@ -197,7 +227,7 @@ class SHPController extends ADataController
 
         if (!empty($x) && !empty($y)) {
             if (!empty($this->epsg) && $this->epsg != 4326) {
-                $pointSrc = new \proj4phpPoint($x, $y);
+                $pointSrc = new Point($x, $y);
 
                 $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
                 $x = $pointDest->x;
@@ -206,6 +236,31 @@ class SHPController extends ADataController
 
             $geo['x'] = $x;
             $geo['y'] = $y;
+        }
+
+        return $geo;
+    }
+
+    private function parsePointZ($shp_data)
+    {
+        // x = long, y = lat
+        $x = $shp_data['x'];
+        $y = $shp_data['y'];
+        $z = $shp_data['z'];
+
+        if (!empty($x) && !empty($y) && !empty($z)) {
+            if (!empty($this->epsg) && $this->epsg != 4326) {
+                $pointSrc = new Point($x, $y, $z);
+
+                $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+                $x = $pointDest->x;
+                $y = $pointDest->y;
+                $z = $pointDest->z;
+            }
+
+            $geo['x'] = $x;
+            $geo['y'] = $y;
+            $geo['z'] = $z;
         }
 
         return $geo;
@@ -224,14 +279,43 @@ class SHPController extends ADataController
 
                 // Translate the coordinates to WSG84 geo coordinates
                 if (!empty($this->epsg)) {
-                    $pointSrc = new \proj4phpPoint($x, $y);
+                    $pointSrc = new Point($x, $y);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
                     $x = $pointDest->x;
                     $y = $pointDest->y;
                 }
 
-                $points[] = $x.','.$y;
+                $points[] = $x . ',' . $y;
+            }
+            array_push($parts, implode(" ", $points));
+        }
+
+        return implode(';', $parts);
+    }
+
+    private function parsePolylineZ($shp_data)
+    {
+        $parts = array();
+
+        foreach ($shp_data['parts'] as $part) {
+            $points = array();
+
+            foreach ($part['points'] as $point) {
+                $x = $point['x'];
+                $y = $point['y'];
+                $z = $point['z'];
+
+                // Translate the coordinates to WSG84 geo coordinates
+                if (!empty($this->epsg)) {
+                    $pointSrc = new Point($x, $y, $z);
+
+                    $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+                    $x = $pointDest->x;
+                    $y = $pointDest->y;
+                }
+
+                $points[] = $x . ',' . $y . ',' . $z;
             }
             array_push($parts, implode(" ", $points));
         }
@@ -252,14 +336,44 @@ class SHPController extends ADataController
 
                 // Translate the coordinates to WSG84 geo coordinates
                 if (!empty($this->epsg)) {
-                    $pointSrc = new \proj4phpPoint($x, $y);
+                    $pointSrc = new Point($x, $y);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
                     $x = $pointDest->x;
                     $y = $pointDest->y;
                 }
 
-                $points[] = $x.','.$y;
+                $points[] = $x . ',' . $y;
+            }
+            array_push($parts, implode(" ", $points));
+        }
+
+        return $parts = implode(';', $parts);
+    }
+
+    private function parsePolygonZ($shp_data)
+    {
+        $parts = array();
+
+        foreach ($shp_data['parts'] as $part) {
+            $points = array();
+
+            foreach ($part['points'] as $point) {
+                $x = $point['x'];
+                $y = $point['y'];
+                $z = $point['z'];
+
+                // Translate the coordinates to WSG84 geo coordinates
+                if (!empty($this->epsg)) {
+                    $pointSrc = new Point($x, $y, $z);
+
+                    $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+                    $x = $pointDest->x;
+                    $y = $pointDest->y;
+                    $z = $pointDest->z;
+                }
+
+                $points[] = $x . ',' . $y . ',' . $z;
             }
             array_push($parts, implode(" ", $points));
         }
@@ -269,14 +383,13 @@ class SHPController extends ADataController
 
     private function parseMultipoint($shp_data)
     {
-        //dd($shp_data);
         foreach ($shp_data['points'] as $point) {
             $x = $point['x'];
             $y = $point['y'];
 
             if (!empty($x) && !empty($y)) {
                 if (!empty($this->epsg)) {
-                    $pointSrc = new \proj4phpPoint($x, $y);
+                    $pointSrc = new Point($x, $y);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
 
@@ -285,6 +398,31 @@ class SHPController extends ADataController
                 }
 
                 $points[] = $x . ',' . $y;
+            }
+        }
+
+        return implode(';', $points);
+    }
+
+    private function parseMultipointZ($shp_data)
+    {
+        foreach ($shp_data['points'] as $point) {
+            $x = $point['x'];
+            $y = $point['y'];
+            $z = $point['z'];
+
+            if (!empty($x) && !empty($y) && !empty($z)) {
+                if (!empty($this->epsg)) {
+                    $pointSrc = new Point($x, $y, $z);
+
+                    $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
+
+                    $x = $pointDest->x;
+                    $y = $pointDest->y;
+                    $z = $pointDest->z;
+                }
+
+                $points[] = $x . ',' . $y . ',' . $z;
             }
         }
 
@@ -337,6 +475,7 @@ class SHPController extends ADataController
         foreach ($dbf_fields as $field => $value) {
             // Remove non-printable characters
             $property = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $field);
+            \Log::info($property);
 
             array_push($columns, array('index' => $column_index, 'column_name' => $property, 'column_name_alias' => $property, 'is_pk' => ($pk === $column_index)));
             $column_index++;
@@ -420,17 +559,38 @@ class SHPController extends ADataController
                 array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
                 array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
                 break;
+            case 'pointz':
+                $x = alias['x'];
+                $y = alias['y'];
+                $z = alias['z'];
+
+                array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
+                array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
+                array_push($geo_properties, array('property' => 'elevation', 'path' => $z));
+                break;
             case 'polyline':
                 $parts = $aliases['parts'];
                 array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
                 break;
+            case 'polylinez':
+                $parts = $aliases['parts'];
+                array_push($geo_properties, array('property' => 'polylinez', 'path' => $parts));
+                break;
             case 'polygon':
                 $parts = $aliases['parts'];
-                array_push($geo_properties, array('property' => 'polyline', 'path' => $parts));
+                array_push($geo_properties, array('property' => 'polygon', 'path' => $parts));
+                break;
+            case 'polygonz':
+                $parts = $aliases['parts'];
+                array_push($geo_properties, array('property' => 'polygonz', 'path' => $parts));
                 break;
             case 'multipoint':
                 $parts = $aliases['points'];
                 array_push($geo_properties, array('property' => 'multipoint', 'path' => $parts));
+                break;
+            case 'multipointz':
+                $parts = $aliases['points'];
+                array_push($geo_properties, array('property' => 'multipointz', 'path' => $parts));
                 break;
         }
 

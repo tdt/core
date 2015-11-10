@@ -115,5 +115,10 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\ElasticsearchDefinitionRepositoryInterface',
             'Tdt\Core\Repositories\ElasticsearchDefinitionRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\GeoprojectionRepositoryInterface',
+            'Tdt\Core\Repositories\GeoprojectionRepository'
+        );
     }
 }

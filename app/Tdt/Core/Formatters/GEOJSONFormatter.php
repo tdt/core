@@ -40,6 +40,7 @@ class GEOJSONFormatter implements IFormatter
         }
 
         $features = array();
+
         foreach ($body as $dataRow) {
             if (is_object($dataRow)) {
                 $dataRow = get_object_vars($dataRow);
@@ -83,14 +84,15 @@ class GEOJSONFormatter implements IFormatter
     }
 
     /**
-     * @param $geo array an array holding the identifier(s) for the geographical attribute
-     * @param $dataRow array an array holding attributes
-     * @return array an array containing the identifier(s) of the selected attribute and an
+     * @param array $geo     an array holding the identifier(s) for the geographical attribute
+     * @param array $dataRow an array holding data
+     * @return array        an array containing the identifier(s) of the selected attribute and an
      * object representing the extracted geometry
      */
     public static function findGeometry($geo, $dataRow)
     {
         $geometry = null;
+
         $identifiers = array();
         if (!empty($geo['longitude']) && !empty($geo['latitude'])) {
             array_push($identifiers, $geo['longitude']);
@@ -100,38 +102,71 @@ class GEOJSONFormatter implements IFormatter
                 'coordinates' => array(
                     floatval($dataRow[$geo['longitude']]),
                     floatval($dataRow[$geo['latitude']])));
-        } elseif (!empty($geo['point'])) {
-            array_push($identifiers, $geo['point']);
-            $coords = explode(',', $dataRow[$geo['point']]);
-            $geometry = array(
-                'type' => 'Point',
-                'coordinates' => array($coords[0], $coords[1])
-            );
-        } elseif (!empty($geo['multiline'])) {
-            array_push($identifiers, $geo['multiline']);
-            $coords = $dataRow[$geo['multiline']];
-            $geometry = array(
-                'type' => 'LineString',
-                'coordinates' => self::convertCoordinateArray($coords)
-            );
-        } elseif (!empty($geo['polyline'])) {
-            array_push($identifiers, $geo['polyline']);
-            $geometry = array(
-                'type' => 'MultiLineString',
-                'coordinates' => self::convertCoordinateMultiArray($dataRow[$geo['polyline']])
-            );
-        } elseif (!empty($geo['polygon'])) {
-            array_push($identifiers, $geo['polygon']);
-            $geometry = array(
-                'type' => 'Polygon',
-                'coordinates' => self::convertCoordinateMultiArray($dataRow[$geo['polygon']])
-            );
-        } elseif (!empty($geo['multipoint'])) {
-            array_push($identifiers, $geo['multipoint']);
-            $geometry = array(
-                'type' => 'MultiPoint',
-                'coordinates' => self::convertCoordinateSingleArray($dataRow[$geo['multipoint']])
-            );
+        } else {
+            $geo_type = key($geo);
+
+            if (!empty($geo_type)) {
+                switch ($geo_type) {
+                    case 'point':
+                        array_push($identifiers, $geo['point']);
+                        $coords = explode(',', $dataRow[$geo['point']]);
+                        $geometry = array(
+                            'type' => 'Point',
+                            'coordinates' => array($coords[0], $coords[1])
+                            );
+                        break;
+                    case 'polyline':
+                        array_push($identifiers, $geo['polyline']);
+                        $geometry = array(
+                            'type' => 'MultiLineString',
+                            'coordinates' => self::convertCoordinateMultiArray($dataRow[$geo['polyline']])
+                            );
+                        break;
+                    case 'polygon':
+                        array_push($identifiers, $geo['polygon']);
+                        $geometry = array(
+                            'type' => 'Polygon',
+                            'coordinates' => self::convertCoordinateMultiArray($dataRow[$geo['polygon']])
+                            );
+                        break;
+                    case 'multipoint':
+                        array_push($identifiers, $geo['multipoint']);
+                        $geometry = array(
+                            'type' => 'MultiPoint',
+                            'coordinates' => self::convertCoordinateSingleArray($dataRow[$geo['multipoint']])
+                            );
+                        break;
+                    case 'pointz':
+                        array_push($identifiers, $geo['pointz']);
+                        $coords = explode(',', $dataRow[$geo['pointz']]);
+                        $geometry = array(
+                            'type' => 'Point',
+                            'coordinates' => array($coords[0], $coords[1], $coords[2])
+                            );
+                        break;
+                    case 'polylinez':
+                        array_push($identifiers, $geo['polylinez']);
+                        $geometry = array(
+                            'type' => 'MultiLineString',
+                            'coordinates' => self::convertCoordinateMultiArray($dataRow[$geo['polylinez']])
+                            );
+                        break;
+                    case 'polygonz':
+                        array_push($identifiers, $geo['polygonz']);
+                        $geometry = array(
+                            'type' => 'Polygon',
+                            'coordinates' => self::convertCoordinateMultiArray($dataRow[$geo['polygonz']])
+                            );
+                        break;
+                    case 'multipointz':
+                        array_push($identifiers, $geo['multipoint']);
+                        $geometry = array(
+                            'type' => 'MultiPoint',
+                            'coordinates' => self::convertCoordinateSingleArray($dataRow[$geo['multipointz']])
+                            );
+                        break;
+                }
+            }
         }
 
         return array($identifiers, $geometry);
@@ -146,7 +181,14 @@ class GEOJSONFormatter implements IFormatter
         $result = array();
         foreach (explode(' ', $str) as $coordinateStr) {
             $coordinateStrArray = explode(',', $coordinateStr);
-            array_push($result, array(floatval($coordinateStrArray[0]), floatval($coordinateStrArray[1])));
+
+            if (count($coordinateStrArray) == 2) {
+                array_push($result, array(floatval($coordinateStrArray[0]), floatval($coordinateStrArray[1])));
+            } elseif (count($coordinateStrArray) == 3) {
+                array_push($result, array(floatval($coordinateStrArray[0]), floatval($coordinateStrArray[1]), floatval($coordinateStrArray[2])));
+            } else {
+                \Log::error("400", "An invalid coordinate was parsed.");
+            }
         }
         return $result;
     }
@@ -173,7 +215,14 @@ class GEOJSONFormatter implements IFormatter
         $result = array();
         foreach (explode(';', $str) as $coordinateArrayStr) {
             $coordinatesArray = explode(',', $coordinateArrayStr);
-            array_push($result, array(floatval($coordinatesArray[0]), floatval($coordinatesArray[1])));
+
+            if (count($coordinatesArray) == 2) {
+                array_push($result, array(floatval($coordinatesArray[0]), floatval($coordinatesArray[1])));
+            } elseif (count($coordinatesArray) == 3) {
+                array_push($result, array(floatval($coordinatesArray[0]), floatval($coordinatesArray[1]), floatval($coordinatesArray[2])));
+            } else {
+                \Log::error("400", "An invalid coordinate was parsed.");
+            }
         }
         return $result;
     }

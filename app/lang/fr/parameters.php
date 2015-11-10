@@ -105,7 +105,7 @@ return array(
     'shp_epsg'                          => 'EPSG',
     'shp_epsg_desc'                     => 'Ce paramètre contient le code EPSG dans lequel les propriétés géométriques dans le fichier de forme sont codés.',
     'shp_map_property'                  => 'Propriété geo',
-    'shp_map_property_desc'             => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable. Non geo-graphical datasets are not affected by this property.',
+    'shp_map_property_desc'             => 'Le nom de la propriété qui identifie un objet à partir des données.',
     'sparql_endpoint'                   => 'SPARQL endpoint',
     'sparql_endpoint_desc'              => "L'URI du SPARQL endpoint (par exemple http://foobar:8890/sparql-auth).",
     'sparql_title'                      => 'Titre',

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "29ba392f402f8f5526c3b01fccf00148",
-    "content-hash": "03257f5ab4354a14ccaaa8d66ede405c",
+    "hash": "c1e7e2c5bc4d4f1e04dbafd5919497b3",
+    "content-hash": "1907acc829ee0cb96a1c366c30d445a3",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -578,59 +578,6 @@
                 "tokenizer"
             ],
             "time": "2015-01-10 01:09:28"
-        },
-        {
-            "name": "jsor/proj4php",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jsor/proj4php.git",
-                "reference": "efb9703d64c9690d491ae430ca694b3da7e5257e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jsor/proj4php/zipball/efb9703d64c9690d491ae430ca694b3da7e5257e",
-                "reference": "efb9703d64c9690d491ae430ca694b3da7e5257e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Rodrigue VILLETARD",
-                    "homepage": "http://sourceforge.net/users/gorghoa",
-                    "role": "developer"
-                },
-                {
-                    "name": "Moquet",
-                    "homepage": "http://sourceforge.net/users/julien2512",
-                    "role": "developer"
-                },
-                {
-                    "name": "Jan Sorgalla",
-                    "email": "jsorgalla@googlemail.com",
-                    "role": "maintainer"
-                }
-            ],
-            "description": "LGPL public translation of proj4js for PHP",
-            "homepage": "http://sourceforge.net/projects/proj4php/",
-            "keywords": [
-                "geo",
-                "proj4",
-                "projection"
-            ],
-            "time": "2015-09-13 17:48:07"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -1785,6 +1732,60 @@
                 "redis"
             ],
             "time": "2014-08-01 09:43:10"
+        },
+        {
+            "name": "proj4php/proj4php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/proj4php/proj4php.git",
+                "reference": "0a85667ad305b916847bac077560bd8ce494332a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/proj4php/proj4php/zipball/0a85667ad305b916847bac077560bd8ce494332a",
+                "reference": "0a85667ad305b916847bac077560bd8ce494332a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "proj4php\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Jason Judge",
+                    "email": "jason.judge@academe.co.uk",
+                    "homepage": "http://academe.co.uk",
+                    "role": "Developer"
+                },
+                {
+                    "name": "julien2512",
+                    "email": "moquet.julien@gmail.com",
+                    "homepage": "https://github.com/julien2512",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP-Class for geographic coordinates transformation using proj4 definitions, thanks to a translation from Proj4JS",
+            "homepage": "https://github.com/proj4php/proj4php",
+            "keywords": [
+                "coordinates",
+                "geographic",
+                "proj4",
+                "proj4js"
+            ],
+            "time": "2015-11-04 22:31:23"
         },
         {
             "name": "psr/log",
@@ -3128,7 +3129,7 @@
     "stability-flags": {
         "ml/json-ld": 20,
         "coreation/gisconverter": 20,
-        "jsor/proj4php": 20,
+        "proj4php/proj4php": 20,
         "muka/shape-reader": 20,
         "mockery/mockery": 20
     },

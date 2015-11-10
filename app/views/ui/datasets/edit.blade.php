@@ -77,6 +77,13 @@
                                 <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'boolean')
                                 <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" @if($source_definition->{$parameter}) checked='checked' @endif/>
+                            @elseif($object->type == 'list')
+                                <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
+                                    <option></option>
+                                    @foreach($object->list as $option)
+                                        <option @if ($source_definition->{$parameter} == $option) {{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                    @endforeach
+                                </select>
                             @endif
                             <div class='help-block'>
                                 {{ $object->description }}

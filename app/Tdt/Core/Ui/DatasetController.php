@@ -1,10 +1,12 @@
 <?php
 
 /**
- * The datasetcontroller
+ * The DatasetController: Takes care of the UI side of managing datasets.
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
+ * @author Jan Vansteenlandt <jan@okfn.be>
  */
 namespace Tdt\Core\Ui;
 
@@ -80,13 +82,30 @@ class DatasetController extends UiController
 
                         }
 
-
                         $parameters_dc[$parameter] = $object;
 
                     } else {
                         // Filter optional vs required
-                        if ($object->type == 'list') {
+                        if ($object->type == 'list' && (strpos($object->list, '|') !== false)) {
                             $object->list = explode('|', $object->list);
+                        } elseif ($object->type == 'list') {
+                            $uri = $object->list;
+
+                            // Check list cache
+                            if (empty($lists[$uri])) {
+                                $data = json_decode($this->getDocument($uri));
+                                $data_set = array();
+
+                                foreach ($data as $o) {
+                                    if (!empty($o->{$object->list_option})) {
+                                        $data_set[] = $o->{$object->list_option};
+                                    }
+                                }
+
+                                $lists[$uri] = $data_set;
+                            }
+
+                            $object->list = $lists[$uri];
                         }
 
                         if ($object->required) {
@@ -111,7 +130,6 @@ class DatasetController extends UiController
                             }
                             break;
                     }
-
                 }
             }
 
@@ -200,6 +218,29 @@ class DatasetController extends UiController
                         $parameters_dc[$parameter] = $object;
                     } else {
                         // Filter optional vs required
+                        // Filter optional vs required
+                        if ($object->type == 'list' && (strpos($object->list, '|') !== false)) {
+                            $object->list = explode('|', $object->list);
+                        } elseif ($object->type == 'list') {
+                            $uri = $object->list;
+
+                            // Check list cache
+                            if (empty($lists[$uri])) {
+                                $data = json_decode($this->getDocument($uri));
+                                $data_set = array();
+
+                                foreach ($data as $o) {
+                                    if (!empty($o->{$object->list_option})) {
+                                        $data_set[] = $o->{$object->list_option};
+                                    }
+                                }
+
+                                $lists[$uri] = $data_set;
+                            }
+
+                            $object->list = $lists[$uri];
+                        }
+
                         $parameters_optional[$parameter] = $object;
                     }
                 }
@@ -208,8 +249,6 @@ class DatasetController extends UiController
 
             // Filter on unnecessary optional parameters
             unset($parameters_optional['cache_minutes']);
-
-            // TODO special treatment for draft
             unset($parameters_optional['draft']);
 
             return \View::make('ui.datasets.edit')

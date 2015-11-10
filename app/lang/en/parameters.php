@@ -104,7 +104,7 @@ return array(
     'shp_epsg'                          => 'EPSG',
     'shp_epsg_desc'                     => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
     'shp_map_property'                  => 'Map property',
-    'shp_map_property_desc'             => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable.',
+    'shp_map_property_desc'             => 'A common property that uniquely identifies an object.',
     'sparql_endpoint'                   => 'SPARQL endpoint',
     'sparql_endpoint_desc'              => 'The URI of the SPARQL end-point (e.g. http://foobar:8890/sparql-auth).',
     'sparql_title'                      => 'Title',

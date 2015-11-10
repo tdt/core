@@ -50,6 +50,10 @@ class BaseController extends \Controller
                         $controller = 'Tdt\\Core\\Definitions\\LanguageController';
                         $uri = str_replace('api/languages', '', $uri);
                         break;
+                    case 'geoprojections':
+                        $controller = 'Tdt\\Core\\Definitions\\GeoprojectionController';
+                        $uri = str_replace('api/geoprojections', '', $uri);
+                        break;
                     case 'licenses':
                         // Supported licenses request
                         $controller = 'Tdt\\Core\\Definitions\\LicenseController';

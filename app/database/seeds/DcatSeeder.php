@@ -27,6 +27,9 @@ class DcatSeeder extends Seeder
 
         // Seed the themes
         $this->seedThemes();
+
+        // Seed the geoprojections
+        $this->seedGeoProjections();
     }
 
     /**
@@ -95,7 +98,6 @@ class DcatSeeder extends Seeder
 
         // Try to get the themes from the ns.thedatatank.com (semantic data)
         try {
-
             $this->command->info('Trying to fetch new themes online.');
 
             $themes_graph = \EasyRdf_Graph::newAndLoad($uri);
@@ -113,15 +115,12 @@ class DcatSeeder extends Seeder
 
             // Fetch all of the themes
             foreach ($themes_graph->resourcesMatching('skos:inScheme') as $theme) {
-
                 if ($theme->get('skos:inScheme')->getUri() == $uri) {
-
                     $theme_uri = $theme->getUri();
 
                     $label = $theme->getLiteral('rdfs:label');
 
                     if (!empty($label) && !empty($theme_uri)) {
-
                         $label = $label->getValue();
 
                         $this->command->info('Added ' . $uri . ' with label ' . $label);
@@ -142,13 +141,11 @@ class DcatSeeder extends Seeder
 
         // If it's not available, get them from a file (json)
         if (!$themes_fetched) {
-
             $this->command->info('Trying to fetch the themes from the local json file containing a default set of themes.');
 
             $themes = json_decode(file_get_contents(app_path() . '/database/seeds/data/themes.json'));
 
             if (!empty($themes)) {
-
                 $this->command->info('Found new themes, removing the old ones.');
 
                 // Empty the themes table
@@ -168,6 +165,33 @@ class DcatSeeder extends Seeder
             } else {
                 $this->command->info('No themes were found in the local json file, the old ones will not be replaced.');
             }
+        }
+    }
+
+    private function seedGeoProjections()
+    {
+        $this->command->info('---- Geo projections ----');
+
+        $this->command->info('Fetching geoprojections from the local json file.');
+
+        $geoprojections = json_decode(file_get_contents(app_path() . '/database/seeds/data/geoprojections.json'));
+
+        if (!empty($geoprojections)) {
+            $this->command->info('Geoprojections have been found, deleting the current ones, and replacing them with the new ones.');
+
+            \Geoprojection::truncate();
+
+            foreach ($geoprojections as $language) {
+                \Geoprojection::create(array(
+                    'epsg' => $language->epsg,
+                    'projection' =>$language->projection,
+                ));
+            }
+
+            $this->command->info('Added the geoprojections from a local json file.');
+
+        } else {
+            $this->command->info('No languages have not been found, the old ones will not be replaced.');
         }
     }
 }
