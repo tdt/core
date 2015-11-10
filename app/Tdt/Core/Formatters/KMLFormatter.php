@@ -112,8 +112,12 @@ class KMLFormatter implements IFormatter
                 }
 
                 if ($lat_long) {
-                    unset($array[$lat_long[0]]);
+                    /*unset($array[$lat_long[0]]);
                     unset($array[$lat_long[1]]);
+
+                    if (!empty($array[$lat_long[2]])) {
+                        unset($array[$lat_long[2]]);
+                    }*/
 
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
@@ -153,15 +157,37 @@ class KMLFormatter implements IFormatter
                         // For data read from XML latitude and longitude will be an array of @value = 3.342...
                         $lat_val = $array[$lat_long[0]];
                         $lon_val = $array[$lat_long[1]];
-                        if (is_array($lat_val)) {
-                            $lat_val = reset($lat);
-                        }
-                        if (is_array($lon_val)) {
-                            $lon_val = reset($lon_val);
-                        }
 
-                        if ($lat_val != 0 || $lon_val != 0) {
-                            echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "</coordinates></Point>";
+                        if (!empty($array[$lat_long[2]])) {
+                            $z_val = $array[$lat_long[2]];
+
+                            if (is_array($lat_val)) {
+                                $lat_val = reset($lat);
+                            }
+
+                            if (is_array($lon_val)) {
+                                $lon_val = reset($lon_val);
+                            }
+
+                            if (is_array($z_val)) {
+                                $z_val = reset($z_val);
+                            }
+
+                            if ($lat_val != 0 || $lon_val != 0) {
+                                echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "," . $z_val . "</coordinates></Point>";
+                            }
+                        } else {
+                            if (is_array($lat_val)) {
+                                $lat_val = reset($lat);
+                            }
+
+                            if (is_array($lon_val)) {
+                                $lon_val = reset($lon_val);
+                            }
+
+                            if ($lat_val != 0 || $lon_val != 0) {
+                                echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "</coordinates></Point>";
+                            }
                         }
                     }
 

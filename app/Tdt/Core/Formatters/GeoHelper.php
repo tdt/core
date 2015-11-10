@@ -14,6 +14,7 @@ class GeoHelper
 {
     private static $LONGITUDE_NAMES = array('long', 'lon', 'longitude', 'lng');
     private static $LATITUDE_NAMES = array('lat', 'latitude');
+    private static $ELEVATION_NAMES = array('elevation');
 
     /**
      * Looks for the presence of commonly used names for latitude/longitude in the given array.
@@ -25,6 +26,7 @@ class GeoHelper
     {
         $latkey = false;
         $longkey = false;
+        $elevation = false;
 
         foreach (self::$LONGITUDE_NAMES as $prefix) {
             $longkey = self::keyExists($prefix, $array);
@@ -42,8 +44,20 @@ class GeoHelper
             }
         }
 
+        foreach (self::$ELEVATION_NAMES as $prefix) {
+            $elevation = self::keyExists($prefix, $array);
+
+            if ($elevation) {
+                break;
+            }
+        }
+
         if ($latkey && $longkey) {
-            return array($latkey, $longkey);
+            if ($elevation) {
+                return array($latkey, $longkey, $elevation);
+            } else {
+                return array($latkey, $longkey);
+            }
         } else {
             return null;
         }
