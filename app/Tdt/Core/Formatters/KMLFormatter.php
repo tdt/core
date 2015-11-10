@@ -112,13 +112,6 @@ class KMLFormatter implements IFormatter
                 }
 
                 if ($lat_long) {
-                    /*unset($array[$lat_long[0]]);
-                    unset($array[$lat_long[1]]);
-
-                    if (!empty($array[$lat_long[2]])) {
-                        unset($array[$lat_long[2]]);
-                    }*/
-
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
                 } elseif ($coordskey) {
@@ -158,7 +151,7 @@ class KMLFormatter implements IFormatter
                         $lat_val = $array[$lat_long[0]];
                         $lon_val = $array[$lat_long[1]];
 
-                        if (!empty($array[$lat_long[2]])) {
+                        if (!empty(@$array[$lat_long[2]])) {
                             $z_val = $array[$lat_long[2]];
 
                             if (is_array($lat_val)) {
