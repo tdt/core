@@ -80,7 +80,7 @@ class SPARQLController extends ADataController
         $filter = '';
 
         // Covers FROM <...> FROM <...> WHERE{ } , FROM <...> FROM <...> { }, WHERE { }, { }
-        $where_clause = '(.*?(FROM.+?{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
+        $where_clause = '(.+((FROM.*<.+>)+.*{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
         $matches = array();
 
         if ($keyword == 'select') {
@@ -99,11 +99,11 @@ class SPARQLController extends ADataController
             $filter = $matches[3][0];
         }
 
-        if (!empty($matches[4][0])) {
+        if (!empty($matches[4][0]) && empty($filter)) {
             $filter = $matches[4][0];
         }
 
-        if (!empty($matches[5][0])) {
+        if (!empty($matches[5][0]) && empty($filter)) {
             $filter = $matches[5][0];
         }
 
