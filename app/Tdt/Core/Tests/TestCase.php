@@ -61,6 +61,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         \XmlDefinition::truncate();
         \GeoProperty::truncate();
         \TabularColumns::truncate();
+        \Geoprojection::truncate();
     }
 
     /**
@@ -68,7 +69,6 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function updateRequest($method, $headers = array(), $data = array())
     {
-
         // Log in as admin - header
         $headers['Authorization'] = 'Basic YWRtaW46YWRtaW4=';
 

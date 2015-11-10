@@ -35,6 +35,11 @@ class HTMLFormatterTest extends BaseUITest
      */
     public function testMapView()
     {
+        \Geoprojection::create([
+            'epsg' => 4326,
+            'projection' => "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4326\"]]"
+        ]);
+
         $crawler = $this->client->request('GET', '/dresden/rivers');
         $this->assertResponseOk();
 

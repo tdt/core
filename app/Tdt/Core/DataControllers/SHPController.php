@@ -560,9 +560,9 @@ class SHPController extends ADataController
                 array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
                 break;
             case 'pointz':
-                $x = alias['x'];
-                $y = alias['y'];
-                $z = alias['z'];
+                $x = $aliases['x'];
+                $y = $aliases['y'];
+                $z = $aliases['z'];
 
                 array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
                 array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
