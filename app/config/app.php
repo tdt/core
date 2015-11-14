@@ -118,8 +118,7 @@ return array(
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Cartalyst\Sentry\SentryServiceProvider',
-        'Tdt\Core\Repositories\DbServiceProvider',
-        'Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider',
+        'Tdt\Core\Repositories\DbServiceProvider'
     ),
 
     /*
@@ -185,7 +184,6 @@ return array(
         'URL'             => 'Illuminate\Support\Facades\URL',
         'Validator'       => 'Illuminate\Support\Facades\Validator',
         'View'            => 'Illuminate\Support\Facades\View',
-        'GAMP'            => 'Irazasyed\LaravelGAMP\Facades\GAMP',
     ),
 
 );
