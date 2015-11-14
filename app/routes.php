@@ -56,10 +56,8 @@ App::error(function ($exception, $code) {
     $mimes = explode(',', $accept_header);
 
     if (in_array('text/html', $mimes) || in_array('application/xhtml+xml', $mimes)) {
-
         // Create HTML response, seperate templates for status codes
-        switch ($code)
-        {
+        switch ($code) {
             case 403:
                 return Response::view('errors.403', array('exception' => $exception), 403);
                 break;
@@ -74,7 +72,6 @@ App::error(function ($exception, $code) {
                 return Response::view('errors.default', array('exception' => $exception), $code);
         }
     } else {
-
         // Display a JSON error
         $error_json = new stdClass();
         $error_json->error = new stdClass();
@@ -102,4 +99,10 @@ App::error(function ($exception, $code) {
         return $response;
     }
 
+});
+
+App::finish(function ($request, $response) {
+    if (!empty(\Config::get('tracker.ga_id'))) {
+        Tdt\Core\Tracker::track($request, \Config::get('ga_id'));
+    }
 });

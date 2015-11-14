@@ -76,7 +76,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
         $model_name = $this->getModelName();
 
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
-        $extracted_columns = $this->extractColumns($model_definition);
+        $extracted_columns = $this->extractColumns($input);
 
         $input_columns = @$input['columns'];
 

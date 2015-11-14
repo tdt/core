@@ -75,10 +75,6 @@ class BaseController extends \Controller
                 }
 
                 break;
-            case 'discovery':
-                // Discovery document
-                $controller = 'Tdt\\Core\\Definitions\\DiscoveryController';
-                break;
             case '':
                 // Home URL requests
                 $controller = 'Tdt\\Core\\HomeController';

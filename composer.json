@@ -16,7 +16,7 @@
         }
     },
     "require": {
-        "laravel/framework": "4.1.29",
+        "laravel/framework": "4.2.0",
         "phpoffice/phpexcel": "1.8.0",
         "phpunit/phpunit" : "4.0.17",
         "easyrdf/easyrdf" : "0.9.1",
@@ -28,7 +28,8 @@
         "proj4php/proj4php" : "dev-master",
         "muka/shape-reader" : "dev-master",
         "elasticsearch/elasticsearch": "1.4.1",
-        "nesbot/carbon": "~1.14"
+        "nesbot/carbon": "~1.14",
+        "theiconic/php-ga-measurement-protocol": "^1.1"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
@@ -39,7 +40,8 @@
             "php artisan migrate:install",
             "php artisan migrate",
             "php artisan migrate --package=cartalyst/sentry",
-            "php artisan db:seed"
+            "php artisan db:seed",
+            "php artisan config:publish irazasyed/laravel-gamp"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"

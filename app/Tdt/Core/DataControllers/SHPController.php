@@ -35,11 +35,7 @@ class SHPController extends ADataController
         11 => "PointZ",
         13 => "PolyLineZ",
         15 => "PolygonZ",
-        18 => "MultiPointZ",
-        21 => "PointM",
-        23 => "PolyLineM",
-        25 => "PolygonM",
-        28 => "MultiPointM",
+        18 => "MultiPointZ"
     ];
 
     public function __construct(
@@ -475,7 +471,6 @@ class SHPController extends ADataController
         foreach ($dbf_fields as $field => $value) {
             // Remove non-printable characters
             $property = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $field);
-            \Log::info($property);
 
             array_push($columns, array('index' => $column_index, 'column_name' => $property, 'column_name_alias' => $property, 'is_pk' => ($pk === $column_index)));
             $column_index++;

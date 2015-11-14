@@ -78,7 +78,7 @@ return array(
     |
     */
 
-    'key' => 'DRxTeqqWmVnqCKNz1dMB3F25jaLIDwCq',
+    'key' => 'OQp2ixXYOt2faVaxHr8vInAHCg3uxV67',
 
     /*
     |--------------------------------------------------------------------------
@@ -119,6 +119,7 @@ return array(
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Cartalyst\Sentry\SentryServiceProvider',
         'Tdt\Core\Repositories\DbServiceProvider',
+        'Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider',
     ),
 
     /*
@@ -184,7 +185,7 @@ return array(
         'URL'             => 'Illuminate\Support\Facades\URL',
         'Validator'       => 'Illuminate\Support\Facades\Validator',
         'View'            => 'Illuminate\Support\Facades\View',
-
+        'GAMP'            => 'Irazasyed\LaravelGAMP\Facades\GAMP',
     ),
 
 );
