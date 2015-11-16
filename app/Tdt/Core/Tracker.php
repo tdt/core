@@ -10,8 +10,6 @@ namespace Tdt\Core;
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 
-use TheIconic\Tracking\GoogleAnalytics\Analytics;
-
 class Tracker
 {
     private static $IGNORE = ['api', 'discovery'];
@@ -34,11 +32,11 @@ class Tracker
         $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
         $definition = $definitions->getByIdentifier($path);
 
-        $rights = 'Not provided';
+        $license = 'Not provided';
         $theme = 'Not provided';
 
         if (!empty($definition['rights'])) {
-            $rights = $definition['rights'];
+            $license = $definition['rights'];
         }
 
         if (!empty($definition['theme'])) {
@@ -49,21 +47,47 @@ class Tracker
         $segments = $request->segments();
 
         if (count($segments) >= 2 && !in_array($segments[0], self::$IGNORE)) {
-            $analytics = new Analytics(true);
+            // The URL of the GA
+            $url = 'http://www.google-analytics.com/collect';
 
-            // Build the GA hit using the Analytics class methods
-            // they should Autocomplete if you use a PHP IDE
-            $analytics
-                ->setProtocolVersion('1')
-                ->setTrackingId($tracker_id)
-                ->setClientId('555')
-                ->setDocumentPath($path)
-                ->setCustomDimension($extension, 1)
-                ->setCustomDimension($rights, 2)
-                ->setCustomDimension($theme, 3);
+            // The version of the Google Analytics Measurement Protocol.
+            $data['v'] = 1;
 
-            // When you finish bulding the payload send a hit (such as an pageview or event)
-            $analytics->sendPageview();
+            // The tracker ID.
+            $data['tid'] = $tracker_id;
+
+            // GA requires a user ID, but since all requests are anonymous
+            // we generate a unique string to use as ID.
+            $data['cid'] = sprintf(
+                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0x0fff) | 0x4000,
+                mt_rand(0, 0x3fff) | 0x8000,
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0xffff)
+            );
+
+            // The type of 'hit', in this case we use pageview.
+            $data['t'] = 'pageview';
+
+            // The url to track, required when using 'pageview' as type.
+            $data['dp'] = $path;
+            $data['cd1'] = $extension;
+            $data['cd2'] = $theme;
+            $data['cd3'] = $license;
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/x-www-form-urlencoded'));
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, utf8_encode(http_build_query($data)));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $response = curl_exec($ch);
+            curl_close($ch);
         }
     }
 }
