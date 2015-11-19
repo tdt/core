@@ -57,16 +57,16 @@ class GEOJSONFormatter implements IFormatter
                 }
             }
 
-            $geomIDs_geom = self::findGeometry($geo, $dataRow);
+            $geometric_ids = self::findGeometry($geo, $dataRow);
 
             //Prevent geo information being duplicated in properties
-            foreach ($geomIDs_geom[0] as $geomID) {
-                unset($dataRow[$geomID]);
+            foreach ($geometric_ids[0] as $geometric_id) {
+                unset($dataRow[$geometric_id]);
             }
 
             $feature = array(
                 'type' => 'Feature',
-                'geometry' => $geomIDs_geom[1],
+                'geometry' => $geometric_ids[1],
                 'properties' => $dataRow
             );
             $id_prop = $dataObj->source_definition['map_property'];
@@ -203,7 +203,7 @@ class GEOJSONFormatter implements IFormatter
         //The maximum dimensionality shared by all features (most likely 2 or 3).
         // E.g.: Some features may be 2D, some may be 3D, in which case this value
         // will be set to 2.
-        $maxDimension = 100;
+        $max_dimension = 100;
         $lowbounds = array();
         $topbounds = array();
         foreach ($features as $feature) {
@@ -216,8 +216,8 @@ class GEOJSONFormatter implements IFormatter
             self::toCoordinateList($feature['geometry']['coordinates'], $coordinateList);
 
             foreach ($coordinateList as $coordinate) {
-                $maxDimension = min($maxDimension, count($coordinate));
-                for ($dim = 0; $dim < $maxDimension; $dim += 1) {
+                $max_dimension = min($max_dimension, count($coordinate));
+                for ($dim = 0; $dim < $max_dimension; $dim += 1) {
                     if (empty($lowbounds[$dim])) {
                         // First coordinate encountered
                         $lowbounds[$dim] = $coordinate[$dim];
@@ -230,8 +230,8 @@ class GEOJSONFormatter implements IFormatter
             }
         }
         return array_merge(
-            array_slice($lowbounds, 0, $maxDimension),
-            array_slice($topbounds, 0, $maxDimension)
+            array_slice($lowbounds, 0, $max_dimension),
+            array_slice($topbounds, 0, $max_dimension)
         );
     }
 
@@ -239,17 +239,17 @@ class GEOJSONFormatter implements IFormatter
      * Converts a coordinate array of a feature of any type to an array containing
      * all used coordinates. Each coordinate is represented by an array of numbers, with one
      * number for each dimension.
-     * @param $coordinatesArray
+     * @param $coordinates_array
      * @param $out array eg for 2D data: ((1, 1), (2, 2), (3, 3))
      */
-    public static function toCoordinateList($coordinatesArray, &$out)
+    public static function toCoordinateList($coordinates_array, &$out)
     {
-        if (!empty($coordinatesArray) && !is_array($coordinatesArray[0])) {
-            array_push($out, $coordinatesArray);
+        if (!empty($coordinates_array) && !is_array($coordinates_array[0])) {
+            array_push($out, $coordinates_array);
             return;
         }
 
-        foreach ($coordinatesArray as $array) {
+        foreach ($coordinates_array as $array) {
             if (empty($array)) {
                 continue;
             }
@@ -268,13 +268,13 @@ class GEOJSONFormatter implements IFormatter
     public static function convertCoordinateArray($str)
     {
         $result = array();
-        foreach (explode(' ', $str) as $coordinateStr) {
-            $coordinateStrArray = explode(',', $coordinateStr);
+        foreach (explode(' ', $str) as $coordinate_str) {
+            $coord_array = explode(',', $coordinate_str);
 
-            if (count($coordinateStrArray) == 2) {
-                array_push($result, array(floatval($coordinateStrArray[0]), floatval($coordinateStrArray[1])));
-            } elseif (count($coordinateStrArray) == 3) {
-                array_push($result, array(floatval($coordinateStrArray[0]), floatval($coordinateStrArray[1]), floatval($coordinateStrArray[2])));
+            if (count($coord_array) == 2) {
+                array_push($result, array(floatval($coord_array[0]), floatval($coord_array[1])));
+            } elseif (count($coord_array) == 3) {
+                array_push($result, array(floatval($coord_array[0]), floatval($coord_array[1]), floatval($coord_array[2])));
             } else {
                 \Log::error("400", "An invalid coordinate was parsed.");
             }
@@ -289,8 +289,8 @@ class GEOJSONFormatter implements IFormatter
     public static function convertCoordinateMultiArray($str)
     {
         $result = array();
-        foreach (explode(';', $str) as $coordinateArrayStr) {
-            array_push($result, self::convertCoordinateArray($coordinateArrayStr));
+        foreach (explode(';', $str) as $coord_str) {
+            array_push($result, self::convertCoordinateArray($coord_str));
         }
         return $result;
     }
@@ -302,13 +302,13 @@ class GEOJSONFormatter implements IFormatter
     public static function convertCoordinateSingleArray($str)
     {
         $result = array();
-        foreach (explode(';', $str) as $coordinateArrayStr) {
-            $coordinatesArray = explode(',', $coordinateArrayStr);
+        foreach (explode(';', $str) as $coord_str) {
+            $coordinates_array = explode(',', $coord_str);
 
-            if (count($coordinatesArray) == 2) {
-                array_push($result, array(floatval($coordinatesArray[0]), floatval($coordinatesArray[1])));
-            } elseif (count($coordinatesArray) == 3) {
-                array_push($result, array(floatval($coordinatesArray[0]), floatval($coordinatesArray[1]), floatval($coordinatesArray[2])));
+            if (count($coordinates_array) == 2) {
+                array_push($result, array(floatval($coordinates_array[0]), floatval($coordinates_array[1])));
+            } elseif (count($coordinates_array) == 3) {
+                array_push($result, array(floatval($coordinates_array[0]), floatval($coordinates_array[1]), floatval($coordinates_array[2])));
             } else {
                 \Log::error("400", "An invalid coordinate was parsed.");
             }
