@@ -476,21 +476,37 @@ class SHPController extends ADataController
             $column_index++;
         }
 
-        $shp_data = $record->getShpData();
+        $shape_type = self::$RECORD_TYPES[$record->getTypeCode()];
 
         // Get the geographical column names
-        // Either coords will be set (identified by the parts)
-        // or a lat long will be set (identified by x and y)
-
-        if (!empty($shp_data['parts'])) {
-            array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
-        } elseif (!empty($shp_data['x'])) {
-            array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
-            array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
-        } elseif (!empty($shp_data['points'])) {
-            array_push($columns, array('index' => $column_index, 'column_name' => 'points', 'column_name_alias' => 'points', 'is_pk' => 0));
-        } else {
-            \App::abort(400, 'The shapefile could not be processed, probably because the geometry in the shape file is not supported. The supported geometries are Null Shape, Point, PolyLine, Polygon and MultiPoint');
+        switch (strtolower($shape_type)) {
+            case 'point':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
+                array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
+                break;
+            case 'polyline':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
+                break;
+            case 'polygon':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
+                break;
+            case 'multipoint':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'points', 'column_name_alias' => 'points', 'is_pk' => 0));
+                break;
+            case 'pointz':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'x', 'column_name_alias' => 'x', 'is_pk' => 0));
+                array_push($columns, array('index' => $column_index + 1, 'column_name' => 'y', 'column_name_alias' => 'y', 'is_pk' => 0));
+                array_push($columns, array('index' => $column_index + 2, 'column_name' => 'z', 'column_name_alias' => 'z', 'is_pk' => 0));
+                break;
+            case 'polylinez':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
+                break;
+            case 'polygonz':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'parts', 'column_name_alias' => 'parts', 'is_pk' => 0));
+                break;
+            case 'multipointz':
+                array_push($columns, array('index' => $column_index, 'column_name' => 'points', 'column_name_alias' => 'points', 'is_pk' => 0));
+                break;
         }
 
         return $columns;
@@ -534,7 +550,6 @@ class SHPController extends ADataController
         }
 
         $shp_data = $record->getShpData();
-        $shape_type = strtolower($record->getTypeLabel());
 
         $geo_properties = array();
 
@@ -551,16 +566,16 @@ class SHPController extends ADataController
                 $x = $aliases['x'];
                 $y = $aliases['y'];
 
-                array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
-                array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
+                array_push($geo_properties, array('property' => 'longitude', 'path' => $x));
+                array_push($geo_properties, array('property' => 'latitude', 'path' => $y));
                 break;
             case 'pointz':
                 $x = $aliases['x'];
                 $y = $aliases['y'];
                 $z = $aliases['z'];
 
-                array_push($geo_properties, array('property' => 'latitude', 'path' => $x));
-                array_push($geo_properties, array('property' => 'longitude', 'path' => $y));
+                array_push($geo_properties, array('property' => 'longitude', 'path' => $x));
+                array_push($geo_properties, array('property' => 'latitude', 'path' => $y));
                 array_push($geo_properties, array('property' => 'elevation', 'path' => $z));
                 break;
             case 'polyline':

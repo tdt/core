@@ -92,7 +92,7 @@ class GEOJSONFormatter implements IFormatter
     /**
      * @param array $geo     an array holding the identifier(s) for the geographical attribute
      * @param array $dataRow an array holding data
-     * @return array        an array containing the identifier(s) of the selected attribute and an
+     * @return array         an array containing the identifier(s) of the selected attribute and an
      * object representing the extracted geometry
      */
     public static function findGeometry($geo, $dataRow)
@@ -100,14 +100,27 @@ class GEOJSONFormatter implements IFormatter
         $geometry = null;
 
         $identifiers = array();
-        if (!empty($geo['longitude']) && !empty($geo['latitude'])) {
+        if (count($geo) == 2 && !empty($geo['longitude']) && !empty($geo['latitude'])) {
             array_push($identifiers, $geo['longitude']);
             array_push($identifiers, $geo['latitude']);
             $geometry = array(
                 'type' => 'Point',
                 'coordinates' => array(
                     floatval($dataRow[$geo['longitude']]),
-                    floatval($dataRow[$geo['latitude']])));
+                    floatval($dataRow[$geo['latitude']]))
+            );
+        } elseif (count($geo) == 3 && !empty($geo['longitude']) && !empty($geo['latitude']) && !empty($geo['elevation'])) {
+            array_push($identifiers, $geo['longitude']);
+            array_push($identifiers, $geo['latitude']);
+            array_push($identifiers, $geo['elevation']);
+
+            $geometry = array(
+                'type' => 'Point',
+                'coordinates' => array(
+                    floatval($dataRow[$geo['longitude']]),
+                    floatval($dataRow[$geo['latitude']]),
+                    floatval($dataRow[$geo['elevation']]))
+            );
         } else {
             $geo_type = key($geo);
 
@@ -218,7 +231,8 @@ class GEOJSONFormatter implements IFormatter
         }
         return array_merge(
             array_slice($lowbounds, 0, $maxDimension),
-            array_slice($topbounds, 0, $maxDimension));
+            array_slice($topbounds, 0, $maxDimension)
+        );
     }
 
     /**
@@ -236,8 +250,9 @@ class GEOJSONFormatter implements IFormatter
         }
 
         foreach ($coordinatesArray as $array) {
-            if (empty($array))
+            if (empty($array)) {
                 continue;
+            }
             if (is_array($array[0])) {
                 self::toCoordinateList($array, $out);
             } else {

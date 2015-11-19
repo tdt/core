@@ -255,31 +255,56 @@ class KMLFormatter implements IFormatter
                 $body .= $extendeddata;
 
                 if ($is_point) {
-                    if (count($geo) > 1) {
+                    if (count($geo) == 2) {
                         $point = $entry[$geo['longitude']] . ',' . $entry[$geo['latitude']];
+                    } elseif (count($geo) == 3) {
+                        $point = $entry[$geo['longitude']] . ',' . $entry[$geo['latitude']] . ',' . $entry[$geo['elevation']];
                     } else {
                         $point = $entry[$geo['point']];
                     }
 
                     $body .= "<Point><coordinates>" . $point . "</coordinates></Point>";
                 } else {
-                    if ($geo_type == 'polyline') {
-                        $body .= "<MultiGeometry>";
-                        foreach (explode(';', $entry[$geo['polyline']]) as $coord) {
-                            $body .= "<LineString><coordinates>".$coord."</coordinates></LineString>";
-                        }
-                        $body .= "</MultiGeometry>";
+                    switch ($geo_type) {
+                        case 'polylinez':
+                            $body .= "<MultiGeometry>";
 
-                    } elseif ($geo_type == 'polygon') {
-                        $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] ."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
-                    } elseif ($geo_type == 'multipoint') {
-                        $body .= "<MultiGeometry>";
-                        foreach (explode(';', $entry[$geo['multipoint']]) as $point) {
-                            $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
-                        }
-                        $body .= '</MultiGeometry>';
-                    } else {
-                        \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
+                            foreach (explode(';', $entry[$geo['polylinez']]) as $coord) {
+                                $body .= "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
+                            }
+                            $body .= "</MultiGeometry>";
+                            break;
+                        case 'polyline':
+                            $body .= "<MultiGeometry>";
+
+                            foreach (explode(';', $entry[$geo['polyline']]) as $coord) {
+                                $body .= "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
+                            }
+                            $body .= "</MultiGeometry>";
+                            break;
+                        case 'polygonz':
+                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygonz']] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            break;
+                        case 'polygon':
+                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            break;
+                        case 'multipoinz':
+                            $body .= "<MultiGeometry>";
+                            foreach (explode(';', $entry[$geo['multipointz']]) as $point) {
+                                $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
+                            }
+                            $body .= '</MultiGeometry>';
+                            break;
+                        case 'multipoint':
+                            $body .= "<MultiGeometry>";
+                            foreach (explode(';', $entry[$geo['multipoint']]) as $point) {
+                                $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
+                            }
+                            $body .= '</MultiGeometry>';
+                            break;
+                        default:
+                            \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
+                            break;
                     }
                 }
                 $body .= "</Placemark>";

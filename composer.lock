@@ -930,12 +930,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/muka/ShapeReader.git",
-                "reference": "d44ef4f49424b1d508b2a983cb5fda21f8ec7b40"
+                "reference": "c71d16bd010498b1dca67100042e33854d2fd7e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/muka/ShapeReader/zipball/d44ef4f49424b1d508b2a983cb5fda21f8ec7b40",
-                "reference": "d44ef4f49424b1d508b2a983cb5fda21f8ec7b40",
+                "url": "https://api.github.com/repos/muka/ShapeReader/zipball/c71d16bd010498b1dca67100042e33854d2fd7e7",
+                "reference": "c71d16bd010498b1dca67100042e33854d2fd7e7",
                 "shasum": ""
             },
             "require": {
@@ -976,7 +976,7 @@
                 "geospatial",
                 "shp"
             ],
-            "time": "2015-10-29 08:21:05"
+            "time": "2015-11-17 12:48:18"
         },
         {
             "name": "nesbot/carbon",
@@ -3070,12 +3070,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "ee88cd05073533b10678772fe954d042748393c3"
+                "reference": "15f6bb72f66df6857b957bedd09dc4fd0ace3b03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/ee88cd05073533b10678772fe954d042748393c3",
-                "reference": "ee88cd05073533b10678772fe954d042748393c3",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/15f6bb72f66df6857b957bedd09dc4fd0ace3b03",
+                "reference": "15f6bb72f66df6857b957bedd09dc4fd0ace3b03",
                 "shasum": ""
             },
             "require": {
@@ -3127,7 +3127,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2015-10-12 06:21:09"
+            "time": "2015-11-17 13:12:31"
         }
     ],
     "aliases": [],
