@@ -39,8 +39,7 @@
             "php artisan migrate:install",
             "php artisan migrate",
             "php artisan migrate --package=cartalyst/sentry",
-            "php artisan db:seed",
-            "php artisan config:publish irazasyed/laravel-gamp"
+            "php artisan db:seed"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
