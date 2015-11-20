@@ -10,7 +10,6 @@ class HomeControllerTest extends BaseUITest
      */
     public function testIndex()
     {
-
         \Artisan::call('db:seed', array('--class'=>'DemoDataSeeder'));
         $crawler = $this->client->request('GET', '/');
         $this->assertResponseOk();
