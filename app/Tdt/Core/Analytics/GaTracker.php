@@ -1,9 +1,9 @@
 <?php
 
-namespace Tdt\Core;
+namespace Tdt\Core\Analytics;
 
 /**
- * Tracker class.
+ * GA Tracker class.
  *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
@@ -11,11 +11,11 @@ namespace Tdt\Core;
  * @author appreciate.be
  */
 
-class Tracker
+class GaTracker implements TrackerInterface
 {
-    private static $IGNORE = ['api', 'discovery'];
+    private $IGNORE = ['api', 'discovery'];
 
-    public static function track($request, $tracker_id)
+    public function track($request, $tracker_id)
     {
         $path = $request->path();
         $extension = '';
@@ -47,7 +47,7 @@ class Tracker
         // Get the target audience and category.
         $segments = $request->segments();
 
-        if (count($segments) >= 2 && !in_array($segments[0], self::$IGNORE)) {
+        if (count($segments) >= 2 && !in_array($segments[0], $this->IGNORE)) {
             // The URL of the GA
             $url = 'http://www.google-analytics.com/collect';
 

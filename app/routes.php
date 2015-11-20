@@ -102,7 +102,8 @@ App::error(function ($exception, $code) {
 });
 
 App::finish(function ($request, $response) {
-    if (!empty(\Config::get('tracker.ga_id'))) {
-        Tdt\Core\Tracker::track($request, \Config::get('ga_id'));
+    if (!empty(\Config::get('tracker.id'))) {
+        $tracker = \App::make('Tdt\Core\Analytics\TrackerInterface');
+        $tracker->track($request, \Config::get('ga_id'));
     }
 });
