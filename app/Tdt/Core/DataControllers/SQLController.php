@@ -192,7 +192,9 @@ class SQLController extends ADataController
 
             $result = $pdoStatement->fetch();
 
-            \Log::info('The total count is: ' . $result->count);
+            if (\Config::get('app.debug')) {
+                \Log::info('The total count is: ' . $result->count);
+            }
 
             return $result->count;
         } else {
