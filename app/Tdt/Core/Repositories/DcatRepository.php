@@ -163,7 +163,8 @@ class DcatRepository implements DcatRepositoryInterface
 
                 $graph->addResource($dataset_uri, 'dcat:distribution', $distribution_uri);
                 $graph->addResource($distribution_uri, 'a', 'dcat:Distribution');
-                $graph->addResource($distribution_uri, 'dcat:accessURL', $distribution_uri);
+                $graph->addResource($distribution_uri, 'dcat:accessURL', $dataset_uri);
+                $graph->addResource($distribution_uri, 'dcat:downloadURL', $distribution_uri);
                 $graph->addLiteral($distribution_uri, 'dct:title', $title);
                 $graph->addLiteral($distribution_uri, 'dct:description', 'A json feed of ' . $dataset_uri);
                 $graph->addLiteral($distribution_uri, 'dcat:mediaType', 'application/json');

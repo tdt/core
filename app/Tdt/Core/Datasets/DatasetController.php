@@ -43,7 +43,17 @@ class DatasetController extends ApiController
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         $cache_string .= '/limit=' . $limit . 'offset=' . $offset;
-        $cache_string .= http_build_query(\Input::except('limit', 'offset', 'page', 'page_size'));
+        $omit = ['limit', 'offset', 'page', 'page_size'];
+
+        $query_string_params = \Input::get();
+
+        foreach ($query_string_params as $key => $val) {
+            if (in_array($key, $omit)) {
+                unset($query_string_params[$key]);
+            }
+        }
+
+        $cache_string .= http_build_query($query_string_params);
         $cache_string = sha1($cache_string);
 
         if (Cache::has($cache_string)) {

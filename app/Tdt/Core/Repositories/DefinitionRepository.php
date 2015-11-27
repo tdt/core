@@ -116,7 +116,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getAllPublished($limit = PHP_INT_MAX, $offset = 0)
     {
-        return \Definition::where('draft', '=', 0)->take($limit)->skip($offset)->get()->toArray();
+        return \Definition::take($limit)->skip($offset)->get()->toArray();
     }
 
 
@@ -164,7 +164,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
      */
     public function countPublished()
     {
-        return \Definition::where('draft', '=', 0)->count();
+        return \Definition::count();
     }
 
     public function getDefinitionSource($id, $name)
@@ -368,12 +368,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'name' => 'Cache',
                 'type' => 'integer',
                 'description' => 'How long this resource should be cached (in minutes).',
-            ),
-            'draft' => array(
-                'required' => false,
-                'name' => 'Draft',
-                'type' => 'boolean',
-                'description' => 'Draft definitions are not shown to the public when created, however the URI space they take is reserved.',
             ),
             'publisher_uri' => array(
                 'required' => false,
