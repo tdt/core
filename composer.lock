@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9a77019133c75a4f022f59cc2579d015",
-    "content-hash": "ec34631cadc0e8964b7c9d079e7141bd",
+    "hash": "b12f3b6d27aed4bcd9dd3d67a53bbc51",
+    "content-hash": "3ff52c56562b167a9f8d092d0fd7fe7b",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -345,16 +345,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "1.1.9",
+            "version": "1.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "c9abab430c5a019724425b57093fc4c853cf716a"
+                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/c9abab430c5a019724425b57093fc4c853cf716a",
-                "reference": "c9abab430c5a019724425b57093fc4c853cf716a",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/72538eeb70bbfb11964412a3d098d109efd012f7",
+                "reference": "72538eeb70bbfb11964412a3d098d109efd012f7",
                 "shasum": ""
             },
             "require": {
@@ -399,7 +399,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2015-11-22 19:20:15"
+            "time": "2015-06-29 05:42:04"
         },
         {
             "name": "guzzle/guzzle",
@@ -979,6 +979,40 @@
             "time": "2015-11-17 12:48:18"
         },
         {
+            "name": "neitanod/forceutf8",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neitanod/forceutf8.git",
+                "reference": "2c1b21e00ed16b2b083ae4e27901cb5f2856db90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neitanod/forceutf8/zipball/2c1b21e00ed16b2b083ae4e27901cb5f2856db90",
+                "reference": "2c1b21e00ed16b2b083ae4e27901cb5f2856db90",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ForceUTF8\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sebastián Grignoli",
+                    "email": "grignoli@gmail.com"
+                }
+            ],
+            "description": "PHP Class Encoding featuring popular Encoding::toUTF8() function --formerly known as forceUTF8()-- that fixes mixed encoded strings.",
+            "homepage": "https://github.com/neitanod/forceutf8",
+            "time": "2015-05-07 16:37:23"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "1.17.0",
             "source": {
@@ -1119,6 +1153,48 @@
                 "utf8"
             ],
             "time": "2015-06-29 07:22:00"
+        },
+        {
+            "name": "pda/pheanstalk",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pda/pheanstalk.git",
+                "reference": "ab006cf9330fb5d3799f30a5d9841b85edb40a0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pda/pheanstalk/zipball/ab006cf9330fb5d3799f30a5d9841b85edb40a0f",
+                "reference": "ab006cf9330fb5d3799f30a5d9841b85edb40a0f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Pheanstalk": "classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Annesley",
+                    "email": "paul@annesley.cc",
+                    "homepage": "http://paul.annesley.cc/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP client for beanstalkd queue",
+            "homepage": "https://github.com/pda/pheanstalk",
+            "keywords": [
+                "beanstalkd"
+            ],
+            "time": "2013-04-03 09:15:34"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -1832,6 +1908,63 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "ruflin/elastica",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ruflin/Elastica.git",
+                "reference": "0df1d7b513960ba11d3075652dcd71fcab8dd37a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/0df1d7b513960ba11d3075652dcd71fcab8dd37a",
+                "reference": "0df1d7b513960ba11d3075652dcd71fcab8dd37a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "5.3.*",
+                "munkie/elasticsearch-thrift-php": "1.4.*"
+            },
+            "suggest": {
+                "egeloen/http-adapter": "Allow using httpadapter transport",
+                "guzzlehttp/guzzle": "Allow using guzzle 5.3.x as the http transport (Requires php 5.4)",
+                "monolog/monolog": "Logging request",
+                "munkie/elasticsearch-thrift-php": "Allow using thrift transport"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Elastica\\": "lib/Elastica/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Ruflin",
+                    "homepage": "http://ruflin.com/"
+                }
+            ],
+            "description": "Elasticsearch Client",
+            "homepage": "http://elastica.io/",
+            "keywords": [
+                "client",
+                "search"
+            ],
+            "time": "2015-10-19 07:09:10"
         },
         {
             "name": "sebastian/diff",
@@ -2975,6 +3108,93 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2015-11-18 13:41:01"
+        },
+        {
+            "name": "tdt/input",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tdt/input.git",
+                "reference": "dbf8c83d3bcc210464a2f43670dbd3acfe3a2e74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tdt/input/zipball/dbf8c83d3bcc210464a2f43670dbd3acfe3a2e74",
+                "reference": "dbf8c83d3bcc210464a2f43670dbd3acfe3a2e74",
+                "shasum": ""
+            },
+            "require": {
+                "coreation/gisconverter": "dev-master",
+                "illuminate/support": "4.2.*",
+                "muka/shape-reader": "dev-master",
+                "neitanod/forceutf8": "dev-master",
+                "nesbot/carbon": "~1.14",
+                "pda/pheanstalk": "2.1.0",
+                "php": ">=5.4.0",
+                "proj4php/proj4php": "dev-inline-projections#89722067010a4c88b7c4c79a7ee187bb2ddb1b61",
+                "ruflin/elastica": ">=0.90 <3.0",
+                "tdt/json": "dev-master"
+            },
+            "require-dev": {
+                "coreation/gisconverter": "dev-master",
+                "doctrine/dbal": "~2.3",
+                "illuminate/support": "4.2.*",
+                "mockery/mockery": "dev-master",
+                "muka/shape-reader": "dev-master",
+                "neitanod/forceutf8": "dev-master",
+                "nesbot/carbon": "~1.14",
+                "orchestra/testbench": "2.2.*",
+                "pda/pheanstalk": "2.1.0",
+                "phpunit/phpunit": "4.0.*",
+                "proj4php/proj4php": "dev-inline-projections#89722067010a4c88b7c4c79a7ee187bb2ddb1b61",
+                "tdt/json": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations",
+                    "src/models"
+                ],
+                "psr-0": {
+                    "Tdt\\Input": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2015-11-27 15:18:50"
+        },
+        {
+            "name": "tdt/json",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tdt/json.git",
+                "reference": "eb03a131718a3140ea9d022c0e7dc49ca6912877"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tdt/json/zipball/eb03a131718a3140ea9d022c0e7dc49ca6912877",
+                "reference": "eb03a131718a3140ea9d022c0e7dc49ca6912877",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "tdt\\json\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPLv3"
+            ],
+            "description": "Reads a json stream memory efficiently.",
+            "homepage": "http://thedatatank.com",
+            "keywords": [
+                "Buffer",
+                "chunk",
+                "json",
+                "stream"
+            ],
+            "time": "2014-04-24 14:20:10"
         },
         {
             "name": "willdurand/negotiation",
