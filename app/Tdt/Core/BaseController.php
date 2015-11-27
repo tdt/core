@@ -22,14 +22,13 @@ class BaseController extends \Controller
         $uri = strtolower(rtrim($uri, '/'));
 
         // Check first segment of the request
-        switch(\Request::segment(1)){
+        switch (\Request::segment(1)) {
             case 'discovery':
                 // Discovery document
                 $controller = 'Tdt\\Core\\Definitions\\DiscoveryController';
                 break;
             case 'api':
-                switch(\Request::segment(2)){
-
+                switch (\Request::segment(2)) {
                     case 'definitions':
                         // Definitions request
                         $controller = 'Tdt\\Core\\Definitions\\DefinitionController';
@@ -104,11 +103,9 @@ class BaseController extends \Controller
 
         // Check the response type
         if ($response instanceof \Illuminate\Http\RedirectResponse) {
-
             // Redirect and that's it
             return $response;
         } else {
-
             // Make sure cross origin requests are allowed for GET
             $response->header('Access-Control-Allow-Origin', '*');
             $response->header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE');

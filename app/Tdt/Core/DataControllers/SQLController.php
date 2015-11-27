@@ -154,38 +154,41 @@ class SQLController extends ADataController
 
         // Throw away the select criteria and replace it with a count
         $query = $config['query'];
+        $count_query = $config['count_query'];
 
-        preg_match('/.*?(from.*?)order\sby.*/smix', $query, $matches);
+        if (empty($count_query)) {
+            preg_match('/.*?(from.*?)order\sby.*/smix', $query, $matches);
 
-        // If no match has been found, the query must be malformed or the regex
-        // needs to be tweaked.
-        if (empty($matches[1])) {
-            \App::abort('500', "Could not create a count query.");
-        }
+            // If no match has been found, the query must be malformed or the regex
+            // needs to be tweaked.
+            if (empty($matches[1])) {
+                \App::abort('500', "Could not create a count query.");
+            }
 
-        // Get the query without the select statement
-        $strippedQuery = $matches[1];
+            // Get the query without the select statement
+            $stripped_query = $matches[1];
 
-        $countQuery = "select count(*) as 'count' " . $strippedQuery;
+            $count_query = "select count(*) as 'count' " . $stripped_query;
 
-        // Add the where filter if applicable
-        $where = \Input::get('where', null);
+            // Add the where filter if applicable
+            $where = \Input::get('where', null);
 
-        if (!empty($where)) {
-            // Check if the statement contains a semi-colon, if so check for drop, update, insert, alter, create
+            if (!empty($where)) {
+                // Check if the statement contains a semi-colon, if so check for drop, update, insert, alter, create
 
-            if (preg_match('/.*;[DROP|CREATE|INSERT|UPDATE|ALTER|DELETE].*/', $where)) {
-                \Log::warning('A possible sql injection has been discovered: ' . $where);
-            } else {
-                $countQuery .= ' AND ' . $where;
+                if (preg_match('/.*;[DROP|CREATE|INSERT|UPDATE|ALTER|DELETE].*/', $where)) {
+                    \Log::warning('A possible sql injection has been discovered: ' . $where);
+                } else {
+                    $count_query .= ' AND ' . $where;
+                }
+            }
+
+            if (\Config::get('app.debug')) {
+                \Log::info('Firing the count query, which is: '. $count_query);
             }
         }
 
-        if (\Config::get('app.debug')) {
-            \Log::info('Firing the count query, which is: '. $countQuery);
-        }
-
-        $pdoStatement = $pdo->query($countQuery);
+        $pdoStatement = $pdo->query($count_query);
 
         if (!empty($pdoStatement)) {
             $pdoStatement->setFetchMode(\PDO::FETCH_OBJ);

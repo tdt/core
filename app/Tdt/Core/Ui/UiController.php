@@ -50,7 +50,7 @@ class UiController extends \Controller
     /**
      * Check for added admin menu's
      */
-    public function __construct ()
+    public function __construct()
     {
         // Get loaded providers
         $providers = array_keys(\App::getLoadedProviders());
@@ -62,7 +62,6 @@ class UiController extends \Controller
 
         // Check for UI controller
         foreach ($packages as $package) {
-
             // Get package namespace
             $reflector = new \ReflectionClass($package);
             $namespace = $reflector->getNamespaceName();
@@ -70,7 +69,6 @@ class UiController extends \Controller
             // Check for a UI controller
             $controller = $namespace . "\Ui\UiController";
             if (class_exists($controller)) {
-
                 // Create controller instance
                 $controller = \App::make($controller);
 
@@ -105,7 +103,6 @@ class UiController extends \Controller
 
         // Check for UI controller
         foreach ($this->package_controllers as $controller) {
-
             $handled = $controller->handle($uri);
 
             // Break and return response if already handled

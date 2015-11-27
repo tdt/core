@@ -17,7 +17,8 @@ class SqlDefinition extends SourceType
         'username',
         'password',
         'database',
-        'query'
+        'query',
+        'count_query',
      );
 
     /**

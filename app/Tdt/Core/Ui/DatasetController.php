@@ -18,7 +18,6 @@ class DatasetController extends UiController
      */
     public function getIndex()
     {
-
         // Set permission
         Auth::requirePermissions('admin.dataset.view');
 
@@ -35,7 +34,6 @@ class DatasetController extends UiController
      */
     public function getAdd()
     {
-
         // Set permission
         Auth::requirePermissions('admin.dataset.create');
 
@@ -48,7 +46,6 @@ class DatasetController extends UiController
         $mediatypes = array();
         $lists = array();
         foreach ($mediatypes_spec as $mediatype => $type) {
-
             $parameters_required = array();
             $parameters_optional = array();
             $parameters_dc = array();
