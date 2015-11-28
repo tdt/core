@@ -192,6 +192,7 @@ class SQLController extends ADataController
 
         if (!empty($pdoStatement)) {
             $pdoStatement->setFetchMode(\PDO::FETCH_OBJ);
+            //dd($pdoStatement);
 
             $result = $pdoStatement->fetch();
 

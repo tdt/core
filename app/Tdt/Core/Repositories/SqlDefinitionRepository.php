@@ -78,7 +78,7 @@ class SqlDefinitionRepository extends TabularBaseRepository implements Repositor
             'count_query' => array(
                 'required' => false,
                 'name' => 'Count query',
-                'description' => 'The count query used for paging, by default the select statement is replaced by a count(*). If this is not sufficient for the proper usage, please provide a custom count query.',
+                'description' => 'The count query used for paging, by default the select statement is replaced by a count(*). If this is not sufficient for the proper usage, please provide a custom count query. Make sure that the count column is aliased as "count"!!',
                 'type' => 'text',
                 )
         );
