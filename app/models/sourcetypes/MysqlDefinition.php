@@ -12,7 +12,7 @@ class MysqlDefinition extends SourceType
 
     protected $table = 'mysqldefinitions';
 
-    protected $fillable = array('host', 'port', 'database', 'username', 'password', 'collation', 'query');
+    protected $fillable = array('host', 'port', 'database', 'username', 'password', 'collation', 'query', 'description');
 
     /**
      * Relationship with the TabularColumns model.
