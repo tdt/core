@@ -151,7 +151,7 @@ class KMLFormatter implements IFormatter
                         $lat_val = $array[$lat_long[0]];
                         $lon_val = $array[$lat_long[1]];
 
-                        if (!empty(@$array[$lat_long[2]])) {
+                        if (!empty($lat_long[2]) && !empty($array[$lat_long[2]])) {
                             $z_val = $array[$lat_long[2]];
 
                             if (is_array($lat_val)) {
