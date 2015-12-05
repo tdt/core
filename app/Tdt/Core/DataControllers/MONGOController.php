@@ -63,15 +63,17 @@ class MONGOController extends ADataController
     private function getCollection($source_definition)
     {
         $prefix = '';
+        $auth = [];
 
         if (!empty($source_definition['username'])) {
-            $prefix = $source_definition['username'] . $source_definition['password'];
+            $auth['username'] = $source_definition['username'];
+            $auth['password'] = $source_definition['password'];
         }
 
-        $connString = 'mongodb://' . $prefix . $source_definition['host'] . ':' . $source_definition['port'];
+        $conn_string = 'mongodb://' . $source_definition['host'] . ':' . $source_definition['port'] . '/' . $source_definition['database'];
 
         try {
-            $client = new MongoClient($connString);
+            $client = new MongoClient($conn_string, $auth);
         } catch (\MongoConnectionException $ex) {
             \App::abort(500, 'Could not create a connection with the MongoDB, please check if the configuration is still ok.');
         }

@@ -43,13 +43,4 @@ class Definition extends Eloquent
 
         parent::delete();
     }
-
-    /**
-     * Draft is a tinyint, cast type true/false to
-     * the corrersponding integers in the back-end
-     */
-    public function setDraftAttribute($value)
-    {
-        $this->attributes['draft'] = (int) $value;
-    }
 }
