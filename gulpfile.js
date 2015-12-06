@@ -55,7 +55,7 @@ gulp.task('js', function() {
         .pipe(gulp.dest(paths.scripts));
 
     gulp.src([__dirname + '/dev/js/bootstrap.js',
-              __dirname + '/dev/js/prettify.js',,
+              __dirname + '/dev/js/prettify.js',
               __dirname + '/dev/js/script.js'])
         .pipe(concat('script.min.js'))
         .pipe(uglify())
