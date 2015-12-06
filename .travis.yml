@@ -2,6 +2,7 @@ language: php
 services: mysql
 php:
   - "5.4"
+  - "5.5"
 env:
   - DB=mysql
 before_script:
