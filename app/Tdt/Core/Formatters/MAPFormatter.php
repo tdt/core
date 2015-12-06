@@ -29,7 +29,7 @@ class MAPFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         $url = Request::url();
-        $url = preg_replace('/\.([^\.]*)$/m', '.kml', $url);
+        $url = preg_replace('/\.([^\.]*)$/m', '.geojson', $url);
 
         $resource = $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'];
 
