@@ -25,6 +25,8 @@ Route::group(array('prefix' => 'api/admin'), function () {
     Route::controller('users', 'Tdt\\Core\\Ui\\UserController');
     Route::controller('groups', 'Tdt\\Core\\Ui\\GroupController');
 
+    Route::get('language/{lang}', 'Tdt\\Core\\Ui\\LanguageController@setLanguage');
+
     Route::any('{all}', 'Tdt\\Core\\Ui\\UiController@handleRequest')->where('all', '.*');
 });
 
