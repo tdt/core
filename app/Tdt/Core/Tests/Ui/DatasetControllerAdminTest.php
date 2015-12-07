@@ -24,7 +24,6 @@ class DatasetControllerAdminTest extends BaseUITest
 
         $this->assertCount(1, $crawler->filter('h3:contains("Manage your data")'));
         $this->assertCount(1, $crawler->filter('li.active > a:contains("Datasets")'));
-        $this->assertCount(1, $crawler->filter('h4 > a:contains("france/places")'));
     }
 
     public function testAdd()

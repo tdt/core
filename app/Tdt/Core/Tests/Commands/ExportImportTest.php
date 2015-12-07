@@ -46,7 +46,7 @@ class ExportImportTest extends TestCase
 
         $this->assertTrue(!empty($export_definitions));
 
-        $this->assertEquals(6, count($export_definitions));
+        $this->assertEquals(5, count($export_definitions));
 
         // Write the output to a file, necessary to be using in the import
         if (!empty($export_body)) {
