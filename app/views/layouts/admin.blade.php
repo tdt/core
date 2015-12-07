@@ -52,8 +52,15 @@
         </div>
 
         <footer>
-            <div class="col-lg-12">
+            <div class="col-sm-6">
                 Powered by <a href="//thedatatank.com/" target="_blank">The DataTank</a>
+            </div>
+            <div class="col-sm-6 text-right lang-selector">
+                <?php $locales = array('en', 'nl', 'fr'); ?>
+                @foreach ($locales as $locale)
+                    <a href='{{ URL::to("api/admin/language/$locale") }}'
+                        @if(\App::getLocale() == $locale) class='active' @endif >{{ $locale }}</a>
+                @endforeach
             </div>
         </footer>
         <script type='text/javascript'>

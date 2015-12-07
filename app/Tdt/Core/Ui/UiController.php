@@ -8,6 +8,9 @@
 namespace Tdt\Core\Ui;
 
 use Tdt\Core\Auth\Auth;
+use Config;
+use App;
+use Cookie;
 
 class UiController extends \Controller
 {
@@ -57,6 +60,15 @@ class UiController extends \Controller
         $packages = preg_grep('/^Tdt[\\\\](?!Core)/i', $providers);
 
         $menu = $this->core_menu;
+
+        // UI translation
+        $locale = Config::get('app.locale');
+        $cookie_locale = Cookie::get('locale');
+        // dd($cookie_locale);
+        if ($cookie_locale && strlen($cookie_locale) == 2) {
+            $locale = $cookie_locale;
+        }
+        App::setLocale($locale);
 
         // Check for UI controller
         foreach ($packages as $package) {

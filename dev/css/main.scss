@@ -444,7 +444,6 @@ footer{
     line-height: $footer-height - $footer-border;
     font-size: 10px;
 }
-
 .push{
     height: $footer-height;
     width: 100%;
@@ -796,6 +795,27 @@ ul.nav-tabs + div.panel{
 
             input{
                 width: 100%;
+            }
+        }
+    }
+}
+
+.lang-selector{
+    & > a{
+        &.active{
+            font-weight: bold;
+        }
+
+        &:after{
+            content: '|';
+            color: #CCC;
+            margin: 0 2px 0 4px;
+        }
+
+        &:last-child{
+            &:after{
+                margin: 0;
+                content: '';
             }
         }
     }
