@@ -62,13 +62,7 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
                 'type' => 'list',
                 'list' => 'api/geoprojections',
                 'list_option' => 'epsg',
-            ),
-            'map_property' => array(
-                'required' => false,
-                'name' => 'ID',
-                'type' => 'string',
-                'description' => 'A common property that uniquely identifies an object.',
-            ),
+            )
         );
     }
 

@@ -377,67 +377,7 @@ class DemoDataSeeder extends Seeder
                                                 'property' => 'polyline',
                                             ),
                                     ),
-            ),
-            'places' => array('file' => 'places',
-                              'name' => 'places',
-                              'collection' => 'france',
-                              'description' => 'Interesting places from "Ile-de-France".',
-                              'columns' => array(
-                                array(
-                                    'column_name' => 'osm_id',
-                                    'index' => 0,
-                                    'column_name_alias' => 'osm_id',
-                                    'is_pk' => 0
-                                    ),
-                                array(
-                                    'column_name' => 'name',
-                                    'index' => 1,
-                                    'column_name_alias' => 'name',
-                                    'is_pk' => 0
-                                    ),
-                                array(
-                                    'column_name' => 'type',
-                                    'index' => 2,
-                                    'column_name_alias' => 'type',
-                                    'is_pk' => 0
-                                    ),
-                                array(
-                                    'column_name' => 'population',
-                                    'index' => 3,
-                                    'column_name_alias' => 'population',
-                                    'is_pk' => 0
-                                    ),
-                                array(
-                                    'column_name' => 'deleted',
-                                    'index' => 4,
-                                    'column_name_alias' => 'deleted',
-                                    'is_pk' => 0
-                                    ),
-                                array(
-                                    'column_name' => 'x',
-                                    'index' => 5,
-                                    'column_name_alias' => 'x',
-                                    'is_pk' => 0
-                                    ),
-                                array(
-                                    'column_name' => 'y',
-                                    'index' => 6,
-                                    'column_name_alias' => 'y',
-                                    'is_pk' => 0
-                                    ),
-                                ),
-                                'geo' => array(
-                                            array(
-                                                'path' => 'x',
-                                                'property' => 'longitude',
-                                            ),
-                                            array(
-                                                'path' => 'y',
-                                                'property' => 'latitude',
-                                            ),
-                                        ),
-                                ),
-            );
+            ));
 
         $added = false;
 
