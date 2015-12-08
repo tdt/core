@@ -104,13 +104,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
                                 The value must be the index of the column you want each row to be mapped on.
                                 The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
                 'type' => 'integer',
-            ),
-            'map_property' => array(
-                'required' => false,
-                'name' => 'Map property',
-                'type' => 'string',
-                'description' => 'The property (e.g. column name) of the dataset that will be displayed when a map visualization is applicable.',
-            ),
+            )
         );
     }
 }

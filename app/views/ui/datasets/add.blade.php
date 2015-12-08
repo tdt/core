@@ -51,8 +51,7 @@
                         </label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="input_resource_name" placeholder="">
-
-                            <div class='help-block'>
+                            <div class='help-block'>{{ trans('admin.resource_name_help') }}
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,12 @@ return array(
     */
     "add_dataset"                => "Ajouter un jeu de données",
     "required_parameters"        => "Paramètres requis",
+    "build_identifier"           => "Construire un URI pour le jeu de données",
+    "select_type"                => "Choisir une source des données et remplir les méta-données",
+    "collection"                 => "Collection",
+    "collection_help"            => "Un nom collectif qui categorise le dataset (e.g. forets ou forets/2015)",
+    "resource_name"              => "Nom du dataset",
+    "resource_name_help"         => "Le nom specific pour le jeu de données e.g. noyers",
     "identifier"                 => "Identificateur",
     "type"                       => "Type",
     "optional_parameters"        => "Paramètres optionels",

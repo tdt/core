@@ -5,12 +5,17 @@ return array(
         The admin panel properties
     */
     "add_dataset"                => "Add a dataset",
+    "build_identifier"           => "Create a publishing URI",
+    "collection"                 => "Collection",
+    "collection_help"            => "A single or multi slug part of the publishing URI that helps categorize this dataset e.g. forests, or forests/2015",
+    "resource_name"              => "Resource name",
+    "resource_name_help"         => "The specific identification of the dataset in the publishing URI e.g. treecount",
     "required_parameters"        => "Required parameters",
     "identifier"                 => "Identifier",
     "build_identifier"           => "Build the dataset's identifier",
     "select_type"                => "Select the dataset's type and fill out the metadata",
     "collection"                 => "Collection",
-    "collection_help"                 => "Pick a collection to add the dataset to, add a forward slash to create a subcollection",
+    "collection_help"            => "Pick a collection to add the dataset to, add a forward slash to create a subcollection",
     "resource_name"              => "Resource name",
     "type"                       => "Type",
     "optional_parameters"        => "Optional parameters",

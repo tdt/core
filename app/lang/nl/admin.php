@@ -6,6 +6,12 @@ return array(
     */
     "add_dataset"                => "Voeg een dataset toe",
     "required_parameters"        => "Verplichte parameters",
+    "collection"                 => "Verzameling",
+    "build_identifier"           => "Stel een publishing URI samen",
+    "select_type"                => "Selecteer een databron en vul de nodige meta-data in",
+    "collection_help"            => "Een enkele of samengestelde verzamelnaam (via een / -teken) om datasets te identificeren, bv. bossen of bossen/2015",
+    "resource_name"              => "Datasetnaam",
+    "resource_name_help"         => "De specifieke naam van de dataset die na de verzamelnaam wordt geplaatst en als laatste stuk wordt gebruikt van de publishing URI. bv. walnootbomen",
     "identifier"                 => "Identifier",
     "type"                       => "Type",
     "optional_parameters"        => "Optionele parameters",
