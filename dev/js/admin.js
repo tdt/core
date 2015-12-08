@@ -59,33 +59,44 @@ $('.edit-permissions').on('click', function(e){
 $('.hover-help').tooltip();
 $('.hover-help').on('click', function(e){ e.preventDefault(); });
 
+
+$('form.add-dataset .identifier #input_collection,
+   form.add-dataset .identifier #input_resource_name').on({
+        'keydown': buildURI,
+        'keyup': buildURI
+});
+
+function buildURI(e){
+    var collection_uri = $('#input_identifier_display').data('url');
+    var identifier = $('#input_collection').val() + '/' + $('#input_resource_name').val();
+    $('#input_identifier_display').html(collection_uri + identifier);
+    $('#input_identifier').val(identifier);
+}
+
+
 // Add dataset
 $('.btn-add-dataset').on('click', function(e){
     e.preventDefault();
 
     // Get form variables (of active tab)
+    var form = $('form.add-dataset');
     var tab_pane = $('.tab-pane.active');
-    var form = $('form.add-dataset', tab_pane);
 
     var mediatype = tab_pane.data('mediatype');
 
     // Loop through fields
-    var data = new Object();
-    var collection = '';
-    $('input, textarea, select', form).each(function(){
+    var data = {};
+    var collection = $('#input_identifier', form).val();
+    $('input, textarea, select', tab_pane).each(function(){
         if($(this).attr('name')){
-            if($(this).attr('name') == 'collection'){
-                collection = $(this).val();
+            if($(this).attr('type') == 'checkbox'){
+                data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
             }else{
-                // Regular fields
-                if($(this).attr('type') == 'checkbox'){
-                    data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
-                }else{
-                    data[$(this).attr('name')] = $(this).val();
-                }
+                data[$(this).attr('name')] = $(this).val();
             }
         }
     });
+    console.log(data);
 
     // Ajax call
     $.ajax({
@@ -105,7 +116,7 @@ $('.btn-add-dataset').on('click', function(e){
             if(e.status != 405){
                 var error = JSON.parse(e.responseText);
                 if(error.error && error.error.message){
-                    $('.error .text', tab_pane).html(error.error.message)
+                    $('.error .text', tab_pane).html(error.error.message);
                     $('.error', tab_pane).removeClass('hide').show().focus();
                 }
             }else{
@@ -113,8 +124,7 @@ $('.btn-add-dataset').on('click', function(e){
                 window.location = baseURL + 'api/admin/datasets';
             }
         }
-    })
-
+    });
 });
 
 // Add dataset
@@ -127,7 +137,7 @@ $('.btn-edit-dataset').on('click', function(e){
     var identifier = form.data('identifier');
 
     // Loop through fields
-    var data = new Object();
+    var data = {};
     var collection = '';
     $('input, textarea, select', form).each(function(){
         if($(this).attr('name')){
@@ -156,7 +166,7 @@ $('.btn-edit-dataset').on('click', function(e){
             if(e.status != 405){
                 var error = JSON.parse(e.responseText);
                 if(error.error && error.error.message){
-                    $('.error .text').html(error.error.message)
+                    $('.error .text').html(error.error.message);
                     $('.error').removeClass('hide').show().focus();
                 }
             }else{
@@ -164,12 +174,11 @@ $('.btn-edit-dataset').on('click', function(e){
                 window.location = baseURL + 'api/admin/datasets';
             }
         }
-    })
-
+    });
 });
 
 // IntroJS
 $('.introjs').on('click', function(e){
     e.preventDefault();
     introJs().start();
-})
+});
