@@ -11,6 +11,8 @@ return array(
     "resource_name"              => "Resource name",
     "resource_name_help"         => "The specific identification of the dataset in the publishing URI e.g. treecount",
     "required_parameters"        => "Required parameters",
+    "submit_issue"               => "Submit an issue",
+    "visit_site"                 => "Visit our website",
     "identifier"                 => "Identifier",
     "build_identifier"           => "Build the dataset's identifier",
     "select_type"                => "Select the dataset's type and fill out the metadata",
