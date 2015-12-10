@@ -2,12 +2,14 @@ language: php
 services: mysql
 php:
   - "5.4"
+  - "5.6"
 env:
   - DB=mysql
 before_script:
   - mysql -e 'CREATE DATABASE core_test;'
   - sudo hostname test.travis-ci.org
   - pecl install dbase
+  - echo "extension = dbase.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer install
 
 script:

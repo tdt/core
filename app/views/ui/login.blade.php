@@ -7,7 +7,7 @@
             <div class="panel-body">
                 <div class="col-sm-12">
                     <form class="form-signin" role="form" action="" method="post">
-                        <h3 class="form-signin-heading">Please sign in</h3>
+                        <h3 class="form-signin-heading">{{ trans('admin.sign_in_header') }}</h3>
                         <input type="text" name='username' class="form-control" placeholder="Username" required autofocus>
                         <input type="password" name='password' class="form-control" placeholder="Password" required>
                         <br/>
@@ -18,7 +18,7 @@
                             </div>
                         @endif
                         <p>
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">{{ trans('admin.sign_in') }}</button>
                         </p>
                     </form>
                 </div>

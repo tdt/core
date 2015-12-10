@@ -57,7 +57,6 @@ class DcatController extends ApiController
     /**
      * Create the DCAT document of the published (non-draft) resources
      *
-     * @param $pieces array of uri pieces
      * @return mixed \Data object with a graph of DCAT information
      */
     private function createDcat()
@@ -66,6 +65,13 @@ class DcatController extends ApiController
 
         foreach ($ns as $prefix => $uri) {
             \EasyRdf_Namespace::set($prefix, $uri);
+        }
+
+        // If limit is empty, provide a custom page size for the DCAT document
+
+        $limit = \Input::get('limit');
+        if (empty($limit)) {
+            \Input::merge(array('limit' => 100));
         }
 
         // Apply paging when fetching the definitions
@@ -101,5 +107,17 @@ class DcatController extends ApiController
         $data_result->definition->collection_uri = 'info';
 
         return $data_result;
+    }
+
+    public function head($uri)
+    {
+        $response =  \Response::make(null, 200);
+
+        // Set headers
+        $response->header('Content-Type', 'text/turtle;charset=UTF-8');
+        $response->header('Pragma', 'public');
+
+        // Return formatted response
+        return $response;
     }
 }

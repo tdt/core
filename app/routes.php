@@ -25,6 +25,8 @@ Route::group(array('prefix' => 'api/admin'), function () {
     Route::controller('users', 'Tdt\\Core\\Ui\\UserController');
     Route::controller('groups', 'Tdt\\Core\\Ui\\GroupController');
 
+    Route::get('language/{lang}', 'Tdt\\Core\\Ui\\LanguageController@setLanguage');
+
     Route::any('{all}', 'Tdt\\Core\\Ui\\UiController@handleRequest')->where('all', '.*');
 });
 
@@ -56,10 +58,8 @@ App::error(function ($exception, $code) {
     $mimes = explode(',', $accept_header);
 
     if (in_array('text/html', $mimes) || in_array('application/xhtml+xml', $mimes)) {
-
         // Create HTML response, seperate templates for status codes
-        switch ($code)
-        {
+        switch ($code) {
             case 403:
                 return Response::view('errors.403', array('exception' => $exception), 403);
                 break;
@@ -74,7 +74,6 @@ App::error(function ($exception, $code) {
                 return Response::view('errors.default', array('exception' => $exception), $code);
         }
     } else {
-
         // Display a JSON error
         $error_json = new stdClass();
         $error_json->error = new stdClass();
@@ -102,4 +101,13 @@ App::error(function ($exception, $code) {
         return $response;
     }
 
+});
+
+App::finish(function ($request, $response) {
+    $tracker_id = \Config::get('tracker.id');
+
+    if (!empty($tracker_id)) {
+        $tracker = \App::make('Tdt\Core\Analytics\TrackerInterface');
+        $tracker->track($request, $tracker_id);
+    }
 });

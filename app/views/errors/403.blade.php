@@ -18,7 +18,7 @@
                 </div>
                 <div class='col-md-9'>
                     <h1>403</h1>
-                    <h3>Oops, it seems you don't have enough rights to access this!</h1>
+                    <h3>{{ trans('errors.403') }}</h1>
                     <p>{{ $exception->getMessage() }}</p>
                 </div>
             </div>

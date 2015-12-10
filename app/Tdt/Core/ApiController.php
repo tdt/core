@@ -11,7 +11,6 @@ use \Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-
 abstract class ApiController extends \Controller
 {
 

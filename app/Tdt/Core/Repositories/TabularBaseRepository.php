@@ -41,7 +41,9 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
             $geo = $input['geo'];
         }
 
-        $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        if (!empty($geo) || !empty($extracted_geo)) {
+            $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        }
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));
@@ -74,7 +76,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
         $model_name = $this->getModelName();
 
         // Validate the column properties (perhaps we need to put this extraction somewhere else)
-        $extracted_columns = $this->extractColumns($model_definition);
+        $extracted_columns = $this->extractColumns($input);
 
         $input_columns = @$input['columns'];
 
@@ -94,7 +96,11 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
             $geo = $input['geo'];
         }
 
-        $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        if (!empty($geo) || !empty($extracted_geo)) {
+            $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
+        } elseif (!isset($geo)) {
+            $geo = $this->geo_repository->getGeoProperties($tabular_id, $model_name);
+        }
 
         // Validation has been done, lets create the models
         $input = array_only($input, array_keys($this->getCreateParameters()));

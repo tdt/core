@@ -52,14 +52,16 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'epsg' => array(
                 'required' => false,
                 'name' => 'EPSG code',
                 'description' => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
-                'default_value' => 4326,
-                'type' => 'string',
+                'default_value' => "4326",
+                'type' => 'list',
+                'list' => 'api/geoprojections',
+                'list_option' => 'epsg',
             )
         );
     }
@@ -70,13 +72,13 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
      */
     public function getAllParameters()
     {
-         $column_params = array(
+        $column_params = array(
             'columns' =>
                 array(
                     'description' => 'Columns must be an array of objects of which the template is described in the parameters section.',
                     'parameters' => $this->tabular_repository->getCreateParameters(),
                 )
-        );
+            );
 
         return array_merge($this->getCreateParameters(), $column_params);
     }

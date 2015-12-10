@@ -22,10 +22,13 @@ class ShpTest extends TestCase
 
     public function testPutApi()
     {
+        \Geoprojection::create([
+            'epsg' => 4326,
+            'projection' => "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4326\"]]"
+        ]);
 
         // Publish each shp file in the test shp data folder.
         foreach ($this->test_data as $entry) {
-
             $name = $entry['name'];
             $file = $entry['file'];
 
@@ -55,10 +58,8 @@ class ShpTest extends TestCase
 
     public function testGetApi()
     {
-
         // Request the data for each of the test shp files.
         foreach ($this->test_data as $entry) {
-
             $name = $entry['name'];
 
             $uri = 'shp/'. $name .'.json';
@@ -74,7 +75,6 @@ class ShpTest extends TestCase
     public function testUpdateApi()
     {
         foreach ($this->test_data as $entry) {
-
             $file = $entry['name'];
 
             $updated_description = 'An updated description for ' . $file;

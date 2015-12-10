@@ -1,10 +1,12 @@
 <?php
 
 /**
- * The datasetcontroller
+ * The DatasetController: Takes care of the UI side of managing datasets.
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
+ * @author Jan Vansteenlandt <jan@okfn.be>
  */
 namespace Tdt\Core\Ui;
 
@@ -18,7 +20,6 @@ class DatasetController extends UiController
      */
     public function getIndex()
     {
-
         // Set permission
         Auth::requirePermissions('admin.dataset.view');
 
@@ -35,7 +36,6 @@ class DatasetController extends UiController
      */
     public function getAdd()
     {
-
         // Set permission
         Auth::requirePermissions('admin.dataset.create');
 
@@ -47,8 +47,8 @@ class DatasetController extends UiController
         // Sort parameters for each media type
         $mediatypes = array();
         $lists = array();
-        foreach ($mediatypes_spec as $mediatype => $type) {
 
+        foreach ($mediatypes_spec as $mediatype => $type) {
             $parameters_required = array();
             $parameters_optional = array();
             $parameters_dc = array();
@@ -56,14 +56,10 @@ class DatasetController extends UiController
             $parameters_geo = array();
 
             foreach ($type->parameters as $parameter => $object) {
-
                 // Filter array type parameters
-
                 if (empty($object->parameters)) {
-
                     // Filter Dublin core parameters
                     if (!empty($object->group) && $object->group == 'dc') {
-
                         // Fetch autocomplete DC fields
                         if ($object->type == 'list') {
                             $uri = $object->list;
@@ -86,13 +82,34 @@ class DatasetController extends UiController
 
                         }
 
-
                         $parameters_dc[$parameter] = $object;
 
                     } else {
-                        // Fitler optional vs required
+                        // Filter optional vs required
+                        if ($object->type == 'list' && (strpos($object->list, '|') !== false)) {
+                            $object->list = explode('|', $object->list);
+                        } elseif ($object->type == 'list') {
+                            $uri = $object->list;
+
+                            // Check list cache
+                            if (empty($lists[$uri])) {
+                                $data = json_decode($this->getDocument($uri));
+                                $data_set = array();
+
+                                foreach ($data as $o) {
+                                    if (!empty($o->{$object->list_option})) {
+                                        $data_set[] = $o->{$object->list_option};
+                                    }
+                                }
+
+                                $lists[$uri] = $data_set;
+                            }
+
+                            $object->list = $lists[$uri];
+                        }
+
                         if ($object->required) {
-                            // Filter the type paramter
+                            // Filter the type parameter
                             if ($parameter != 'type') {
                                 $parameters_required[$parameter] = $object;
                             }
@@ -101,8 +118,6 @@ class DatasetController extends UiController
                         }
                     }
                 } else {
-
-
                     switch ($parameter) {
                         case 'columns':
                             foreach ($object->parameters as $param => $obj) {
@@ -115,7 +130,6 @@ class DatasetController extends UiController
                             }
                             break;
                     }
-
                 }
             }
 
@@ -124,6 +138,13 @@ class DatasetController extends UiController
 
             // TODO special treatment for caching
             unset($parameters_optional['draft']);
+
+            // Translate the parameters
+            $parameters_required = $this->translateParameters($parameters_required, $mediatype);
+            $parameters_optional = $this->translateParameters($parameters_optional, $mediatype);
+            $parameters_dc = $this->translateParameters($parameters_dc, 'definition');
+            $parameters_columns = $this->translateParameters($parameters_columns, $mediatype);
+            $parameters_geo = $this->translateParameters($parameters_geo, $mediatype);
 
             $mediatypes[$mediatype]['parameters_required'] = $parameters_required;
             $mediatypes[$mediatype]['parameters_optional'] = $parameters_optional;
@@ -145,13 +166,11 @@ class DatasetController extends UiController
      */
     public function getEdit($id)
     {
-
         // Set permission
         Auth::requirePermissions('admin.dataset.update');
 
         $definition = \Definition::find($id);
         if ($definition) {
-
             // Get source defintion
             $source_definition = $definition->source()->first();
 
@@ -170,20 +189,16 @@ class DatasetController extends UiController
             $lists = array();
 
             foreach ($mediatype->parameters as $parameter => $object) {
-
                 // Filter array type parameters
                 if (empty($object->parameters)) {
-
                     // Filter Dublin core parameters
                     if (!empty($object->group) && $object->group == 'dc') {
-
                         // Fetch autocomplete DC fields
                         if ($object->type == 'list') {
                             $uri = $object->list;
 
                             // Check list cache
                             if (empty($lists[$uri])) {
-
                                 $data = json_decode($this->getDocument($uri));
                                 $data_set = array();
 
@@ -203,6 +218,29 @@ class DatasetController extends UiController
                         $parameters_dc[$parameter] = $object;
                     } else {
                         // Filter optional vs required
+                        // Filter optional vs required
+                        if ($object->type == 'list' && (strpos($object->list, '|') !== false)) {
+                            $object->list = explode('|', $object->list);
+                        } elseif ($object->type == 'list') {
+                            $uri = $object->list;
+
+                            // Check list cache
+                            if (empty($lists[$uri])) {
+                                $data = json_decode($this->getDocument($uri));
+                                $data_set = array();
+
+                                foreach ($data as $o) {
+                                    if (!empty($o->{$object->list_option})) {
+                                        $data_set[] = $o->{$object->list_option};
+                                    }
+                                }
+
+                                $lists[$uri] = $data_set;
+                            }
+
+                            $object->list = $lists[$uri];
+                        }
+
                         $parameters_optional[$parameter] = $object;
                     }
                 }
@@ -211,8 +249,6 @@ class DatasetController extends UiController
 
             // Filter on unnecessary optional parameters
             unset($parameters_optional['cache_minutes']);
-
-            // TODO special treatment for draft
             unset($parameters_optional['draft']);
 
             return \View::make('ui.datasets.edit')
@@ -281,5 +317,29 @@ class DatasetController extends UiController
 
         // Document content
         return $response->getContent();
+    }
+
+    /**
+     * Translate the view properties of the parameters
+     *
+     * @param array  $parameters
+     * @param string $media_type
+     *
+     * @return array
+     */
+    private function translateParameters($parameters, $media_type)
+    {
+        $translatedParameters = [];
+
+        foreach ($parameters as $name => $param) {
+            $trans_param_name = $media_type . '_' . $name;
+            $trans_param_desc_name = $trans_param_name . '_desc';
+
+            $param->name = trans('parameters.' . $trans_param_name);
+            $param->description = trans('parameters.' . $trans_param_desc_name);
+            $translatedParameters[$name] = $param;
+        }
+
+        return $translatedParameters;
     }
 }

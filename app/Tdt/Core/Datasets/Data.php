@@ -48,6 +48,11 @@ class Data
     public $geo;
 
     /**
+     * Indicates the format is already in a geo compatible format (KML, GeoJSON, ...)
+     */
+    public $geo_formatted;
+
+    /**
      * The raw data object (in PHP or an EasyRdf_Graph, the is_semantic property should be true if so)
      */
     public $data;

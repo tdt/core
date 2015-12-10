@@ -18,7 +18,7 @@
                 </div>
                 <div class='col-md-9'>
                     <h1>500</h1>
-                    <h3>Oops, we did something wrong!</h1>
+                    <h3>{{ trans('errors.500') }}</h1>
                     @if(Config::get('app.debug'))
                         <div class='row'>
                             <div class='col-lg-2'>
@@ -47,10 +47,10 @@
                             </div>
                         </div>
                     @else
-                        <p>If this error persists, get in touch with us!</p>
+                        <p>{{ trans('errors.contact_us') }}</p>
                         <br/>
-                        <p><a href='https://github.com/tdt/core/issues'><i class='fa fa-lg fa-github'></i> Submit an issue to the repository</a></p>
-                        <p><a href='http://thedatatank.com'><i class='fa fa-lg fa-cloud'></i> Visit our website</a></p>
+                        <p><a href='https://github.com/tdt/core/issues'><i class='fa fa-lg fa-github'></i> {{ trans('admin.submit_issue') }}</a></p>
+                        <p><a href='http://thedatatank.com'><i class='fa fa-lg fa-cloud'></i> {{ trans('admin.visit_site') }}</a></p>
                     @endif
                 </div>
             </div>

@@ -3,11 +3,11 @@
 @section('content')
 
     <div class="col-sm-9">
-        <h3>Collections &amp; datasets</h3>
+        <h3>{{ trans('datasets.list_header') }}</h3>
         <div class="input-group">
             <input id='dataset-filter' type="text" class="form-control" placeholder='Search for collection(s) or dataset(s)'>
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button" disabled>Filter</button>
+                <button class="btn btn-default" type="button" disabled>{{ trans('datasets.filter') }}</button>
             </span>
         </div>
 
@@ -27,7 +27,6 @@
                         <div class='row'>
                             <div class='col-sm-5'>
                                 <h4 class='dataset-title'>
-
                                     <a href='{{ $collection }}'>{{ $collection_name }}</a>
                                 </h4>
                             </div>
@@ -66,7 +65,7 @@
             <div class='panel panel-default hide'>
                 <div class="panel-body note">
                     <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
-                    No collection(s) or dataset(s) found with the filter <strong>'<span class='dataset-filter'></span>'</strong>
+                    {{ trans('datasets.no_datasets_filter_message') }} <strong>'<span class='dataset-filter'></span>'</strong>
                 </div>
             </div>
         </div>
@@ -75,12 +74,12 @@
     <div class="col-sm-3">
         <ul class="list-group">
             <li class="list-group-item no-padding">
-                <a href="{{ $dataset_link }}.json{{ $query_string }}" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> View as JSON</a>
+                <a href="{{ $dataset_link }}.json{{ $query_string }}" class="btn btn-block btn-primary"><i class='fa fa-file-text-o'></i> {{ trans('datasets.view_json') }}</a>
             </li>
             <li class="list-group-item">
-                <h5 class="list-group-item-heading">Collection</h5>
+                <h5 class="list-group-item-heading">{{ trans('datasets.collection') }}</h5>
                 <p class="list-group-item-text">
-                    This URI is a collection, and can contain datasets and other collections.
+                    {{ trans('datasets.collection_description') }}
                 </p>
             </li>
         </ul>

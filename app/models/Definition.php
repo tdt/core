@@ -16,13 +16,12 @@ class Definition extends Eloquent
         'language',
         'rights',
         'cache_minutes',
-        'draft',
-        'map_property',
         'keywords',
         'publisher_uri',
         'publisher_name',
         'theme',
-        'date'
+        'date',
+        'contact_point',
     );
 
     /**
@@ -43,14 +42,5 @@ class Definition extends Eloquent
         $source_type->delete();
 
         parent::delete();
-    }
-
-    /**
-     * Draft is a tinyint, cast type true/false to
-     * the corrersponding integers in the back-end
-     */
-    public function setDraftAttribute($value)
-    {
-        $this->attributes['draft'] = (int) $value;
     }
 }

@@ -23,14 +23,13 @@ class BaseController extends \Controller
         $uri = strtolower(rtrim($uri, '/'));
 
         // Check first segment of the request
-        switch(\Request::segment(1)){
+        switch (\Request::segment(1)) {
             case 'discovery':
                 // Discovery document
                 $controller = 'Tdt\\Core\\Definitions\\DiscoveryController';
                 break;
             case 'api':
-                switch(\Request::segment(2)){
-
+                switch (\Request::segment(2)) {
                     case 'definitions':
                         // Definitions request
                         $controller = 'Tdt\\Core\\Definitions\\DefinitionController';
@@ -50,6 +49,10 @@ class BaseController extends \Controller
                         // Supported languages request
                         $controller = 'Tdt\\Core\\Definitions\\LanguageController';
                         $uri = str_replace('api/languages', '', $uri);
+                        break;
+                    case 'geoprojections':
+                        $controller = 'Tdt\\Core\\Definitions\\GeoprojectionController';
+                        $uri = str_replace('api/geoprojections', '', $uri);
                         break;
                     case 'licenses':
                         // Supported licenses request
@@ -72,15 +75,6 @@ class BaseController extends \Controller
                 }
 
                 break;
-            case 'discovery':
-                // Discovery document
-                $controller = 'Tdt\\Core\\Definitions\\DiscoveryController';
-                break;
-            case 'spectql':
-                // SPECTQL request
-                $uri = str_ireplace('spectql', '', $original_uri);
-                $controller = 'Tdt\\Core\\Definitions\\SpectqlController';
-                break;
             case '':
                 // Home URL requests
                 $controller = 'Tdt\\Core\\HomeController';
@@ -98,6 +92,8 @@ class BaseController extends \Controller
         // Check the response type
         if ($response instanceof \Illuminate\Http\RedirectResponse) {
             // Redirect and that's it
+            return $response;
+        } else if ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
             return $response;
         } else {
             // Make sure cross origin requests are allowed for GET

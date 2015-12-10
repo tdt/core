@@ -89,7 +89,6 @@ class MYSQLController extends ADataController
         $db = \DB::connection('mysqltmp');
 
         try {
-
             $query = $source_definition['query'];
 
             // Get the total amount of records for the query for pagination
@@ -106,7 +105,6 @@ class MYSQLController extends ADataController
             $total_rows = $count_result[0]->count;
 
             if (!$limitInQuery) {
-
                 if (!empty($limit)) {
                     $query .= ' limit ' . $limit;
                 }

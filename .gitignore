@@ -9,6 +9,7 @@ composer.phar
 /app/config/local
 /app/config/staging
 /app/config/production
+/app/config/packages
 /bootstrap/compiled.php
 /installed/*
 !/installed/.gitkeep

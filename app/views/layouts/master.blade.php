@@ -35,5 +35,10 @@
             </div>
         </footer>
         <script src="{{ URL::to("js/script.min.js") }}" type="text/javascript"></script>
+        @if (!empty($json_ld))
+        <script type="application/ld+json">
+            {{ $json_ld }}
+        </script>
+        @endif
     </body>
 </html>

@@ -3,6 +3,7 @@
 namespace Tdt\Core\Formatters;
 
 use Request;
+
 /**
  * Map Formatter
  *
@@ -28,11 +29,7 @@ class MAPFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         $url = Request::url();
-        $url = preg_replace('/\.([^\.]*)$/m', '.kml', $url);
-
-        if (substr($url, -4) != '.kml'){
-            $url .= '.kml';
-        }
+        $url = preg_replace('/\.([^\.]*)$/m', '.geojson', $url);
 
         $resource = $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'];
 

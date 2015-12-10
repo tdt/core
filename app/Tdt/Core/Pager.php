@@ -12,7 +12,12 @@ namespace Tdt\Core;
  */
 class Pager
 {
-    protected static $PAGING_KEYWORDS = array('next', 'last', 'previous', 'first');
+    protected static $PAGING_KEYWORDS = array(
+                    'next' => 'http://www.w3.org/ns/hydra/core#nextPage',
+                    'last' => 'http://www.w3.org/ns/hydra/core#lastPage',
+                    'previous' => 'http://www.w3.org/ns/hydra/core#previousPage',
+                    'first' => 'http://www.w3.org/ns/hydra/core#firstPage'
+                    );
 
     protected static $DEFAULT_PAGE_SIZE = 500;
 
@@ -24,10 +29,8 @@ class Pager
         $link_value = '';
 
         foreach ($paging as $keyword => $page_info) {
-
-            if (!in_array($keyword, self::$PAGING_KEYWORDS)) {
-
-                $key_words = implode(', ', self::$PAGING_KEYWORDS);
+            if (!in_array($keyword, array_keys(self::$PAGING_KEYWORDS))) {
+                $key_words = implode(', ', array_keys(self::$PAGING_KEYWORDS));
                 \App::abort(400, "The given paging keyword, $keyword, has not been found. Supported keywords are $key_words.");
 
             } elseif (count($page_info) != 2) {
@@ -36,7 +39,7 @@ class Pager
 
             $request_string = self::buildQuerystring();
 
-            $link_value .= \Request::url() . '?offset=' . $page_info[0] . '&limit=' . $page_info[1] . $request_string .';rel=' . $keyword . ',';
+            $link_value .= \Request::url() . '?offset=' . $page_info[0] . '&limit=' . $page_info[1] . $request_string .';rel=' . self::$PAGING_KEYWORDS[$keyword] . ',';
         }
 
         // Trim the most right comma off.
@@ -50,7 +53,7 @@ class Pager
      *
      * @return string
      */
-    private static function buildQuerystring()
+    public static function buildQuerystring()
     {
         $request_params = \Request::all();
         $request_params = array_except($request_params, array('limit', 'offset'));
@@ -84,7 +87,6 @@ class Pager
 
         // Calculate the paging parameters and pass them with the data object
         if ($offset + $limit < $total_rows) {
-
             $paging['next'] = array($limit + $offset, $limit);
 
             $last_page = round($total_rows / $limit, 1);
@@ -120,17 +122,14 @@ class Pager
 
         // Calculate the limit and offset, if only page and optionally page_size are given
         if ($limit == self::$DEFAULT_PAGE_SIZE && $offset == 0) {
-
             $page = \Input::get('page', 1);
             $page_size = \Input::get('page_size', self::$DEFAULT_PAGE_SIZE);
 
             // Don't do extra work when page and page_size are also default values
             if ($page > 1 || $page_size != self::$DEFAULT_PAGE_SIZE) {
-
                 $offset = ($page -1)*$page_size;
                 $limit = $page_size;
             } elseif ($page == -1) {
-
                 $limit = PHP_INT_MAX;
                 $offset= 0;
             }

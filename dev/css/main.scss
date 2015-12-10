@@ -379,6 +379,49 @@ textarea{
     resize: vertical;
 }
 
+.add-dataset{
+    .identifier{
+        padding: 20px 0 40px 0;
+    }
+
+    .alert{
+        margin: 20px;
+    }
+
+    h3{
+        margin-bottom: 40px !important;
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .nav-tabs{
+        margin: 20px;
+        margin-bottom: 0px;
+    }
+
+    .tab-content{
+        margin: 20px;
+        margin-top: 0px;
+        background-color: #fff;
+        display: block;
+    }
+
+    .panel{
+        &.dataset-parameters{
+            margin-bottom: 0;
+            margin-top: -1px;
+            border: 0px none;
+            border-left: 1px solid $border-color-soft !important;
+            border-right: 1px solid $border-color-soft !important;
+            box-shadow: none;
+
+            &:last-child{
+                margin-left: -1px;
+            }
+        }
+    }
+}
+
 .form-control, .input-group-addon{
     font-size: 12px;
     padding: 6px 8px;
@@ -444,7 +487,6 @@ footer{
     line-height: $footer-height - $footer-border;
     font-size: 10px;
 }
-
 .push{
     height: $footer-height;
     width: 100%;
@@ -452,6 +494,10 @@ footer{
 
 .row{
     margin: 0px;
+}
+
+.tab-content{
+    background-color: #fff;
 }
 
 .panel{
@@ -788,6 +834,24 @@ ul.nav-tabs + div.panel{
     margin-top: -1px;
 }
 
+.nav-tabs{
+    li {
+        & > a{
+            &:hover{
+                background-color: transparent !important;
+            }
+        }
+
+        &.active{
+            & > a{
+                &:hover{
+                    background-color: #fff !important;
+                }
+            }
+        }
+    }
+}
+
 
 @media(max-width:500px){
     .navbar{
@@ -796,6 +860,27 @@ ul.nav-tabs + div.panel{
 
             input{
                 width: 100%;
+            }
+        }
+    }
+}
+
+.lang-selector{
+    & > a{
+        &.active{
+            font-weight: bold;
+        }
+
+        &:after{
+            content: '|';
+            color: #CCC;
+            margin: 0 2px 0 4px;
+        }
+
+        &:last-child{
+            &:after{
+                margin: 0;
+                content: '';
             }
         }
     }

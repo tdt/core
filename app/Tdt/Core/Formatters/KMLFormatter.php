@@ -2,6 +2,8 @@
 
 namespace Tdt\Core\Formatters;
 
+use Tdt\Core\Formatters\XMLFormatter;
+
 /**
  * KML Formatter
  *
@@ -29,8 +31,13 @@ class KMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
+         // Check if the original data is not GeoJSON
+        if ($dataObj->source_definition['type'] == 'XML' && !empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
+            return $dataObj->data;
+        }
+
         self::$definition = $dataObj->definition;
-        self::$map_property = $dataObj->definition['map_property'];
+        self::$map_property = $dataObj->source_definition['map_property'];
 
         // Build the body
         // KML header
@@ -67,9 +74,20 @@ class KMLFormatter implements IFormatter
         return $result;
     }
 
-    private static function getExtendedDataElement($value)
+    private static function getExtendedDataElement($values)
     {
         $result = "<ExtendedData>";
+        $ignore = ['parts', 'points', 'point'];
+
+        foreach ($values as $key => $val) {
+            if (!in_array($key, $ignore)) {
+                $result .= '<Data name="' . $key . '">';
+                $result .= '<displayName>' . $key . '</displayName>';
+                $result .= '<value>' . $val . '</value>';
+                $result .= '</Data>';
+            }
+        }
+
         $result .= "</ExtendedData>";
         return $result;
     }
@@ -94,9 +112,6 @@ class KMLFormatter implements IFormatter
                 }
 
                 if ($lat_long) {
-                    unset($array[$lat_long[0]]);
-                    unset($array[$lat_long[1]]);
-
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
                 } elseif ($coordskey) {
@@ -135,15 +150,37 @@ class KMLFormatter implements IFormatter
                         // For data read from XML latitude and longitude will be an array of @value = 3.342...
                         $lat_val = $array[$lat_long[0]];
                         $lon_val = $array[$lat_long[1]];
-                        if (is_array($lat_val)) {
-                            $lat_val = reset($lat);
-                        }
-                        if (is_array($lon_val)) {
-                            $lon_val = reset($lon_val);
-                        }
 
-                        if ($lat_val != 0 || $lon_val != 0) {
-                            echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "</coordinates></Point>";
+                        if (!empty($lat_long[2]) && !empty($array[$lat_long[2]])) {
+                            $z_val = $array[$lat_long[2]];
+
+                            if (is_array($lat_val)) {
+                                $lat_val = reset($lat);
+                            }
+
+                            if (is_array($lon_val)) {
+                                $lon_val = reset($lon_val);
+                            }
+
+                            if (is_array($z_val)) {
+                                $z_val = reset($z_val);
+                            }
+
+                            if ($lat_val != 0 || $lon_val != 0) {
+                                echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "," . $z_val . "</coordinates></Point>";
+                            }
+                        } else {
+                            if (is_array($lat_val)) {
+                                $lat_val = reset($lat);
+                            }
+
+                            if (is_array($lon_val)) {
+                                $lon_val = reset($lon_val);
+                            }
+
+                            if ($lat_val != 0 || $lon_val != 0) {
+                                echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "</coordinates></Point>";
+                            }
                         }
                     }
 
@@ -202,8 +239,8 @@ class KMLFormatter implements IFormatter
                     $name = $entry['name'];
                 }
 
-                if (!empty($dataObj->map_property) && !empty($entry[$dataObj->map_property])) {
-                    $name = $entry[$dataObj->map_property];
+                if (!empty(self::$map_property) && !empty($entry[self::$map_property])) {
+                    $name = $entry[self::$map_property];
                 }
 
                 $extendeddata = self::getExtendedDataElement($entry);
@@ -218,25 +255,56 @@ class KMLFormatter implements IFormatter
                 $body .= $extendeddata;
 
                 if ($is_point) {
-                    if (count($geo) > 1) {
+                    if (count($geo) == 2) {
                         $point = $entry[$geo['longitude']] . ',' . $entry[$geo['latitude']];
+                    } elseif (count($geo) == 3) {
+                        $point = $entry[$geo['longitude']] . ',' . $entry[$geo['latitude']] . ',' . $entry[$geo['elevation']];
                     } else {
                         $point = $entry[$geo['point']];
                     }
 
                     $body .= "<Point><coordinates>" . $point . "</coordinates></Point>";
                 } else {
-                    if ($geo_type == 'polyline') {
-                        $body .= "<MultiGeometry>";
-                        foreach (explode(';', $entry[$geo['polyline']]) as $coord) {
-                            $body .= "<LineString><coordinates>".$coord."</coordinates></LineString>";
-                        }
-                        $body .= "</MultiGeometry>";
+                    switch ($geo_type) {
+                        case 'polylinez':
+                            $body .= "<MultiGeometry>";
 
-                    } elseif ($geo_type == 'polygon') {
-                        $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] ."</coordinates></LinearRing></outerBoundaryIs></Polygon>";
-                    } else {
-                        \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
+                            foreach (explode(';', $entry[$geo['polylinez']]) as $coord) {
+                                $body .= "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
+                            }
+                            $body .= "</MultiGeometry>";
+                            break;
+                        case 'polyline':
+                            $body .= "<MultiGeometry>";
+
+                            foreach (explode(';', $entry[$geo['polyline']]) as $coord) {
+                                $body .= "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
+                            }
+                            $body .= "</MultiGeometry>";
+                            break;
+                        case 'polygonz':
+                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygonz']] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            break;
+                        case 'polygon':
+                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            break;
+                        case 'multipoinz':
+                            $body .= "<MultiGeometry>";
+                            foreach (explode(';', $entry[$geo['multipointz']]) as $point) {
+                                $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
+                            }
+                            $body .= '</MultiGeometry>';
+                            break;
+                        case 'multipoint':
+                            $body .= "<MultiGeometry>";
+                            foreach (explode(';', $entry[$geo['multipoint']]) as $point) {
+                                $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
+                            }
+                            $body .= '</MultiGeometry>';
+                            break;
+                        default:
+                            \App::abort(500, "The geo type, $geo_type, is not supported. Make sure the (combined) geo type is correct. (e.g. latitude and longitude are given).");
+                            break;
                     }
                 }
                 $body .= "</Placemark>";

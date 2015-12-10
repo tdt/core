@@ -15,7 +15,7 @@
         <nav class="navbar navbar-fixed-top">
             <a class="navbar-brand admin" href="{{ URL::to('api/admin') }} ">
                 <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
-                <h1>Admin</h1>
+                <h1>{{ trans('admin.admin_header') }}</h1>
             </a>
 
             <ul class="nav navbar-nav">
@@ -36,7 +36,7 @@
                 <ul class='pull-right nav navbar-nav'>
                     <li>
                         <a href="{{ URL::to('api/admin/logout') }}">
-                            <i class='fa fa-sign-out'></i> Sign out
+                            <i class='fa fa-sign-out'></i> {{ trans('admin.sign_out') }}
                         </a>
                     </li>
                 </ul>
@@ -52,8 +52,15 @@
         </div>
 
         <footer>
-            <div class="col-lg-12">
+            <div class="col-sm-6">
                 Powered by <a href="//thedatatank.com/" target="_blank">The DataTank</a>
+            </div>
+            <div class="col-sm-6 text-right lang-selector">
+                <?php $locales = array('en', 'nl', 'fr'); ?>
+                @foreach ($locales as $locale)
+                    <a href='{{ URL::to("api/admin/language/$locale") }}'
+                        @if(\App::getLocale() == $locale) class='active' @endif >{{ $locale }}</a>
+                @endforeach
             </div>
         </footer>
         <script type='text/javascript'>

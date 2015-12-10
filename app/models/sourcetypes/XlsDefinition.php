@@ -13,7 +13,7 @@ class XlsDefinition extends SourceType
 
     protected $table = 'xlsdefinitions';
 
-    protected $fillable = array('uri', 'sheet', 'has_header_row', 'start_row', 'description', 'title');
+    protected $fillable = array('uri', 'sheet', 'has_header_row', 'start_row', 'description', 'title', 'map_property');
 
     /**
      * Relationship with the TabularColumns model.

@@ -55,19 +55,16 @@ class XLSController extends ADataController
 
         // Check if they match with the freshly parsed columns
         if (count($parsed_columns) != count($columns)) {
-
             // Save the new config
             $this->tabular_columns->deleteBulk($source_definition['id'], 'XlsDefinition');
             $this->tabular_columns->storeBulk($source_definition['id'], 'XlsDefinition', $columns);
 
         } else {
             foreach ($parsed_columns as $parsed_column) {
-
                 $column = array_shift($columns);
 
                 foreach ($parsed_column as $key => $val) {
                     if ($val != $column[$key]) {
-
                         // Save the new config
                         $this->tabular_columns->deleteBulk($source_definition['id'], 'XlsDefinition');
                         $this->tabular_columns->storeBulk($source_definition['id'], 'XlsDefinition', $columns);
@@ -90,7 +87,6 @@ class XLSController extends ADataController
         $pk = null;
 
         foreach ($columns as $column) {
-
             if (!empty($column['is_pk'])) {
                 $pk = $column['column_name_alias'];
             }
@@ -107,9 +103,7 @@ class XLSController extends ADataController
         }
 
         try {
-
             if (substr($uri, 0, 4) == "http") {
-
                 $tmpFile = uniqid();
                 file_put_contents($tmp_path . "/" . $tmpFile, file_get_contents($uri));
                 $php_obj = self::loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri), $sheet);
@@ -137,18 +131,15 @@ class XLSController extends ADataController
 
             // Iterate all the rows of the Excell sheet
             foreach ($worksheet->getRowIterator() as $row) {
-
                 $row_index = $row->getRowIndex();
 
                 // If our offset is ok, start parsing the data from the excell sheet
                 if ($row_index > $start_row) {
-
                     $cell_iterator = $row->getCellIterator();
                     $cell_iterator->setIterateOnlyExistingCells(false);
 
                     // Only read rows that are allowed in the current requested page
                     if ($offset <= $total_rows && $offset + $limit > $total_rows) {
-
                         $rowobject = new \stdClass();
 
                         // Iterate each cell in the row, create an array of the values with the name of the column
@@ -170,17 +161,20 @@ class XLSController extends ADataController
                             if (empty($row_objects[$rowobject->$pk])) {
                                 $row_objects[$rowobject->$pk] = $rowobject;
                             } elseif (!empty($row_objects[$rowobject->$pk])) {
-
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double has been used already for another record!");
                             } else {
-
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double is empty.");
                             }
                         }
                     }
+
                     $total_rows++;
+
+                    if ($total_rows >= 10000) {
+                        break;
+                    }
                 }
             }
 
@@ -237,7 +231,6 @@ class XLSController extends ADataController
         $result = array();
 
         foreach ($columns as $column) {
-
             $value = @$data[$column['index']];
 
             if (!is_null($value)) {
@@ -245,7 +238,6 @@ class XLSController extends ADataController
             } else {
                 $index = $column['index'];
 
-                \Log::warning("The column $index contained an empty value in the XLS file.");
                 $result[$column['column_name_alias']] = '';
             }
         }
@@ -273,7 +265,6 @@ class XLSController extends ADataController
         $tmp_dir = sys_get_temp_dir();
 
         if (empty($columns)) {
-
             if (!is_dir($tmp_dir)) {
                 mkdir($tmp_dir);
             }
@@ -282,7 +273,6 @@ class XLSController extends ADataController
 
             try {
                 if ($is_uri) {
-
                     $tmp_file = uniqid();
 
                     file_put_contents($tmp_dir. "/" . $tmp_file, file_get_contents($input['uri']));
@@ -305,27 +295,22 @@ class XLSController extends ADataController
             }
 
             foreach ($worksheet->getRowIterator() as $row) {
-
                 $row_index = $row->getRowIndex();
 
                 // Rows start at 1 in XLS
                 if ($row_index == $input['start_row'] + 1) {
-
                     $cell_iterator = $row->getCellIterator();
                     $cell_iterator->setIterateOnlyExistingCells(false);
 
                     $column_index = 0;
 
                     foreach ($cell_iterator as $cell) {
-
                         $column_name = '';
 
                         if ($cell->getValue() != "") {
-
                             $column_name = trim($cell->getCalculatedValue());
 
                         } else {
-
                             $column_name = 'column_' . $column_index;
 
                         }

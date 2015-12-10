@@ -74,7 +74,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
                 'required' => true,
                 'name' => 'Description',
                 'description' => 'The descriptive or informational string that provides some context for you published dataset.',
-                'type' => 'string',
+                'type' => 'text',
             ),
             'delimiter' => array(
                 'required' => false,
@@ -87,7 +87,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
                 'required' => false,
                 'name' => 'Header row',
                 'description' => 'Boolean parameter defining if the separated value file contains a header row that contains the column names.',
-                'default_value' => 1,
+                'default_value' => true,
                 'type' => 'boolean',
             ),
             'start_row' => array(
@@ -104,7 +104,7 @@ class CsvDefinitionRepository extends TabularBaseRepository implements CsvDefini
                                 The value must be the index of the column you want each row to be mapped on.
                                 The pk property will never explicitly appear in the definition, but will manifest itself as part of a column property.',
                 'type' => 'integer',
-            ),
+            )
         );
     }
 }

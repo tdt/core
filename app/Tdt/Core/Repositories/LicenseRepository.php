@@ -6,13 +6,11 @@ use Tdt\Core\Repositories\Interfaces\LicenseRepositoryInterface;
 
 class LicenseRepository implements LicenseRepositoryInterface
 {
-
     /**
      * Fetch a License by its title (=id)
      */
     public function getByTitle($title)
     {
-
         $license = \License::where('title', '=', $title)->first();
 
         if (!empty($license)) {
@@ -26,16 +24,7 @@ class LicenseRepository implements LicenseRepositoryInterface
     {
         return \License::all(
             array(
-                'domain_content',
-                'domain_data',
-                'domain_software',
-                'family',
                 'license_id',
-                'is_generic',
-                'is_okd_compliant',
-                'is_osi_compliant',
-                'maintainer',
-                'status',
                 'title',
                 'url'
             )

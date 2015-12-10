@@ -6,10 +6,10 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
-
     protected $rules = array(
         'resource_name' => 'required',
-        'collection_uri' => 'required|collectionuri'
+        'collection_uri' => 'required|collectionuri',
+        'contact_point' => 'uri',
     );
 
     public function __construct(\Definition $model)
@@ -116,7 +116,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getAllPublished($limit = PHP_INT_MAX, $offset = 0)
     {
-        return \Definition::where('draft', '=', 0)->take($limit)->skip($offset)->get()->toArray();
+        return \Definition::take($limit)->skip($offset)->get()->toArray();
     }
 
 
@@ -164,7 +164,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
      */
     public function countPublished()
     {
-        return \Definition::where('draft', '=', 0)->count();
+        return \Definition::count();
     }
 
     public function getDefinitionSource($id, $name)
@@ -183,7 +183,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Use the power of the IoC
         try {
-
             $type = ucfirst(strtolower($type));
             $source_repository = $this->getSourceRepository($type);
 
@@ -204,7 +203,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definitions = array();
 
         foreach ($this->getAll($limit, $offset) as $definition) {
-
             $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
             $definitions[$identifier] = $this->getFullDescription($identifier);
         }
@@ -217,7 +215,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definitions = array();
 
         foreach ($this->getAll($limit, $offset) as $definition) {
-
             $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
             $definitions[$identifier] = $this->getDescriptionInfo($identifier);
         }
@@ -240,7 +237,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $properties['description'] = @$source_definition->description;
 
         unset($properties['map_property']);
-        unset($properties['draft']);
 
         return $properties;
     }
@@ -271,7 +267,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // If the source type has a relationship with tabular columns, then attach those to the properties
         if (method_exists(get_class($source_definition), 'tabularColumns')) {
-
             $columns = $source_definition->tabularColumns();
             $columns = $columns->getResults();
 
@@ -290,13 +285,11 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // If the source type has a relationship with geoproperties, attach those to the properties
         if (method_exists(get_class($source_definition), 'geoProperties')) {
-
             $geo_props = $source_definition->geoProperties();
             $geo_props = $geo_props->getResults();
 
             $geo_props_arr = array();
             foreach ($geo_props as $geo_prop) {
-
                 $geo_entry = new \stdClass();
 
                 $geo_entry->path = $geo_prop->path;
@@ -375,18 +368,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'type' => 'integer',
                 'description' => 'How long this resource should be cached (in minutes).',
             ),
-            'draft' => array(
-                'required' => false,
-                'name' => 'Draft',
-                'type' => 'boolean',
-                'description' => 'Draft definitions are not shown to the public when created, however the URI space they take is reserved.',
-            ),
-            'map_property' => array(
-                'required' => false,
-                'name' => 'Map property',
-                'type' => 'string',
-                'description' => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable. Non geo-graphical datasets are not affected by this property.',
-            ),
             'publisher_uri' => array(
                 'required' => false,
                 'name' => 'Publisher URI',
@@ -406,6 +387,13 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'name' => 'Keywords',
                 'type' => 'string',
                 'description' => 'A comma separated list of keywords regarding the dataset.',
+                'group' => 'dc',
+            ),
+            'contact_point' => array(
+                'required' => false,
+                'name' => 'Contact point',
+                'type' => 'string',
+                'description' => 'A link on which people can provide feedback or flag errors.',
                 'group' => 'dc',
             ),
         );

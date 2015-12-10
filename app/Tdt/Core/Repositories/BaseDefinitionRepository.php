@@ -93,11 +93,12 @@ class BaseDefinitionRepository
     protected function processInput(array $input)
     {
         foreach ($this->getCreateParameters() as $key => $info) {
-
             if (empty($input[$key]) && (!empty($info['default_value']) || !is_null(@$info['default_value']))) {
                 $input[$key] = @$info['default_value'];
             } elseif (empty($input[$key])) {
                 $input[$key] = null;
+            } else {
+                $input[$key] = trim($input[$key]);
             }
         }
 
@@ -108,7 +109,8 @@ class BaseDefinitionRepository
      * Patch the input given with the existing properties of a model and return the resulting array
      *
      * @param integer $id
-     * @param array $input
+     * @param array   $input
+     *
      * @return array model
      */
     protected function patchInput($model_id, array $input)
@@ -116,7 +118,6 @@ class BaseDefinitionRepository
         $model = $this->getById($model_id);
 
         foreach ($model as $property => $value) {
-
             if (empty($input[$property]) && !is_numeric(@$input[$property])) {
                 $input[$property] = $model[$property];
             }

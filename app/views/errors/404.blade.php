@@ -18,7 +18,7 @@
                 </div>
                 <div class='col-md-9'>
                     <h1>404</h1>
-                    <h3>Oops, there is nothing here!</h1>
+                    <h3>{{ trans('errors.404') }}</h1>
                     <p>{{ $exception->getMessage() }}</p>
                 </div>
             </div>

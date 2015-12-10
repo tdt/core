@@ -19,7 +19,7 @@ class DcatThemes extends Command
      *
      * @var string
      */
-    protected $name = 'datatank:theme';
+    protected $name = 'datatank:themes';
 
     /**
      * The console command description.

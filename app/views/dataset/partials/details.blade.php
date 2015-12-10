@@ -1,18 +1,22 @@
 <ul class="list-group">
     <li class="list-group-item">
-        <h5 class="list-group-item-heading">Formats</h5>
+        <h5 class="list-group-item-heading">{{ trans('htmlview.formats') }}</h5>
         <div class="btn-group formats">
             <?php $i = 0; ?>
             @foreach($formats as $format => $extension)
-                <a href="{{ $dataset_link }}.{{ $extension }}{{ $query_string }}" class="btn">
-                    @if($i == 0)
-                        @if($extension == 'map')
-                            <i class='fa fa-expand'></i>
-                        @else
-                            <i class='fa fa-file-text-o'></i>
-                        @endif
+                @if ($extension == 'csv')
+                    <a href="{{ $dataset_link }}.{{ $extension }}?limit=-1" class="btn">
+                @else
+                    <a href="{{ $dataset_link }}.{{ $extension }}{{ $query_string }}" class="btn">
+                @endif
+                @if($i == 0)
+                    @if($extension == 'map')
+                        <i class='fa fa-expand'></i>
+                    @else
+                        <i class='fa fa-file-text-o'></i>
                     @endif
-                    {{ $format }}
+                @endif
+                {{ $format }}
                 </a>
                 <?php $i++; ?>
             @endforeach
@@ -20,23 +24,59 @@
     </li>
     @if(!empty($source_definition['description']))
         <li class="list-group-item">
-            <h5 class="list-group-item-heading">Description</h5>
+            <h5 class="list-group-item-heading">{{ trans('htmlview.description') }}</h5>
             <p class="list-group-item-text">
                 {{ $source_definition['description'] }}
             </p>
         </li>
     @endif
     <li class="list-group-item">
-        <h5 class="list-group-item-heading">Source Type</h5>
+        <h5 class="list-group-item-heading">{{ trans('htmlview.source_type') }}</h5>
         <p class="list-group-item-text">
             {{ strtoupper($source_definition['type']) }}
         </p>
     </li>
     @if(!empty($definition['rights']))
         <li class="list-group-item">
-            <h5 class="list-group-item-heading">License</h5>
+            <h5 class="list-group-item-heading">{{ trans('htmlview.license') }}</h5>
             <p class="list-group-item-text">
+            @if (!empty($definition['rights_uri']) && filter_var($definition['rights_uri'], FILTER_VALIDATE_URL))
+                <a href="{{ $definition['rights_uri'] }}">{{ $definition['rights'] }}</a>
+            @else
                 {{ $definition['rights'] }}
+            @endif
+            </p>
+        </li>
+    @endif
+    @if(!empty($definition['contact_point']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">{{ trans('htmlview.contact') }}</h5>
+            <p class="list-group-item-text">
+            @if(filter_var($definition['contact_point'], FILTER_VALIDATE_URL))
+                <a href="{{ $definition['contact_point'] }}">{{ $definition['contact_point'] }}</a>
+            @else
+                {{ $definition['contact_point'] }}
+            @endif
+            </p>
+        </li>
+    @endif
+    @if(!empty($definition['publisher_name']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">{{ trans('htmlview.publisher') }}</h5>
+            <p class="list-group-item-text">
+                @if(!empty($definition['publisher_uri']) && filter_var($definition['publisher_uri'], FILTER_VALIDATE_URL))
+                    <a href="{{ $definition['publisher_uri'] }}">{{ $definition['publisher_name'] }}</a>
+                @else
+                    {{ $definition['publisher_name'] }}
+                @endif
+            </p>
+        </li>
+    @endif
+    @if(!empty($definition['keywords']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">{{ trans('htmlview.keywords') }}</h5>
+            <p class="list-group-item-text">
+                {{ $definition['keywords'] }}
             </p>
         </li>
     @endif
