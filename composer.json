@@ -29,7 +29,8 @@
         "muka/shape-reader" : "dev-master",
         "elasticsearch/elasticsearch": "1.4.1",
         "nesbot/carbon": "~1.14",
-        "tdt/input" : "2.0.*"
+        "tdt/input" : "2.0.*",
+        "phayes/geophp" : "dev-master"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"

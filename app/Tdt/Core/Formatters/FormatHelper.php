@@ -45,9 +45,12 @@ class FormatHelper
             $formats['WKT'] = 'wkt';
         } elseif (!empty($data->geo_formatted) && $data->geo_formatted) {
             if (strtolower($source_type) == 'xml') {
+                $formats = array_merge(array('Fullscreen map' => 'map'), $formats);
                 $formats['KML'] = 'kml';
+                $formats['GEOJSON'] = 'geojson';
                 unset($formats['XML']);
             } elseif (strtolower($source_type) == 'json' && $data->geo_formatted) {
+                $formats = array_merge(array('Fullscreen map' => 'map'), $formats);
                 $formats['GeoJSON'] = 'geojson';
                 unset($formats['JSON']);
             }

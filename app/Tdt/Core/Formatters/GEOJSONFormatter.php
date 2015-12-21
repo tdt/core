@@ -29,8 +29,13 @@ class GEOJSONFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         // Check if the original data is not GeoJSON
-        if ($dataObj->source_definition['type'] == 'JSON' && !empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
-            return json_encode($dataObj->data);
+        if (!empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
+            if ($dataObj->source_definition['type'] == 'JSON') {
+                return json_encode($dataObj->data);
+            } elseif ($dataObj->source_definition['type'] == 'XML') {
+                $geom = \geoPHP::load($dataObj->data, 'kml');
+                return $geom->out('json');
+            }
         }
 
         // Build the body
