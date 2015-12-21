@@ -100,11 +100,12 @@ class JSONController extends ADataController
         }
 
         if (!filter_var($uri, FILTER_VALIDATE_URL) === false) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $uri);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $data = curl_exec($ch);
-            curl_close($ch);
+            $parts = parse_url($uri);
+            if ($parts['scheme'] != 'file') {
+                $data = $this->getRemoteData($uri);
+            } else {
+                $data =@ file_get_contents($uri);
+            }
         } else {
             $data =@ file_get_contents($uri);
         }
@@ -112,8 +113,45 @@ class JSONController extends ADataController
         if ($data) {
             Cache::put($uri, $data, $this->cache);
         } else {
-            $uri = $source_definition['uri'];
             \App::abort(500, "Cannot retrieve data from the JSON file located on $uri.");
+        }
+
+        return $data;
+    }
+
+    private function getRemoteData($url)
+    {
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, $url);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($c, CURLOPT_MAXREDIRS, 10);
+        $follow_allowed= ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
+
+        if ($follow_allowed) {
+            curl_setopt($c, CURLOPT_FOLLOWLOCATION, 1);
+        }
+
+        curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 9);
+        curl_setopt($c, CURLOPT_REFERER, $url);
+        curl_setopt($c, CURLOPT_TIMEOUT, 60);
+        curl_setopt($c, CURLOPT_AUTOREFERER, true);
+        curl_setopt($c, CURLOPT_ENCODING, 'gzip,deflate');
+        $data = curl_exec($c);
+        $status = curl_getinfo($c);
+        curl_close($c);
+
+        preg_match('/(http(|s)):\/\/(.*?)\/(.*\/|)/si', $status['url'], $link);
+        $data = preg_replace('/(src|href|action)=(\'|\")((?!(http|https|javascript:|\/\/|\/)).*?)(\'|\")/si', '$1=$2' . $link[0] . '$3$4$5', $data);
+
+        $data = preg_replace('/(src|href|action)=(\'|\")((?!(http|https|javascript:|\/\/)).*?)(\'|\")/si', '$1=$2' . $link[1] . '://' . $link[3] . '$3$4$5', $data);
+
+        if ($status['http_code'] == 200) {
+            return $data;
+        } elseif ($status['http_code'] == 301 || $status['http_code'] == 302) {
+            \App::abort(400, "The JSON URL redirected us to a different URI.");
         }
 
         return $data;

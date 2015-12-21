@@ -26,10 +26,8 @@ class JSONFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-
         // If the data is semantic, return json ld
         if ($dataObj->is_semantic) {
-
             $jsonld_formatter = new JSONLDFormatter();
 
             return $jsonld_formatter->getBody($dataObj);
@@ -42,7 +40,6 @@ class JSONFormatter implements IFormatter
         }
 
         if ($dataObj->is_semantic) {
-
             // Check if a configuration is given
             $conf = array();
             if (!empty($dataObj->semantic->conf)) {
