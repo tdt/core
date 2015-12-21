@@ -100,7 +100,12 @@ class JSONController extends ADataController
         }
 
         if (!filter_var($uri, FILTER_VALIDATE_URL) === false) {
-            $data = $this->getRemoteData($uri);
+            $parts = parse_url($uri);
+            if ($parts['scheme'] != 'file') {
+                $data = $this->getRemoteData($uri);
+            } else {
+                $data =@ file_get_contents($uri);
+            }
         } else {
             $data =@ file_get_contents($uri);
         }
@@ -139,9 +144,9 @@ class JSONController extends ADataController
         curl_close($c);
 
         preg_match('/(http(|s)):\/\/(.*?)\/(.*\/|)/si', $status['url'], $link);
-        $data = preg_replace('/(src|href|action)=(\'|\")((?!(http|https|javascript:|\/\/|\/)).*?)(\'|\")/si', '$1=$2'.$link[0] . '$3$4$5', $data);
+        $data = preg_replace('/(src|href|action)=(\'|\")((?!(http|https|javascript:|\/\/|\/)).*?)(\'|\")/si', '$1=$2' . $link[0] . '$3$4$5', $data);
 
-        $data=preg_replace('/(src|href|action)=(\'|\")((?!(http|https|javascript:|\/\/)).*?)(\'|\")/si', '$1=$2' . $link[1] .'://' . $link[3] . '$3$4$5', $data);
+        $data = preg_replace('/(src|href|action)=(\'|\")((?!(http|https|javascript:|\/\/)).*?)(\'|\")/si', '$1=$2' . $link[1] . '://' . $link[3] . '$3$4$5', $data);
 
         if ($status['http_code'] == 200) {
             return $data;
