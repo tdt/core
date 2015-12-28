@@ -41,7 +41,7 @@
             "php artisan migrate:install",
             "php artisan migrate",
             "php artisan migrate --package=cartalyst/sentry",
-            "php artisan db:seed"
+            "php artisan db:seed",
             "php artisan migrate --package=tdt/input",
             "php artisan asset:publish --package=tdt/input"
         ],
