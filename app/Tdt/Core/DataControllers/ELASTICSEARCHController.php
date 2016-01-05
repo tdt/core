@@ -25,7 +25,7 @@ class ELASTICSEARCHController extends ADataController
 
             $parts = parse_url($source_definition['host']);
 
-            if ($parts['scheme'] == 'https') {
+            if (!empty($parts['scheme']) && $parts['scheme'] == 'https') {
                 $schemeless_url = str_replace('https://', '', $source_definition['host']);
                 $source_definition['host'] = 'https://' . $auth . $schemeless_url;
             } else {
@@ -41,6 +41,8 @@ class ELASTICSEARCHController extends ADataController
         $search_params['index'] = $source_definition['es_index'];
         $search_params['type'] = $source_definition['es_type'];
         $search_params['body']['query']['query_string']['query'] = $query_param;
+        $search_params['from'] = $offset;
+        $search_params['size'] = $limit;
 
         $results = $client->search($search_params);
         $data = [];
