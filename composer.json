@@ -43,7 +43,7 @@
             "php artisan migrate --package=cartalyst/sentry",
             "php artisan db:seed",
             "php artisan migrate --package=tdt/input",
-            "php artisan asset:publish --package=tdt/input"
+            "php artisan asset:publish tdt/input"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
