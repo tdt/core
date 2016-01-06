@@ -18,12 +18,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
     {
         try {
             if (!filter_var($value, FILTER_VALIDATE_URL) === false) {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $value);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                $data = curl_exec($ch);
-                curl_close($ch);
+                $data = $this->getRemoteData($value);
 
                 return !empty($data);
             } else {
@@ -34,6 +29,33 @@ class CustomValidator extends \Illuminate\Validation\Validator
         } catch (\Exception $ex) {
             return false;
         }
+    }
+
+    private function getRemoteData($url)
+    {
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, $url);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($c, CURLOPT_MAXREDIRS, 10);
+        $follow_allowed= ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
+
+        if ($follow_allowed) {
+            curl_setopt($c, CURLOPT_FOLLOWLOCATION, 1);
+        }
+
+        curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 9);
+        curl_setopt($c, CURLOPT_REFERER, $url);
+        curl_setopt($c, CURLOPT_TIMEOUT, 60);
+        curl_setopt($c, CURLOPT_AUTOREFERER, true);
+        curl_setopt($c, CURLOPT_ENCODING, 'gzip,deflate');
+        $data = curl_exec($c);
+        $status = curl_getinfo($c);
+        curl_close($c);
+
+        return $data;
     }
 
     /**

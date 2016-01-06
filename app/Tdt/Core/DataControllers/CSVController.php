@@ -122,7 +122,14 @@ class CSVController extends ADataController
         // Contains the amount of rows that we added to the resulting object
         $hits = 0;
 
-        if (($handle = fopen($uri, "r")) !== false) {
+        $ssl_options = array(
+                            "ssl"=>array(
+                                "verify_peer"=>false,
+                                "verify_peer_name"=>false,
+                                ),
+                            );
+
+        if (($handle = fopen($uri, "r", false, stream_context_create($ssl_options))) !== false) {
             while (($data = fgetcsv($handle, 2000000, $delimiter)) !== false) {
                 if ($total_rows >= $start_row) {
                     // Create the values array, containing the (aliased) name of the column
@@ -214,7 +221,14 @@ class CSVController extends ADataController
 
         $columns = array();
 
-        if (($handle = fopen($config['uri'], "r")) !== false) {
+        $ssl_options = array(
+                            "ssl"=>array(
+                                "verify_peer"=>false,
+                                "verify_peer_name"=>false,
+                                ),
+                            );
+
+        if (($handle = fopen($config['uri'], "r", false, stream_context_create($ssl_options))) !== false) {
             // Throw away the lines untill we hit the start row
             // from then on, process the columns
             $commentlinecounter = 0;
