@@ -30,7 +30,18 @@ class HTMLFormatter implements IFormatter
         $query_string = '';
 
         if (!empty($_GET)) {
-            $query_string = '?' . http_build_query(\Input::all());
+            $get_params = \Input::get();
+
+            foreach ($get_params as $param => $val) {
+                if (!empty($val)) {
+                    $query_string .= "&$param=$val";
+                }
+            }
+
+            if (!empty($query_string)) {
+                $query_string = trim($query_string, '&');
+                $query_string = '?' . $query_string;
+            }
         }
 
         // Links to pages
@@ -38,11 +49,20 @@ class HTMLFormatter implements IFormatter
         $next_link = '';
 
         if (!empty($dataObj->paging)) {
-            $input_array = array_except(\Input::all(), array('limit', 'offset'));
+            $input_array = array_except(\Input::get(), array('limit', 'offset'));
 
             $query_string = '';
             if (!empty($input_array)) {
-                $query_string = '&' . http_build_query($input_array);
+                foreach ($get_params as $param => $val) {
+                    if (!empty($val)) {
+                        $query_string .= "&$param=$val";
+                    }
+                }
+
+                if (!empty($query_string)) {
+                    $query_string = trim($query_string, '&');
+                    $query_string = '?' . $query_string;
+                }
             }
 
             if (!empty($dataObj->paging['previous'])) {
