@@ -281,7 +281,7 @@ class GEOJSONFormatter implements IFormatter
             } elseif (count($coord_array) == 3) {
                 array_push($result, array(floatval($coord_array[0]), floatval($coord_array[1]), floatval($coord_array[2])));
             } else {
-                \Log::error("400", "An invalid coordinate was parsed.");
+                \Log::warning("An invalid coordinate was parsed.");
             }
         }
         return $result;
@@ -315,7 +315,7 @@ class GEOJSONFormatter implements IFormatter
             } elseif (count($coordinates_array) == 3) {
                 array_push($result, array(floatval($coordinates_array[0]), floatval($coordinates_array[1]), floatval($coordinates_array[2])));
             } else {
-                \Log::error("400", "An invalid coordinate was parsed.");
+                \Log::warning("An invalid coordinate was parsed.");
             }
         }
         return $result;
