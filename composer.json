@@ -16,7 +16,7 @@
         }
     },
     "require": {
-        "laravel/framework": "4.2.0",
+        "laravel/framework": "4.2.1",
         "phpoffice/phpexcel": "1.8.0",
         "phpunit/phpunit" : "4.0.17",
         "easyrdf/easyrdf" : "0.9.1",
@@ -30,7 +30,8 @@
         "elasticsearch/elasticsearch": "1.4.1",
         "nesbot/carbon": "~1.14",
         "tdt/input" : "2.0.*",
-        "phayes/geophp" : "dev-master"
+        "phayes/geophp" : "dev-master",
+        "tdt/multisite" : "dev-master"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
