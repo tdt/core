@@ -76,7 +76,9 @@ class DatasetController extends ApiController
                     // Get REST parameters
 
                     $uri_segments = explode('/', $uri);
-                    $rest_parameters = array_diff($uri_segments, array($definition['collection_uri'], $definition['resource_name']));
+                    $definition_segments = explode('/', $definition['collection_uri']);
+		    array_push($definition_segments, $definition['resource_name']);
+                    $rest_parameters = array_diff($uri_segments, $definition_segments);		    
                     $rest_parameters = array_values($rest_parameters);
 
                     $throttle_response = $this->applyThrottle($definition);
