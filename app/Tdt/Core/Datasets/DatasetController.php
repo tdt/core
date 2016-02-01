@@ -280,22 +280,24 @@ class DatasetController extends ApiController
     private static function applyRestFilter($data, $rest_params)
     {
         foreach ($rest_params as $rest_param) {
-            if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
-                $data = $data->$key;
-            } elseif (is_array($data)) {
-                if ($key = self::keyExists($data, $rest_param)) {
-                    $data = $data[$key];
-                } elseif (is_numeric($rest_param)) {
-                    for ($i = 0; $i <= $rest_param; $i++) {
-                        $result = array_shift($data);
-                    }
+            if (!empty($rest_param)) {
+                if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
+                    $data = $data->$key;
+                } elseif (is_array($data)) {
+                    if ($key = self::keyExists($data, $rest_param)) {
+                        $data = $data[$key];
+                    } elseif (is_numeric($rest_param)) {
+                        for ($i = 0; $i <= $rest_param; $i++) {
+                            $result = array_shift($data);
+                        }
 
-                    $data = $result;
+                        $data = $result;
+                    } else {
+                        \App::abort(404, "No property ($rest_param) has been found.");
+                    }
                 } else {
                     \App::abort(404, "No property ($rest_param) has been found.");
                 }
-            } else {
-                \App::abort(404, "No property ($rest_param) has been found.");
             }
         }
 

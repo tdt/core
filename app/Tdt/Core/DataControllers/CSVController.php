@@ -6,6 +6,9 @@ use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
 use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
+use Tdt\Core\Datasets\DatasetController;
+
+ini_set('auto_detect_line_endings', true);
 
 /**
  * CSV Controller
@@ -33,6 +36,15 @@ class CSVController extends ADataController
     public function readData($source_definition, $rest_parameters = array())
     {
         list($limit, $offset) = Pager::calculateLimitAndOffset();
+
+        // Get the format, if it's CSV we allow a full read of the datasource without paging limitation
+        list($uri, $extension) = $this->processURI(\Request::path());
+
+        $ignore_paging = false;
+
+        if (strtolower($extension) == 'csv') {
+            $ignore_paging = true;
+        }
 
         // Disregard the paging when rest parameters are given
         if (!empty($rest_parameters)) {
@@ -130,7 +142,7 @@ class CSVController extends ADataController
                             );
 
         if (($handle = fopen($uri, "r", false, stream_context_create($ssl_options))) !== false) {
-            while (($data = fgetcsv($handle, 2000000, $delimiter)) !== false) {
+            while (($data = fgetcsv($handle, 0, $delimiter)) !== false) {
                 if ($total_rows >= $start_row) {
                     // Create the values array, containing the (aliased) name of the column
                     // to the value of a the row which $data represents
@@ -158,12 +170,11 @@ class CSVController extends ADataController
 
                 $total_rows++;
 
-                if ($total_rows >= 10000) {
+                if ($total_rows >= 10000 && !$ignore_paging) {
                     break;
                 }
             }
             fclose($handle);
-
         } else {
             \App::abort(500, "Cannot retrieve any data from the CSV file on location $uri.");
         }
@@ -197,6 +208,41 @@ class CSVController extends ADataController
         }
 
         return $result;
+    }
+
+    /**
+     * Parse the URI and look for the resource name and the format
+     *
+     * @param string $uri
+     *
+     * @return array
+     */
+    private function processURI($uri)
+    {
+        $dot_position = strrpos($uri, '.');
+
+        if (!$dot_position) {
+            return array($uri, null);
+        }
+
+        // If a dot has been found, do a couple
+        // of checks to find out if it introduces a formatter
+        $uri_parts = explode('.', $uri);
+
+        $possible_extension = strtoupper(array_pop($uri_parts));
+
+        $uri = implode('.', $uri_parts);
+
+        $formatter_class = 'Tdt\\Core\\Formatters\\' . $possible_extension . 'Formatter';
+
+        if (!class_exists($formatter_class)) {
+            // Re-attach the dot with the latter part of the uri
+            $uri .= '.' . strtolower($possible_extension);
+
+            return array($uri, null);
+        }
+
+        return array($uri, strtolower($possible_extension));
     }
 
     /**

@@ -37,8 +37,6 @@ class DcatRepository implements DcatRepositoryInterface
         // Create a new EasyRDF graph
         $graph = new \EasyRdf_Graph();
 
-        \EasyRdf_Namespace::set('adms', 'http://www.w3.org/ns/adms#');
-
         $all_settings = $this->settings->getAll();
 
         $uri = \Request::root();
@@ -105,7 +103,7 @@ class DcatRepository implements DcatRepositoryInterface
 
                 // Backwards compatibility
                 if (!empty($definition['contact_point'])) {
-                    $graph->addResource($dataset_uri, 'adms:contactPoint', $definition['contact_point']);
+                    $graph->addResource($dataset_uri, 'dcat:contactPoint', $definition['contact_point']);
                 }
 
                 // Add the publisher resource to the dataset

@@ -5,7 +5,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2d2ad64c882a005be73034f52be57824",
+    "hash": "edd5fd808bb935c036186a9a1b1b770b",
     "content-hash": "7cdec1bf315f21f0387492b52cb89aef",
     "packages": [
         {
@@ -803,22 +803,22 @@
         },
         {
             "name": "ml/json-ld",
-            "version": "1.0.3",
+            "version": "1.0.5",
             "target-dir": "ML/JsonLD",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lanthaler/JsonLD.git",
-                "reference": "10a03f7dec0f4a7db6b2e6e6230cdfb7cce562a2"
+                "reference": "2f7f00a9daed844289135cc1cc99a75fc72a5438"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lanthaler/JsonLD/zipball/10a03f7dec0f4a7db6b2e6e6230cdfb7cce562a2",
-                "reference": "10a03f7dec0f4a7db6b2e6e6230cdfb7cce562a2",
+                "url": "https://api.github.com/repos/lanthaler/JsonLD/zipball/2f7f00a9daed844289135cc1cc99a75fc72a5438",
+                "reference": "2f7f00a9daed844289135cc1cc99a75fc72a5438",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "ml/iri": ">=1.1.1",
+                "ml/iri": "^1.1.1",
                 "php": ">=5.3.0"
             },
             "require-dev": {
@@ -848,7 +848,7 @@
                 "JSON-LD",
                 "jsonld"
             ],
-            "time": "2014-09-15 10:41:19"
+            "time": "2016-01-17 17:39:22"
         },
         {
             "name": "monolog/monolog",
@@ -1866,7 +1866,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/proj4php/proj4php/zipball/6c9e3c7c7ad952a9f8381566efc2cb13b861588e",
+                "url": "https://api.github.com/repos/proj4php/proj4php/zipball/bcef74e906ffe5b9aab0e78b1e65143c0c2b5d42",
                 "reference": "89722067010a4c88b7c4c79a7ee187bb2ddb1b61",
                 "shasum": ""
             },
@@ -2584,16 +2584,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.0",
+            "version": "v2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "a5eb815363c0388e83247e7e9853e5dbc14999cc"
+                "reference": "ee278f7c851533e58ca307f66305ccb9188aceda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a5eb815363c0388e83247e7e9853e5dbc14999cc",
-                "reference": "a5eb815363c0388e83247e7e9853e5dbc14999cc",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ee278f7c851533e58ca307f66305ccb9188aceda",
+                "reference": "ee278f7c851533e58ca307f66305ccb9188aceda",
                 "shasum": ""
             },
             "require": {
@@ -2640,20 +2640,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-30 20:15:42"
+            "time": "2016-01-13 10:28:07"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.8.0",
+            "version": "v2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "3e661a0d521ac67496515fa6e6704bd61bcfff60"
+                "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/3e661a0d521ac67496515fa6e6704bd61bcfff60",
-                "reference": "3e661a0d521ac67496515fa6e6704bd61bcfff60",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
+                "reference": "637b64d0ee10f44ae98dbad651b1ecdf35a11e8c",
                 "shasum": ""
             },
             "require": {
@@ -2689,7 +2689,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-23 10:19:46"
+            "time": "2016-01-13 10:28:07"
         },
         {
             "name": "symfony/finder",
@@ -3101,16 +3101,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.0",
+            "version": "v2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "f79824187de95064a2f5038904c4d7f0227fedb5"
+                "reference": "34c8a4b51e751e7ea869b8262f883d008a2b81b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/f79824187de95064a2f5038904c4d7f0227fedb5",
-                "reference": "f79824187de95064a2f5038904c4d7f0227fedb5",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/34c8a4b51e751e7ea869b8262f883d008a2b81b8",
+                "reference": "34c8a4b51e751e7ea869b8262f883d008a2b81b8",
                 "shasum": ""
             },
             "require": {
@@ -3146,20 +3146,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-30 12:35:10"
+            "time": "2016-01-13 10:28:07"
         },
         {
             "name": "tdt/input",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tdt/input.git",
-                "reference": "1238eede3d9835abeaa6242ba33ef8bbe0e7bbd8"
+                "reference": "be4e71d42ff56c418121246460879cc4b0beae3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tdt/input/zipball/1238eede3d9835abeaa6242ba33ef8bbe0e7bbd8",
-                "reference": "1238eede3d9835abeaa6242ba33ef8bbe0e7bbd8",
+                "url": "https://api.github.com/repos/tdt/input/zipball/be4e71d42ff56c418121246460879cc4b0beae3a",
+                "reference": "be4e71d42ff56c418121246460879cc4b0beae3a",
                 "shasum": ""
             },
             "require": {
@@ -3199,7 +3199,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-12-09 15:31:06"
+            "time": "2016-01-09 14:58:53"
         },
         {
             "name": "tdt/json",
