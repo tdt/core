@@ -48,11 +48,10 @@ class XmlTest extends TestCase
 
     public function testGetApi()
     {
-
         // Request the data for each of the test xml files.
         foreach ($this->test_data as $file) {
 
-            $file = 'xml/'. $file .'.json';
+            $file = 'xml/'. $file .'.xml';
             $this->updateRequest('GET');
 
             $controller = \App::make('Tdt\Core\Datasets\DatasetController');

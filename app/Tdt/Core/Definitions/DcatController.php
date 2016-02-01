@@ -102,9 +102,10 @@ class DcatController extends ApiController
         // Add the semantic configuration for the ARC graph
         $data_result->semantic = new \stdClass();
         $data_result->semantic->conf = array('ns' => $ns);
-        $data_result->definition = new \stdClass();
-        $data_result->definition->resource_name = 'dcat';
-        $data_result->definition->collection_uri = 'info';
+        $data_result->definition = [];
+        $data_result->definition['resource_name'] = 'dcat';
+        $data_result->definition['collection_uri'] = 'info';
+        $data_result->definition['source_type'] = 'DCAT';
 
         return $data_result;
     }
