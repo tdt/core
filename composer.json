@@ -30,8 +30,7 @@
         "elasticsearch/elasticsearch": "1.4.1",
         "nesbot/carbon": "~1.14",
         "tdt/input" : "2.0.*",
-        "phayes/geophp" : "dev-master",
-        "tdt/multisite" : "dev-master"
+        "phayes/geophp" : "dev-master"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
