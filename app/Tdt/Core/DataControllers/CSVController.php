@@ -175,7 +175,6 @@ class CSVController extends ADataController
                 }
             }
             fclose($handle);
-
         } else {
             \App::abort(500, "Cannot retrieve any data from the CSV file on location $uri.");
         }
