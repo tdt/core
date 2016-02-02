@@ -21,7 +21,6 @@ class InfoController extends ApiController
 
     public function get($uri)
     {
-
         // Set permission
         Auth::requirePermissions('info.view');
 
@@ -62,7 +61,6 @@ class InfoController extends ApiController
     private function getInfo($uri = null)
     {
         if (!empty($uri)) {
-
             if (!$this->definition->exists($uri)) {
                 \App::abort(404, "No resource was found identified with " . $uri);
             }
@@ -75,11 +73,25 @@ class InfoController extends ApiController
             return ContentNegotiator::getResponse($result, 'json');
         }
 
+        $keywords_str = \Input::get('keywords', '');
+
+        $keywords = [];
+
+        $keyword_set = explode(',', $keywords_str);
+
+        foreach ($keyword_set as $keyword) {
+            $keyword = trim($keyword);
+
+            if (!in_array($keyword, $keywords) && !empty($keyword)) {
+                $keywords[] = $keyword;
+            }
+        }
+
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions_info = $this->definition->getAllDefinitionInfo($limit, $offset);
+        $definitions_info = $this->definition->getAllDefinitionInfo($limit, $offset, $keywords);
 
-        $definition_count = $this->definition->countPublished();
+        $definition_count = $this->definition->countPublished($keywords);
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);

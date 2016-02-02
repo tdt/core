@@ -69,6 +69,10 @@ class BaseController extends \Controller
                         $controller = 'Tdt\\Core\\Definitions\\ThemeController';
                         $uri = str_replace('api/themes', '', $uri);
                         break;
+                    case 'keywords':
+                        $controller = 'Tdt\\Core\\Definitions\\KeywordController';
+                        $uri = str_replace('api/keywords', '', $uri);
+                        break;
                     default:
                         \App::abort(404, "Page not found.");
                         break;
