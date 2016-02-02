@@ -34,7 +34,7 @@ class DatasetController extends ApiController
         Auth::requirePermissions('dataset.view');
 
         // Split for an (optional) extension
-        list($uri, $extension) = $this->processURI($uri);
+        list($uri, $extension) = self::processURI($uri);
 
         // Check for caching
         // Based on: URI / Rest parameters / Query parameters / Paging headers
@@ -74,13 +74,11 @@ class DatasetController extends ApiController
                     $data_controller = \App::make($controller_class);
 
                     // Get REST parameters
-                    $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $uri);
-                    $rest_parameters = ltrim($rest_parameters, '/');
-                    $rest_parameters = explode('/', $rest_parameters);
-
-                    if (empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])) {
-                        $rest_parameters = array();
-                    }
+                    $uri_segments = explode('/', $uri);
+                    $definition_segments = explode('/', $definition['collection_uri']);
+                    array_push($definition_segments, $definition['resource_name']);
+                    $rest_parameters = array_diff($uri_segments, $definition_segments);
+                    $rest_parameters = array_values($rest_parameters);
 
                     $throttle_response = $this->applyThrottle($definition);
                     if (!empty($throttle_response)) {
@@ -206,6 +204,11 @@ class DatasetController extends ApiController
         }
     }
 
+    private function getRestParameters($uri, $definition)
+    {
+
+    }
+
     /**
      * Return a HEAD response indicating if a URI is reachable for the user agent
      *
@@ -219,7 +222,7 @@ class DatasetController extends ApiController
         Auth::requirePermissions('dataset.view');
 
         // Split for an (optional) extension
-        list($uri, $extension) = $this->processURI($uri);
+        list($uri, $extension) = self::processURI($uri);
 
         // Get definition
         $definition = $this->definition->getByIdentifier($uri);
@@ -242,7 +245,7 @@ class DatasetController extends ApiController
      * @param string $uri The URI that has been passed
      * @return array
      */
-    private function processURI($uri)
+    private static function processURI($uri)
     {
         $dot_position = strrpos($uri, '.');
 
@@ -328,13 +331,14 @@ class DatasetController extends ApiController
                 $data_controller = \App::make($controller_class);
 
                 // Get REST parameters
-                $rest_parameters = str_replace($definition['collection_uri'] . '/' . $definition['resource_name'], '', $identifier);
-                $rest_parameters = ltrim($rest_parameters, '/');
-                $rest_parameters = explode('/', $rest_parameters);
+                $uri = \Request::path();
+                list($uri, $extension) = self::processURI($uri);
 
-                if (empty($rest_parameters[0]) && !is_numeric($rest_parameters[0])) {
-                    $rest_parameters = array();
-                }
+                $uri_segments = explode('/', $uri);
+                $definition_segments = explode('/', $definition['collection_uri']);
+                array_push($definition_segments, $definition['resource_name']);
+                $rest_parameters = array_diff($uri_segments, $definition_segments);
+                $rest_parameters = array_values($rest_parameters);
 
                 // Retrieve dataobject from datacontroller
                 $data = $data_controller->readData($source_definition, $rest_parameters);
