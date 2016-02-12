@@ -60,20 +60,6 @@ class JSONController extends ADataController
     {
         $graph = $this->parseJsonLD($uri);
 
-        /*try {
-            $graph = new \EasyRdf_Graph();
-
-            if ((substr($uri, 0, 4) == "http")) {
-                $graph = \EasyRdf_Graph::newAndLoad($uri);
-                dd($graph);
-            } else {
-                $graph->parseFile($uri);
-            }
-
-        } catch (\Exception $ex) {
-            \App::abort(500, "The JSON-LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
-        }*/
-
         // Return the data object with the graph
         $data = new Data();
         $data->data = $graph;
@@ -131,18 +117,13 @@ class JSONController extends ADataController
         $graph = new \EasyRdf_Graph();
 
         foreach ($quads as $quad) {
-            // Ignore named graphs
-            if (null !== $quad->getGraph()) {
-                continue;
-            }
-
             $subject = (string) $quad->getSubject();
             if ('_:' === substr($subject, 0, 2)) {
                 $subject = $this->remapBnode($subject);
             }
 
             $predicate = (string) $quad->getProperty();
-            //dd($quad->getObject());
+
             if ($quad->getObject() instanceof \ML\IRI\IRI) {
                 $object = array(
                     'type' => 'uri',
