@@ -18,6 +18,8 @@ use ML\JsonLD\NQuads;
  */
 class JSONController extends ADataController
 {
+    private $bnodeMap = [];
+
     public static function getParameters()
     {
         return [];
@@ -119,7 +121,7 @@ class JSONController extends ADataController
         foreach ($quads as $quad) {
             $subject = (string) $quad->getSubject();
             if ('_:' === substr($subject, 0, 2)) {
-                $subject = $this->remapBnode($subject);
+                $subject = $this->remapBnode($subject, $graph);
             }
 
             $predicate = (string) $quad->getProperty();
@@ -133,7 +135,7 @@ class JSONController extends ADataController
                 if ('_:' === substr($object['value'], 0, 2)) {
                     $object = array(
                         'type' => 'bnode',
-                        'value' => $this->remapBnode($object['value'])
+                        'value' => $this->remapBnode($object['value'], $graph)
                     );
                 }
             } else {
@@ -190,5 +192,13 @@ class JSONController extends ADataController
         }
 
         return $data;
+    }
+
+    protected function remapBnode($name, $graph)
+    {
+        if (!isset($this->bnodeMap[$name])) {
+            $this->bnodeMap[$name] = $graph->newBNodeId();
+        }
+        return $this->bnodeMap[$name];
     }
 }
