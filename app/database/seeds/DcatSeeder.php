@@ -7,6 +7,10 @@
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
+
+use EasyRdf\Graph;
+use EasyRdf\Exception;
+
 class DcatSeeder extends Seeder
 {
 
@@ -100,7 +104,7 @@ class DcatSeeder extends Seeder
         try {
             $this->command->info('Trying to fetch new themes online.');
 
-            $themes_graph = \EasyRdf_Graph::newAndLoad($uri);
+            $themes_graph = Graph::newAndLoad($uri);
 
             if ($themes_graph->isEmpty()) {
                 $this->command->info('We could not reach the online themes.');
@@ -135,7 +139,7 @@ class DcatSeeder extends Seeder
 
             $this->command->info('Added new themes.');
 
-        } catch (EasyRdf_Exception $ex) {
+        } catch (Exception $ex) {
             $this->command->info('An error occurred when we tried to fetch online themes.');
         }
 

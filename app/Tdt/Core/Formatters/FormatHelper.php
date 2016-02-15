@@ -26,9 +26,9 @@ class FormatHelper
 
         $source_type = $data->source_definition['type'];
 
-        if (strtolower($source_type) != 'xml') {
+        if (strtolower($source_type) != 'xml' && strtolower($source_type) != 'kml') {
             $formats['JSON'] = 'json';
-        } else {
+        } elseif (strtolower($source_type) == 'xml') {
             $formats['XML'] = 'xml';
         }
 
@@ -44,7 +44,7 @@ class FormatHelper
             $formats['GeoJSON'] = 'geojson';
             $formats['WKT'] = 'wkt';
         } elseif (!empty($data->geo_formatted) && $data->geo_formatted) {
-            if (strtolower($source_type) == 'xml') {
+            if (strtolower($source_type) == 'kml') {
                 $formats = array_merge(array('Fullscreen map' => 'map'), $formats);
                 $formats['KML'] = 'kml';
                 $formats['GEOJSON'] = 'geojson';
@@ -57,7 +57,7 @@ class FormatHelper
         }
 
         // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph
-        if (is_object($data->data) && get_class($data->data) == 'EasyRdf_Graph') {
+        if (is_object($data->data) && get_class($data->data) == 'EasyRdf\Graph') {
             $formats['JSON-LD'] = 'jsonld';
             $formats['N-Triples'] = 'nt';
             $formats['Turtle'] = 'ttl';

@@ -69,6 +69,10 @@ class BaseController extends \Controller
                         $controller = 'Tdt\\Core\\Definitions\\ThemeController';
                         $uri = str_replace('api/themes', '', $uri);
                         break;
+                    case 'keywords':
+                        $controller = 'Tdt\\Core\\Definitions\\KeywordController';
+                        $uri = str_replace('api/keywords', '', $uri);
+                        break;
                     default:
                         \App::abort(404, "Page not found.");
                         break;
@@ -93,7 +97,7 @@ class BaseController extends \Controller
         if ($response instanceof \Illuminate\Http\RedirectResponse) {
             // Redirect and that's it
             return $response;
-        } else if ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
+        } elseif ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
             return $response;
         } else {
             // Make sure cross origin requests are allowed for GET

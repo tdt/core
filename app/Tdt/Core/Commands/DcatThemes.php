@@ -10,6 +10,8 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Commands\Ie\Definitions;
 use Tdt\Core\Commands\Ie\Users;
 use Tdt\Core\Commands\Ie\Groups;
+use EasyRdf\Graph;
+use EasyRdf\Exception;
 
 class DcatThemes extends Command
 {
@@ -97,17 +99,14 @@ class DcatThemes extends Command
 
         // Try to get the themes from the ns.thedatatank.com (semantic data)
         try {
-
             $this->info('Trying to fetch triples from the uri: ' . $base_uri);
 
-            $themes_graph = \EasyRdf_Graph::newAndLoad($base_uri);
+            $themes_graph = Graph::newAndLoad($base_uri);
 
             if ($themes_graph->isEmpty()) {
-
                 $this->info('We could not reach the online themes.');
 
             } else {
-
                 $this->info('Found new themes online, removing the old ones.');
 
                 // Empty the themes table
@@ -127,7 +126,6 @@ class DcatThemes extends Command
                 if (count($taxonomy_uris) == 1) {
                     $taxonomy_uri = $taxonomy_uris[0];
                 } else {
-
                     // Check if one of the possible taxonomy uris compares to the uri of the document
                     foreach ($taxonomy_uris as $tax_uri) {
                         if ($base_uri == $tax_uri) {
@@ -144,15 +142,12 @@ class DcatThemes extends Command
 
             // Fetch all of the themes
             foreach ($themes_graph->resourcesMatching('skos:inScheme') as $theme) {
-
                 if ($theme->get('skos:inScheme')->getUri() == $taxonomy_uri) {
-
                     $uri = $theme->getUri();
 
                     $label = $theme->getLiteral('rdfs:label');
 
                     if (!empty($label) && !empty($uri)) {
-
                         $label = $label->getValue();
 
                         $this->info('Added ' . $uri . ' with label ' . $label);
@@ -167,7 +162,7 @@ class DcatThemes extends Command
 
             $this->info('Added new themes.');
 
-        } catch (EasyRdf_Exception $ex) {
+        } catch (Exception $ex) {
             $this->info('An error occurred when we tried to fetch online themes.');
         }
     }

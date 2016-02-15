@@ -4,6 +4,9 @@ namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
+use EasyRdf\Graph;
+use EasyRdf\Parser\Turtle;
+use EasyRdf\Parser\RdfXml;
 
 /**
  * Controller that reads RDF from XML or Turtle files.
@@ -29,16 +32,16 @@ class RDFController extends ADataController
         $content = file_get_contents($uri);
 
         // Try parsing the contents of the rdf file
-        $graph = new \EasyRdf_Graph();
+        $graph = new Graph();
 
         $parser;
 
         if ($format == 'turtle') {
-            $parser = new \EasyRdf_Parser_Turtle();
+            $parser = new Turtle();
         } elseif ($format == 'xml') {
             // EasyRdf identifies rdfxml with rdf, not with xml as a format
             $format = 'rdfxml';
-            $parser = new \EasyRdf_Parser_RdfXml();
+            $parser = new RdfXml();
         } else {
             \App::abort(500, "The format you added, $format, is not supported. The supported formats are turtle and xml.");
         }

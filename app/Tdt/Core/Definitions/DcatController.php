@@ -14,6 +14,8 @@ use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
+use EasyRdf\Graph;
+use EasyRdf\RdfNamespace;
 
 /**
  * DcatController
@@ -64,7 +66,7 @@ class DcatController extends ApiController
         $ns = $this->dcat->getNamespaces();
 
         foreach ($ns as $prefix => $uri) {
-            \EasyRdf_Namespace::set($prefix, $uri);
+            RdfNamespace::set($prefix, $uri);
         }
 
         // If limit is empty, provide a custom page size for the DCAT document
@@ -102,9 +104,10 @@ class DcatController extends ApiController
         // Add the semantic configuration for the ARC graph
         $data_result->semantic = new \stdClass();
         $data_result->semantic->conf = array('ns' => $ns);
-        $data_result->definition = new \stdClass();
-        $data_result->definition->resource_name = 'dcat';
-        $data_result->definition->collection_uri = 'info';
+        $data_result->definition = [];
+        $data_result->definition['resource_name'] = 'dcat';
+        $data_result->definition['collection_uri'] = 'info';
+        $data_result->definition['source_type'] = 'DCAT';
 
         return $data_result;
     }

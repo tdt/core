@@ -162,9 +162,25 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     /**
      * Return the count of all non-draft definitions
      */
-    public function countPublished()
+    public function countPublished($keywords = [])
     {
-        return \Definition::count();
+        if (empty($keywords)) {
+            return \Definition::count();
+        } else {
+            if (!empty($keywords)) {
+                $count = 0;
+
+                foreach ($keywords as $keyword) {
+                    $definitions = \Definition::where('keywords', 'LIKE', '%' . $keyword . '%');
+
+                    $definition_count = $definitions->count();
+
+                    $count += $definition_count;
+                }
+            }
+
+            return $count;
+        }
     }
 
     public function getDefinitionSource($id, $name)
@@ -210,13 +226,55 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return $definitions;
     }
 
-    public function getAllDefinitionInfo($limit, $offset)
+    public function getAllDefinitionInfo($limit, $offset, $keywords = [])
     {
-        $definitions = array();
+        if (!empty($keywords)) {
+            $filtered_definitions = [];
 
-        foreach ($this->getAll($limit, $offset) as $definition) {
-            $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
-            $definitions[$identifier] = $this->getDescriptionInfo($identifier);
+            $count = 0;
+            $skipped = 0;
+
+            foreach ($keywords as $keyword) {
+                $definitions = \Definition::where('keywords', 'LIKE', '%' . $keyword . '%')->get();
+
+                $definition_count = $definitions->count();
+
+                if ($definition_count >= $offset || $count <= $limit + $offset) {
+                    // Use the slice(offset, amount) function on the Collection object
+                    if ($count < $offset) {
+                        $eligable_definitions = $definitions->slice($offset - $count, $limit - $count);
+
+                        foreach ($eligable_definitions as $eligable_definition) {
+                            $filtered_definitions[] = $eligable_definition->toArray();
+                        }
+                    } elseif ($count < $limit + $offset) {
+                        $eligable_definitions = $definitions->slice(0, $limit - $count + 1);
+
+                        foreach ($eligable_definitions as $eligable_definition) {
+                            $filtered_definitions[] = $eligable_definition->toArray();
+                        }
+                    }
+                }
+
+                $count += $definition_count;
+            }
+
+            $filtered_info = [];
+
+            foreach ($filtered_definitions as $filtered_definition) {
+                $identifier = $filtered_definition['collection_uri'] . '/' . $filtered_definition['resource_name'];
+                $filtered_info[$identifier] = $this->getDescriptionInfo($identifier);
+            }
+
+            return $filtered_info;
+
+        } else {
+            $definitions = array();
+
+            foreach ($this->getAll($limit, $offset) as $definition) {
+                $identifier = $definition['collection_uri'] . '/' . $definition['resource_name'];
+                $definitions[$identifier] = $this->getDescriptionInfo($identifier);
+            }
         }
 
         return $definitions;

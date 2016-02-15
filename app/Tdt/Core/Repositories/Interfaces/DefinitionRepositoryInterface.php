@@ -90,9 +90,11 @@ interface DefinitionRepositoryInterface
     /**
      * Retrieve the amount of published definitions
      *
+     * @param array $keywords
+     *
      * @return integer
      */
-    public function countPublished();
+    public function countPublished($keywords = []);
 
     /**
      * Get the source of the definition (e.g. CsvDefinition, ShpDefinition,...)
@@ -119,9 +121,10 @@ interface DefinitionRepositoryInterface
      * @param string $identifier (optional)
      * @param integer $limit
      * @param integer $offset
+     * @param array   $keywords
      * @return array of Definition's
      */
-    public function getAllDefinitionInfo($limit, $offset);
+    public function getAllDefinitionInfo($limit, $offset, $keywords = []);
 
     /**
      * Retrieve the full description of a definition

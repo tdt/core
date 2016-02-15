@@ -5,6 +5,9 @@ namespace Tdt\Core\DataControllers;
 use Tdt\Core\Cache\Cache;
 use Tdt\Core\Datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
+use ML\JsonLD\JsonLD;
+use ML\JsonLD\NQuads;
+use EasyRdf\Graph;
 
 /**
  * JSON Controller
@@ -16,6 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class JSONController extends ADataController
 {
+    private $bnodeMap = [];
+
     public static function getParameters()
     {
         return [];
@@ -56,18 +61,7 @@ class JSONController extends ADataController
 
     private function makeSemanticResponse($uri)
     {
-        try {
-            $graph = new \EasyRdf_Graph();
-
-            if ((substr($uri, 0, 4) == "http")) {
-                $graph = \EasyRdf_Graph::newAndLoad($uri);
-            } else {
-                $graph->parseFile($uri, 'jsonld');
-            }
-
-        } catch (\Exception $ex) {
-            \App::abort(500, "The JSON-LD reader couldn't parse the document, the exception message we got is: " . $ex->getMessage());
-        }
+        $graph = $this->parseJsonLD($uri);
 
         // Return the data object with the graph
         $data = new Data();
@@ -119,6 +113,50 @@ class JSONController extends ADataController
         return $data;
     }
 
+    private function parseJsonLD($uri)
+    {
+        $quads = JsonLD::toRdf($uri);
+        $nquads = new NQuads();
+        $graph = new Graph();
+
+        foreach ($quads as $quad) {
+            $subject = (string) $quad->getSubject();
+            if ('_:' === substr($subject, 0, 2)) {
+                $subject = $this->remapBnode($subject, $graph);
+            }
+
+            $predicate = (string) $quad->getProperty();
+
+            if ($quad->getObject() instanceof \ML\IRI\IRI) {
+                $object = array(
+                    'type' => 'uri',
+                    'value' => (string) $quad->getObject()
+                );
+
+                if ('_:' === substr($object['value'], 0, 2)) {
+                    $object = array(
+                        'type' => 'bnode',
+                        'value' => $this->remapBnode($object['value'], $graph)
+                    );
+                }
+            } else {
+                $object = array(
+                    'type' => 'literal',
+                    'value' => $quad->getObject()->getValue()
+                );
+
+                if ($quad->getObject() instanceof \ML\JsonLD\LanguageTaggedString) {
+                    $object['lang'] = $quad->getObject()->getLanguage();
+                } else {
+                    $object['datatype'] = $quad->getObject()->getType();
+                }
+            }
+            $graph->add($subject, $predicate, $object);
+        }
+
+        return $graph;
+    }
+
     private function getRemoteData($url)
     {
         $c = curl_init();
@@ -155,5 +193,13 @@ class JSONController extends ADataController
         }
 
         return $data;
+    }
+
+    protected function remapBnode($name, $graph)
+    {
+        if (!isset($this->bnodeMap[$name])) {
+            $this->bnodeMap[$name] = $graph->newBNodeId();
+        }
+        return $this->bnodeMap[$name];
     }
 }

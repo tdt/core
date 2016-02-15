@@ -3,6 +3,7 @@
 namespace Tdt\Core\Formatters;
 
 use ML\JsonLD\JsonLD;
+use EasyRdf\RdfNamespace;
 
 /**
  * JSON-LD Formatter
@@ -29,7 +30,6 @@ class JSONLDFormatter implements IFormatter
     {
 
         if ($dataObj->is_semantic) {
-
             // Check if a configuration is given
             $conf = array();
 
@@ -37,7 +37,7 @@ class JSONLDFormatter implements IFormatter
                 $conf = $dataObj->semantic->conf;
 
                 foreach ($conf['ns'] as $prefix => $uri) {
-                    \EasyRdf_Namespace::set($prefix, $uri);
+                    RdfNamespace::set($prefix, $uri);
                 }
             }
 
@@ -50,7 +50,6 @@ class JSONLDFormatter implements IFormatter
             $namespaces = array('hydra', 'rdf', 'rdfs', 'foaf', 'void', 'xsd', 'skos', 'xs');
 
             foreach ($namespaces as $ns) {
-
                 $namespace = $ontologies->getByPrefix($ns);
 
                 if (!empty($namespace)) {
