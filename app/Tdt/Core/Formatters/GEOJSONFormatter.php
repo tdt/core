@@ -76,6 +76,7 @@ class GEOJSONFormatter implements IFormatter
             );
 
             $id_prop = $dataObj->source_definition['map_property'];
+
             if (!empty($id_prop) && !empty($dataRow[$id_prop])) {
                 $feature['id'] = $dataRow[$id_prop];
                 unset($dataRow[$id_prop]);
@@ -92,6 +93,7 @@ class GEOJSONFormatter implements IFormatter
             $result['bbox'] = self::boundingBox($features);
         }
 
+
         return json_encode($result);
     }
 
@@ -104,8 +106,8 @@ class GEOJSONFormatter implements IFormatter
     public static function findGeometry($geo, $dataRow)
     {
         $geometry = null;
-
         $identifiers = array();
+
         if (count($geo) == 2 && !empty($geo['longitude']) && !empty($geo['latitude'])) {
             array_push($identifiers, $geo['longitude']);
             array_push($identifiers, $geo['latitude']);
