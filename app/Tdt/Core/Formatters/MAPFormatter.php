@@ -29,13 +29,21 @@ class MAPFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         $url = Request::url();
-        $url = preg_replace('/\.([^\.]*)$/m', '.geojson', $url);
+        $type = 'geojson';
+
+        if ($dataObj->definition['source_type'] == 'XmlDefinition' && $dataObj->source_definition['geo_formatted'] == 1) {
+            $url = preg_replace('/\.([^\.]*)$/m', '.kml', $url);
+            $type = 'kml';
+        } else {
+            $url = preg_replace('/\.([^\.]*)$/m', '.geojson', $url);
+        }
 
         $resource = $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'];
 
         // Render the view
         return \View::make('layouts.map')->with('title', 'Dataset: ' . $resource . ' map | The Datatank')
-                                          ->with('url', $url);
+                                          ->with('url', $url)
+                                          ->with('type', $type);
     }
 
     public static function getDocumentation()

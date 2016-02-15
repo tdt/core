@@ -25,18 +25,19 @@
                 minZoom: 3
             }).addTo(map);
 
-            $.getJSON('{{ $url }}', function(data){
-                var geoData = L.geoJson(data, {
-                    onEachFeature: function (feature, layer) {
-                        var popup = '<strong>{[name]}</strong><br/>{[description]}<br/>';
+            @if ($type == 'geojson')
+                $.getJSON('{{ $url }}', function(data){
+                    var geoData = L.geoJson(data, {
+                        onEachFeature: function (feature, layer) {
+                            var popup = '<strong>{[name]}</strong><br/>{[description]}<br/>';
 
-                        $.each(layer.feature.properties, function (key, val) {
-                            if (key != 'name' && key != 'description') {
-                                popup += "<br/><strong>" + key + "</strong>: " + val;
-                            } else {
-                                popup = popup.replace('{[' + key + ']}', val);
-                            }
-                        });
+                            $.each(layer.feature.properties, function (key, val) {
+                                if (key != 'name' && key != 'description') {
+                                    popup += "<br/><strong>" + key + "</strong>: " + val;
+                                } else {
+                                    popup = popup.replace('{[' + key + ']}', val);
+                                }
+                            });
 
                         // Replace when no data was provided
                         popup = popup.replace('<strong>{[name]}</strong><br/>', '');
@@ -46,8 +47,25 @@
                     }
                 }).addTo(map);
 
-                map.fitBounds(geoData.getBounds(), {padding: [20, 20]});
-            });
+                    map.fitBounds(geoData.getBounds(), {padding: [20, 20]});
+                });
+            @elseif ($type == 'kml')
+                var bounds = {};
+                var data = omnivore.kml('{{ $url }}')
+                .on('ready', function() {
+                    data.eachLayer(function(layer) {
+                        var popup = '';
+                        $.each(layer.feature.properties, function (key, val) {
+                            if (key != 'name' && key != 'description') {
+                                popup += "<strong>" + key + ": " + val + "</strong>\n";
+                            }
+                        });
+                        layer.bindPopup(popup);
+                    });
+                    map.fitBounds(data.getBounds(), {padding: [20, 20]});
+                })
+                .addTo(map);
+            @endif
         </script>
     </body>
 </html>
