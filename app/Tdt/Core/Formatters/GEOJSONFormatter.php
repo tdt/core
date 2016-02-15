@@ -32,7 +32,7 @@ class GEOJSONFormatter implements IFormatter
         if (!empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
             if ($dataObj->source_definition['type'] == 'JSON') {
                 return json_encode($dataObj->data);
-            } elseif ($dataObj->source_definition['type'] == 'XML') {
+            } elseif ($dataObj->source_definition['type'] == 'KML') {
                 $geom = \geoPHP::load($dataObj->data, 'kml');
                 return $geom->out('json');
             }

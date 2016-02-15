@@ -6,6 +6,8 @@ use Tdt\Core\Datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
 use Tdt\Core\Pager;
 use Tdt\Core\Repositories\Interfaces\OntologyRepositoryInterface;
+use EasyRdf\Graph;
+use EasyRdf\Parser\RdfXml;
 
 /**
  * SPARQL Controller
@@ -172,8 +174,8 @@ class SPARQLController extends ADataController
             $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
 
             // Parse the triple response and retrieve the triples from them
-            $result = new \EasyRdf_Graph();
-            $parser = new \EasyRdf_Parser_RdfXml();
+            $result = new Graph();
+            $parser = new RdfXml();
 
             $parser->parse($result, $response, 'rdfxml', null);
 

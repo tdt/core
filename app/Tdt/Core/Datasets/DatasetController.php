@@ -10,6 +10,7 @@ use Tdt\Core\DataControllers\ADataController;
 use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
 use Tdt\Core\Formatters\FormatHelper;
+use EasyRdf\RdfNamespace;
 
 /**
  *  DatasetController
@@ -64,10 +65,19 @@ class DatasetController extends ApiController
 
             if ($definition) {
                 // Get source definition
-                $source_definition = $this->definition->getDefinitionSource($definition['source_id'], $definition['source_type']);
+                $source_definition = $this->definition->getDefinitionSource(
+                    $definition['source_id'],
+                    $definition['source_type']
+                );
 
                 if ($source_definition) {
                     $source_type = $source_definition['type'];
+
+                    // KML can be formatted into different formats
+                    if ($source_definition['type'] == 'XML' && $source_definition['geo_formatted'] == 1) {
+                        $source_type == 'kml';
+                        $source_definition['type'] = 'KML';
+                    }
 
                     // Create the right datacontroller
                     $controller_class = 'Tdt\\Core\\DataControllers\\' . $source_type . 'Controller';
@@ -81,6 +91,7 @@ class DatasetController extends ApiController
                     $rest_parameters = array_values($rest_parameters);
 
                     $throttle_response = $this->applyThrottle($definition);
+
                     if (!empty($throttle_response)) {
                         return $throttle_response;
                     }
@@ -90,6 +101,8 @@ class DatasetController extends ApiController
 
                     // If the source type is XML, just return the XML contents, don't transform
                     if (strtolower($source_type) == 'xml' && $extension == 'xml') {
+                        return $this->createXMLResponse($data->data);
+                    } elseif (strtolower($extension) == 'kml') {
                         return $this->createXMLResponse($data->data);
                     }
 
@@ -102,7 +115,7 @@ class DatasetController extends ApiController
 
                     // Semantic paging with the hydra voc
                     if ($data->is_semantic && !empty($data->paging)) {
-                        \EasyRdf_Namespace::set('hydra', 'http://www.w3.org/ns/hydra/core#');
+                        RdfNamespace::set('hydra', 'http://www.w3.org/ns/hydra/core#');
                         $graph = $data->data;
                         $url = \URL::to($definition['collection_uri'] . '/' . $definition['resource_name']);
 

@@ -14,7 +14,6 @@ use Negotiation\FormatNegotiator;
  */
 class ContentNegotiator extends Pager
 {
-
     /**
      * Map MIME-types on formatters for Accept-header
      */
@@ -35,6 +34,7 @@ class ContentNegotiator extends Pager
         'nt' => array('application/n-triples'),
         'jsonld' => array('application/ld+json'),
         'geojson' => array('application/vnd.geo+json'),
+        'map' => array('application/vnd.map')
     );
 
     /**
@@ -56,10 +56,10 @@ class ContentNegotiator extends Pager
         // Formatter class
         $formatter_class = 'Tdt\\Core\\Formatters\\' . $extension . 'Formatter';
 
-        // Exception for XML, only XML is allowed or HTML
-        if ($data->definition['source_type'] == 'XmlDefinition' && !empty($extension)) {
+        // Exception for XML, only XML or HTML is allowed
+        if ($data->definition['source_type'] == 'XmlDefinition' && !empty($extension) && $data->source_definition['geo_formatted'] != 1) {
             if ($extension != "XML" && $extension != "HTML" && $extension != "PHP") {
-                \App::abort(406, "XML only allows to be formatted in XML, HTML or PHP serializaztion.");
+                \App::abort(406, "XML only allows to be formatted in XML, HTML or PHP serialization.");
             } elseif ($extension == "XML") {
                 return self::createXmlResponse($data->data);
             }
@@ -80,7 +80,7 @@ class ContentNegotiator extends Pager
             if (empty($data->preferred_formats)) {
                  // Still nothing? Use default formatter
 
-                if (empty($extension) && !$data->is_semantic) {
+                if (empty($extension) && !$data->is_semantic && empty($data->source_definition['geo_formatted'])) {
                     // Default formatter for non semantic data
                     $data->preferred_formats = array('json');
 
@@ -88,6 +88,12 @@ class ContentNegotiator extends Pager
                     // Default formatter for semantic data is turtle
                     $data->preferred_formats = array('ttl');
                 }
+            }
+
+            // Account for a special treatment for KML
+            if (!empty($data->source_definition['geo_formatted'])
+                && $data->source_definition['geo_formatted'] == 1) {
+                $data->preferred_formats = array('geojson');
             }
 
             if (!in_array('html', $priorities)) {

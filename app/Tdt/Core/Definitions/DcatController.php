@@ -14,6 +14,8 @@ use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
+use EasyRdf\Graph;
+use EasyRdf\RdfNamespace;
 
 /**
  * DcatController
@@ -64,7 +66,7 @@ class DcatController extends ApiController
         $ns = $this->dcat->getNamespaces();
 
         foreach ($ns as $prefix => $uri) {
-            \EasyRdf_Namespace::set($prefix, $uri);
+            RdfNamespace::set($prefix, $uri);
         }
 
         // If limit is empty, provide a custom page size for the DCAT document

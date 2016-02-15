@@ -10,6 +10,8 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Commands\Ie\Definitions;
 use Tdt\Core\Commands\Ie\Users;
 use Tdt\Core\Commands\Ie\Groups;
+use EasyRdf\Graph;
+use EasyRdf\Exception;
 
 class DcatLicenses extends Command
 {
@@ -111,8 +113,8 @@ class DcatLicenses extends Command
             $this->info('Trying to fetch triples from the uri: ' . $license_uri);
 
             try {
-                $licenses_graph = \EasyRdf_Graph::newAndLoad($license_uri, 'jsonld');
-            } catch (\EasyRdf_Http_Exception $ex) {
+                $licenses_graph = Graph::newAndLoad($license_uri, 'jsonld');
+            } catch (Exception $ex) {
                 $this->info('We could not fetch licenses from the URL ' . $license_uri . ', defaulting to ' . $this->DEFAULT_LICENSE . '.');
 
                 $licenses_graph = $this->fetchDefaultGraph();
@@ -164,7 +166,7 @@ class DcatLicenses extends Command
                 $this->info('Added license "' . $identifier . '" with title "' . $title . '" and URI ' . $url);
             }
 
-        } catch (EasyRdf_Exception $ex) {
+        } catch (Exception $ex) {
             $this->info('An error occurred when we tried to fetch online themes.');
         }
     }
@@ -178,6 +180,6 @@ class DcatLicenses extends Command
     {
         $license_uri = $this->licenses_uri . $this->DEFAULT_LICENSE . '.json';
 
-        return \EasyRdf_Graph::newAndLoad($license_uri, 'jsonld');
+        return Graph::newAndLoad($license_uri, 'jsonld');
     }
 }

@@ -6,8 +6,9 @@ use Tdt\Core\Tests\TestCase;
 use Tdt\Core\Definitions\DefinitionController;
 use Tdt\Core\Definitions\InfoController;
 use Tdt\Core\Definitions\DcatController;
-
 use Symfony\Component\HttpFoundation\Request;
+use EasyRdf\Graph;
+use EasyRdf\Parser\Turtle;
 
 class ModelPagingTest extends TestCase
 {
@@ -152,8 +153,8 @@ class ModelPagingTest extends TestCase
         // Get the semantic (turtle) content
         $turtle = $response->getOriginalContent();
 
-        $graph = new \EasyRdf_Graph();
-        $parser = new \EasyRdf_Parser_Turtle();
+        $graph = new Graph();
+        $parser = new Turtle();
 
         $total_triples = $parser->parse($graph, $turtle, 'turtle', '');
 

@@ -7,6 +7,7 @@ use Tdt\Core\Datasets\Data;
 use Symfony\Component\HttpFoundation\Request;
 use ML\JsonLD\JsonLD;
 use ML\JsonLD\NQuads;
+use EasyRdf\Graph;
 
 /**
  * JSON Controller
@@ -116,7 +117,7 @@ class JSONController extends ADataController
     {
         $quads = JsonLD::toRdf($uri);
         $nquads = new NQuads();
-        $graph = new \EasyRdf_Graph();
+        $graph = new Graph();
 
         foreach ($quads as $quad) {
             $subject = (string) $quad->getSubject();

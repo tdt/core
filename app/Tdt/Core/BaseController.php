@@ -97,7 +97,7 @@ class BaseController extends \Controller
         if ($response instanceof \Illuminate\Http\RedirectResponse) {
             // Redirect and that's it
             return $response;
-        } else if ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
+        } elseif ($response instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
             return $response;
         } else {
             // Make sure cross origin requests are allowed for GET

@@ -8,6 +8,7 @@ use Tdt\Core\Repositories\Interfaces\LanguageRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\ThemeRepositoryInterface;
 use User;
+use EasyRdf\Graph;
 
 class DcatRepository implements DcatRepositoryInterface
 {
@@ -35,7 +36,7 @@ class DcatRepository implements DcatRepositoryInterface
     public function getDcatDocument(array $definitions, $oldest_definition)
     {
         // Create a new EasyRDF graph
-        $graph = new \EasyRdf_Graph();
+        $graph = new Graph();
 
         $all_settings = $this->settings->getAll();
 

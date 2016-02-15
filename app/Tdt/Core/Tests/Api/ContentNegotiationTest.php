@@ -4,6 +4,7 @@ namespace Tdt\Core\Tests\Api;
 
 use Tdt\Core\Tests\TestCase;
 use Tdt\Core\ContentNegotiator;
+use EasyRdf\Graph;
 
 class ContentNegotiationTest extends TestCase
 {
@@ -66,7 +67,7 @@ class ContentNegotiationTest extends TestCase
         $data = \Mockery::mock('Tdt\Core\Datasets\Data');
 
         if ($semantic) {
-            $data->data = new \EasyRdf_Graph();
+            $data->data = new Graph();
         } else {
             $data->data = array();
         }
