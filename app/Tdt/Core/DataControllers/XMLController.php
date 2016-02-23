@@ -51,7 +51,7 @@ class XMLController extends ADataController
 
         if (!empty($source_definition['geo_formatted']) && $source_definition['geo_formatted']) {
             $data_result->geo_formatted = true;
-            $data_result->preferred_formats = array('geojson', 'map');
+            $data_result->preferred_formats = array('geojson', 'map', 'php');
         }
 
         return $data_result;

@@ -108,6 +108,10 @@ class DatasetController extends ApiController
                         return $this->createXMLResponse($data->data);
                     } elseif (!$data->is_semantic && $extension == 'xml' && $source_type != 'xml') {
                         \App::abort(406, "The requested format for the datasource is not available.");
+                    } elseif (strtolower($source_type) == 'xml' && !$data->geo_formatted &&!empty($extension) && $extension != 'xml') {
+                        \App::abort(406, "The requested format for the datasource is not available.");
+                    } elseif (strtolower($source_type) == 'xml' && $data->geo_formatted &&!empty($extension) && !in_array($extension, $data->preferred_formats)) {
+                        \App::abort(406, "The requested format for the datasource is not available.");
                     }
 
                     $data->rest_parameters = $rest_parameters;
