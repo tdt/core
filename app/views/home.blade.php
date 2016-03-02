@@ -2,11 +2,56 @@
 
 @section('content')
 
-    <div class="col-sm-12">
+    <form id="filter" class="col-sm-4 col-md-3 hidden-xs" method="GET">
+        <h4>License</h4>
+        @foreach($licenses as $license)
+        <div>
+            <label class="filter-option checkbox">
+                {{ Form::checkbox('license', $license); }}
+                {{ $license }}
+            </label>
+        </div>
+        @endforeach
+
+        <h4>Language</h4>
+        @foreach($languages as $language)
+        <div class="filter-option checkbox">
+            <label>
+                {{ Form::checkbox('language', $language); }}
+                {{ $language }}
+            </label>
+        </div>
+        @endforeach
+
+        <h4>Publisher</h4>
+        @foreach($publishers as $publisher)
+        <div class="filter-option checkbox">
+            <label>
+                {{ Form::checkbox('publisher', $publisher); }}
+                {{ $publisher }}
+            </label>
+        </div>
+        @endforeach
+
+        <h4>Theme</h4>
+        @foreach($themes as $theme)
+        <div class="filter-option checkbox">
+            <label>
+                {{ Form::checkbox('theme', $theme); }}
+                {{ $theme }}
+            </label>
+        </div>
+        @endforeach
+
+        <button type="submit">sub</button>
+
+    </form>
+    <div class="col-sm-8 col-md-9">
 
         @foreach($definitions as $definition)
 
-            <div class="panel dataset panel-default clickable-row" data-href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}'>
+            <div class="panel dataset panel-default clickable-row" data-href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' data-theme='{{ $definition->theme }}' data-license='{{ $definition->rights }}' data-language='{{ $definition->language }}' data-publisher='{{ $definition->publisher_name }}'>
+                <div class="anchor" id="{{ $definition->collection_uri . '/' . $definition->resource_name }}"></div>
                 <div class="panel-body">
                     <div class='icon'>
                         @if($definition->source_type == 'CsvDefinition' or $definition->source_type == 'XlsDefinition')
@@ -43,10 +88,7 @@
 
         @endforeach
 
-    </div>
-
-    <div class='col-sm-12 empty'>
-        <div class='panel panel-default @if(count($definitions) > 0) hide @endif'>
+        <div class='panel panel-default empty @if(count($definitions) > 0) hide @endif'>
             <div class="panel-body note">
                 <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
                 @if(count($definitions) == 0)

@@ -39,6 +39,7 @@ $footer-border: 1px;
 
 @import 'intro';
 @import 'prettify';
+@import 'filter';
 
 *{
     outline: none !important;
@@ -222,6 +223,12 @@ body {
             }
         }
     }
+}
+.anchor {
+    display: block;
+    position: relative;
+    top: -40px;
+    visibility: hidden;
 }
 
 .header{
