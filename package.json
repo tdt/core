@@ -1,4 +1,6 @@
 {
+  "repository": "https://github.com/tdt/core",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "^2.0.0",
