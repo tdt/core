@@ -16,18 +16,27 @@ class HomeController extends \Controller
     {
         $definitions = \Definition::all();
 
-        // Get unique properties
-        $languages = array_filter(array_unique(array_column($definitions->toArray(), 'language')));
-        $licenses = array_filter(array_unique(array_column($definitions->toArray(), 'rights')));
-        $themes = array_filter(array_unique(array_column($definitions->toArray(), 'theme')));
+        // Polyfill
+        if (!function_exists('array_column')) {
+            function array_column($array, $column_name) {
+                return array_map(function ($element) use ($column_name) {
+                    return $element[$column_name];
+                }, $array);
+            }
+        }
 
-        // Get unique publishers
-				$publishers = [];
-				foreach ($definitions as $def) {
-					if (!empty($def['publisher_uri']) && !empty($def['publisher_name'])) {
-						$publishers[$def['publisher_uri']] = $def['publisher_name'];
-					}
-				}
+        // Get unique properties
+        $languages = array_count_values(array_filter(array_column($definitions->toArray(), 'language')));
+        $licenses = array_count_values(array_filter(array_column($definitions->toArray(), 'rights')));
+        $themes = array_count_values(array_filter(array_column($definitions->toArray(), 'theme')));
+        $publishers = array_count_values(array_filter(array_column($definitions->toArray(), 'publisher_name')));
+
+        // Sort by "Popularity"
+        // For alphabetical order: use ksort
+        arsort($languages);
+        arsort($licenses);
+        arsort($themes);
+        arsort($publishers);
 
         $view = \View::make('home')->with('title', 'Datasets | The Datatank')
                                   ->with('page_title', 'Datasets')

@@ -32,6 +32,11 @@ var Filter = (function() {
 		applyFilter();
 	}
 
+	var expand = function() {
+		$(this).parent().css('height', $(this).prev().position().top + $(this).prev().height());
+		$(this).parent().removeClass('filter-collapsed');
+	}
+
 	var applyFilter = function() {
 		var results = false;
 
@@ -93,6 +98,7 @@ var Filter = (function() {
 		// Set up listeners
 		form.on('change', onchange);
 		$('#dataset-filter').on('input', oninput);
+		$('.filter-btn').on('click', expand);
 	}
 
 	return {

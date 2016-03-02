@@ -1,12 +1,53 @@
+.panel.panel-filter {
+	.panel-body {
+		padding: 10px 15px 0;
+	}
+}
+
+/* List of options */
+
+.filter-list {
+	transition: height .3s;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+.filter-btn {
+	display: none;
+}
+.filter-collapsed {
+	position: relative;
+	height: 145px!important;
+	overflow: hidden;
+	>.filter-btn {
+		display: block;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		border-color: transparent;
+		padding-left: 20px;
+		text-align: left;
+		font-weight: bold;
+		background-color: white;
+		color: #888;
+	}
+}
+
+/* Option */
+
 .filter-option {
-	margin: 4px 0;
-	padding: 3px 0 3px 20px;
+	margin: 0;
+	padding: 5px 0 5px 20px;
 	font-weight: inherit;
 	cursor: pointer;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	&::after {
+		margin-left: 10px;
+		opacity: .6;
+		content: '(' attr(data-count) ')'
+	}
 }
 input[type=checkbox],
 input[type=radio] {

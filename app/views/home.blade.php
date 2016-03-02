@@ -3,48 +3,66 @@
 @section('content')
 
     <form id="filter" class="col-sm-4 col-md-3 hidden-xs" method="GET">
-        <h4>License</h4>
-        @foreach($licenses as $license)
-        <div>
-            <label class="filter-option checkbox">
-                {{ Form::checkbox('license', $license); }}
-                {{ $license }}
-            </label>
-        </div>
-        @endforeach
+        <div class="panel panel-default panel-filter">
+        <div class="panel-body">
 
-        <h4>Language</h4>
-        @foreach($languages as $language)
-        <div class="filter-option checkbox">
-            <label>
-                {{ Form::checkbox('language', $language); }}
-                {{ $language }}
-            </label>
-        </div>
-        @endforeach
-
-        <h4>Publisher</h4>
-        @foreach($publishers as $publisher)
-        <div class="filter-option checkbox">
-            <label>
-                {{ Form::checkbox('publisher', $publisher); }}
-                {{ $publisher }}
-            </label>
-        </div>
-        @endforeach
-
-        <h4>Theme</h4>
-        @foreach($themes as $theme)
-        <div class="filter-option checkbox">
-            <label>
+        @if(count($themes))
+        <h4>{{ trans('datasets.theme') }}</h4>
+        <div class="filter-list @if(count($themes) > 8) filter-collapsed @endif">
+            @foreach($themes as $theme => $count)
+            <label class="filter-option checkbox" data-count="{{ $count }}"">
                 {{ Form::checkbox('theme', $theme); }}
                 {{ $theme }}
             </label>
+            @endforeach
+            <button type="button" class="filter-btn btn">{{ trans('datasets.show_more') }}</button>
         </div>
-        @endforeach
+        @endif
 
-        <button type="submit">sub</button>
+        @if(count($languages))
+        <h4>{{ trans('datasets.language') }}</h4>
+        <div class="filter-list @if(count($languages) > 8) filter-collapsed @endif">
+            @foreach($languages as $language => $count)
+            <label class="filter-option checkbox" data-count="{{ $count }}"">
+                {{ Form::checkbox('language', $language); }}
+                {{ $language }}
+            </label>
+            @endforeach
+            <button type="button" class="filter-btn btn">{{ trans('datasets.show_more') }}</button>
+        </div>
+        @endif
 
+        @if(count($licenses))
+        <h4>{{ trans('datasets.license') }}</h4>
+        <div class="filter-list @if(count($licenses) > 8) filter-collapsed @endif">
+            @foreach($licenses as $license => $count)
+            <label class="filter-option checkbox" data-count="{{ $count }}"">
+                {{ Form::checkbox('license', $license); }}
+                {{ $license }}
+            </label>
+            @endforeach
+            <button type="button" class="filter-btn btn">{{ trans('datasets.show_more') }}</button>
+        </div>
+        @endif
+
+        @if(count($publishers))
+        <h4>{{ trans('datasets.publisher') }}</h4>
+        <div class="filter-list @if(count($publishers) > 8) filter-collapsed @endif">
+            @foreach($publishers as $publisher => $count)
+            <label class="filter-option checkbox" data-count="{{ $count }}"">
+                {{ Form::checkbox('publisher', $publisher); }}
+                {{ $publisher }}
+            </label>
+            @endforeach
+            <button type="button" class="filter-btn btn">{{ trans('datasets.show_more') }}</button>
+        </div>
+        @endif
+
+        @if(!count($themes) && !count($licenses) && !count($languages) && !count($publishers))
+        {{ trans('datasets.no_filters_message') }}
+        @endif
+        </div>
+        </div>
     </form>
     <div class="col-sm-8 col-md-9">
 
