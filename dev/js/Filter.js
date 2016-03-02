@@ -2,10 +2,10 @@ var Filter = (function() {
 
 	var state, form, elements;
 
-	var setFilter = function() {
+	var onchange = function() {
 
-		// Build state from scratch
-		state = {};
+		// Reset all state except search
+		state = { search: state.search };
 
 		// Checkboxes
 		$.each(form.serializeArray(), function(index, obj) {
@@ -15,47 +15,55 @@ var Filter = (function() {
 			state[obj.name] = obj.value + '#' + (state[obj.name] || '');
 		})
 
+		applyFilter();
+	}
+
+	var oninput = function() {
+
 		// Searchbox
 		var search = $('#dataset-filter').val();
 		if (search && search.length > 0) {
 			$('.dataset-filter').html(search);
 			state.search = new RegExp(search, 'i');
+		} else {
+			state.search = null;
 		}
 
-		// Set filter
+		applyFilter();
+	}
+
+	var applyFilter = function() {
 		var results = false;
-		elements.each(function() {
 
-			var dataset = $(this);
-
-			// Check if we can find a match
-			if (isMatch(dataset)) {
+		// Hide datasets that don't match
+		elements.each(function(i, elem) {
+			if (isMatch(elem)) {
 				results = true;
-				dataset.removeClass('hide');
+				$(elem).removeClass('hide');
 			} else {
-				dataset.addClass('hide');
+				$(elem).addClass('hide');
 			}
 		});
 
-		// Show 'no results' message
+		// Toggle 'no results' message
 		$('.empty').toggleClass('hide', results);
 	}
 
-	var isMatch = function(dataset) {
-		if (state.search && !dataset.data('title').match(state.search) && !dataset.data('description').match(state.search)) {
+	var isMatch = function(elem) {
+		if (state.search && !elem.title.match(state.search) && !elem.description.match(state.search)) {
 			return false;
 		}
 
-		if (state.language && (!dataset.data('language') || dataset.data('language') && state.language.indexOf(dataset.data('language')) === -1)) {
+		if (state.language && (!elem.language || state.language.indexOf(elem.language) === -1)) {
 			return false;
 		}
-		if (state.license && (!dataset.data('license') || dataset.data('license') && state.license.indexOf(dataset.data('license')) === -1)) {
+		if (state.license && (!elem.license || state.license.indexOf(elem.license) === -1)) {
 			return false;
 		}
-		if (state.publisher && (!dataset.data('publisher') || dataset.data('publisher') && state.publisher.indexOf(dataset.data('publisher')) === -1)) {
+		if (state.publisher && (!elem.publisher || state.publisher.indexOf(elem.publisher) === -1)) {
 			return false;
 		}
-		if (state.theme && (!dataset.data('theme') || dataset.data('theme') && state.theme.indexOf(dataset.data('theme')) === -1)) {
+		if (state.theme && (!elem.theme || state.theme.indexOf(elem.theme) === -1)) {
 			return false;
 		}
 
@@ -68,15 +76,14 @@ var Filter = (function() {
 		if (!form) {
 			return;
 		}
+		state = {};
 
 		// Cache and "index" datasets
 		elements = $('.dataset');
 		elements.each(function(i, elem) {
 			var dataset = $(this);
-			dataset.data('title', $('.dataset-title', dataset).text());
-			dataset.data('description', $('.dataset-description', dataset).text());
-
-			// TODO: replace data() in isMatch() by these
+			elem.title = $('.dataset-title', dataset).text();
+			elem.description = $('.dataset-description', dataset).text();
 			elem.theme = dataset.data('theme');
 			elem.language = dataset.data('language');
 			elem.publisher = dataset.data('publisher');
@@ -84,8 +91,8 @@ var Filter = (function() {
 		});
 
 		// Set up listeners
-		form.on('change', setFilter);
-		$('#dataset-filter').on('input', setFilter);
+		form.on('change', onchange);
+		$('#dataset-filter').on('input', oninput);
 	}
 
 	return {
