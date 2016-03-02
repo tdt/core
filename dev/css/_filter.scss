@@ -1,0 +1,14 @@
+.filter-option {
+	margin: 4px 0;
+	padding: 3px 0 3px 20px;
+	font-weight: inherit;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+input[type=checkbox],
+input[type=radio] {
+	margin-top: 2px;
+}
