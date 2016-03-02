@@ -18,7 +18,6 @@ use Tdt\Core\ApiController;
  */
 class InfoController extends ApiController
 {
-
     public function get($uri)
     {
         // Set permission
@@ -73,31 +72,52 @@ class InfoController extends ApiController
             return ContentNegotiator::getResponse($result, 'json');
         }
 
-        $keywords_str = \Input::get('keywords', '');
+        $filters = ['keywords', 'rights', 'theme'];
 
-        $keywords = [];
+        $filter_map = [];
 
-        $keyword_set = explode(',', $keywords_str);
+        foreach ($filters as $filter) {
+            $filter_values = $this->parseFilterValues(\Input::get($filter));
 
-        foreach ($keyword_set as $keyword) {
-            $keyword = trim($keyword);
-
-            if (!in_array($keyword, $keywords) && !empty($keyword)) {
-                $keywords[] = $keyword;
+            if (!empty($filter_values)) {
+                $filter_map[$filter] = $filter_values;
             }
         }
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions_info = $this->definition->getAllDefinitionInfo($limit, $offset, $keywords);
+        if (!empty($filter_map)) {
+            $definitions_info = $this->definition->getFiltered($filter_map, $limit, $offset);
 
-        $definition_count = $this->definition->countPublished($keywords);
+            $definition_count = $this->definition->countFiltered($filter_map, $limit, $offset);
+        } else {
+            $definitions_info = $this->definition->getAllDefinitionInfo($limit, $offset);
+
+            $definition_count = $this->definition->countPublished();
+        }
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
         $result->data = $definitions_info;
 
         return ContentNegotiator::getResponse($result, 'json');
+    }
+
+    private function parseFilterValues($value_str)
+    {
+        $filter_values = [];
+
+        $all_values = explode(',', $value_str);
+
+        foreach ($all_values as $filter_val) {
+            $filter_val = trim($filter_val);
+
+            if (!in_array($filter_val, $filter_values) && !empty($filter_val)) {
+                $filter_values[] = $filter_val;
+            }
+        }
+
+        return $filter_values;
     }
 
     /**

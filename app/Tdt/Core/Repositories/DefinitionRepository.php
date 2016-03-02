@@ -119,6 +119,55 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return \Definition::take($limit)->skip($offset)->get()->toArray();
     }
 
+    public function getFiltered($filters, $limit, $offset)
+    {
+        $query = $this->model->query();
+
+        $first_statement = false;
+
+        foreach ($filters as $filter => $values) {
+            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
+            foreach ($values as $val) {
+                if ($first_statement) {
+                    $first_statement = false;
+
+                    $query->where($filter, 'LIKE', '%' . $val . '%');
+                } else {
+                    $query->orWhere($filter, 'LIKE', '%' . $val . '%');
+                }
+            }
+        }
+
+        $results = $query->take($limit)->skip($offset)->get();
+
+        if (!empty($results)) {
+            return $results->toArray();
+        }
+
+        return [];
+    }
+
+    public function countFiltered($filters, $limit, $offset)
+    {
+        $query = $this->model->query();
+
+        $first_statement = false;
+
+        foreach ($filters as $filter => $values) {
+            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
+            foreach ($values as $val) {
+                if ($first_statement) {
+                    $first_statement = false;
+
+                    $query->where($filter, 'LIKE', '%' . $val . '%');
+                } else {
+                    $query->orWhere($filter, 'LIKE', '%' . $val . '%');
+                }
+            }
+        }
+
+        return $query->count();
+    }
 
     public function getByIdentifier($identifier)
     {
@@ -162,25 +211,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     /**
      * Return the count of all non-draft definitions
      */
-    public function countPublished($keywords = [])
+    public function countPublished()
     {
-        if (empty($keywords)) {
-            return \Definition::count();
-        } else {
-            if (!empty($keywords)) {
-                $count = 0;
-
-                foreach ($keywords as $keyword) {
-                    $definitions = \Definition::where('keywords', 'LIKE', '%' . $keyword . '%');
-
-                    $definition_count = $definitions->count();
-
-                    $count += $definition_count;
-                }
-            }
-
-            return $count;
-        }
+        return \Definition::count();
     }
 
     public function getDefinitionSource($id, $name)
