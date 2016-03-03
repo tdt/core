@@ -7,7 +7,7 @@
         <div class="panel-body">
 
         @if(count($themes))
-        <h4>{{ trans('datasets.theme') }}</h4>
+        <h4 class="filter-title">{{ trans('datasets.theme') }}</h4>
         <div class="filter-list @if(count($themes) > 8) filter-collapsed @endif">
             @foreach($themes as $theme => $count)
             <label class="filter-option checkbox" data-count="{{ $count }}"">
@@ -20,7 +20,7 @@
         @endif
 
         @if(count($languages))
-        <h4>{{ trans('datasets.language') }}</h4>
+        <h4 class="filter-title">{{ trans('datasets.language') }}</h4>
         <div class="filter-list @if(count($languages) > 8) filter-collapsed @endif">
             @foreach($languages as $language => $count)
             <label class="filter-option checkbox" data-count="{{ $count }}"">
@@ -33,7 +33,7 @@
         @endif
 
         @if(count($licenses))
-        <h4>{{ trans('datasets.license') }}</h4>
+        <h4 class="filter-title">{{ trans('datasets.license') }}</h4>
         <div class="filter-list @if(count($licenses) > 8) filter-collapsed @endif">
             @foreach($licenses as $license => $count)
             <label class="filter-option checkbox" data-count="{{ $count }}"">
@@ -46,7 +46,7 @@
         @endif
 
         @if(count($publishers))
-        <h4>{{ trans('datasets.publisher') }}</h4>
+        <h4 class="filter-title">{{ trans('datasets.publisher') }}</h4>
         <div class="filter-list @if(count($publishers) > 8) filter-collapsed @endif">
             @foreach($publishers as $publisher => $count)
             <label class="filter-option checkbox" data-count="{{ $count }}"">
@@ -65,6 +65,17 @@
         </div>
     </form>
     <div class="col-sm-8 col-md-9">
+
+        <div class='panel panel-default empty @if(count($definitions) > 0) hide @endif'>
+            <div class="panel-body note">
+                <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
+                @if(count($definitions) == 0)
+                    {{ trans('datasets.no_datasets_message') }}
+                @else
+                    {{ trans('datasets.no_datasets_filter_message') }}<strong>'<span class='dataset-filter'></span>'</strong>
+                @endif
+            </div>
+        </div>
 
         @foreach($definitions as $definition)
 
@@ -106,16 +117,6 @@
 
         @endforeach
 
-        <div class='panel panel-default empty @if(count($definitions) > 0) hide @endif'>
-            <div class="panel-body note">
-                <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
-                @if(count($definitions) == 0)
-                    {{ trans('datasets.no_datasets_message') }}
-                @else
-                    {{ trans('datasets.no_datasets_filter_message') }}<strong>'<span class='dataset-filter'></span>'</strong>
-                @endif
-            </div>
-        </div>
     </div>
 
 @stop

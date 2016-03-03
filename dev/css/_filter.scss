@@ -1,6 +1,6 @@
 .panel.panel-filter {
 	.panel-body {
-		padding: 10px 15px 0;
+		padding: 5px 15px 0;
 	}
 }
 
@@ -8,8 +8,13 @@
 
 .filter-list {
 	transition: height .3s;
-	margin-bottom: 20px;
+	margin-bottom: 15px;
 	overflow: hidden;
+}
+.filter-title {
+	font-weight: bold;
+	font-size: 14px;
+	margin: 5px 0;
 }
 .filter-btn {
 	display: none;

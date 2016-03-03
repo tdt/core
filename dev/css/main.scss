@@ -542,6 +542,10 @@ footer{
         margin-top: -1px;
         font-size: 12px;
 
+        &:last-child{
+            margin-bottom: 20px;
+        }
+
         &.dataset-link{
             .icon{
                 line-height: 18px;
