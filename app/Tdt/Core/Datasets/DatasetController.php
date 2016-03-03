@@ -104,8 +104,6 @@ class DatasetController extends ApiController
                     // If the source type is XML, just return the XML contents, don't transform
                     if (strtolower($source_type) == 'xml' && $extension == 'xml') {
                         return $this->createXMLResponse($data->data);
-                    } elseif (strtolower($extension) == 'kml') {
-                        return $this->createXMLResponse($data->data);
                     } elseif (!$data->is_semantic && $extension == 'xml' && $source_type != 'xml') {
                         \App::abort(406, "The requested format for the datasource is not available.");
                     } elseif (strtolower($source_type) == 'xml' && !$data->geo_formatted &&!empty($extension) && $extension != 'xml') {
