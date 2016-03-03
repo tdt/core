@@ -26,6 +26,7 @@ class HomeController extends \Controller
         }
 
         // Get unique properties
+        $keywords = Definitions\KeywordController::getKeywordList($definitions);
         $languages = array_count_values(array_filter(array_column($definitions->toArray(), 'language')));
         $licenses = array_count_values(array_filter(array_column($definitions->toArray(), 'rights')));
         $themes = array_count_values(array_filter(array_column($definitions->toArray(), 'theme')));
@@ -33,6 +34,7 @@ class HomeController extends \Controller
 
         // Sort by "Popularity"
         // For alphabetical order: use ksort
+        arsort($keywords);
         arsort($languages);
         arsort($licenses);
         arsort($themes);
@@ -40,6 +42,7 @@ class HomeController extends \Controller
 
         $view = \View::make('home')->with('title', 'Datasets | The Datatank')
                                   ->with('page_title', 'Datasets')
+                                  ->with('keywords', $keywords)
                                   ->with('languages', $languages)
                                   ->with('licenses', $licenses)
                                   ->with('themes', $themes)

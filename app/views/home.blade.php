@@ -19,6 +19,19 @@
         </div>
         @endif
 
+        @if(count($keywords))
+        <h4 class="filter-title">{{ trans('datasets.keyword') }}</h4>
+        <div class="filter-list @if(count($keywords) > 8) filter-collapsed @endif">
+            @foreach($keywords as $keyword => $count)
+            <label class="filter-option checkbox" data-count="{{ $count }}"">
+                {{ Form::checkbox('keyword', $keyword); }}
+                {{ $keyword }}
+            </label>
+            @endforeach
+            <button type="button" class="filter-btn btn">{{ trans('datasets.show_more') }}</button>
+        </div>
+        @endif
+
         @if(count($languages))
         <h4 class="filter-title">{{ trans('datasets.language') }}</h4>
         <div class="filter-list @if(count($languages) > 8) filter-collapsed @endif">
@@ -79,7 +92,7 @@
 
         @foreach($definitions as $definition)
 
-            <div class="panel dataset panel-default clickable-row" data-href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' data-theme='{{ $definition->theme }}' data-license='{{ $definition->rights }}' data-language='{{ $definition->language }}' data-publisher='{{ $definition->publisher_name }}'>
+            <div class="panel dataset panel-default clickable-row" data-href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' data-theme='{{ $definition->theme }}' data-license='{{ $definition->rights }}' data-language='{{ $definition->language }}' data-publisher='{{ $definition->publisher_name }}' data-keywords='{{ $definition->keywords }}'>
                 <div class="anchor" id="{{ $definition->collection_uri . '/' . $definition->resource_name }}"></div>
                 <div class="panel-body">
                     <div class='icon'>

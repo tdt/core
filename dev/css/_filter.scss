@@ -7,7 +7,8 @@
 /* List of options */
 
 .filter-list {
-	transition: height .3s;
+	transition: max-height .3s;
+	position: relative;
 	margin-bottom: 15px;
 	overflow: hidden;
 }
@@ -21,7 +22,7 @@
 }
 .filter-collapsed {
 	position: relative;
-	height: 145px!important;
+	max-height: 145px!important;
 	overflow: hidden;
 	>.filter-btn {
 		display: block;

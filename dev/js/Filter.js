@@ -33,7 +33,7 @@ var Filter = (function() {
 	}
 
 	var expand = function() {
-		$(this).parent().css('height', $(this).prev().position().top + $(this).prev().height());
+		$(this).parent().css('max-height', $(this).prev().position().top + $(this).prev().height() + 5);
 		$(this).parent().removeClass('filter-collapsed');
 	}
 
@@ -89,6 +89,7 @@ var Filter = (function() {
 			var dataset = $(this);
 			elem.title = $('.dataset-title', dataset).text();
 			elem.description = $('.dataset-description', dataset).text();
+			elem.keywords = dataset.data('license');
 			elem.theme = dataset.data('theme');
 			elem.language = dataset.data('language');
 			elem.publisher = dataset.data('publisher');
