@@ -9,6 +9,7 @@ use Tdt\Core\ContentNegotiator;
 use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
 use Tdt\Core\Definitions\KeywordController;
+use Illuminate\Support\Facades\Lang;
 
 /**
  * InfoController: Controller that handles info requests and returns informational data about the datatank.
@@ -90,9 +91,7 @@ class InfoController extends ApiController
         $definitions_info = $this->definition->getFiltered($filter_map, $limit, $offset);
         $definition_count = $this->definition->countFiltered($filter_map, $limit, $offset);
 
-        $definitions = \Definition::all();
-
-        // Polyfill
+        // Polyfill support for PHP < 5.5
         if (!function_exists('array_column')) {
             function array_column($array, $column_name) {
                 return array_map(function ($element) use ($column_name) {
@@ -102,13 +101,21 @@ class InfoController extends ApiController
         }
 
         // Get unique properties
-        $theme = array_count_values(array_filter(array_column($definitions->toArray(), 'theme')));
-        $keywords = KeywordController::getKeywordList($definitions);
-        $language = array_count_values(array_filter(array_column($definitions->toArray(), 'language')));
-        $rights = array_count_values(array_filter(array_column($definitions->toArray(), 'rights')));
-        $publisher = array_count_values(array_filter(array_column($definitions->toArray(), 'publisher_name')));
+        $theme = array_count_values(array_filter(array_column($definitions_info, 'theme')));
+        $language = array_count_values(array_filter(array_column($definitions_info, 'language')));
+        $rights = array_count_values(array_filter(array_column($definitions_info, 'rights')));
+        $publisher = array_count_values(array_filter(array_column($definitions_info, 'publisher_name')));
 
-        // Sort by "Popularity"
+        $keyword_strings = array_filter(array_column($definitions_info, 'keywords'));
+        $all_keywords = [];
+
+        foreach ($keyword_strings as $keyword_string) {
+            $all_keywords = array_merge($all_keywords, explode(',', $keyword_string));
+        }
+
+        $keywords = array_count_values(array_unique($all_keywords));
+
+        // Sort by frequency
         arsort($theme);
         arsort($keywords);
         arsort($language);
@@ -119,11 +126,30 @@ class InfoController extends ApiController
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
         $result->data = [
             'filter' => [
-                ['title' => 'theme', 'options' => $theme, 'count' => count($theme)],
-                ['title' => 'keywords', 'options' => $keywords, 'count' => count($keywords)],
-                ['title' => 'language', 'options' => $language, 'count' => count($language)],
-                ['title' => 'rights', 'options' => $rights, 'count' => count($rights)],
-                ['title' => 'publisher', 'options' => $publisher, 'count' => count($publisher)],
+                [
+                 'filterProperty' => 'theme',
+                 'displayName' => Lang::get('datasets.theme'), 'options' => $theme,
+                 'count' => count($theme)
+                ],
+                [
+                 'filterProperty' => 'keywords',
+                 'displayName' => Lang::get('datasets.keywords'), 'options' => $keywords,
+                 'count' => count($keywords)
+                ],
+                [
+                 'filterProperty' => 'language',
+                 'displayName' => Lang::get('datasets.language'), 'options' => $language,
+                 'count' => count($language)
+                ],
+                [
+                 'filterProperty' => 'rights',
+                 'displayName' => Lang::get('datasets.license'), 'options' => $rights,
+                 'count' => count($rights)
+                ],
+                [
+                 'filterProperty' => 'publisher',
+                 'displayName' => Lang::get('datasets.publisher'), 'options' => $publisher,
+                 'count' => count($publisher)],
             ],
             'paging' => $result->paging,
             'datasets' => $definitions_info,

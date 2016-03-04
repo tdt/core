@@ -1,9 +1,9 @@
 <template>
 
-<h4 class="filter-title">{{data.title}}</h4>
+<h4 class="filter-title">{{data.displayName}}</h4>
 <div class="filter-list" v-bind:class="{'filter-collapsed':isCollapsed}">
 		<label class="filter-option checkbox" v-for="(option, count) in data.options" data-count="{{count}}">
-		<input type="checkbox" value="{{option}}" @change="change(data.title, option)" v-model="data.selection">
+		<input type="checkbox" value="{{option}}" @change="change(data.filterProperty, option)" v-model="data.selection">
 		{{option}}
 		</label>
 		<button type="button" class="filter-btn btn" @click="expand()">Show more</button>
@@ -20,7 +20,7 @@ export default {
 	},
 	computed: {
 		isCollapsed() {
-			return this.data.count>8 && !this.expanded;
+			return this.data.count > 8 && !this.expanded;
 		}
 	},
 	methods: {

@@ -141,7 +141,15 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $results = $query->take($limit)->skip($offset)->get();
 
         if (!empty($results)) {
-            return $results->toArray();
+            $definitions_info = [];
+
+            foreach ($results as $result) {
+                $info = array_only($result->toArray(), $this->model->getFillable());
+                $info['identifier'] = $result->collection_uri . '/' . $result->resource_name;
+
+                $definitions_info[] = $info;
+            }
+            return $definitions_info;
         }
 
         return [];
@@ -154,7 +162,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $first_statement = false;
 
         foreach ($filters as $filter => $values) {
-            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
             foreach ($values as $val) {
                 if ($first_statement) {
                     $first_statement = false;

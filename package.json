@@ -10,6 +10,7 @@
     "gulp-sass": "^2.1.0",
     "gulp-uglifyjs": "^0.5.0",
     "laravel-elixir": "^5.0.0",
+    "laravel-elixir-livereload": "^1.1.4",
     "laravel-elixir-vueify": "^1.0.2",
     "vue-resource": "^0.7.0"
   }

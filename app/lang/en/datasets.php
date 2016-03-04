@@ -18,4 +18,5 @@ return array(
     "theme"                         => "Theme",
     "no_datasets_message"           => "This datatank is hungry for data, no datasets were added yet.",
     "search_datasets"               => "Search for datasets",
+    "keywords"                      => "Keywords"
 );

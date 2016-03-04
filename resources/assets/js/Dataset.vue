@@ -8,7 +8,7 @@
 				<div class='row'>
 					<div class='col-md-5'>
 						<h4 class='dataset-title'>
-							<a href='/{{ dataset.collection_uri }}/{{ dataset.resource_name }}'>{{ dataset.collection_uri }}/{{ dataset.resource_name }}</a>
+							<a href='/{{ dataset.identifier }}'>{{ dataset.identifier }}</a>
 						</h4>
 						<div class='note dataset-description'>
 							{{ dataset.description }}
