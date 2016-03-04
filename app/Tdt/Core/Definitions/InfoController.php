@@ -8,6 +8,7 @@ use Tdt\Core\Datasets\Data;
 use Tdt\Core\ContentNegotiator;
 use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
+use Tdt\Core\Definitions\KeywordController;
 
 /**
  * InfoController: Controller that handles info requests and returns informational data about the datatank.
@@ -72,7 +73,7 @@ class InfoController extends ApiController
             return ContentNegotiator::getResponse($result, 'json');
         }
 
-        $filters = ['keywords', 'rights', 'theme'];
+        $filters = ['keywords', 'rights', 'theme', 'language', 'publisher'];
 
         $filter_map = [];
 
@@ -86,19 +87,47 @@ class InfoController extends ApiController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        if (!empty($filter_map)) {
-            $definitions_info = $this->definition->getFiltered($filter_map, $limit, $offset);
+        $definitions_info = $this->definition->getFiltered($filter_map, $limit, $offset);
+        $definition_count = $this->definition->countFiltered($filter_map, $limit, $offset);
 
-            $definition_count = $this->definition->countFiltered($filter_map, $limit, $offset);
-        } else {
-            $definitions_info = $this->definition->getAllDefinitionInfo($limit, $offset);
+        $definitions = \Definition::all();
 
-            $definition_count = $this->definition->countPublished();
+        // Polyfill
+        if (!function_exists('array_column')) {
+            function array_column($array, $column_name) {
+                return array_map(function ($element) use ($column_name) {
+                    return $element[$column_name];
+                }, $array);
+            }
         }
+
+        // Get unique properties
+        $theme = array_count_values(array_filter(array_column($definitions->toArray(), 'theme')));
+        $keywords = KeywordController::getKeywordList($definitions);
+        $language = array_count_values(array_filter(array_column($definitions->toArray(), 'language')));
+        $rights = array_count_values(array_filter(array_column($definitions->toArray(), 'rights')));
+        $publisher = array_count_values(array_filter(array_column($definitions->toArray(), 'publisher_name')));
+
+        // Sort by "Popularity"
+        arsort($theme);
+        arsort($keywords);
+        arsort($language);
+        arsort($rights);
+        arsort($publisher);
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
-        $result->data = $definitions_info;
+        $result->data = [
+            'filter' => [
+                ['title' => 'theme', 'options' => $theme, 'count' => count($theme)],
+                ['title' => 'keywords', 'options' => $keywords, 'count' => count($keywords)],
+                ['title' => 'language', 'options' => $language, 'count' => count($language)],
+                ['title' => 'rights', 'options' => $rights, 'count' => count($rights)],
+                ['title' => 'publisher', 'options' => $publisher, 'count' => count($publisher)],
+            ],
+            'paging' => $result->paging,
+            'datasets' => $definitions_info,
+        ];
 
         return ContentNegotiator::getResponse($result, 'json');
     }

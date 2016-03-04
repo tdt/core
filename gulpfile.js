@@ -69,3 +69,10 @@ gulp.task('js', function() {
 
     return true;
 });
+
+var elixir = require('laravel-elixir');
+require('laravel-elixir-vueify');
+require('laravel-elixir-livereload');
+elixir(function(mix) {
+    mix.browserify('datasets.js').livereload();
+});
