@@ -48,7 +48,7 @@ export default {
 	},
 	methods: {
 		visit() {
-			console.log(this, this.uri)
+			window.location.href = '/' + this.dataset.identifier
 		}
 	}
 }

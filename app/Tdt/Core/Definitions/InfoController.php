@@ -74,7 +74,7 @@ class InfoController extends ApiController
             return ContentNegotiator::getResponse($result, 'json');
         }
 
-        $filters = ['keywords', 'rights', 'theme', 'language', 'publisher'];
+        $filters = ['keywords', 'rights', 'theme', 'language', 'publisher_name'];
 
         $filter_map = [];
 
@@ -113,7 +113,7 @@ class InfoController extends ApiController
             $all_keywords = array_merge($all_keywords, explode(',', $keyword_string));
         }
 
-        $keywords = array_count_values(array_unique($all_keywords));
+        $keywords = array_count_values(array_map('trim', $all_keywords));
 
         // Sort by frequency
         arsort($theme);
@@ -147,7 +147,7 @@ class InfoController extends ApiController
                  'count' => count($rights)
                 ],
                 [
-                 'filterProperty' => 'publisher',
+                 'filterProperty' => 'publisher_name',
                  'displayName' => Lang::get('datasets.publisher'), 'options' => $publisher,
                  'count' => count($publisher)],
             ],

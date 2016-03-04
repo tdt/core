@@ -11650,7 +11650,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/jan/Sites/core/resources/assets/js/Dataset.vue"
+  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\Dataset.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11722,7 +11722,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/jan/Sites/core/resources/assets/js/DatasetList.vue"
+  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\DatasetList.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11761,7 +11761,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/jan/Sites/core/resources/assets/js/Filter.vue"
+  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\Filter.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
