@@ -64,13 +64,19 @@ class ModelPagingTest extends TestCase
      */
     public function testGetApi()
     {
-
         // Set paging to 2
         \Input::merge(array('limit' => 2));
 
         // Test the internal model through info
         $controller = \App::make('Tdt\Core\Definitions\InfoController');
-        $this->processPaging($controller->handle(''));
+        $response = $controller->handle('');
+
+        // The body should have only 2 entries
+        $body = json_decode($response->getOriginalContent(), true);
+
+        $this->assertEquals(count($body['datasets']), 2);
+
+        $this->processLinkHeader($response);
 
         // Test the internal model through definitions
         $this->updateRequest('GET');
@@ -106,8 +112,7 @@ class ModelPagingTest extends TestCase
 
     private function processPaging($response)
     {
-
-         // The body should have only 2 entries
+        // The body should have only 2 entries
         $body = json_decode($response->getOriginalContent(), true);
 
         $this->assertEquals(count($body), 2);
