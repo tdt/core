@@ -74,7 +74,7 @@ class InfoController extends ApiController
             return ContentNegotiator::getResponse($result, 'json');
         }
 
-        $filters = ['keywords', 'rights', 'theme', 'language', 'publisher_name'];
+        $filters = ['keywords', 'rights', 'theme', 'language', 'publisher_name', 'query'];
 
         $filter_map = [];
 

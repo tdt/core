@@ -52,6 +52,14 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $definition->$property = $value;
         }
 
+        if (!empty($source['title'])) {
+            $definition->title = $source['title'];
+        }
+
+        if (!empty($source['description'])) {
+            $definition->description = $source['description'];
+        }
+
         $definition->save();
 
         return $definition->toArray();
@@ -78,11 +86,19 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $source_repository->update($source['id'], $input);
 
-        $definition_object = \Definition::find($definition['id']);
+        $definition_model = \Definition::find($definition['id']);
 
-        $definition_object->update(array_only($input, array_keys($this->getCreateParameters())));
+        $definition_model->update(array_only($input, array_keys($this->getCreateParameters())));
 
-        return $definition_object->toArray();
+        if (!empty($input['title'])) {
+            $definition_model->title = $input['title'];
+        }
+
+        if (!empty($input['description'])) {
+            $definition_model->description = $input['description'];
+        }
+
+        return $definition_model->toArray();
     }
 
     /**
@@ -123,19 +139,31 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $query = $this->model->query();
 
-        $first_statement = false;
+        if (!empty($filters['query'])) {
+            $search_value = array_shift($filters['query']);
+
+            unset($filters['query']);
+
+            $query->where(function ($subquery) use ($search_value) {
+                return $subquery->where('title', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('resource_name', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('collection_uri', 'LIKE', '%' . $search_value . '%');
+            });
+        }
 
         foreach ($filters as $filter => $values) {
-            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
-            foreach ($values as $val) {
-                if ($first_statement) {
-                    $first_statement = false;
+            $query->where(function ($subquery) use ($filter, $values) {
+                $val = array_shift($values);
 
-                    $query->where($filter, 'LIKE', '%' . $val . '%');
-                } else {
-                    $query->orWhere($filter, 'LIKE', '%' . $val . '%');
+                $subquery->where($filter, 'LIKE', '%' . $val . '%');
+
+                foreach ($values as $val) {
+                    $subquery->orWhere($filter, 'LIKE', '%' . $val . '%');
                 }
-            }
+
+                return $subquery;
+            });
         }
 
         $results = $query->take($limit)->skip($offset)->get();
@@ -153,25 +181,40 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         return [];
+
     }
 
     public function countFiltered($filters, $limit, $offset)
     {
         $query = $this->model->query();
 
-        $first_statement = false;
+        if (!empty($filters['query'])) {
+            $search_value = array_shift($filters['query']);
+
+            unset($filters['query']);
+
+            $query->where(function ($subquery) use ($search_value) {
+                return $subquery->where('title', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('resource_name', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('collection_uri', 'LIKE', '%' . $search_value . '%');
+            });
+        }
 
         foreach ($filters as $filter => $values) {
-            foreach ($values as $val) {
-                if ($first_statement) {
-                    $first_statement = false;
+            $query->where(function ($subquery) use ($filter, $values) {
+                $val = array_shift($values);
 
-                    $query->where($filter, 'LIKE', '%' . $val . '%');
-                } else {
-                    $query->orWhere($filter, 'LIKE', '%' . $val . '%');
+                $subquery->where($filter, 'LIKE', '%' . $val . '%');
+
+                foreach ($values as $val) {
+                    $subquery->orWhere($filter, 'LIKE', '%' . $val . '%');
                 }
-            }
+
+                return $subquery;
+            });
         }
+
 
         return $query->count();
     }
