@@ -38,7 +38,7 @@ export default {
             datasets: [],
             filter: [],
             paging: {},
-            query: 'd'
+            query: ''
         }
     },
     methods: {
@@ -50,7 +50,9 @@ export default {
                     selection[obj.filterProperty] = obj.selection.join(',');
                 }
             }
-            selection.query = this.query
+            if (this.query.length) {
+                selection.query = this.query
+            }
             this.$http.get('/api/info', selection).then(function(res) {
                 this.datasets = res.data.datasets;
                 this.paging = res.data.paging;
