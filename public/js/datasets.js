@@ -11664,6 +11664,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _SearchBox = require('./SearchBox.vue');
+
+var _SearchBox2 = _interopRequireDefault(_SearchBox);
+
 var _Dataset = require('./Dataset.vue');
 
 var _Dataset2 = _interopRequireDefault(_Dataset);
@@ -11676,18 +11680,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
     components: {
+        SearchBox: _SearchBox2.default,
         Dataset: _Dataset2.default,
         Filter: _Filter2.default
     },
     ready: function ready() {
         this.fetch();
         this.$on('filter.change', this.fetch);
+        this.$on('query.change', function (query) {
+            this.query = query;
+            this.fetch();
+        });
     },
     data: function data() {
         return {
             datasets: [],
             filter: [],
-            paging: {}
+            paging: {},
+            query: 'd'
         };
     },
 
@@ -11700,36 +11710,40 @@ exports.default = {
                     selection[obj.filterProperty] = obj.selection.join(',');
                 }
             }
+            selection.query = this.query;
             this.$http.get('/api/info', selection).then(function (res) {
                 this.datasets = res.data.datasets;
                 this.paging = res.data.paging;
 
                 if (this.filter && this.filter[0]) {
-                    // TODO: only update filter.options
-                } else {
-                        this.filter = res.data.filter;
-                        for (var i in this.filter) {
-                            this.filter[i].selection = [];
-                        }
+                    for (var i in this.filter) {
+                        this.filter[i].count = res.data.filter[i].count;
+                        this.filter[i].options = res.data.filter[i].options;
                     }
+                } else {
+                    this.filter = res.data.filter;
+                    for (var i in this.filter) {
+                        this.filter[i].selection = [];
+                    }
+                }
             });
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <search-box></search-box>\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/jan/Sites/core/resources/assets/js/DatasetList.vue"
+  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\DatasetList.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Dataset.vue":28,"./Filter.vue":30,"vue":27,"vue-hot-reload-api":2}],30:[function(require,module,exports){
+},{"./Dataset.vue":28,"./Filter.vue":30,"./SearchBox.vue":31,"vue":27,"vue-hot-reload-api":2}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11756,12 +11770,12 @@ exports.default = {
 	}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<h4 class=\"filter-title\">{{data.displayName}}</h4>\n<div class=\"filter-list\" v-bind:class=\"{'filter-collapsed':isCollapsed}\">\n\t\t<label class=\"filter-option checkbox\" v-for=\"(option, count) in data.options\" data-count=\"{{count}}\">\n\t\t<input type=\"checkbox\" value=\"{{option}}\" @change=\"change(data.filterProperty, option)\" v-model=\"data.selection\">\n\t\t{{option}}\n\t\t</label>\n\t\t<button type=\"button\" class=\"filter-btn btn\" @click=\"expand()\">Show more</button>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div v-if=\"data.count\">\n\t<h4 class=\"filter-title\">{{data.displayName}}</h4>\n\t<div class=\"filter-list\" v-bind:class=\"{'filter-collapsed':isCollapsed}\">\n\t\t<label class=\"filter-option checkbox\" v-for=\"(option, count) in data.options\" data-count=\"{{count}}\">\n\t\t<input type=\"checkbox\" value=\"{{option}}\" @change=\"change(data.filterProperty, option)\" v-model=\"data.selection\">\n\t\t{{option}}\n\t\t</label>\n\t\t<button type=\"button\" class=\"filter-btn btn\" @click=\"expand()\">Show more</button>\n\t</div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/jan/Sites/core/resources/assets/js/Filter.vue"
+  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\Filter.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11769,6 +11783,36 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":27,"vue-hot-reload-api":2}],31:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  data: function data() {
+    return { 'query': '' };
+  },
+
+  methods: {
+    search: function search(query) {
+      this.$dispatch('query.change', query);
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"filter-search\">\n  <input class=\"form-control\" v-model=\"query\" @input=\"search(query)\" type=\"text\" placeholder=\"Search...\" spellcheck=\"false\">\n  <i class=\"fa fa-search\"></i>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\SearchBox.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":27,"vue-hot-reload-api":2}],32:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -11796,6 +11840,6 @@ new _vue2.default({
 	}
 });
 
-},{"./DatasetList.vue":29,"vue":27,"vue-resource":16}]},{},[31]);
+},{"./DatasetList.vue":29,"vue":27,"vue-resource":16}]},{},[32]);
 
 //# sourceMappingURL=datasets.js.map

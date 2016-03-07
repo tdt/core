@@ -3,6 +3,7 @@
 <div class="col-sm-4 col-md-3 hidden-xs">
     <div class="panel panel-default panel-filter">
         <div class="panel-body">
+            <search-box></search-box>
             <filter v-for="data in filter" :data="data"></filter>
         </div>
     </div>
@@ -14,23 +15,30 @@
 </template>
 
 <script>
+import SearchBox from './SearchBox.vue';
 import Dataset from './Dataset.vue';
 import Filter from './Filter.vue';
 
 export default {
     components: {
-        Dataset: Dataset,
-        Filter: Filter
+        SearchBox,
+        Dataset,
+        Filter
     },
     ready() {
         this.fetch();
         this.$on('filter.change', this.fetch)
+        this.$on('query.change', function (query) {
+            this.query = query
+            this.fetch()
+        })
     },
     data() {
         return {
             datasets: [],
             filter: [],
-            paging: {}
+            paging: {},
+            query: 'd'
         }
     },
     methods: {
@@ -42,12 +50,16 @@ export default {
                     selection[obj.filterProperty] = obj.selection.join(',');
                 }
             }
+            selection.query = this.query
             this.$http.get('/api/info', selection).then(function(res) {
                 this.datasets = res.data.datasets;
                 this.paging = res.data.paging;
 
                 if (this.filter && this.filter[0]) {
-                    // TODO: only update filter.options
+                    for(var i in this.filter) {
+                        this.filter[i].count = res.data.filter[i].count;
+                        this.filter[i].options = res.data.filter[i].options;
+                    }
                 } else {
                     this.filter = res.data.filter;
                     for(var i in this.filter) {

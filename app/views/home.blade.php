@@ -8,12 +8,6 @@
 @stop
 
 @section('navigation')
-
-    <div class="search pull-right hidden-xs">
-        <input id='dataset-filter' type="text" placeholder="{{ trans('datasets.search_datasets') }}" spellcheck='false'>
-        <i class='fa fa-search'></i>
-    </div>
-
     <?php $tracker_id = \Config::get('tracker.id'); ?>
 
     @if(!empty($tracker_id))
