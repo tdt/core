@@ -1,4 +1,6 @@
-<?php namespace Tdt\Core\Datacontrollers;
+<?php
+
+namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
@@ -41,6 +43,7 @@ class ELASTICSEARCHController extends ADataController
         $search_params['index'] = $source_definition['es_index'];
         $search_params['type'] = $source_definition['es_type'];
         $search_params['body']['query']['query_string']['query'] = $query_param;
+        $search_params['body']['_source']['exclude'] = 'tdt_etl_timestamp_';
         $search_params['from'] = $offset;
         $search_params['size'] = $limit;
 
