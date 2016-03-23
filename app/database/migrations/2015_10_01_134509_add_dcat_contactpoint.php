@@ -14,7 +14,7 @@ class AddDcatContactpoint extends Migration
     public function up()
     {
         Schema::table('definitions', function ($table) {
-            $table->string('contact_point', 255);
+            $table->string('contact_point', 255)->nullable();
         });
     }
 
