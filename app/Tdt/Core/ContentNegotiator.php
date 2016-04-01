@@ -80,7 +80,11 @@ class ContentNegotiator extends Pager
             if (empty($data->preferred_formats)) {
                  // Still nothing? Use default formatter
 
-                if (empty($extension) && !$data->is_semantic && empty($data->source_definition['geo_formatted'])) {
+
+                if (empty($extension)
+                    && !$data->is_semantic
+                    && empty($data->source_definition['geo_formatted'])
+                    && $data->source_definition['type'] != 'REMOTE') {
                     // Default formatter for non semantic data
                     $data->preferred_formats = array('json');
 
@@ -108,6 +112,8 @@ class ContentNegotiator extends Pager
                     array_push($priorities, $format);
                 }
             }
+
+
 
             array_push($priorities, '*/*');
 

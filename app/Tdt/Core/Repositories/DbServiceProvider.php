@@ -120,5 +120,10 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\GeoprojectionRepositoryInterface',
             'Tdt\Core\Repositories\GeoprojectionRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\RemoteDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\RemoteDefinitionRepository'
+        );
     }
 }

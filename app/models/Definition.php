@@ -33,11 +33,19 @@ class Definition extends Eloquent
     }
 
     /**
+     * Return the spatial meta-data (dct:Location)
+     * TODO: add dct:Service (next to dct:Location)
+     */
+    public function location()
+    {
+        return $this->hasOne('Location', 'definition_id');
+    }
+
+    /**
      * Delete the related source type
      */
     public function delete()
     {
-
         $source_type = $this->source()->first();
         $source_type->delete();
 

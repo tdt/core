@@ -13,4 +13,5 @@ return array(
     "language_help"       => "La langue de la plupart des jeux de données.",
     "dcat_link"           => "DCAT-AP lien",
     "save"                => "Sauver",
+    "header"              => "Réglages généraux"
 );

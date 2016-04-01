@@ -3,6 +3,7 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
+use Tdt\Core\Repositories\LocationRepository;
 
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
@@ -50,6 +51,13 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         // Add the rest of the properties
         foreach (array_only($input, array_keys($this->getCreateParameters())) as $property => $value) {
             $definition->$property = $value;
+        }
+
+        // Check for location meta-data
+        if (!empty($input['spatial'])) {
+            $location = $this->addLocation($input['spatial']);
+
+            $definition->location()->save($location);
         }
 
         $definition->save();
@@ -126,7 +134,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $first_statement = false;
 
         foreach ($filters as $filter => $values) {
-            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
             foreach ($values as $val) {
                 if ($first_statement) {
                     $first_statement = false;
@@ -154,7 +161,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $first_statement = false;
 
         foreach ($filters as $filter => $values) {
-            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
             foreach ($values as $val) {
                 if ($first_statement) {
                     $first_statement = false;
@@ -171,10 +177,18 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getByIdentifier($identifier)
     {
-        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->with('location')->first();
 
         if (empty($definition)) {
-            return array();
+            return [];
+        }
+
+        if (!empty($definition->location)) {
+            $location = \Location::find($definition->location->id)->with('labels', 'geometries')->first();
+
+            if (!empty($location)) {
+                $definition['spatial'] = $location->toArray();
+            }
         }
 
         return $definition->toArray();
@@ -330,6 +344,28 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         unset($properties['map_property']);
 
         return $properties;
+    }
+
+    private function addLocation($input)
+    {
+        $location = new \Location();
+        $location->save();
+
+        $labels = [];
+        $geometries = [];
+
+        foreach ($input['labels'] as $label) {
+            $labels[] = \Label::create(['label' => $label]);
+        }
+
+        foreach ($input['geometries'] as $geometry) {
+            $geometries[] = \Geometry::create(['type' => $geometry['type'], 'geometry' => $geometry['geometry']]);
+        }
+
+        $location->geometries()->saveMany($geometries);
+        $location->labels()->saveMany($labels);
+
+        return $location;
     }
 
     /**

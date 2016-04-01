@@ -116,7 +116,10 @@ class HTMLFormatter implements IFormatter
                     $view = 'dataset.code';
                     $data = self::displayTree($dataObj->data, 'xml');
                     break;
-
+                case 'REMOTE':
+                    $view = 'dataset.remote';
+                    $data = $dataObj->data;
+                    break;
                 default:
                     if ($dataObj->is_semantic) {
                         // This data object is always semantic
