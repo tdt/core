@@ -125,5 +125,10 @@ class DbServiceProvider extends ServiceProvider
             'Tdt\Core\Repositories\Interfaces\RemoteDefinitionRepositoryInterface',
             'Tdt\Core\Repositories\RemoteDefinitionRepository'
         );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\InspireDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\InspireDefinitionRepository'
+        );
     }
 }

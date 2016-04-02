@@ -8,7 +8,7 @@
 
     <div class="col-sm-9">
         <span>
-            The meta-data has been harvested from <a href="{{ $body['dataset_uri'] }}">{{ $body['dataset_uri'] }}</a>.
+            The meta-data has been harvested from an ISO INSPIRE document. TODO: provide download link for the document
         </span>
     </div>
 

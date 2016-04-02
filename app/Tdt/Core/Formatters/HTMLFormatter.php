@@ -120,6 +120,10 @@ class HTMLFormatter implements IFormatter
                     $view = 'dataset.remote';
                     $data = $dataObj->data;
                     break;
+                case 'INSPIRE':
+                    $view = 'dataset.inspire';
+                    $data = $dataObj->data;
+                    break;
                 default:
                     if ($dataObj->is_semantic) {
                         // This data object is always semantic
