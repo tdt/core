@@ -11,5 +11,5 @@ class InspireDefinition extends SourceType
 {
     protected $table = 'inspiredefinitions';
 
-    protected $fillable = ['original_document'];
+    protected $fillable = ['original_document', 'dcat'];
 }

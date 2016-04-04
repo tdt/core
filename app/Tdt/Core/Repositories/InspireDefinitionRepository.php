@@ -25,9 +25,15 @@ class InspireDefinitionRepository extends BaseDefinitionRepository implements In
             'original_document' => array(
                 'required' => true,
                 'name' => 'Original document',
-                'description' => 'Het origineel inspire XML document.',
+                'description' => 'The original INSPIRE XML document.',
                 'type' => 'string',
-            )
+            ),
+            'dcat' => array(
+                'required' => false,
+                'name' => 'GeoDCAT',
+                'description' => 'The GeoDCAT document representation of the original INSPIRE document. (translation will be automatic from the INSPIRE document to GeoDCAT)',
+                'type' => 'text',
+            ),
         );
     }
 }

@@ -15,6 +15,7 @@ class CreateInspireDefinition extends Migration {
         Schema::create('inspiredefinitions', function ($table) {
             $table->increments('id');
             $table->text('original_document');
+            $table->text('dcat');
             $table->timestamps();
         });
     }
