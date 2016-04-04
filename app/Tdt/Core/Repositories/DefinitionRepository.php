@@ -372,24 +372,28 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     private function createLocation($input)
     {
-        $location = new \Location();
-        $location->save();
+        if (!empty($input['geometry'])) {
+            $location = new \Location();
+            $location->save();
 
-        $labels = [];
-        $geometries = [];
+            $labels = [];
+            $geometries = [];
 
-        foreach ($input['label'] as $label) {
-            $labels[] = \Label::create(['label' => $label]);
+            foreach ($input['label'] as $label) {
+                $labels[] = \Label::create(['label' => $label]);
+            }
+
+            foreach ($input['geometry'] as $geometry) {
+                $geometries[] = \Geometry::create(['type' => $geometry['type'], 'geometry' => $geometry['geometry']]);
+            }
+
+            $location->geometries()->saveMany($geometries);
+            $location->labels()->saveMany($labels);
+
+            return $location;
+        } else {
+            return null;
         }
-
-        foreach ($input['geometry'] as $geometry) {
-            $geometries[] = \Geometry::create(['type' => $geometry['type'], 'geometry' => $geometry['geometry']]);
-        }
-
-        $location->geometries()->saveMany($geometries);
-        $location->labels()->saveMany($labels);
-
-        return $location;
     }
 
     /**
