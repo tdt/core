@@ -3,28 +3,22 @@
 @section('content')
 
 <div class="col-sm-9">
-    <h3>This is a harvested dataset</h3>
-    <div data-rdftohtml-plugin='map'></div>
-
-    <div data-rdftohtml-plugin='ontology'></div>
-
-    <div data-rdftohtml-plugin='triples'></div>
-
-    <span>
-        The meta-data has been harvested from <a href="{{ $source_definition['dataset_uri'] }}">{{ $source_definition['dataset_uri'] }}</a>.
-    </span>
-    <pre>{{json_encode($definition, JSON_PRETTY_PRINT)}}
-    </pre>
-
-    <style>
-        #map { width:100%; height: 200px;min-height: 200px; background: blue;margin-top: 20px; }
-        @media (min-height: 500px) {
-            #map {height: 300px;}
-        }
-    </style>
-    <div id="map"></div>
+    <h4 class="subject"><a href="http://demo.ckan.org/dataset/3d024d55-5cd9-4593-81cf-7ec9fec949a8">http://demo.ckan.org/dataset/3d024d55-5cd9-4593-81cf-7ec9fec949a8</a></h4>
+    <table class="triples table table-hover">
+        <tbody>
+        @foreach($definition as $key => $value)
+            @if(isset($body['properties'][$key]) && !empty($value))
+            <tr>
+                <td>{{$key}}</td>
+                <td>{{$value}}</td>
+            </tr>
+            @endif
+        @endforeach
+        </tbody>
+    </table>
+    <div id="map" style="display: none;"></div>
+    <pre>getDcat result: {{json_encode($body['definition'], JSON_PRETTY_PRINT)}}</pre>
 </div>
-
 
 <div class="col-sm-3">
     <ul class="list-group">
@@ -42,72 +36,21 @@
                 {{ strtoupper($source_definition['type']) }}
             </p>
         </li>
-        @if(!empty($definition['rights']))
-            <li class="list-group-item">
-                <h5 class="list-group-item-heading">{{ trans('htmlview.license') }}</h5>
-                <p class="list-group-item-text">
-                @if (!empty($definition['rights_uri']) && filter_var($definition['rights_uri'], FILTER_VALIDATE_URL))
-                    <a href="{{ $definition['rights_uri'] }}">{{ $definition['rights'] }}</a>
-                @else
-                    {{ $definition['rights'] }}
-                @endif
-                </p>
-            </li>
-        @endif
-        @if(!empty($definition['contact_point']))
-            <li class="list-group-item">
-                <h5 class="list-group-item-heading">{{ trans('htmlview.contact') }}</h5>
-                <p class="list-group-item-text">
-                @if(filter_var($definition['contact_point'], FILTER_VALIDATE_URL))
-                    <a href="{{ $definition['contact_point'] }}">{{ $definition['contact_point'] }}</a>
-                @else
-                    {{ $definition['contact_point'] }}
-                @endif
-                </p>
-            </li>
-        @endif
-        @if(!empty($definition['publisher_name']))
-            <li class="list-group-item">
-                <h5 class="list-group-item-heading">{{ trans('htmlview.publisher') }}</h5>
-                <p class="list-group-item-text">
-                    @if(!empty($definition['publisher_uri']) && filter_var($definition['publisher_uri'], FILTER_VALIDATE_URL))
-                        <a href="{{ $definition['publisher_uri'] }}">{{ $definition['publisher_name'] }}</a>
-                    @else
-                        {{ $definition['publisher_name'] }}
-                    @endif
-                </p>
-            </li>
-        @endif
-        @if(!empty($definition['keywords']))
-            <li class="list-group-item">
-                <h5 class="list-group-item-heading">{{ trans('htmlview.keywords') }}</h5>
-                <p class="list-group-item-text">
-                    {{ $definition['keywords'] }}
-                </p>
-            </li>
-        @endif
     </ul>
 </div>
-
-<link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
-<script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
-<script textype="text/javascript" src='{{ URL::to("js/rdf2html.min.js") }}'></script>
-<script type="text/javascript">
-var triples = {{ json_encode($body) }};
-var config = {
-    plugins: ['triples', 'map', 'ontology', 'paging']
-};
-rdf2html(triples, config);
-</script>
-
-
 @if (isset($definition['spatial']))
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<style>
+#map { width:100%; height: 200px;min-height: 200px; background: blue;margin-top: 20px; }
+@media (min-height: 500px) {
+    #map {height: 300px;}
+}
+</style>
 <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
 <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}?v=1.0" />
 <script>
 var geo = {{json_encode($definition['spatial']['geometries'])}};
 
+document.querySelector('#map').style = '';
 var map = L.map('map').setView([51,3], 7);
 
 // Create a group with all features
@@ -117,14 +60,13 @@ for (var i = 0; i < geo.length; i++) {
     }
 }
 
-// declaring the group variable  
+// Find out bounds
 var group = new L.featureGroup;
-$.each(map._layers, function(ml){
-    console.log(map._layers, ml)
-    if(map._layers[ml].feature) {
+for (var i = 0; i < map._layers.length; i++) {
+    if (map._layers[i].feature) {
         group.addLayer(this)
     }
-})
+}
 map.fitBounds(group.getBounds());
 L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
