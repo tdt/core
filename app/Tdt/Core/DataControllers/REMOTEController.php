@@ -24,7 +24,7 @@ class REMOTEController extends ADataController
     public function readData($source_definition, $rest_parameters = array())
     {
         $data_result = new Data();
-        $data_result->data = ['dataset_uri' => $source_definition['dataset_uri']];
+        $data_result->data = $source_definition;
         $data_result->preferred_formats = $this->getPreferredFormats();
 
         return $data_result;
