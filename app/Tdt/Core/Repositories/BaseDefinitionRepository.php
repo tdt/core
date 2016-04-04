@@ -98,7 +98,9 @@ class BaseDefinitionRepository
             } elseif (empty($input[$key])) {
                 $input[$key] = null;
             } else {
-                $input[$key] = trim($input[$key]);
+                if (empty($info['array']) || !$info['array']) {
+                    $input[$key] = trim($input[$key]);
+                }
             }
         }
 

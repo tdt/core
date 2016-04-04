@@ -49,14 +49,18 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definition->collection_uri = $input['collection_uri'];
 
         // Add the rest of the properties
-        foreach (array_only($input, array_keys($this->getCreateParameters())) as $property => $value) {
+        $create_parameters = $this->getCreateParameters();
+        unset($create_parameters['geometry']);
+        unset($create_parameters['label']);
+
+        foreach (array_only($input, array_keys($create_parameters)) as $property => $value) {
             $definition->$property = $value;
         }
 
-        // Check for location meta-data
-        if (!empty($input['spatial'])) {
-            $location = $this->addLocation($input['spatial']);
+        $location = $this->createLocation($input);
 
+        // Check for location meta-data
+        if (!empty($location)) {
             $definition->location()->save($location);
         }
 
@@ -90,6 +94,21 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $definition_object->update(array_only($input, array_keys($this->getCreateParameters())));
 
+        // Delete the locations and create again if geo meta-data is provided (= update)
+        if (!empty($definition_object->location->id)) {
+            $location = $definition_object->location;
+            $location->delete();
+
+            $location = $this->createLocation($input);
+
+            // Check for location meta-data
+            if (!empty($location)) {
+                $definition->location()->save($location);
+            }
+
+            $definition->save();
+        }
+
         return $definition_object->toArray();
     }
 
@@ -101,6 +120,12 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definition = $this->getEloquentDefinition($identifier);
 
         if (!empty($definition)) {
+            if (!empty($definition->location->id)) {
+                $location = $definition->location;
+
+                $location->delete();
+            }
+
             return $definition->delete();
         }
     }
@@ -345,7 +370,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return $properties;
     }
 
-    private function addLocation($input)
+    private function createLocation($input)
     {
         $location = new \Location();
         $location->save();
@@ -353,11 +378,11 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $labels = [];
         $geometries = [];
 
-        foreach ($input['labels'] as $label) {
+        foreach ($input['label'] as $label) {
             $labels[] = \Label::create(['label' => $label]);
         }
 
-        foreach ($input['geometries'] as $geometry) {
+        foreach ($input['geometry'] as $geometry) {
             $geometries[] = \Geometry::create(['type' => $geometry['type'], 'geometry' => $geometry['geometry']]);
         }
 
@@ -530,6 +555,22 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'description' => 'A link on which people can provide feedback or flag errors.',
                 'group' => 'dc',
             ),
+            'geometry' => array(
+                'required' => true,
+                'name' => 'Geometry',
+                'type' => 'geo',
+                'description' => 'A GeoJSON document that represents the geographical relevancy of the dataset.',
+                'group' => 'geodcat',
+                'array' => true
+            ),
+            'label' => array(
+                'required' => false,
+                'name' => 'Label',
+                'type' => 'geo',
+                'description' => 'A label to add to the spatial meta-data.',
+                'group' => 'geodcat',
+                'array' => true
+            )
         );
     }
 }

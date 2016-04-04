@@ -20,7 +20,6 @@ class DiscoveryController extends ApiController
 
     public function get($uri = null)
     {
-
         // Set permission
         Auth::requirePermissions('discovery.view');
 
@@ -46,7 +45,6 @@ class DiscoveryController extends ApiController
      */
     public function createDiscoveryDocument()
     {
-
         // Create and return a dument that holds a self-explanatory document
         // about how to interface with the datatank
         $discovery_document = new \stdClass();
@@ -94,7 +92,6 @@ class DiscoveryController extends ApiController
      */
     private function createDefGetDiscovery()
     {
-
         $get = new \stdClass();
 
         $get->httpMethod = "GET";
@@ -109,7 +106,6 @@ class DiscoveryController extends ApiController
      */
     private function createDefPutDiscovery()
     {
-
         $put = new \stdClass();
 
         $put->httpMethod = "PUT";
@@ -126,16 +122,13 @@ class DiscoveryController extends ApiController
         // Fetch all the supported definition models by iterating the models directory
         if ($handle = opendir(app_path() . '/models/sourcetypes')) {
             while (false !== ($entry = readdir($handle))) {
-
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
-
                     $source_repository = 'Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
                     $source_repository = \App::make($source_repository);
 
                     $definition_type = strtolower($matches[1]);
 
                     if (method_exists($source_repository, 'getAllParameters')) {
-
                         $put->body->$definition_type = new \stdClass();
                         $put->body->$definition_type->description = "Create a definition that allows for publication of data inside a $matches[1] datastructure.";
 
@@ -168,7 +161,6 @@ class DiscoveryController extends ApiController
      */
     private function createDefDeleteDiscovery()
     {
-
         $delete = new \stdClass();
 
         $delete->httpMethod = "DELETE";
@@ -183,7 +175,6 @@ class DiscoveryController extends ApiController
      */
     private function createDefPatchDiscovery()
     {
-
         $patch = new \stdClass();
 
         $patch->httpMethod = "PATCH";
@@ -199,16 +190,13 @@ class DiscoveryController extends ApiController
         // Fetch all the supported definition models by iterating the models directory
         if ($handle = opendir(app_path() . '/models/sourcetypes')) {
             while (false !== ($entry = readdir($handle))) {
-
                 if (preg_match("/(.+)Definition\.php/i", $entry, $matches)) {
-
                     $source_repository = 'Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst(strtolower($matches[1])) . "DefinitionRepositoryInterface";
                     $source_repository = \App::make($source_repository);
 
                     $definition_type = strtolower($matches[1]);
 
                     if (method_exists($source_repository, 'getAllParameters')) {
-
                         $patch->body->$definition_type = new \stdClass();
                         $patch->body->$definition_type->description = "Patch an existing definition.";
 
@@ -234,7 +222,6 @@ class DiscoveryController extends ApiController
      */
     private function createInfo()
     {
-
         // Info only supports the get method
         $info = new \stdClass();
 
@@ -254,7 +241,6 @@ class DiscoveryController extends ApiController
      */
     private function createDcat()
     {
-
         // Dcat only supports the get method
         $dcat = new \stdClass();
 
@@ -274,7 +260,6 @@ class DiscoveryController extends ApiController
      */
     private function createLanguages()
     {
-
         // Languages only supports the get method
         $languages = new \stdClass();
 
@@ -294,7 +279,6 @@ class DiscoveryController extends ApiController
      */
     private function createLicenses()
     {
-
         // Licenses only supports the get method
         $licenses = new \stdClass();
 
@@ -314,7 +298,6 @@ class DiscoveryController extends ApiController
      */
     private function createPrefixes()
     {
-
         // Prefixes only supports the get method
         $prefixes = new \stdClass();
 
@@ -334,7 +317,6 @@ class DiscoveryController extends ApiController
      */
     private function makeResponse($data)
     {
-
          // Create response
         $response = \Response::make($data, 200);
 
