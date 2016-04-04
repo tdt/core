@@ -116,7 +116,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return !empty($definition);
     }
 
-
     public function getAll($limit = PHP_INT_MAX, $offset = 0)
     {
         return \Definition::take($limit)->skip($offset)->get()->toArray();
@@ -429,6 +428,14 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         $properties['type'] = strtolower($source_definition->type);
+
+        if (!empty($definition->location->id)) {
+            $location = \Location::find($definition->location->id)->with('labels', 'geometries')->first();
+
+            if (!empty($location)) {
+                $properties['spatial'] = $location->toArray();
+            }
+        }
 
         return $properties;
     }
