@@ -111,7 +111,6 @@ class HTMLFormatter implements IFormatter
                     $data = $dataset_link . '.map' . $query_string;
 
                     break;
-
                 case 'XML':
                     $view = 'dataset.code';
                     $data = self::displayTree($dataObj->data, 'xml');

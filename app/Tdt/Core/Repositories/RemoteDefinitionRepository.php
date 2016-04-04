@@ -8,7 +8,7 @@ class RemoteDefinitionRepository extends BaseDefinitionRepository implements Rem
 {
 
     protected $rules = array(
-        'dataset_uri' => 'uri|required',
+        'dcat' => 'required',
     );
 
     public function __construct(\RemoteDefinition $model)
@@ -22,10 +22,10 @@ class RemoteDefinitionRepository extends BaseDefinitionRepository implements Rem
     public function getCreateParameters()
     {
         return array(
-            'dataset_uri' => array(
+            'dcat' => array(
                 'required' => true,
-                'name' => 'URI',
-                'description' => 'The URI of the remote dataset.',
+                'name' => 'DCAT',
+                'description' => 'The DCAT document for the dataset.',
                 'type' => 'string',
             )
         );

@@ -14,7 +14,7 @@ class CreateRemotedefinition extends Migration {
     {
         Schema::create('remotedefinitions', function ($table) {
             $table->increments('id');
-            $table->string('dataset_uri', 255);
+            $table->text('dcat');
             $table->timestamps();
         });
     }

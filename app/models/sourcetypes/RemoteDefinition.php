@@ -11,5 +11,5 @@ class RemoteDefinition extends SourceType
 {
     protected $table = 'remotedefinitions';
 
-    protected $fillable = ['dataset_uri'];
+    protected $fillable = ['dcat'];
 }
