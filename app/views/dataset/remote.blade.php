@@ -17,7 +17,6 @@
         </tbody>
     </table>
     <div id="map" style="display: none;"></div>
-    <pre>getDcat result: {{json_encode($body['definition'], JSON_PRETTY_PRINT)}}</pre>
 </div>
 
 <div class="col-sm-3">
@@ -48,30 +47,26 @@
 <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
 <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}?v=1.0" />
 <script>
-var geo = {{json_encode($definition['spatial']['geometries'])}};
-
-document.querySelector('#map').style = '';
-var map = L.map('map').setView([51,3], 7);
-
-// Create a group with all features
+// GeoJSON to map feature
+var feature, geo = {{json_encode($definition['spatial']['geometries'])}};
 for (var i = 0; i < geo.length; i++) {
     if (geo[i].type === 'geojson') {
-        L.geoJson(JSON.parse(geo[i].geometry)).addTo(map);
+        feature = L.geoJson(JSON.parse(geo[i].geometry))
     }
+}
+if (!feature) {
+    throw new Error('Not spatial after all..');
 }
 
-// Find out bounds
-var group = new L.featureGroup;
-for (var i = 0; i < map._layers.length; i++) {
-    if (map._layers[i].feature) {
-        group.addLayer(this)
-    }
-}
-map.fitBounds(group.getBounds());
+// Show map
+document.querySelector('#map').style = '';
+var map = L.map('map');
 L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
     minZoom: 3
 }).addTo(map);
+feature.addTo(map);
+map.fitBounds(feature.getBounds());
 </script>
 @endif
 
