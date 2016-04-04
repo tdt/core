@@ -118,11 +118,15 @@ class HTMLFormatter implements IFormatter
                     break;
                 case 'REMOTE':
                     $view = 'dataset.remote';
-                    $data = self::getDcat($dataObj->definition);
+                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+                    $properties = $definitions->getCreateParameters();
+                    $data = ['definition' => self::getDcat($dataObj->definition), 'properties' => $properties];
                     break;
                 case 'INSPIRE':
                     $view = 'dataset.inspire';
-                    $data = $dataObj->data;
+                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+                    $properties = $definitions->getCreateParameters();
+                    $data = ['definition' => self::getDcat($dataObj->definition), 'properties' => $properties];
                     break;
                 default:
                     if ($dataObj->is_semantic) {
