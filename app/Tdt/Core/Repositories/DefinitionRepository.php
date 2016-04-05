@@ -562,7 +562,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             'geometry' => array(
                 'required' => true,
                 'name' => 'Geometry',
-                'type' => 'geo',
+                'type' => 'geojson',
                 'description' => 'A GeoJSON document that represents the geographical relevancy of the dataset.',
                 'group' => 'geodcat',
                 'array' => true
@@ -570,7 +570,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             'label' => array(
                 'required' => false,
                 'name' => 'Label',
-                'type' => 'geo',
+                'type' => 'string',
                 'description' => 'A label to add to the spatial meta-data.',
                 'group' => 'geodcat',
                 'array' => true

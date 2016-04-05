@@ -26,6 +26,7 @@ return array(
     "minute"                     => "minute(s)",
     "cache_help"                 => "How long should this dataset be cached? Fill out '0' or '-1' to disable caching for this resource (not recommended).",
     "dcat_header"                => "Describe your data",
+    "geodcat_header"             => "Locate the relevant area",
     "edit_dataset"               => "Edit a dataset",
     "parameters"                 => "Parameters",
     "source_type"                => "Source type",

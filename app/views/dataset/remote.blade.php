@@ -2,24 +2,13 @@
 
 @section('content')
 
-<div class="col-sm-9">
-    <h4 class="subject"><a href="http://demo.ckan.org/dataset/3d024d55-5cd9-4593-81cf-7ec9fec949a8">http://demo.ckan.org/dataset/3d024d55-5cd9-4593-81cf-7ec9fec949a8</a></h4>
-    <table class="triples table table-hover">
-        <tbody>
-        @foreach($definition as $key => $value)
-            @if(isset($body['properties'][$key]) && !empty($value))
-            <tr>
-                <td>{{$key}}</td>
-                <td>{{$value}}</td>
-            </tr>
-            @endif
-        @endforeach
-        </tbody>
-    </table>
-    <div id="map" style="display: none;"></div>
+<div class="col-sm-7 col-lg-8">
+    <div data-rdftohtml-plugin='map'></div>
+    <div data-rdftohtml-plugin='ontology'></div>
+    <div data-rdftohtml-plugin='triples'></div>
 </div>
 
-<div class="col-sm-3">
+<div class="col-sm-5 col-lg-4">
     <ul class="list-group">
         @if(!empty($source_definition['description']))
             <li class="list-group-item">
@@ -36,38 +25,60 @@
             </p>
         </li>
     </ul>
+    <div id="map" style="display: none;"></div>
 </div>
-@if (isset($definition['spatial']))
+
 <style>
 #map { width:100%; height: 200px;min-height: 200px; background: blue;margin-top: 20px; }
 @media (min-height: 500px) {
     #map {height: 300px;}
 }
 </style>
+<link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
 <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
-<link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}?v=1.0" />
-<script>
-// GeoJSON to map feature
-var feature, geo = {{json_encode($definition['spatial']['geometries'])}};
-for (var i = 0; i < geo.length; i++) {
-    if (geo[i].type === 'geojson') {
-        feature = L.geoJson(JSON.parse(geo[i].geometry))
+<script textype="text/javascript" src='{{ URL::to("js/rdf2html.min.js") }}'></script>
+<script type="text/javascript">
+var dcat = {{json_encode($source_definition['dcat'])}}
+var config = {
+    plugins: ['triples', 'map', 'ontology', 'paging']
+};
+rdf2html(dcat, config);
+</script>
+<script type="text/javascript" src='{{ URL::to("js/n3-browser.min.js") }}'></script>
+<script type="text/javascript">
+var dcat = {{json_encode($source_definition['dcat'])}}
+var parser = N3.Parser();
+var triples = [];
+parser.parse(dcat, function (error, triple, prefixes) {
+    if (triple) {
+        triples.push(triple)
+    } else {
+        parsed()
+    }
+});
+function parsed () {
+    for (var i = 0; i < triples.length; i++) {
+        if (triples[i].predicate === 'http://www.w3.org/ns/locn#geometry') {
+                console.log(N3.Util.getLiteralValue(triples[i].object))
+            try {
+                var json = JSON.parse(N3.Util.getLiteralValue(triples[i].object));
+                showMap(json);
+                break;
+            } catch (e) {}
+        }
     }
 }
-if (!feature) {
-    throw new Error('Not spatial after all..');
+function showMap (json) {
+    var feature = L.geoJson(json)
+    document.querySelector('#map').style = '';
+    var map = L.map('map');
+    L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+        minZoom: 3
+    }).addTo(map);
+    feature.addTo(map);
+    map.fitBounds(feature.getBounds());
 }
-
-// Show map
-document.querySelector('#map').style = '';
-var map = L.map('map');
-L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-    minZoom: 3
-}).addTo(map);
-feature.addTo(map);
-map.fitBounds(feature.getBounds());
 </script>
-@endif
 
 @stop

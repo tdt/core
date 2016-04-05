@@ -119,7 +119,7 @@ class HTMLFormatter implements IFormatter
                     $view = 'dataset.remote';
                     $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
                     $properties = $definitions->getCreateParameters();
-                    $data = ['definition' => self::getDcat($dataObj->definition), 'properties' => $properties];
+                    $data = ['properties' => $properties];
                     break;
                 case 'INSPIRE':
                     $view = 'dataset.inspire';

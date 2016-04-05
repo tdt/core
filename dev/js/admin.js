@@ -60,8 +60,7 @@ $('.hover-help').tooltip();
 $('.hover-help').on('click', function(e){ e.preventDefault(); });
 
 
-$('form.add-dataset .identifier #input_collection,
-   form.add-dataset .identifier #input_resource_name').on({
+$('form.add-dataset .identifier #input_collection, form.add-dataset .identifier #input_resource_name').on({
         'keydown': buildURI,
         'keyup': buildURI
 });
@@ -175,6 +174,59 @@ $('.btn-edit-dataset').on('click', function(e){
             }
         }
     });
+});
+
+// Load google maps for GeoDCAT
+$('.location-picker').one('click', function(e) {
+    $(this).height('300px').removeClass('btn').removeClass('btn-default')
+    var input = $('#' + $(this).data('id'));
+    var rectangle, infoWindow, map;
+    var leaflet = document.createElement('script');
+    leaflet.onload = function () {
+        map = new google.maps.Map(document.querySelector('.location-picker'), {
+            mapTypeControl: false,
+            streetViewControl: false,
+            center: {lat: 50, lng: 10},
+            zoom: 2
+        });
+
+        var bounds = {
+            north: 70,
+            south: 35,
+            east: 40,
+            west: -10
+        };
+
+        // Define a rectangle and set its editable property to true.
+        infoWindow = new google.maps.InfoWindow();
+        rectangle = new google.maps.Rectangle({
+            bounds: bounds,
+            draggable: true,
+            editable: true
+        });
+        rectangle.addListener('bounds_changed', boundsChanged);
+        boundsChanged()
+        rectangle.setMap(map);
+    }
+    leaflet.setAttribute('type', 'text/javascript');
+    leaflet.setAttribute('src', 'https://maps.googleapis.com/maps/api/js');
+    document.head.appendChild(leaflet);
+
+    var boundsChanged = function (event) {
+        var ne = rectangle.getBounds().getNorthEast();
+        var sw = rectangle.getBounds().getSouthWest();
+
+        var contentString = 'North-east corner: ' + ne.lat() + ', ' + ne.lng() + '<br>South-west corner: ' + sw.lat() + ', ' + sw.lng();
+        console.log('geojson', ne.lat() , ne.lng() , sw.lat() , sw.lng())
+        input.value = {
+            type: 'Polygon...'
+        };
+
+        // Set the info window's content and position.
+        infoWindow.setContent(contentString);
+        infoWindow.setPosition(ne);
+        infoWindow.open(map);
+    }
 });
 
 // IntroJS

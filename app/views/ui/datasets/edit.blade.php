@@ -126,7 +126,7 @@
                     <label class="col-sm-2 control-label">
                     </label>
                     <div class="col-sm-10">
-                        <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }}</h4>
+                        <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }} <small>DCAT</small></h4>
                     </div>
                 </div>
 
@@ -152,7 +152,34 @@
                         </div>
                     </div>
                 @endforeach
+            @endif
 
+            @if(!empty($parameters_geodcat))
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                    </label>
+                    <div class="col-sm-10">
+                        <h4><i class='fa fa-map-marker'></i> {{ trans('admin.geodcat_header') }} <small>GeoDCAT</small></h4>
+                    </div>
+                </div>
+                @foreach($parameters_geodcat as $parameter => $object)
+                    <div class="form-group">
+                        <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
+                            {{ $object->name }}
+                        </label>
+                        <div class="col-sm-10">
+                            @if($object->type == 'string')
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
+                            @elseif($object->type == 'geojson')
+                                <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
+                            @endif
+                            <div class='help-block'>
+                                {{ $object->description }}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             @endif
         </div>
     </form>
