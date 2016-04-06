@@ -42,18 +42,16 @@ var config = {
 rdf2html(dcat, config);
 
 // Show map based on parsed turtle
+var store = N3.Store();
 var parser = N3.Parser();
-var triples = [];
 parser.parse(dcat, function (error, triple, prefixes) {
     if (triple) {
-        return triples.push(triple)
+        return store.addTriple(triple);
     }
-    for (var i = 0; i < triples.length; i++) {
-        if (triples[i].predicate !== 'http://www.w3.org/ns/locn#geometry') {
-            continue;
-        }
+    var geo = store.find(null, 'http://www.w3.org/ns/locn#geometry', null);
+    for (var i = 0; i < geo.length; i++) {
         try {
-            var json = JSON.parse(N3.Util.getLiteralValue(triples[i].object));
+            var json = JSON.parse(N3.Util.getLiteralValue(geo[i].object));
             showMap(json);
             break;
         } catch (e) {}
