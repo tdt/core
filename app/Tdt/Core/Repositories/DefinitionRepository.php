@@ -219,6 +219,51 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return $query->count();
     }
 
+    public function countFacets($filters)
+    {
+        $query = \DB::table('definition_facets')
+                    ->select(\DB::raw('count(*) as count, facet_name, value'));
+
+
+        $facet_subquery = \DB::table('definitions')->select('id');
+
+        \Log::info($facet_subquery->toSql());
+
+        if (!empty($filters['query'])) {
+            $search_value = array_shift($filters['query']);
+
+            unset($filters['query']);
+
+            $facet_subquery->where(function ($facet_subquery) use ($search_value) {
+                return $facet_subquery->where('title', 'LIKE', '%' . $search_value . '%')
+                ->orWhere('description', 'LIKE', '%' . $search_value . '%')
+                ->orWhere('resource_name', 'LIKE', '%' . $search_value . '%')
+                ->orWhere('collection_uri', 'LIKE', '%' . $search_value . '%');
+            });
+        }
+
+        foreach ($filters as $filter => $values) {
+            $facet_subquery->where(function ($facet_subquery) use ($filter, $values) {
+                $val = array_shift($values);
+
+                $facet_subquery->where($filter, 'LIKE', '%' . $val . '%');
+
+                foreach ($values as $val) {
+                    $facet_subquery->orWhere($filter, 'LIKE', '%' . $val . '%');
+                }
+
+                return $facet_subquery;
+            });
+        }
+
+        $results = $query->whereRaw('definition_id IN (' . $facet_subquery->toSql() . ')')
+                        ->mergeBindings($facet_subquery)
+                        ->groupBy('value', 'facet_name')
+                        ->get();
+
+        return $results;
+    }
+
     public function getByIdentifier($identifier)
     {
         $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();

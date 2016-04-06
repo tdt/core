@@ -41,7 +41,7 @@ class InfoController extends ApiController
     {
 
         if (!empty($uri)) {
-            if (!$this->definition->exists($uri)) {
+            if (!$this->definitions->exists($uri)) {
                 \App::abort(404, "No resource has been found with the uri $uri");
             }
         }
@@ -62,11 +62,11 @@ class InfoController extends ApiController
     private function getInfo($uri = null)
     {
         if (!empty($uri)) {
-            if (!$this->definition->exists($uri)) {
+            if (!$this->definitions->exists($uri)) {
                 \App::abort(404, "No resource was found identified with " . $uri);
             }
 
-            $description = $this->definition->getDescriptionInfo($uri);
+            $description = $this->definitions->getDescriptionInfo($uri);
 
             $result = new Data();
             $result->data = $description;
@@ -88,39 +88,20 @@ class InfoController extends ApiController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions_info = $this->definition->getFiltered($filter_map, $limit, $offset);
-        $definition_count = $this->definition->countFiltered($filter_map, $limit, $offset);
+        $definitions_info = $this->definitions->getFiltered($filter_map, $limit, $offset);
+        $definition_count = $this->definitions->countFiltered($filter_map, $limit, $offset);
 
-        // Polyfill support for PHP < 5.5
-        if (!function_exists('array_column')) {
-            function array_column($array, $column_name) {
-                return array_map(function ($element) use ($column_name) {
-                    return $element[$column_name];
-                }, $array);
+        $facet_count = $this->definitions->countFacets($filter_map);
+
+        $facet_map = [];
+
+        foreach ($facet_count as $facet) {
+            if (empty($facet_map[$facet->facet_name])) {
+                $facet_map[$facet->facet_name] = [];
             }
+
+            $facet_map[$facet->facet_name][$facet->value] = $facet->count;
         }
-
-        // Get unique properties
-        $theme = array_count_values(array_filter(array_column($definitions_info, 'theme')));
-        $language = array_count_values(array_filter(array_column($definitions_info, 'language')));
-        $rights = array_count_values(array_filter(array_column($definitions_info, 'rights')));
-        $publisher = array_count_values(array_filter(array_column($definitions_info, 'publisher_name')));
-
-        $keyword_strings = array_filter(array_column($definitions_info, 'keywords'));
-        $all_keywords = [];
-
-        foreach ($keyword_strings as $keyword_string) {
-            $all_keywords = array_merge($all_keywords, explode(',', $keyword_string));
-        }
-
-        $keywords = array_count_values(array_map('trim', $all_keywords));
-
-        // Sort by frequency
-        arsort($theme);
-        arsort($keywords);
-        arsort($language);
-        arsort($rights);
-        arsort($publisher);
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
@@ -128,28 +109,29 @@ class InfoController extends ApiController
             'filter' => [
                 [
                  'filterProperty' => 'theme',
-                 'displayName' => Lang::get('datasets.theme'), 'options' => $theme,
-                 'count' => count($theme)
+                 'displayName' => Lang::get('datasets.theme'), 'options' => @$facet_map['theme'],
+                 'count' => count(@$facet_map['theme'])
                 ],
                 [
                  'filterProperty' => 'keywords',
-                 'displayName' => Lang::get('datasets.keywords'), 'options' => $keywords,
-                 'count' => count($keywords)
+                 'displayName' => Lang::get('datasets.keywords'), 'options' => @$facet_map['keyword'],
+                 'count' => count(@$facet_map['keyword'])
                 ],
                 [
                  'filterProperty' => 'language',
-                 'displayName' => Lang::get('datasets.language'), 'options' => $language,
-                 'count' => count($language)
+                 'displayName' => Lang::get('datasets.language'), 'options' => @$facet_map['language'],
+                 'count' => count(@$facet_map['language'])
                 ],
                 [
                  'filterProperty' => 'rights',
-                 'displayName' => Lang::get('datasets.license'), 'options' => $rights,
-                 'count' => count($rights)
+                 'displayName' => Lang::get('datasets.license'), 'options' => @$facet_map['rights'],
+                 'count' => count(@$facet_map['rights'])
                 ],
                 [
                  'filterProperty' => 'publisher_name',
-                 'displayName' => Lang::get('datasets.publisher'), 'options' => $publisher,
-                 'count' => count($publisher)],
+                 'displayName' => Lang::get('datasets.publisher'), 'options' => @$facet_map['publisher_name'],
+                 'count' => count(@$facet_map['publisher_name']),
+                ]
             ],
             'paging' => $result->paging,
             'datasets' => $definitions_info,
