@@ -672,6 +672,19 @@ footer{
     }
 }
 
+#geodcatmap {
+    margin-top: 20px;
+    width: 100%;
+    height: 200px;
+    min-height: 200px;
+    background: #ddd;
+}
+@media (min-height: 500px) {
+    #geodcatmap {
+        height: 300px;
+    }
+}
+
 .modal{
     .form-group:last-child{
         margin-bottom: 0px;
