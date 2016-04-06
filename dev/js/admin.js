@@ -218,9 +218,18 @@ $('.location-picker').one('click', function(e) {
 
         var contentString = 'North-east corner: ' + ne.lat() + ', ' + ne.lng() + '<br>South-west corner: ' + sw.lat() + ', ' + sw.lng();
         console.log('geojson', ne.lat() , ne.lng() , sw.lat() , sw.lng())
-        input.value = {
-            type: 'Polygon...'
-        };
+        input.attr('value', JSON.stringify({
+            type: 'Polygon',
+            coordinates: [
+                [
+                    [ne.lat(), sw.lng()],
+                    [ne.lat(), ne.lng()],
+                    [sw.lat(), ne.lng()],
+                    [sw.lat(), sw.lng()],
+                    [ne.lat(), sw.lng()]
+                ]
+            ]
+        }));
 
         // Set the info window's content and position.
         infoWindow.setContent(contentString);
