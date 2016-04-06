@@ -18,16 +18,16 @@ class Location extends Eloquent
     /**
      * A location has many geometries
      */
-    public function geometries()
+    public function geometry()
     {
-        return $this->hasMany('Geometry');
+        return $this->hasOne('Geometry', 'location_id');
     }
 
     /**
      * A location has many labels
      */
-    public function labels()
+    public function label()
     {
-        return $this->hasMany('Label');
+        return $this->hasOne('Label');
     }
 }

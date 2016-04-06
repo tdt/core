@@ -92,22 +92,30 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $definition_object = \Definition::find($definition['id']);
 
-        $definition_object->update(array_only($input, array_keys($this->getCreateParameters())));
+         // Add the rest of the properties
+        $create_parameters = $this->getCreateParameters();
+        unset($create_parameters['geometry']);
+        unset($create_parameters['label']);
+
+        $definition_object->update(array_only($input, array_keys($create_parameters)));
 
         // Delete the locations and create again if geo meta-data is provided (= update)
         if (!empty($definition_object->location->id)) {
             $location = $definition_object->location;
             $location->delete();
 
-            $location = $this->createLocation($input);
-
-            // Check for location meta-data
-            if (!empty($location)) {
-                $definition->location()->save($location);
-            }
-
-            $definition->save();
+            $definition_object->save();
         }
+
+            \Log::info($input);
+        $location = $this->createLocation($input);
+
+        // Check for location meta-data
+        if (!empty($location)) {
+            $definition_object->location()->save($location);
+        }
+
+        $definition_object->save();
 
         return $definition_object->toArray();
     }
@@ -143,7 +151,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getAll($limit = PHP_INT_MAX, $offset = 0)
     {
-        return \Definition::take($limit)->skip($offset)->get()->toArray();
+        return \Definition::take($limit)->skip($offset)->with('location')->get()->toArray();
     }
 
     public function getAllPublished($limit = PHP_INT_MAX, $offset = 0)
@@ -208,7 +216,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         if (!empty($definition->location)) {
-            $location = \Location::find($definition->location->id)->with('labels', 'geometries')->first();
+            $location = \Location::find($definition->location->id)->with('label', 'geometry')->first();
 
             if (!empty($location)) {
                 $definition['spatial'] = $location->toArray();
@@ -376,19 +384,12 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $location = new \Location();
             $location->save();
 
-            $labels = [];
-            $geometries = [];
+            $label = \Label::create(['label' => $input['label']]);
 
-            foreach ($input['label'] as $label) {
-                $labels[] = \Label::create(['label' => $label]);
-            }
+            $geometry = \Geometry::create(['type' => 'geojson', 'geometry' => $input['geometry']]);
 
-            foreach ($input['geometry'] as $geometry) {
-                $geometries[] = \Geometry::create(['type' => $geometry['type'], 'geometry' => $geometry['geometry']]);
-            }
-
-            $location->geometries()->saveMany($geometries);
-            $location->labels()->saveMany($labels);
+            $location->geometry()->save($geometry);
+            $location->label()->save($label);
 
             return $location;
         } else {
@@ -459,7 +460,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $properties['type'] = strtolower($source_definition->type);
 
         if (!empty($definition->location->id)) {
-            $location = \Location::find($definition->location->id)->with('labels', 'geometries')->first();
+            $location = \Location::find($definition->location->id)->with('label', 'geometry')->first();
 
             if (!empty($location)) {
                 $properties['spatial'] = $location->toArray();
