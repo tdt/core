@@ -41,7 +41,7 @@ class InfoController extends ApiController
     {
 
         if (!empty($uri)) {
-            if (!$this->definitions->exists($uri)) {
+            if (!$this->definition->exists($uri)) {
                 \App::abort(404, "No resource has been found with the uri $uri");
             }
         }
@@ -62,11 +62,11 @@ class InfoController extends ApiController
     private function getInfo($uri = null)
     {
         if (!empty($uri)) {
-            if (!$this->definitions->exists($uri)) {
+            if (!$this->definition->exists($uri)) {
                 \App::abort(404, "No resource was found identified with " . $uri);
             }
 
-            $description = $this->definitions->getDescriptionInfo($uri);
+            $description = $this->definition->getDescriptionInfo($uri);
 
             $result = new Data();
             $result->data = $description;
@@ -88,10 +88,10 @@ class InfoController extends ApiController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions_info = $this->definitions->getFiltered($filter_map, $limit, $offset);
-        $definition_count = $this->definitions->countFiltered($filter_map, $limit, $offset);
+        $definitions_info = $this->definition->getFiltered($filter_map, $limit, $offset);
+        $definition_count = $this->definition->countFiltered($filter_map, $limit, $offset);
 
-        $facet_count = $this->definitions->countFacets($filter_map);
+        $facet_count = $this->definition->countFacets($filter_map);
 
         $facet_map = [];
 

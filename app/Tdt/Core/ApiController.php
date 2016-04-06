@@ -16,9 +16,9 @@ abstract class ApiController extends \Controller
 
     protected $definition;
 
-    public function __construct(DefinitionRepositoryInterface $definitions)
+    public function __construct(DefinitionRepositoryInterface $definition)
     {
-        $this->definitions = $definitions;
+        $this->definition = $definition;
     }
 
     public function handle($uri)
