@@ -11650,7 +11650,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/jan/Sites/core/resources/assets/js/Dataset.vue"
+  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/Dataset.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11676,33 +11676,41 @@ var _Filter = require('./Filter.vue');
 
 var _Filter2 = _interopRequireDefault(_Filter);
 
+var _Pagination = require('./Pagination.vue');
+
+var _Pagination2 = _interopRequireDefault(_Pagination);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
     components: {
         SearchBox: _SearchBox2.default,
         Dataset: _Dataset2.default,
-        Filter: _Filter2.default
+        Filter: _Filter2.default,
+        Pagination: _Pagination2.default
     },
     ready: function ready() {
         this.fetch();
-        this.$on('filter.change', this.fetch);
-        this.$on('query.change', function (query) {
-            this.query = query;
-            this.fetch();
-        });
     },
     data: function data() {
         return {
             datasets: [],
             filter: [],
-            paging: {},
+            paging: {
+                first: null,
+                prev: null,
+                next: null,
+                last: null
+            },
+            limit: 3,
+            offset: 0,
             query: ''
         };
     },
 
     methods: {
         fetch: function fetch() {
+            // Get selections
             var selection = {};
             for (var i in this.filter) {
                 var obj = this.filter[i];
@@ -11710,9 +11718,19 @@ exports.default = {
                     selection[obj.filterProperty] = obj.selection.join(',');
                 }
             }
+            // Get search query
             if (this.query.length) {
                 selection.query = this.query;
             }
+            // Get paging
+            if (this.limit) {
+                selection.limit = this.limit;
+            }
+            if (this.offset) {
+                selection.offset = this.offset;
+            }
+            console.log(selection);
+
             this.$http.get('/api/info', selection).then(function (res) {
                 this.datasets = res.data.datasets;
                 this.paging = res.data.paging;
@@ -11730,22 +11748,31 @@ exports.default = {
                 }
             });
         }
+    },
+    events: {
+        'query.change': function queryChange(query) {
+            this.query = query;
+            this.fetch();
+        },
+        'filter.change': function filterChange() {
+            this.fetch();
+        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <search-box></search-box>\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <search-box></search-box>\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n    <pagination :paging.sync=\"paging\" :limit.sync=\"limit\" :offset.sync=\"offset\"></pagination>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\DatasetList.vue"
+  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/DatasetList.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Dataset.vue":28,"./Filter.vue":30,"./SearchBox.vue":31,"vue":27,"vue-hot-reload-api":2}],30:[function(require,module,exports){
+},{"./Dataset.vue":28,"./Filter.vue":30,"./Pagination.vue":31,"./SearchBox.vue":32,"vue":27,"vue-hot-reload-api":2}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11777,7 +11804,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\Filter.vue"
+  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/Filter.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11785,6 +11812,51 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":27,"vue-hot-reload-api":2}],31:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  props: ['paging', 'limit', 'offset', 'total'],
+  computed: {
+    current: function current() {
+      return Math.floor(this.offset / this.limit) + 1;
+    }
+  },
+  methods: {
+    first: function first() {
+      this.offset = 0;
+      this.$dispatch('filter.change');
+    },
+    previous: function previous() {
+      this.offset = this.paging.previous[0];
+      this.$dispatch('filter.change');
+    },
+    next: function next() {
+      this.offset = this.paging.next[0];
+      this.$dispatch('filter.change');
+    },
+    last: function last() {
+      this.offset = this.paging.last[0];
+      this.$dispatch('filter.change');
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<ul class=\"pagination\">\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"first\">\n    <a href=\"#\">← First</a>\n  </li>\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"previous\">\n    <a href=\"#\">← Previous</a>\n  </li>\n  <li>\n  <span style=\"float:left;min-width:130px;text-align:center;\">Page {{current}} {{total?' of '+total:''}} </span>\n    \n  </li>\n  <li :class=\"{disabled:!paging.next}\" @click.prevent=\"next\">\n    <a href=\"#\">Next →</a>\n  </li><li>\n  </li><li :class=\"{disabled:!paging.last}\" @click.prevent=\"last\">\n    <a href=\"#\">Last →</a>\n  </li><li>\n</li></ul>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/Pagination.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":27,"vue-hot-reload-api":2}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11807,14 +11879,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "E:\\git\\opendata\\tdt\\core\\resources\\assets\\js\\SearchBox.vue"
+  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/SearchBox.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":27,"vue-hot-reload-api":2}],32:[function(require,module,exports){
+},{"vue":27,"vue-hot-reload-api":2}],33:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -11842,6 +11914,6 @@ new _vue2.default({
 	}
 });
 
-},{"./DatasetList.vue":29,"vue":27,"vue-resource":16}]},{},[32]);
+},{"./DatasetList.vue":29,"vue":27,"vue-resource":16}]},{},[33]);
 
 //# sourceMappingURL=datasets.js.map
