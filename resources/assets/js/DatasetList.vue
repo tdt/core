@@ -10,7 +10,7 @@
 </div>
 <div class="col-sm-8 col-md-9">
     <dataset v-for="(uri, dataset) in datasets" :dataset="dataset"></dataset>
-    <pagination :paging.sync="paging" :limit.sync="limit" :offset.sync="offset"></pagination>
+    <pagination :paging.sync="paging"></pagination>
 </div>
 
 </template>
@@ -39,10 +39,12 @@ export default {
                 first: null,
                 prev: null,
                 next: null,
-                last: null
+                last: null,
+                total: null,
+                previous: null,
+                limit: null,
+                offset: null
             },
-            limit: 3,
-            offset: 0,
             query: ''
         }
     },
@@ -68,7 +70,7 @@ export default {
                 selection.offset = this.offset
             }
             console.log(selection)
-            
+
             this.$http.get('/api/info', selection).then(function(res) {
                 this.datasets = res.data.datasets;
                 this.paging = res.data.paging;

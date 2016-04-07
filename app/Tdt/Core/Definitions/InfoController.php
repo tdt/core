@@ -104,7 +104,9 @@ class InfoController extends ApiController
         }
 
         $result = new Data();
+
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
+
         $result->data = [
             'filter' => [
                 [
@@ -133,11 +135,37 @@ class InfoController extends ApiController
                  'count' => count(@$facet_map['publisher_name']),
                 ]
             ],
-            'paging' => $result->paging,
+            'paging' => $this->calculatePagingInfo($limit, $offset, $definition_count),
             'datasets' => $definitions_info,
         ];
 
         return ContentNegotiator::getResponse($result, 'json');
+    }
+
+    private function calculatePagingInfo($limit, $offset, $count)
+    {
+        $paging_info = Pager::calculatePagingHeaders($limit, $offset, $count);
+
+        $paging = [
+            'current' => ceil($offset / $limit),
+            'total' => $count,
+            'next' => ceil($offset / $limit),
+            'previous' => 0,
+            'first' => 0,
+            'last' => round($count / $limit, 0),
+            'limit' => $limit,
+            'offset' => $offset
+        ];
+
+        if (!empty($paging_info['next'])) {
+            $paging['next'] = $paging['current'] + 1;
+        }
+
+        if (!empty($paging_info['previous'])) {
+            $paging['previous'] = $paging['current'] - 1;
+        }
+
+        return $paging;
     }
 
     private function parseFilterValues($value_str)

@@ -227,8 +227,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $facet_subquery = \DB::table('definitions')->select('id');
 
-        \Log::info($facet_subquery->toSql());
-
         if (!empty($filters['query'])) {
             $search_value = array_shift($filters['query']);
 

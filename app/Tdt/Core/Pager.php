@@ -87,16 +87,11 @@ class Pager
 
         // Calculate the paging parameters and pass them with the data object
         if ($offset + $limit < $total_rows) {
-            $paging['next'] = array($limit + $offset, $limit);
+            $paging['next'] = array($limit + $offset, (int)$limit);
 
-            $last_page = round($total_rows / $limit, 1);
-            $last_full_page = round($total_rows / $limit, 0);
+            $last_page = ceil($total_rows / $limit);
 
-            if ($last_page - $last_full_page > 0) {
-                $paging['last'] = array(($last_full_page) * $limit, $limit);
-            } else {
-                $paging['last'] = array(($last_full_page - 1) * $limit, $limit);
-            }
+            $paging['last'] = array(($last_page) * $limit, (int)$limit);
         }
 
         if ($offset > 0 && $total_rows > 0) {
@@ -137,6 +132,6 @@ class Pager
             $limit = PHP_INT_MAX;
         }
 
-        return array($limit, $offset);
+        return array((int)$limit, (int)$offset);
     }
 }

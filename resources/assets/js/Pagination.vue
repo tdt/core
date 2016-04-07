@@ -8,7 +8,7 @@
     </li>
     <li>
     <span style="float:left;min-width:130px;text-align:center;">Page {{current}} {{total?' of '+total:''}} </span>
-      
+
     </li>
     <li :class="{disabled:!paging.next}" @click.prevent="next">
       <a href="#">Next &rarr;</a>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  props: ['paging', 'limit', 'offset', 'total'],
+  props: ['paging'],
   computed: {
     current () {
       return Math.floor(this.offset / this.limit) + 1
