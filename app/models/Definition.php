@@ -42,4 +42,9 @@ class Definition extends Eloquent
 
         parent::delete();
     }
+
+    public function facets()
+    {
+        return $this->hasMany('Facet');
+    }
 }

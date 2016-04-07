@@ -62,6 +62,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $definition->save();
 
+        // Update the facets for the definition
+        $this->updateFacets($definition);
+
         return $definition->toArray();
     }
 
@@ -97,6 +100,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         if (!empty($input['description'])) {
             $definition_model->description = $input['description'];
         }
+
+        // Update the facets for the definition
+        $this->updateFacets($definition_model);
 
         return $definition_model->toArray();
     }
@@ -426,11 +432,59 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     }
 
     /**
-     * This function solves the issues of retrieving relationships of a relationship (e.g. definition -> csvdefinitions -> tabular)
+     * This function solves the issues of retrieving relationships of a relationship
+     * (e.g. definition -> csvdefinitions -> tabular)
      */
     private function getEloquentDefinition($identifier)
     {
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+    }
+
+    /**
+     * Update the facets for a definition
+     *
+     * @param Eloquent $definition
+     *
+     * @return void
+     */
+    private function updateFacets($definition)
+    {
+        $facet_types = \FacetType::all()->toArray();
+
+        foreach ($definition->facets() as $facet) {
+            \Facet::delete($facet['id']);
+        }
+
+        foreach ($facet_types as $facet_type) {
+            $facet_name = $facet_type['facet_name'];
+
+            if ($facet_name != 'keywords' && !empty($definition->$facet_name)) {
+                $facet = \Facet::create([
+                    'definition_id' => $definition->id,
+                    'facet_id' => $facet_type['id'],
+                    'facet_name' => $facet_type['facet_name'],
+                    'value' => $definition->$facet_name
+                    ]);
+
+                $facet->save();
+            } else {
+                    // split the keywords
+                if (!empty($definition->keywords)) {
+                    $keywords = explode(',', $definition->keywords);
+
+                    foreach ($keywords as $keyword) {
+                        $facet = \Facet::create([
+                            'definition_id' => $definition->id,
+                            'facet_id' => $facet_type['id'],
+                            'facet_name' => $facet_name,
+                            'value' => $keyword
+                            ]);
+
+                        $facet->save();
+                    }
+                }
+            }
+        }
     }
 
     public function getFullDescription($identifier)
