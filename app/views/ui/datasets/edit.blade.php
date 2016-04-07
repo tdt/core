@@ -169,9 +169,9 @@
                         </label>
                         <div class="col-sm-10">
                             @if($object->type == 'string')
-                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value="{{ $definition->location ? $definition->location->label->label : '' }}">
                             @elseif($object->type == 'geojson')
-                                <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}" value='{{ $definition->location ? json_encode($definition->location->geometry->geometry) : '' }}'>
                                 <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
                             @endif
                             <div class='help-block'>
