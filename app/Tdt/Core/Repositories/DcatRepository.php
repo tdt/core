@@ -9,6 +9,7 @@ use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\ThemeRepositoryInterface;
 use User;
 use EasyRdf\Graph;
+use EasyRdf\Literal;
 
 class DcatRepository implements DcatRepositoryInterface
 {
@@ -94,7 +95,6 @@ class DcatRepository implements DcatRepositoryInterface
 
                 $graph->addLiteral($dataset_uri, 'dct:title', $title);
 
-
                 // Add the description, identifier, issued date, modified date, contact point and landing page of the dataset
                 $graph->addLiteral($dataset_uri, 'dct:description', @$definition['description']);
                 $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition['collection_uri'] . '/' . $definition['resource_name']));
@@ -160,6 +160,21 @@ class DcatRepository implements DcatRepositoryInterface
                     $distribution_uri = $dataset_uri . '.json';
                 }
 
+                // Check for spatial properties:
+                if (!empty($definition['spatial']['geometry']['geometry'])) {
+                    $spatial = $graph->newBNode();
+                    $spatial->setType('dct:Location');
+
+                    $geometry_literal = new Literal($definition['spatial']['geometry']['geometry'], '', '<https://www.iana.org/assignments/media-types/application/vnd.geo+json>');
+                    $spatial->addLiteral('locn:geometry', $geometry_literal);
+
+                    if (!empty($definition['spatial']['label']['label'])) {
+                        $spatial->addLiteral('locn:geometry', $definition['spatial']['label']['label']);
+                    }
+
+                    $graph->addResource($dataset_uri, 'dct:spatial', $spatial);
+                }
+
                 $graph->addResource($dataset_uri, 'dcat:distribution', $distribution_uri);
                 $graph->addResource($distribution_uri, 'a', 'dcat:Distribution');
                 $graph->addResource($distribution_uri, 'dcat:accessURL', $dataset_uri);
@@ -221,6 +236,7 @@ class DcatRepository implements DcatRepositoryInterface
             'rdf'  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
             'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
             'owl'  => 'http://www.w3.org/2002/07/owl#',
+            'locn' => 'http://www.w3.org/ns/locn#'
         );
     }
 }

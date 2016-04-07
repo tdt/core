@@ -115,17 +115,17 @@ class HTMLFormatter implements IFormatter
                     $view = 'dataset.code';
                     $data = self::displayTree($dataObj->data, 'xml');
                     break;
+                case 'INSPIRE':
+                    $view = 'dataset.inspire';
+                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+                    $properties = $definitions->getCreateParameters();
+                    $data = ['properties' => $properties];
+                    break;
                 case 'REMOTE':
                     $view = 'dataset.remote';
                     $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
                     $properties = $definitions->getCreateParameters();
                     $data = ['properties' => $properties];
-                    break;
-                case 'INSPIRE':
-                    $view = 'dataset.inspire';
-                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
-                    $properties = $definitions->getCreateParameters();
-                    $data = ['definition' => self::getDcat($dataObj->definition), 'properties' => $properties];
                     break;
                 default:
                     if ($dataObj->is_semantic) {
