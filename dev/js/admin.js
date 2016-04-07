@@ -190,12 +190,24 @@ $('.location-picker').one('click', function(e) {
             zoom: 2
         });
 
-        var bounds = {
-            north: 70,
-            south: 35,
-            east: 40,
-            west: -10
-        };
+        // Get current bounds or set default
+        var bounds;
+        try {
+            var geo = JSON.parse(JSON.parse(input.val()));
+            bounds = {
+                north: geo.coordinates[0][0][1],
+                south: geo.coordinates[0][2][1],
+                east: geo.coordinates[0][2][0],
+                west: geo.coordinates[0][0][0]
+            }
+        } catch (e) {
+            bounds = {
+                north: 70,
+                south: 35,
+                east: 40,
+                west: -10
+            }
+        }
 
         // Define a rectangle and set its editable property to true.
         infoWindow = new google.maps.InfoWindow();
@@ -218,15 +230,15 @@ $('.location-picker').one('click', function(e) {
 
         var contentString = 'North-east corner: ' + ne.lat() + ', ' + ne.lng() + '<br>South-west corner: ' + sw.lat() + ', ' + sw.lng();
         console.log('geojson', ne.lat() , ne.lng() , sw.lat() , sw.lng())
-        input.attr('value', JSON.stringify({
+        input.val(JSON.stringify({
             type: 'Polygon',
             coordinates: [
                 [
-                    [ne.lat(), sw.lng()],
-                    [ne.lat(), ne.lng()],
-                    [sw.lat(), ne.lng()],
-                    [sw.lat(), sw.lng()],
-                    [ne.lat(), sw.lng()]
+                    [sw.lng(), ne.lat()],
+                    [ne.lng(), ne.lat()],
+                    [ne.lng(), sw.lat()],
+                    [sw.lng(), sw.lat()],
+                    [sw.lng(), ne.lat()]
                 ]
             ]
         }));

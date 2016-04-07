@@ -25,7 +25,7 @@
             </p>
         </li>
     </ul>
-    <div id="geodcatmap" style="display: none;"></div>
+    <div id="geojson-map" style="display: none;"></div>
 </div>
 
 <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
@@ -52,21 +52,11 @@ parser.parse(dcat, function (error, triple, prefixes) {
     for (var i = 0; i < geo.length; i++) {
         try {
             var json = JSON.parse(N3.Util.getLiteralValue(geo[i].object));
-            showMap(json);
+            showGeoJsonMap(json);
             break;
         } catch (e) {}
     }
 });
-function showMap (json) {
-    document.querySelector('#geodcatmap').style = '';
-    var map = L.map('geodcatmap');
-    L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-        minZoom: 3
-    }).addTo(map);
-    var feature = L.geoJson(json).addTo(map);
-    map.fitBounds(feature.getBounds());
-}
 </script>
 
 @stop

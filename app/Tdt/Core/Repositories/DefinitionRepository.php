@@ -102,6 +102,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         // Delete the locations and create again if geo meta-data is provided (= update)
         if (!empty($definition_object->location->id)) {
             $location = $definition_object->location;
+            $location->geometry->delete();
+            $location->label->delete();
             $location->delete();
 
             $definition_object->save();

@@ -80,4 +80,26 @@
             </p>
         </li>
     @endif
+    @if(!empty($definition['spatial']))
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">{{ trans('htmlview.spatial') }}</h5>
+            @if(!empty($definition['spatial']['label']))
+            <p class="list-group-item-text">
+                {{ $definition['spatial']['label']['label'] }}
+            </p>
+            @endif
+            @if(!empty($definition['spatial']['geometry']))
+            <div id="geojson-map" style="display: none;"></div>
+            <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
+            <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
+            <script type="text/javascript" src='{{ URL::to("js/n3-browser.min.js") }}'></script>
+            <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() { 
+                var geo = {{json_encode($definition['spatial']['geometry'], JSON_PRETTY_PRINT)}};
+                showGeoJsonMap(JSON.parse(geo.geometry));
+            });
+            </script>
+            @endif
+        </li>
+    @endif
 </ul>

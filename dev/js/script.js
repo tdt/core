@@ -44,3 +44,14 @@ $('#dataset-filter').on('keyup', function(){
         $('.dataset').removeClass('hide');
     }
 });
+
+function showGeoJsonMap (json) {
+    document.querySelector('#geojson-map').style.display = '';
+    var map = L.map('geojson-map');
+    L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+        minZoom: 1
+    }).addTo(map);
+    var feature = L.geoJson(json).addTo(map);
+    map.fitBounds(feature.getBounds());
+}

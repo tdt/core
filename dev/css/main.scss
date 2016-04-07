@@ -672,7 +672,7 @@ footer{
     }
 }
 
-#geodcatmap {
+#geojson-map {
     margin-top: 20px;
     width: 100%;
     height: 200px;
@@ -680,7 +680,7 @@ footer{
     background: #ddd;
 }
 @media (min-height: 500px) {
-    #geodcatmap {
+    #geojson-map {
         height: 300px;
     }
 }
