@@ -220,7 +220,7 @@
                                 <label class="col-sm-2 control-label">
                                 </label>
                                 <div class="col-sm-10">
-                                    <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }} <small>DCAT</small></h4>
+                                    <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }} <small>DCAT-AP</small></h4>
                                 </div>
                             </div>
 
@@ -257,7 +257,7 @@
                                 <label class="col-sm-2 control-label">
                                 </label>
                                 <div class="col-sm-10">
-                                    <h4><i class='fa fa-map-marker'></i> {{ trans('admin.geodcat_header') }} <small>GeoDCAT</small></h4>
+                                    <h4><i class='fa fa-map-marker'></i> {{ trans('admin.geodcat_header') }} <small>GeoDCAT-AP</small></h4>
                                 </div>
                             </div>
                             @foreach($type['parameters_geodcat'] as $parameter => $object)

@@ -46,7 +46,7 @@ return array(
     'geodcat_geometry'                  => 'Geometry',
     'geodcat_geometry_desc'             => 'A GeoJSON document that represents the geographical relevancy of the dataset.',
     'geodcat_label'                     => 'Label',
-    'geodcat_label_desc'                => 'A label to add to the spatial meta-data.',
+    'geodcat_label_desc'                => 'A description of the selected geographical area.',
     'json_uri'                          => 'URI',
     'json_uri_desc'                     => 'The location of the JSON file, this should either be a URL or a local file location.',
     'json_title'                        => 'Title',

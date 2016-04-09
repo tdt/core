@@ -574,7 +574,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'required' => false,
                 'name' => 'Label',
                 'type' => 'string',
-                'description' => 'A label to add to the spatial meta-data.',
+                'description' => 'A description of the selected geographical area.',
                 'group' => 'geodcat',
                 'array' => true
             )
