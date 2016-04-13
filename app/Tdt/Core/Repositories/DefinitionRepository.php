@@ -460,8 +460,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         $properties['type'] = strtolower($source_definition->type);
-
-        if (!empty($definition->location->id)) {
+        
+        if (!empty($definition->location->id)) {        
             $location = \Location::find($definition->location->id)->with('label', 'geometry')->first();
 
             if (!empty($location)) {
@@ -497,7 +497,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'required' => false,
                 'name' => 'Date',
                 'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
-                'type' => 'string',
+                'type' => 'date',
                 'group' => 'dc',
             ),
             'language' => array(
