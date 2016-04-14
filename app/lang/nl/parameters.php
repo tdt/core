@@ -18,7 +18,7 @@ return array(
     'csv_map_property'                  => 'Geo-eigenschap',
     'csv_map_property_desc'             => 'De naam van de kolom die wordt getoond op een map visualisatie, indien de CSV geografische data bevat.',
     'definition_date'                   => 'Datum',
-    'definition_date_desc'              => 'Een datum die gerelateerd is met de dataset, deze datum wordt best in een ISO8601 schema meegegeven.',
+    'definition_date_desc'              => 'Een datum gerelateerd aan de dataset.',
     'definition_language'               => 'Taal',
     'definition_language_desc'          => 'De taal van de databron.',
     'definition_rights'                 => 'Licentie',

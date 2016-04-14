@@ -32,13 +32,14 @@ class Definition extends Eloquent
         return $this->morphTo();
     }
 
-    /**
-     * Return the spatial meta-data (dct:Location)
-     * TODO: add dct:Service (next to dct:Location)
-     */
     public function location()
     {
         return $this->hasOne('Location', 'definition_id');
+    }
+
+    public function attributions()
+    {
+        return $this->hasMany('Attribution', 'definition_id');
     }
 
     /**

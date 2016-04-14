@@ -20,7 +20,7 @@ return array(
     'csv_map_property'                  => 'Carte propriété',
     'csv_map_property_desc'             => "La propriété (par exemple le nom de la colonne) de l'ensemble de données qui sera affiché Quand une visualisation de la carte est applicable.",
     'definition_date'                   => 'Date',
-    'definition_date_desc'              => 'Un point ou une période de temps associée à un événement dans le cycle de vie de la ressource. La meilleure pratique consiste à utiliser le schéma de la norme ISO 8601.',
+    'definition_date_desc'              => 'Une date associée pour les données.',
     'definition_language'               => 'Langue',
     'definition_language_desc'          => 'La langue de la ressource',
     'definition_rights'                 => 'Droits',

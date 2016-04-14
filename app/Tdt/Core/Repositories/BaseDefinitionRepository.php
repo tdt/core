@@ -18,11 +18,11 @@ class BaseDefinitionRepository
     protected $model;
 
     protected $error_messages = array(
-        'uri' => "The uri provided could not be resolved.",
-        'file' => 'The uri provided could not be resolved, if the uri is a system path try putting file:// in front of it.',
-        'json' => 'The contents of the uri could not be parsed as JSON, make sure the JSON is valid.',
-        'sparqlquery' => "The query could not be validated, make sure you don't use a limit and/or offset statement and that a select or construct statement is present.",
-        'collectionuri' => "The collection uri cannot start with preserved uri namespaces e.g. discovery, api, ...",
+        'uri' => ":attribute : The uri provided could not be resolved.",
+        'file' => ':attribute : The uri provided could not be resolved, if the uri is a system path try putting file:// in front of it.',
+        'json' => ':attribute : The contents of the uri could not be parsed as JSON, make sure the JSON is valid.',
+        'sparqlquery' => ":attribute : The query could not be validated, make sure you don't use a limit and/or offset statement and that a select or construct statement is present.",
+        'collectionuri' => ":attribute : The collection uri cannot start with preserved uri namespaces e.g. discovery, api, ...",
     );
 
     public function getValidator(array $input)

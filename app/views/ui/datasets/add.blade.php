@@ -111,18 +111,23 @@
                                     <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
                                         {{ $object->name }}
                                     </label>
-                                    <div class="col-sm-10">
                                         @if($object->type == 'string')
+                                            <div class="col-sm-10">
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" @if(isset($object->default_value)) value='{{ $object->default_value }}' @endif>
                                         @elseif($object->type == 'text')
+                                            <div class="col-sm-10">
                                             <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}"> @if (isset($object->default_value)) {{ $object->default_value }}@endif</textarea>
                                         @elseif($object->type == 'integer')
+                                            <div class="col-sm-10">
                                             <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" @if(isset($object->default_value)) value='{{ $object->default_value }}' @endif>
                                         @elseif($object->type == 'date')
+                                            <div class="col-sm-4">
                                             <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ date('Y-m-d') }}">
                                         @elseif($object->type == 'boolean')
+                                        <div class="col-sm-10">
                                             <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" @if(isset($object->default_value) && $object->default_value) checked='checked' @endif/>
                                         @elseif($object->type == 'list')
+                                        <div class="col-sm-10">
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
                                                 <option></option>
                                                 @foreach($object->list as $option)
@@ -243,12 +248,15 @@
                                     <label for="input_{{ $parameter }}" class="col-sm-2 control-label {{ $object->required ? 'required' : !empty($object->recommended) && $object->recommended ? 'recommended' : 'optional' }}">
                                         {{ $object->name }}
                                     </label>
-                                    <div class="col-sm-10">
+
                                         @if($object->type == 'string')
+                                            <div class="col-sm-10">
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
                                         @elseif($object->type == 'date')
+                                            <div class="col-sm-4">
                                             <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ date('Y-m-d') }}">
                                         @elseif($object->type == 'list')
+                                            <div class="col-sm-10">
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
                                                 <option></option>
                                                 @foreach($object->list as $option)
@@ -329,8 +337,8 @@
     <script type="text/x-template" id="person">
         <div class="attribution-person" data-role="#OPTION#">
             <div class="form-group">
-                <label class="col-sm-2 control-label">#ROLE#</label>
-                <div class="col-sm-10" style="padding-top: 7px;">#DESC#</h4></div>
+                <label class="col-sm-2 control-label"> </label>
+                <div class="col-sm-10"><h4>#ROLE# &nbsp; <small>#DESC#</small></h4></div>
             </div>
             <div class="form-group">
                 <label for="input_attribution" class="col-sm-2 control-label">

@@ -176,6 +176,7 @@ class DatasetController extends UiController
         Auth::requirePermissions('admin.dataset.update');
 
         $definition = \Definition::find($id);
+
         if ($definition) {
             // Get source defintion
             $source_definition = $definition->source()->first();
@@ -272,7 +273,6 @@ class DatasetController extends UiController
                         ->with('source_definition', $source_definition);
 
             return \Response::make($view);
-
         } else {
             return \Redirect::to('api/admin/datasets');
         }

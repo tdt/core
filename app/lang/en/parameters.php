@@ -20,7 +20,7 @@ return array(
     'csv_map_property'                  => 'Map property',
     'csv_map_property_desc'             => 'The property (e.g. column name) of the dataset that will be shown when a map visualization is applicable.',
     'definition_date'                   => 'Date',
-    'definition_date_desc'              => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
+    'definition_date_desc'              => 'A date associated with the dataset.',
     'definition_language'               => 'Language',
     'definition_language_desc'          => 'A language of the resource.',
     'definition_rights'                 => 'Rights',
