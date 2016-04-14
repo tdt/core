@@ -8,7 +8,6 @@
  */
 class Definition extends Eloquent
 {
-
     protected $fillable = array(
         'title',
         'description',

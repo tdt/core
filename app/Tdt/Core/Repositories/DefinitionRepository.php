@@ -148,7 +148,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $definition->attributions()->saveMany($attribution_models);
         }
 
-        $definition->save();
+        $definition_object->save();
 
         return $definition_object->toArray();
     }
@@ -167,7 +167,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 $location->delete();
             }
 
-            foreach ($definitions->attributions as $attribution) {
+            foreach ($definition->attributions as $attribution) {
                 $attribution->delete();
             }
 
