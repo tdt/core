@@ -72,6 +72,25 @@ function buildURI(e){
     $('#input_identifier').val(identifier);
 }
 
+// Profile selector: DCAT-AP vs GeoDCAT-AP
+$('.profile-selector').on('change', function(e){
+    console.log('nneeee')
+    if ($(e.target).val() == 'dcat') {
+        $('.profile-geodcat').hide()
+        $('.profile-dcat').show()
+    } else {
+        $('.profile-dcat').hide()
+        $('.profile-geodcat').show()
+    }
+});
+
+// Profile selector: DCAT-AP vs GeoDCAT-AP
+$('.btn-attribution').on('click', function(e){
+    var parent = $(e.target).parent().parent().parent();
+    var role = JSON.parse($(e.target).next().val());
+    var tpl = $('#person').html().replace('#ROLE#', role.name).replace('#DESC#', role.desc).replace('#OPTION#', role.option);
+    parent.append(tpl);
+});
 
 // Add dataset
 $('.btn-add-dataset').on('click', function(e){
@@ -94,6 +113,16 @@ $('.btn-add-dataset').on('click', function(e){
                 data[$(this).attr('name')] = $(this).val();
             }
         }
+    });
+    $('.attribution-person', tab_pane).each(function(){
+        if (!data.attribution) {
+            data.attribution = [];
+        }
+        data.attribution.push({
+            role: $(this).data('role'),
+            name: $(this).find('.name').val(),
+            email: $(this).find('.email').val()
+        })
     });
     console.log(data);
 

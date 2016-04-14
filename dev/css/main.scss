@@ -903,3 +903,27 @@ ul.nav-tabs + div.panel{
         }
     }
 }
+.profile-selector {
+    float: right;
+    margin-top: 10px;
+    line-height: 20px;
+}
+.profile {
+    margin-left: 15px;
+}
+.control-label {
+    &.required::after {
+        content: '*';
+        color: red;
+        margin-left: 2px;
+    }
+}
+
+.select-attribution {
+    width: calc(100% - 150px);
+}
+.btn-attribution {
+    float: right;
+    width: 130px;
+
+}

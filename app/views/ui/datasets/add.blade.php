@@ -189,9 +189,6 @@
                                 </div>
                             @endforeach
                         @endif
-                    </div>
-
-                    <div class="col-sm-6 panel dataset-parameters">
 
 
                         <div class="form-group">
@@ -217,6 +214,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-sm-6 panel dataset-parameters">
 
                         @if(!empty($type['parameters_dc']))
 
@@ -224,13 +224,23 @@
                                 <label class="col-sm-2 control-label">
                                 </label>
                                 <div class="col-sm-10">
-                                    <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }} <small>DCAT-AP</small></h4>
+                                    <div class="profile-selector checkbox">
+                                        <label class="profile">
+                                            <input type="radio" name="profile_{{$mediatype}}" value="dcat" checked>
+                                            DCAT-AP
+                                        </label>
+                                        <label class="profile">
+                                            <input type="radio" name="profile_{{$mediatype}}" value="geodcat">
+                                            GeoDCAT-AP
+                                        </label>
+                                    </div>
+                                    <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }}</h4>
                                 </div>
                             </div>
 
                             @foreach($type['parameters_dc'] as $parameter => $object)
                                 <div class="form-group">
-                                    <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
+                                    <label for="input_{{ $parameter }}" class="col-sm-2 control-label {{ $object->required ? 'required' : $object->recommended ? 'recommended' : 'optional' }}">
                                         {{ $object->name }}
                                     </label>
                                     <div class="col-sm-10">
@@ -259,35 +269,85 @@
                         @endif
 
                         @if(!empty($type['parameters_geodcat']))
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">
-                                </label>
-                                <div class="col-sm-10">
-                                    <h4><i class='fa fa-map-marker'></i> {{ trans('admin.geodcat_header') }} <small>GeoDCAT-AP</small></h4>
-                                </div>
-                            </div>
-                            @foreach($type['parameters_geodcat'] as $parameter => $object)
-                                <div class="form-group">
-                                    <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
-                                        {{ $object->name }}
+                            <div class="profile-geodcat" style="display:ndone">
+                                <div class="form-group profile-geodcat">
+                                    <label class="col-sm-2 control-label">
                                     </label>
                                     <div class="col-sm-10">
-                                        @if($object->type == 'string')
-                                            <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
-                                        @elseif($object->type == 'geojson')
-                                            <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}">
-                                            <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
-                                        @endif
+                                        <h4><i class='fa fa-map-marker'></i> {{ trans('admin.geodcat_header') }}</h4>
+                                    </div>
+                                </div>
+                                @foreach($type['parameters_geodcat'] as $parameter => $object)
+                                    <div class="form-group">
+                                        <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
+                                            {{ $object->name }}
+                                        </label>
+                                        <div class="col-sm-10">
+                                            @if($object->type == 'string')
+                                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
+                                            @elseif($object->type == 'geojson')
+                                                <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                                <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
+                                            @endif
+                                            <div class='help-block'>
+                                                {{ $object->description }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <div class="form-group">
+                                    <label for="input_attribution" class="col-sm-2 control-label">
+                                        {{ trans('parameters.geodcat_attribution') }}
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <button type="button" class="btn btn-default btn-attribution">{{ trans('admin.add_button') }}</button>
+                                        <select id="input_attribution" class="form-control select-attribution">
+                                            @foreach([[
+                                                'option' => 'author',
+                                                'name' => 'Author',
+                                                'desc' => 'Party who authored the resource.',
+                                            ], [
+                                                'option' => 'maintainer',
+                                                'name' => 'Maintainer',
+                                                'desc' => 'Party that accepts accountability and responsibility for the data and ensures appropriate care and maintenance of the resource.',
+                                            ]] as $role)
+                                                <option value='{{ json_encode($role) }}'>{{ $role['name'] }}</option>
+                                            @endforeach
+                                        </select>
                                         <div class='help-block'>
-                                            {{ $object->description }}
+                                            {{ trans('parameters.geodcat_attribution_desc') }}
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
                         @endif
                     </div>
                 </div>
             @endforeach
         </div>
     </form>
+    <script type="text/x-template" id="person">
+        <div class="attribution-person" data-role="#OPTION#">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"> </label>
+                <div class="col-sm-10"><h4>#ROLE# &nbsp; <small>#DESC#</small></h4></div>
+            </div>
+            <div class="form-group">
+                <label for="input_attribution" class="col-sm-2 control-label">
+                    {{ trans('parameters.person_name') }}
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control name" id="input_{{ $parameter }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input_attribution" class="col-sm-2 control-label">
+                    {{ trans('parameters.person_email') }}
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control email" id="input_{{ $parameter }}">
+                </div>
+            </div>
+        </div>
+    </script>
 @stop
