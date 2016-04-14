@@ -240,7 +240,7 @@
 
                             @foreach($type['parameters_dc'] as $parameter => $object)
                                 <div class="form-group">
-                                    <label for="input_{{ $parameter }}" class="col-sm-2 control-label {{ $object->required ? 'required' : $object->recommended ? 'recommended' : 'optional' }}">
+                                    <label for="input_{{ $parameter }}" class="col-sm-2 control-label {{ $object->required ? 'required' : !empty($object->recommended) && $object->recommended ? 'recommended' : 'optional' }}">
                                         {{ $object->name }}
                                     </label>
                                     <div class="col-sm-10">
