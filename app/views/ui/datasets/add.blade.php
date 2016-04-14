@@ -329,8 +329,8 @@
     <script type="text/x-template" id="person">
         <div class="attribution-person" data-role="#OPTION#">
             <div class="form-group">
-                <label class="col-sm-2 control-label"> </label>
-                <div class="col-sm-10"><h4>#ROLE# &nbsp; <small>#DESC#</small></h4></div>
+                <label class="col-sm-2 control-label">#ROLE#</label>
+                <div class="col-sm-10" style="padding-top: 7px;">#DESC#</h4></div>
             </div>
             <div class="form-group">
                 <label for="input_attribution" class="col-sm-2 control-label">
