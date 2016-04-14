@@ -75,6 +75,8 @@
                                 <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}">{{{ $source_definition->{$parameter} }}}</textarea>
                             @elseif($object->type == 'integer')
                                 <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
+                            @elseif($object->type == 'date')
+                                <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ $source_definition->{$parameter} }}">
                             @elseif($object->type == 'boolean')
                                 <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" @if($source_definition->{$parameter}) checked='checked' @endif/>
                             @elseif($object->type == 'list')
@@ -138,6 +140,8 @@
                         <div class="col-sm-10">
                             @if($object->type == 'string')
                                 <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $definition->{$parameter} }}'>
+                            @elseif($object->type == 'date')
+                                <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ $definition->{$parameter} }}">
                             @elseif($object->type == 'list')
                                 <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
                                     <option></option>
@@ -170,6 +174,8 @@
                         <div class="col-sm-10">
                             @if($object->type == 'string')
                                 <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value="{{ $definition->location ? $definition->location->label->label : '' }}">
+                            @elseif($object->type == 'date')
+                                <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ date('Y-m-d') }}">
                             @elseif($object->type == 'geojson')
                                 <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}" value='{{ $definition->location ? json_encode($definition->location->geometry->geometry) : '' }}'>
                                 <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
