@@ -537,7 +537,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             }
         }
 
-        if (!empty($definition->attributions->count())) {
+        if ($definition->attributions->count() > 0) {
             $properties['attributions'] = [];
 
             foreach ($definition->attributions as $attribution) {
