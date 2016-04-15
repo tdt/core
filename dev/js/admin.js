@@ -95,6 +95,14 @@ $('.btn-attribution').on('click', function(e){
     parent.append(tpl);
 });
 
+// Profile selector: DCAT-AP vs GeoDCAT-AP
+$('input[name=publisher_uri]').on('blur', function(e){
+    var val = $(this).val();
+    if (val && val.slice(0, 6) !== 'http:/' && val.slice(0, 6) !== 'https:') {
+        $(this).val('http://' + val);
+    }
+});
+
 // Add dataset
 $('.btn-add-dataset').on('click', function(e){
     e.preventDefault();
