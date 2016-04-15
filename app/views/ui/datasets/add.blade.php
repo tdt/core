@@ -244,8 +244,8 @@
                             </div>
 
                             @foreach($type['parameters_dc'] as $parameter => $object)
-                                <div class="form-group">
-                                    <label for="input_{{ $parameter }}" class="col-sm-2 control-label {{ $object->required ? 'required' : !empty($object->recommended) && $object->recommended ? 'recommended' : 'optional' }}">
+                                <div class="form-group {{ $object->requiredgeodcat }}">
+                                    <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
                                         {{ $object->name }}
                                     </label>
 
@@ -268,7 +268,7 @@
                                                 @endforeach
                                             </select>
                                         @endif
-                                        <div class='help-block'>
+                                        <div class='help-block' requirement="{{ trans('parameters.' . $object->requiredgeodcat) }}">
                                             {{ $object->description }}
                                         </div>
                                     </div>
@@ -277,7 +277,7 @@
                         @endif
 
                         @if(!empty($type['parameters_geodcat']))
-                            <div class="profile-geodcat" style="display:ndone">
+                            <div class="profile-geodcat" style="display:none">
                                 <div class="form-group profile-geodcat">
                                     <label class="col-sm-2 control-label">
                                     </label>
@@ -286,7 +286,7 @@
                                     </div>
                                 </div>
                                 @foreach($type['parameters_geodcat'] as $parameter => $object)
-                                    <div class="form-group">
+                                    <div class="form-group {{ $object->requiredgeodcat }}">
                                         <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
                                             {{ $object->name }}
                                         </label>
@@ -297,7 +297,7 @@
                                                 <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}">
                                                 <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
                                             @endif
-                                            <div class='help-block'>
+                                            <div class='help-block' requirement="{{ trans('parameters.' . $object->requiredgeodcat) }}">
                                                 {{ $object->description }}
                                             </div>
                                         </div>

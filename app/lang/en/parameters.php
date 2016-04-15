@@ -1,6 +1,8 @@
 <?php
 
 return array(
+    'required'                          => 'Required',
+    'recommended'                       => 'Recommended',
     'csv_uri'                           => 'URI',
     'csv_uri_desc'                      => 'The location of the CSV file, either a URL or a local file location.',
     'csv_title'                         => 'Title',

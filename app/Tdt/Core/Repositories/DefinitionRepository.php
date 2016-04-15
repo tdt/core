@@ -571,6 +571,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return array(
             'date' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Date',
                 'description' => 'A date associated with the dataset.',
                 'type' => 'date',
@@ -578,6 +579,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'language' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Language',
                 'description' => 'A language of the resource.',
                 'type' => 'list',
@@ -587,6 +589,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'rights' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Rights',
                 'type' => 'list',
                 'list' => 'api/licenses',
@@ -597,6 +600,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'theme' => array(
                 'required' => false,
+                'requiredgeodcat' => false,
                 'name' => 'Theme',
                 'type' => 'list',
                 'list' => 'api/themes',
@@ -612,6 +616,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'publisher_uri' => array(
                 'required' => false,
+                'requiredgeodcat' => 'recommended',
                 'name' => 'Publisher URI',
                 'type' => 'string',
                 'description' => 'The URI of the entity responsible for publishing the dataset (e.g. http://gov.be). ',
@@ -619,6 +624,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'publisher_name' => array(
                 'required' => false,
+                'requiredgeodcat' => false,
                 'name' => 'Publisher name',
                 'type' => 'string',
                 'description' => 'The name of the entity responsible for publishing the dataset.',
@@ -626,6 +632,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'keywords' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Keywords',
                 'type' => 'string',
                 'description' => 'A comma separated list of keywords regarding the dataset.',
@@ -633,6 +640,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'contact_point' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Contact point',
                 'type' => 'string',
                 'description' => 'A URI on which people can provide feedback or flag errors.',
@@ -640,6 +648,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'geometry' => array(
                 'required' => true,
+                'requiredgeodcat' => 'required',
                 'name' => 'Geometry',
                 'type' => 'geojson',
                 'description' => 'A GeoJSON document that represents the geographical relevancy of the dataset.',
@@ -648,6 +657,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'label' => array(
                 'required' => false,
+                'requiredgeodcat' => false,
                 'name' => 'Label',
                 'type' => 'string',
                 'description' => 'A description of the selected geographical area.',
@@ -655,5 +665,12 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'array' => true
             )
         );
+        // DCAT-AP
+        // Mandatory: title, abstract, type
+        // Recommended: keyword, theme, publisher, contact_point
+        // Optional: landingPage, page, language, spatial, temporal, publication_date, last_revision
+
+        // GeoDCAT-AP
+        // Mandatory: language, keyword/theme, spatial, provenance
     }
 }

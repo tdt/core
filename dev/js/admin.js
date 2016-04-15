@@ -78,9 +78,11 @@ $('.profile-selector').on('change', function(e){
     if ($(e.target).val() == 'dcat') {
         $('.profile-geodcat').hide()
         $('.profile-dcat').show()
+        $('body').removeClass('geodcat-enabled')
     } else {
         $('.profile-dcat').hide()
         $('.profile-geodcat').show()
+        $('body').addClass('geodcat-enabled')
     }
 });
 

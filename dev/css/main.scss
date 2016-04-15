@@ -911,11 +911,16 @@ ul.nav-tabs + div.panel{
 .profile {
     margin-left: 15px;
 }
-.control-label {
-    &.required::after {
-        content: '*';
-        color: red;
+.geodcat-enabled {
+    .required .help-block::before {
+        content: attr(requirement) ": ";
         margin-left: 2px;
+        color: red;
+    }
+    .recommended .help-block::before {
+        content: attr(requirement) ": ";
+        margin-left: 2px;
+        font-weight: bold;
     }
 }
 
