@@ -83,6 +83,7 @@ $('.profile-selector').on('change', function(e){
         $('.profile-dcat').hide()
         $('.profile-geodcat').show()
         $('body').addClass('geodcat-enabled')
+        $('.location-picker').click()
     }
 });
 

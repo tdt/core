@@ -253,7 +253,7 @@
                                             <div class="col-sm-10">
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
                                         @elseif($object->type == 'date')
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-10 col-lg-5">
                                             <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ date('Y-m-d') }}">
                                         @elseif($object->type == 'list')
                                             <div class="col-sm-10">
