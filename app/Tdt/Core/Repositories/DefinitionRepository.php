@@ -105,9 +105,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $source_repository->update($source['id'], $input);
 
-        $definition_object = \Definition::find($definition['id']);
+        $definition_object = $this->getEloquentDefinition($identifier);
 
-         // Add the rest of the properties
+        // Add the rest of the properties
         $create_parameters = $this->getCreateParameters();
         unset($create_parameters['geometry']);
         unset($create_parameters['label']);
@@ -131,8 +131,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $definition_object->location()->save($location);
         }
 
-        if (!empty($definition->attributions)) {
-            foreach ($attributions as $attribution) {
+        if (!empty($definition_object->attributions)) {
+            foreach ($definition_object->attributions as $attribution) {
                 $attribution->delete();
             }
         }
@@ -145,7 +145,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 $attribution_models[] = $this->createAttribution($attribution);
             }
 
-            $definition->attributions()->saveMany($attribution_models);
+            $definition_object->attributions()->saveMany($attribution_models);
         }
 
         $definition_object->save();
@@ -246,28 +246,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getByIdentifier($identifier)
     {
-        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->with(['location', 'attributions'])->first();
+        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->with('location', 'attributions')->first();
 
         if (empty($definition)) {
             return [];
-        }
-
-        if (!empty($definition->location)) {
-            $location = \Location::find($definition->location->id)->with('label', 'geometry')->first();
-
-            if (!empty($location)) {
-                $definition['spatial'] = $location->toArray();
-            }
-        }
-
-        if (!empty($definition->attributions)) {
-            foreach ($definition->attributions as $attribution) {
-                if (empty($definition['attribution'])) {
-                    $definition['attribution'] = [];
-                }
-
-                $definition['attribution'][] = $attribution->toArray();
-            }
         }
 
         return $definition->toArray();
@@ -472,7 +454,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
      */
     private function getEloquentDefinition($identifier)
     {
-        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->with(['location', 'attributions'])->first();
     }
 
     public function getFullDescription($identifier)
