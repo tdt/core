@@ -35,7 +35,19 @@ class MAPFormatter implements IFormatter
             $url = preg_replace('/\.([^\.]*)$/m', '.kml', $url);
             $type = 'kml';
         } else {
+            $query_string = '';
+
+            foreach (Request::query() as $key => $val) {
+                $query_string .= "&$key=$val";
+            }
+
+            if (!empty($query_string)) {
+                $query_string = ltrim($query_string, '&');
+                $query_string = '?' . $query_string;
+            }
+
             $url = preg_replace('/\.([^\.]*)$/m', '.geojson', $url);
+            $url .= $query_string;
         }
 
         $resource = $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'];
