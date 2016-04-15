@@ -74,7 +74,7 @@ function buildURI(e){
 
 // Profile selector: DCAT-AP vs GeoDCAT-AP
 $('.profile-selector').on('change', function(e){
-    var pane = $(e.target).closest('.tab-pane');
+    var pane = $(e.target).closest('.panel');
     if ($(e.target).val() == 'dcat') {
         $('.profile-geodcat', pane).hide()
         $('.profile-dcat', pane).show()
@@ -129,11 +129,15 @@ $('.btn-add-dataset').on('click', function(e){
         if (!data.attribution) {
             data.attribution = [];
         }
-        data.attribution.push({
-            role: $(this).data('role'),
-            name: $(this).find('.name').val(),
-            email: $(this).find('.email').val()
-        })
+        var name = $(this).find('.name').val();
+        var email = $(this).find('.email').val();
+        if (name || email) {
+            data.attribution.push({
+                role: $(this).data('role'),
+                name: name,
+                email: email
+            })
+        }
     });
     console.log(data);
 
@@ -187,6 +191,21 @@ $('.btn-edit-dataset').on('click', function(e){
             }
         }
     });
+    $('.attribution-person').each(function(){
+        if (!data.attribution) {
+            data.attribution = [];
+        }
+        var name = $(this).find('.name').val();
+        var email = $(this).find('.email').val();
+        if (name || email) {
+            data.attribution.push({
+                role: $(this).data('role'),
+                name: name,
+                email: email
+            })
+        }
+    });
+    console.log(data);
 
     // Ajax call
     $.ajax({
@@ -220,7 +239,7 @@ $('.btn-edit-dataset').on('click', function(e){
 var mapScriptLoaded = false;
 $('.location-picker').one('click', function(e) {
     $(this).height('300px').removeClass('btn').removeClass('btn-default')
-    var pane = $(e.target).closest('.tab-pane');
+    var pane = $(e.target).closest('.panel');
     var input = $('#' + $(this).data('id'), pane);
     var rectangle, infoWindow, map;
     var init = function () {

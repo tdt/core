@@ -310,16 +310,12 @@
                                     <div class="col-sm-10">
                                         <button type="button" class="btn btn-default btn-attribution">{{ trans('admin.add_button') }}</button>
                                         <select id="input_attribution" class="form-control select-attribution">
-                                            @foreach([[
-                                                'option' => 'author',
-                                                'name' => 'Author',
-                                                'desc' => 'Party who authored the resource.',
-                                            ], [
-                                                'option' => 'maintainer',
-                                                'name' => 'Maintainer',
-                                                'desc' => 'Party that accepts accountability and responsibility for the data and ensures appropriate care and maintenance of the resource.',
-                                            ]] as $role)
-                                                <option value='{{ json_encode($role) }}'>{{ $role['name'] }}</option>
+                                            @foreach(['author', 'maintainer'] as $role)
+                                                <option value='{{ json_encode([
+                                                'option' => $role,
+                                                'name' => trans('parameters.role_' . $role),
+                                                'desc' => trans('parameters.role_' . $role . '_desc'),
+                                            ]) }}'>{{ trans('parameters.role_' . $role) }}</option>
                                             @endforeach
                                         </select>
                                         <div class='help-block'>

@@ -28,6 +28,7 @@
             </div>
         </div>
 
+        <div class='row'>
         <div class="col-sm-6 panel panel-default dataset-parameters">
             @if(!empty($parameters_optional))
                 <div class="form-group">
@@ -94,9 +95,6 @@
                     </div>
                 @endforeach
             @endif
-        </div>
-
-        <div class="col-sm-6">
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">
@@ -121,6 +119,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-sm-6 panel panel-default dataset-parameters">
 
             @if(!empty($parameters_dc))
 
@@ -128,6 +129,16 @@
                     <label class="col-sm-2 control-label">
                     </label>
                     <div class="col-sm-10">
+                        <div class="profile-selector checkbox">
+                            <label class="profile">
+                                <input type="radio" name="profile" value="dcat" checked>
+                                DCAT-AP
+                            </label>
+                            <label class="profile">
+                                <input type="radio" name="profile" value="geodcat">
+                                GeoDCAT-AP
+                            </label>
+                        </div>
                         <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }} <small>DCAT</small></h4>
                     </div>
                 </div>
@@ -159,6 +170,7 @@
             @endif
 
             @if(!empty($parameters_geodcat))
+            <div class="profile-geodcat" style="display:none">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">
                     </label>
@@ -186,7 +198,79 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="form-group">
+                    <label for="input_attribution" class="col-sm-2 control-label">
+                        {{ trans('parameters.geodcat_attribution') }}
+                    </label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-default btn-attribution">{{ trans('admin.add_button') }}</button>
+                        <select id="input_attribution" class="form-control select-attribution">
+                            @foreach(['author', 'maintainer'] as $role)
+                                <option value='{{ json_encode([
+                                'option' => $role,
+                                'name' => trans('parameters.role_' . $role),
+                                'desc' => trans('parameters.role_' . $role . '_desc'),
+                            ]) }}'>{{ trans('parameters.role_' . $role) }}</option>
+                            @endforeach
+                        </select>
+                        <div class='help-block'>
+                            {{ trans('parameters.geodcat_attribution_desc') }}
+                        </div>
+                    </div>
+                </div>
+
+                @foreach($definition->attributions as $key => $attribution)
+                <div class="attribution-person" data-role="{{ $attribution->role }}">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ trans('parameters.role_' . $attribution->role) }}</label>
+                        <div class="col-sm-10" style="padding-top: 7px;">{{ trans('parameters.role_' . $attribution->role . '_desc') }}</h4></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input_attribution_name_{{ $key }}" class="col-sm-2 control-label">
+                            {{ trans('parameters.person_name') }}
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control name" id="input_attribution_name_{{ $key }}" value="{{ $attribution->name }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input_attribution_email_{{ $key }}" class="col-sm-2 control-label">
+                            {{ trans('parameters.person_email') }}
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control email" id="input_attribution_email_{{ $key }}" value="{{ $attribution->email }}">
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+            </div>
             @endif
         </div>
+        </div>
     </form>
+    <script type="text/x-template" id="person">
+        <div class="attribution-person" data-role="#OPTION#">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">#ROLE#</label>
+                <div class="col-sm-10" style="padding-top: 7px;">#DESC#</h4></div>
+            </div>
+            <div class="form-group">
+                <label for="input_attribution" class="col-sm-2 control-label">
+                    {{ trans('parameters.person_name') }}
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control name" id="input_{{ $parameter }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input_attribution" class="col-sm-2 control-label">
+                    {{ trans('parameters.person_email') }}
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control email" id="input_{{ $parameter }}">
+                </div>
+            </div>
+        </div>
+    </script>
 @stop
