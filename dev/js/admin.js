@@ -74,16 +74,16 @@ function buildURI(e){
 
 // Profile selector: DCAT-AP vs GeoDCAT-AP
 $('.profile-selector').on('change', function(e){
-    console.log('nneeee')
+    var pane = $(e.target).closest('.tab-pane');
     if ($(e.target).val() == 'dcat') {
-        $('.profile-geodcat').hide()
-        $('.profile-dcat').show()
-        $('body').removeClass('geodcat-enabled')
+        $('.profile-geodcat', pane).hide()
+        $('.profile-dcat', pane).show()
+        pane.removeClass('geodcat-enabled')
     } else {
-        $('.profile-dcat').hide()
-        $('.profile-geodcat').show()
-        $('body').addClass('geodcat-enabled')
-        $('.location-picker').click()
+        $('.profile-dcat', pane).hide()
+        $('.profile-geodcat', pane).show()
+        pane.addClass('geodcat-enabled')
+        $('.location-picker', pane).click()
     }
 });
 
@@ -209,13 +209,14 @@ $('.btn-edit-dataset').on('click', function(e){
 });
 
 // Load google maps for GeoDCAT
+var mapScriptLoaded = false;
 $('.location-picker').one('click', function(e) {
     $(this).height('300px').removeClass('btn').removeClass('btn-default')
-    var input = $('#' + $(this).data('id'));
+    var pane = $(e.target).closest('.tab-pane');
+    var input = $('#' + $(this).data('id'), pane);
     var rectangle, infoWindow, map;
-    var leaflet = document.createElement('script');
-    leaflet.onload = function () {
-        map = new google.maps.Map(document.querySelector('.location-picker'), {
+    var init = function () {
+        map = new google.maps.Map($('.location-picker', pane).get(0), {
             mapTypeControl: false,
             streetViewControl: false,
             center: {lat: 50, lng: 10},
@@ -252,9 +253,6 @@ $('.location-picker').one('click', function(e) {
         boundsChanged()
         rectangle.setMap(map);
     }
-    leaflet.setAttribute('type', 'text/javascript');
-    leaflet.setAttribute('src', 'https://maps.googleapis.com/maps/api/js');
-    document.head.appendChild(leaflet);
 
     var boundsChanged = function (event) {
         var ne = rectangle.getBounds().getNorthEast();
@@ -279,6 +277,17 @@ $('.location-picker').one('click', function(e) {
         infoWindow.setContent(contentString);
         infoWindow.setPosition(ne);
         infoWindow.open(map);
+    }
+
+    if (mapScriptLoaded) {
+        init()
+    } else {
+        var tag = document.createElement('script');
+        tag.onload = init;
+        tag.setAttribute('type', 'text/javascript');
+        tag.setAttribute('src', 'https://maps.googleapis.com/maps/api/js');
+        document.head.appendChild(tag);
+        mapScriptLoaded = true;
     }
 });
 
