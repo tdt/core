@@ -144,7 +144,7 @@
                 </div>
 
                 @foreach($parameters_dc as $parameter => $object)
-                    <div class="form-group">
+                    <div class="form-group {{ $object->requiredgeodcat }}">
                         <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
                             {{ $object->name }}
                         </label>
@@ -161,7 +161,7 @@
                                     @endforeach
                                 </select>
                             @endif
-                            <div class='help-block'>
+                            <div class='help-block' requirement="{{ trans('parameters.' . $object->requiredgeodcat) }}">
                                 {{ $object->description }}
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                     </div>
                 </div>
                 @foreach($parameters_geodcat as $parameter => $object)
-                    <div class="form-group">
+                    <div class="form-group {{ $object->requiredgeodcat }}">
                         <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
                             {{ $object->name }}
                         </label>
@@ -192,7 +192,7 @@
                                 <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}" value='{{ $definition->location ? json_encode($definition->location->geometry->geometry) : '' }}'>
                                 <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
                             @endif
-                            <div class='help-block'>
+                            <div class='help-block' requirement="{{ trans('parameters.' . $object->requiredgeodcat) }}">
                                 {{ $object->description }}
                             </div>
                         </div>
