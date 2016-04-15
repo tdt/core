@@ -72,22 +72,7 @@ function buildURI(e){
     $('#input_identifier').val(identifier);
 }
 
-// Profile selector: DCAT-AP vs GeoDCAT-AP
-$('.profile-selector').on('change', function(e){
-    var pane = $(e.target).closest('.panel');
-    if ($(e.target).val() == 'dcat') {
-        $('.profile-geodcat', pane).hide()
-        $('.profile-dcat', pane).show()
-        pane.removeClass('geodcat-enabled')
-    } else {
-        $('.profile-dcat', pane).hide()
-        $('.profile-geodcat', pane).show()
-        pane.addClass('geodcat-enabled')
-        $('.location-picker', pane).click()
-    }
-});
-
-// Profile selector: DCAT-AP vs GeoDCAT-AP
+// Add attribution to dataset
 $('.btn-attribution').on('click', function(e){
     var parent = $(e.target).parent().parent().parent();
     var role = JSON.parse($(e.target).next().val());
@@ -95,8 +80,13 @@ $('.btn-attribution').on('click', function(e){
     parent.append(tpl);
 });
 
-// Profile selector: DCAT-AP vs GeoDCAT-AP
-$('input[name=publisher_uri]').on('blur', function(e){
+// Remove attribution to dataset
+$('.attribution-person .btn-delete').on('click', function(e){
+    $(this).closest('.attribution-person').remove();
+});
+
+// Autofill http for URLs
+$('input[name=publisher_uri], input[name=publisher_uri]').on('blur', function(e){
     var val = $(this).val();
     if (val && val.slice(0, 6) !== 'http:/' && val.slice(0, 6) !== 'https:') {
         $(this).val('http://' + val);
@@ -317,6 +307,22 @@ $('.location-picker').one('click', function(e) {
         mapScriptLoaded = true;
     }
 });
+
+// Profile selector: DCAT-AP vs GeoDCAT-AP
+$('.profile-selector').on('change', function(e){
+    var pane = $(e.target).closest('.panel');
+    if ($(e.target).val() == 'dcat') {
+        $('.profile-geodcat', pane).hide()
+        $('.profile-dcat', pane).show()
+        pane.removeClass('geodcat-enabled')
+    } else {
+        $('.profile-dcat', pane).hide()
+        $('.profile-geodcat', pane).show()
+        pane.addClass('geodcat-enabled')
+        $('.location-picker', pane).click()
+    }
+});
+$('.profile-selector').change();
 
 // IntroJS
 $('.introjs').on('click', function(e){

@@ -38,6 +38,7 @@ return array(
     "no_datasets_filter_message" => "No dataset(s) found with the filter",
     "header_group_panel"         => "Manage your groups <small>and permissions</small>",
     "rename"                     => "Rename",
+    "delete"                     => "Delete",
     "edit"                       => "Edit",
     "view"                       => "View",
     "permissions"                => "Permissions",

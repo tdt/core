@@ -332,9 +332,14 @@
     </form>
     <script type="text/x-template" id="person">
         <div class="attribution-person" data-role="#OPTION#">
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom: 0">
                 <label class="col-sm-2 control-label"> </label>
-                <div class="col-sm-10"><h4>#ROLE# &nbsp; <small>#DESC#</small></h4></div>
+                <div class="col-sm-10">
+                    <h4>
+                        <button class="btn btn-default pull-right btn-delete">{{ trans('admin.delete') }}</button>
+                        #ROLE# &nbsp; <small>#DESC#</small>
+                    </h4>
+                </div>
             </div>
             <div class="form-group">
                 <label for="input_attribution" class="col-sm-2 control-label">

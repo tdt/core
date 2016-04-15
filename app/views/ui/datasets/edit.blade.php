@@ -131,11 +131,11 @@
                     <div class="col-sm-10">
                         <div class="profile-selector checkbox">
                             <label class="profile">
-                                <input type="radio" name="profile" value="dcat" checked>
+                                <input type="radio" name="profile" value="dcat" {{ $definition->location? '' : 'checked' }}>
                                 DCAT-AP
                             </label>
                             <label class="profile">
-                                <input type="radio" name="profile" value="geodcat">
+                                <input type="radio" name="profile" value="geodcat" {{ $definition->location? 'checked' : '' }}>
                                 GeoDCAT-AP
                             </label>
                         </div>
@@ -221,9 +221,14 @@
 
                 @foreach($definition->attributions as $key => $attribution)
                 <div class="attribution-person" data-role="{{ $attribution->role }}">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">{{ trans('parameters.role_' . $attribution->role) }}</label>
-                        <div class="col-sm-10" style="padding-top: 7px;">{{ trans('parameters.role_' . $attribution->role . '_desc') }}</h4></div>
+                    <div class="form-group" style="margin-bottom: 0">
+                        <label class="col-sm-2 control-label"> </label>
+                        <div class="col-sm-10">
+                            <h4>
+                                <button class="btn btn-default pull-right btn-delete">{{ trans('admin.delete') }}</button>
+                                {{ trans('parameters.role_' . $attribution->role) }} &nbsp; <small>{{ trans('parameters.role_' . $attribution->role . '_desc') }}</small>
+                            </h4>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="input_attribution_name_{{ $key }}" class="col-sm-2 control-label">
@@ -251,9 +256,14 @@
     </form>
     <script type="text/x-template" id="person">
         <div class="attribution-person" data-role="#OPTION#">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">#ROLE#</label>
-                <div class="col-sm-10" style="padding-top: 7px;">#DESC#</h4></div>
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="col-sm-2 control-label"> </label>
+                <div class="col-sm-10">
+                    <h4>
+                        <button class="btn btn-default pull-right btn-delete">{{ trans('admin.delete') }}</button>
+                        #ROLE# &nbsp; <small>#DESC#</small>
+                    </h4>
+                </div>
             </div>
             <div class="form-group">
                 <label for="input_attribution" class="col-sm-2 control-label">
