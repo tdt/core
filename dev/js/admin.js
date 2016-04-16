@@ -308,10 +308,10 @@ $('.location-picker').one('click', function(e) {
     }
 });
 
-// Profile selector: DCAT-AP vs GeoDCAT-AP
-$('.profile-selector').on('change', function(e){
-    var pane = $(e.target).closest('.panel');
-    if ($(e.target).val() == 'dcat') {
+// Profile selector > DCAT-AP vs GeoDCAT-AP
+var selectProfile = function (profile, pane) {
+    console.log(profile, pane)
+    if (profile == 'dcat') {
         $('.profile-geodcat', pane).hide()
         $('.profile-dcat', pane).show()
         pane.removeClass('geodcat-enabled')
@@ -321,8 +321,14 @@ $('.profile-selector').on('change', function(e){
         pane.addClass('geodcat-enabled')
         $('.location-picker', pane).click()
     }
+};
+// Profile selector > Initial selection
+selectProfile($('.profile-selector input[name=profile]:checked').val(), $('.panel-dcat'));
+// Profile selector > Selection changed
+$('.profile-selector').on('change', function(e){
+    var pane = $(e.target).closest('.panel');
+    selectProfile($(e.target).val(), pane)
 });
-$('.profile-selector').change();
 
 // IntroJS
 $('.introjs').on('click', function(e){

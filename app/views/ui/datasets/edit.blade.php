@@ -121,7 +121,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6 panel panel-default dataset-parameters">
+        <div class="col-sm-6 panel panel-default dataset-parameters panel-dcat">
 
             @if(!empty($parameters_dc))
 
