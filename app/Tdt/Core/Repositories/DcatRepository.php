@@ -177,6 +177,25 @@ class DcatRepository implements DcatRepositoryInterface
                         $graph->addResource($dataset_uri, 'dct:spatial', $spatial);
                     }
 
+                    // Check for attribution properties:
+                    if (!empty($definition['attributions'])) {
+                        foreach ($definition['attributions'] as $attribution) {
+                            $attribution_node = $graph->newBNode();
+                            $attribution_node->setType('prov:Attribution');
+
+                            $vcard = $graph->newBNode();
+                            $vcard->setType('vcard:Kind');
+                            $vcard->addLiteral('vcard:fn', $attribution['name']);
+
+                            $vcard->addResource('vcard:hasEmail', 'mailto:' . $attribution['email']);
+
+                            $attribution_node->addResource('prov:Agent', $vcard);
+                            $attribution_node->addResource('dc:type', 'http://inspire.ec.europa.eu/metadata-codelist/ResponsiblePartyRole/' . $attribution['role']);
+
+                            $graph->addResource($dataset_uri, 'prov:qualifiedAttribution', $attribution_node);
+                        }
+                    }
+
                     $graph->addResource($dataset_uri, 'dcat:distribution', $distribution_uri);
                     $graph->addResource($distribution_uri, 'a', 'dcat:Distribution');
                     $graph->addResource($distribution_uri, 'dcat:accessURL', $dataset_uri);
@@ -243,7 +262,8 @@ class DcatRepository implements DcatRepositoryInterface
             'rdf'  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
             'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
             'owl'  => 'http://www.w3.org/2002/07/owl#',
-            'locn' => 'http://www.w3.org/ns/locn#'
+            'locn' => 'http://www.w3.org/ns/locn#',
+            'prov' => 'http://www.w3.org/ns/prov#'
         );
     }
 }
