@@ -10,7 +10,7 @@
 </div>
 <div class="col-sm-8 col-md-9">
     <dataset v-for="(uri, dataset) in datasets" :dataset="dataset"></dataset>
-    <pagination :paging.sync="paging"></pagination>
+    <pagination :paging="paging"></pagination>
 </div>
 
 </template>
@@ -45,6 +45,7 @@ export default {
                 limit: null,
                 offset: null
             },
+            page: 1,
             query: ''
         }
     },
@@ -63,11 +64,9 @@ export default {
                 selection.query = this.query
             }
             // Get paging
-            if (this.limit) {
-                selection.limit = this.limit
-            }
-            if (this.offset) {
-                selection.offset = this.offset
+            // selection.page_size = 1
+            if (this.page > 1) {
+                selection.page = this.page
             }
             console.log(selection)
 
@@ -91,10 +90,12 @@ export default {
     },
     events: {
         'query.change' (query) {
+            this.page = 1
             this.query = query
             this.fetch()
         },
-        'filter.change' () {
+        'filter.change' (page) {
+            this.page = page
             this.fetch()
         },
     }

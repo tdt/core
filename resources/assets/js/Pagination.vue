@@ -1,19 +1,19 @@
 <template>
   <ul class="pagination">
-    <li :class="{disabled:!paging.previous}" @click.prevent="first">
+    <li :class="{disabled:!paging.previous}" @click.prevent="to(1)">
       <a href="#">&larr; First</a>
     </li>
-    <li :class="{disabled:!paging.previous}" @click.prevent="previous">
+    <li :class="{disabled:!paging.previous}" @click.prevent="to(paging.previous)">
       <a href="#">&larr; Previous</a>
     </li>
     <li>
-    <span style="float:left;min-width:130px;text-align:center;">Page {{current}} {{total?' of '+total:''}} </span>
+    <span style="float:left;min-width:130px;text-align:center;">Page {{paging.current}} {{paging.last?' of '+paging.last:''}} </span>
 
     </li>
-    <li :class="{disabled:!paging.next}" @click.prevent="next">
+    <li :class="{disabled:!paging.next}" @click.prevent="to(paging.next)">
       <a href="#">Next &rarr;</a>
     <li>
-    <li :class="{disabled:!paging.last}" @click.prevent="last">
+    <li :class="{disabled:!paging.last}" @click.prevent="to(paging.last)">
       <a href="#">Last &rarr;</a>
     <li>
   </ul>
@@ -22,27 +22,9 @@
 <script>
 export default {
   props: ['paging'],
-  computed: {
-    current () {
-      return Math.floor(this.offset / this.limit) + 1
-    }
-  },
   methods: {
-    first () {
-      this.offset = 0
-      this.$dispatch('filter.change')
-    },
-    previous () {
-      this.offset = this.paging.previous[0]
-      this.$dispatch('filter.change')
-    },
-    next () {
-      this.offset = this.paging.next[0]
-      this.$dispatch('filter.change')
-    },
-    last () {
-      this.offset = this.paging.last[0]
-      this.$dispatch('filter.change')
+    to (page) {
+      this.$dispatch('filter.change', page)
     }
   }
 }

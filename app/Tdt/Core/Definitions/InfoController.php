@@ -147,7 +147,7 @@ class InfoController extends ApiController
         $paging_info = Pager::calculatePagingHeaders($limit, $offset, $count);
 
         $paging = [
-            'current' => ceil($offset / $limit),
+            'current' => ceil($offset / $limit) + 1,
             'total' => $count,
             'next' => ceil($offset / $limit),
             'previous' => 0,

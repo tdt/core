@@ -11700,10 +11700,13 @@ exports.default = {
                 first: null,
                 prev: null,
                 next: null,
-                last: null
+                last: null,
+                total: null,
+                previous: null,
+                limit: null,
+                offset: null
             },
-            limit: 3,
-            offset: 0,
+            page: 1,
             query: ''
         };
     },
@@ -11723,11 +11726,9 @@ exports.default = {
                 selection.query = this.query;
             }
             // Get paging
-            if (this.limit) {
-                selection.limit = this.limit;
-            }
-            if (this.offset) {
-                selection.offset = this.offset;
+            // selection.page_size = 1
+            if (this.page > 1) {
+                selection.page = this.page;
             }
             console.log(selection);
 
@@ -11751,16 +11752,18 @@ exports.default = {
     },
     events: {
         'query.change': function queryChange(query) {
+            this.page = 1;
             this.query = query;
             this.fetch();
         },
-        'filter.change': function filterChange() {
+        'filter.change': function filterChange(page) {
+            this.page = page;
             this.fetch();
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <search-box></search-box>\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n    <pagination :paging.sync=\"paging\" :limit.sync=\"limit\" :offset.sync=\"offset\"></pagination>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <search-box></search-box>\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n    <pagination :paging=\"paging\"></pagination>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11818,33 +11821,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  props: ['paging', 'limit', 'offset', 'total'],
-  computed: {
-    current: function current() {
-      return Math.floor(this.offset / this.limit) + 1;
-    }
-  },
+  props: ['paging'],
   methods: {
-    first: function first() {
-      this.offset = 0;
-      this.$dispatch('filter.change');
-    },
-    previous: function previous() {
-      this.offset = this.paging.previous[0];
-      this.$dispatch('filter.change');
-    },
-    next: function next() {
-      this.offset = this.paging.next[0];
-      this.$dispatch('filter.change');
-    },
-    last: function last() {
-      this.offset = this.paging.last[0];
-      this.$dispatch('filter.change');
+    to: function to(page) {
+      this.$dispatch('filter.change', page);
     }
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<ul class=\"pagination\">\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"first\">\n    <a href=\"#\">← First</a>\n  </li>\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"previous\">\n    <a href=\"#\">← Previous</a>\n  </li>\n  <li>\n  <span style=\"float:left;min-width:130px;text-align:center;\">Page {{current}} {{total?' of '+total:''}} </span>\n    \n  </li>\n  <li :class=\"{disabled:!paging.next}\" @click.prevent=\"next\">\n    <a href=\"#\">Next →</a>\n  </li><li>\n  </li><li :class=\"{disabled:!paging.last}\" @click.prevent=\"last\">\n    <a href=\"#\">Last →</a>\n  </li><li>\n</li></ul>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<ul class=\"pagination\">\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"to(1)\">\n    <a href=\"#\">← First</a>\n  </li>\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"to(paging.previous)\">\n    <a href=\"#\">← Previous</a>\n  </li>\n  <li>\n  <span style=\"float:left;min-width:130px;text-align:center;\">Page {{paging.current}} {{paging.last?' of '+paging.last:''}} </span>\n\n  </li>\n  <li :class=\"{disabled:!paging.next}\" @click.prevent=\"to(paging.next)\">\n    <a href=\"#\">Next →</a>\n  </li><li>\n  </li><li :class=\"{disabled:!paging.last}\" @click.prevent=\"to(paging.last)\">\n    <a href=\"#\">Last →</a>\n  </li><li>\n</li></ul>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
