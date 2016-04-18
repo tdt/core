@@ -39,7 +39,6 @@ class InfoController extends ApiController
      */
     public function head($uri)
     {
-
         if (!empty($uri)) {
             if (!$this->definition->exists($uri)) {
                 \App::abort(404, "No resource has been found with the uri $uri");
@@ -86,7 +85,10 @@ class InfoController extends ApiController
             }
         }
 
-        list($limit, $offset) = Pager::calculateLimitAndOffset();
+        list($limit, $offset) = Pager::calculateLimitAndOffset(1);
+
+        \Log::info($offset);
+        \Log::info($limit);
 
         $definitions_info = $this->definition->getFiltered($filter_map, $limit, $offset);
         $definition_count = $this->definition->countFiltered($filter_map, $limit, $offset);
