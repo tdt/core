@@ -205,7 +205,7 @@
                     <div class="col-sm-10">
                         <button type="button" class="btn btn-default btn-attribution">{{ trans('admin.add_button') }}</button>
                         <select id="input_attribution" class="form-control select-attribution">
-                            @foreach(['author', 'maintainer'] as $role)
+                            @foreach(['author', 'custodian'] as $role)
                                 <option value='{{ json_encode([
                                 'option' => $role,
                                 'name' => trans('parameters.role_' . $role),
