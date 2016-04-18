@@ -11763,7 +11763,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <search-box></search-box>\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n    <pagination :paging=\"paging\"></pagination>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-sm-4 col-md-3 hidden-xs\">\n    <div class=\"panel panel-default panel-filter\">\n        <div class=\"panel-body\">\n            <search-box></search-box>\n            <filter v-for=\"data in filter\" :data=\"data\"></filter>\n        </div>\n    </div>\n</div>\n<div class=\"col-sm-8 col-md-9\">\n    <dataset v-for=\"(uri, dataset) in datasets\" :dataset=\"dataset\"></dataset>\n    <pagination :paging=\"paging\" v-if=\"paging.last>1\"></pagination>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11829,7 +11829,7 @@ exports.default = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<ul class=\"pagination\">\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"to(1)\">\n    <a href=\"#\">← First</a>\n  </li>\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"to(paging.previous)\">\n    <a href=\"#\">← Previous</a>\n  </li>\n  <li>\n  <span style=\"float:left;min-width:130px;text-align:center;\">Page {{paging.current}} {{paging.last?' of '+paging.last:''}} </span>\n\n  </li>\n  <li :class=\"{disabled:!paging.next}\" @click.prevent=\"to(paging.next)\">\n    <a href=\"#\">Next →</a>\n  </li><li>\n  </li><li :class=\"{disabled:!paging.last}\" @click.prevent=\"to(paging.last)\">\n    <a href=\"#\">Last →</a>\n  </li><li>\n</li></ul>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<ul class=\"pagination\">\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"to(1)\" v-if=\"paging.last>2\">\n    <a href=\"#\">← First</a>\n  </li>\n  <li :class=\"{disabled:!paging.previous}\" @click.prevent=\"to(paging.previous)\">\n    <a href=\"#\">← Previous</a>\n  </li>\n  <li>\n  <span style=\"float:left;min-width:130px;text-align:center;\">Page {{paging.current}} {{paging.last?' of '+paging.last:''}} </span>\n\n  </li>\n  <li :class=\"{disabled:!paging.next}\" @click.prevent=\"to(paging.next)\">\n    <a href=\"#\">Next →</a>\n  </li><li>\n  </li><li :class=\"{disabled:!paging.last}\" @click.prevent=\"to(paging.last)\" v-if=\"paging.last>2\">\n    <a href=\"#\">Last →</a>\n  </li><li>\n</li></ul>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

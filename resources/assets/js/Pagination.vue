@@ -1,6 +1,6 @@
 <template>
   <ul class="pagination">
-    <li :class="{disabled:!paging.previous}" @click.prevent="to(1)">
+    <li :class="{disabled:!paging.previous}" @click.prevent="to(1)" v-if="paging.last>2">
       <a href="#">&larr; First</a>
     </li>
     <li :class="{disabled:!paging.previous}" @click.prevent="to(paging.previous)">
@@ -13,7 +13,7 @@
     <li :class="{disabled:!paging.next}" @click.prevent="to(paging.next)">
       <a href="#">Next &rarr;</a>
     <li>
-    <li :class="{disabled:!paging.last}" @click.prevent="to(paging.last)">
+    <li :class="{disabled:!paging.last}" @click.prevent="to(paging.last)" v-if="paging.last>2">
       <a href="#">Last &rarr;</a>
     <li>
   </ul>

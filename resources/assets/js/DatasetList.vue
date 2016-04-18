@@ -10,7 +10,7 @@
 </div>
 <div class="col-sm-8 col-md-9">
     <dataset v-for="(uri, dataset) in datasets" :dataset="dataset"></dataset>
-    <pagination :paging="paging"></pagination>
+    <pagination :paging="paging" v-if="paging.last>1"></pagination>
 </div>
 
 </template>
