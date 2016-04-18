@@ -12,7 +12,6 @@ use EasyRdf\Parser\Turtle;
 
 class ModelPagingTest extends TestCase
 {
-
     // Add csv files only, the goal is to seed the database with some definitions.
     private $test_data = array(
                 'comma_in_quotes',
@@ -27,7 +26,6 @@ class ModelPagingTest extends TestCase
 
     public function testPutApi()
     {
-
         // Add the CSV definitions
         foreach ($this->test_data as $file) {
             // Set the definition parameters.
@@ -134,7 +132,7 @@ class ModelPagingTest extends TestCase
             if (preg_match('/(.*)\?(limit|offset)=(\d+)&(limit|offset)=(\d+);rel=(.*)/', $link, $matches)) {
                 if ($matches[6] == 'http://www.w3.org/ns/hydra/core#lastPage') {
                     if ($matches[2] == 'offset') {
-                        $this->assertEquals($matches[3], 6);
+                        $this->assertEquals($matches[3], 8);
                     } else {
                         $this->assertEquals($matches[5], 2);
                     }
