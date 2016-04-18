@@ -149,10 +149,10 @@ class InfoController extends ApiController
         $paging = [
             'current' => ceil($offset / $limit) + 1,
             'total' => $count,
-            'next' => ceil($offset / $limit),
+            'next' => 0,
             'previous' => 0,
             'first' => 0,
-            'last' => round($count / $limit, 0),
+            'last' => ceil($count / $limit),
             'limit' => $limit,
             'offset' => $offset
         ];
