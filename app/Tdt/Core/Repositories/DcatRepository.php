@@ -171,7 +171,7 @@ class DcatRepository implements DcatRepositoryInterface
                         $spatial->addLiteral('locn:geometry', $geometry_literal);
 
                         if (!empty($definition['spatial']['label']['label'])) {
-                            $spatial->addLiteral('locn:geometry', $definition['spatial']['label']['label']);
+                            $spatial->addLiteral('skos:prefLabel', $definition['spatial']['label']['label']);
                         }
 
                         $graph->addResource($dataset_uri, 'dct:spatial', $spatial);
