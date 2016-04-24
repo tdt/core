@@ -111,12 +111,22 @@ class HTMLFormatter implements IFormatter
                     $data = $dataset_link . '.map' . $query_string;
 
                     break;
-
                 case 'XML':
                     $view = 'dataset.code';
                     $data = self::displayTree($dataObj->data, 'xml');
                     break;
-
+                case 'INSPIRE':
+                    $view = 'dataset.inspire';
+                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+                    $properties = $definitions->getCreateParameters();
+                    $data = ['properties' => $properties];
+                    break;
+                case 'REMOTE':
+                    $view = 'dataset.remote';
+                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+                    $properties = $definitions->getCreateParameters();
+                    $data = ['properties' => $properties];
+                    break;
                 default:
                     if ($dataObj->is_semantic) {
                         // This data object is always semantic
@@ -264,6 +274,20 @@ class HTMLFormatter implements IFormatter
         } else {
             \App::abort('400', "The requested format ($format) is not supported.");
         }
+    }
+
+    /**
+     * Prettifies an XML string into a human-readable form
+     *
+     * @param string $xml The XML as a string
+     * @param boolean $html_output True if the output should be escaped (for use in HTML)
+     *
+     * @return string
+     */
+    private static function getDcat($definition)
+    {
+        $repo = \App::make('Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface');
+        return $repo->getDcatDocument([$definition], $definition);
     }
 
     /**

@@ -11,6 +11,7 @@ use Tdt\Core\Auth\Auth;
 use Config;
 use App;
 use Cookie;
+use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 
 class UiController extends \Controller
 {
@@ -51,8 +52,10 @@ class UiController extends \Controller
     /**
      * Check for added admin menu's
      */
-    public function __construct()
+    public function __construct(DefinitionRepositoryInterface $definitions)
     {
+        $this->definitions = $definitions;
+        
         // Get loaded providers
         $providers = array_keys(\App::getLoadedProviders());
 

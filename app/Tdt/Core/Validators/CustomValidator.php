@@ -66,7 +66,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
         curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($c, CURLOPT_MAXREDIRS, 10);
-        $follow_allowed= ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
+        $follow_allowed = ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
 
         if ($follow_allowed) {
             curl_setopt($c, CURLOPT_FOLLOWLOCATION, 1);

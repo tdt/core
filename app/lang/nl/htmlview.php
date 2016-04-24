@@ -8,4 +8,5 @@ return [
     "contact"           => "Contact",
     "publisher"         => "Uitgever",
     "keywords"          => "Trefwoorden",
+    "spatial"           => "Geografische context",
 ];

@@ -9,6 +9,8 @@ use Tdt\Core\Repositories\Interfaces\SettingsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\ThemeRepositoryInterface;
 use User;
 use EasyRdf\Graph;
+use EasyRdf\Literal;
+use EasyRdf\Parser\Turtle;
 
 class DcatRepository implements DcatRepositoryInterface
 {
@@ -73,110 +75,149 @@ class DcatRepository implements DcatRepositoryInterface
             $graph->addLiteral($uri . '/api/dcat', 'dct:modified', date(\DateTime::ISO8601, strtotime($oldest_definition['updated_at'])));
 
             foreach ($definitions as $definition) {
-                // Create the dataset uri
-                $dataset_uri = $uri . "/" . $definition['collection_uri'] . "/" . $definition['resource_name'];
-                $dataset_uri = str_replace(' ', '%20', $dataset_uri);
+                if ($definition['source_type'] != "InspireDefinition" && $definition['source_type'] != "RemoteDefinition") {
+                    // Create the dataset uri
+                    $dataset_uri = $uri . "/" . $definition['collection_uri'] . "/" . $definition['resource_name'];
+                    $dataset_uri = str_replace(' ', '%20', $dataset_uri);
 
-                $source_type = $definition['type'];
+                    $source_type = $definition['type'];
 
-                // Add the dataset link to the catalog
-                $graph->addResource($uri . '/api/dcat', 'dcat:dataset', $dataset_uri);
+                    // Add the dataset link to the catalog
+                    $graph->addResource($uri . '/api/dcat', 'dcat:dataset', $dataset_uri);
 
-                // Add the dataset resource and its description
-                $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
+                    // Add the dataset resource and its description
+                    $graph->addResource($dataset_uri, 'a', 'dcat:Dataset');
 
-                $title = null;
-                if (!empty($definition['title'])) {
-                    $title = $definition['title'];
-                } else {
-                    $title = $definition['collection_uri'] . '/' . $definition['resource_name'];
-                }
-
-                $graph->addLiteral($dataset_uri, 'dct:title', $title);
-
-
-                // Add the description, identifier, issued date, modified date, contact point and landing page of the dataset
-                $graph->addLiteral($dataset_uri, 'dct:description', @$definition['description']);
-                $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition['collection_uri'] . '/' . $definition['resource_name']));
-                $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
-                $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
-                $graph->addResource($dataset_uri, 'dcat:landingPage', $dataset_uri);
-
-                // Backwards compatibility
-                if (!empty($definition['contact_point'])) {
-                    $graph->addResource($dataset_uri, 'dcat:contactPoint', $definition['contact_point']);
-                }
-
-                // Add the publisher resource to the dataset
-                if (!empty($definition['publisher_name']) && !empty($definition['publisher_uri'])) {
-                    $graph->addResource($dataset_uri, 'dct:publisher', $definition['publisher_uri']);
-                    $graph->addResource($definition['publisher_uri'], 'a', 'foaf:Agent');
-                    $graph->addLiteral($definition['publisher_uri'], 'foaf:name', $definition['publisher_name']);
-                }
-
-                // Add the keywords to the dataset
-                if (!empty($definition['keywords'])) {
-                    foreach (explode(',', $definition['keywords']) as $keyword) {
-                        $keyword = trim($keyword);
-                        $graph->addLiteral($dataset_uri, 'dcat:keyword', $keyword);
+                    $title = null;
+                    if (!empty($definition['title'])) {
+                        $title = $definition['title'];
+                    } else {
+                        $title = $definition['collection_uri'] . '/' . $definition['resource_name'];
                     }
-                }
 
-                // Add the source resource if it's a URI
-                if (strpos($definition['source'], 'http://') !== false || strpos($definition['source'], 'https://')) {
-                    $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition['source']));
-                }
+                    $graph->addLiteral($dataset_uri, 'dct:title', $title);
 
-                // Optional dct terms
-                $optional = array('date', 'language', 'theme');
+                    // Add the description, identifier, issued date, modified date, contact point and landing page of the dataset
+                    $graph->addLiteral($dataset_uri, 'dct:description', @$definition['description']);
+                    $graph->addLiteral($dataset_uri, 'dct:identifier', str_replace(' ', '%20', $definition['collection_uri'] . '/' . $definition['resource_name']));
+                    $graph->addLiteral($dataset_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
+                    $graph->addLiteral($dataset_uri, 'dct:modified', date(\DateTime::ISO8601, strtotime($definition['updated_at'])));
+                    $graph->addResource($dataset_uri, 'dcat:landingPage', $dataset_uri);
 
-                foreach ($optional as $dc_term) {
-                    if (!empty($definition[$dc_term])) {
-                        if ($dc_term == 'language') {
-                            $lang = $this->languages->getByName($definition[$dc_term]);
+                    // Backwards compatibility
+                    if (!empty($definition['contact_point'])) {
+                        $graph->addResource($dataset_uri, 'dcat:contactPoint', $definition['contact_point']);
+                    }
 
-                            if (!empty($lang)) {
-                                $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
-                                $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
-                            }
-                        } elseif ($dc_term == 'theme') {
-                            $theme = $this->themes->getByLabel($definition[$dc_term]);
+                    // Add the publisher resource to the dataset
+                    if (!empty($definition['publisher_name']) && !empty($definition['publisher_uri'])) {
+                        $graph->addResource($dataset_uri, 'dct:publisher', $definition['publisher_uri']);
+                        $graph->addResource($definition['publisher_uri'], 'a', 'foaf:Agent');
+                        $graph->addLiteral($definition['publisher_uri'], 'foaf:name', $definition['publisher_name']);
+                    }
 
-                            if (!empty($theme)) {
-                                $graph->addResource($dataset_uri, 'dcat:' . $dc_term, $theme['uri']);
-                                $graph->addLiteral($theme['uri'], 'rdfs:label', $theme['label']);
-                            }
-
-                        } else {
-                            $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
+                    // Add the keywords to the dataset
+                    if (!empty($definition['keywords'])) {
+                        foreach (explode(',', $definition['keywords']) as $keyword) {
+                            $keyword = trim($keyword);
+                            $graph->addLiteral($dataset_uri, 'dcat:keyword', $keyword);
                         }
                     }
-                }
 
-                // Add the distribution of the dataset
-                if ($this->isDataGeoFormatted($definition)) {
-                    $distribution_uri = $dataset_uri . '.geojson';
-                } else {
-                    $distribution_uri = $dataset_uri . '.json';
-                }
-
-                $graph->addResource($dataset_uri, 'dcat:distribution', $distribution_uri);
-                $graph->addResource($distribution_uri, 'a', 'dcat:Distribution');
-                $graph->addResource($distribution_uri, 'dcat:accessURL', $dataset_uri);
-                $graph->addResource($distribution_uri, 'dcat:downloadURL', $distribution_uri);
-                $graph->addLiteral($distribution_uri, 'dct:title', $title);
-                $graph->addLiteral($distribution_uri, 'dct:description', 'A json feed of ' . $dataset_uri);
-                $graph->addLiteral($distribution_uri, 'dcat:mediaType', 'application/json');
-                $graph->addLiteral($distribution_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
-
-                // Add the license to the distribution
-                if (!empty($definition['rights'])) {
-                    $license = $this->licenses->getByTitle($definition['rights']);
-
-                    if (!empty($license) && !empty($license['url'])) {
-                        $graph->addResource($dataset_uri . '.json', 'dct:license', $license['url']);
-                        $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
+                    // Add the source resource if it's a URI
+                    if (strpos($definition['source'], 'http://') !== false || strpos($definition['source'], 'https://')) {
+                        $graph->addResource($dataset_uri, 'dct:source', str_replace(' ', '%20', $definition['source']));
                     }
+
+                    // Optional dct terms
+                    $optional = array('date', 'language', 'theme');
+
+                    foreach ($optional as $dc_term) {
+                        if (!empty($definition[$dc_term])) {
+                            if ($dc_term == 'language') {
+                                $lang = $this->languages->getByName($definition[$dc_term]);
+
+                                if (!empty($lang)) {
+                                    $graph->addResource($dataset_uri, 'dct:' . $dc_term, 'http://lexvo.org/id/iso639-3/' . $lang['lang_id']);
+                                    $graph->addResource('http://lexvo.org/id/iso639-3/' . $lang['lang_id'], 'a', 'dct:LinguisticSystem');
+                                }
+                            } elseif ($dc_term == 'theme') {
+                                $theme = $this->themes->getByLabel($definition[$dc_term]);
+
+                                if (!empty($theme)) {
+                                    $graph->addResource($dataset_uri, 'dcat:' . $dc_term, $theme['uri']);
+                                    $graph->addLiteral($theme['uri'], 'rdfs:label', $theme['label']);
+                                }
+
+                            } else {
+                                $graph->addLiteral($dataset_uri, 'dct:' . $dc_term, $definition[$dc_term]);
+                            }
+                        }
+                    }
+
+                    // Add the distribution of the dataset
+                    if ($this->isDataGeoFormatted($definition)) {
+                        $distribution_uri = $dataset_uri . '.geojson';
+                    } else {
+                        $distribution_uri = $dataset_uri . '.json';
+                    }
+
+                    // Check for spatial properties:
+                    if (!empty($definition['spatial']['geometry']['geometry'])) {
+                        $spatial = $graph->newBNode();
+                        $spatial->setType('dct:Location');
+
+                        $geometry_literal = new Literal($definition['spatial']['geometry']['geometry'], '', '<https://www.iana.org/assignments/media-types/application/vnd.geo+json>');
+                        $spatial->addLiteral('locn:geometry', $geometry_literal);
+
+                        if (!empty($definition['spatial']['label']['label'])) {
+                            $spatial->addLiteral('skos:prefLabel', $definition['spatial']['label']['label']);
+                        }
+
+                        $graph->addResource($dataset_uri, 'dct:spatial', $spatial);
+                    }
+
+                    // Check for attribution properties:
+                    if (!empty($definition['attributions'])) {
+                        foreach ($definition['attributions'] as $attribution) {
+                            $attribution_node = $graph->newBNode();
+                            $attribution_node->setType('prov:Attribution');
+
+                            $vcard = $graph->newBNode();
+                            $vcard->setType('vcard:Kind');
+                            $vcard->addLiteral('vcard:fn', $attribution['name']);
+
+                            $vcard->addResource('vcard:hasEmail', 'mailto:' . $attribution['email']);
+
+                            $attribution_node->addResource('prov:Agent', $vcard);
+                            $attribution_node->addResource('dc:type', 'http://inspire.ec.europa.eu/metadata-codelist/ResponsiblePartyRole/' . $attribution['role']);
+
+                            $graph->addResource($dataset_uri, 'prov:qualifiedAttribution', $attribution_node);
+                        }
+                    }
+
+                    $graph->addResource($dataset_uri, 'dcat:distribution', $distribution_uri);
+                    $graph->addResource($distribution_uri, 'a', 'dcat:Distribution');
+                    $graph->addResource($distribution_uri, 'dcat:accessURL', $dataset_uri);
+                    $graph->addResource($distribution_uri, 'dcat:downloadURL', $distribution_uri);
+                    $graph->addLiteral($distribution_uri, 'dct:title', $title);
+                    $graph->addLiteral($distribution_uri, 'dct:description', 'A json feed of ' . $dataset_uri);
+                    $graph->addLiteral($distribution_uri, 'dcat:mediaType', 'application/json');
+                    $graph->addLiteral($distribution_uri, 'dct:issued', date(\DateTime::ISO8601, strtotime($definition['created_at'])));
+
+                    // Add the license to the distribution
+                    if (!empty($definition['rights'])) {
+                        $license = $this->licenses->getByTitle($definition['rights']);
+
+                        if (!empty($license) && !empty($license['url'])) {
+                            $graph->addResource($dataset_uri . '.json', 'dct:license', $license['url']);
+                            $graph->addResource($license['url'], 'a', 'dct:LicenseDocument');
+                        }
+                    }
+                } else {
+                    $turtle_parser = new Turtle();
+                    $tmp_graph = new Graph();
+                    $turtle_parser->parse($graph, $definition['dcat'], 'turtle', 'http://foo.bar');
                 }
             }
         }
@@ -221,6 +262,8 @@ class DcatRepository implements DcatRepositoryInterface
             'rdf'  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
             'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
             'owl'  => 'http://www.w3.org/2002/07/owl#',
+            'locn' => 'http://www.w3.org/ns/locn#',
+            'prov' => 'http://www.w3.org/ns/prov#'
         );
     }
 }

@@ -72,6 +72,26 @@ function buildURI(e){
     $('#input_identifier').val(identifier);
 }
 
+// Add attribution to dataset
+$('.btn-attribution').on('click', function(e){
+    var parent = $(e.target).parent().parent().parent();
+    var role = JSON.parse($(e.target).next().val());
+    var tpl = $('#person').html().replace('#ROLE#', role.name).replace('#DESC#', role.desc).replace('#OPTION#', role.option);
+    parent.append(tpl);
+});
+
+// Remove attribution to dataset
+$('.attribution-person .btn-delete').on('click', function(e){
+    $(this).closest('.attribution-person').remove();
+});
+
+// Autofill http for URLs
+$('input[name=publisher_uri], input[name=publisher_uri]').on('blur', function(e){
+    var val = $(this).val();
+    if (val && val.slice(0, 6) !== 'http:/' && val.slice(0, 6) !== 'https:') {
+        $(this).val('http://' + val);
+    }
+});
 
 // Add dataset
 $('.btn-add-dataset').on('click', function(e){
@@ -93,6 +113,20 @@ $('.btn-add-dataset').on('click', function(e){
             }else{
                 data[$(this).attr('name')] = $(this).val();
             }
+        }
+    });
+    $('.attribution-person', tab_pane).each(function(){
+        if (!data.attribution) {
+            data.attribution = [];
+        }
+        var name = $(this).find('.name').val();
+        var email = $(this).find('.email').val();
+        if (name || email) {
+            data.attribution.push({
+                role: $(this).data('role'),
+                name: name,
+                email: email
+            })
         }
     });
     console.log(data);
@@ -147,6 +181,20 @@ $('.btn-edit-dataset').on('click', function(e){
             }
         }
     });
+    $('.attribution-person').each(function(){
+        if (!data.attribution) {
+            data.attribution = [];
+        }
+        var name = $(this).find('.name').val();
+        var email = $(this).find('.email').val();
+        if (name || email) {
+            data.attribution.push({
+                role: $(this).data('role'),
+                name: name,
+                email: email
+            })
+        }
+    });
 
     // Ajax call
     $.ajax({
@@ -174,6 +222,111 @@ $('.btn-edit-dataset').on('click', function(e){
             }
         }
     });
+});
+
+// Load google maps for GeoDCAT
+var mapScriptLoaded = false;
+$('.location-picker').one('click', function(e) {
+    $(this).height('300px').removeClass('btn').removeClass('btn-default')
+    var pane = $(e.target).closest('.panel');
+    var input = $('#' + $(this).data('id'), pane);
+    var rectangle, infoWindow, map;
+    var init = function () {
+        map = new google.maps.Map($('.location-picker', pane).get(0), {
+            mapTypeControl: false,
+            streetViewControl: false,
+            center: {lat: 50, lng: 10},
+            zoom: 2
+        });
+
+        // Get current bounds or set default
+        var bounds;
+        try {
+            var geo = JSON.parse(JSON.parse(input.val()));
+            bounds = {
+                north: geo.coordinates[0][0][1],
+                south: geo.coordinates[0][2][1],
+                east: geo.coordinates[0][2][0],
+                west: geo.coordinates[0][0][0]
+            }
+        } catch (e) {
+            bounds = {
+                north: 70,
+                south: 35,
+                east: 40,
+                west: -10
+            }
+        }
+
+        // Define a rectangle and set its editable property to true.
+        infoWindow = new google.maps.InfoWindow();
+        rectangle = new google.maps.Rectangle({
+            bounds: bounds,
+            draggable: true,
+            editable: true
+        });
+        rectangle.addListener('bounds_changed', boundsChanged);
+        boundsChanged()
+        rectangle.setMap(map);
+    }
+
+    var boundsChanged = function (event) {
+        var ne = rectangle.getBounds().getNorthEast();
+        var sw = rectangle.getBounds().getSouthWest();
+
+        var contentString = 'North-east corner: ' + ne.lat() + ', ' + ne.lng() + '<br>South-west corner: ' + sw.lat() + ', ' + sw.lng();
+        console.log('geojson', ne.lat() , ne.lng() , sw.lat() , sw.lng())
+        input.val(JSON.stringify({
+            type: 'Polygon',
+            coordinates: [
+                [
+                    [sw.lng(), ne.lat()],
+                    [ne.lng(), ne.lat()],
+                    [ne.lng(), sw.lat()],
+                    [sw.lng(), sw.lat()],
+                    [sw.lng(), ne.lat()]
+                ]
+            ]
+        }));
+
+        // Set the info window's content and position.
+        infoWindow.setContent(contentString);
+        infoWindow.setPosition(ne);
+        infoWindow.open(map);
+    }
+
+    if (mapScriptLoaded) {
+        init()
+    } else {
+        var tag = document.createElement('script');
+        tag.onload = init;
+        tag.setAttribute('type', 'text/javascript');
+        tag.setAttribute('src', 'https://maps.googleapis.com/maps/api/js');
+        document.head.appendChild(tag);
+        mapScriptLoaded = true;
+    }
+});
+
+// Profile selector > DCAT-AP vs GeoDCAT-AP
+var selectProfile = function (profile, pane) {
+    console.log(profile, pane)
+    if (profile == 'dcat') {
+        $('.profile-geodcat', pane).hide()
+        $('.profile-dcat', pane).show()
+        pane.removeClass('geodcat-enabled')
+    } else {
+        $('.profile-dcat', pane).hide()
+        $('.profile-geodcat', pane).show()
+        pane.addClass('geodcat-enabled')
+        $('.location-picker', pane).click()
+    }
+};
+// Profile selector > Initial selection
+selectProfile($('.profile-selector input[name=profile]:checked').val(), $('.panel-dcat'));
+// Profile selector > Selection changed
+$('.profile-selector').on('change', function(e){
+    var pane = $(e.target).closest('.panel');
+    selectProfile($(e.target).val(), pane)
 });
 
 // IntroJS

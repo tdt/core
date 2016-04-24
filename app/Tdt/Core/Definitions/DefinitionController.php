@@ -52,6 +52,7 @@ class DefinitionController extends ApiController
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
+            \Log::info($message);
             \App::abort(400, $message);
         }
 

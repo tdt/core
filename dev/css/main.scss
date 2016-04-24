@@ -460,6 +460,11 @@ a{
     }
 }
 
+h4 > small {
+    margin-left: .5em;
+    font-size: 12px;
+}
+
 .well{
     border: 1px solid $border-color-soft;
     background: #fff;
@@ -676,6 +681,19 @@ footer{
         width: 100%;
         height: 100%;
         border: 0px none;
+    }
+}
+
+#geojson-map {
+    margin-top: 20px;
+    width: 100%;
+    height: 200px;
+    min-height: 200px;
+    background: #ddd;
+}
+@media (min-height: 500px) {
+    #geojson-map {
+        height: 300px;
     }
 }
 
@@ -896,4 +914,33 @@ ul.nav-tabs + div.panel{
             }
         }
     }
+}
+.profile-selector {
+    float: right;
+    margin-top: 10px;
+    line-height: 20px;
+}
+.profile {
+    margin-left: 15px;
+}
+.geodcat-enabled {
+    .required .help-block::before {
+        content: attr(requirement) ": ";
+        margin-left: 2px;
+        color: red;
+    }
+    .recommended .help-block::before {
+        content: attr(requirement) ": ";
+        margin-left: 2px;
+        font-weight: bold;
+    }
+}
+
+.select-attribution {
+    width: calc(100% - 150px);
+}
+.btn-attribution {
+    float: right;
+    width: 130px;
+
 }

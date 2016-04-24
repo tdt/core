@@ -3,6 +3,7 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
+use Tdt\Core\Repositories\LocationRepository;
 
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
@@ -22,6 +23,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
      */
     public function store(array $input)
     {
+        $attributions = @$input['attribution'];
+
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
@@ -48,7 +51,11 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definition->collection_uri = $input['collection_uri'];
 
         // Add the rest of the properties
-        foreach (array_only($input, array_keys($this->getCreateParameters())) as $property => $value) {
+        $create_parameters = $this->getCreateParameters();
+        unset($create_parameters['geometry']);
+        unset($create_parameters['label']);
+
+        foreach (array_only($input, array_keys($create_parameters)) as $property => $value) {
             $definition->$property = $value;
         }
 
@@ -58,6 +65,24 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         if (!empty($source['description'])) {
             $definition->description = $source['description'];
+        }
+
+        $location = $this->createLocation($input);
+
+        // Check for location meta-data
+        if (!empty($location)) {
+            $definition->location()->save($location);
+        }
+
+        // Add attributions if there are any
+        if (!empty($attributions)) {
+            $attribution_models = [];
+
+            foreach ($attributions as $attribution) {
+                $attribution_models[] = $this->createAttribution($attribution);
+            }
+
+            $definition->attributions()->saveMany($attribution_models);
         }
 
         $definition->save();
@@ -70,6 +95,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function update($identifier, array $input)
     {
+        $attributions = @$input['attribution'];
+
         // Process input (e.g. set default values to empty properties)
         $input = $this->processInput($input);
 
@@ -104,6 +131,51 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         // Update the facets for the definition
         $this->updateFacets($definition_model);
 
+        //$definition_object = $this->getEloquentDefinition($identifier);
+
+        // Add the rest of the properties
+        $create_parameters = $this->getCreateParameters();
+        unset($create_parameters['geometry']);
+        unset($create_parameters['label']);
+
+        $definition_model->update(array_only($input, array_keys($create_parameters)));
+
+        // Delete the locations and create again if geo meta-data is provided (= update)
+        if (!empty($definition_model->location->id)) {
+            $location = $definition_model->location;
+            $location->geometry->delete();
+            $location->label->delete();
+            $location->delete();
+
+            $definition_model->save();
+        }
+
+        $location = $this->createLocation($input);
+
+        // Check for location meta-data
+        if (!empty($location)) {
+            $definition_model->location()->save($location);
+        }
+
+        if (!empty($definition_model->attributions)) {
+            foreach ($definition_model->attributions as $attribution) {
+                $attribution->delete();
+            }
+        }
+
+        // Add attributions if there are any
+        if (!empty($attributions)) {
+            $attribution_models = [];
+
+            foreach ($attributions as $attribution) {
+                $attribution_models[] = $this->createAttribution($attribution);
+            }
+
+            $definition_model->attributions()->saveMany($attribution_models);
+        }
+
+        $definition_model->save();
+
         return $definition_model->toArray();
     }
 
@@ -115,6 +187,16 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definition = $this->getEloquentDefinition($identifier);
 
         if (!empty($definition)) {
+            if (!empty($definition->location->id)) {
+                $location = $definition->location;
+
+                $location->delete();
+            }
+
+            foreach ($definition->attributions as $attribution) {
+                $attribution->delete();
+            }
+
             return $definition->delete();
         }
     }
@@ -130,10 +212,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return !empty($definition);
     }
 
-
     public function getAll($limit = PHP_INT_MAX, $offset = 0)
     {
-        return \Definition::take($limit)->skip($offset)->get()->toArray();
+        return \Definition::take($limit)->skip($offset)->with('location', 'attributions')->get()->toArray();
     }
 
     public function getAllPublished($limit = PHP_INT_MAX, $offset = 0)
@@ -270,10 +351,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getByIdentifier($identifier)
     {
-        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+        $definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->with('location', 'attributions')->first();
 
         if (empty($definition)) {
-            return array();
+            return [];
         }
 
         return $definition->toArray();
@@ -432,12 +513,57 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     }
 
     /**
-     * This function solves the issues of retrieving relationships of a relationship
-     * (e.g. definition -> csvdefinitions -> tabular)
+     * Create and return a location
+     *
+     * @param array $input
+     *
+     * @return \Location
+     */
+    private function createLocation($input)
+    {
+        if (!empty($input['geometry'])) {
+            $location = new \Location();
+            $location->save();
+
+            $label = \Label::create(['label' => $input['label']]);
+
+            $geometry = \Geometry::create(['type' => 'geojson', 'geometry' => $input['geometry']]);
+
+            $location->geometry()->save($geometry);
+            $location->label()->save($label);
+
+            return $location;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Create and return an attribution
+     *
+     * @param array $input
+     *
+     * @return \Attribution
+     */
+    private function createAttribution($attribution)
+    {
+        $attribution = \Attribution::create($attribution);
+
+        $attribution->save();
+
+        return $attribution;
+    }
+
+    /**
+     * Get the eloquent object of a definition
+     *
+     * @param string $identifier The identifier of the dataset definition
+     *
+     * @return Eloquent
      */
     private function getEloquentDefinition($identifier)
     {
-        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+        return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->with(['location', 'attributions'])->first();
     }
 
     /**
@@ -458,7 +584,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         foreach ($facet_types as $facet_type) {
             $facet_name = $facet_type['facet_name'];
 
-            if ($facet_name != 'keywords' && !empty($definition->$facet_name)) {
+            if (!empty($definition->$facet_name)) {
                 $facet = \Facet::create([
                     'definition_id' => $definition->id,
                     'facet_id' => $facet_type['id'],
@@ -467,22 +593,23 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                     ]);
 
                 $facet->save();
-            } else {
-                    // split the keywords
-                if (!empty($definition->keywords)) {
-                    $keywords = explode(',', $definition->keywords);
+            }
+        }
 
-                    foreach ($keywords as $keyword) {
-                        $facet = \Facet::create([
-                            'definition_id' => $definition->id,
-                            'facet_id' => $facet_type['id'],
-                            'facet_name' => $facet_name,
-                            'value' => $keyword
-                            ]);
+        // Process keywords if present
+        if (!empty($definition->keywords)) {
+            // Split the keywords
+            $keywords = explode(',', $definition->keywords);
 
-                        $facet->save();
-                    }
-                }
+            foreach ($keywords as $keyword) {
+                $facet = \Facet::create([
+                    'definition_id' => $definition->id,
+                    'facet_id' => $facet_type['id'],
+                    'facet_name' => 'keyword',
+                    'value' => $keyword
+                    ]);
+
+                $facet->save();
             }
         }
     }
@@ -541,6 +668,22 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $properties['type'] = strtolower($source_definition->type);
 
+        if (!empty($definition->location->id)) {
+            $location = \Location::find($definition->location->id)->with('label', 'geometry')->first();
+
+            if (!empty($location)) {
+                $properties['spatial'] = $location->toArray();
+            }
+        }
+
+        if ($definition->attributions->count() > 0) {
+            $properties['attributions'] = [];
+
+            foreach ($definition->attributions as $attribution) {
+                $properties['attributions'][] = array_only($attribution->toArray(), $attribution->getFillable());
+            }
+        }
+
         return $properties;
     }
 
@@ -567,13 +710,15 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return array(
             'date' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Date',
-                'description' => 'A point or period of time associated with an event in the lifecycle of the resource. Best practise is to use the ISO 8601 scheme.',
-                'type' => 'string',
+                'description' => 'A date associated with the dataset.',
+                'type' => 'date',
                 'group' => 'dc',
             ),
             'language' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Language',
                 'description' => 'A language of the resource.',
                 'type' => 'list',
@@ -583,6 +728,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'rights' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Rights',
                 'type' => 'list',
                 'list' => 'api/licenses',
@@ -593,6 +739,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'theme' => array(
                 'required' => false,
+                'requiredgeodcat' => false,
                 'name' => 'Theme',
                 'type' => 'list',
                 'list' => 'api/themes',
@@ -608,6 +755,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'publisher_uri' => array(
                 'required' => false,
+                'requiredgeodcat' => 'recommended',
                 'name' => 'Publisher URI',
                 'type' => 'string',
                 'description' => 'The URI of the entity responsible for publishing the dataset (e.g. http://gov.be). ',
@@ -615,6 +763,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'publisher_name' => array(
                 'required' => false,
+                'requiredgeodcat' => false,
                 'name' => 'Publisher name',
                 'type' => 'string',
                 'description' => 'The name of the entity responsible for publishing the dataset.',
@@ -622,6 +771,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'keywords' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Keywords',
                 'type' => 'string',
                 'description' => 'A comma separated list of keywords regarding the dataset.',
@@ -629,11 +779,30 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'contact_point' => array(
                 'required' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Contact point',
                 'type' => 'string',
-                'description' => 'A link on which people can provide feedback or flag errors.',
+                'description' => 'A URI on which people can provide feedback or flag errors.',
                 'group' => 'dc',
             ),
+            'geometry' => array(
+                'required' => true,
+                'requiredgeodcat' => 'required',
+                'name' => 'Geometry',
+                'type' => 'geojson',
+                'description' => 'A GeoJSON document that represents the geographical relevancy of the dataset.',
+                'group' => 'geodcat',
+                'array' => true
+            ),
+            'label' => array(
+                'required' => false,
+                'requiredgeodcat' => false,
+                'name' => 'Label',
+                'type' => 'string',
+                'description' => 'A description of the selected geographical area.',
+                'group' => 'geodcat',
+                'array' => true
+            )
         );
     }
 }

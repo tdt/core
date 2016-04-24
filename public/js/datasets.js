@@ -11650,7 +11650,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/Dataset.vue"
+  var id = "/Users/jan/Sites/core/resources/assets/js/Dataset.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11768,7 +11768,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/DatasetList.vue"
+  var id = "/Users/jan/Sites/core/resources/assets/js/DatasetList.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11807,7 +11807,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/Filter.vue"
+  var id = "/Users/jan/Sites/core/resources/assets/js/Filter.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11834,7 +11834,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/Pagination.vue"
+  var id = "/Users/jan/Sites/core/resources/assets/js/Pagination.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -11864,7 +11864,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/thomas/projects/tdt-core/core/resources/assets/js/SearchBox.vue"
+  var id = "/Users/jan/Sites/core/resources/assets/js/SearchBox.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {

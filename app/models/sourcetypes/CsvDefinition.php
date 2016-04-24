@@ -8,7 +8,6 @@
  */
 class CsvDefinition extends SourceType
 {
-
     protected $table = 'csvdefinitions';
 
     protected $fillable = array('uri', 'delimiter', 'has_header_row', 'start_row', 'description', 'title', 'map_property');
@@ -36,9 +35,7 @@ class CsvDefinition extends SourceType
      */
     public function __get($name)
     {
-
         if ($name == 'pk') {
-
             // Retrieve the primary key from the columns
             // Get the related columns
             $columns = $this->tabularColumns()->getResults();
