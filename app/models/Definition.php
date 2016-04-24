@@ -37,10 +37,14 @@ class Definition extends Eloquent
      */
     public function delete()
     {
-
         $source_type = $this->source()->first();
         $source_type->delete();
 
         parent::delete();
+    }
+
+    public function facets()
+    {
+        return $this->hasMany('Facet');
     }
 }

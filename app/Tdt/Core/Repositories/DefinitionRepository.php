@@ -52,7 +52,18 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $definition->$property = $value;
         }
 
+        if (!empty($source['title'])) {
+            $definition->title = $source['title'];
+        }
+
+        if (!empty($source['description'])) {
+            $definition->description = $source['description'];
+        }
+
         $definition->save();
+
+        // Update the facets for the definition
+        $this->updateFacets($definition);
 
         return $definition->toArray();
     }
@@ -78,11 +89,22 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $source_repository->update($source['id'], $input);
 
-        $definition_object = \Definition::find($definition['id']);
+        $definition_model = \Definition::find($definition['id']);
 
-        $definition_object->update(array_only($input, array_keys($this->getCreateParameters())));
+        $definition_model->update(array_only($input, array_keys($this->getCreateParameters())));
 
-        return $definition_object->toArray();
+        if (!empty($input['title'])) {
+            $definition_model->title = $input['title'];
+        }
+
+        if (!empty($input['description'])) {
+            $definition_model->description = $input['description'];
+        }
+
+        // Update the facets for the definition
+        $this->updateFacets($definition_model);
+
+        return $definition_model->toArray();
     }
 
     /**
@@ -123,50 +145,127 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $query = $this->model->query();
 
-        $first_statement = false;
+        if (!empty($filters['query'])) {
+            $search_value = array_shift($filters['query']);
+
+            unset($filters['query']);
+
+            $query->where(function ($subquery) use ($search_value) {
+                return $subquery->where('title', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('resource_name', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('collection_uri', 'LIKE', '%' . $search_value . '%');
+            });
+        }
 
         foreach ($filters as $filter => $values) {
-            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
-            foreach ($values as $val) {
-                if ($first_statement) {
-                    $first_statement = false;
+            $query->where(function ($subquery) use ($filter, $values) {
+                $val = array_shift($values);
 
-                    $query->where($filter, 'LIKE', '%' . $val . '%');
-                } else {
-                    $query->orWhere($filter, 'LIKE', '%' . $val . '%');
+                $subquery->where($filter, 'LIKE', '%' . $val . '%');
+
+                foreach ($values as $val) {
+                    $subquery->orWhere($filter, 'LIKE', '%' . $val . '%');
                 }
-            }
+
+                return $subquery;
+            });
         }
 
         $results = $query->take($limit)->skip($offset)->get();
 
         if (!empty($results)) {
-            return $results->toArray();
+            $definitions_info = [];
+
+            foreach ($results as $result) {
+                $info = array_only($result->toArray(), $this->model->getFillable());
+                $info['identifier'] = $result->collection_uri . '/' . $result->resource_name;
+
+                $definitions_info[] = $info;
+            }
+            return $definitions_info;
         }
 
         return [];
+
     }
 
     public function countFiltered($filters, $limit, $offset)
     {
         $query = $this->model->query();
 
-        $first_statement = false;
+        if (!empty($filters['query'])) {
+            $search_value = array_shift($filters['query']);
 
-        foreach ($filters as $filter => $values) {
-            //where('keywords', 'LIKE', '%' . $keyword . '%')->get();
-            foreach ($values as $val) {
-                if ($first_statement) {
-                    $first_statement = false;
+            unset($filters['query']);
 
-                    $query->where($filter, 'LIKE', '%' . $val . '%');
-                } else {
-                    $query->orWhere($filter, 'LIKE', '%' . $val . '%');
-                }
-            }
+            $query->where(function ($subquery) use ($search_value) {
+                return $subquery->where('title', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('resource_name', 'LIKE', '%' . $search_value . '%')
+                        ->orWhere('collection_uri', 'LIKE', '%' . $search_value . '%');
+            });
         }
 
+        foreach ($filters as $filter => $values) {
+            $query->where(function ($subquery) use ($filter, $values) {
+                $val = array_shift($values);
+
+                $subquery->where($filter, 'LIKE', '%' . $val . '%');
+
+                foreach ($values as $val) {
+                    $subquery->orWhere($filter, 'LIKE', '%' . $val . '%');
+                }
+
+                return $subquery;
+            });
+        }
+
+
         return $query->count();
+    }
+
+    public function countFacets($filters)
+    {
+        $query = \DB::table('definition_facets')
+                    ->select(\DB::raw('count(*) as count, facet_name, value'));
+
+
+        $facet_subquery = \DB::table('definitions')->select('id');
+
+        if (!empty($filters['query'])) {
+            $search_value = array_shift($filters['query']);
+
+            unset($filters['query']);
+
+            $facet_subquery->where(function ($facet_subquery) use ($search_value) {
+                return $facet_subquery->where('title', 'LIKE', '%' . $search_value . '%')
+                ->orWhere('description', 'LIKE', '%' . $search_value . '%')
+                ->orWhere('resource_name', 'LIKE', '%' . $search_value . '%')
+                ->orWhere('collection_uri', 'LIKE', '%' . $search_value . '%');
+            });
+        }
+
+        foreach ($filters as $filter => $values) {
+            $facet_subquery->where(function ($facet_subquery) use ($filter, $values) {
+                $val = array_shift($values);
+
+                $facet_subquery->where($filter, 'LIKE', '%' . $val . '%');
+
+                foreach ($values as $val) {
+                    $facet_subquery->orWhere($filter, 'LIKE', '%' . $val . '%');
+                }
+
+                return $facet_subquery;
+            });
+        }
+
+        $results = $query->whereRaw('definition_id IN (' . $facet_subquery->toSql() . ')')
+                        ->mergeBindings($facet_subquery)
+                        ->groupBy('value', 'facet_name')
+                        ->get();
+
+        return $results;
     }
 
     public function getByIdentifier($identifier)
@@ -333,11 +432,59 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     }
 
     /**
-     * This function solves the issues of retrieving relationships of a relationship (e.g. definition -> csvdefinitions -> tabular)
+     * This function solves the issues of retrieving relationships of a relationship
+     * (e.g. definition -> csvdefinitions -> tabular)
      */
     private function getEloquentDefinition($identifier)
     {
         return \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($identifier . '/'))->first();
+    }
+
+    /**
+     * Update the facets for a definition
+     *
+     * @param Eloquent $definition
+     *
+     * @return void
+     */
+    private function updateFacets($definition)
+    {
+        $facet_types = \FacetType::all()->toArray();
+
+        foreach ($definition->facets() as $facet) {
+            \Facet::delete($facet['id']);
+        }
+
+        foreach ($facet_types as $facet_type) {
+            $facet_name = $facet_type['facet_name'];
+
+            if ($facet_name != 'keywords' && !empty($definition->$facet_name)) {
+                $facet = \Facet::create([
+                    'definition_id' => $definition->id,
+                    'facet_id' => $facet_type['id'],
+                    'facet_name' => $facet_type['facet_name'],
+                    'value' => $definition->$facet_name
+                    ]);
+
+                $facet->save();
+            } else {
+                    // split the keywords
+                if (!empty($definition->keywords)) {
+                    $keywords = explode(',', $definition->keywords);
+
+                    foreach ($keywords as $keyword) {
+                        $facet = \Facet::create([
+                            'definition_id' => $definition->id,
+                            'facet_id' => $facet_type['id'],
+                            'facet_name' => $facet_name,
+                            'value' => $keyword
+                            ]);
+
+                        $facet->save();
+                    }
+                }
+            }
+        }
     }
 
     public function getFullDescription($identifier)

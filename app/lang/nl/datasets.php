@@ -12,4 +12,10 @@ return array(
     "source_type"               => "Brontype",
     "license"                   => "Licentie",
     "search_datasets"           => "Zoek datasets",
+    "language"                  => "Taal",
+    "publisher"                 => "Uitgever",
+    "theme"                     => "Thema",
+    "no_datasets_message"       => "Er zijn nog geen datasets toegevoegd.",
+    "search_datasets"           => "Zoek datasets",
+    "keywords"                  => "Keywords"
 );

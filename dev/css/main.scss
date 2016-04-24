@@ -39,6 +39,8 @@ $footer-border: 1px;
 
 @import 'intro';
 @import 'prettify';
+@import 'filter';
+@import 'filter-search';
 
 *{
     outline: none !important;
@@ -222,6 +224,12 @@ body {
             }
         }
     }
+}
+.anchor {
+    display: block;
+    position: relative;
+    top: -40px;
+    visibility: hidden;
 }
 
 .header{
@@ -534,6 +542,10 @@ footer{
         cursor: pointer;
         margin-top: -1px;
         font-size: 12px;
+
+        &:last-child{
+            margin-bottom: 20px;
+        }
 
         &.dataset-link{
             .icon{
