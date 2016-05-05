@@ -3,7 +3,7 @@
 namespace Tdt\Core\Formatters;
 
 /**
- * FormatHelper helps finding available formats for a certain datastructure
+ * FormatHelper helps finding available formats for a certain data source type
  *
  * @copyright (C) 2011,2013 by OKFN Belgium vzw/asbl
  * @license AGPLv3
@@ -24,16 +24,16 @@ class FormatHelper
         $formats = array(
         );
 
-        $source_type = $data->source_definition['type'];
+        $source_type = strtolower($data->source_definition['type']);
 
-        if (strtolower($source_type) != 'xml' && strtolower($source_type) != 'kml') {
+        if ($source_type != 'xml' && $source_type != 'kml') {
             $formats['JSON'] = 'json';
-        } elseif (strtolower($source_type) == 'xml') {
+        } elseif ($source_type == 'xml') {
             $formats['XML'] = 'xml';
         }
 
         // Check for tabular sources
-        if (in_array(strtolower($source_type), self::$tabular_sources)) {
+        if (in_array($source_type, self::$tabular_sources)) {
             $formats['CSV'] = 'csv';
         }
 
@@ -44,12 +44,12 @@ class FormatHelper
             $formats['GeoJSON'] = 'geojson';
             $formats['WKT'] = 'wkt';
         } elseif (!empty($data->geo_formatted) && $data->geo_formatted) {
-            if (strtolower($source_type) == 'kml') {
+            if ($source_type == 'kml') {
                 $formats = array_merge(array('Fullscreen map' => 'map'), $formats);
                 $formats['KML'] = 'kml';
                 $formats['GEOJSON'] = 'geojson';
                 unset($formats['XML']);
-            } elseif (strtolower($source_type) == 'json' && $data->geo_formatted) {
+            } elseif ($source_type == 'json' && $data->geo_formatted) {
                 $formats = array_merge(array('Fullscreen map' => 'map'), $formats);
                 $formats['GeoJSON'] = 'geojson';
                 unset($formats['JSON']);
@@ -65,6 +65,70 @@ class FormatHelper
             unset($formats['XML']);
         } else {
             $formats['PHP'] = 'php';
+        }
+
+        return $formats;
+    }
+
+    /**
+     * Get the available formats based on the type of data source
+     * This can differ from the actual available formats (e.g. a SPARQL query can return a results
+     * from a construct or a select query, which can or can not be - respectively - be formatted in semantic formats)
+     *
+     * @param array $source_definition
+     *
+     * @return array
+     */
+    public function getFormatsForType($source_definition)
+    {
+        $formats = [];
+
+        $source_type = strtolower($source_definition['type']);
+
+        switch ($source_type) {
+            case 'xml':
+                $formats[] = 'xml';
+                break;
+            case 'json':
+                if ($source_definition['jsontype'] == 'GeoJSON') {
+                    $formats['GeoJSON'] = 'geojson';
+                    $formats['map'] = 'map';
+                } elseif ($source_definition['jsontype'] == 'JSON-LD') {
+                    $formats['JSON-LD'] = 'jsonld';
+                } else {
+                    $formats['JSON'] = 'json';
+                }
+                break;
+            case 'shp':
+                $formats['Map'] = 'map';
+                $formats['GeoJSON'] = 'geojson';
+                $formats['KML'] = 'kml';
+                $formats['WKT'] = 'WKT';
+                $formats['CSV'] = 'csv';
+                break;
+            case 'mongo':
+                $formats['JSON'] = 'json';
+                break;
+            case 'elasticsearch':
+                $formats['JSON'] = 'json';
+                break;
+            case 'rdf':
+                break;
+            case 'sparql':
+                $formats['JSON'] = 'json';
+                break;
+            case 'xls':
+                $formats['JSON'] = 'json';
+                $formats['CSV'] = 'csv';
+                break;
+            case 'mysql':
+                $formats['JSON'] = 'json';
+                $formats['CSV'] = 'csv';
+                break;
+            case 'csv':
+                $formats['JSON'] = 'json';
+                $formats['CSV'] = 'csv';
+                break;
         }
 
         return $formats;

@@ -5,6 +5,7 @@ namespace Tdt\Core\Repositories;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Repositories\LocationRepository;
 use Illuminate\Support\Facades\Validator;
+use Tdt\Core\Formatters\FormatHelper;
 
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
@@ -519,6 +520,13 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $properties['type'] = strtolower($source_definition->type);
         $properties['description'] = @$source_definition->description;
+
+        // Get the formats based on the source definition meta-data
+        $format_helper = new FormatHelper();
+        $formats = $format_helper->getFormatsForType($source_definition->toArray());
+
+        $properties['formats'] = $formats;
+        $properties['identifier'] = $identifier;
 
         unset($properties['map_property']);
 
