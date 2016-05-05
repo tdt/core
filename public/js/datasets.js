@@ -11617,35 +11617,35 @@ module.exports = Vue;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 exports.default = {
-	props: ['dataset'],
-	computed: {
-		icon: function icon() {
-			switch (this.dataset.source_type) {
-				case 'CsvDefinition':
-				case 'XlsDefinition':
-					return 'fa-table';
-				case 'LdDefinition':
-				case 'SparqlDefinition':
-					return 'fa-code-fork';
-				case 'ShpDefinition':
-					return 'fa-map-marker';
-				case 'XmlDefinition':
-					return 'fa-code';
-			}
-			return 'fa-file-text-o';
-		}
-	},
-	methods: {
-		visit: function visit() {
-			window.location.href = '/' + this.dataset.identifier;
-		}
-	}
+    props: ['dataset'],
+    computed: {
+        icon: function icon() {
+            switch (this.dataset.source_type) {
+                case 'CsvDefinition':
+                case 'XlsDefinition':
+                    return 'fa-table';
+                case 'LdDefinition':
+                case 'SparqlDefinition':
+                    return 'fa-code-fork';
+                case 'ShpDefinition':
+                    return 'fa-map-marker';
+                case 'XmlDefinition':
+                    return 'fa-code';
+            }
+            return 'fa-file-text-o';
+        }
+    },
+    methods: {
+        visit: function visit() {
+            window.location.href = '/' + this.dataset.identifier;
+        }
+    }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel dataset panel-default\" v-on:click=\"visit\">\n\t<div class=\"panel-body\">\n\t\t<div class=\"icon\">\n\t\t\t\t<i class=\"fa fa-lg {{icon}}\"></i>\n\t\t</div>\n\t\t<div>\n\t\t\t<div class=\"row\">\n\t\t\t\t<div class=\"col-md-5\">\n\t\t\t\t\t<h4 class=\"dataset-title\">\n\t\t\t\t\t\t<a href=\"/{{ dataset.identifier }}\">{{ dataset.identifier }}</a>\n\t\t\t\t\t</h4>\n\t\t\t\t\t<div class=\"note dataset-description\">\n\t\t\t\t\t\t{{ dataset.description }}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"col-md-7 text-right hidden-sm hidden-xs\">\n\t\t\t\t\t<span class=\"note\">\n\t\t\t\t\t\t{{ dataset.rights }}\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel dataset panel-default\" v-on:click=\"visit\">\n    <div class=\"panel-body\">\n        <div class=\"icon\">\n                <i class=\"fa fa-lg {{icon}}\"></i>\n        </div>\n        <div>\n            <div class=\"row\">\n                <div class=\"col-md-5\">\n                    <h4 class=\"dataset-title\">\n                        <a href=\"/{{ dataset.identifier }}\">{{ dataset.identifier }}</a>\n                    </h4>\n                    <div class=\"note dataset-description\">\n                        {{ dataset.description }}\n                    </div>\n                </div>\n                <div class=\"col-md-7 text-right hidden-sm hidden-xs\">\n                    <div class=\"row\">\n                        <span class=\"note\">\n                            {{ dataset.rights }}\n                        </span>\n                    </div>\n                    <div class=\"row\">\n                        <span class=\"label label-success\" v-for=\"format in dataset.formats\">\n                            {{ format }}\n                        </span>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
