@@ -4,14 +4,27 @@ namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Tdt\Core\Repositories\LocationRepository;
+use Illuminate\Support\Facades\Validator;
 
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
-    protected $rules = array(
+    protected $dcat_rules = [
         'resource_name' => 'required',
         'collection_uri' => 'required|collectionuri',
         'contact_point' => 'uri',
-    );
+    ];
+
+    protected $geodcat_rules = [
+        'resource_name' => 'required',
+        'collection_uri' => 'required|collectionuri',
+        'contact_point' => 'uri',
+        'geometry' => 'required',
+        'label' => 'required',
+        'contact_point' => 'required',
+        'language' => 'required',
+        'rights' => 'required',
+        'date' => 'required'
+    ];
 
     public function __construct(\Definition $model)
     {
@@ -525,6 +538,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $location = new \Location();
             $location->save();
 
+            if (empty($input['label'])) {
+                \App::abort(400, 'Geographical label cannot be empty.');
+            }
+
             $label = \Label::create(['label' => $input['label']]);
 
             $geometry = \Geometry::create(['type' => 'geojson', 'geometry' => $input['geometry']]);
@@ -687,6 +704,15 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return $properties;
     }
 
+    public function getValidator(array $input)
+    {
+        if ($input['profile'] == 'geodcat') {
+            return Validator::make($input, $this->geodcat_rules, $this->error_messages);
+        } else {
+            return Validator::make($input, $this->dcat_rules, $this->error_messages);
+        }
+    }
+
     /**
      * Provide a source type repository
      *
@@ -796,7 +822,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             ),
             'label' => array(
                 'required' => false,
-                'requiredgeodcat' => false,
+                'requiredgeodcat' => 'required',
                 'name' => 'Label',
                 'type' => 'string',
                 'description' => 'A description of the selected geographical area.',

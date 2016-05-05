@@ -111,7 +111,13 @@ $('.btn-add-dataset').on('click', function(e){
             if($(this).attr('type') == 'checkbox'){
                 data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
             }else{
-                data[$(this).attr('name')] = $(this).val();
+                if (data[$(this).attr('name')] == 'profile') {
+                    if ($(this).prop('checked')) {
+                        data[$(this).attr('name')] = $(this).val();
+                    }
+                } else {
+                    data[$(this).attr('name')] = $(this).val();
+                }
             }
         }
     });
@@ -129,7 +135,7 @@ $('.btn-add-dataset').on('click', function(e){
             })
         }
     });
-    console.log(data);
+    //console.log(data);
 
     // Ajax call
     $.ajax({
@@ -177,10 +183,17 @@ $('.btn-edit-dataset').on('click', function(e){
             if($(this).attr('type') == 'checkbox'){
                 data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
             }else{
-                data[$(this).attr('name')] = $(this).val();
+                if ($(this).attr('name') == 'profile') {
+                    if ($(this).prop('checked')) {
+                        data[$(this).attr('name')] = $(this).val();
+                    }
+                } else {
+                    data[$(this).attr('name')] = $(this).val();
+                }
             }
         }
     });
+
     $('.attribution-person').each(function(){
         if (!data.attribution) {
             data.attribution = [];
@@ -275,7 +288,7 @@ $('.location-picker').one('click', function(e) {
         var sw = rectangle.getBounds().getSouthWest();
 
         var contentString = 'North-east corner: ' + ne.lat() + ', ' + ne.lng() + '<br>South-west corner: ' + sw.lat() + ', ' + sw.lng();
-        console.log('geojson', ne.lat() , ne.lng() , sw.lat() , sw.lng())
+        //console.log('geojson', ne.lat() , ne.lng() , sw.lat() , sw.lng())
         input.val(JSON.stringify({
             type: 'Polygon',
             coordinates: [
@@ -309,7 +322,7 @@ $('.location-picker').one('click', function(e) {
 
 // Profile selector > DCAT-AP vs GeoDCAT-AP
 var selectProfile = function (profile, pane) {
-    console.log(profile, pane)
+    //console.log(profile, pane)
     if (profile == 'dcat') {
         $('.profile-geodcat', pane).hide()
         $('.profile-dcat', pane).show()

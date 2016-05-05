@@ -19,11 +19,11 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
  */
 class DefinitionController extends ApiController
 {
-    protected $definition;
+    protected $definitions;
 
-    public function __construct(DefinitionRepositoryInterface $definition)
+    public function __construct(DefinitionRepositoryInterface $definitions)
     {
-        $this->definition = $definition;
+        $this->definitions = $definitions;
     }
 
     /**
@@ -48,7 +48,7 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
 
         // Validate the input
-        $validator = $this->definition->getValidator($input);
+        $validator = $this->definitions->getValidator($input);
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
@@ -57,7 +57,7 @@ class DefinitionController extends ApiController
         }
 
         // Create the new definition
-        $definition = $this->definition->store($input);
+        $definition = $this->definitions->store($input);
 
         $response = \Response::make(null, 200);
         $response->header('Location', \URL::to($definition['collection_uri'] . '/' . $definition['resource_name']));
@@ -73,7 +73,7 @@ class DefinitionController extends ApiController
         // Set permission
         Auth::requirePermissions('definition.delete');
 
-        $this->definition->delete($uri);
+        $this->definitions->delete($uri);
 
         return \Response::make(null, 200);
     }
@@ -100,14 +100,14 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
 
         // Validate the input
-        $validator = $this->definition->getValidator($input);
+        $validator = $this->definitions->getValidator($input);
 
         if ($validator->fails()) {
             $message = $validator->messages()->first();
             \App::abort(400, $message);
         }
 
-        $this->definition->update($uri, $input);
+        $this->definitions->update($uri, $input);
 
         $response = \Response::make(null, 200);
 
@@ -122,7 +122,7 @@ class DefinitionController extends ApiController
         // Set permission
         Auth::requirePermissions('definition.view');
 
-        if ($this->definition->exists($uri)) {
+        if ($this->definitions->exists($uri)) {
             \App::abort(404, "No resource has been found with the uri $uri");
         }
 
@@ -145,11 +145,11 @@ class DefinitionController extends ApiController
         Auth::requirePermissions('definition.view');
 
         if (!empty($uri)) {
-            if (!$this->definition->exists($uri)) {
+            if (!$this->definitions->exists($uri)) {
                 \App::abort(404, "No resource was found identified with " . $uri);
             }
 
-            $description = $this->definition->getFullDescription($uri);
+            $description = $this->definitions->getFullDescription($uri);
 
             $result = new Data();
             $result->data = $description;
@@ -159,9 +159,9 @@ class DefinitionController extends ApiController
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $definitions = $this->definition->getAllFullDescriptions($limit, $offset);
+        $definitions = $this->definitions->getAllFullDescriptions($limit, $offset);
 
-        $definition_count = $this->definition->count();
+        $definition_count = $this->definitions->count();
 
         $result = new Data();
         $result->paging = Pager::calculatePagingHeaders($limit, $offset, $definition_count);
