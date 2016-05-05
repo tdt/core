@@ -706,7 +706,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getValidator(array $input)
     {
-        if ($input['profile'] == 'geodcat') {
+        if (!empty($input['profile']) && $input['profile'] == 'geodcat') {
             return Validator::make($input, $this->geodcat_rules, $this->error_messages);
         } else {
             return Validator::make($input, $this->dcat_rules, $this->error_messages);
