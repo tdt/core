@@ -174,7 +174,9 @@ class DatasetController extends ApiController
                     $data->formats = $format_helper->getAvailableFormats($data);
 
                     // Store in cache
-                    Cache::put($cache_string, $data, $source_definition['cache']);
+                    if (!empty($definition['cache_minutes'])) {
+                        Cache::put($cache_string, $data, $definition['cache_minutes']);
+                    }
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
@@ -221,11 +223,6 @@ class DatasetController extends ApiController
             }
 
         }
-    }
-
-    private function getRestParameters($uri, $definition)
-    {
-
     }
 
     /**
@@ -387,7 +384,6 @@ class DatasetController extends ApiController
      */
     private static function propertyExists($object, $property)
     {
-
         $vars = get_object_vars($object);
 
         foreach ($vars as $key => $value) {
@@ -409,7 +405,6 @@ class DatasetController extends ApiController
      */
     private static function keyExists($array, $property)
     {
-
         foreach ($array as $key => $value) {
             if (strtolower($property) == strtolower($key)) {
                 return $key;
@@ -443,25 +438,28 @@ class DatasetController extends ApiController
     private function applyThrottle($definition)
     {
         if ($definition['source_type'] == 'ElasticsearchDefinition') {
-            $requestsPerHour = 720;
+            // Per 5 minutes
+            $rate_limit = 60;
 
             // Rate limit by IP address
             $key = sprintf('api:%s', \Request::getClientIp());
 
-            // Add if doesn't exist
-            // Remember for 1 hour
-            \Cache::add($key, 0, 60);
+            $key = sha1($key);
+
+            // Add the ip to the cache if it doesn't exist
+            // and make it reset after an hour
+            $response = \Cache::add($key, 0, 5);
 
             // Add to count
             $count = \Cache::get($key);
 
-            if ($count > $requestsPerHour) {
+            if ($count > $rate_limit) {
                 $response = \Response::make('', 429);
-                $response->setContent('Rate limit exceeded, maximum of ' . $requestsPerHour . ' requests per hour has been reached.');
+                $response->setContent('Rate limit exceeded, maximum of ' . $rate_limit . ' requests per hour has been reached.');
 
                 return $response;
             } else {
-                \Cache::increment($key);
+                $response = \Cache::increment($key);
             }
         }
     }

@@ -11,6 +11,7 @@ use Elastica\Search;
 use Elastica\Query;
 use Elastica\Exception\ResponseException;
 use Elastica\Query\SimpleQueryString;
+use Elastica\Query\MatchAll;
 
 /**
  * Elasticsearch controller
@@ -23,6 +24,8 @@ class ELASTICSEARCHController extends ADataController
 {
     public function readData($source_definition, $rest_parameters = [])
     {
+        Pager::setDefaultLimit(1);
+
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         $client = new Client([
@@ -39,10 +42,16 @@ class ELASTICSEARCHController extends ADataController
         $search->addIndex($index);
         $search->addType($type);
 
-        $query_param = \Input::get('query', '*');
+        $query_param = \Input::get('query');
 
-        $query = new SimpleQueryString($query_param);
-        $search->setQuery($query);
+        if (empty($query_param)) {
+            $query = new MatchAll();
+            $search->setQuery($query);
+        } else {
+            $query = new SimpleQueryString($query_param);
+            $search->setQuery($query);
+        }
+
         $search->getQuery()->setFrom($offset);
         $search->getQuery()->setSize($limit);
 

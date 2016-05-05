@@ -106,6 +106,11 @@ class Pager
         return $paging;
     }
 
+    public static function setDefaultLimit($limit)
+    {
+        self::$DEFAULT_PAGE_SIZE = $limit;
+    }
+
     /**
      * Calculate the limit and offset based on the request string parameters.
      */
