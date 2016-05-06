@@ -10,13 +10,13 @@ use Request;
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
+ * @author Jan Vansteenladnt <jan@okfn.be>
  */
 class MAPFormatter implements IFormatter
 {
 
     public static function createResponse($dataObj)
     {
-
         // Create response
         $response = \Response::make(self::getBody($dataObj), 200);
 
