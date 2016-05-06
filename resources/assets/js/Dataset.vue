@@ -21,8 +21,8 @@
                             </span>
                         </div>
                         <div class='row'>
-                            <span class='label label-success' v-for="format in dataset.formats">
-                                {{ format }}
+                            <span class='label label-success' style="margin-left: 5px" v-for="(displayName, formatName) in dataset.formats">
+                                {{ displayName }}
                             </span>
                         </div>
                     </div>

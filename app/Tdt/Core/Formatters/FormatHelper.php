@@ -87,7 +87,12 @@ class FormatHelper
 
         switch ($source_type) {
             case 'xml':
-                $formats[] = 'xml';
+                if ($source_definition['geo_formatted']) {
+                    $formats['KML'] = 'kml';
+                    $formats['GeoJSON'] = 'geojson';
+                } else {
+                    $formats['XML'] = 'xml';
+                }
                 break;
             case 'json':
                 if ($source_definition['jsontype'] == 'GeoJSON') {
@@ -102,7 +107,7 @@ class FormatHelper
             case 'shp':
                 $formats['Map'] = 'map';
                 $formats['GeoJSON'] = 'geojson';
-                $formats['KML'] = 'kml';
+                $formats['KML'] = ' ';
                 $formats['WKT'] = 'WKT';
                 $formats['CSV'] = 'csv';
                 break;
