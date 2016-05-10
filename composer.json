@@ -30,7 +30,8 @@
         "nesbot/carbon": "~1.14",
         "phayes/geophp" : "dev-master",
         "ml/json-ld": "1.*",
-        "ruflin/elastica" : "3.1.*"
+        "ruflin/elastica" : "3.1.*",
+        "tdt/input": "2.0.2"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
