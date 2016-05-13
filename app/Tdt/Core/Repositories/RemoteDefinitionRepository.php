@@ -26,7 +26,7 @@ class RemoteDefinitionRepository extends BaseDefinitionRepository implements Rem
                 'required' => true,
                 'name' => 'DCAT',
                 'description' => 'The DCAT document for the dataset.',
-                'type' => 'string',
+                'type' => 'text',
             )
         );
     }

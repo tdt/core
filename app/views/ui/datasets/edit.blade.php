@@ -121,6 +121,8 @@
             </div>
         </div>
 
+        @if(strtolower($source_definition->type) != 'inspire' && strtolower($source_definition->type) != 'remote')
+
         <div class="col-sm-6 panel panel-default dataset-parameters panel-dcat">
 
             @if(!empty($parameters_dc))
@@ -252,6 +254,7 @@
             </div>
             @endif
         </div>
+        @endif
         </div>
     </form>
     <script type="text/x-template" id="person">
