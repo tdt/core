@@ -65,7 +65,6 @@ class CSVFormatter implements IFormatter
                 if (is_object($element)) {
                     \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
                 } elseif (is_array($element)) {
-                    dd($element);
                     \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
                 } else {
                     $body .= CSVFormatter::enclose($element);
