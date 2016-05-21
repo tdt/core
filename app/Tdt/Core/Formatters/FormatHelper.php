@@ -38,12 +38,7 @@ class FormatHelper
         }
 
         if ($source_type == 'sparql') {
-            if ($data->source_definition['query_type'] == 'construct') {
-                $formats['NT'] = 'ntriples';
-                $formats['TTL'] = 'Turtle';
-                $formats['RDF'] = 'RDF';
-                $formats['JSON-LD'] = 'JSON-LD';
-            } elseif ($data->source_definition['query_type'] == 'select') {
+            if ($data->source_definition['query_type'] == 'select') {
                 $formats['CSV'] = 'CSV';
                 $formats['JSON'] = 'JSON';
             }
