@@ -37,6 +37,18 @@ class FormatHelper
             $formats['CSV'] = 'csv';
         }
 
+        if ($source_type == 'sparql') {
+            if ($data->source_definition['query_type'] == 'construct') {
+                $formats['NT'] = 'ntriples';
+                $formats['TTL'] = 'Turtle';
+                $formats['RDF'] = 'RDF';
+                $formats['JSON-LD'] = 'JSON-LD';
+            } elseif ($data->source_definition['query_type'] == 'select') {
+                $formats['CSV'] = 'CSV';
+                $formats['JSON'] = 'JSON';
+            }
+        }
+
         // Check for geographical properties
         if (!empty($data->geo)) {
             $formats = array_merge(array('Fullscreen' => 'map'), $formats);
@@ -121,6 +133,16 @@ class FormatHelper
                 break;
             case 'sparql':
                 $formats['JSON'] = 'json';
+
+                if ($source_definition['query_type'] == 'construct') {
+                    $formats['NT'] = 'ntriples';
+                    $formats['TTL'] = 'Turtle';
+                    $formats['RDF'] = 'RDF';
+                    $formats['JSON-LD'] = 'JSON-LD';
+                } elseif ($source_definition['query_type'] == 'select') {
+                    $formats['CSV'] = 'CSV';
+                    $formats['JSON'] = 'JSON';
+                }
                 break;
             case 'xls':
                 $formats['JSON'] = 'json';

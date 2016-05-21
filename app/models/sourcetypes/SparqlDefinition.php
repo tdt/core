@@ -11,5 +11,5 @@ class SparqlDefinition extends SourceType
 
     protected $table = 'sparqldefinitions';
 
-    protected $fillable = array('endpoint', 'query', 'endpoint_user', 'endpoint_password', 'description', 'title');
+    protected $fillable = array('endpoint', 'query', 'endpoint_user', 'endpoint_password', 'description', 'title', 'query_type');
 }

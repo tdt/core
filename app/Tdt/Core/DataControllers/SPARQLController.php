@@ -64,6 +64,8 @@ class SPARQLController extends ADataController
 
         // If a select statement has been passed, we ask for JSON results
         // If a construct statement has been passed, we ask for RDF/XML
+        // This piece of code can be removed in later versions as the query_type will be determined
+        // upon saving/editing a query
         if (stripos($query, "select") !== false) { // SELECT query
             $keyword = "select";
         } elseif (stripos($query, "construct") !== false) { // CONSTRUCT query
@@ -82,7 +84,7 @@ class SPARQLController extends ADataController
         $filter = '';
 
         // Covers FROM <...> FROM <...> WHERE{ } , FROM <...> FROM <...> { }, WHERE { }, { }
-        $where_clause = '(.+((FROM.*<.+>)+.*{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
+        $where_clause = '(.+((FROM.*<.+>)+.*{.+})|((GRAPH.*<.+>)+.*{.+})|.*?(WHERE.*{.+})|.*?({.+}))[a-zA-Z0-9]*?';
         $matches = array();
 
         if ($keyword == 'select') {
@@ -107,6 +109,11 @@ class SPARQLController extends ADataController
 
         if (!empty($matches[5][0]) && empty($filter)) {
             $filter = $matches[5][0];
+        }
+
+        $last_element = end($matches);
+        if (!empty($last_element[0]) && empty($filter)) {
+            $filter = $last_element[0];
         }
 
         if (empty($filter)) {
@@ -160,7 +167,7 @@ class SPARQLController extends ADataController
             $query_uri = $endpoint . '?query=' . $q . '&format=' . urlencode("application/sparql-results+json");
 
             $response = $this->executeUri($query_uri, $endpoint_user, $endpoint_password);
-            $result = json_decode($response);
+            $result = json_decode($response, true);
 
             if (!$result) {
                 \App::abort(500, 'The query has been executed, but the endpoint failed to return sparql results in JSON.');

@@ -140,6 +140,16 @@ class HTMLFormatter implements IFormatter
                         }
 
                         $data = $dataObj->data->serialise('turtle');
+                    } elseif ($type == 'SPARQL' && $dataObj->source_definition['query_type'] == 'select') {
+                        $data = CSVFormatter::buildTableFromSparqlResult($dataObj->data);
+
+                        $first_row = array_shift($data);
+                        array_unshift($data, $first_row);
+
+                        if (is_array($first_row) || is_object($first_row)) {
+                            $view = 'dataset.tabular';
+                            $data = $data;
+                        }
                     } else {
                         $view = 'dataset.code';
                         $data = self::displayTree($dataObj->data);
