@@ -59,5 +59,6 @@ return array(
     "menu_settings"              => "Algemeen",
     "menu_datasets"              => "Datasets",
     "menu_users"                 => "Gebruikers",
-    "menu_groups"                => "Groepen"
+    "menu_groups"                => "Groepen",
+    "geodcat_header"             => "Selecteer de relevante zone",
 );

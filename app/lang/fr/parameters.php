@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    'required'                          => 'Obligatoire',
     'csv_uri'                           => 'URI',
     'csv_uri_desc'                      => "L'emplacement du fichier CSV, une URL ou un emplacement de fichier local.",
     'csv_title'                         => 'Titre',

@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    'required'                          => 'Verplicht',
     'csv_uri'                           => 'URI',
     'csv_uri_desc'                      => 'De locatie van het CSV bestand, dit kan een URL zijn of een lokaal pad.',
     'csv_title'                         => 'Titel',
