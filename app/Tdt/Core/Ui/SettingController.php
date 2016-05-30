@@ -20,7 +20,7 @@ class SettingController extends UiController
 
     public function __construct(SettingsRepository $settings)
     {
-        parent::__construct();
+        parent::__construct(\App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface'));
 
         $this->settings = $settings;
     }
