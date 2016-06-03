@@ -3,7 +3,7 @@
 @section('content')
 
     <dataset-list></dataset-list>
-    {{ HTML::script('js/datasets.js') }}
+    {{ HTML::script('js/datasets.min.js') }}
 
 @stop
 

@@ -76,7 +76,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('webpack', function(callback) {
-  return gulp.src('dev/vue/datase.js')
-    .pipe(webpack())
+  return gulp.src('dev/vue/datasets.js')
+    .pipe(webpack(require('./dev/webpack.config.js')))
     .pipe(gulp.dest('public/js'));
 });
