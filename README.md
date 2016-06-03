@@ -8,6 +8,17 @@
 
 The DataTank core is the framework in which the main application of The DataTank is built. The DataTank is a web application that publishes data to URIs in web readable formats. This means that you provide a nice JSON, XML, PHP, ... serialization on a certain URI of data that resides somewhere in a CSV, XLS, XML, JSON, SHP, ... file or any other machine readable data container. In short, it provides an instant REST API on top of any machine readable data.
 
+## Installation
+
+[Installation docs](http://docs.thedatatank.com/5.12/installation)
+
+## Front end
+
+`gulp` will build all static assets for production  
+`gulp serve` will watch `*.js` & `*.scss`  
+`gulp js` will minify the jQuery source  
+`gulp webpack` will build the Vue project (currently only for homepage)
+
 # Read more
 
 If you want to read more about The DataTank project visit our [website](http://thedatatank.com) or take a look at our [documentation](http://docs.thedatatank.com).
