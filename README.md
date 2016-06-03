@@ -14,6 +14,8 @@ The DataTank core is the framework in which the main application of The DataTank
 
 ## Front end
 
+Run `npm install` when upgrading to 6.6 
+
 `gulp` will build all static assets for production  
 `gulp serve` will watch `*.js` & `*.scss`  
 `gulp js` will minify the jQuery source  
