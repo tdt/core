@@ -5,7 +5,7 @@
     <div class="col-sm-9">
         <div class='scroll-horizontal'>
             <table class='table table-hover well'>
-                @if($source_definition['has_header_row'])
+                @if(@$source_definition['has_header_row'] || @$source_definition['query_type'] == 'select')
                 <thead>
                     <?php
                         $first_row = array_shift($body);
@@ -22,7 +22,11 @@
                     @foreach($body as $row)
                     <tr>
                         @foreach($row as $key => $value)
-                            <td>{{ nl2br($value) }}</td>
+                            @if (substr($value, 0, 4) == 'http' && parse_url($value))
+                                <td><a href="{{ $value }}">{{ $value }}</a></td>
+                            @else
+                                <td>{{ nl2br($value) }}</td>
+                            @endif
                         @endforeach
                     </tr>
                     @endforeach

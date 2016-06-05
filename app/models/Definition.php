@@ -8,7 +8,6 @@
  */
 class Definition extends Eloquent
 {
-
     protected $fillable = array(
         'title',
         'description',
@@ -32,15 +31,29 @@ class Definition extends Eloquent
         return $this->morphTo();
     }
 
+    public function location()
+    {
+        return $this->hasOne('Location', 'definition_id');
+    }
+
+    public function attributions()
+    {
+        return $this->hasMany('Attribution', 'definition_id');
+    }
+
     /**
      * Delete the related source type
      */
     public function delete()
     {
-
         $source_type = $this->source()->first();
         $source_type->delete();
 
         parent::delete();
+    }
+
+    public function facets()
+    {
+        return $this->hasMany('Facet');
     }
 }

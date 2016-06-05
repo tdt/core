@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    'required'                          => 'Verplicht',
     'csv_uri'                           => 'URI',
     'csv_uri_desc'                      => 'De locatie van het CSV bestand, dit kan een URL zijn of een lokaal pad.',
     'csv_title'                         => 'Titel',
@@ -18,7 +19,7 @@ return array(
     'csv_map_property'                  => 'Geo-eigenschap',
     'csv_map_property_desc'             => 'De naam van de kolom die wordt getoond op een map visualisatie, indien de CSV geografische data bevat.',
     'definition_date'                   => 'Datum',
-    'definition_date_desc'              => 'Een datum die gerelateerd is met de dataset, deze datum wordt best in een ISO8601 schema meegegeven.',
+    'definition_date_desc'              => 'Een datum gerelateerd aan de dataset.',
     'definition_language'               => 'Taal',
     'definition_language_desc'          => 'De taal van de databron.',
     'definition_rights'                 => 'Licentie',
@@ -41,6 +42,16 @@ return array(
     'definition_rights_desc'            => 'De licentie van de data.',
     'definition_theme'                  => 'Thema',
     'definition_theme_desc'             => 'Het thema geassocieerd met de data.',
+    'geodcat_geometry'                  => 'Geometrie',
+    'geodcat_geometry_desc'             => 'Een GeoJSON document die de geografische relevantie van de data aangeeft.',
+    'geodcat_label'                     => 'Label',
+    'geodcat_label_desc'                => 'Een beschrijving van de geselecteerde omgeving.',
+    'geodcat_attribution'               => 'Verantwoordelijkheid',
+    'geodcat_attribution_desc'          => 'Entiteiten die een rol spelen bij de correctheid van de dataset.',
+    'role_author'                       => 'Auteur',
+    'role_author_desc'                  => 'De partij die auteur is van de bron.',
+    'role_custodian'                   => 'Beheerder',
+    'role_custodian_desc'              => 'Partij die verantwoordelijk is voor de gegevens en de bron zorgvuldig bijhoudt.',
     'json_uri'                          => 'URI',
     'json_uri_desc'                     => 'De locatie van het JSON bestand, dit kan een URL zijn of een lokaal pad.',
     'json_title'                        => 'Titel',

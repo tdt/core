@@ -28,7 +28,7 @@ class SourceType extends Eloquent
     public function getCacheAttribute()
     {
 
-        if(!empty($this->definition)) {
+        if (!empty($this->definition)) {
             return (is_null($this->definition->cache_minutes))? 1 : $this->definition->cache_minutes;
         }
 

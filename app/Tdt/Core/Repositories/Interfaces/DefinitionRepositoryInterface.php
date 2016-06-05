@@ -94,7 +94,7 @@ interface DefinitionRepositoryInterface
      *
      * @return integer
      */
-    public function countPublished($keywords = []);
+    public function countPublished();
 
     /**
      * Get the source of the definition (e.g. CsvDefinition, ShpDefinition,...)

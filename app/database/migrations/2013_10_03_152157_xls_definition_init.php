@@ -17,7 +17,7 @@ class XlsDefinitionInit extends Migration
 
             $table->increments('id');
             $table->string('uri', 255);
-            $table->string('sheet', 255);
+            $table->string('sheet', 255)->nullable();
             $table->boolean('has_header_row');
             $table->integer('start_row');
             $table->string('description', 1024);

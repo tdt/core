@@ -10,10 +10,10 @@ class HTMLFormatterTest extends BaseUITest
      */
     public function testTabularDataset()
     {
-        $crawler = $this->client->request('GET', '/csv/geo');
+        $crawler = $this->client->request('GET', '/afghanistan/provinces');
         $this->assertResponseOk();
 
-        $this->assertCount(1, $crawler->filter('h1:contains("csv/geo")'));
+        $this->assertCount(1, $crawler->filter('h1:contains("afghanistan/provinces")'));
         $this->assertCount(1, $crawler->filter('table'));
         $this->assertCount(1, $crawler->filter('td:contains("Pusht Rod")'));
     }
@@ -23,10 +23,10 @@ class HTMLFormatterTest extends BaseUITest
      */
     public function testCodeView()
     {
-        $crawler = $this->client->request('GET', '/json/crime');
+        $crawler = $this->client->request('GET', '/uk/crime');
         $this->assertResponseOk();
 
-        $this->assertCount(1, $crawler->filter('h1:contains("json/crime")'));
+        $this->assertCount(1, $crawler->filter('h1:contains("uk/crime")'));
         $this->assertCount(1, $crawler->filter('pre.prettyprint'));
     }
 

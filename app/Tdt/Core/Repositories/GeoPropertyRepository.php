@@ -6,7 +6,6 @@ use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
 
 class GeoPropertyRepository extends BaseDefinitionRepository implements GeoPropertyRepositoryInterface
 {
-
     public static $geotypes = array('polygon',
                                     'latitude',
                                     'longitude',

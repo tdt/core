@@ -30,6 +30,13 @@ class CSVFormatter implements IFormatter
             \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
         }
 
+        // Check if its a result of a SPARQL select query
+        if ($dataObj->source_definition['type'] == 'SPARQL' && $dataObj->source_definition['query_type'] == 'select') {
+            $dataObj->data = self::buildTableFromSparqlResult($dataObj->data);
+        } else {
+            \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
+        }
+
         // Build the body
         $body = '';
 
@@ -89,5 +96,31 @@ class CSVFormatter implements IFormatter
 
         $element = '"'.$element.'"';
         return $element;
+    }
+
+    /**
+     * Build a table from a SPARQL select query result
+     *
+     * @param mixed $data
+     *
+     * @return array
+     */
+    public static function buildTableFromSparqlResult($semantic_results)
+    {
+        $data = [];
+
+        $header_columns = $semantic_results['head']['vars'];
+
+        foreach ($semantic_results['results']['bindings'] as $row) {
+            $row_data = [];
+
+            foreach ($header_columns as $header_column) {
+                $row_data[$header_column] = $row[$header_column]['value'];
+            }
+
+            $data[] = $row_data;
+        }
+
+        return $data;
     }
 }

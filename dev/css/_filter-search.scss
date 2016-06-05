@@ -1,0 +1,41 @@
+.filter-search {
+    position: relative;
+    margin-bottom: 15px;
+    input {
+        padding-left: 16px;
+        border-radius: 16px;
+        &:focus,
+        &:hover {
+            border: 1px solid #d2dde1!important;
+            background-color: $background;
+        }
+        &::-webkit-input-placeholder {
+            line-height: 15px;
+            color: desaturate(lighten($primary-highlight, 20%), 10%);
+        }
+        &:-moz-placeholder {
+            /* Firefox 18- */
+            line-height: 15px;
+            color: desaturate(lighten($primary-highlight, 20%), 10%);
+        }
+        &::-moz-placeholder {
+            /* Firefox 19+ */
+            line-height: 15px;
+            color: desaturate(lighten($primary-highlight, 20%), 10%);
+        }
+        &:-ms-input-placeholder {
+            line-height: 15px;
+            color: desaturate(lighten($primary-highlight, 20%), 10%);
+        }
+    }
+    i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        margin-top: -15px;
+        height: 30px;
+        line-height: 30px;
+        color: $primary;
+        pointer-events: none;
+    }
+}

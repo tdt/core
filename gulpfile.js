@@ -6,6 +6,7 @@ var csso = require('gulp-csso');
 var minifyCSS = require('gulp-minify-css');
 var uglify = require('gulp-uglifyjs');
 var concat = require('gulp-concat');
+var webpack = require('webpack-stream');
 
 var paths = {
     scripts: __dirname + '/public/js/',
@@ -23,9 +24,14 @@ gulp.task('serve', ['build'], function() {
         {debounceDelay: 400},
         ['js']
         );
+    // gulp.watch(
+    //     [__dirname + '/dev/vue/*.js', __dirname + '/dev/vue/*.vue'],
+    //     {debounceDelay: 400},
+    //     ['webpack']
+    //     );
 });
 
-var defaultJobs = ['sass', 'js'];
+var defaultJobs = ['sass', 'js', 'webpack'];
 gulp.task('default', defaultJobs);
 gulp.task('build', defaultJobs);
 
@@ -67,4 +73,10 @@ gulp.task('js', function() {
         .pipe(gulp.dest(paths.scripts));
 
     return true;
+});
+
+gulp.task('webpack', function(callback) {
+  return gulp.src('dev/vue/datasets.js')
+    .pipe(webpack(require('./dev/webpack.config.js')))
+    .pipe(gulp.dest('public/js'));
 });

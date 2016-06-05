@@ -4,7 +4,14 @@ namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
-use Elasticsearch\Client;
+use Elastica\Client;
+use Elastica\Document;
+use Elastica\Query\Term;
+use Elastica\Search;
+use Elastica\Query;
+use Elastica\Exception\ResponseException;
+use Elastica\Query\SimpleQueryString;
+use Elastica\Query\MatchAll;
 
 /**
  * Elasticsearch controller
@@ -17,58 +24,59 @@ class ELASTICSEARCHController extends ADataController
 {
     public function readData($source_definition, $rest_parameters = [])
     {
+        Pager::setDefaultLimit(50);
+
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
-        $query_param = \Input::get('query', '*');
+        $client = new Client([
+            'host' => $source_definition['host'],
+            'port' => $source_definition['port'],
+            'username' => $source_definition['username'],
+            'password' => $source_definition['password']
+        ]);
 
-        // Check for authentication
-        if (!empty($source_definition['username']) && !empty($source_definition['password'])) {
-            $auth = $source_definition['username'] . ':' . $source_definition['password'] . '@';
+        $index = $client->getIndex($source_definition['es_index']);
+        $type = $index->getType($source_definition['es_type']);
 
-            $parts = parse_url($source_definition['host']);
+        $search = new Search($client);
+        $search->addIndex($index);
+        $search->addType($type);
 
-            if (!empty($parts['scheme']) && $parts['scheme'] == 'https') {
-                $schemeless_url = str_replace('https://', '', $source_definition['host']);
-                $source_definition['host'] = 'https://' . $auth . $schemeless_url;
-            } else {
-                $schemeless_url = str_replace('http://', '', $source_definition['host']);
-                $source_definition['host'] = 'http://' . $auth . $schemeless_url;
-            }
-        }
+        $query_param = \Input::get('query');
 
-        $hosts = ['hosts' => [$source_definition['host'] . ':' . $source_definition['port']]];
-        $client = new Client($hosts);
-
-        $search_params = [];
-        $search_params['index'] = $source_definition['es_index'];
-        $search_params['type'] = $source_definition['es_type'];
-        $search_params['body']['query']['query_string']['query'] = $query_param;
-        $search_params['body']['_source']['exclude'] = 'tdt_etl_timestamp_';
-        $search_params['from'] = $offset;
-        $search_params['size'] = $limit;
-
-        $results = $client->search($search_params);
-        $data = [];
-        $data_result = new Data();
-
-        if (!empty($results['hits']['total'])) {
-            $paging = Pager::calculatePagingHeaders($limit, $offset, $results['hits']['total']);
-
-            $filtered_hits = [];
-
-            foreach ($results['hits']['hits'] as $hit) {
-                $filtered_hits[] = $hit['_source'];
-            }
-
-            $data_result->data = $filtered_hits;
+        if (empty($query_param)) {
+            $query = new MatchAll();
+            $search->setQuery($query);
         } else {
-            $data_result->data = [];
-            $data_result->paging = [];
+            $query = new SimpleQueryString($query_param);
+            $search->setQuery($query);
         }
 
-        $data_result->preferred_formats = $this->getPreferredFormats();
+        $search->getQuery()->setFrom($offset);
+        $search->getQuery()->setSize($limit);
 
-        return $data_result;
+        $results = $search->search();
+
+        $data = new Data();
+        $data_results = [];
+
+        foreach ($results as $result) {
+            $data_result = $result->getData();
+            unset($data_result['tdt_etl_timestamp_']);
+
+            $data_results[] = $data_result;
+        }
+
+        $data->data = $data_results;
+
+        if ($results->getTotalHits() > 0) {
+            $paging = Pager::calculatePagingHeaders($limit, $offset, $results->getTotalHits());
+            $data->paging = $paging;
+        }
+
+        $data->preferred_formats = $this->getPreferredFormats();
+
+        return $data;
     }
 
     public static function getParameters()
