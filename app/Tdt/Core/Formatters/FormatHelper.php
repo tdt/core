@@ -11,8 +11,6 @@ namespace Tdt\Core\Formatters;
  */
 class FormatHelper
 {
-    private static $tabular_sources = array('csv', 'xls', 'shp');
-
     /**
      * Return a list of the available formats that the data structure can be formatted into
      *
@@ -21,60 +19,7 @@ class FormatHelper
      */
     public function getAvailableFormats($data)
     {
-        $formats = array(
-        );
-
-        $source_type = strtolower($data->source_definition['type']);
-
-        if ($source_type != 'xml' && $source_type != 'kml') {
-            $formats['JSON'] = 'json';
-        } elseif ($source_type == 'xml') {
-            $formats['XML'] = 'xml';
-        }
-
-        // Check for tabular sources
-        if (in_array($source_type, self::$tabular_sources)) {
-            $formats['CSV'] = 'csv';
-        }
-
-        if ($source_type == 'sparql') {
-            if ($data->source_definition['query_type'] == 'select') {
-                $formats['CSV'] = 'CSV';
-                $formats['JSON'] = 'JSON';
-            }
-        }
-
-        // Check for geographical properties
-        if (!empty($data->geo)) {
-            $formats = array_merge(array('Fullscreen' => 'map'), $formats);
-            $formats['KML'] = 'kml';
-            $formats['GeoJSON'] = 'geojson';
-            $formats['WKT'] = 'wkt';
-        } elseif (!empty($data->geo_formatted) && $data->geo_formatted) {
-            if ($source_type == 'kml') {
-                $formats = array_merge(array('Fullscreen map' => 'map'), $formats);
-                $formats['KML'] = 'kml';
-                $formats['GEOJSON'] = 'geojson';
-                unset($formats['XML']);
-            } elseif ($source_type == 'json' && $data->geo_formatted) {
-                $formats = array_merge(array('Fullscreen map' => 'map'), $formats);
-                $formats['GeoJSON'] = 'geojson';
-                unset($formats['JSON']);
-            }
-        }
-
-        // Check for semantic sources, identified by the data being wrapped in an EasyRdf_Graph
-        if (is_object($data->data) && get_class($data->data) == 'EasyRdf\Graph') {
-            $formats['JSON-LD'] = 'jsonld';
-            $formats['N-Triples'] = 'nt';
-            $formats['Turtle'] = 'ttl';
-            $formats['RDF'] = 'xml';
-            unset($formats['XML']);
-        } else {
-            $formats['PHP'] = 'php';
-        }
-
-        return $formats;
+        return $this->getFormatsForType($data->source_definition);
     }
 
     /**
@@ -95,16 +40,24 @@ class FormatHelper
         switch ($source_type) {
             case 'xml':
                 if ($source_definition['geo_formatted']) {
+                    $formats['Map'] = 'map';
                     $formats['KML'] = 'kml';
                     $formats['GeoJSON'] = 'geojson';
+                    $formats['WKT'] = 'WKT';
                 } else {
                     $formats['XML'] = 'xml';
                 }
                 break;
+            case 'kml':
+                $formats['Map'] = 'map';
+                $formats['KML'] = 'kml';
+                $formats['GeoJSON'] = 'geojson';
+                $formats['WKT'] = 'WKT';
+                break;
             case 'json':
                 if ($source_definition['jsontype'] == 'GeoJSON') {
+                    $formats['Map'] = 'map';
                     $formats['GeoJSON'] = 'geojson';
-                    $formats['map'] = 'map';
                 } elseif ($source_definition['jsontype'] == 'JSON-LD') {
                     $formats['JSON-LD'] = 'jsonld';
                 } else {

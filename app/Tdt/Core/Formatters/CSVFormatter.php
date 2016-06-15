@@ -98,7 +98,7 @@ class CSVFormatter implements IFormatter
     /**
      * Build a table from a SPARQL select query result
      *
-     * @param mixed $data
+     * @param mixed semantic_results
      *
      * @return array
      */
