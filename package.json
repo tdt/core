@@ -20,5 +20,8 @@
     "vue-loader": "^8.5.2",
     "vue-resource": "^0.7.0",
     "webpack-stream": "^3.2.0"
+  },
+  "dependencies": {
+    "vue": "^1.0.24"
   }
 }
