@@ -55,12 +55,12 @@ class ELASTICSEARCHController extends ADataController
         $search->getQuery()->setFrom($offset);
         $search->getQuery()->setSize($limit);
 
-        $results = $search->search();
+        $resultSet = $search->search();
 
         $data = new Data();
         $data_results = [];
 
-        foreach ($results as $result) {
+        foreach ($resultSet->getResults() as $result) {
             $data_result = $result->getData();
             unset($data_result['tdt_etl_timestamp_']);
 
