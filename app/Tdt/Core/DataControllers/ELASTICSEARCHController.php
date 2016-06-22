@@ -62,7 +62,7 @@ class ELASTICSEARCHController extends ADataController
 
         foreach ($resultSet->getResults() as $result) {
             $data_result = $result->getData();
-            unset($data_result['tdt_etl_timestamp_']);
+            unset($data_result['__tdt_etl_timestamp__']);
 
             $data_results[] = $data_result;
         }
