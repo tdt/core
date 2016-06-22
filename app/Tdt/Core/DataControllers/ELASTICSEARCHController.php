@@ -69,8 +69,8 @@ class ELASTICSEARCHController extends ADataController
 
         $data->data = $data_results;
 
-        if ($results->getTotalHits() > 0) {
-            $paging = Pager::calculatePagingHeaders($limit, $offset, $results->getTotalHits());
+        if ($resultSet->getTotalHits() > 0) {
+            $paging = Pager::calculatePagingHeaders($limit, $offset, $resultSet->getTotalHits());
             $data->paging = $paging;
         }
 
