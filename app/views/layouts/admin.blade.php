@@ -64,7 +64,7 @@
             </div>
         </footer>
         <script type='text/javascript'>
-            var baseURL = '{{ URL::to('') }}/';
+            var baseURL = '{{ URL::to('', [], Config::get('app.ssl_enabled')) }}/';
             var authHeader = '{{ Request::header('Authorization') }}';
         </script>
         <script src="{{ asset("js/script.min.js", Config::get('app.ssl_enabled')) }}" type="text/javascript"></script>
