@@ -41,6 +41,8 @@ return array(
 
     'url' => 'http://localhost',
 
+    'ssl_enabled' => false,
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

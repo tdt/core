@@ -3,7 +3,7 @@
 @section('content')
 
     <dataset-list></dataset-list>
-    {{ HTML::script('js/datasets.min.js') }}
+    <script src="{{ asset("js/datasets.min.js", Config::get('app.ssl_enabled')) }}" type="text/javascript"></script>
 
 @stop
 
