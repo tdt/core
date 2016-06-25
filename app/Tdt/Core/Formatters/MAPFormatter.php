@@ -50,7 +50,7 @@ class MAPFormatter implements IFormatter
             $url .= $query_string;
         }
 
-        if (Config::get('app.ssl_enabled') && substr($url, 0, 5) == 'http:') {
+        if (\Config::get('app.ssl_enabled') && substr($url, 0, 5) == 'http:') {
             $url = 'https://' . substr($url, 7);
         }
 
