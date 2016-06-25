@@ -53,7 +53,7 @@ class MAPFormatter implements IFormatter
         // Set the correct scheme, rely on the native PHP methods and some other parameters in order to figure it out
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
 
-        if ($protocol = 'https' && substr($url, 0, 5) == 'http:') {
+        if ($protocol == 'https' && substr($url, 0, 5) == 'http:') {
             $url = 'https://' . substr($url, 7);
         }
 
