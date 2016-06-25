@@ -77,7 +77,7 @@ class HTMLFormatter implements IFormatter
         }
 
         // Create the link to the dataset
-        $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'], [], Config::get('app.ssl_enabled'));
+        $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'], [], \Config::get('app.ssl_enabled'));
 
         // Append rest parameters
         if (!empty($dataObj->rest_parameters)) {
