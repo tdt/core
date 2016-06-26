@@ -126,12 +126,6 @@ class RmlJob extends Command
      */
     private function addLog($message)
     {
-        $log = array(
-            'message' => $message,
-            'execution_timestamp' => $this->timestamp,
-            'identifier' => $this->identifier
-        );
-
-        $this->logs->insert($this->identifier, $log);
+        $this->info($message);
     }
 }
