@@ -91,6 +91,19 @@
     "title": "Creative Commons Attribution Share-Alike",
     "url": "http://www.opendefinition.org/licenses/cc-by-sa"
   },
+{
+    "domain_content": true,
+    "domain_data": false,
+    "domain_software": false,
+    "family": "",
+    "license_id": "gfdl",
+    "is_okd_compliant": true,
+    "is_osi_compliant": false,
+    "maintainer": "",
+    "status": "active",
+    "title": "Modellicentie 2 - Gratis Open Data Licentie - v1.0",
+    "url": "http://opendataforum.info/Docs/LICENTIES_2014/Modellicentie 2 - Gratis Open Data Licentie - v1.0.htm"
+  },
   {
     "domain_content": true,
     "domain_data": false,
