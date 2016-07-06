@@ -12,4 +12,9 @@ return array(
     "source_type"               => "Type de source",
     "license"                   => "Permis",
     "search_datasets"           => "Trouver un jeu de données",
+    "language"                  => "Langue",
+    "publisher"                 => "Editeur",
+    "theme"                     => "Thème",
+    "no_datasets_message"       => "Il n'y a pas des jeux de données.",
+    "keywords"                  => "Mots-clés"
 );

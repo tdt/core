@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class DbServiceProvider extends ServiceProvider
 {
-
     public function register()
     {
 
@@ -119,6 +118,16 @@ class DbServiceProvider extends ServiceProvider
         \App::bind(
             'Tdt\Core\Repositories\Interfaces\GeoprojectionRepositoryInterface',
             'Tdt\Core\Repositories\GeoprojectionRepository'
+        );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\RemoteDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\RemoteDefinitionRepository'
+        );
+
+        \App::bind(
+            'Tdt\Core\Repositories\Interfaces\InspireDefinitionRepositoryInterface',
+            'Tdt\Core\Repositories\InspireDefinitionRepository'
         );
     }
 }

@@ -77,7 +77,7 @@ class HTMLFormatter implements IFormatter
         }
 
         // Create the link to the dataset
-        $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name']);
+        $dataset_link  = \URL::to($dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'], [], \Config::get('app.ssl_enabled'));
 
         // Append rest parameters
         if (!empty($dataObj->rest_parameters)) {
@@ -111,12 +111,22 @@ class HTMLFormatter implements IFormatter
                     $data = $dataset_link . '.map' . $query_string;
 
                     break;
-
                 case 'XML':
                     $view = 'dataset.code';
                     $data = self::displayTree($dataObj->data, 'xml');
                     break;
-
+                case 'INSPIRE':
+                    $view = 'dataset.inspire';
+                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+                    $properties = $definitions->getCreateParameters();
+                    $data = ['properties' => $properties];
+                    break;
+                case 'REMOTE':
+                    $view = 'dataset.remote';
+                    $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+                    $properties = $definitions->getCreateParameters();
+                    $data = ['properties' => $properties];
+                    break;
                 default:
                     if ($dataObj->is_semantic) {
                         // This data object is always semantic
@@ -130,6 +140,16 @@ class HTMLFormatter implements IFormatter
                         }
 
                         $data = $dataObj->data->serialise('turtle');
+                    } elseif ($type == 'SPARQL' && $dataObj->source_definition['query_type'] == 'select') {
+                        $data = CSVFormatter::buildTableFromSparqlResult($dataObj->data);
+
+                        $first_row = array_shift($data);
+                        array_unshift($data, $first_row);
+
+                        if (is_array($first_row) || is_object($first_row)) {
+                            $view = 'dataset.tabular';
+                            $data = $data;
+                        }
                     } else {
                         $view = 'dataset.code';
                         $data = self::displayTree($dataObj->data);
@@ -264,6 +284,20 @@ class HTMLFormatter implements IFormatter
         } else {
             \App::abort('400', "The requested format ($format) is not supported.");
         }
+    }
+
+    /**
+     * Prettifies an XML string into a human-readable form
+     *
+     * @param string $xml The XML as a string
+     * @param boolean $html_output True if the output should be escaped (for use in HTML)
+     *
+     * @return string
+     */
+    private static function getDcat($definition)
+    {
+        $repo = \App::make('Tdt\Core\Repositories\Interfaces\DcatRepositoryInterface');
+        return $repo->getDcatDocument([$definition], $definition);
     }
 
     /**

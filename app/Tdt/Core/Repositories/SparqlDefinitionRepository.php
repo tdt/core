@@ -18,6 +18,42 @@ class SparqlDefinitionRepository extends BaseDefinitionRepository implements Spa
         $this->model = $model;
     }
 
+    public function store(array $input)
+    {
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
+
+        $query = $input['query'];
+
+        if (stripos($query, "select") !== false) { // SELECT query
+            $input['query_type'] = "select";
+        } elseif (stripos($query, "construct") !== false) { // CONSTRUCT query
+            $input['query_type'] = "construct";
+        }
+
+        return $this->model->create($input);
+    }
+
+    public function update($model_id, array $input)
+    {
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
+
+        $model_object = $this->model->find($model_id);
+
+        $query = $input['query'];
+
+        if (stripos($query, "select") !== false) { // SELECT query
+            $input['query_type'] = "select";
+        } elseif (stripos($query, "construct") !== false) { // CONSTRUCT query
+            $input['query_type'] = "construct";
+        }
+
+        $model_object->update($input);
+
+        return $model_object->toArray();
+    }
+
     /**
      * Retrieve the set of create parameters that make up a SPARQL definition.
      */

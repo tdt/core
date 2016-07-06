@@ -104,13 +104,13 @@ class DatasetController extends ApiController
                     // If the source type is XML, just return the XML contents, don't transform
                     if (strtolower($source_type) == 'xml' && $extension == 'xml') {
                         return $this->createXMLResponse($data->data);
-                    } elseif (strtolower($extension) == 'kml') {
+                    } elseif (strtolower($source_type) == 'xml' && $extension == 'kml' && $data->geo_formatted) {
                         return $this->createXMLResponse($data->data);
                     } elseif (!$data->is_semantic && $extension == 'xml' && $source_type != 'xml') {
                         \App::abort(406, "The requested format for the datasource is not available.");
                     } elseif (strtolower($source_type) == 'xml' && !$data->geo_formatted &&!empty($extension) && $extension != 'xml') {
                         \App::abort(406, "The requested format for the datasource is not available.");
-                    } elseif (strtolower($source_type) == 'xml' && $data->geo_formatted &&!empty($extension) && !in_array($extension, $data->preferred_formats)) {
+                    } elseif (strtolower($source_type) == 'xml' && $data->geo_formatted && !empty($extension) && !in_array($extension, $data->preferred_formats)) {
                         \App::abort(406, "The requested format for the datasource is not available.");
                     }
 
@@ -176,7 +176,9 @@ class DatasetController extends ApiController
                     $data->formats = $format_helper->getAvailableFormats($data);
 
                     // Store in cache
-                    Cache::put($cache_string, $data, $source_definition['cache']);
+                    if (!empty($definition['cache_minutes'])) {
+                        Cache::put($cache_string, $data, $definition['cache_minutes']);
+                    }
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
@@ -223,11 +225,6 @@ class DatasetController extends ApiController
             }
 
         }
-    }
-
-    private function getRestParameters($uri, $definition)
-    {
-
     }
 
     /**
@@ -389,7 +386,6 @@ class DatasetController extends ApiController
      */
     private static function propertyExists($object, $property)
     {
-
         $vars = get_object_vars($object);
 
         foreach ($vars as $key => $value) {
@@ -411,7 +407,6 @@ class DatasetController extends ApiController
      */
     private static function keyExists($array, $property)
     {
-
         foreach ($array as $key => $value) {
             if (strtolower($property) == strtolower($key)) {
                 return $key;
@@ -445,25 +440,28 @@ class DatasetController extends ApiController
     private function applyThrottle($definition)
     {
         if ($definition['source_type'] == 'ElasticsearchDefinition') {
-            $requestsPerHour = 720;
+            // Per 5 minutes
+            $rate_limit = 60;
 
             // Rate limit by IP address
             $key = sprintf('api:%s', \Request::getClientIp());
 
-            // Add if doesn't exist
-            // Remember for 1 hour
-            \Cache::add($key, 0, 60);
+            $key = sha1($key);
+
+            // Add the ip to the cache if it doesn't exist
+            // and make it reset after an hour
+            $response = \Cache::add($key, 0, 5);
 
             // Add to count
             $count = \Cache::get($key);
 
-            if ($count > $requestsPerHour) {
+            if ($count > $rate_limit) {
                 $response = \Response::make('', 429);
-                $response->setContent('Rate limit exceeded, maximum of ' . $requestsPerHour . ' requests per hour has been reached.');
+                $response->setContent('Rate limit exceeded, maximum of ' . $rate_limit . ' requests per hour has been reached.');
 
                 return $response;
             } else {
-                \Cache::increment($key);
+                $response = \Cache::increment($key);
             }
         }
     }

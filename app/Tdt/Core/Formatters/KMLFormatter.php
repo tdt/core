@@ -2,7 +2,7 @@
 
 namespace Tdt\Core\Formatters;
 
-use Tdt\Core\Formatters\XMLFormatter;
+use Tdt\Core\Formatters\GeoJSONFormatter;
 
 /**
  * KML Formatter
@@ -31,7 +31,7 @@ class KMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-         // Check if the original data is not GeoJSON
+        // Check if the original data is not GeoJSON
         if ($dataObj->source_definition['type'] == 'XML' && !empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
             return $dataObj->data;
         }
@@ -44,8 +44,10 @@ class KMLFormatter implements IFormatter
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
         $body .= '<kml xmlns="http://www.opengis.net/kml/2.2">';
 
+        $body .= "<Document>";
         // Add the document
         $body .= self::getPlacemarks($dataObj);
+        $body .= "</Document>";
 
         // Close tags
         $body .= "</kml>";

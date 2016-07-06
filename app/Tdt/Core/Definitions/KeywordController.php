@@ -77,6 +77,29 @@ class KeywordController extends ApiController
         return ContentNegotiator::getResponse($result, 'json');
     }
 
+    /*
+     * GET an info document based on the uri provided
+     */
+    public static function getKeywordList($definitions)
+    {
+        $keywords = [];
+
+        foreach ($definitions as $definition) {
+            $keyword_str = $definition['keywords'];
+
+            $keywords_set = explode(',', $keyword_str);
+
+            foreach ($keywords_set as $keyword) {
+                $keyword = trim($keyword);
+                if (!empty($keyword)) {
+                    $keywords[] = $keyword;
+                }
+            }
+        }
+
+        return array_count_values($keywords);
+    }
+
     /**
      * Return the response with the given data (formatted in json)
      */

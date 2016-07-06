@@ -28,9 +28,10 @@
         "muka/shape-reader" : "dev-master",
         "elasticsearch/elasticsearch": "1.4.1",
         "nesbot/carbon": "~1.14",
-        "tdt/input" : "2.0.*",
         "phayes/geophp" : "dev-master",
-        "ml/json-ld": "1.*"
+        "ml/json-ld": "1.*",
+        "ruflin/elastica" : "3.1.*",
+        "tdt/input": "dev-master"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
@@ -43,7 +44,8 @@
             "php artisan migrate --package=cartalyst/sentry",
             "php artisan db:seed",
             "php artisan migrate --package=tdt/input",
-            "php artisan asset:publish tdt/input"
+            "php artisan asset:publish tdt/input",
+            "php artisan config:publish tdt/input"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"

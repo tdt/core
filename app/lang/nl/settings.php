@@ -13,4 +13,5 @@ return array(
     "language_help"              => "De taal van de meerderheid van de datasets.",
     "dcat_link"                  => "DCAT-AP link",
     "save"                       => "Bewaar",
+    "header"                     => "Algemene instellingen"
 );

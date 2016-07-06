@@ -23,6 +23,12 @@ class XLSController extends ADataController
     private $tabular_columns;
     private $geo_properties;
 
+    private static $total_rows;
+
+    private static $total_columns;
+
+    private static $sheet;
+
     public function __construct(TabularColumnsRepositoryInterface $tabular_columns, GeoPropertyRepositoryInterface $geo_properties)
     {
         $this->tabular_columns = $tabular_columns;
@@ -43,7 +49,7 @@ class XLSController extends ADataController
         $parsed_columns = self::parseColumns($source_definition);
 
         $uri = $source_definition['uri'];
-        $sheet = $source_definition['sheet'];
+        $sheet = @$source_definition['sheet'];
         $has_header_row = $source_definition['has_header_row'];
 
         // Rows start at 1 in XLS, we have however documented that they start at 0 to be consistent with common sense and other
@@ -116,7 +122,7 @@ class XLSController extends ADataController
                 \App::abort(500, "The Excel file could not be retrieved from the location $uri.");
             }
 
-            $worksheet = $php_obj->getSheetByName($sheet);
+            $worksheet = $php_obj->getSheetByName(self::$sheet);
 
             if (empty($worksheet)) {
                 \App::abort(500, "The worksheet $sheet could not be found in the Excel file located on $uri.");
@@ -169,18 +175,12 @@ class XLSController extends ADataController
                             }
                         }
                     }
-
-                    $total_rows++;
-
-                    if ($total_rows >= 10000) {
-                        break;
-                    }
                 }
             }
 
             $php_obj->disconnectWorksheets();
 
-            $paging = Pager::calculatePagingHeaders($limit, $offset, $total_rows);
+            $paging = Pager::calculatePagingHeaders($limit, $offset, self::$total_rows);
 
             $data_result = new Data();
             $data_result->data = $row_objects;
@@ -209,17 +209,42 @@ class XLSController extends ADataController
     {
 
         if ($type == "xls") {
-            $objReader = IOFactory::createReader('Excel5');
+            $reader = IOFactory::createReader('Excel5');
         } elseif ($type == "xlsx") {
-            $objReader = IOFactory::createReader('Excel2007');
+            $reader = IOFactory::createReader('Excel2007');
         } else {
             \App::abort(500, "The given file is not supported, supported file are xls or xlsx files.");
         }
 
-        $objReader->setReadDataOnly(true);
-        $objReader->setLoadSheetsOnly($sheet);
+        $reader->setReadDataOnly(true);
+        $sheet_info = $reader->listWorkSheetinfo($file);
 
-        return $objReader->load($file);
+        if (empty($sheet) && !empty($sheet_info)) {
+            $first_sheet_info = $sheet_info[0];
+
+            $sheet = $first_sheet_info['worksheetName'];
+        }
+
+        foreach ($sheet_info as $info) {
+            if ($info['worksheetName'] == $sheet) {
+                // Get the total rows of the worksheet
+                self::$total_rows = $info['totalRows'];
+                self::$sheet = $sheet;
+                self::$total_columns = $info['totalColumns'];
+            }
+        }
+
+        if (empty(self::$sheet)) {
+            if (empty($sheet)) {
+                \App::abort(404, "No sheets were found in the XLS file.");
+            } else {
+                \App::abort(404, "The sheet provided ($sheet) has not been found.");
+            }
+        }
+
+        $reader->setLoadSheetsOnly($sheet);
+
+        return $reader->load($file);
     }
 
     /**
@@ -281,7 +306,7 @@ class XLSController extends ADataController
                     $php_obj = self::loadExcel($input['uri'], self::getFileExtension($input['uri']), $input['sheet']);
                 }
 
-                $worksheet = $php_obj->getSheetByName($input['sheet']);
+                $worksheet = $php_obj->getSheetByName(self::$sheet);
 
             } catch (Exception $ex) {
                 $uri = $input['uri'];
@@ -290,8 +315,7 @@ class XLSController extends ADataController
 
 
             if (is_null($worksheet)) {
-                $sheet = $input['sheet'];
-                \App::abort(404, "The sheet with name, $sheet, has not been found in the Excel file.");
+                \App::abort(404, "The sheet with name, self::$sheet, has not been found in the Excel file.");
             }
 
             foreach ($worksheet->getRowIterator() as $row) {
@@ -334,6 +358,10 @@ class XLSController extends ADataController
                         );
 
                         $column_index++;
+
+                        if ($column_index == self::$total_columns) {
+                            break;
+                        }
                     }
 
                     break;

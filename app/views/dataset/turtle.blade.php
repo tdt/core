@@ -18,9 +18,9 @@
     <script id="turtle" type="text/turtle">
         {{ $body }}
     </script>
-    <link rel="stylesheet" href="{{ URL::to("css/leaflet.css") }}" />
-    <script type="text/javascript" src='{{ URL::to("js/leaflet.min.js") }}'></script>
-    <script textype="text/javascript" src='{{ URL::to("js/rdf2html.min.js") }}'></script>
+    <link rel="stylesheet" href="{{ asset("css/leaflet.css", Config::get('ssl_enabled')) }}" />
+    <script type="text/javascript" src='{{ asset("js/leaflet.min.js", Config::get('ssl_enabled')) }}'></script>
+    <script textype="text/javascript" src='{{ asset("js/rdf2html.min.js", Config::get('ssl_enabled')) }}'></script>
     <script type="text/javascript">
         var triples = document.getElementById("turtle").innerHTML;
         var config = {

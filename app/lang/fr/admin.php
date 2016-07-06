@@ -59,5 +59,6 @@ return array(
     "menu_settings"              => "Général",
     "menu_datasets"              => "Jeux de données",
     "menu_users"                 => "Utilisateurs",
-    "menu_groups"                => "Groupes"
+    "menu_groups"                => "Groupes",
+    "geodcat_header"             => "Localisez la zone concernée",
 );

@@ -54,6 +54,7 @@ class DatasetController extends UiController
             $parameters_dc = array();
             $parameters_columns = array();
             $parameters_geo = array();
+            $parameters_geodcat = array();
 
             foreach ($type->parameters as $parameter => $object) {
                 // Filter array type parameters
@@ -84,6 +85,9 @@ class DatasetController extends UiController
 
                         $parameters_dc[$parameter] = $object;
 
+                    } elseif (!empty($object->group) && $object->group == 'geodcat') {
+                        // Filter Geo params
+                        $parameters_geodcat[$parameter] = $object;
                     } else {
                         // Filter optional vs required
                         if ($object->type == 'list' && (strpos($object->list, '|') !== false)) {
@@ -145,12 +149,14 @@ class DatasetController extends UiController
             $parameters_dc = $this->translateParameters($parameters_dc, 'definition');
             $parameters_columns = $this->translateParameters($parameters_columns, $mediatype);
             $parameters_geo = $this->translateParameters($parameters_geo, $mediatype);
+            $parameters_geodcat = $this->translateParameters($parameters_geodcat, 'geodcat');
 
             $mediatypes[$mediatype]['parameters_required'] = $parameters_required;
             $mediatypes[$mediatype]['parameters_optional'] = $parameters_optional;
             $mediatypes[$mediatype]['parameters_dc'] = $parameters_dc;
             $mediatypes[$mediatype]['parameters_columns'] = $parameters_columns;
             $mediatypes[$mediatype]['parameters_geo'] = $parameters_geo;
+            $mediatypes[$mediatype]['parameters_geodcat'] = $parameters_geodcat;
         }
 
         return \View::make('ui.datasets.add')
@@ -170,6 +176,7 @@ class DatasetController extends UiController
         Auth::requirePermissions('admin.dataset.update');
 
         $definition = \Definition::find($id);
+
         if ($definition) {
             // Get source defintion
             $source_definition = $definition->source()->first();
@@ -186,6 +193,7 @@ class DatasetController extends UiController
             $parameters_required = array();
             $parameters_optional = array();
             $parameters_dc = array();
+            $parameters_geodcat = array();
             $lists = array();
 
             foreach ($mediatype->parameters as $parameter => $object) {
@@ -216,6 +224,9 @@ class DatasetController extends UiController
                         }
 
                         $parameters_dc[$parameter] = $object;
+                    } elseif (!empty($object->group) && $object->group == 'geodcat') {
+                        // Filter Geo params
+                        $parameters_geodcat[$parameter] = $object;
                     } else {
                         // Filter optional vs required
                         // Filter optional vs required
@@ -258,10 +269,10 @@ class DatasetController extends UiController
                         ->with('parameters_required', $parameters_required)
                         ->with('parameters_optional', $parameters_optional)
                         ->with('parameters_dc', $parameters_dc)
+                        ->with('parameters_geodcat', $parameters_geodcat)
                         ->with('source_definition', $source_definition);
 
             return \Response::make($view);
-
         } else {
             return \Redirect::to('api/admin/datasets');
         }

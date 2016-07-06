@@ -111,16 +111,23 @@
                                     <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
                                         {{ $object->name }}
                                     </label>
-                                    <div class="col-sm-10">
                                         @if($object->type == 'string')
+                                            <div class="col-sm-10">
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" @if(isset($object->default_value)) value='{{ $object->default_value }}' @endif>
                                         @elseif($object->type == 'text')
+                                            <div class="col-sm-10">
                                             <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}"> @if (isset($object->default_value)) {{ $object->default_value }}@endif</textarea>
                                         @elseif($object->type == 'integer')
+                                            <div class="col-sm-10">
                                             <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" @if(isset($object->default_value)) value='{{ $object->default_value }}' @endif>
+                                        @elseif($object->type == 'date')
+                                            <div class="col-sm-4">
+                                            <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ date('Y-m-d') }}">
                                         @elseif($object->type == 'boolean')
+                                        <div class="col-sm-10">
                                             <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" @if(isset($object->default_value) && $object->default_value) checked='checked' @endif/>
                                         @elseif($object->type == 'list')
+                                        <div class="col-sm-10">
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
                                                 <option></option>
                                                 @foreach($object->list as $option)
@@ -164,6 +171,8 @@
                                             <textarea class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}"> @if (isset($object->default_value)) {{ $object->default_value }}@endif</textarea>
                                         @elseif($object->type == 'integer')
                                             <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" @if(isset($object->default_value)) value='{{ $object->default_value }}' @endif>
+                                        @elseif($object->type == 'date')
+                                            <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ date('Y-m-d') }}">
                                         @elseif($object->type == 'boolean')
                                             <input type='checkbox' class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" checked='checked'/>
                                         @elseif($object->type == 'list')
@@ -185,9 +194,6 @@
                                 </div>
                             @endforeach
                         @endif
-                    </div>
-
-                    <div class="col-sm-6 panel dataset-parameters">
 
 
                         <div class="form-group">
@@ -213,6 +219,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-sm-6 panel dataset-parameters">
 
                         @if(!empty($type['parameters_dc']))
 
@@ -220,19 +229,34 @@
                                 <label class="col-sm-2 control-label">
                                 </label>
                                 <div class="col-sm-10">
+                                    <div class="profile-selector checkbox">
+                                        <label class="profile">
+                                            <input type="radio" name="profile_{{$mediatype}}" value="dcat" checked>
+                                            DCAT-AP
+                                        </label>
+                                        <label class="profile">
+                                            <input type="radio" name="profile_{{$mediatype}}" value="geodcat">
+                                            GeoDCAT-AP
+                                        </label>
+                                    </div>
                                     <h4><i class='fa fa-info-circle'></i> {{ trans('admin.dcat_header') }}</h4>
                                 </div>
                             </div>
 
                             @foreach($type['parameters_dc'] as $parameter => $object)
-                                <div class="form-group">
+                                <div class="form-group {{ $object->requiredgeodcat }}">
                                     <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
                                         {{ $object->name }}
                                     </label>
-                                    <div class="col-sm-10">
+
                                         @if($object->type == 'string')
+                                            <div class="col-sm-10">
                                             <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
+                                        @elseif($object->type == 'date')
+                                            <div class="col-sm-10 col-lg-5">
+                                            <input type="date" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="YYYY-MM-DD" value="{{ date('Y-m-d') }}">
                                         @elseif($object->type == 'list')
+                                            <div class="col-sm-10">
                                             <select id="input_{{ $parameter }}" name="{{ $parameter }}" class="form-control">
                                                 <option></option>
                                                 @foreach($object->list as $option)
@@ -244,17 +268,95 @@
                                                 @endforeach
                                             </select>
                                         @endif
-                                        <div class='help-block'>
+                                        <div class='help-block' requirement="{{ trans('parameters.' . $object->requiredgeodcat) }}">
                                             {{ $object->description }}
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
+                        @endif
 
+                        @if(!empty($type['parameters_geodcat']))
+                            <div class="profile-geodcat" style="display:none">
+                                <div class="form-group profile-geodcat">
+                                    <label class="col-sm-2 control-label">
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <h4><i class='fa fa-map-marker'></i> {{ trans('admin.geodcat_header') }}</h4>
+                                    </div>
+                                </div>
+                                @foreach($type['parameters_geodcat'] as $parameter => $object)
+                                    <div class="form-group {{ $object->requiredgeodcat }}">
+                                        <label for="input_{{ $parameter }}" class="col-sm-2 control-label">
+                                            {{ $object->name }}
+                                        </label>
+                                        <div class="col-sm-10">
+                                            @if($object->type == 'string')
+                                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="">
+                                            @elseif($object->type == 'geojson')
+                                                <input type="hidden" id="input_{{ $parameter }}" name="{{ $parameter }}">
+                                                <div class="btn btn-default location-picker" data-id="input_{{ $parameter }}">Use location picker</div>
+                                            @endif
+                                            <div class='help-block' requirement="{{ trans('parameters.' . $object->requiredgeodcat) }}">
+                                                {{ $object->description }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <div class="form-group">
+                                    <label for="input_attribution" class="col-sm-2 control-label">
+                                        {{ trans('parameters.geodcat_attribution') }}
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <button type="button" class="btn btn-default btn-attribution">{{ trans('admin.add_button') }}</button>
+                                        <select id="input_attribution" class="form-control select-attribution">
+                                            @foreach(['author', 'custodian'] as $role)
+                                                <option value='{{ json_encode([
+                                                'option' => $role,
+                                                'name' => trans('parameters.role_' . $role),
+                                                'desc' => trans('parameters.role_' . $role . '_desc'),
+                                            ]) }}'>{{ trans('parameters.role_' . $role) }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class='help-block'>
+                                            {{ trans('parameters.geodcat_attribution_desc') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>
             @endforeach
         </div>
     </form>
+    <script type="text/x-template" id="person">
+        <div class="attribution-person" data-role="#OPTION#">
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="col-sm-2 control-label"> </label>
+                <div class="col-sm-10">
+                    <h4>
+                        <button class="btn btn-default pull-right btn-delete">{{ trans('admin.delete') }}</button>
+                        #ROLE# &nbsp; <small>#DESC#</small>
+                    </h4>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input_attribution" class="col-sm-2 control-label">
+                    {{ trans('parameters.person_name') }}
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control name" id="input_{{ $parameter }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input_attribution" class="col-sm-2 control-label">
+                    {{ trans('parameters.person_email') }}
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control email" id="input_{{ $parameter }}">
+                </div>
+            </div>
+        </div>
+    </script>
 @stop

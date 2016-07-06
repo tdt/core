@@ -66,7 +66,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
         curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($c, CURLOPT_MAXREDIRS, 10);
-        $follow_allowed= ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
+        $follow_allowed = ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
 
         if ($follow_allowed) {
             curl_setopt($c, CURLOPT_FOLLOWLOCATION, 1);
@@ -108,11 +108,10 @@ class CustomValidator extends \Illuminate\Validation\Validator
 
             if (!filter_var($value, FILTER_VALIDATE_URL) === false) {
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $value);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $data = curl_exec($ch);
+                $data = $this->getRemoteData($value);
                 curl_close($ch);
             } else {
+                \Log::info("fetching contents");
                 $data =@ file_get_contents($value);
             }
 

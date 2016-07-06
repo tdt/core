@@ -11,15 +11,16 @@
 |
 */
 
-App::before(function($request)
-{
-	//
+App::before(function ($request) {
+    // Set the correct scheme, rely on the native PHP methods and some other parameters in order to figure it out
+    $ssl_enabled = (!empty(@$_SERVER['HTTPS']) && @$_SERVER['HTTPS'] !== 'off' || @$_SERVER['SERVER_PORT'] == 443);
+
+    \Config::set('app.ssl_enabled', $ssl_enabled);
 });
 
 
-App::after(function($request, $response)
-{
-	//
+App::after(function ($request, $response) {
+    //
 });
 
 /*
@@ -33,15 +34,15 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
-	if (Auth::guest()) return Redirect::guest('login');
+Route::filter('auth', function () {
+    if (Auth::guest()) {
+        return Redirect::guest('login');
+    }
 });
 
 
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
+Route::filter('auth.basic', function () {
+    return Auth::basic();
 });
 
 /*
@@ -55,9 +56,10 @@ Route::filter('auth.basic', function()
 |
 */
 
-Route::filter('guest', function()
-{
-	if (Auth::check()) return Redirect::to('/');
+Route::filter('guest', function () {
+    if (Auth::check()) {
+        return Redirect::to('/');
+    }
 });
 
 /*
@@ -71,9 +73,8 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token')) {
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+Route::filter('csrf', function () {
+    if (Session::token() != Input::get('_token')) {
+        throw new Illuminate\Session\TokenMismatchException;
+    }
 });

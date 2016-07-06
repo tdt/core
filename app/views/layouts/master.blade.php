@@ -8,13 +8,13 @@
         <meta name="DC.title" content="{{ $title }}"/>
 
         <link href='//fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-        <link rel='stylesheet' href='{{ URL::to("css/main.css") }}?v={{ Config::get('app.version', 4) }}' type='text/css'/>
+        <link rel='stylesheet' href='{{ asset("css/main.css", Config::get('app.ssl_enabled')) }}' type='text/css'/>
     </head>
 
     <body>
         <nav class="navbar navbar-fixed-top">
             <a class="navbar-brand" href="{{ URL::to('') }}">
-                <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
+                <img src='{{ asset("img/logo.png", Config::get('app.ssl_enabled')) }}' alt='Datatank logo' />
                 <h1>@if(!empty($page_title)){{ $page_title }}@endif</h1>
             </a>
 
@@ -34,10 +34,15 @@
                 Powered by <a href="//thedatatank.com/" target="_blank">The DataTank</a>
             </div>
         </footer>
-        <script src="{{ URL::to("js/script.min.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("js/script.min.js", Config::get('app.ssl_enabled')) }}" type="text/javascript"></script>
         @if (!empty($json_ld))
         <script type="application/ld+json">
             {{ $json_ld }}
+        </script>
+        @endif
+         @if ( Config::get('app.debug') )
+        <script type="text/javascript">
+            document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>')
         </script>
         @endif
     </body>

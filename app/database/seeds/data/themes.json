@@ -1,7 +1,7 @@
 [
     {
         "uri": "http://ns.thedatatank.com/dcat/themes#CulturalEvents",
-        "label": "Government"
+        "label": "Cultural Events"
     },
     {
         "uri": "http://ns.thedatatank.com/dcat/themes#CulturalHeritage",

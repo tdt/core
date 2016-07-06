@@ -1,39 +1,75 @@
 <!DOCTYPE html>
-<html lang='en'>
-    <head profile="http://dublincore.org/documents/dcq-html/">
-        <title>The DataTank</title>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<html>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <title>Error</title>
+    <style type="text/css">
+    html,
+    body {
+        height: 100%;
+    }
 
-        <link href='{{ URL::to('css/error.css') }}' rel='stylesheet' type='text/css'/>
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-    </head>
+    body {
+        margin: 0;
+        padding: 0;
+        color: #B0BEC5;
+        font-family: lato, open sans, helvetica neue, helvetica, segoe ui, sans-serif;
+    }
 
-    <body>
-        <div class="wrapper">
-            <div class="error col-sm-8 col-sm-offset-2">
-                <div class='logo col-md-3 hidden-sm hidden-xs'>
-                    <img src='{{ URL::to('img/error.png') }}'/>
-                </div>
-                <div class='col-md-9'>
-                    <h1>404</h1>
-                    <h3>{{ trans('errors.404') }}</h1>
-                    <p>{{ $exception->getMessage() }}</p>
-                </div>
+    .container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 72px;
+        font-weight: 100;
+        margin-bottom: 1em
+    }
+
+    p {
+        margin-top: 3em;
+    }
+
+    a {
+        color: #390;
+    }
+
+    .return {
+        display: inline-block;
+        padding: 1em 2em;
+        border: 2px solid #390;
+        font-size: 24px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 300;
+        letter-spacing: 2px;
+    }
+
+    .return:hover {
+        outline: 2px solid #390;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <main>
+            <h1>Error 404</h1>
+            <p>
+                <a href="/" class="return">Return to homepage</a>
+            </p>
+            <div>
+                <p>The error message is: {{ $exception->getMessage() }}</p>
             </div>
+            <p>
+                If this was unexpected, please let us know: <a href="mailto:info@thedatatank.com">info@thedatatank.com</a>
+            </p>
+        </main>
+    </div>
+</body>
 
-            <div class='push'></div>
-        </div>
-
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a href="http://thedatatank.com/" target="_blank">The DataTank</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </body>
 </html>
