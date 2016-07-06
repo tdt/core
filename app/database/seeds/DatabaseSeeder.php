@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
 
 		// Call the OntologyPrefixSeeder
 		$this->call('OntologyPrefixSeeder');
+
+		// Call the geo projection seeder
+		$this->call('GeoSeeder');
 	}
 }
