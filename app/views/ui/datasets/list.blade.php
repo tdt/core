@@ -23,7 +23,7 @@
         <?php $i = 0; ?>
         @foreach($definitions as $definition)
 
-            <div class="panel dataset dataset-link button-row panel-default  @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.update')) clickable-row @endif" data-href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>
+            <a class="panel dataset dataset-link button-row panel-default  @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.update')) clickable-row @endif" href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>
                 <div class="panel-body"
                     @if($i==0)
                         data-step='3'
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             <?php $i++; ?>
         @endforeach

@@ -6,7 +6,7 @@
 
         @foreach($definitions as $definition)
 
-            <div class="panel dataset panel-default clickable-row" data-href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}'>
+            <a class="panel dataset panel-default clickable-row" href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}'>
                 <div class="panel-body">
                     <div class='icon'>
                         @if($definition->source_type == 'CsvDefinition' or $definition->source_type == 'XlsDefinition')
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
         @endforeach
 
