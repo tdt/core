@@ -14,7 +14,7 @@
 App::before(function ($request) {
     // Set the correct scheme, rely on the native PHP methods and some other parameters in order to figure it out
     if (isset($_SERVER['HTTPS'])) {
-        $ssl_enabled = (!empty(@$_SERVER['HTTPS']) && @$_SERVER['HTTPS'] !== 'off' || @$_SERVER['SERVER_PORT'] == 443);
+        $ssl_enabled = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443);
     } else {
         $ssl_enabled = false;
     }
