@@ -24,7 +24,7 @@ class ELASTICSEARCHController extends ADataController
 {
     public function readData($source_definition, $rest_parameters = [])
     {
-        Pager::setDefaultLimit(50);
+        Pager::setDefaultLimit(500);
 
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
