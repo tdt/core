@@ -60,7 +60,14 @@ class DefinitionController extends ApiController
         $definition = $this->definitions->store($input);
 
         $response = \Response::make(null, 200);
-        $response->header('Location', \URL::to($definition['collection_uri'] . '/' . $definition['resource_name']));
+        $response->header(
+            'Location',
+            \URL::to(
+                $definition['collection_uri'] . '/' . $definition['resource_name'],
+                [],
+                Config::get('app.ssl_enabled')
+            )
+        );
 
         return $response;
     }

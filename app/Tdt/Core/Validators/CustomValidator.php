@@ -19,8 +19,8 @@ class CustomValidator extends \Illuminate\Validation\Validator
             $url_pieces = parse_url($value);
 
             if (!filter_var($value, FILTER_VALIDATE_URL) === false && ($url_pieces['scheme'] == 'http' || $url_pieces['scheme'] == 'https')) {
+                \Log::info("hi");
                 $status = $this->getHeadInfo($value);
-
                 return $status == 200;
             } else {
                 $data =@ file_get_contents($value);
@@ -89,8 +89,8 @@ class CustomValidator extends \Illuminate\Validation\Validator
      */
     public function validateFile($attribute, $value, $parameters)
     {
-
         try {
+            \Log::info("hi");
             $handle = fopen($value, 'r');
             return $handle;
         } catch (\Exception $ex) {
@@ -111,7 +111,6 @@ class CustomValidator extends \Illuminate\Validation\Validator
                 $data = $this->getRemoteData($value);
                 curl_close($ch);
             } else {
-                \Log::info("fetching contents");
                 $data =@ file_get_contents($value);
             }
 
