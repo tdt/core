@@ -60,7 +60,7 @@ $('.hover-help').tooltip();
 $('.hover-help').on('click', function(e){ e.preventDefault(); });
 
 
-$('form.add-dataset .identifier #input_collection,
+$('form.add-dataset .identifier #input_collection, \
    form.add-dataset .identifier #input_resource_name').on({
         'keydown': buildURI,
         'keyup': buildURI
