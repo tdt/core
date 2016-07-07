@@ -25,16 +25,13 @@ class CSVFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-        // Only tabular data is allowed
-        if (!is_array($dataObj->data)) {
-            \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
-        }
-
         // Check if its a result of a SPARQL select query
         if ($dataObj->source_definition['type'] == 'SPARQL' && $dataObj->source_definition['query_type'] == 'select') {
             $dataObj->data = self::buildTableFromSparqlResult($dataObj->data);
-        } else {
-            \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
+        }
+
+        if (!is_array($dataObj->data)) {
+            \App::abort(400, "You can only request a CSV formatter on a tabular data structure.");
         }
 
         // Build the body
@@ -101,7 +98,7 @@ class CSVFormatter implements IFormatter
     /**
      * Build a table from a SPARQL select query result
      *
-     * @param mixed $data
+     * @param mixed semantic_results
      *
      * @return array
      */

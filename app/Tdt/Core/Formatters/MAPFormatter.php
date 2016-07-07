@@ -50,6 +50,10 @@ class MAPFormatter implements IFormatter
             $url .= $query_string;
         }
 
+        if (\Config::get('app.ssl_enabled') && substr($url, 0, 5) == 'http:') {
+            $url = 'https://' . substr($url, 7);
+        }
+
         $resource = $dataObj->definition['collection_uri'] . "/" . $dataObj->definition['resource_name'];
 
         // Render the view

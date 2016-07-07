@@ -55,22 +55,22 @@ class ELASTICSEARCHController extends ADataController
         $search->getQuery()->setFrom($offset);
         $search->getQuery()->setSize($limit);
 
-        $results = $search->search();
+        $resultSet = $search->search();
 
         $data = new Data();
         $data_results = [];
 
-        foreach ($results as $result) {
+        foreach ($resultSet->getResults() as $result) {
             $data_result = $result->getData();
-            unset($data_result['tdt_etl_timestamp_']);
+            unset($data_result['__tdt_etl_timestamp__']);
 
             $data_results[] = $data_result;
         }
 
         $data->data = $data_results;
 
-        if ($results->getTotalHits() > 0) {
-            $paging = Pager::calculatePagingHeaders($limit, $offset, $results->getTotalHits());
+        if ($resultSet->getTotalHits() > 0) {
+            $paging = Pager::calculatePagingHeaders($limit, $offset, $resultSet->getTotalHits());
             $data->paging = $paging;
         }
 

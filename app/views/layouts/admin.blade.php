@@ -8,13 +8,13 @@
         <meta name="DC.title" content="{{ $title }}"/>
 
         <link href='//fonts.googleapis.com/css?family=Varela+Round|Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-        <link rel='stylesheet' href='{{ URL::to("css/main.css") }}?v={{ Config::get('app.version', 4) }}' type='text/css'/>
+        <link rel='stylesheet' href='{{ asset("css/main.css", Config::get('app.ssl_enabled')) }}' type='text/css'/>
     </head>
 
     <body>
         <nav class="navbar navbar-fixed-top">
             <a class="navbar-brand admin" href="{{ URL::to('api/admin') }} ">
-                <img src='{{ URL::to("img/logo.png") }}' alt='Datatank logo' />
+                <img src='{{ asset("img/logo.png", Config::get('ssl_enabled')) }}' alt='Datatank logo' />
                 <h1>{{ trans('admin.admin_header') }}</h1>
             </a>
 
@@ -64,10 +64,10 @@
             </div>
         </footer>
         <script type='text/javascript'>
-            var baseURL = '{{ URL::to('') }}/';
+            var baseURL = '{{ URL::to('', [], Config::get('app.ssl_enabled')) }}/';
             var authHeader = '{{ Request::header('Authorization') }}';
         </script>
-        <script src="{{ URL::to("js/script.min.js") }}" type="text/javascript"></script>
-        <script src="{{ URL::to("js/admin.min.js") }}" type="text/javascript"></script>
+        <script src="{{ asset("js/script.min.js", Config::get('app.ssl_enabled')) }}" type="text/javascript"></script>
+        <script src="{{ asset("js/admin.min.js", Config::get('app.ssl_enabled')) }}" type="text/javascript"></script>
     </body>
 </html>
