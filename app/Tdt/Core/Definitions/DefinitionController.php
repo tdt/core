@@ -9,6 +9,7 @@ use Tdt\Core\Pager;
 use Tdt\Core\ContentNegotiator;
 use Tdt\Core\ApiController;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
+use Config;
 
 /**
  * DefinitionController

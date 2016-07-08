@@ -90,8 +90,14 @@ class CustomValidator extends \Illuminate\Validation\Validator
     public function validateFile($attribute, $value, $parameters)
     {
         try {
-            \Log::info("hi");
-            $handle = fopen($value, 'r');
+            $ssl_options = array(
+                            "ssl"=>array(
+                                "verify_peer"=>false,
+                                "verify_peer_name"=>false,
+                                ),
+                            );
+
+            $handle = fopen($value, 'r', false, stream_context_create($ssl_options));
             return $handle;
         } catch (\Exception $ex) {
             return false;
