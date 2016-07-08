@@ -19,7 +19,6 @@ class CustomValidator extends \Illuminate\Validation\Validator
             $url_pieces = parse_url($value);
 
             if (!filter_var($value, FILTER_VALIDATE_URL) === false && ($url_pieces['scheme'] == 'http' || $url_pieces['scheme'] == 'https')) {
-                \Log::info("hi");
                 $status = $this->getHeadInfo($value);
                 return $status == 200;
             } else {
