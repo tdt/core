@@ -9,4 +9,5 @@ return [
     "publisher"         => "Uitgever",
     "keywords"          => "Trefwoorden",
     "spatial"           => "Geografische context",
+    "original_file"     => "Origineel bestand",
 ];

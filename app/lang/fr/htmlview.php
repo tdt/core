@@ -8,4 +8,5 @@ return [
     "contact"           => "Contact",
     "publisher"         => "Editeur",
     "keywords"          => "mot-clés",
+    "original_file"     => "Fichier d'origine",
 ];

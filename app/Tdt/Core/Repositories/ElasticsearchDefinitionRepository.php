@@ -1,6 +1,7 @@
 <?php namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\ElasticsearchDefinitionRepositoryInterface;
+use Load\Elasticsearch;
 
 class ElasticsearchDefinitionRepository extends BaseDefinitionRepository implements ElasticsearchDefinitionRepositoryInterface
 {
@@ -24,6 +25,58 @@ class ElasticsearchDefinitionRepository extends BaseDefinitionRepository impleme
     public function getAllParameters()
     {
         return array_merge($this->getCreateParameters());
+    }
+
+    public function update($model_id, array $input)
+    {
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
+
+        $model_object = $this->model->find($model_id);
+
+        // Validation has been done, lets create the models
+        $input = array_only($input, array_keys($this->getCreateParameters()));
+
+        $input = $this->addOriginalFile($input);
+
+        $model_object->update($input);
+
+        return $model_object->toArray();
+    }
+
+    /**
+     * Check if we can get the original file by looking for the passed index and document type
+     * in the jobs (CSV is only supported for now to be a computed original file field)
+     *
+     * @param  array $input
+     * @return array
+     */
+    private function addOriginalFile($input)
+    {
+        $es_job = Elasticsearch::where('es_index', $input['es_index'])
+                    ->where('es_type', $input['es_type'])
+                    ->where('host', $input['host'])
+                    ->first();
+
+        if (! empty($es_job)) {
+            $extractor = $es_job->job->extractor()->first();
+
+            if (strtolower($extractor->type) == 'csv') {
+                $input['original_file'] = $extractor->uri;
+            }
+        }
+
+        return $input;
+    }
+
+    public function store(array $input)
+    {
+        // Process input (e.g. set default values to empty properties)
+        $input = $this->processInput($input);
+
+        $input = $this->addOriginalFile($input);
+
+        return $this->model->create(array_only($input, array_keys($this->getCreateParameters())));
     }
 
     /**

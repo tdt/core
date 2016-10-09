@@ -9,4 +9,5 @@ return [
     "publisher"         => "Publisher",
     "keywords"          => "Keywords",
     "spatial"           => "Geographic context",
+    "original_file"     => "Original file",
 ];
