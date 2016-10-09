@@ -11,5 +11,5 @@ class ElasticsearchDefinition extends SourceType
 {
     protected $table = 'elasticsearchdefinitions';
 
-    protected $fillable = array('host', 'es_type', 'es_index', 'port', 'username', 'password', 'description', 'title');
+    protected $fillable = array('host', 'es_type', 'es_index', 'port', 'username', 'password', 'description', 'title', 'original_file');
 }

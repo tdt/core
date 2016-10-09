@@ -80,6 +80,14 @@
             </p>
         </li>
     @endif
+    @if(!empty($source_definition['original_file']) && substr($source_definition['original_file'], 0, 4) == 'http')
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">{{ trans('htmlview.original_file') }}</h5>
+            <p class="list-group-item-text">
+                <a href="{{ $source_definition['original_file'] }}"><b>Download</b></a>
+            </p>
+        </li>
+    @endif
     @if(!empty($definition['spatial']))
         <li class="list-group-item">
             <h5 class="list-group-item-heading">{{ trans('htmlview.spatial') }}</h5>
@@ -94,7 +102,7 @@
             <script type="text/javascript" src='{{ asset("js/leaflet.min.js", Config::get('ssl_enabled')) }}'></script>
             <script type="text/javascript" src='{{ asset("js/n3-browser.min.js", Config::get('ssl_enabled')) }}'></script>
             <script type="text/javascript">
-            document.addEventListener('DOMContentLoaded', function() { 
+            document.addEventListener('DOMContentLoaded', function() {
                 var geo = {{json_encode($definition['spatial']['geometry'], JSON_PRETTY_PRINT)}};
                 showGeoJsonMap(JSON.parse(geo.geometry));
             });

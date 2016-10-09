@@ -87,7 +87,7 @@ class HTMLFormatter implements IFormatter
         if (!empty($dataObj->source_definition)) {
             $type = $dataObj->source_definition['type'];
 
-                // Check if other views need to be served
+            // Check if other views need to be served
             switch ($type) {
                 case 'XLS':
                 case 'CSV':
