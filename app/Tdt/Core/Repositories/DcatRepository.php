@@ -187,7 +187,7 @@ class DcatRepository implements DcatRepositoryInterface
                             $vcard->setType('vcard:Kind');
                             $vcard->addLiteral('vcard:fn', $attribution['name']);
 
-                            $vcard->addResource('vcard:hasEmail', 'mailto:' . $attribution['email']);
+                            $vcard->addResource('vcard:hasEmail', $attribution['email']);
 
                             $attribution_node->addResource('prov:Agent', $vcard);
                             $attribution_node->addResource('dc:type', 'http://inspire.ec.europa.eu/metadata-codelist/ResponsiblePartyRole/' . $attribution['role']);
