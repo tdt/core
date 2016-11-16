@@ -25,7 +25,7 @@ return array(
     'definition_date_desc'              => 'A date associated with the dataset.',
     'definition_language'               => 'Language',
     'definition_language_desc'          => 'A language of the resource.',
-    'definition_rights'                 => 'Rights',
+    'definition_rights'                 => 'License',
     'definition_rights_description'     => 'Information about rights held in and over the resource.',
     'definition_theme'                  => 'Theme',
     'definition_theme_description'      => 'The theme or category that the dataset belongs to.',
