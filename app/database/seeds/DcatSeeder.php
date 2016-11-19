@@ -75,9 +75,9 @@ class DcatSeeder extends Seeder
             foreach ($languages as $language) {
                 \Language::create(array(
                     'lang_id' => $language->lang_id,
-                    'lang_code' =>$language->lang_code,
+                    'lang_code' => $language->lang_code,
                     'name' => $language->name,
-                    ));
+                ));
             }
 
             $this->command->info('Added the languages from a local json file.');
@@ -132,7 +132,7 @@ class DcatSeeder extends Seeder
                         \Theme::create(array(
                             'uri' => $theme_uri,
                             'label' => $label
-                            ));
+                        ));
                     }
                 }
             }
@@ -159,7 +159,7 @@ class DcatSeeder extends Seeder
                     \Theme::create(array(
                         'uri' => $theme->uri,
                         'label' => $theme->label,
-                        ));
+                    ));
                 }
 
                 if (!empty($themes)) {
@@ -188,7 +188,7 @@ class DcatSeeder extends Seeder
             foreach ($geoprojections as $language) {
                 \Geoprojection::create(array(
                     'epsg' => $language->epsg,
-                    'projection' =>$language->projection,
+                    'projection' => $language->projection,
                 ));
             }
 

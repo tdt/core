@@ -104,7 +104,6 @@
     "title": "GNU Free Documentation License",
     "url": "http://www.opendefinition.org/licenses/gfdl"
   },
-
   {
     "domain_content": true,
     "domain_data": false,
@@ -161,7 +160,7 @@
     "title": "Open Data Licentie tegen Billijke Vergoeding voor Commercieel Hergebruik",
     "url": "http://overheid.vlaanderen.be/opendata/licenties/v1-2/html/open-data-licentie-tegen-billijke-vergoeding-voor-commercieel_hergebruik"
   },
-   {
+  {
     "domain_content": true,
     "domain_data": false,
     "domain_software": false,

@@ -763,7 +763,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             'rights' => array(
                 'required' => false,
                 'requiredgeodcat' => 'required',
-                'name' => 'Rights',
+                'name' => 'License',
                 'type' => 'list',
                 'list' => 'api/licenses',
                 'list_option' => 'title',
