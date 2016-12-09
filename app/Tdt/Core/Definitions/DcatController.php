@@ -45,6 +45,10 @@ class DcatController extends ApiController
         // Ask permission
         Auth::requirePermissions('info.view');
 
+        // Split for an (optional) extension
+        list($uri, $extension) = self::processURI($uri);
+        $extension = strtolower($extension);
+
         // Default format is ttl for dcat
         if (empty($extension)) {
             $extension = 'ttl';
