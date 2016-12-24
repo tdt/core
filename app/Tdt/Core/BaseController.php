@@ -9,7 +9,7 @@ namespace Tdt\Core;
  * @license AGPLv3
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-class BaseController extends \Controller
+class BaseController extends Controller
 {
     /*
      * Handles all core requests
@@ -29,7 +29,10 @@ class BaseController extends \Controller
                 $controller = 'Tdt\\Core\\Definitions\\DiscoveryController';
                 break;
             case 'api':
-                switch (\Request::segment(2)) {
+                // Allow for content negotiation for api endpoints
+                list($apiResource, $extension) = self::processURI(\Request::segment(2));
+
+                switch ($apiResource) {
                     case 'definitions':
                         // Definitions request
                         $controller = 'Tdt\\Core\\Definitions\\DefinitionController';
@@ -74,7 +77,7 @@ class BaseController extends \Controller
                         $uri = str_replace('api/keywords', '', $uri);
                         break;
                     default:
-                        \App::abort(404, "Page not found.");
+                        \App::abort(404, 'Page not found.');
                         break;
                 }
 
@@ -106,5 +109,39 @@ class BaseController extends \Controller
 
             return $response;
         }
+    }
+
+    /**
+     * Process the URI and return the extension (=format) and the resource identifier URI
+     *
+     * @param  string $uri The URI that has been passed
+     * @return array
+     */
+    public static function processURI($uri)
+    {
+        $dot_position = strrpos($uri, '.');
+
+        if (! $dot_position) {
+            return array($uri, null);
+        }
+
+        // If a dot has been found, do a couple
+        // of checks to find out if it introduces a formatter
+        $uri_parts = explode('.', $uri);
+
+        $possible_extension = strtoupper(array_pop($uri_parts));
+
+        $uri = implode('.', $uri_parts);
+
+        $formatter_class = 'Tdt\\Core\\Formatters\\' . $possible_extension . 'Formatter';
+
+        if (! class_exists($formatter_class)) {
+            // Re-attach the dot with the latter part of the uri
+            $uri .= '.' . strtolower($possible_extension);
+
+            return array($uri, null);
+        }
+
+        return array($uri, strtolower($possible_extension));
     }
 }
