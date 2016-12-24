@@ -17,7 +17,7 @@ use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
 use Tdt\Core\Repositories\Interfaces\TabularColumnsRepositoryInterface;
 use Tdt\Core\Repositories\Interfaces\GeoPropertyRepositoryInterface;
-use muka\ShapeReader\ShapeReader;
+use ShapeFile\ShapeFile;
 use Tdt\Core\Repositories\Interfaces\GeoprojectionRepositoryInterface;
 
 class SHPController extends ADataController
@@ -98,8 +98,6 @@ class SHPController extends ADataController
             $arrayOfRowObjects = array();
 
             // Prepare the options to read the SHP file
-            $options = array('noparts' => false);
-
             $is_url = (substr($uri, 0, 4) == "http");
 
             // If the shape files are located on an HTTP address, fetch them and store them locally
@@ -112,34 +110,36 @@ class SHPController extends ADataController
                 file_put_contents($tmp_file . ".shx", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shx"));
 
                 // Along this file the class will use file.shx and file.dbf
-                $shp = new ShapeReader($tmp_file . ".shp", $options);
+                $shape_file = new ShapeFile($tmp_file . ".shp");
             } else {
-                $shp = new ShapeReader($uri, $options); // along this file the class will use file.shx and file.dbf
+                $shape_file = new ShapeFile($uri); // along this file the class will use file.shx and file.dbf
             }
 
             // Keep track of the total amount of rows
             $total_rows = 0;
 
             // Get the shape records in the binary file
-            while ($record = $shp->getNext()) {
+            while ($record = $shape_file->getRecord()) {
                 if ($offset <= $total_rows && $offset + $limit > $total_rows) {
                     // Every shape record is parsed as an anonymous object with the properties attached to it
                     $rowobject = new \stdClass();
 
                     // Get the dBASE data
-                    $dbf_data = $record->getDbfData();
+                    $dbf_data = $record['dbf'];
 
                     foreach ($dbf_data as $property => $value) {
-                        $property_alias = $columns[$property];
-                        $property = trim($property);
-                        $property_alias = $columns[$property];
-                        $rowobject->$property_alias = trim($value);
+                        if (array_key_exists($property, $columns)) {
+                            $property_alias = $columns[$property];
+                            $property = trim($property);
+                            $property_alias = $columns[$property];
+                            $rowobject->$property_alias = trim($value);
+                        }
                     }
 
                     // Read the shape data
-                    $shp_data = $record->getShpData();
+                    $shp_data = $record['shp'];
 
-                    $shape_type = self::$RECORD_TYPES[$record->getTypeCode()];
+                    $shape_type = self::$RECORD_TYPES[$shape_file->getShapeType()];
 
                     // Get the projection code
                     $projection = $this->projections->getByCode($this->epsg);
@@ -153,8 +153,6 @@ class SHPController extends ADataController
 
                     $this->projSrc = new Proj('EPSG:' . $this->epsg, $this->proj4);
                     $this->projDest = new Proj('EPSG:4326', $this->proj4);
-
-                    $geometry = [];
 
                     switch (strtolower($shape_type)) {
                         case 'point':
@@ -326,11 +324,14 @@ class SHPController extends ADataController
         foreach ($shp_data['parts'] as $part) {
             $points = array();
 
-            foreach ($part['points'] as $point) {
+            // We don't support multi-ring polygon
+            $first_ring_points = array_shift($part['rings']);
+
+            foreach ($first_ring_points['points'] as $point) {
                 $x = $point['x'];
                 $y = $point['y'];
 
-                // Translate the coordinates to WSG84 geo coordinates
+                    // Translate the coordinates to WSG84 geo coordinates
                 if (!empty($this->epsg)) {
                     $pointSrc = new Point($x, $y);
 
@@ -341,6 +342,7 @@ class SHPController extends ADataController
 
                 $points[] = $x . ',' . $y;
             }
+
             array_push($parts, implode(" ", $points));
         }
 
@@ -354,7 +356,10 @@ class SHPController extends ADataController
         foreach ($shp_data['parts'] as $part) {
             $points = array();
 
-            foreach ($part['points'] as $point) {
+            // We don't support multi-ring polygon
+            $first_ring_points = array_shift($part['rings']);
+
+            foreach ($first_ring_points['points'] as $point) {
                 $x = $point['x'];
                 $y = $point['y'];
                 $z = $point['z'];
@@ -446,16 +451,16 @@ class SHPController extends ADataController
                 file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
 
                 // Along this file the class will use file.shx and file.dbf
-                $shp = new ShapeReader($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+                $shape_file = new Shapefile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
             } else {
                // along this file the class will use file.shx and file.dbf
-                $shp = new ShapeReader($options['uri'], array('noparts' => false));
+                $shape_file = new Shapefile($options['uri'], array('noparts' => false));
             }
         } catch (Exception $e) {
             \App::abort(400, "The shape contents couldn't be retrieved, make sure the shape file is valid, zipped shape files are not yet supported.");
         }
 
-        $record = $shp->getNext();
+        $record = $shape_file->getRecord();
 
         // Read meta data
         if (!$record) {
@@ -464,7 +469,7 @@ class SHPController extends ADataController
         }
 
         // Get the dBASE fields
-        $dbf_fields = $record->getDbfData();
+        $dbf_fields = $record['dbf'];
 
         $column_index = 0;
 
@@ -476,7 +481,7 @@ class SHPController extends ADataController
             $column_index++;
         }
 
-        $shape_type = self::$RECORD_TYPES[$record->getTypeCode()];
+        $shape_type = self::$RECORD_TYPES[$shape_file->getShapeType()];
 
         // Get the geographical column names
         switch (strtolower($shape_type)) {
@@ -536,12 +541,12 @@ class SHPController extends ADataController
             file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".dbf"));
             file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
 
-            $shp = new ShapeReader($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+            $shape_file = new ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
         } else {
-            $shp = new ShapeReader($options['uri'], array('noparts' => false));
+            $shape_file = new ShapeFile($options['uri'], array('noparts' => false));
         }
 
-        $record = $shp->getNext();
+        $record = $shape_file->getRecord();
 
         // read meta data
         if (!$record) {
@@ -549,17 +554,14 @@ class SHPController extends ADataController
             \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $uri, make sure the corresponding dbf and shx files are at the same location.");
         }
 
-        $shp_data = $record->getShpData();
-
-        $geo_properties = array();
-
-
         // Get the geographical column names
         // Either multiple coordinates will be set (identified by the parts)
         // or a lat long pair will be set (identified by x and y)
-        $shp_data = $record->getShpData();
+        $shp_data = $record['shp'];
 
-        $shape_type = self::$RECORD_TYPES[$record->getTypeCode()];
+        $geo_properties = array();
+
+        $shape_type = self::$RECORD_TYPES[$shape_file->getShapeType()];
 
         switch (strtolower($shape_type)) {
             case 'point':

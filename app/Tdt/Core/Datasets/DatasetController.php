@@ -5,8 +5,6 @@ namespace Tdt\Core\Datasets;
 use Tdt\Core\Auth\Auth;
 use Tdt\Core\Cache\Cache;
 use Tdt\Core\ContentNegotiator;
-use Tdt\Core\Definitions\DefinitionController;
-use Tdt\Core\DataControllers\ADataController;
 use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
 use Tdt\Core\Formatters\FormatHelper;
@@ -94,7 +92,7 @@ class DatasetController extends ApiController
 
                     $throttle_response = $this->applyThrottle($definition);
 
-                    if (!empty($throttle_response)) {
+                    if (! empty($throttle_response)) {
                         return $throttle_response;
                     }
 
@@ -106,12 +104,12 @@ class DatasetController extends ApiController
                         return $this->createXMLResponse($data->data);
                     } elseif (strtolower($source_type) == 'xml' && $extension == 'kml' && $data->geo_formatted) {
                         return $this->createXMLResponse($data->data);
-                    } elseif (!$data->is_semantic && $extension == 'xml' && $source_type != 'xml') {
-                        \App::abort(406, "The requested format for the datasource is not available.");
-                    } elseif (strtolower($source_type) == 'xml' && !$data->geo_formatted &&!empty($extension) && $extension != 'xml') {
-                        \App::abort(406, "The requested format for the datasource is not available.");
-                    } elseif (strtolower($source_type) == 'xml' && $data->geo_formatted && !empty($extension) && !in_array($extension, $data->preferred_formats)) {
-                        \App::abort(406, "The requested format for the datasource is not available.");
+                    } elseif (! $data->is_semantic && $extension == 'xml' && $source_type != 'xml') {
+                        \App::abort(406, 'The requested format for the datasource is not available.');
+                    } elseif (strtolower($source_type) == 'xml' && ! $data->geo_formatted && ! empty($extension) && $extension != 'xml') {
+                        \App::abort(406, 'The requested format for the datasource is not available.');
+                    } elseif (strtolower($source_type) == 'xml' && $data->geo_formatted && ! empty($extension) && ! in_array($extension, $data->preferred_formats)) {
+                        \App::abort(406, 'The requested format for the datasource is not available.');
                     }
 
                     $data->rest_parameters = $rest_parameters;
@@ -122,7 +120,7 @@ class DatasetController extends ApiController
                     }
 
                     // Semantic paging with the hydra voc
-                    if ($data->is_semantic && !empty($data->paging)) {
+                    if ($data->is_semantic && ! empty($data->paging)) {
                         RdfNamespace::set('hydra', 'http://www.w3.org/ns/hydra/core#');
                         $graph = $data->data;
                         $url = \URL::to($definition['collection_uri'] . '/' . $definition['resource_name']);
@@ -152,7 +150,7 @@ class DatasetController extends ApiController
                         $graph->addResource($url, 'a', 'dcat:Dataset');
 
                         $title = null;
-                        if (!empty($definition['title'])) {
+                        if (! empty($definition['title'])) {
                             $title = $definition['title'];
                         } else {
                             $title = $definition['collection_uri'] . '/' . $definition['resource_name'];
@@ -176,14 +174,14 @@ class DatasetController extends ApiController
                     $data->formats = $format_helper->getAvailableFormats($data);
 
                     // Store in cache
-                    if (!empty($definition['cache_minutes'])) {
+                    if (! empty($definition['cache_minutes'])) {
                         Cache::put($cache_string, $data, $definition['cache_minutes']);
                     }
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
                 } else {
-                    \App::abort(404, "Source for the definition could not be found.");
+                    \App::abort(404, 'Source for the definition could not be found.');
                 }
 
             } else {
@@ -203,7 +201,7 @@ class DatasetController extends ApiController
                             array_push($data->data->datasets, \URL::to($collection_uri . '/' . $res['resource_name']));
                         } else {
                             // Push the subcollection if it's not already in the array
-                            if (!in_array(\URL::to($collection_uri), $data->data->collections)) {
+                            if (! in_array(\URL::to($collection_uri), $data->data->collections)) {
                                 array_push($data->data->collections, \URL::to($collection_uri));
                             }
                         }
@@ -258,40 +256,6 @@ class DatasetController extends ApiController
     }
 
     /**
-     * Process the URI and return the extension (=format) and the resource identifier URI
-     *
-     * @param string $uri The URI that has been passed
-     * @return array
-     */
-    private static function processURI($uri)
-    {
-        $dot_position = strrpos($uri, '.');
-
-        if (!$dot_position) {
-            return array($uri, null);
-        }
-
-        // If a dot has been found, do a couple
-        // of checks to find out if it introduces a formatter
-        $uri_parts = explode('.', $uri);
-
-        $possible_extension = strtoupper(array_pop($uri_parts));
-
-        $uri = implode('.', $uri_parts);
-
-        $formatter_class = 'Tdt\\Core\\Formatters\\' . $possible_extension . 'Formatter';
-
-        if (!class_exists($formatter_class)) {
-            // Re-attach the dot with the latter part of the uri
-            $uri .= '.' . strtolower($possible_extension);
-
-            return array($uri, null);
-        }
-
-        return array($uri, strtolower($possible_extension));
-    }
-
-    /**
      * Apply RESTful filtering of the data (case insensitive)
      *
      * @param mixed $data        The data to be filtered
@@ -302,7 +266,7 @@ class DatasetController extends ApiController
     private static function applyRestFilter($data, $rest_params)
     {
         foreach ($rest_params as $rest_param) {
-            if (!empty($rest_param)) {
+            if (! empty($rest_param)) {
                 if (is_object($data) && $key = self::propertyExists($data, $rest_param)) {
                     $data = $data->$key;
                 } elseif (is_array($data)) {
@@ -369,10 +333,10 @@ class DatasetController extends ApiController
 
                 return $data;
             } else {
-                \App::abort(404, "Source for the definition could not be found.");
+                \App::abort(404, 'Source for the definition could not be found.');
             }
         } else {
-            \App::abort(404, "The definition could not be found.");
+            \App::abort(404, 'The definition could not be found.');
         }
     }
 

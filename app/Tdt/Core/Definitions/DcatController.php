@@ -2,8 +2,6 @@
 
 namespace Tdt\Core\Definitions;
 
-use Illuminate\Routing\Router;
-
 use Tdt\Core\Auth\Auth;
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\ContentNegotiator;
@@ -40,17 +38,27 @@ class DcatController extends ApiController
         $this->settings = $settings;
     }
 
-    public function get($uri)
+    /**
+     * Handle a request for a DCAT feed of the definitions
+     *
+     * @param  string   $slug The part after api/dcat
+     * @return Response
+     */
+    public function get($slug)
     {
         // Ask permission
         Auth::requirePermissions('info.view');
+
+        $dcat = $this->createDcat();
+
+        $extension = ltrim($slug, '.');
+
+        $extension = strtolower($extension);
 
         // Default format is ttl for dcat
         if (empty($extension)) {
             $extension = 'ttl';
         }
-
-        $dcat = $this->createDcat();
 
         // Allow content nego. for dcat
         return ContentNegotiator::getResponse($dcat, $extension);
@@ -73,7 +81,7 @@ class DcatController extends ApiController
         $limit = \Input::get('limit');
 
         if (empty($limit)) {
-            \Input::merge(array('limit' => 100));
+            \Input::merge(array('limit' => 50));
         }
 
         // Apply paging when fetching the definitions

@@ -11,7 +11,7 @@ use \Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
-abstract class ApiController extends \Controller
+abstract class ApiController extends Controller
 {
 
     protected $definition;
@@ -23,27 +23,26 @@ abstract class ApiController extends \Controller
 
     public function handle($uri)
     {
-
         $uri = ltrim($uri, '/');
 
         // Delegate the request based on the used http method
         $method = \Request::getMethod();
 
         switch ($method) {
-            case "PUT":
+            case 'PUT':
                 return $this->put($uri);
                 break;
-            case "GET":
+            case 'GET':
                 return $this->get($uri);
                 break;
-            case "POST":
-            case "PATCH":
+            case 'POST':
+            case 'PATCH':
                 return $this->patch($uri);
                 break;
-            case "DELETE":
+            case 'DELETE':
                 return $this->delete($uri);
                 break;
-            case "HEAD":
+            case 'HEAD':
                 return $this->head($uri);
                 break;
             default:
@@ -55,26 +54,26 @@ abstract class ApiController extends \Controller
 
     public function get($uri)
     {
-        \App::abort(405, "The HTTP method GET is not supported by this resource.");
+        \App::abort(405, 'The HTTP method GET is not supported by this resource.');
     }
 
     public function put($uri)
     {
-        \App::abort(405, "The HTTP method PUT is not supported by this resource.");
+        \App::abort(405, 'The HTTP method PUT is not supported by this resource.');
     }
 
     public function patch($uri)
     {
-        \App::abort(405, "The HTTP method PATCH is not supported by this resource.");
+        \App::abort(405, 'The HTTP method PATCH is not supported by this resource.');
     }
 
     public function head($uri)
     {
-        \App::abort(405, "The HTTP method HEAD is not supported by this resource.");
+        \App::abort(405, 'The HTTP method HEAD is not supported by this resource.');
     }
 
     public function delete($uri)
     {
-        \App::abort(405, "The HTTP method DELETE is not supported by this resource.");
+        \App::abort(405, 'The HTTP method DELETE is not supported by this resource.');
     }
 }
