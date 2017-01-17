@@ -325,7 +325,57 @@
                                 </div>
                             </div>
                         @endif
-                    </div>
+
+                            <!-- .......feature 2...... -->
+                            <hr>
+                            <br>
+
+                            <!-- option A -->
+                            <?php
+                                echo Form::open();
+                                echo Form::checkbox('name', 1);
+                                echo ' should we index this dataset';
+                                echo Form::close();
+
+                                if (Input::get('name') === 1) {
+                                    echo "check";
+                                } else {
+                                    // unchecked
+                                }
+                                ?>
+                            <br>
+
+                            <!-- option B -->
+
+                            {{ Form::checkbox('index')}}  should we index this dataset<br><br>
+                            <!--<input type="checkbox" name="test_check" value="test_index">  should we index this dataset<br>-->
+                            <br>
+
+                            <!--TODO: check condition  if(check == true)-->
+
+                            <div class="col-sm-12" id="addJob" style="display: ">
+                            <form class='form form-horizontal add-job'>
+                                <div class="form-group">
+                                    <label for="schedule" class="col-sm-2 control-label">
+                                        Schedule
+                                    </label>
+                                    <div class="col-sm-2">
+                                        <select class="form-control" id="schedule" name="schedule">
+                                            <option value="once">once</option>
+                                            <option value="half-daily">half-daily</option>
+                                            <option value="daily">daily</option>
+                                            <option value="weekly">weekly</option>
+                                            <option value="monthly">monthly</option>
+                                        </select>
+                                        <div class='help-block'>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                            </form>
+                        </div>
+                   <script type="text/javascript" src="{{ asset('packages/tdt/input/jobs.min.js', Config::get('app.ssl_enabled')) }}"></script>
+        </div>
                 </div>
             @endforeach
         </div>
