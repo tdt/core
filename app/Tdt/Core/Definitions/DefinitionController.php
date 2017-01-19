@@ -40,14 +40,20 @@ class DefinitionController extends ApiController
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
         }
 
-        $input = $this->fetchInput();
+        $input = $this->fetchInput();		
 
         // Add the collection and uri to the input
         preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
-
+		
+		// Add uploaded file and change uri.
+		// TODO: Validate file extension.
+		if($input['fileupload']!='') {
+			$input['uri'] = 'file://'.$input['fileupload'];
+		}
+		
         // Validate the input
         $validator = $this->definitions->getValidator($input);
 
@@ -106,6 +112,12 @@ class DefinitionController extends ApiController
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
+		
+		// Add uploaded file and change uri.
+		// TODO: Validate file extension.
+		if($input['fileupload']!='') {
+			$input['uri'] = 'file://'.$input['fileupload'];
+		}		
 
         // Validate the input
         $validator = $this->definitions->getValidator($input);
