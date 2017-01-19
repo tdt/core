@@ -332,6 +332,7 @@
                         @endif
 
                             <!-- .......feature 2...... -->
+                         @if (in_array(strtolower($mediatype), array("csv", "xml", "json")))
                             <hr>
                             <div class="submenu">
                                 <label class="checkbox">
@@ -358,8 +359,36 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr/>
                                     </form>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">
+                                        Host
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="endpoint" name="endpoint" placeholder="">
+                                        <div class="help-block">
+                                            The sparql endpoint of the virtuoso, be sure that it has write permissions (e.g. sparql-auth)                                                </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">
+                                        Index
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="es_index" name="es_index" placeholder="" value="datatank">
+                                        <div class="help-block">
+                                            The index to connect to.
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">
+                                        Type
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="es_type" name="es_type" placeholder="">
+                                        <div class="help-block">
+                                            The type to insert the data into.
+                                        </div>
+                                    </div>
+                                    <hr/>
                                 </div>
                             </div>
                             <script type="text/javascript">
@@ -374,6 +403,7 @@
                                     }
                                 });
                             </script>
+                             @endif
                       </div>
                 </div>
             @endforeach
