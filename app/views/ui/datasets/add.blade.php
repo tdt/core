@@ -142,7 +142,6 @@
                                         @endif
 										@if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
 											<input type="file" class="form-control" id="fileupload" name="fileupload" />
-											<!--<button type="submit">Submit file</button>-->
 										@endif
                                         <div class='help-block'>
                                             {{ $object->description }}
@@ -340,7 +339,7 @@
                                 </label>
                             </div>
                             <br>
-                            <div class="entry 1" style="display:none;">
+                            <div class="elasticsearchdata" style="display:none;">
                                 <div class="col-sm-12">
                                     <form class='form form-horizontal add-job'>
                                         <div class="form-group">
@@ -366,40 +365,33 @@
                                         Host
                                     </label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="endpoint" name="endpoint" placeholder="">
-                                        <div class="help-block">
-                                            The sparql endpoint of the virtuoso, be sure that it has write permissions (e.g. sparql-auth)                                                </div>
+										<input type="text" class="form-control" id="es_host_display" name="host_display" placeholder="" value="http://tdt.dev/" disabled="disabled">
+                                        <div class="help-block"></div>
                                     </div>
                                     <label class="col-sm-2 control-label">
                                         Index
                                     </label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="es_index" name="es_index" placeholder="" value="datatank">
-                                        <div class="help-block">
-                                            The index to connect to.
-                                        </div>
+										<input type="text" class="form-control" id="es_index_display" name="index_display" placeholder="" value="datatank" disabled="disabled">
+                                        <div class="help-block"></div>									 
                                     </div>
-                                    <label class="col-sm-2 control-label">
-                                        Type
-                                    </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="es_type" name="es_type" placeholder="">
-                                        <div class="help-block">
-                                            The type to insert the data into.
-                                        </div>
-                                    </div>
+
+									<input type="hidden" id="input_host" name="host" value="http://tdt.dev/">
+									<input type="hidden" id="input_es_index" name="es_index" value="datatank">
+									<input type="hidden" id="input_es_type" name="es_type" value="">
+									<input type="hidden" id="input_port" name="port" value="9200">
+									<input type="hidden" id="input_username" name="username">
+									<input type="hidden" id="input_password" name="password">
+									<input type="hidden" id="input_cache_minutes" name="cache_minutes" value="5">
                                     <hr/>
                                 </div>
                             </div>
                             <script type="text/javascript">
                                 $('input[type="checkbox"]').change(function () {
-                                    var checkboxname = $(this).val();
-                                    if ($(".entry").hasClass(checkboxname)) {
-                                        if ($(this).is(":checked")) {
-                                            $(".entry." + checkboxname).show();
-                                        } else {
-                                            $(".entry." + checkboxname).hide();
-                                        }
+                                    if ($(this).is(":checked")) {
+										$(".tab-pane.active").find(".elasticsearchdata").show();
+                                    } else {
+                                        $(".tab-pane.active").find(".elasticsearchdata").hide();
                                     }
                                 });
                             </script>
@@ -438,37 +430,17 @@
             </div>
         </div>
     </script>
-	<!--
 	<script>
 	$(document).ready(function() {
-		$("form.add-dataset").on('submit',function(event) {
-			event.preventDefault();
-			if( $(".tab-pane.active").find("#fileupload")[0].files.length == 0 ){
-				console.log("no files selected");
-			} else {
-				alert($(".tab-pane.active").find("#fileupload").val());
-				var file = $(".tab-pane.active").find('input[type=file]')[0].files[0];
-				var fd = new FormData();
-				fd.append("fileupload", file);
 
-				$.ajax({
-					async: true,
-					type: "POST",
-					//dataType: "json", // or html if you want...
-					contentType: false, // high importance!
-					url: '/upload-file', // you need change it.
-					data: fd, // high importance!
-					processData: false, // high importance!
-					success: function (data) {
-						alert("Fichero subido");
-						//do thing with data....
-						alert(data);
-
-					},
-					timeout: 10000
-				});
+		$("input:file").change(function (){
+			if($(this).val().length > 0) {
+				$(".tab-pane.active").find("#input_uri").hide();                
+			}else{
+				$(".tab-pane.active").find("#input_uri").show();
 			}
 		});
+
 	});
-	</script>-->
+	</script>
 @stop

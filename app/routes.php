@@ -52,7 +52,13 @@ Route::any('upload-file', function(){
         '/[“”«»„]/u'    =>   '_', // Double quote
         '/ /'           =>   '_', // nonbreaking space (equiv. to 0x160)
     );
-	return Input::file('fileupload')->move(app_path().'/storage/app/',strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload')->getClientOriginalName())));
+	
+	$file = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload')->getClientOriginalName()));
+
+	$filename = pathinfo($file, PATHINFO_FILENAME);
+	$extension = pathinfo($file, PATHINFO_EXTENSION);	
+	
+	return Input::file('fileupload')->move(app_path().'/storage/app/',$filename.'_'.time().'.'.$extension);
 });
 
 /*

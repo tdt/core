@@ -49,9 +49,15 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
 		
 		// Add uploaded file and change uri.
-		// TODO: Validate file extension.
-		if($input['fileupload']!='') {
+		// TODO: Validate file extension based on selected dataset/definition.
+		if(isset($input['fileupload']) && $input['fileupload'] !='') {
 			$input['uri'] = 'file://'.$input['fileupload'];
+		}
+		
+		// Check if dataset should be indexed
+		if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
+			$input['type'] = 'elasticsearch';
+			$input['es_type'] = $input['collection_uri'].'_'.$input['resource_name'];
 		}
 		
         // Validate the input
@@ -65,6 +71,19 @@ class DefinitionController extends ApiController
 
         // Create the new definition
         $definition = $this->definitions->store($input);
+		
+		// Check if dataset should be indexed: create job and link with previously created definition.
+		if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
+			// Prepare data for job model
+				/*$jobdata = [];*/
+			// Create new job making use of tdt/input external package.
+			
+			// Link job with definition throug job_id column.
+				/*
+				$input['job_id'] = $jobdata['id'];
+				$definition = $this->definitions->update($uri, $input);
+				*/
+		}
 
         $response = \Response::make(null, 200);
         $response->header(
@@ -114,8 +133,8 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
 		
 		// Add uploaded file and change uri.
-		// TODO: Validate file extension.
-		if($input['fileupload']!='') {
+		// TODO: Validate file extension based on selected dataset/definition.
+		if(isset($input['fileupload']) && $input['fileupload'] !='') {
 			$input['uri'] = 'file://'.$input['fileupload'];
 		}		
 
