@@ -17,7 +17,7 @@
     </div>
 
     <br/>
-    <form class="form-horizontal add-dataset" role="form">
+    <form class="form-horizontal add-dataset" action="/upload-file" method="post" role="form" enctype="multipart/form-data">
         <div class='identifier'>
             <div class='row'>
                 <div class='col-sm-offset-2 col-sm-8'>
@@ -139,6 +139,10 @@
                                                 @endforeach
                                             </select>
                                         @endif
+										@if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
+											<input type="file" class="form-control" id="fileupload" name="fileupload" />
+											<!--<button type="submit">Submit file</button>-->
+										@endif
                                         <div class='help-block'>
                                             {{ $object->description }}
                                         </div>
@@ -359,4 +363,37 @@
             </div>
         </div>
     </script>
+	<!--
+	<script>
+	$(document).ready(function() {
+		$("form.add-dataset").on('submit',function(event) {
+			event.preventDefault();
+			if( $(".tab-pane.active").find("#fileupload")[0].files.length == 0 ){
+				console.log("no files selected");
+			} else {
+				alert($(".tab-pane.active").find("#fileupload").val());
+				var file = $(".tab-pane.active").find('input[type=file]')[0].files[0];
+				var fd = new FormData();
+				fd.append("fileupload", file);
+
+				$.ajax({
+					async: true,
+					type: "POST",
+					//dataType: "json", // or html if you want...
+					contentType: false, // high importance!
+					url: '/upload-file', // you need change it.
+					data: fd, // high importance!
+					processData: false, // high importance!
+					success: function (data) {
+						alert("Fichero subido");
+						//do thing with data....
+						alert(data);
+
+					},
+					timeout: 10000
+				});
+			}
+		});
+	});
+	</script>-->
 @stop
