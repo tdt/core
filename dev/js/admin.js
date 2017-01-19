@@ -121,6 +121,16 @@ $('.btn-add-dataset').on('click', function(e){
             }
         }
     });
+
+    //<--- -----feature 2 ---->
+
+    data.to_be_indexed = "0";
+    var to_be_indexed = $('.form-control').find('.indexed').val();
+    data.to_be_indexed = to_be_indexed;
+
+    // Log::warning('Testinnng');
+    // console.log(to_be_indexed);
+
     $('.attribution-person', tab_pane).each(function(){
         if (!data.attribution) {
             data.attribution = [];

@@ -331,7 +331,7 @@
                             <hr>
                             <div class="submenu">
                                 <label class="checkbox">
-                                    <input type="checkbox" name="to_be_indexed" value="1"> should we index this dataset
+                                    <input type="checkbox" name="to_be_indexed" value="1" class="form-control indexed"> Should we index this dataset
                                 </label>
                             </div>
                             <br>
