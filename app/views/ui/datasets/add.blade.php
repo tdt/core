@@ -340,13 +340,12 @@
                             </div>
                             <br>
                             <div class="elasticsearchdata" style="display:none;">
-                                <div class="col-sm-12">
-                                    <form class='form form-horizontal add-job'>
+                                    <form class='form form-horizontal'>
                                         <div class="form-group">
                                             <label for="schedule" class="col-sm-2 control-label">
                                                 Schedule
                                             </label>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-10 col-lg-5">
                                                 <select class="form-control" id="schedule" name="schedule">
                                                     <option value="once">once</option>
                                                     <option value="half-daily">half-daily</option>
@@ -359,7 +358,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">
                                         Host
