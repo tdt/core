@@ -18,7 +18,7 @@
                 $collection_name = str_replace(URL::to('/'). '/', '', $collection);
             ?>
 
-            <div class="panel dataset dataset-link collection panel-default clickable-row" data-href='{{ URL::to($collection) }}'>
+            <a class="panel dataset dataset-link collection panel-default clickable-row" href='{{ URL::to($collection) }}'>
                 <div class="panel-body">
                     <div class='icon'>
                         <i class='fa fa-lg fa-folder-open-o'></i>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
         @endforeach
 
@@ -42,7 +42,7 @@
                 $definition_name = str_replace(URL::to('/'). '/', '', $definition);
             ?>
 
-            <div class="panel dataset dataset-link panel-default clickable-row" data-href='{{ URL::to($definition) }}'>
+            <a class="panel dataset dataset-link panel-default clickable-row" href='{{ URL::to($definition) }}'>
                 <div class="panel-body">
                     <div class='icon'>
                         <i class='fa fa-lg fa-file-text-o'></i>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
         @endforeach
 
