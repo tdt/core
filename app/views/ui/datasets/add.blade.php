@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
     <div class='row header'>
         <div class="col-sm-6">
@@ -17,7 +18,7 @@
     </div>
 
     <br/>
-    <form class="form-horizontal add-dataset" role="form">
+    <form class="form-horizontal add-dataset" action="/upload-file" method="post" role="form" enctype="multipart/form-data">
         <div class='identifier'>
             <div class='row'>
                 <div class='col-sm-offset-2 col-sm-8'>
@@ -139,6 +140,9 @@
                                                 @endforeach
                                             </select>
                                         @endif
+										@if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
+											<input type="file" class="form-control" id="fileupload" name="fileupload" />
+										@endif
                                         <div class='help-block'>
                                             {{ $object->description }}
                                         </div>
@@ -325,7 +329,76 @@
                                 </div>
                             </div>
                         @endif
-                    </div>
+
+                            <!-- .......feature 2...... -->
+                         @if (in_array(strtolower($mediatype), array("csv", "xml", "json")))
+                            <hr>
+                            <div class="submenu">
+                                <label class="checkbox">
+                                    <input type="checkbox" name="to_be_indexed" value="1" class="form-control indexed"> Should we index this dataset
+                                </label>
+                            </div>
+                            <br>
+                            <div class="elasticsearchdata" style="display:none;">
+                                    <form class='form form-horizontal'>
+                                        <div class="form-group">
+                                            <label for="schedule" class="col-sm-2 control-label">
+                                                Schedule
+                                            </label>
+                                            <div class="col-sm-10 col-lg-5">
+                                                <select class="form-control" id="schedule" name="schedule">
+                                                    <option value="once">once</option>
+                                                    <option value="half-daily">half-daily</option>
+                                                    <option value="daily">daily</option>
+                                                    <option value="weekly">weekly</option>
+                                                    <option value="monthly">monthly</option>
+                                                </select>
+                                                <div class='help-block'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">
+                                        Host
+                                    </label>
+                                    <div class="col-sm-10">
+										<input type="text" class="form-control" id="es_host_display" name="host_display" placeholder="" value="http://tdt.dev/" disabled="disabled">
+                                        <div class="help-block"></div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">
+                                        Index
+                                    </label>
+                                    <div class="col-sm-10">
+										<input type="text" class="form-control" id="es_index_display" name="index_display" placeholder="" value="datatank" disabled="disabled">
+                                        <div class="help-block"></div>									 
+                                    </div>
+
+									<input type="hidden" id="input_host" name="host" value="http://tdt.dev/">
+									<input type="hidden" id="input_es_index" name="es_index" value="datatank">
+									<input type="hidden" id="input_es_type" name="es_type" value="">
+									<input type="hidden" id="input_port" name="port" value="9200">
+									<input type="hidden" id="input_username" name="username">
+									<input type="hidden" id="input_password" name="password">
+									<input type="hidden" id="input_cache_minutes" name="cache_minutes" value="5">
+                                    <hr/>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                $('input[type="checkbox"]').change(function () {
+                                    if($(this).hasClass("indexed") ){
+                                        if ($(this).is(":checked")) {
+                                            $(".tab-pane.active").find(".elasticsearchdata").show();
+                                        } else {
+                                            $(".tab-pane.active").find(".elasticsearchdata").hide();
+                                        }
+                                    }else{
+                                        //nothing
+                                    }
+                                });
+                            </script>
+                             @endif
+                      </div>
                 </div>
             @endforeach
         </div>
@@ -359,4 +432,17 @@
             </div>
         </div>
     </script>
+	<script>
+	$(document).ready(function() {
+
+		$("input:file").change(function (){
+			if($(this).val().length > 0) {
+				$(".tab-pane.active").find("#input_uri").hide();                
+			}else{
+				$(".tab-pane.active").find("#input_uri").show();
+			}
+		});
+
+	});
+	</script>
 @stop

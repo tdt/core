@@ -181,4 +181,8 @@ return array(
     'elasticsearch_username_desc'       => 'A username that has read permissions on the provided index. Safety first, make sure the user only has read permissions.',
     'elasticsearch_password'            => 'Password',
     'elasticsearch_password_desc'       => 'The password for the user that has read permissions.',
+	'csv_job_id'       => 'Related Job',
+	'csv_job_id_desc'       => 'Job linked to this dataset.',
+	'csv_original_file'       => 'Original file',
+	'csv_original_file_desc'       => 'Original dataset file.',
 );
