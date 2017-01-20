@@ -264,9 +264,8 @@ class DefinitionController extends ApiController
 			$job_id = $this->createLinkJob($uri, $input);
 			
 			// Link job with definition through job_id column.
-			$input['publisher_name'] = 'Secmotic';
 			$input['job_id'] = $job_id;
-			$definition = $this->definitions->update($uri, $input);
+			$definition = $this->definitions->update($uri, $input); // update previously created definition
 		}
 
         $response = \Response::make(null, 200);

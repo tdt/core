@@ -803,6 +803,18 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'description' => 'The name of the entity responsible for publishing the dataset.',
                 'group' => 'dc',
             ),
+            'job_id' => array(
+                'required' => false,
+                'name' => 'Related job',
+                'type' => 'integer',
+                'description' => 'Job linked to this dataset.',
+            ),
+            'original_file' => array(
+                'required' => false,
+                'name' => 'Original file',
+                'type' => 'string',
+                'description' => 'Original dataset file.',
+            ),			
             'keywords' => array(
                 'required' => false,
                 'requiredgeodcat' => 'required',

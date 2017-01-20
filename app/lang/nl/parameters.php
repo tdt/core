@@ -171,4 +171,9 @@ return array(
     'elasticsearch_username_desc'       => 'De gebruiker die voldoende rechten heeft om het SPARQL endpoint te bevragen.',
     'elasticsearch_password'            => 'Wachtwoord',
     'elasticsearch_password_desc'       => 'Wachtwoord van de gebruiker.',
+	
+	'csv_job_id'       => 'Related Job',
+	'csv_job_id_desc'       => 'Job linked to this dataset.',
+	'csv_original_file'       => 'Original file',
+	'csv_original_file_desc'       => 'Original dataset file.',	
 );
