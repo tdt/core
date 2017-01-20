@@ -388,10 +388,14 @@
                             </div>
                             <script type="text/javascript">
                                 $('input[type="checkbox"]').change(function () {
-                                    if ($(this).is(":checked")) {
-										$(".tab-pane.active").find(".elasticsearchdata").show();
-                                    } else {
-                                        $(".tab-pane.active").find(".elasticsearchdata").hide();
+                                    if($(this).hasClass("indexed") ){
+                                        if ($(this).is(":checked")) {
+                                            $(".tab-pane.active").find(".elasticsearchdata").show();
+                                        } else {
+                                            $(".tab-pane.active").find(".elasticsearchdata").hide();
+                                        }
+                                    }else{
+                                        //nothing
                                     }
                                 });
                             </script>
