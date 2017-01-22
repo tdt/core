@@ -178,4 +178,9 @@ return array(
 
     'elasticsearch_password'            => "Mot de passe",
     'elasticsearch_password_desc'       => "Le mot de passe pour l'utilisateur qui a les autorisations de lecture.",
+	
+	'csv_job_id'       => 'Related Job',
+	'csv_job_id_desc'       => 'Job linked to this dataset.',
+	'csv_original_file'       => 'Original file',
+	'csv_original_file_desc'       => 'Original dataset file.',	
 );

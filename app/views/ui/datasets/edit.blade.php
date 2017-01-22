@@ -88,6 +88,9 @@
                                     @endforeach
                                 </select>
                             @endif
+							@if (in_array(strtolower($source_definition->type), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
+								<input type="file" class="form-control" id="fileupload" name="fileupload" />
+							@endif							
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
