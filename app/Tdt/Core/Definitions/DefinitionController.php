@@ -200,9 +200,6 @@ class DefinitionController extends ApiController
         $job->date_executed = time();
         $job->save();
 
-        \Log::info($params);
-        \Log::info($job->id);
-
         $job_name = $job->collection_uri . '/' . $job->name;
 
         \Queue::push(function ($queued_job) use ($job_name) {
