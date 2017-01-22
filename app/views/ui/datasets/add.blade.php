@@ -330,12 +330,11 @@
                             </div>
                         @endif
 
-                            <!-- .......feature 2...... -->
                          @if (in_array(strtolower($mediatype), array("csv", "xml", "json")))
                             <hr>
                             <div class="submenu">
                                 <label class="checkbox">
-                                    <input type="checkbox" name="to_be_indexed" value="1" class="form-control indexed"> Should we index this dataset
+                                    <input type="checkbox" name="to_be_indexed" value="1" class="form-control indexed"> Index the data in Elasticsearch
                                 </label>
                             </div>
                             <br>
@@ -371,7 +370,7 @@
                                     </label>
                                     <div class="col-sm-10">
 										<input type="text" class="form-control" id="es_index_display" name="index_display" placeholder="" value="datatank" disabled="disabled">
-                                        <div class="help-block"></div>									 
+                                        <div class="help-block"></div>
                                     </div>
 
 									<input type="hidden" id="input_host" name="host" value="http://tdt.dev/">
@@ -437,7 +436,7 @@
 
 		$("input:file").change(function (){
 			if($(this).val().length > 0) {
-				$(".tab-pane.active").find("#input_uri").hide();                
+				$(".tab-pane.active").find("#input_uri").hide();
 			}else{
 				$(".tab-pane.active").find("#input_uri").show();
 			}

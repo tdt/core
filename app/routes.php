@@ -30,9 +30,8 @@ Route::group(array('prefix' => 'api/admin'), function () {
     Route::any('{all}', 'Tdt\\Core\\Ui\\UiController@handleRequest')->where('all', '.*');
 });
 
-Route::any('upload-file', function(){
-	//var_dump(Input::file('fileupload'));
-    $utf8 = array(
+Route::any('upload-file', function () {
+    $utf8 = [
         '/[áàâãªä]/u'   =>   'a',
         '/[ÁÀÂÃÄ]/u'    =>   'A',
         '/[ÍÌÎÏ]/u'     =>   'I',
@@ -51,14 +50,14 @@ Route::any('upload-file', function(){
         '/[’‘‹›‚]/u'    =>   '_', // Literally a single quote
         '/[“”«»„]/u'    =>   '_', // Double quote
         '/ /'           =>   '_', // nonbreaking space (equiv. to 0x160)
-    );
-	
-	$file = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload')->getClientOriginalName()));
+    ];
 
-	$filename = pathinfo($file, PATHINFO_FILENAME);
-	$extension = pathinfo($file, PATHINFO_EXTENSION);	
-	
-	return Input::file('fileupload')->move(app_path().'/storage/app/',$filename.'_'.time().'.'.$extension);
+    $file = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload')->getClientOriginalName()));
+
+    return Input::file('fileupload')->move(
+        app_path() . '/storage/app/',
+        $file . '_' . time() . '.' . Input::file('fileupload')->getClientOriginalExtension()
+    );
 });
 
 /*
@@ -137,7 +136,7 @@ App::error(function ($exception, $code) {
 App::finish(function ($request, $response) {
     $tracker_id = \Config::get('tracker.id');
 
-    if (!empty($tracker_id)) {
+    if (! empty($tracker_id)) {
         $tracker = \App::make('Tdt\Core\Analytics\TrackerInterface');
         $tracker->track($request, $tracker_id);
     }

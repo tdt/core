@@ -2,7 +2,6 @@
 
 namespace Tdt\Core\Definitions;
 
-use Illuminate\Routing\Router;
 use Tdt\Core\Auth\Auth;
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
@@ -26,8 +25,7 @@ class DefinitionController extends ApiController
     {
         $this->definitions = $definitions;
     }
-	
-	
+
     /**
      * Create and Link Job (elasticsearch): Get the class without the namespace
      */
@@ -41,11 +39,17 @@ class DefinitionController extends ApiController
         $class = ucfirst(mb_strtolower(array_pop($class_pieces)));
 
         return implode('\\', $class_pieces) . '\\' . $class;
-    }	
-	
+    }
+
     /**
      * Create and Link Job (elasticsearch): Validate the create parameters based on the rules of a certain job.
      * If something goes wrong, abort the application and return a corresponding error message.
+     *
+     * @param string $type
+     * @param string $short_name
+     * @param array  $params
+     *
+     * @return array
      */
     private function validateParameters($type, $short_name, $params)
     {
@@ -55,8 +59,8 @@ class DefinitionController extends ApiController
         $rules = $type::getCreateValidators();
 
         foreach ($create_params as $key => $info) {
-            if (!array_key_exists($key, $params)) {
-                if (!empty($info['required']) && $info['required']) {
+            if (! array_key_exists($key, $params)) {
+                if (! empty($info['required']) && $info['required']) {
                     if (strtolower($type) != 'job') {
                         \App::abort(
                             400,
@@ -70,7 +74,7 @@ class DefinitionController extends ApiController
                 $validated_params[$key] = @$info['default_value'];
 
             } else {
-                if (!empty($rules[$key])) {
+                if (! empty($rules[$key])) {
                     $validator = \Validator::make(
                         array($key => $params[$key]),
                         array($key => $rules[$key])
@@ -89,8 +93,8 @@ class DefinitionController extends ApiController
         }
 
         return $validated_params;
-    }	
-	
+    }
+
     /**
      * Create and Link Job (elasticsearch): Check if a given type of the ETL exists.
      */
@@ -99,9 +103,9 @@ class DefinitionController extends ApiController
         $type = @$params['type'];
         $type = ucfirst(mb_strtolower($type));
 
-        $class_name = $ns . "\\" . $type;
+        $class_name = $ns . '\\' . $type;
 
-        if (!class_exists($class_name)) {
+        if (! class_exists($class_name)) {
             \App::abort(400, "The given type ($type) is not a $ns type.");
         }
 
@@ -115,70 +119,72 @@ class DefinitionController extends ApiController
         }
 
         return $class;
-    }	
-	
+    }
+
     /**
-     * Create and Link Job (elasticsearch): Create a new job
+     * Create and and return the job linked to the new definition
+     *
+     * @param string $uri   The URI of the datasource
+     * @param array  $input The input of the request
+     *
+     * @return integer The ID of the job
      */
     public function createLinkJob($uri, $input)
     {
         // Set permission
-        Auth::requirePermissions('definition.create');	
-		
+        Auth::requirePermissions('definition.create');
+
         preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
 
         $collection_uri = @$matches[1];
-        $name = @$matches[2];			
+        $name = @$matches[2];
 
-		// Extract class construction
-		$params = [];
-		$params['extract']['type'] = $input['original-dataset-type'];
-		$params['extract']['uri'] = $input['uri'];
-		
-		if ($params['extract']['type'] == "csv") {
-			$params['extract']['delimiter'] = $input['delimiter'];
-			$params['extract']['has_header_row'] = $input['has_header_row'];
-			$params['extract']['encoding'] = 'UTF-8';
-		} elseif ($params['extract']['type'] == "xml") { 
-			$params['extract']['array_level']=$input['array_level'];
-			$params['extract']['encoding'] = 'UTF-8';		
-		} elseif ($params['extract']['type'] == "json") { 
-			/* No extra fields */
-		}
+        // Extract class construction
+        $params = [];
+        $params['extract']['type'] = $input['original-dataset-type'];
+        $params['extract']['uri'] = $input['uri'];
 
-		
-		// Load class construction (always elasticsearch)
-		$params['load']['type'] = 'elasticsearch';
-		$params['load']['host'] = $input['host'];
-		$params['load']['port'] = $input['port'];
-		$params['load']['es_index'] = $input['es_index'];
-		$params['load']['es_type'] = $collection_uri.'_'.$name;
-		$params['load']['username'] = $input['username'];
-		$params['load']['password'] = $input['password'];
-		
-		// Add schedule
-		$params['schedule'] = $input['schedule'];
-		
+        if ($params['extract']['type'] == 'csv') {
+            $params['extract']['delimiter'] = $input['delimiter'];
+            $params['extract']['has_header_row'] = $input['has_header_row'];
+            $params['extract']['encoding'] = 'UTF-8';
+        } elseif ($params['extract']['type'] == 'xml') {
+            $params['extract']['array_level'] = $input['array_level'];
+            $params['extract']['encoding'] = 'UTF-8';
+        }
+
+        // Load class construction (always elasticsearch)
+        $params['load']['type'] = 'elasticsearch';
+        $params['load']['host'] = \Config::get('database.connections.tdt_elasticsearch.host', 'localhost');
+        $params['load']['port'] = \Config::get('database.connections.tdt_elasticsearch.port', 9200);
+        $params['load']['es_index'] = \Config::get('database.connections.tdt_elasticsearch.index', 'localhost');
+        $params['load']['es_type'] = trim($collection_uri) . '_' . trim($name);
+        $params['load']['username'] = $input['username'];
+        $params['load']['password'] = $input['password'];
+
+        // Add schedule
+        $params['schedule'] = $input['schedule'];
+
         // Validate the job properties
-        $job_params = $this->validateParameters('Job', 'job', $params);		
-		
-		$extract = @$params['extract'];		
-		$load = @$params['load'];
-		
+        $job_params = $this->validateParameters('Job', 'job', $params);
+
+        $extract = @$params['extract'];
+        $load = @$params['load'];
+
         // Check for every emlp part if the type is supported
         $extractor = $this->getClassOfType(@$extract, 'Extract');
         $loader = $this->getClassOfType(@$load, 'Load');
-		
+
         // Save the emlp models
         $extractor->save();
         $loader->save();
-		
-		// Create the job associated with emlp relations
+
+        // Create the job associated with emlp relations
         $job = new \Job();
         $job->collection_uri = $collection_uri;
         $job->name = $name;
-		
-		// Add the validated job params
+
+        // Add the validated job params
         foreach ($job_params as $key => $value) {
             $job->$key = $value;
         }
@@ -194,6 +200,9 @@ class DefinitionController extends ApiController
         $job->date_executed = time();
         $job->save();
 
+        \Log::info($params);
+        \Log::info($job->id);
+
         $job_name = $job->collection_uri . '/' . $job->name;
 
         \Queue::push(function ($queued_job) use ($job_name) {
@@ -203,13 +212,9 @@ class DefinitionController extends ApiController
 
             $queued_job->delete();
         });
-		
-		
-		/*\App::abort(400, "El trabajo se ha creado: ".$job->name." Properties: ".$job->id);*/
 
-        return $job->id;			
-		
-	}		
+        return $job->id;
+    }
 
     /**
      * Create a new definition based on the PUT parameters given and content-type
@@ -220,32 +225,32 @@ class DefinitionController extends ApiController
         Auth::requirePermissions('definition.create');
 
         // Check for the correct content type header if set
-        if (!empty($content_type) && $content_type != 'application/tdt.definition+json') {
+        if (! empty($content_type) && $content_type != 'application/tdt.definition+json') {
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
         }
-	
+
         $input = $this->fetchInput();
 
-		$input['original-dataset-type'] = $input['type'];
-		
+        $input['original-dataset-type'] = $input['type'];
+
         // Add the collection and uri to the input
         preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
-		
-		// Add uploaded file and change uri.
-		// TODO: Validate file extension based on selected dataset/definition.
-		if(isset($input['fileupload']) && $input['fileupload'] !='') {
-			$input['uri'] = 'file://'.$input['fileupload'];
-		}
-		
-		// Check if dataset should be indexed
-		if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
-			$input['type'] = 'elasticsearch';
-			$input['es_type'] = $input['collection_uri'].'_'.$input['resource_name'];
-		}
-		
+
+        // Add uploaded file and change uri.
+        // TODO: Validate file extension based on selected dataset/definition.
+        if (isset($input['fileupload']) && $input['fileupload'] != '') {
+            $input['uri'] = 'file://' . $input['fileupload'];
+        }
+
+        // Check if dataset should be indexed
+        if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
+            $input['type'] = 'elasticsearch';
+            $input['es_type'] = $input['collection_uri'] . '_' . $input['resource_name'];
+        }
+
         // Validate the input
         $validator = $this->definitions->getValidator($input);
 
@@ -257,16 +262,16 @@ class DefinitionController extends ApiController
 
         // Create the new definition
         $definition = $this->definitions->store($input);
-		
-		// Check if dataset should be indexed: create job and link with previously created definition.
-		if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
-			// Create new job
-			$job_id = $this->createLinkJob($uri, $input);
-			
-			// Link job with definition through job_id column.
-			$input['job_id'] = $job_id;
-			$definition = $this->definitions->update($uri, $input); // update previously created definition
-		}
+
+        // Check if dataset should be indexed: create job and link with previously created definition.
+        if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
+            // Create new job
+            $job_id = $this->createLinkJob($uri, $input);
+
+            // Link job with definition through job_id column.
+            $input['job_id'] = $job_id;
+            $definition = $this->definitions->update($uri, $input); // update previously created definition
+        }
 
         $response = \Response::make(null, 200);
         $response->header(
@@ -303,7 +308,7 @@ class DefinitionController extends ApiController
         Auth::requirePermissions('definition.update');
 
         // Check for the correct content type header if set
-        if (!empty($content_type) && $content_type != 'application/tdt.definition+json') {
+        if (! empty($content_type) && $content_type != 'application/tdt.definition+json') {
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
         }
 
@@ -314,12 +319,12 @@ class DefinitionController extends ApiController
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
-		
-		// Add uploaded file and change uri.
-		// TODO: Validate file extension based on selected dataset/definition.
-		if(isset($input['fileupload']) && $input['fileupload'] !='') {
-			$input['uri'] = 'file://'.$input['fileupload'];
-		}		
+
+        // Add uploaded file and change uri.
+        // TODO: Validate file extension based on selected dataset/definition.
+        if(isset($input['fileupload']) && $input['fileupload'] != '') {
+            $input['uri'] = 'file://' . $input['fileupload'];
+        }
 
         // Validate the input
         $validator = $this->definitions->getValidator($input);
@@ -366,9 +371,9 @@ class DefinitionController extends ApiController
         // Set permission
         Auth::requirePermissions('definition.view');
 
-        if (!empty($uri)) {
-            if (!$this->definitions->exists($uri)) {
-                \App::abort(404, "No resource was found identified with " . $uri);
+        if (! empty($uri)) {
+            if (! $this->definitions->exists($uri)) {
+                \App::abort(404, 'No resource was found identified with ' . $uri);
             }
 
             $description = $this->definitions->getFullDescription($uri);
@@ -402,7 +407,7 @@ class DefinitionController extends ApiController
         $input = \Request::getContent();
 
         // Is the body passed as JSON, if not try getting the request parameters from the uri
-        if (!empty($input)) {
+        if (! empty($input)) {
             $input = json_decode($input, true);
         } else {
             $input = \Input::all();
@@ -410,7 +415,7 @@ class DefinitionController extends ApiController
 
         // If input is empty, then something went wrong
         if (empty($input)) {
-            \App::abort(400, "The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).");
+            \App::abort(400, 'The parameters could not be parsed from the body or request URI, make sure parameters are provided and if they are correct (e.g. correct JSON).');
         }
 
         // Change all of the parameters to lowercase
