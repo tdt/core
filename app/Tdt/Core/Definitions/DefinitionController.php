@@ -157,7 +157,7 @@ class DefinitionController extends ApiController
         $params['load']['type'] = 'elasticsearch';
         $params['load']['host'] = \Config::get('database.connections.tdt_elasticsearch.host', 'localhost');
         $params['load']['port'] = \Config::get('database.connections.tdt_elasticsearch.port', 9200);
-        $params['load']['es_index'] = \Config::get('database.connections.tdt_elasticsearch.index', 'localhost');
+        $params['load']['es_index'] = \Config::get('database.connections.tdt_elasticsearch.index', 'datatank');
         $params['load']['es_type'] = trim($collection_uri) . '_' . trim($name);
         $params['load']['username'] = $input['username'];
         $params['load']['password'] = $input['password'];
@@ -245,7 +245,10 @@ class DefinitionController extends ApiController
         // Check if dataset should be indexed
         if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
             $input['type'] = 'elasticsearch';
-            $input['es_type'] = $input['collection_uri'] . '_' . $input['resource_name'];
+            $input['es_type'] = trim($input['collection_uri']) . '_' . trim($input['resource_name']);
+            $input['host'] = \Config::get('database.connections.tdt_elasticsearch.host', 'localhost');
+            $input['port'] = \Config::get('database.connections.tdt_elasticsearch.port', 9200);
+            $input['es_index'] = \Config::get('database.connections.tdt_elasticsearch.index', 'datatank');
         }
 
         // Validate the input
