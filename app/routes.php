@@ -30,7 +30,7 @@ Route::group(array('prefix' => 'api/admin'), function () {
     Route::any('{all}', 'Tdt\\Core\\Ui\\UiController@handleRequest')->where('all', '.*');
 });
 
-Route::any('upload-file', function () {
+Route::any('/upload-file', function () {
     $utf8 = [
         '/[áàâãªä]/u'   =>   'a',
         '/[ÁÀÂÃÄ]/u'    =>   'A',
