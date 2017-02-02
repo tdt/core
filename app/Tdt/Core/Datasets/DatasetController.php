@@ -9,6 +9,7 @@ use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
 use Tdt\Core\Formatters\FormatHelper;
 use EasyRdf\RdfNamespace;
+use Log;
 
 /**
  *  DatasetController
@@ -68,6 +69,20 @@ class DatasetController extends ApiController
                     $definition['source_id'],
                     $definition['source_type']
                 );
+
+                //when requesting data, the formatter should notice the linked job,
+                // and treat it as an elasticsearch data type.
+
+                    if ($definition['job_id'] != null) {
+
+                        $source_definition['type'] = 'ELASTICSEARCH';
+                        $source_definition['host'] = "http://tdt.dev/";
+                        $source_definition['port'] = "9200";
+                        $source_definition['username'] = '';
+                        $source_definition['password'] = '';
+                        $source_definition['es_type'] = $definition['collection_uri'].'_'.$definition['resource_name'];
+                        $source_definition['es_index'] = "datatank";
+                    }
 
                 if ($source_definition) {
                     $source_type = $source_definition['type'];

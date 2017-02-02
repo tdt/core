@@ -8,7 +8,9 @@
  */
 class Definition extends Eloquent
 {
-    protected $fillable = array(
+	/*protected $hidden = array('user_id', 'username');*/
+	
+	protected $fillable = array(
         'title',
         'description',
         'type',
@@ -21,6 +23,11 @@ class Definition extends Eloquent
         'theme',
         'date',
         'contact_point',
+        'draft_flag',
+		'job_id',
+		'original_file',
+		'user_id',
+		'username'
     );
 
     /**

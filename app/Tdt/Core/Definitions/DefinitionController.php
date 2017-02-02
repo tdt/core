@@ -26,6 +26,190 @@ class DefinitionController extends ApiController
     {
         $this->definitions = $definitions;
     }
+	
+	
+    /**
+     * Create and Link Job (elasticsearch): Get the class without the namespace
+     */
+    private function getClass($obj)
+    {
+        if (is_null($obj)) {
+            return null;
+        }
+
+        $class_pieces = explode('\\', get_class($obj));
+        $class = ucfirst(mb_strtolower(array_pop($class_pieces)));
+
+        return implode('\\', $class_pieces) . '\\' . $class;
+    }	
+	
+    /**
+     * Create and Link Job (elasticsearch): Validate the create parameters based on the rules of a certain job.
+     * If something goes wrong, abort the application and return a corresponding error message.
+     */
+    private function validateParameters($type, $short_name, $params)
+    {
+        $validated_params = array();
+
+        $create_params = $type::getCreateProperties();
+        $rules = $type::getCreateValidators();
+
+        foreach ($create_params as $key => $info) {
+            if (!array_key_exists($key, $params)) {
+                if (!empty($info['required']) && $info['required']) {
+                    if (strtolower($type) != 'job') {
+                        \App::abort(
+                            400,
+                            "The parameter '$key' of the $short_name-part of the job configuration is required but was not passed."
+                        );
+                    } else {
+                        \App::abort(400, "The parameter '$key' is required to create a job but was not passed.");
+                    }
+                }
+
+                $validated_params[$key] = @$info['default_value'];
+
+            } else {
+                if (!empty($rules[$key])) {
+                    $validator = \Validator::make(
+                        array($key => $params[$key]),
+                        array($key => $rules[$key])
+                    );
+
+                    if ($validator->fails()) {
+                        \App::abort(
+                            400,
+                            "The validation failed for parameter $key with value '$params[$key]', make sure the value is valid."
+                        );
+                    }
+                }
+
+                $validated_params[$key] = $params[$key];
+            }
+        }
+
+        return $validated_params;
+    }	
+	
+    /**
+     * Create and Link Job (elasticsearch): Check if a given type of the ETL exists.
+     */
+    private function getClassOfType($params, $ns)
+    {
+        $type = @$params['type'];
+        $type = ucfirst(mb_strtolower($type));
+
+        $class_name = $ns . "\\" . $type;
+
+        if (!class_exists($class_name)) {
+            \App::abort(400, "The given type ($type) is not a $ns type.");
+        }
+
+        $class = new $class_name();
+
+        // Validate the properties of the given type
+        $validated_params = $this->validateParameters($class, $type, $params);
+
+        foreach ($validated_params as $key => $value) {
+            $class->$key = $value;
+        }
+
+        return $class;
+    }	
+	
+    /**
+     * Create and Link Job (elasticsearch): Create a new job
+     */
+    public function createLinkJob($uri, $input)
+    {
+        // Set permission
+        Auth::requirePermissions('definition.create');	
+		
+        preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
+
+        $collection_uri = @$matches[1];
+        $name = @$matches[2];			
+
+		// Extract class construction
+		$params = [];
+		$params['extract']['type'] = $input['original-dataset-type'];
+		$params['extract']['uri'] = $input['uri'];
+		
+		if ($params['extract']['type'] == "csv") {
+			$params['extract']['delimiter'] = $input['delimiter'];
+			$params['extract']['has_header_row'] = $input['has_header_row'];
+			$params['extract']['encoding'] = 'UTF-8';
+		} elseif ($params['extract']['type'] == "xml") { 
+			$params['extract']['array_level']=$input['array_level'];
+			$params['extract']['encoding'] = 'UTF-8';		
+		} elseif ($params['extract']['type'] == "json") { 
+			/* No extra fields */
+		}
+
+		
+		// Load class construction (always elasticsearch)
+		$params['load']['type'] = 'elasticsearch';
+		$params['load']['host'] = $input['host'];
+		$params['load']['port'] = $input['port'];
+		$params['load']['es_index'] = $input['es_index'];
+		$params['load']['es_type'] = $collection_uri.'_'.$name;
+		$params['load']['username'] = $input['username'];
+		$params['load']['password'] = $input['password'];
+		
+		// Add schedule
+		$params['schedule'] = $input['schedule'];
+		
+        // Validate the job properties
+        $job_params = $this->validateParameters('Job', 'job', $params);		
+		
+		$extract = @$params['extract'];		
+		$load = @$params['load'];
+		
+        // Check for every emlp part if the type is supported
+        $extractor = $this->getClassOfType(@$extract, 'Extract');
+        $loader = $this->getClassOfType(@$load, 'Load');
+		
+        // Save the emlp models
+        $extractor->save();
+        $loader->save();
+		
+		// Create the job associated with emlp relations
+        $job = new \Job();
+        $job->collection_uri = $collection_uri;
+        $job->name = $name;
+		
+		// Add the validated job params
+        foreach ($job_params as $key => $value) {
+            $job->$key = $value;
+        }
+
+        $job->extractor_id = $extractor->id;
+        $job->extractor_type = $this->getClass($extractor);
+
+        $job->loader_id = $loader->id;
+        $job->loader_type = $this->getClass($loader);
+        $job->save();
+
+        // Execute the job for a first time
+        $job->date_executed = time();
+        $job->save();
+
+        $job_name = $job->collection_uri . '/' . $job->name;
+
+        \Queue::push(function ($queued_job) use ($job_name) {
+            \Artisan::call('input:execute', [
+                'jobname' => $job_name
+            ]);
+
+            $queued_job->delete();
+        });
+		
+		
+		/*\App::abort(400, "El trabajo se ha creado: ".$job->name." Properties: ".$job->id);*/
+
+        return $job->id;
+		
+	}		
 
     /**
      * Create a new definition based on the PUT parameters given and content-type
@@ -39,15 +223,36 @@ class DefinitionController extends ApiController
         if (!empty($content_type) && $content_type != 'application/tdt.definition+json') {
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
         }
-
+		
         $input = $this->fetchInput();
 
+		// Author user information
+		$user = \Sentry::getUser();
+		$input['user_id'] = $user->id;
+		$input['username'] = $user->email;		
+		
+		$input['original-dataset-type'] = $input['type'];
+		
         // Add the collection and uri to the input
         preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
+		
+		// Add uploaded file and change uri.
+		// TODO: Validate file extension based on selected dataset/definition.
+		if(isset($input['fileupload']) && $input['fileupload'] !='') {
+			$input['uri'] = 'file://'.$input['fileupload'];
+		}
+		
+		// Check if dataset should be indexed
+		if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
+			//$input['type'] = 'elasticsearch';
+			$input['es_type'] = $input['collection_uri'].'_'.$input['resource_name'];
 
+			//if a new job is stored and it needs to be indexed, set the draft flag to true
+            $input['draft_flag']= 1;
+		}
         // Validate the input
         $validator = $this->definitions->getValidator($input);
 
@@ -59,6 +264,24 @@ class DefinitionController extends ApiController
 
         // Create the new definition
         $definition = $this->definitions->store($input);
+		
+		// Check if dataset should be indexed: create job and link with previously created definition.
+		if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
+
+            // set time to sleep process to test feature
+            //sleep(30);
+
+			// Create new job
+			$job_id = $this->createLinkJob($uri, $input);
+
+            //when a job is done, the definition needs to be checked, if the draft is set to true, set it to false.
+			$input['draft_flag']= 0;
+
+
+			// Link job with definition through job_id column.
+			$input['job_id'] = $job_id;
+			$definition = $this->definitions->update($uri, $input); // update previously created definition
+		}
 
         $response = \Response::make(null, 200);
         $response->header(
@@ -99,13 +322,27 @@ class DefinitionController extends ApiController
             \App::abort(400, "The content-type header with value ($content_type) was not recognized.");
         }
 
-        $input = $this->fetchInput();
+        $input = $this->fetchInput();	
+		
+		// Keep Author user information
+		$definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->with('location', 'attributions')->first();
+
+		$input['user_id'] = $definition['user_id'];
+		$input['username'] = $definition['username'];
+
+		// Keep associated job
+		$input['job_id'] = $definition['job_id'];
 
         // Add the collection and uri to the input
         preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
+		// Add uploaded file and change uri.
+		// TODO: Validate file extension based on selected dataset/definition.
+		if(isset($input['fileupload']) && $input['fileupload'] !='') {
+			$input['uri'] = 'file://'.$input['fileupload'];
+		}		
 
         // Validate the input
         $validator = $this->definitions->getValidator($input);
@@ -116,6 +353,14 @@ class DefinitionController extends ApiController
         }
 
         $this->definitions->update($uri, $input);
+		
+		// Dataset control version
+		$user = \Sentry::getUser();
+		$definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->with('location', 'attributions')->first();
+		
+		$id = \DB::table('definitions_updates')->insertGetId(
+			array('definition_id' => $definition['id'], 'user_id' => $user->id, 'username' => $user->email, 'updated_at' => $definition['updated_at'])
+		);			
 
         $response = \Response::make(null, 200);
 

@@ -23,12 +23,24 @@ class DatasetController extends UiController
         // Set permission
         Auth::requirePermissions('admin.dataset.view');
 
-        // Get all definitions
-        $definitions = \Definition::all();
-
+		// Check user id
+		$user = \Sentry::getUser();		
+		
+        // Get created definitions
+        //$definitions = \Definition::all();
+		$definitions = \Definition::where('user_id', $user->id)->get();
+		
+        // Get updated definitions
+        $definitions_updated = null;		
+		
+		// Get other definitions
+		$definitions_others = \Definition::where('user_id', '!=' , $user->id)->get();
+		
         return \View::make('ui.datasets.list')
-                    ->with('title', 'Dataset management | The Datatank')
-                    ->with('definitions', $definitions);
+                    ->with('title', 'Dataset management (Created/Updated/Others) | The Datatank')
+                    ->with('definitions', $definitions)
+					->with('definitions_updated', $definitions_updated)
+					->with('definitions_others', $definitions_others);
     }
 
     /**
@@ -142,6 +154,10 @@ class DatasetController extends UiController
 
             // TODO special treatment for caching
             unset($parameters_optional['draft']);
+			unset($parameters_optional['draft_flag']);
+			unset($parameters_optional['username']);
+			unset($parameters_optional['user_id']);
+			unset($parameters_optional['job_id']);
 
             // Translate the parameters
             $parameters_required = $this->translateParameters($parameters_required, $mediatype);
@@ -195,7 +211,7 @@ class DatasetController extends UiController
             $parameters_dc = array();
             $parameters_geodcat = array();
             $lists = array();
-
+			
             foreach ($mediatype->parameters as $parameter => $object) {
                 // Filter array type parameters
                 if (empty($object->parameters)) {
@@ -261,6 +277,10 @@ class DatasetController extends UiController
             // Filter on unnecessary optional parameters
             unset($parameters_optional['cache_minutes']);
             unset($parameters_optional['draft']);
+			unset($parameters_optional['draft_flag']);
+			unset($parameters_optional['username']);
+			unset($parameters_optional['user_id']);
+			unset($parameters_optional['job_id']);			
 
             return \View::make('ui.datasets.edit')
                         ->with('title', 'Edit a dataset | The Datatank')
