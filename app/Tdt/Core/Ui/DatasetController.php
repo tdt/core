@@ -36,16 +36,16 @@ class DatasetController extends UiController
 			->where('definitions_updates.username', $user->email)
 			->select('definitions_updates.definition_id')
             ->get();
-
+		
 		$updateddeflist = array();
-		foreach ($defupdated_ids as $defid) {
-			$updateddeflist[] = $defid->definition_id;
+		foreach ($defupdated_ids as $defid) {			
+			$updateddeflist[] = $defid->definition_id;	
 		}
 
 		$definitions_updated = null;
 		if (!empty($updateddeflist)){
 			$definitions_updated = \Definition::whereIn('id', $updateddeflist)
-                    ->get();
+                    ->get();		
 		}
 						
 		// Get other definitions
@@ -170,8 +170,8 @@ class DatasetController extends UiController
             // TODO special treatment for caching
             unset($parameters_optional['draft']);
 			unset($parameters_optional['draft_flag']);
-			unset($parameters_optional['username']);
-			unset($parameters_optional['user_id']);
+			unset($parameters_required['username']);
+			unset($parameters_required['user_id']);
 			unset($parameters_optional['job_id']);
 
             // Translate the parameters
@@ -336,8 +336,8 @@ class DatasetController extends UiController
             $definition = \Definition::find($id);
             if ($definition) {
 				// Delete definition updates
-				\DB::table('definitions_updates')->where('definition_id', $id)->delete();
-
+				\DB::table('definitions_updates')->where('definition_id', $id)->delete();				
+				
                 // Delete it (with cascade)
                 $definition->delete();
             }

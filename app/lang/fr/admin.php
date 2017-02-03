@@ -61,4 +61,6 @@ return array(
     "menu_users"                 => "Utilisateurs",
     "menu_groups"                => "Groupes",
     "geodcat_header"             => "Localisez la zone concernée",
+	"created_by"				 => "Créé par",
+	"updated_by"				 => "Mise à jour"
 );

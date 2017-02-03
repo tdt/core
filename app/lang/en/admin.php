@@ -66,5 +66,7 @@ return array(
     "menu_settings"              => "General",
     "menu_datasets"              => "Datasets",
     "menu_users"                 => "Users",
-    "menu_groups"                => "Groups"
+    "menu_groups"                => "Groups",
+	"created_by"				 => "Created by",
+	"updated_by"				 => "Updated by"
 );

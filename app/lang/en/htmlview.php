@@ -10,4 +10,6 @@ return [
     "keywords"          => "Keywords",
     "spatial"           => "Geographic context",
     "original_file"     => "Original file",
+	"created_by"		=> "Created by",
+	"updated_by"		=> "Updated by"
 ];

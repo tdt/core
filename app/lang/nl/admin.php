@@ -61,4 +61,6 @@ return array(
     "menu_users"                 => "Gebruikers",
     "menu_groups"                => "Groepen",
     "geodcat_header"             => "Selecteer de relevante zone",
+	"created_by"				 => "Gemaakt door",
+	"updated_by"				 => "Geactualiseerd door"	
 );

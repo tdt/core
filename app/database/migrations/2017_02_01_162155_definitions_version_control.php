@@ -23,7 +23,7 @@ class DefinitionsVersionControl extends Migration {
 			$table->integer('definition_id')->unsigned();
             $table->integer('user_id')->unsigned();
 			$table->string('username', 255);
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->dateTime('updated_at');
 			$table->tinyInteger('user_deleted')->unsigned()->nullable();
         });
     }
