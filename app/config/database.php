@@ -82,6 +82,13 @@ return array(
 			'password' => '',
 			'prefix'   => '',
 		),
+        'tdt_elasticsearch' => array(
+            'host' => 'localhost',
+            'port' => 8000,
+            'username' => null,
+            'password' => null,
+            'index' => 'datatank'
+            )
 
 	),
 

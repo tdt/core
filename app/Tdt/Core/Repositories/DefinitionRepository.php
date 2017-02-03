@@ -821,6 +821,24 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'type' => 'integer',
                 'description' => 'draft flag',
             ),
+            'job_id' => array(
+                'required' => false,
+                'name' => 'Related job',
+                'type' => 'integer',
+                'description' => 'Job linked to this dataset.',
+            ),
+            'original_file' => array(
+                'required' => false,
+                'name' => 'Original file',
+                'type' => 'string',
+                'description' => 'Original dataset file.',
+            ),
+            'draft_flag' => array(
+                'required' => false,
+                'name' => 'draft flag',
+                'type' => 'integer',
+                'description' => 'draft flag',
+            ),
             'user_id' => array(
                 'required' => true,
                 'name' => 'User id',

@@ -31,8 +31,23 @@ class DatasetController extends UiController
 		$definitions = \Definition::where('user_id', $user->id)->get();
 		
         // Get updated definitions
-        $definitions_updated = null;		
-		
+        $defupdated_ids = \DB::table('definitions_updates')
+			->join('definitions', 'definitions.username', '=', 'definitions_updates.username')
+			->where('definitions_updates.username', $user->email)
+			->select('definitions_updates.definition_id')
+            ->get();
+
+		$updateddeflist = array();
+		foreach ($defupdated_ids as $defid) {
+			$updateddeflist[] = $defid->definition_id;
+		}
+
+        $definitions_updated = null;
+        if (!empty($updateddeflist)){
+            $definitions_updated = \Definition::whereIn('id', $updateddeflist)
+                ->get();
+        }
+						
 		// Get other definitions
 		$definitions_others = \Definition::where('user_id', '!=' , $user->id)->get();
 		
@@ -280,7 +295,15 @@ class DatasetController extends UiController
 			unset($parameters_optional['draft_flag']);
 			unset($parameters_optional['username']);
 			unset($parameters_optional['user_id']);
-			unset($parameters_optional['job_id']);			
+			unset($parameters_optional['job_id']);
+
+			// Get dataset updates information
+			$updates_info = \DB::table('definitions_updates')
+			->where('definition_id', $id)
+			->select('username','updated_at')
+			->orderBy('updated_at', 'desc')
+			->limit(5)
+            ->get();			
 
             return \View::make('ui.datasets.edit')
                         ->with('title', 'Edit a dataset | The Datatank')
@@ -290,7 +313,8 @@ class DatasetController extends UiController
                         ->with('parameters_optional', $parameters_optional)
                         ->with('parameters_dc', $parameters_dc)
                         ->with('parameters_geodcat', $parameters_geodcat)
-                        ->with('source_definition', $source_definition);
+                        ->with('source_definition', $source_definition)
+						->with('updates_info', $updates_info);
 
             return \Response::make($view);
         } else {

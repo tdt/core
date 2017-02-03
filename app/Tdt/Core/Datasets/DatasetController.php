@@ -29,7 +29,7 @@ class DatasetController extends ApiController
      * @return \Response
      */
     public function get($uri)
-    {
+    {		
         // Check permissions
         Auth::requirePermissions('dataset.view');
 
@@ -56,13 +56,14 @@ class DatasetController extends ApiController
 
         $cache_string .= http_build_query($query_string_params);
         $cache_string = sha1($cache_string);
-
+		
         if (Cache::has($cache_string)) {
             return ContentNegotiator::getResponse(Cache::get($cache_string), $extension);
         } else {
             // Get definition
             $definition = $this->definition->getByIdentifier($uri);
 
+			
             if ($definition) {
                 // Get source definition
                 $source_definition = $this->definition->getDefinitionSource(
@@ -183,15 +184,25 @@ class DatasetController extends ApiController
 
                     // Add source definition to the object
                     $data->source_definition = $source_definition;
+					
+					// Add dataset updates information to source_definition object
+					$source_definition['updates_info'] = \DB::table('definitions_updates')
+					->where('definition_id', $definition['id'])
+					->select('username','updated_at')
+					->orderBy('updated_at', 'desc')
+					->limit(10)
+					->get();
 
                     // Add the available, supported formats to the object
                     $format_helper = new FormatHelper();
                     $data->formats = $format_helper->getAvailableFormats($data);
-
+					
                     // Store in cache
                     if (! empty($definition['cache_minutes'])) {
                         Cache::put($cache_string, $data, $definition['cache_minutes']);
                     }
+					
+					//\App::abort(404, 'Estoy aquí 2: '.serialize($source_definition));
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
