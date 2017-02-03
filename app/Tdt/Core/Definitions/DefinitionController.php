@@ -203,10 +203,102 @@ class DefinitionController extends ApiController
 
             $queued_job->delete();
         });
-
+		
         return $job->id;
 		
-	}		
+	}
+
+    /**
+     * Edit job linked to dataset
+     *
+     * @return \Response
+     */
+    private function editLinkedJob($uri, $input)
+    {
+        // Set permission
+        Auth::requirePermissions('definition.update');
+
+
+		$job = \Job::whereRaw("? like CONCAT(collection_uri, '/', name , '/', '%')", array($uri . '/'))
+            ->with('extractor', 'loader')->first();		
+		
+        preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
+
+        $collection_uri = @$matches[1];
+        $name = @$matches[2];			
+
+		// Extract class construction
+		$params = [];
+		$params['extract']['type'] = $input['original-dataset-type'];
+		$params['extract']['uri'] = $input['uri'];
+		
+		if ($params['extract']['type'] == "csv") {
+			$params['extract']['delimiter'] = $input['delimiter'];
+			$params['extract']['has_header_row'] = $input['has_header_row'];
+			$params['extract']['encoding'] = 'UTF-8';
+		} elseif ($params['extract']['type'] == "xml") { 
+			$params['extract']['array_level']=$input['array_level'];
+			$params['extract']['encoding'] = 'UTF-8';		
+		} elseif ($params['extract']['type'] == "json") { 
+			/* No extra fields */
+		}
+
+		
+		// Load class construction (always elasticsearch)
+		$params['load']['type'] = 'elasticsearch';
+		$params['load']['host'] = 'localhost';
+		$params['load']['port'] = 9200;
+		$params['load']['es_index'] = '';
+		$params['load']['es_type'] = $collection_uri.'_'.$name;
+		$params['load']['username'] = '';
+		$params['load']['password'] = '';
+		
+		// Add schedule
+		$params['schedule'] = $job->schedule;
+		
+        // Validate the job properties
+        $job_params = $this->validateParameters('Job', 'job', $params);		
+		
+		// Check which parts are set for validation purposes
+		$extract = @$params['extract'];		
+		$load = @$params['load'];
+		
+        // Check for every ETL part if the type is supported
+        $extractor = $this->getClassOfType(@$extract, 'Extract');
+        $loader = $this->getClassOfType(@$load, 'Load');		
+		
+        $job->extractor()->delete();
+        $job->loader()->delete();
+
+        $extractor->save();
+        $loader->save();
+
+        // Add the validated job params
+        foreach ($job_params as $key => $value) {
+            $job->$key = $value;
+        }
+
+        $job->extractor_id = $extractor->id;
+        $job->extractor_type = $this->getClass($extractor);
+
+        $job->loader_id = $loader->id;
+        $job->loader_type = $this->getClass($loader);
+        $job->save();
+
+        // Push the job to the queue
+            $job_name = $job->collection_uri . '/' . $job->name;
+
+            \Queue::push(function ($queued_job) use ($job_name) {
+                \Artisan::call('input:execute', ['jobname' => $job_name]);
+
+                $queued_job->delete();
+            });
+
+            $job->added_to_queue = true;
+            $job->save();
+
+        return $job->id;
+    }	
 
     /**
      * Create a new definition based on the PUT parameters given and content-type
@@ -300,7 +392,7 @@ class DefinitionController extends ApiController
     {
         // Set permission
         Auth::requirePermissions('definition.delete');
-
+		
 		// Delete definition updates
 		$definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->with('location', 'attributions')->first();
 		\DB::table('definitions_updates')->where('definition_id', $definition['id'])->delete();
@@ -328,7 +420,7 @@ class DefinitionController extends ApiController
 		
 		// Keep Author user information
 		$definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->with('location', 'attributions')->first();
-
+			
 		$input['user_id'] = $definition['user_id'];
 		$input['username'] = $definition['username'];
 
@@ -362,7 +454,13 @@ class DefinitionController extends ApiController
 		
 		$id = \DB::table('definitions_updates')->insertGetId(
 			array('definition_id' => $definition['id'], 'user_id' => $user->id, 'username' => $user->email, 'updated_at' => $definition['updated_at'])
-		);			
+		);
+
+		// Check if dataset has a linked job (for updating purposes only if uri dataset field has been modified)
+		if ($definition['job_id'] != null && isset($input['fileupload']) && $input['fileupload'] !='') {
+			$input['original-dataset-type'] = strtolower(chop($definition['source_type'],"Definition"));
+			$job_id = $this->editLinkedJob($uri, $input);
+		}
 
         $response = \Response::make(null, 200);
 
