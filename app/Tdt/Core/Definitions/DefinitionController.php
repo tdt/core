@@ -203,9 +203,6 @@ class DefinitionController extends ApiController
 
             $queued_job->delete();
         });
-		
-		
-		/*\App::abort(400, "El trabajo se ha creado: ".$job->name." Properties: ".$job->id);*/
 
         return $job->id;
 		
@@ -304,6 +301,11 @@ class DefinitionController extends ApiController
         // Set permission
         Auth::requirePermissions('definition.delete');
 
+		// Delete definition updates
+		$definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->with('location', 'attributions')->first();
+		\DB::table('definitions_updates')->where('definition_id', $definition['id'])->delete();
+
+		// Delete definition
         $this->definitions->delete($uri);
 
         return \Response::make(null, 200);
@@ -354,7 +356,7 @@ class DefinitionController extends ApiController
 
         $this->definitions->update($uri, $input);
 		
-		// Dataset control version
+		// Dataset updates control
 		$user = \Sentry::getUser();
 		$definition = \Definition::whereRaw("? like CONCAT(collection_uri, '/', resource_name , '/', '%')", array($uri . '/'))->with('location', 'attributions')->first();
 		

@@ -29,12 +29,13 @@
             <p class="list-group-item-text">
                 <i>{{ $definition['username'] }}</i> {{ date("M j,Y H:i", strtotime($definition['created_at'])) }}
             </p>
+			@if(!empty($updates_info) && count($updates_info) > 0)
 			<p>&nbsp;</p>
 			<h5 class="list-group-item-heading">{{ trans('htmlview.updated_by') }}</h5>
-			<p><i>user2</i></p>
-			<p><i>test</i></p>
-			<p><i>test</i></p>
-			<p><i>test</i></p>
+			@foreach($updates_info as $update)
+			<p><i>{{ $update->username }}</i> {{ date("M j,Y H:i", strtotime($update->updated_at)) }}</p>
+			@endforeach
+			@endif
         </li>
     @endif	
 	

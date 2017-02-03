@@ -42,11 +42,11 @@ class DatasetController extends UiController
 			$updateddeflist[] = $defid->definition_id;
 		}
 
-        $definitions_updated = null;
-        if (!empty($updateddeflist)){
-            $definitions_updated = \Definition::whereIn('id', $updateddeflist)
-                ->get();
-        }
+		$definitions_updated = null;
+		if (!empty($updateddeflist)){
+			$definitions_updated = \Definition::whereIn('id', $updateddeflist)
+                    ->get();
+		}
 						
 		// Get other definitions
 		$definitions_others = \Definition::where('user_id', '!=' , $user->id)->get();
@@ -302,7 +302,7 @@ class DatasetController extends UiController
 			->where('definition_id', $id)
 			->select('username','updated_at')
 			->orderBy('updated_at', 'desc')
-			->limit(5)
+			->limit(10)
             ->get();			
 
             return \View::make('ui.datasets.edit')
@@ -327,6 +327,7 @@ class DatasetController extends UiController
      */
     public function getDelete($id)
     {
+		//\App::abort(400, "Deleting dataset.");
 
         // Set permission
         Auth::requirePermissions('admin.dataset.delete');
@@ -334,6 +335,9 @@ class DatasetController extends UiController
         if (is_numeric($id)) {
             $definition = \Definition::find($id);
             if ($definition) {
+				// Delete definition updates
+				\DB::table('definitions_updates')->where('definition_id', $id)->delete();
+
                 // Delete it (with cascade)
                 $definition->delete();
             }

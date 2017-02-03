@@ -185,8 +185,8 @@ class DatasetController extends ApiController
                     // Add source definition to the object
                     $data->source_definition = $source_definition;
 					
-					// Add dataset updates information to source_definition object
-					$source_definition['updates_info'] = \DB::table('definitions_updates')
+					// Add dataset updates information to the object
+					$data->updates_info = \DB::table('definitions_updates')
 					->where('definition_id', $definition['id'])
 					->select('username','updated_at')
 					->orderBy('updated_at', 'desc')
@@ -201,8 +201,6 @@ class DatasetController extends ApiController
                     if (! empty($definition['cache_minutes'])) {
                         Cache::put($cache_string, $data, $definition['cache_minutes']);
                     }
-					
-					//\App::abort(404, 'Estoy aquí 2: '.serialize($source_definition));
 
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
