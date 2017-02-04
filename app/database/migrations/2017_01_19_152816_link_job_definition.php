@@ -24,7 +24,7 @@ class LinkJobDefinition extends Migration
      */
     public function down()
     {
-        Schema::table('users', function ($table) {
+        Schema::table('definitions', function ($table) {
             $table->dropColumn(array('job_id', 'original_file'));
         });
     }

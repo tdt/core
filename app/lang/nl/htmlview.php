@@ -10,4 +10,6 @@ return [
     "keywords"          => "Trefwoorden",
     "spatial"           => "Geografische context",
     "original_file"     => "Origineel bestand",
+	"created_by"		=> "Gemaakt door",
+	"updated_by"		=> "Geactualiseerd door"
 ];

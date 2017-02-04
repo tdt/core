@@ -26,6 +26,7 @@ return array(
     "minute"                     => "minute(s)",
     "cache_help"                 => "How long should this dataset be cached? Fill out '0' or '-1' to disable caching for this resource (not recommended).",
     "dcat_header"                => "Describe your data",
+    "index_header"               => "For large datasets it’s recommended that you index the data in Elasticsearch, this way the data becomes more usable for your end users",
     "geodcat_header"             => "Locate the relevant area",
     "edit_dataset"               => "Edit a dataset",
     "parameters"                 => "Parameters",
@@ -65,5 +66,7 @@ return array(
     "menu_settings"              => "General",
     "menu_datasets"              => "Datasets",
     "menu_users"                 => "Users",
-    "menu_groups"                => "Groups"
+    "menu_groups"                => "Groups",
+	"created_by"				 => "Created by",
+	"updated_by"				 => "Updated by"
 );

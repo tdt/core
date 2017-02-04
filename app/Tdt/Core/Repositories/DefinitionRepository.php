@@ -3,7 +3,6 @@
 namespace Tdt\Core\Repositories;
 
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
-use Tdt\Core\Repositories\LocationRepository;
 use Illuminate\Support\Facades\Validator;
 use Tdt\Core\Formatters\FormatHelper;
 
@@ -73,23 +72,23 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $definition->$property = $value;
         }
 
-        if (!empty($source['title'])) {
+        if (! empty($source['title'])) {
             $definition->title = $source['title'];
         }
 
-        if (!empty($source['description'])) {
+        if (! empty($source['description'])) {
             $definition->description = $source['description'];
         }
 
         $location = $this->createLocation($input);
 
         // Check for location meta-data
-        if (!empty($location)) {
+        if (! empty($location)) {
             $definition->location()->save($location);
         }
 
         // Add attributions if there are any
-        if (!empty($attributions)) {
+        if (! empty($attributions)) {
             $attribution_models = [];
 
             foreach ($attributions as $attribution) {
@@ -134,11 +133,11 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $definition_model->update(array_only($input, array_keys($this->getCreateParameters())));
 
-        if (!empty($input['title'])) {
+        if (! empty($input['title'])) {
             $definition_model->title = $input['title'];
         }
 
-        if (!empty($input['description'])) {
+        if (! empty($input['description'])) {
             $definition_model->description = $input['description'];
         }
 
@@ -155,7 +154,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $definition_model->update(array_only($input, array_keys($create_parameters)));
 
         // Delete the locations and create again if geo meta-data is provided (= update)
-        if (!empty($definition_model->location->id)) {
+        if (! empty($definition_model->location->id)) {
             $location = $definition_model->location;
             $location->geometry->delete();
             $location->label->delete();
@@ -167,18 +166,18 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $location = $this->createLocation($input);
 
         // Check for location meta-data
-        if (!empty($location)) {
+        if (! empty($location)) {
             $definition_model->location()->save($location);
         }
 
-        if (!empty($definition_model->attributions)) {
+        if (! empty($definition_model->attributions)) {
             foreach ($definition_model->attributions as $attribution) {
                 $attribution->delete();
             }
         }
 
         // Add attributions if there are any
-        if (!empty($attributions)) {
+        if (! empty($attributions)) {
             $attribution_models = [];
 
             foreach ($attributions as $attribution) {
@@ -200,8 +199,8 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $definition = $this->getEloquentDefinition($identifier);
 
-        if (!empty($definition)) {
-            if (!empty($definition->location->id)) {
+        if (! empty($definition)) {
+            if (! empty($definition->location->id)) {
                 $location = $definition->location;
 
                 $location->delete();
@@ -223,7 +222,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $definition = $this->getByIdentifier($identifier);
 
-        return !empty($definition);
+        return ! empty($definition);
     }
 
     public function getAll($limit = PHP_INT_MAX, $offset = 0)
@@ -240,7 +239,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $query = $this->model->query();
 
-        if (!empty($filters['query'])) {
+        if (! empty($filters['query'])) {
             $search_value = array_shift($filters['query']);
 
             unset($filters['query']);
@@ -269,7 +268,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $results = $query->take($limit)->skip($offset)->get();
 
-        if (!empty($results)) {
+        if (! empty($results)) {
             $definitions_info = [];
 
             foreach ($results as $result) {
@@ -289,7 +288,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $query = $this->model->query();
 
-        if (!empty($filters['query'])) {
+        if (! empty($filters['query'])) {
             $search_value = array_shift($filters['query']);
 
             unset($filters['query']);
@@ -316,7 +315,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             });
         }
 
-
         return $query->count();
     }
 
@@ -325,10 +323,9 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         $query = \DB::table('definition_facets')
                     ->select(\DB::raw('count(*) as count, facet_name, value'));
 
-
         $facet_subquery = \DB::table('definitions')->select('id');
 
-        if (!empty($filters['query'])) {
+        if (! empty($filters['query'])) {
             $search_value = array_shift($filters['query']);
 
             unset($filters['query']);
@@ -374,12 +371,11 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         return $definition->toArray();
     }
 
-
     public function getByCollection($collection)
     {
         $collection = \Definition::whereRaw("CONCAT(collection_uri, '/') like CONCAT(?, '%')", array($collection . '/'))->get();
 
-        if (!empty($collection)) {
+        if (! empty($collection)) {
             return $collection->toArray();
         }
 
@@ -390,7 +386,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     {
         $definition = \Definition::where('updated_at', '=', \DB::table('definitions')->max('updated_at'))->first();
 
-        if (!empty($definition)) {
+        if (! empty($definition)) {
             return $definition->toArray();
         }
 
@@ -430,7 +426,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
             $source_repository = $this->getSourceRepository($type);
 
         } catch (\ReflectionException $ex) {
-            \App::abort(400, "The provided source type " . $type . " is not supported.");
+            \App::abort(400, 'The provided source type ' . $type . ' is not supported.');
         }
 
         $validator = $source_repository->getValidator($input);
@@ -455,7 +451,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getAllDefinitionInfo($limit, $offset, $keywords = [])
     {
-        if (!empty($keywords)) {
+        if (! empty($keywords)) {
             $filtered_definitions = [];
 
             $count = 0;
@@ -542,7 +538,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
      */
     private function createLocation($input)
     {
-        if (!empty($input['geometry'])) {
+        if (! empty($input['geometry'])) {
             $location = new \Location();
             $location->save();
 
@@ -609,7 +605,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         foreach ($facet_types as $facet_type) {
             $facet_name = $facet_type['facet_name'];
 
-            if (!empty($definition->$facet_name)) {
+            if (! empty($definition->$facet_name)) {
                 $facet = \Facet::create([
                     'definition_id' => $definition->id,
                     'facet_id' => $facet_type['id'],
@@ -622,7 +618,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         // Process keywords if present
-        if (!empty($definition->keywords)) {
+        if (! empty($definition->keywords)) {
             // Split the keywords
             $keywords = explode(',', $definition->keywords);
 
@@ -693,10 +689,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         $properties['type'] = strtolower($source_definition->type);
 
-        if (!empty($definition->location->id)) {
+        if (! empty($definition->location->id)) {
             $location = \Location::find($definition->location->id)->with('label', 'geometry')->first();
 
-            if (!empty($location)) {
+            if (! empty($location)) {
                 $properties['spatial'] = $location->toArray();
             }
         }
@@ -714,7 +710,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
     public function getValidator(array $input)
     {
-        if (!empty($input['profile']) && $input['profile'] == 'geodcat') {
+        if (! empty($input['profile']) && $input['profile'] == 'geodcat') {
             return Validator::make($input, $this->geodcat_rules, $this->error_messages);
         } else {
             return Validator::make($input, $this->dcat_rules, $this->error_messages);
@@ -724,7 +720,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     /**
      * Provide a source type repository
      *
-     * @param string $type
+     * @param  string $type
      * @return mixed
      */
     private function getSourceRepository($type)
@@ -732,7 +728,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         try {
             return \App::make('Tdt\\Core\\Repositories\\Interfaces\\' . ucfirst($type) . 'DefinitionRepositoryInterface');
         } catch (\ReflectionException $ex) {
-            \App::abort(400, "The type " . $type . " is not supported.");
+            \App::abort(400, 'The type ' . $type . ' is not supported.');
         }
     }
 
@@ -814,7 +810,43 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'name' => 'Original file',
                 'type' => 'string',
                 'description' => 'Original dataset file.',
-            ),			
+            ),
+            'draft_flag' => array(
+                'required' => false,
+                'name' => 'draft flag',
+                'type' => 'integer',
+                'description' => 'draft flag',
+            ),
+            'job_id' => array(
+                'required' => false,
+                'name' => 'Related job',
+                'type' => 'integer',
+                'description' => 'Job linked to this dataset.',
+            ),
+            'original_file' => array(
+                'required' => false,
+                'name' => 'Original file',
+                'type' => 'string',
+                'description' => 'Original dataset file.',
+            ),
+            'draft_flag' => array(
+                'required' => false,
+                'name' => 'draft flag',
+                'type' => 'integer',
+                'description' => 'draft flag',
+            ),
+            'user_id' => array(
+                'required' => true,
+                'name' => 'User id',
+                'type' => 'integer',
+                'description' => 'User (id) who created this dataset.',
+            ),
+            'username' => array(
+                'required' => true,
+                'name' => 'Username',
+                'type' => 'string',
+                'description' => 'User (username) who created this dataset.',
+            ),
             'keywords' => array(
                 'required' => false,
                 'requiredgeodcat' => 'required',

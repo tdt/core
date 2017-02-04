@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <br/>
+        <br/>	
 
         <div class='row'>
             <div class="col-sm-12">
@@ -26,9 +26,25 @@
                     <i class='fa fa-2x fa-exclamation-circle'></i> <span class='text'></span>
                 </div>
             </div>
-        </div>
+        </div>		
 
         <div class='row'>
+        <div class='col-sm-12 panel panel-default users-information'>
+			<div class='row'>
+				<div class="col-sm-12 col-md-2">
+					<h4>{{ trans('admin.created_by') }}</h4>
+					<p><i>{{ $definition['username'] }}</i> {{ date("M j,Y H:i", strtotime($definition['created_at'])) }}</p>
+				</div>
+				@if(!empty($updates_info) && count($updates_info) > 0)
+				<div class="col-sm-12 col-md-10">
+				<h4>{{ trans('admin.updated_by') }}</h4>
+				@foreach($updates_info as $update)
+				<p><i>{{ $update->username }}</i> {{ date("M j,Y H:i", strtotime($update->updated_at)) }}</p>
+				@endforeach
+				</div>
+				@endif
+			</div>
+        </div>		
         <div class="col-sm-6 panel panel-default dataset-parameters">
             @if(!empty($parameters_optional))
                 <div class="form-group">
