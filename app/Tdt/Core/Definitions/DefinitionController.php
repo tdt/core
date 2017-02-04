@@ -27,7 +27,9 @@ class DefinitionController extends ApiController
     }
 
     /**
-     * Create and Link Job (elasticsearch): Get the class without the namespace
+     * Return a class without the namespace
+     *
+     * @return string
      */
     private function getClass($obj)
     {
@@ -44,284 +46,6 @@ class DefinitionController extends ApiController
     /**
      * Create and Link Job (elasticsearch): Validate the create parameters based on the rules of a certain job.
      * If something goes wrong, abort the application and return a corresponding error message.
-     */
-    private function validateParameters($type, $short_name, $params)
-    {
-        $validated_params = array();
-
-        $create_params = $type::getCreateProperties();
-        $rules = $type::getCreateValidators();
-
-        foreach ($create_params as $key => $info) {
-            if (!array_key_exists($key, $params)) {
-                if (!empty($info['required']) && $info['required']) {
-                    if (strtolower($type) != 'job') {
-                        \App::abort(
-                            400,
-                            "The parameter '$key' of the $short_name-part of the job configuration is required but was not passed."
-                        );
-                    } else {
-                        \App::abort(400, "The parameter '$key' is required to create a job but was not passed.");
-                    }
-                }
-
-                $validated_params[$key] = @$info['default_value'];
-
-            } else {
-                if (!empty($rules[$key])) {
-                    $validator = \Validator::make(
-                        array($key => $params[$key]),
-                        array($key => $rules[$key])
-                    );
-
-                    if ($validator->fails()) {
-                        \App::abort(
-                            400,
-                            "The validation failed for parameter $key with value '$params[$key]', make sure the value is valid."
-                        );
-                    }
-                }
-
-                $validated_params[$key] = $params[$key];
-            }
-        }
-
-        return $validated_params;
-    }
-
-    /**
-     * Create and Link Job (elasticsearch): Check if a given type of the ETL exists.
-     */
-    private function getClassOfType($params, $ns)
-    {
-        $type = @$params['type'];
-        $type = ucfirst(mb_strtolower($type));
-
-        $class_name = $ns . "\\" . $type;
-
-        if (!class_exists($class_name)) {
-            \App::abort(400, "The given type ($type) is not a $ns type.");
-        }
-
-        $class = new $class_name();
-
-        // Validate the properties of the given type
-        $validated_params = $this->validateParameters($class, $type, $params);
-
-        foreach ($validated_params as $key => $value) {
-            $class->$key = $value;
-        }
-
-        return $class;
-    }
-
-    /**
-     * Create and Link Job (elasticsearch): Create a new job
-     */
-    public function createLinkJob($uri, $input)
-    {
-        // Set permission
-        Auth::requirePermissions('definition.create');
-
-        preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
-
-        $collection_uri = @$matches[1];
-        $name = @$matches[2];
-
-        // Extract class construction
-        $params = [];
-        $params['extract']['type'] = $input['original-dataset-type'];
-        $params['extract']['uri'] = $input['uri'];
-
-        if ($params['extract']['type'] == "csv") {
-            $params['extract']['delimiter'] = $input['delimiter'];
-            $params['extract']['has_header_row'] = $input['has_header_row'];
-            $params['extract']['encoding'] = 'UTF-8';
-        } elseif ($params['extract']['type'] == "xml") {
-            $params['extract']['array_level']=$input['array_level'];
-            $params['extract']['encoding'] = 'UTF-8';
-        } elseif ($params['extract']['type'] == "json") {
-            /* No extra fields */
-        }
-
-
-        // Load class construction (always elasticsearch)
-        $params['load']['type'] = 'elasticsearch';
-        $params['load']['host'] = $input['host'];
-        $params['load']['port'] = $input['port'];
-        $params['load']['es_index'] = $input['es_index'];
-        $params['load']['es_type'] = $collection_uri.'_'.$name;
-        $params['load']['username'] = $input['username'];
-        $params['load']['password'] = $input['password'];
-
-        // Add schedule
-        $params['schedule'] = $input['schedule'];
-
-        // Validate the job properties
-        $job_params = $this->validateParameters('Job', 'job', $params);
-
-        $extract = @$params['extract'];
-        $load = @$params['load'];
-
-        // Check for every emlp part if the type is supported
-        $extractor = $this->getClassOfType(@$extract, 'Extract');
-        $loader = $this->getClassOfType(@$load, 'Load');
-
-        // Save the emlp models
-        $extractor->save();
-        $loader->save();
-
-        // Create the job associated with emlp relations
-        $job = new \Job();
-        $job->collection_uri = $collection_uri;
-        $job->name = $name;
-
-        // Add the validated job params
-        foreach ($job_params as $key => $value) {
-            $job->$key = $value;
-        }
-
-        $job->extractor_id = $extractor->id;
-        $job->extractor_type = $this->getClass($extractor);
-
-        $job->loader_id = $loader->id;
-        $job->loader_type = $this->getClass($loader);
-        $job->save();
-
-        // Execute the job for a first time
-        $job->date_executed = time();
-        $job->save();
-
-        $job_name = $job->collection_uri . '/' . $job->name;
-
-        \Queue::push(function ($queued_job) use ($job_name) {
-            \Artisan::call('input:execute', [
-                'jobname' => $job_name
-            ]);
-
-            $queued_job->delete();
-        });
-
-        return $job->id;
-
-    }
-
-    /**
-     * Edit job linked to dataset
-     *
-     * @return \Response
-     */
-    private function editLinkedJob($uri, $input)
-    {
-        // Set permission
-        Auth::requirePermissions('definition.update');
-
-
-        $job = \Job::whereRaw("? like CONCAT(collection_uri, '/', name , '/', '%')", array($uri . '/'))
-            ->with('extractor', 'loader')->first();
-
-        preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
-
-        $collection_uri = @$matches[1];
-        $name = @$matches[2];
-
-        // Extract class construction
-        $params = [];
-        $params['extract']['type'] = $input['original-dataset-type'];
-        $params['extract']['uri'] = $input['uri'];
-
-        if ($params['extract']['type'] == "csv") {
-            $params['extract']['delimiter'] = $input['delimiter'];
-            $params['extract']['has_header_row'] = $input['has_header_row'];
-            $params['extract']['encoding'] = 'UTF-8';
-        } elseif ($params['extract']['type'] == "xml") {
-            $params['extract']['array_level']=$input['array_level'];
-            $params['extract']['encoding'] = 'UTF-8';
-        } elseif ($params['extract']['type'] == "json") {
-            /* No extra fields */
-        }
-
-
-        // Load class construction (always elasticsearch)
-        $params['load']['type'] = 'elasticsearch';
-        $params['load']['host'] = 'localhost';
-        $params['load']['port'] = 9200;
-        $params['load']['es_index'] = '';
-        $params['load']['es_type'] = $collection_uri.'_'.$name;
-        $params['load']['username'] = '';
-        $params['load']['password'] = '';
-
-        // Add schedule
-        $params['schedule'] = $job->schedule;
-
-        // Validate the job properties
-        $job_params = $this->validateParameters('Job', 'job', $params);
-
-        // Check which parts are set for validation purposes
-        $extract = @$params['extract'];
-        $load = @$params['load'];
-
-        // Check for every ETL part if the type is supported
-        $extractor = $this->getClassOfType(@$extract, 'Extract');
-        $loader = $this->getClassOfType(@$load, 'Load');
-
-        $job->extractor()->delete();
-        $job->loader()->delete();
-
-        $extractor->save();
-        $loader->save();
-
-        // Add the validated job params
-        foreach ($job_params as $key => $value) {
-            $job->$key = $value;
-        }
-
-        $job->extractor_id = $extractor->id;
-        $job->extractor_type = $this->getClass($extractor);
-
-        $job->loader_id = $loader->id;
-        $job->loader_type = $this->getClass($loader);
-        $job->save();
-
-        // Push the job to the queue
-            $job_name = $job->collection_uri . '/' . $job->name;
-
-            \Queue::push(function ($queued_job) use ($job_name) {
-                \Artisan::call('input:execute', ['jobname' => $job_name]);
-
-                $queued_job->delete();
-            });
-
-            $job->added_to_queue = true;
-            $job->save();
-
-        return $job->id;
-    }
-
-    /**
-     * Create and Link Job (elasticsearch): Get the class without the namespace
-     */
-    private function getClass($obj)
-    {
-        if (is_null($obj)) {
-            return null;
-        }
-
-        $class_pieces = explode('\\', get_class($obj));
-        $class = ucfirst(mb_strtolower(array_pop($class_pieces)));
-
-        return implode('\\', $class_pieces) . '\\' . $class;
-    }
-
-    /**
-     * Create and Link Job (elasticsearch): Validate the create parameters based on the rules of a certain job.
-     * If something goes wrong, abort the application and return a corresponding error message.
-     *
-     * @param string $type
-     * @param string $short_name
-     * @param array  $params
-     *
-     * @return array
      */
     private function validateParameters($type, $short_name, $params)
     {
@@ -486,6 +210,96 @@ class DefinitionController extends ApiController
     }
 
     /**
+     * Edit job linked to dataset
+     *
+     * @return \Response
+     */
+    private function editLinkedJob($uri, $input)
+    {
+        // Set permission
+        Auth::requirePermissions('definition.update');
+
+        $job = \Job::whereRaw("? like CONCAT(collection_uri, '/', name , '/', '%')", array($uri . '/'))
+            ->with('extractor', 'loader')->first();
+
+        preg_match('/(.*)\/([^\/]*)$/', $uri, $matches);
+
+        $collection_uri = @$matches[1];
+        $name = @$matches[2];
+
+        // Extract class construction
+        $params = [];
+        $params['extract']['type'] = $input['original-dataset-type'];
+        $params['extract']['uri'] = $input['uri'];
+
+        if ($params['extract']['type'] == 'csv') {
+            $params['extract']['delimiter'] = $input['delimiter'];
+            $params['extract']['has_header_row'] = $input['has_header_row'];
+            $params['extract']['encoding'] = 'UTF-8';
+        } elseif ($params['extract']['type'] == 'xml') {
+            $params['extract']['array_level'] = $input['array_level'];
+            $params['extract']['encoding'] = 'UTF-8';
+        } elseif ($params['extract']['type'] == 'json') {
+            /* No extra fields */
+        }
+
+        // Load class construction (always elasticsearch)
+        $params['load']['type'] = 'elasticsearch';
+        $params['load']['host'] = 'localhost';
+        $params['load']['port'] = 9200;
+        $params['load']['es_index'] = '';
+        $params['load']['es_type'] = $collection_uri . '_' . $name;
+        $params['load']['username'] = '';
+        $params['load']['password'] = '';
+
+        // Add schedule
+        $params['schedule'] = $job->schedule;
+
+        // Validate the job properties
+        $job_params = $this->validateParameters('Job', 'job', $params);
+
+        // Check which parts are set for validation purposes
+        $extract = @$params['extract'];
+        $load = @$params['load'];
+
+        // Check for every ETL part if the type is supported
+        $extractor = $this->getClassOfType(@$extract, 'Extract');
+        $loader = $this->getClassOfType(@$load, 'Load');
+
+        $job->extractor()->delete();
+        $job->loader()->delete();
+
+        $extractor->save();
+        $loader->save();
+
+        // Add the validated job params
+        foreach ($job_params as $key => $value) {
+            $job->$key = $value;
+        }
+
+        $job->extractor_id = $extractor->id;
+        $job->extractor_type = $this->getClass($extractor);
+
+        $job->loader_id = $loader->id;
+        $job->loader_type = $this->getClass($loader);
+        $job->save();
+
+        // Push the job to the queue
+            $job_name = $job->collection_uri . '/' . $job->name;
+
+            \Queue::push(function ($queued_job) use ($job_name) {
+                \Artisan::call('input:execute', ['jobname' => $job_name]);
+
+                $queued_job->delete();
+            });
+
+            $job->added_to_queue = true;
+            $job->save();
+
+        return $job->id;
+    }
+
+    /**
      * Create a new definition based on the PUT parameters given and content-type
      */
     public function put($uri)
@@ -514,16 +328,16 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
 
         // Add uploaded file and change uri.
-        if (isset($input['fileupload']) && $input['fileupload'] !='') {
-            $input['uri'] = 'file://'.$input['fileupload'];
+        if (isset($input['fileupload']) && $input['fileupload'] != '') {
+            $input['uri'] = 'file://' . $input['fileupload'];
         }
 
         // Check if dataset should be indexed
         if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
-            $input['es_type'] = $input['collection_uri'].'_'.$input['resource_name'];
+            $input['es_type'] = $input['collection_uri'] . '_' . $input['resource_name'];
 
             //if a new job is stored and it needs to be indexed, set the draft flag to true
-            $input['draft_flag']= 1;
+            $input['draft_flag'] = 1;
         }
 
         // Validate the input
@@ -544,8 +358,7 @@ class DefinitionController extends ApiController
             $job_id = $this->createLinkJob($uri, $input);
 
             //when a job is done, the definition needs to be checked, if the draft is set to true, set it to false.
-            $input['draft_flag']= 0;
-
+            $input['draft_flag'] = 0;
 
             // Link job with definition through job_id column.
             $input['job_id'] = $job_id;
@@ -624,8 +437,8 @@ class DefinitionController extends ApiController
         $input['resource_name'] = @$matches[2];
         // Add uploaded file and change uri.
         // TODO: Validate file extension based on selected dataset/definition.
-        if(isset($input['fileupload']) && $input['fileupload'] !='') {
-            $input['uri'] = 'file://'.$input['fileupload'];
+        if(isset($input['fileupload']) && $input['fileupload'] != '') {
+            $input['uri'] = 'file://' . $input['fileupload'];
         }
 
         // Add uploaded file and change uri.
@@ -653,8 +466,8 @@ class DefinitionController extends ApiController
         );
 
         // Check if dataset has a linked job (for updating purposes only if uri dataset field has been modified)
-        if ($definition['job_id'] != null && isset($input['fileupload']) && $input['fileupload'] !='') {
-            $input['original-dataset-type'] = strtolower(chop($definition['source_type'],"Definition"));
+        if ($definition['job_id'] != null && isset($input['fileupload']) && $input['fileupload'] != '') {
+            $input['original-dataset-type'] = strtolower(chop($definition['source_type'],'Definition'));
             $job_id = $this->editLinkedJob($uri, $input);
         }
 
