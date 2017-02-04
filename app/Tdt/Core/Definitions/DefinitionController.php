@@ -285,16 +285,16 @@ class DefinitionController extends ApiController
         $job->save();
 
         // Push the job to the queue
-            $job_name = $job->collection_uri . '/' . $job->name;
+        $job_name = $job->collection_uri . '/' . $job->name;
 
-            \Queue::push(function ($queued_job) use ($job_name) {
-                \Artisan::call('input:execute', ['jobname' => $job_name]);
+        \Queue::push(function ($queued_job) use ($job_name) {
+            \Artisan::call('input:execute', ['jobname' => $job_name]);
 
-                $queued_job->delete();
-            });
+            $queued_job->delete();
+        });
 
-            $job->added_to_queue = true;
-            $job->save();
+        $job->added_to_queue = true;
+        $job->save();
 
         return $job->id;
     }

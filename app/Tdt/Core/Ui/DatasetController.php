@@ -29,26 +29,32 @@ class DatasetController extends UiController
         $definitions = \Definition::where('user_id', $user->id)->get();
 
         // Get updated definitions
-        $updatedDefinitionIds = \DB::table('definitions_updates')
+        $updatedDefinitions = \DB::table('definitions_updates')
             ->where('definitions_updates.user_id', $user->id)
             ->select('definitions_updates.definition_id')
             ->get();
 
-        $updatedDefinitions = array();
+        $updatedDefinitionIds = [];
 
-        foreach ($updatedDefinitionIds as $defid) {
-            $updatedDefinitions[] = $defid->definition_id;
+        foreach ($updatedDefinitions as $updatedDefinition) {
+            $updatedDefinitionIds[] = $updatedDefinition->definition_id;
         }
 
         $definitions_updated = null;
 
-        if (! empty($updatedDefinitions)) {
-            $definitions_updated = \Definition::whereIn('id', $updatedDefinitions)
+        if (! empty($updatedDefinitionIds)) {
+            $definitions_updated = \Definition::whereIn('id', $updatedDefinitionIds)
                     ->get();
         }
 
         // Get other definitions
-        $definitions_others = \Definition::where('user_id', '!=', $user->id)->whereNotIn('id', $updatedDefinitions)->get();
+        $otherDefinitionsQuery = \Definition::where('user_id', '!=', $user->id);
+
+        if (! empty($updatedDefinitionIds)) {
+            $otherDefinitionsQuery->whereNotIn('id', $updatedDefinitionIds);
+        }
+
+        $definitions_others = $otherDefinitionsQuery->get();
 
         return \View::make('ui.datasets.list')
                     ->with('title', 'Dataset management (Created/Updated/Others) | The Datatank')
