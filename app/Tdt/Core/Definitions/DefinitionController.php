@@ -353,7 +353,7 @@ class DefinitionController extends ApiController
         $definition = $this->definitions->store($input);
 
         // Check if dataset should be indexed: create job and link with previously created definition.
-        if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
+        /*if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
             // Create new job
             $job_id = $this->createLinkJob($uri, $input);
 
@@ -363,7 +363,7 @@ class DefinitionController extends ApiController
             // Link job with definition through job_id column.
             $input['job_id'] = $job_id;
             $definition = $this->definitions->update($uri, $input); // update previously created definition
-        }
+        }*/
 
         // Check if dataset should be indexed: create job and link with previously created definition.
         if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {

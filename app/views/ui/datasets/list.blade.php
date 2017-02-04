@@ -19,14 +19,14 @@
     <div class="col-sm-12">
 
         <h4>Created datasets</h4>
-		@if(empty($definitions) || $definitions->count() == 0)
-		<div class='panel panel-default'>
-			<div class="panel-body note">
-			<i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
-				You have not created any datasets yet.
-			</div>
-		</div>
-		@else
+        @if(empty($definitions) || $definitions->count() == 0)
+        <div class='panel panel-default'>
+            <div class="panel-body note">
+            <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
+                You have not created any datasets yet.
+            </div>
+        </div>
+        @else
         <?php $i = 0; ?>
         @foreach($definitions as $definition)
 
@@ -56,67 +56,67 @@
                             <div class='col-sm-8'>
                                 <h4 class='dataset-title'>
                                     <a href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>{{ $definition->collection_uri . '/' . $definition->resource_name }}</a>
-							@if($definition->draft_flag==1)  ..processing @endif
-								</h4>
-							</div>
-							<div class='col-sm-4 text-right'>
-								<div class='btn-group'>
-									@if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
-										<a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
-											@if($i==0)
-												data-step='4'
-												data-intro='<strong>View</strong> your dataset.'
-												data-position="left"
-											@endif
-											>
-											<i class='fa fa-eye'></i> {{ trans('admin.view_data') }}
-										</a>
-									@endif
-									@if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
-										<a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
+                            @if($definition->draft_flag==1)  - draft, indexing in progress @endif
+                                </h4>
+                            </div>
+                            <div class='col-sm-4 text-right'>
+                                <div class='btn-group'>
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
+                                        <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
+                                            @if($i==0)
+                                                data-step='4'
+                                                data-intro='<strong>View</strong> your dataset.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-eye'></i> {{ trans('admin.view_data') }}
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
+                                        <a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
 
-											@if($i==0)
-												data-step='5'
-												data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
-												data-position="left"
-											@endif
-											>
-											<i class='fa fa-external-link'></i> {{ trans('admin.view_definition') }}
-										</a>
-									@endif
-									@if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
-										<a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
+                                            @if($i==0)
+                                                data-step='5'
+                                                data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-external-link'></i> {{ trans('admin.view_definition') }}
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
+                                        <a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
 
-										   @if($i==0)
-											   data-step='6'
-											   data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
-											   data-position="left"
-										   @endif
-											>
-											<i class='fa fa-times icon-only'></i>
-										</a>
-									@endif
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                                           @if($i==0)
+                                               data-step='6'
+                                               data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
+                                               data-position="left"
+                                           @endif
+                                            >
+                                            <i class='fa fa-times icon-only'></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<?php $i++; ?>
-		@endforeach
-		@endif
-	</div>
+            <?php $i++; ?>
+        @endforeach
+        @endif
+    </div>
     <div class="col-sm-12">
         <h4>Updated datasets</h4>
-		@if(empty($definitions_updated) || $definitions_updated->count() == 0)
-		<div class='panel panel-default'>
-			<div class="panel-body note">
-			<i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
-				You have not updated any datasets yet.
-			</div>
-		</div>
-		@else
+        @if(empty($definitions_updated) || $definitions_updated->count() == 0)
+        <div class='panel panel-default'>
+            <div class="panel-body note">
+            <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
+                You have not updated any datasets yet.
+            </div>
+        </div>
+        @else
         <?php $i = 0; ?>
         @foreach($definitions_updated as $definition)
 
@@ -146,67 +146,67 @@
                             <div class='col-sm-8'>
                                 <h4 class='dataset-title'>
                                     <a href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>{{ $definition->collection_uri . '/' . $definition->resource_name }}</a>
-							@if($definition->draft_flag==1)  ..processing @endif
-								</h4>
-							</div>
-							<div class='col-sm-4 text-right'>
-								<div class='btn-group'>
-									@if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
-										<a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
-											@if($i==0)
-												data-step='4'
-												data-intro='<strong>View</strong> your dataset.'
-												data-position="left"
-											@endif
-											>
-											<i class='fa fa-eye'></i> {{ trans('admin.view_data') }}
-										</a>
-									@endif
-									@if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
-										<a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
+                            @if($definition->draft_flag==1)  - draft, indexing in progress @ @endif
+                                </h4>
+                            </div>
+                            <div class='col-sm-4 text-right'>
+                                <div class='btn-group'>
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
+                                        <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
+                                            @if($i==0)
+                                                data-step='4'
+                                                data-intro='<strong>View</strong> your dataset.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-eye'></i> {{ trans('admin.view_data') }}
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
+                                        <a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
 
-											@if($i==0)
-												data-step='5'
-												data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
-												data-position="left"
-											@endif
-											>
-											<i class='fa fa-external-link'></i> {{ trans('admin.view_definition') }}
-										</a>
-									@endif
-									@if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
-										<a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
+                                            @if($i==0)
+                                                data-step='5'
+                                                data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-external-link'></i> {{ trans('admin.view_definition') }}
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
+                                        <a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
 
-										   @if($i==0)
-											   data-step='6'
-											   data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
-											   data-position="left"
-										   @endif
-											>
-											<i class='fa fa-times icon-only'></i>
-										</a>
-									@endif
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                                           @if($i==0)
+                                               data-step='6'
+                                               data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
+                                               data-position="left"
+                                           @endif
+                                            >
+                                            <i class='fa fa-times icon-only'></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<?php $i++; ?>
-		@endforeach		
-		@endif
-	</div>
+            <?php $i++; ?>
+        @endforeach
+        @endif
+    </div>
     <div class="col-sm-12">
         <h4>Other datasets</h4>
-		@if(empty($definitions_others) || $definitions_others->count() == 0)
-		<div class='panel panel-default'>
-			<div class="panel-body note">
-			<i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
-				This datatank is hungry for data, no other datasets were added yet.
-			</div>
-		</div>
-		@else
+        @if(empty($definitions_others) || $definitions_others->count() == 0)
+        <div class='panel panel-default'>
+            <div class="panel-body note">
+            <i class='fa fa-lg fa-warning'></i>&nbsp;&nbsp;
+                This datatank is hungry for data, no other datasets were added yet.
+            </div>
+        </div>
+        @else
         <?php $i = 0; ?>
         @foreach($definitions_others as $definition)
 
@@ -236,57 +236,57 @@
                             <div class='col-sm-8'>
                                 <h4 class='dataset-title'>
                                     <a href='{{ URL::to('api/admin/datasets/edit/' . $definition->id) }}'>{{ $definition->collection_uri . '/' . $definition->resource_name }}</a>
-							@if($definition->draft_flag==1)  ..processing @endif
-								</h4>
-							</div>
-							<div class='col-sm-4 text-right'>
-								<div class='btn-group'>
-									@if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
-										<a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
-											@if($i==0)
-												data-step='4'
-												data-intro='<strong>View</strong> your dataset.'
-												data-position="left"
-											@endif
-											>
-											<i class='fa fa-eye'></i> {{ trans('admin.view_data') }}
-										</a>
-									@endif
-									@if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
-										<a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
+                            @if($definition->draft_flag==1)  - draft, indexing in progress @ @endif
+                                </h4>
+                            </div>
+                            <div class='col-sm-4 text-right'>
+                                <div class='btn-group'>
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('dataset.view'))
+                                        <a href='{{ URL::to($definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the dataset'
+                                            @if($i==0)
+                                                data-step='4'
+                                                data-intro='<strong>View</strong> your dataset.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-eye'></i> {{ trans('admin.view_data') }}
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('definition.view'))
+                                        <a href='{{ URL::to('api/definitions/'. $definition->collection_uri . '/' . $definition->resource_name) }}' class='btn' title='View the JSON definition'
 
-											@if($i==0)
-												data-step='5'
-												data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
-												data-position="left"
-											@endif
-											>
-											<i class='fa fa-external-link'></i> {{ trans('admin.view_definition') }}
-										</a>
-									@endif
-									@if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
-										<a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
+                                            @if($i==0)
+                                                data-step='5'
+                                                data-intro='Link to the <strong>JSON document</strong> that consists of all the parameters the definition has.'
+                                                data-position="left"
+                                            @endif
+                                            >
+                                            <i class='fa fa-external-link'></i> {{ trans('admin.view_definition') }}
+                                        </a>
+                                    @endif
+                                    @if(Tdt\Core\Auth\Auth::hasAccess('admin.dataset.delete'))
+                                        <a href='{{ URL::to('api/admin/datasets/delete/'. $definition->id) }}' class='btn delete' title='Delete this dataset'
 
-										   @if($i==0)
-											   data-step='6'
-											   data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
-											   data-position="left"
-										   @endif
-											>
-											<i class='fa fa-times icon-only'></i>
-										</a>
-									@endif
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                                           @if($i==0)
+                                               data-step='6'
+                                               data-intro='Removes the <strong>entire definition</strong>, and the identifier that was used will become available again.'
+                                               data-position="left"
+                                           @endif
+                                            >
+                                            <i class='fa fa-times icon-only'></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<?php $i++; ?>
-		@endforeach	
-		@endif
-	</div>	
+            <?php $i++; ?>
+        @endforeach
+        @endif
+    </div>
 
 <div class="col-sm-12">
 <a href='#' class='introjs pull-right'>
