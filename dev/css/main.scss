@@ -427,6 +427,7 @@ textarea{
                 margin-left: -1px;
             }
         }
+
     }
 }
 
@@ -522,6 +523,11 @@ footer{
 
     &.dataset-parameters{
         padding: 10px 30px;
+    }
+
+    &.users-information{
+		padding: 10px 30px;
+		margin-bottom: 0;
     }
 
     &.collection{
@@ -944,4 +950,6 @@ ul.nav-tabs + div.panel{
     width: 130px;
 
 }
+
 input[type=file]{display:block; border:none; margin-top:15px;padding:0;}
+.nofloat {float:none;}

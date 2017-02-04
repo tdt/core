@@ -2,12 +2,15 @@
 
 /**
  * Definition model
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class Definition extends Eloquent
 {
+    /*protected $hidden = array('user_id', 'username');*/
+
     protected $fillable = array(
         'title',
         'description',
@@ -21,8 +24,11 @@ class Definition extends Eloquent
         'theme',
         'date',
         'contact_point',
+        'draft_flag',
         'job_id',
         'original_file',
+        'user_id',
+        'username',
     );
 
     /**

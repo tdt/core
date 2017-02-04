@@ -22,6 +22,23 @@
             @endforeach
         </div>
     </li>
+	
+    @if(Sentry::check())
+        <li class="list-group-item">
+            <h5 class="list-group-item-heading">{{ trans('htmlview.created_by') }}</h5>
+            <p class="list-group-item-text">
+                <i>{{ $definition['username'] }}</i> {{ date("M j,Y H:i", strtotime($definition['created_at'])) }}
+            </p>
+			@if(!empty($updates_info) && count($updates_info) > 0)
+			<p>&nbsp;</p>
+			<h5 class="list-group-item-heading">{{ trans('htmlview.updated_by') }}</h5>
+			@foreach($updates_info as $update)
+			<p><i>{{ $update->username }}</i> {{ date("M j,Y H:i", strtotime($update->updated_at)) }}</p>
+			@endforeach
+			@endif
+        </li>
+    @endif	
+	
     @if(!empty($source_definition['description']))
         <li class="list-group-item">
             <h5 class="list-group-item-heading">{{ trans('htmlview.description') }}</h5>

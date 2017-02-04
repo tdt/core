@@ -140,9 +140,9 @@
                                                 @endforeach
                                             </select>
                                         @endif
-										@if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
-											<input type="file" class="form-control" id="fileupload" name="fileupload" />
-										@endif
+                                        @if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
+                                            <input type="file" class="form-control" id="fileupload" name="fileupload" />
+                                        @endif
                                         <div class='help-block'>
                                             {{ $object->description }}
                                         </div>
@@ -334,7 +334,7 @@
                             <hr>
                             <div class="submenu">
                                 <label class="checkbox">
-                                    <input type="checkbox" name="to_be_indexed" value="1" class="form-control indexed"> Index the data in Elasticsearch
+                                    <input type="checkbox" name="to_be_indexed" value="1" class="form-control indexed"> Should we index this dataset <br><br><h4><i class='fa fa-info-circle'></i> {{ trans('admin.index_header') }}</h4>
                                 </label>
                             </div>
                             <br>
@@ -358,28 +358,15 @@
                                         </div>
                                     </form>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">
-                                        Host
-                                    </label>
-                                    <div class="col-sm-10">
-										<input type="text" class="form-control" id="es_host_display" name="host_display" placeholder="" value="http://tdt.dev/" disabled="disabled">
-                                        <div class="help-block"></div>
-                                    </div>
-                                    <label class="col-sm-2 control-label">
-                                        Index
-                                    </label>
-                                    <div class="col-sm-10">
-										<input type="text" class="form-control" id="es_index_display" name="index_display" placeholder="" value="datatank" disabled="disabled">
-                                        <div class="help-block"></div>
-                                    </div>
-
-									<input type="hidden" id="input_host" name="host" value="http://tdt.dev/">
-									<input type="hidden" id="input_es_index" name="es_index" value="datatank">
-									<input type="hidden" id="input_es_type" name="es_type" value="">
-									<input type="hidden" id="input_port" name="port" value="9200">
-									<input type="hidden" id="input_username" name="username">
-									<input type="hidden" id="input_password" name="password">
-									<input type="hidden" id="input_cache_minutes" name="cache_minutes" value="5">
+                                    <input type="hidden" id="es_host_display" name="host_display" value="http://tdt.dev/">
+                                    <input type="hidden" id="es_index_display" name="index_display" value="datatank">
+                                    <input type="hidden" id="input_host" name="host" value="http://tdt.dev/">
+                                    <input type="hidden" id="input_es_index" name="es_index" value="datatank">
+                                    <input type="hidden" id="input_es_type" name="es_type" value="">
+                                    <input type="hidden" id="input_port" name="port" value="9200">
+                                    <input type="hidden" id="input_username" name="username">
+                                    <input type="hidden" id="input_password" name="password">
+                                    <input type="hidden" id="input_cache_minutes" name="cache_minutes" value="5">
                                     <hr/>
                                 </div>
                             </div>
@@ -431,17 +418,17 @@
             </div>
         </div>
     </script>
-	<script>
-	$(document).ready(function() {
+    <script>
+    $(document).ready(function() {
 
-		$("input:file").change(function (){
-			if($(this).val().length > 0) {
-				$(".tab-pane.active").find("#input_uri").hide();
-			}else{
-				$(".tab-pane.active").find("#input_uri").show();
-			}
-		});
+        $("input:file").change(function (){
+            if($(this).val().length > 0) {
+                $(".tab-pane.active").find("#input_uri").hide();
+            } else{
+                $(".tab-pane.active").find("#input_uri").show();
+            }
+        });
 
-	});
-	</script>
+    });
+    </script>
 @stop
