@@ -236,14 +236,13 @@ class DefinitionController extends ApiController
             /* No extra fields */
         }
 
-        // Load class construction (always elasticsearch)
         $params['load']['type'] = 'elasticsearch';
-        $params['load']['host'] = 'localhost';
-        $params['load']['port'] = 9200;
-        $params['load']['es_index'] = '';
-        $params['load']['es_type'] = $collection_uri . '_' . $name;
-        $params['load']['username'] = '';
-        $params['load']['password'] = '';
+        $params['load']['host'] = \Config::get('database.connections.tdt_elasticsearch.host', 'localhost');
+        $params['load']['port'] = \Config::get('database.connections.tdt_elasticsearch.port', 9200);
+        $params['load']['es_index'] = \Config::get('database.connections.tdt_elasticsearch.index', 'datatank');
+        $params['load']['es_type'] = trim($collection_uri) . '_' . trim($name);
+        $params['load']['username'] = $input['username'];
+        $params['load']['password'] = $input['password'];
 
         // Add schedule
         $params['schedule'] = $job->schedule;

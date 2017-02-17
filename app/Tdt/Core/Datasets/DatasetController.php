@@ -9,7 +9,6 @@ use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
 use Tdt\Core\Formatters\FormatHelper;
 use EasyRdf\RdfNamespace;
-use Log;
 
 /**
  *  DatasetController
@@ -29,7 +28,7 @@ class DatasetController extends ApiController
      * @return \Response
      */
     public function get($uri)
-    {		
+    {
         // Check permissions
         Auth::requirePermissions('dataset.view');
 
@@ -56,14 +55,13 @@ class DatasetController extends ApiController
 
         $cache_string .= http_build_query($query_string_params);
         $cache_string = sha1($cache_string);
-		
+
         if (Cache::has($cache_string)) {
             return ContentNegotiator::getResponse(Cache::get($cache_string), $extension);
         } else {
             // Get definition
             $definition = $this->definition->getByIdentifier($uri);
 
-			
             if ($definition) {
                 // Get source definition
                 $source_definition = $this->definition->getDefinitionSource(
@@ -71,19 +69,20 @@ class DatasetController extends ApiController
                     $definition['source_type']
                 );
 
-                //when requesting data, the formatter should notice the linked job,
+                // when requesting data, the formatter should notice the linked job,
                 // and treat it as an elasticsearch data type.
+                if (! is_null($definition['job_id'])) {
+                    // Get the job from the definition
+                    $job = \Job::find($definition['job_id']);
 
-                    if ($definition['job_id'] != null) {
-
-                        $source_definition['type'] = 'ELASTICSEARCH';
-                        $source_definition['host'] = "http://tdt.dev/";
-                        $source_definition['port'] = "9200";
-                        $source_definition['username'] = '';
-                        $source_definition['password'] = '';
-                        $source_definition['es_type'] = $definition['collection_uri'].'_'.$definition['resource_name'];
-                        $source_definition['es_index'] = "datatank";
-                    }
+                    $source_definition['type'] = 'ELASTICSEARCH';
+                    $source_definition['host'] = $job->loader->host;
+                    $source_definition['port'] = $job->loader->port;
+                    $source_definition['username'] = empty($job->loader->username) ? '' : $job->loader->username;
+                    $source_definition['password'] = empty($job->loader->password) ? '' : $job->loader->password;
+                    $source_definition['es_type'] = $job->loader->es_type;
+                    $source_definition['es_index'] = $job->loader->es_index;
+                }
 
                 if ($source_definition) {
                     $source_type = $source_definition['type'];
@@ -184,7 +183,7 @@ class DatasetController extends ApiController
 
                     // Add source definition to the object
                     $data->source_definition = $source_definition;
-					
+
 					// Add dataset updates information to the object
 					$data->updates_info = \DB::table('definitions_updates')
 					->where('definition_id', $definition['id'])
@@ -196,7 +195,7 @@ class DatasetController extends ApiController
                     // Add the available, supported formats to the object
                     $format_helper = new FormatHelper();
                     $data->formats = $format_helper->getAvailableFormats($data);
-					
+
                     // Store in cache
                     if (! empty($definition['cache_minutes'])) {
                         Cache::put($cache_string, $data, $definition['cache_minutes']);
