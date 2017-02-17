@@ -153,9 +153,9 @@ class DefinitionController extends ApiController
         $params['load']['host'] = \Config::get('database.connections.tdt_elasticsearch.host', 'localhost');
         $params['load']['port'] = \Config::get('database.connections.tdt_elasticsearch.port', 9200);
         $params['load']['es_index'] = \Config::get('database.connections.tdt_elasticsearch.index', 'datatank');
-        $params['load']['es_type'] = trim($collection_uri) . '_' . trim($name);
-        $params['load']['username'] = $input['username'];
-        $params['load']['password'] = $input['password'];
+        $params['load']['es_type'] = str_replace(' ', '_', trim($collection_uri) . '_' . trim($name));
+        $params['load']['username'] = \Config::get('database.connections.tdt_elasticsearch.username', '');
+        $params['load']['password'] = \Config::get('database.connections.tdt_elasticsearch.password', '');
 
         // Add schedule
         $params['schedule'] = $input['schedule'];
@@ -240,9 +240,9 @@ class DefinitionController extends ApiController
         $params['load']['host'] = \Config::get('database.connections.tdt_elasticsearch.host', 'localhost');
         $params['load']['port'] = \Config::get('database.connections.tdt_elasticsearch.port', 9200);
         $params['load']['es_index'] = \Config::get('database.connections.tdt_elasticsearch.index', 'datatank');
-        $params['load']['es_type'] = trim($collection_uri) . '_' . trim($name);
-        $params['load']['username'] = $input['username'];
-        $params['load']['password'] = $input['password'];
+        $params['load']['es_type'] = str_replace(' ', '_', trim($collection_uri) . '_' . trim($name));
+        $params['load']['username'] = \Config::get('database.connections.tdt_elasticsearch.username', '');
+        $params['load']['password'] = \Config::get('database.connections.tdt_elasticsearch.password', '');
 
         // Add schedule
         $params['schedule'] = $job->schedule;
