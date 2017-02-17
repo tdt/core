@@ -68,7 +68,6 @@ class DefinitionController extends ApiController
                 }
 
                 $validated_params[$key] = @$info['default_value'];
-
             } else {
                 if (! empty($rules[$key])) {
                     $validator = \Validator::make(
@@ -198,13 +197,7 @@ class DefinitionController extends ApiController
 
         $job_name = $job->collection_uri . '/' . $job->name;
 
-        \Queue::push(function ($queued_job) use ($job_name) {
-            \Artisan::call('input:execute', [
-                'jobname' => $job_name
-            ]);
-
-            $queued_job->delete();
-        });
+        $this->addJobToQueue($job_name, $uri);
 
         return $job->id;
     }
@@ -284,14 +277,10 @@ class DefinitionController extends ApiController
         $job->loader_type = $this->getClass($loader);
         $job->save();
 
-        // Push the job to the queue
         $job_name = $job->collection_uri . '/' . $job->name;
 
-        \Queue::push(function ($queued_job) use ($job_name) {
-            \Artisan::call('input:execute', ['jobname' => $job_name]);
-
-            $queued_job->delete();
-        });
+        // Push the job to the queue
+        $this->addJobToQueue($job_name, $uri);
 
         $job->added_to_queue = true;
         $job->save();
@@ -359,6 +348,7 @@ class DefinitionController extends ApiController
 
             // Link job with definition through job_id column.
             $input['job_id'] = $job_id;
+
             $definition = $this->definitions->update($uri, $input); // update previously created definition
         }
 
@@ -422,15 +412,16 @@ class DefinitionController extends ApiController
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
+
         // Add uploaded file and change uri.
         // TODO: Validate file extension based on selected dataset/definition.
-        if(isset($input['fileupload']) && $input['fileupload'] != '') {
+        if (isset($input['fileupload']) && $input['fileupload'] != '') {
             $input['uri'] = 'file://' . $input['fileupload'];
         }
 
         // Add uploaded file and change uri.
         // TODO: Validate file extension based on selected dataset/definition.
-        if(isset($input['fileupload']) && $input['fileupload'] != '') {
+        if (isset($input['fileupload']) && $input['fileupload'] != '') {
             $input['uri'] = 'file://' . $input['fileupload'];
         }
 
@@ -454,7 +445,8 @@ class DefinitionController extends ApiController
 
         // Check if dataset has a linked job (for updating purposes only if uri dataset field has been modified)
         if ($definition['job_id'] != null && isset($input['fileupload']) && $input['fileupload'] != '') {
-            $input['original-dataset-type'] = strtolower(chop($definition['source_type'],'Definition'));
+            $input['original-dataset-type'] = strtolower(chop($definition['source_type'], 'Definition'));
+
             $job_id = $this->editLinkedJob($uri, $input);
         }
 
@@ -544,5 +536,33 @@ class DefinitionController extends ApiController
         $input = array_change_key_case($input);
 
         return $input;
+    }
+
+    /**
+     * Execute a job for a definition
+     *
+     * @param  string $job_name
+     * @param  string $definition_uri
+     * @return void
+     */
+    private function addJobToQueue($job_name, $definition_uri)
+    {
+        $definitions = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface');
+
+        $definition = $definitions->getByIdentifier($definition_uri);
+        $definition['draft_flag'] = true;
+        $definitions->update($definition_uri, $definition);
+
+        \Queue::push(function ($queued_job) use ($job_name, $definition_uri, $definitions) {
+            \Artisan::call('input:execute', [
+                'jobname' => $job_name
+            ]);
+
+            $definition = $definitions->getByIdentifier($definition_uri);
+            $definition['draft_flag'] = false;
+            $definitions->update($definition_uri, $definition);
+
+            $queued_job->delete();
+        });
     }
 }

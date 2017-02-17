@@ -15,7 +15,7 @@ class DefinitionsVersionControl extends Migration
         Schema::table('definitions', function ($table) {
             $table->integer('user_id')->unsigned();
             $table->string('username', 255);
-             $table->integer('draft_flag')->unsigned()->nullable();
+            $table->integer('draft_flag')->unsigned()->nullable();
         });
 
         Schema::create('definitions_updates', function ($table) {
