@@ -71,7 +71,7 @@ class DatasetController extends ApiController
 
                 // when requesting data, the formatter should notice the linked job,
                 // and treat it as an elasticsearch data type.
-                if (! is_null($definition['job_id'])) {
+                if (! is_null(@$definition['job_id'])) {
                     // Get the job from the definition
                     $job = \Job::find($definition['job_id']);
 
