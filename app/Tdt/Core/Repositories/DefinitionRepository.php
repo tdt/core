@@ -6,6 +6,9 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 use Tdt\Core\Formatters\FormatHelper;
 
+use Log;
+use Logs;
+
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
     protected $dcat_rules = [
@@ -519,7 +522,13 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Get the formats based on the source definition meta-data
         $format_helper = new FormatHelper();
+
+
+        Log::info('aquiee');
         $formats = $format_helper->getFormatsForType($source_definition->toArray());
+
+        Log::info('aquiee');
+        Log::info($formats);
 
         $properties['formats'] = $formats;
         $properties['identifier'] = $identifier;
@@ -817,24 +826,6 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'type' => 'integer',
                 'description' => 'draft flag',
             ),
-            'job_id' => array(
-                'required' => false,
-                'name' => 'Related job',
-                'type' => 'integer',
-                'description' => 'Job linked to this dataset.',
-            ),
-            'original_file' => array(
-                'required' => false,
-                'name' => 'Original file',
-                'type' => 'string',
-                'description' => 'Original dataset file.',
-            ),
-            'draft_flag' => array(
-                'required' => false,
-                'name' => 'draft flag',
-                'type' => 'integer',
-                'description' => 'draft flag',
-            ),
             'user_id' => array(
                 'required' => true,
                 'name' => 'User id',
@@ -846,6 +837,12 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 'name' => 'Username',
                 'type' => 'string',
                 'description' => 'User (username) who created this dataset.',
+            ),
+            'xslt_file' => array(
+                'required' => false,
+                'name' => 'xslt_file',
+                'type' => 'string',
+                'description' => 'XSLT file.',
             ),
             'keywords' => array(
                 'required' => false,

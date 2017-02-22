@@ -178,6 +178,10 @@ $('.btn-add-dataset').on('click', function(e){
 		var fd = new FormData();
 		fd.append("fileupload", file);
 
+        // // test fileupload_xslt
+        // var fileupload_xslt = tab_pane.find('input[type=file]')[0].files[0];
+        // fd.append("fileupload_xslt", fileupload_xslt);
+
 		// Ajax call: upload file
 		$.ajax({
 			async: true,
@@ -218,7 +222,7 @@ $('.btn-add-dataset').on('click', function(e){
 			},
 			timeout: 10000
 		});
-	}	
+	}
 });
 
 // Edit dataset
