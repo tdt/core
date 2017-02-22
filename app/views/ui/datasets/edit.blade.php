@@ -29,6 +29,23 @@
         </div>		
 
         <div class='row'>
+        <div class='col-sm-12 panel panel-default linked-definitions'>
+			<div class='row'>
+				<div class="col-sm-12">
+					<h4>Linked From</h4>
+					@foreach ($definition->linkedFrom as $lnkdFrom)
+					<p>{{ $lnkdFrom->pivot->description." | ".$lnkdFrom->pivot->linked_from }}</p>
+					@endforeach
+
+				</div>
+				<div class="col-sm-12">
+					<h4>Linked To</h4>
+					@foreach ($definition->linkedTo as $lnkdTo)
+					<p>{{ $lnkdTo->pivot->description." | ".$lnkdTo->pivot->linked_to }}</p>
+					@endforeach
+				</div>
+			</div>
+        </div>		
         <div class='col-sm-12 panel panel-default users-information'>
 			<div class='row'>
 				<div class="col-sm-12 col-md-2">
