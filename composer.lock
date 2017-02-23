@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6de23242b32f836bc14cfbf4a7e509ae",
-    "content-hash": "74a23c82a5fbbc56c42d3ca16cb8a828",
+    "hash": "ef4be313ee9b616e866fa712394684ae",
+    "content-hash": "9b69d601eecbe077b17863fea9f0bb05",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -273,6 +273,61 @@
             ],
             "description": "A tiny, but robust REPL (Read-Evaluate-Print-Loop) for PHP.",
             "time": "2015-03-01 08:05:19"
+        },
+        {
+            "name": "daniel-furmanov/laravel-formatter",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DanielFurmanov/laravel-formatter.git",
+                "reference": "9149adcf6f14a563ccd5b81579e802b1f402aef9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DanielFurmanov/laravel-formatter/zipball/9149adcf6f14a563ccd5b81579e802b1f402aef9",
+                "reference": "9149adcf6f14a563ccd5b81579e802b1f402aef9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.0",
+                "league/csv": "~6.0",
+                "mustangostang/spyc": "0.5.*@dev",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SoapBox\\Formatter": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham McCarthy",
+                    "email": "graham@soapboxhq.com",
+                    "homepage": "http://grahammccarthy.com"
+                },
+                {
+                    "name": "Jaspaul Bola",
+                    "email": "jaspaul.b@gamil.com",
+                    "homepage": "http://jaspaulbola.com"
+                }
+            ],
+            "description": "A formatting library that converts data output between XML, CSV, JSON, TXT, YAML and a few others.",
+            "homepage": "http://github.com/SoapBox/laravel-formatter",
+            "keywords": [
+                "convert",
+                "csv",
+                "data",
+                "formatter",
+                "laravel",
+                "xml",
+                "yaml"
+            ],
+            "time": "2014-10-20 15:15:48"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -806,6 +861,61 @@
             "time": "2014-06-01 18:14:55"
         },
         {
+            "name": "league/csv",
+            "version": "6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "5ffb2b42ed5d7ae20d80d4480b34743f5086d4a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/5ffb2b42ed5d7ae20d80d4480b34743f5086d4a8",
+                "reference": "5ffb2b42ed5d7ae20d80d4480b34743f5086d4a8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Csv data manipulation made easy in PHP",
+            "keywords": [
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "write"
+            ],
+            "time": "2015-01-21 12:06:27"
+        },
+        {
             "name": "ml/iri",
             "version": "1.1.4",
             "target-dir": "ML/IRI",
@@ -1032,6 +1142,53 @@
                 "shp"
             ],
             "time": "2016-07-20 08:44:36"
+        },
+        {
+            "name": "mustangostang/spyc",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mustangostang/spyc.git",
+                "reference": "dc4785b4d7227fd9905e086d499fb8abfadf9977"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mustangostang/spyc/zipball/dc4785b4d7227fd9905e086d499fb8abfadf9977",
+                "reference": "dc4785b4d7227fd9905e086d499fb8abfadf9977",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Spyc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT License"
+            ],
+            "authors": [
+                {
+                    "name": "mustangostang",
+                    "email": "vlad.andersen@gmail.com"
+                }
+            ],
+            "description": "A simple YAML loader/dumper class for PHP",
+            "homepage": "https://github.com/mustangostang/spyc/",
+            "keywords": [
+                "spyc",
+                "yaml",
+                "yml"
+            ],
+            "time": "2013-02-21 10:52:01"
         },
         {
             "name": "neitanod/forceutf8",
@@ -1921,7 +2078,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/proj4php/proj4php/zipball/89722067010a4c88b7c4c79a7ee187bb2ddb1b61",
+                "url": "https://api.github.com/repos/proj4php/proj4php/zipball/41c1e753e02c44d6b6e68844f62ae36f9149897d",
                 "reference": "89722067010a4c88b7c4c79a7ee187bb2ddb1b61",
                 "shasum": ""
             },
