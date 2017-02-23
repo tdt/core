@@ -52,8 +52,9 @@
 					<h4>{{ trans('admin.update_linked_datasets') }}</h4>
 					<ul id="linked-to-datasets"> 
 						<li>
-							<input class="form-control" name="linkedTo0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
-							<textarea class="form-control" name="linkedToDesc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
+							<input class="form-control" name="linkedto0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
+							<input type="hidden" name="linkedto_id0" />
+							<textarea class="form-control" name="linkedto_desc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
 							<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
 							<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
 						</li>
@@ -345,16 +346,18 @@
 		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
 			event.preventDefault();
 			window.count++;
-			var linkedToID= "linkedTo" + window.count;
-			var linkedToDescID= "linkedToDesc" + window.count;
-			var btnAddID = "add" + window.count;
-			var btnDelID = "del" + window.count;
+			var linkedToNum = "linkedto" + window.count;
+			var linkedToDescNum = "linkedto_desc" + window.count;
+			var linkedToIDNum = "linkedto_id" + window.count;
+			var btnAddNum = "add" + window.count;
+			var btnDelNum = "del" + window.count;
 			var ul = $("#linked-to-datasets");
 			var li = $("<li></li>")
-				.append($("<input class='form-control' name='" + linkedToID+ "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
-						+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescID+"'></textarea>"
-					+ "<button class='btn btn-default' id='" + btnAddID + "' >{{ trans('admin.add_link') }}</button>"
-					+ "<button class='btn btn-default' id='" + btnDelID + "' >{{ trans('admin.delete_link') }}</button>"));
+				.append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+					+ "<input type='hidden' name='" + linkedToIDNum + "' />"
+					+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
+					+ "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
+					+ "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
 			li.appendTo(ul);
 		});
 
@@ -369,12 +372,13 @@
 			window.count--;
 		});
 		
-		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedTo']", function () {
+		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
 			$(this).autocomplete({
 				source: "/search/autocomplete",
 				minLength: 0,
 				select: function(event, ui) {
 					$(this).val(ui.item.value);
+					$(this).closest('li').find('input[type=hidden]').val(ui.item.id);
 				}
 			});
 
