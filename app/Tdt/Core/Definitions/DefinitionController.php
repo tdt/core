@@ -332,6 +332,8 @@ class DefinitionController extends ApiController
 //            }
         }
 
+        $input['xslt_file'] = 1;
+
         //TODO controlar la subida del segundo fichero fileupload_xslt y no como esta ahora,
         // Add uploaded file XSLT and change xslt_file.
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
