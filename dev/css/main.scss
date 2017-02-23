@@ -953,3 +953,30 @@ ul.nav-tabs + div.panel{
 
 input[type=file]{display:block; border:none; margin-top:15px;padding:0;}
 .nofloat {float:none;}
+
+/* Link datasets UI */
+
+ul#linked-to-datasets{
+	list-style-type: none;
+    width:250px;
+    padding:0px 0px 15px 0px;
+    overflow-x:hidden; 
+    overflow-y:auto
+}
+
+ul#linked-to-datasets button{
+    width:105px;
+    margin:5px;
+}
+
+ul#linked-to-datasets input, ul#linked-to-datasets textarea {
+    width:235px;
+    margin:5px 0px;
+}
+
+.ui-autocomplete {
+	max-height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
+            padding-right: 20px;
+}

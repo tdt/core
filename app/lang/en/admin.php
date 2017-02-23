@@ -68,5 +68,16 @@ return array(
     "menu_users"                 => "Users",
     "menu_groups"                => "Groups",
 	"created_by"				 => "Created by",
-	"updated_by"				 => "Updated by"
+	"updated_by"				 => "Updated by",
+	"link_datasets"				 => "Link to other datasets (optional)",
+	"link_datasets_select_to"	 => "Search and select datasets to be linked to",
+	"current_linked_datasets"	 => "Current linked datasets",
+	"linked_to"	 				 => "Linked to",
+	"linked_from"				 => "Linked from",
+	"update_linked_datasets"	 => "Update linked datasets",
+	"linked_datasets_type_to_search" => "Type to search and select a dataset...",
+	"linked_datasets_provide_context" => "Provide some context as to why this dataset is related...",
+	"add_link" 					 => "Add link",
+	"delete_link" 					 => "Delete link",
+	"linked_datasets_alert"		 => "Can't delete default dataset input textbox!"
 );

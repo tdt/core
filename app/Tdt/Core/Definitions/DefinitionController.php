@@ -320,10 +320,14 @@ class DefinitionController extends ApiController
         if (isset($input['fileupload']) && $input['fileupload'] != '') {
             $input['uri'] = 'file://' . $input['fileupload'];
         }
-
+      
         // Add uploaded file XSLT and change xslt_file.
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
-            $input['xslt_file'] = 'file://' . $input['fileupload_xslt'];
+
+            $file2=$input['fileupload_xslt'];
+            $file3=explode("\\", $file2);
+
+            $input['xslt_file'] =$file3[2] . '_' . date('Y-m-d');
         }
 
         // Check if dataset should be indexed

@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
     <div class='row header'>
         <div class="col-sm-6">
@@ -60,7 +59,34 @@
             </div>
         </div>
 
-        <h3>2. {{ trans('admin.select_type') }}</h3>
+		<div class="linked-datasets">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3>2. {{ trans('admin.link_datasets') }}</h3>
+					
+					<div class='row'>
+						<div class='col-sm-4 col-sm-offset-4  panel panel-default linked-definitions'>
+							<div class='row'>
+								<div class="col-sm-12">
+									<h4>{{ trans('admin.link_datasets_select_to') }}</h4>
+									<ul id="linked-to-datasets"> 
+										<li>
+											<input class="form-control" name="linkedto0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
+											<input type="hidden" name="linkedto_id0" />
+											<textarea class="form-control" name="linkedto_desc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
+											<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
+											<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
+										</li>
+									</ul>
+								 </div>			
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+
+        <h3>3. {{ trans('admin.select_type') }}</h3>
 
         <ul class="nav nav-tabs">
             @foreach($mediatypes as $mediatype => $type)
@@ -396,8 +422,9 @@
                       </div>
                 </div>
             @endforeach
-        </div>
+        </div>		
     </form>
+	
     <script type="text/x-template" id="person">
         <div class="attribution-person" data-role="#OPTION#">
             <div class="form-group" style="margin-bottom: 0">
@@ -439,5 +466,53 @@
         });
 
     });
+	
+	$(function () {
+		
+		window.count = 0;
+		
+		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
+			event.preventDefault();
+			window.count++;
+			var linkedToNum = "linkedto" + window.count;
+			var linkedToDescNum = "linkedto_desc" + window.count;
+			var linkedToIDNum = "linkedto_id" + window.count;
+			var btnAddNum = "add" + window.count;
+			var btnDelNum = "del" + window.count;
+			var ul = $("#linked-to-datasets");
+			var li = $("<li></li>")
+				.append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+					+ "<input type='hidden' name='" + linkedToIDNum + "' />"
+					+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
+					+ "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
+					+ "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
+			li.appendTo(ul);
+		});
+
+		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
+			event.preventDefault();
+			if (window.count == 0) {
+				alert("{{ trans('admin.linked_datasets_alert') }}");
+				return;
+			}
+			var li = $(this).parent();
+			li.remove();
+			window.count--;
+		});
+		
+		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
+			$(this).autocomplete({
+				source: "/search/autocomplete",
+				minLength: 0,
+				select: function(event, ui) {
+					$(this).val(ui.item.value);
+					$(this).closest('li').find('input[type=hidden]').val(ui.item.id);
+				}
+			});
+
+			$(this).autocomplete("search");
+		});
+		
+	 });	
     </script>
 @stop

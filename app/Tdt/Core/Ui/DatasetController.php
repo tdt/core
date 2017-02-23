@@ -178,6 +178,7 @@ class DatasetController extends UiController
             unset($parameters_required['username']);
             unset($parameters_required['user_id']);
             unset($parameters_optional['job_id']);
+            unset($parameters_optional['xslt_file']);
 
             // Translate the parameters
             $parameters_required = $this->translateParameters($parameters_required, $mediatype);
@@ -300,6 +301,7 @@ class DatasetController extends UiController
             unset($parameters_optional['username']);
             unset($parameters_optional['user_id']);
             unset($parameters_optional['job_id']);
+            unset($parameters_optional['xslt_file']);
 
             // Get dataset updates information
             $updates_info = \DB::table('definitions_updates')
@@ -405,4 +407,30 @@ class DatasetController extends UiController
 
         return $translatedParameters;
     }
+	
+    /**
+     * Autocomplete endpoint "Linking Datasets"
+     *
+     * @return json
+     */	
+	public function autocompleteLinkedDatasets(){
+		$term = \Input::get('term');
+				
+		$results = array();
+		
+		$queries = \DB::table('definitions')
+			->where('title', 'LIKE', '%' . $term . '%')
+            ->orWhere('description', 'LIKE', '%' . $term . '%')
+            ->orWhere('resource_name', 'LIKE', '%' . $term . '%')
+            ->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
+			->get();
+		
+		foreach ($queries as $query)
+		{
+			$results[] = [ 'id' => $query->id, 'value' => $query->title ];
+		}
+		
+		return \Response::json($results);
+	}		
+	
 }
