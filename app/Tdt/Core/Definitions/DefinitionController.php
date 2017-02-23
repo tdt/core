@@ -9,6 +9,7 @@ use Tdt\Core\ContentNegotiator;
 use Tdt\Core\ApiController;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Config;
+use File;
 
 /**
  * DefinitionController
@@ -320,11 +321,16 @@ class DefinitionController extends ApiController
             $input['uri'] = 'file://' . $input['fileupload'];
         }
 
+        // Add uploaded file XSLT and change xslt_file.
+        if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
+            $input['xslt_file'] = 'file://' . $input['fileupload_xslt'];
+        }
+
         // Check if dataset should be indexed
         if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
             $input['es_type'] = $input['collection_uri'] . '_' . $input['resource_name'];
 
-            //if a new job is stored and it needs to be indexed, set the draft flag to true
+            // if a new job is stored and it needs to be indexed, set the draft flag to true
             $input['draft_flag'] = 1;
         }
 
@@ -411,12 +417,6 @@ class DefinitionController extends ApiController
 
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
-
-        // Add uploaded file and change uri.
-        // TODO: Validate file extension based on selected dataset/definition.
-        if (isset($input['fileupload']) && $input['fileupload'] != '') {
-            $input['uri'] = 'file://' . $input['fileupload'];
-        }
 
         // Add uploaded file and change uri.
         // TODO: Validate file extension based on selected dataset/definition.
