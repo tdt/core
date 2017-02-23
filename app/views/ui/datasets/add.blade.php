@@ -58,7 +58,6 @@
                 </div>
             </div>
         </div>
-		
 
 		<div class="linked-datasets">
 			<div class="row">
@@ -69,13 +68,13 @@
 						<div class='col-sm-4 col-sm-offset-4  panel panel-default linked-definitions'>
 							<div class='row'>
 								<div class="col-sm-12">
-									<h4>Search and select datasets to be linked to</h4>
+									<h4>{{ trans('admin.link_datasets_select_to') }}</h4>
 									<ul id="linked-to-datasets"> 
 										<li>
-											<input class="form-control" name="linkedTo0" placeholder="Type to search and select a dataset..."/>
-											<textarea class="form-control" name="linkedToDesc0" placeholder="Provide some context as to why this dataset is related..."></textarea>                
-											<button class="btn btn-default" id="add0">Add link</button>
-											<button class="btn btn-default" id="del0">Delete link</button>
+											<input class="form-control" name="linkedTo0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
+											<textarea class="form-control" name="linkedToDesc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
+											<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
+											<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
 										</li>
 									</ul>
 								 </div>			
@@ -480,17 +479,17 @@
 			var btnDelID = "del" + window.count;
 			var ul = $("#linked-to-datasets");
 			var li = $("<li></li>")
-				.append($("<input class='form-control' name='" + linkedToID+ "' placeholder='Type to search and select a dataset...' />"
-						+ "<textarea class='form-control' placeholder='Provide some context as to why this dataset is related...' name='" + linkedToDescID+"'></textarea>"
-					+ "<button class='btn btn-default' id='" + btnAddID + "' >Add link</button>"
-					+ "<button class='btn btn-default' id='" + btnDelID + "' >Delete link</button>"));
+				.append($("<input class='form-control' name='" + linkedToID+ "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+						+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescID+"'></textarea>"
+					+ "<button class='btn btn-default' id='" + btnAddID + "' >{{ trans('admin.add_link') }}</button>"
+					+ "<button class='btn btn-default' id='" + btnDelID + "' >{{ trans('admin.delete_link') }}</button>"));
 			li.appendTo(ul);
 		});
 
 		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
 			event.preventDefault();
 			if (window.count == 0) {
-				alert("Can't delete default dataset input textbox!");
+				alert("{{ trans('admin.linked_datasets_alert') }}");
 				return;
 			}
 			var li = $(this).parent();

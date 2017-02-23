@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-
     <form class="form-horizontal edit-dataset" role="form" data-mediatype='{{ strtolower($source_definition->type) }}'
         data-identifier='{{ $definition->collection_uri . '/' . $definition->resource_name }}'>
         <div class='row header'>
@@ -32,17 +31,17 @@
         <div class='col-sm-12 panel panel-default linked-definitions'>
 			<div class='row'>
 				<div class="col-md-6 col-sm-12">
-					<h4>Current linked datasets</h4>
+					<h4>{{ trans('admin.current_linked_datasets') }}</h4>
 					<div class="row">
 						<div class="col-sm-12">
-							<h5>Linked From</h5>
+							<h5>{{ trans('admin.linked_from') }}</h5>
 							@foreach ($definition->linkedFrom as $lnkdFrom)
 							<p>{{ $lnkdFrom->pivot->description." | ".$lnkdFrom->pivot->linked_from }}</p>
 							@endforeach
 
 						</div>
 						<div class="col-sm-12">
-							<h5>Linked To</h5>
+							<h5>{{ trans('admin.linked_to') }}</h5>
 							@foreach ($definition->linkedTo as $lnkdTo)
 							<p>{{ $lnkdTo->pivot->description." | ".$lnkdTo->pivot->linked_to }}</p>
 							@endforeach
@@ -50,13 +49,13 @@
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-12">
-					<h4>Update linked datasets</h4>
+					<h4>{{ trans('admin.update_linked_datasets') }}</h4>
 					<ul id="linked-to-datasets"> 
 						<li>
-							<input class="form-control" name="linkedTo0" placeholder="Type to search and select a dataset..."/>
-							<textarea class="form-control" name="linkedToDesc0" placeholder="Provide some context as to why this dataset is related..."></textarea>                
-							<button class="btn btn-default" id="add0">Add link</button>
-							<button class="btn btn-default" id="del0">Delete link</button>
+							<input class="form-control" name="linkedTo0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
+							<textarea class="form-control" name="linkedToDesc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
+							<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
+							<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
 						</li>
 					</ul>
 				 </div>			
@@ -352,17 +351,17 @@
 			var btnDelID = "del" + window.count;
 			var ul = $("#linked-to-datasets");
 			var li = $("<li></li>")
-				.append($("<input class='form-control' name='" + linkedToID+ "' placeholder='Type to search and select a dataset...' />"
-						+ "<textarea class='form-control' placeholder='Provide some context as to why this dataset is related...' name='" + linkedToDescID+"'></textarea>"
-					+ "<button class='btn btn-default' id='" + btnAddID + "' >Add link</button>"
-					+ "<button class='btn btn-default' id='" + btnDelID + "' >Delete link</button>"));
+				.append($("<input class='form-control' name='" + linkedToID+ "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+						+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescID+"'></textarea>"
+					+ "<button class='btn btn-default' id='" + btnAddID + "' >{{ trans('admin.add_link') }}</button>"
+					+ "<button class='btn btn-default' id='" + btnDelID + "' >{{ trans('admin.delete_link') }}</button>"));
 			li.appendTo(ul);
 		});
 
 		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
 			event.preventDefault();
 			if (window.count == 0) {
-				alert("Can't delete default dataset input textbox!");
+				alert("{{ trans('admin.linked_datasets_alert') }}");
 				return;
 			}
 			var li = $(this).parent();

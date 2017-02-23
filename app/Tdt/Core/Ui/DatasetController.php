@@ -406,6 +406,11 @@ class DatasetController extends UiController
         return $translatedParameters;
     }
 	
+    /**
+     * Autocomplete endpoint "Linking Datasets"
+     *
+     * @return json
+     */	
 	public function autocompleteLinkedDatasets(){
 		$term = \Input::get('term');
 				

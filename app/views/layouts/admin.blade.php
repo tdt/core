@@ -4,7 +4,6 @@
         <title>{{ $title }}</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>		
-		
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="DC.title" content="{{ $title }}"/>

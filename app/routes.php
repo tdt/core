@@ -69,6 +69,7 @@ Route::any('/upload-file', function () {
     );
 });
 
+/* Autocomplete endpoint "Linking Datasets" */
 Route::get('/search/autocomplete', 'Tdt\\Core\\Ui\\DatasetController@autocompleteLinkedDatasets');
 
 /*
