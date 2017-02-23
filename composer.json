@@ -31,8 +31,7 @@
         "phayes/geophp" : "dev-master",
         "ml/json-ld": "1.*",
         "ruflin/elastica" : "3.1.*",
-        "tdt/input": "dev-master",
-        "daniel-furmanov/laravel-formatter": "^2.0"
+        "tdt/input": "dev-master"
     },
     "require-dev": {
         "mockery/mockery": "dev-master@dev"
