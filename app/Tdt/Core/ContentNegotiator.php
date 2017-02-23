@@ -57,13 +57,13 @@ class ContentNegotiator extends Pager
         $formatter_class = 'Tdt\\Core\\Formatters\\' . $extension . 'Formatter';
 
         // Exception for XML, only XML or HTML is allowed
-        if ($data->definition['source_type'] == 'XmlDefinition' && !empty($extension) && $data->source_definition['geo_formatted'] != 1) {
-            if ($extension != "XML" && $extension != "HTML" && $extension != "PHP") {
-                \App::abort(406, "XML only allows to be formatted in XML, HTML or PHP serialization.");
-            } elseif ($extension == "XML") {
-                return self::createXmlResponse($data->data);
-            }
-        }
+//        if ($data->definition['source_type'] == 'XmlDefinition' && !empty($extension) && $data->source_definition['geo_formatted'] != 1) {
+//            if ($extension != "XML" && $extension != "HTML" && $extension != "PHP") {
+//                \App::abort(406, "XML only allows to be formatted in XML, HTML or PHP serialization.");
+//            } elseif ($extension == "XML") {
+//                return self::createXmlResponse($data->data);
+//            }
+//        }
 
         if (empty($extension)) {
             $negotiator = new FormatNegotiator();

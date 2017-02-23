@@ -102,6 +102,25 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Update the facets for the definition
         $this->updateFacets($definition);
+		
+		// Create "linked to" datasets
+		$linked_to_codes = array();
+		foreach($input as $key => $value) {
+			if (strpos($key, 'linkedto_id') === 0 && !empty($value)) {
+				$linked_to_codes[] = preg_replace('/\D/', '', $key);
+			}
+		}
+		
+		if (!empty($linked_to_codes)){
+			$linked_definitions_list = array();
+
+			foreach($linked_to_codes as $key => $value) {
+				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value]]; 
+			}
+
+			$definition->linkedTo()->sync($linked_definitions_list);
+		}
+		// End Create "linked to" datasets
 
         return $definition->toArray();
     }
@@ -188,6 +207,25 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         }
 
         $definition_model->save();
+		
+		// Update "linked to" datasets
+		$linked_to_codes = array();
+		foreach($input as $key => $value) {
+			if (strpos($key, 'linkedto_id') === 0 && !empty($value)) {
+				$linked_to_codes[] = preg_replace('/\D/', '', $key);
+			}
+		}
+		
+		if (!empty($linked_to_codes)){
+			$linked_definitions_list = array();
+
+			foreach($linked_to_codes as $key => $value) {
+				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value]]; 
+			}
+
+			$definition_model->linkedTo()->sync($linked_definitions_list);
+		}
+		// End Update "linked to" datasets
 
         return $definition_model->toArray();
     }
