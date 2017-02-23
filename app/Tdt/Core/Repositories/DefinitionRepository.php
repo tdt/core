@@ -6,9 +6,6 @@ use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 use Tdt\Core\Formatters\FormatHelper;
 
-use Log;
-use Logs;
-
 class DefinitionRepository extends BaseDefinitionRepository implements DefinitionRepositoryInterface
 {
     protected $dcat_rules = [
