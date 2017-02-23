@@ -142,10 +142,19 @@
                                         @endif
                                         @if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
                                             <input type="file" class="form-control" id="fileupload" name="fileupload" />
+                                                <div class='help-block'>
+                                                    {{ $object->description }}
+                                                </div>
+                                                @if (in_array(strtolower($mediatype), array("xml")) && $parameter == 'uri')
+                                                        <input type="file" class="form-control" id="fileupload_xslt" name="fileupload_xslt" />
+                                                        <div class='help-block'>
+                                                            {{ $object->description_xslt }}
+                                                        </div>
+
+                                                @endif
+
                                         @endif
-                                        <div class='help-block'>
-                                            {{ $object->description }}
-                                        </div>
+
                                     </div>
                                 </div>
                             @endforeach
@@ -330,7 +339,7 @@
                             </div>
                         @endif
 
-                         @if (in_array(strtolower($mediatype), array("csv", "xml", "json")))
+                         @if (in_array(strtolower($mediatype), array("csv", "xls", "json","shp")))
                             <hr>
                             <div class="submenu">
                                 <label class="checkbox">

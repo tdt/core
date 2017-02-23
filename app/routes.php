@@ -6,6 +6,8 @@
 |--------------------------------------------------------------------------
 */
 
+use Log;
+
 /**
  * Admin routes
  */
@@ -52,7 +54,16 @@ Route::any('/upload-file', function () {
         '/ /'           =>   '_', // nonbreaking space (equiv. to 0x160)
     ];
 
+
     $file = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload')->getClientOriginalName()));
+//    $file_xslt = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload_xslt')->getClientOriginalName()));
+//
+//    if($file_xslt){
+//        Input::file('fileupload_xslt')->move(
+//            app_path() . '/storage/app/',
+//            $file . '_' . time() . '.' . Input::file('fileupload_xslt')->getClientOriginalExtension()
+//        );
+//    }
 
     return Input::file('fileupload')->move(
         app_path() . '/storage/app/',
