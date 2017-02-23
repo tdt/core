@@ -71,6 +71,8 @@ Route::any('/upload-file', function () {
     );
 });
 
+Route::get('/search/autocomplete', 'Tdt\\Core\\Ui\\DatasetController@autocompleteLinkedDatasets');
+
 /*
  * IMPORTANT!
  * The catch-all route to catch all other request is added last to allow packages to still have their own routes

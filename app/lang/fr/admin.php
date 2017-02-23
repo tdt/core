@@ -62,5 +62,6 @@ return array(
     "menu_groups"                => "Groupes",
     "geodcat_header"             => "Localisez la zone concernée",
 	"created_by"				 => "Créé par",
-	"updated_by"				 => "Mise à jour"
+	"updated_by"				 => "Mise à jour",
+	"link_datasets"				 => "Link to other datasets (optional)"	
 );

@@ -31,19 +31,35 @@
         <div class='row'>
         <div class='col-sm-12 panel panel-default linked-definitions'>
 			<div class='row'>
-				<div class="col-sm-12">
-					<h4>Linked From</h4>
-					@foreach ($definition->linkedFrom as $lnkdFrom)
-					<p>{{ $lnkdFrom->pivot->description." | ".$lnkdFrom->pivot->linked_from }}</p>
-					@endforeach
+				<div class="col-md-6 col-sm-12">
+					<h4>Current linked datasets</h4>
+					<div class="row">
+						<div class="col-sm-12">
+							<h5>Linked From</h5>
+							@foreach ($definition->linkedFrom as $lnkdFrom)
+							<p>{{ $lnkdFrom->pivot->description." | ".$lnkdFrom->pivot->linked_from }}</p>
+							@endforeach
 
+						</div>
+						<div class="col-sm-12">
+							<h5>Linked To</h5>
+							@foreach ($definition->linkedTo as $lnkdTo)
+							<p>{{ $lnkdTo->pivot->description." | ".$lnkdTo->pivot->linked_to }}</p>
+							@endforeach
+						</div>
+					</div>
 				</div>
-				<div class="col-sm-12">
-					<h4>Linked To</h4>
-					@foreach ($definition->linkedTo as $lnkdTo)
-					<p>{{ $lnkdTo->pivot->description." | ".$lnkdTo->pivot->linked_to }}</p>
-					@endforeach
-				</div>
+				<div class="col-md-6 col-sm-12">
+					<h4>Update linked datasets</h4>
+					<ul id="linked-to-datasets"> 
+						<li>
+							<input class="form-control" name="linkedTo0" placeholder="Type to search and select a dataset..."/>
+							<textarea class="form-control" name="linkedToDesc0" placeholder="Provide some context as to why this dataset is related..."></textarea>                
+							<button class="btn btn-default" id="add0">Add link</button>
+							<button class="btn btn-default" id="del0">Delete link</button>
+						</li>
+					</ul>
+				 </div>			
 			</div>
         </div>		
         <div class='col-sm-12 panel panel-default users-information'>
@@ -104,9 +120,9 @@
                         </label>
                         <div class="col-sm-10">
                             @if($object->type == 'string')
-                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{{ $source_definition->{$parameter} }}}'>
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'text')
-                                <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}">{{{ $source_definition->{$parameter} }}}</textarea>
+                                <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}">{{ $source_definition->{$parameter} }}</textarea>
                             @elseif($object->type == 'integer')
                                 <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'date')
@@ -322,4 +338,50 @@
             </div>
         </div>
     </script>
+	<script>
+	$(function () {
+		
+		window.count = 0;
+		
+		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
+			event.preventDefault();
+			window.count++;
+			var linkedToID= "linkedTo" + window.count;
+			var linkedToDescID= "linkedToDesc" + window.count;
+			var btnAddID = "add" + window.count;
+			var btnDelID = "del" + window.count;
+			var ul = $("#linked-to-datasets");
+			var li = $("<li></li>")
+				.append($("<input class='form-control' name='" + linkedToID+ "' placeholder='Type to search and select a dataset...' />"
+						+ "<textarea class='form-control' placeholder='Provide some context as to why this dataset is related...' name='" + linkedToDescID+"'></textarea>"
+					+ "<button class='btn btn-default' id='" + btnAddID + "' >Add link</button>"
+					+ "<button class='btn btn-default' id='" + btnDelID + "' >Delete link</button>"));
+			li.appendTo(ul);
+		});
+
+		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
+			event.preventDefault();
+			if (window.count == 0) {
+				alert("Can't delete default dataset input textbox!");
+				return;
+			}
+			var li = $(this).parent();
+			li.remove();
+			window.count--;
+		});
+		
+		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedTo']", function () {
+			$(this).autocomplete({
+				source: "/search/autocomplete",
+				minLength: 0,
+				select: function(event, ui) {
+					$(this).val(ui.item.value);
+				}
+			});
+
+			$(this).autocomplete("search");
+		});
+		
+	 });	
+	</script>
 @stop

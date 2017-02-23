@@ -68,5 +68,6 @@ return array(
     "menu_users"                 => "Users",
     "menu_groups"                => "Groups",
 	"created_by"				 => "Created by",
-	"updated_by"				 => "Updated by"
+	"updated_by"				 => "Updated by",
+	"link_datasets"				 => "Link to other datasets (optional)"
 );
