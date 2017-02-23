@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-
     <form class="form-horizontal edit-dataset" role="form" data-mediatype='{{ strtolower($source_definition->type) }}'
         data-identifier='{{ $definition->collection_uri . '/' . $definition->resource_name }}'>
         <div class='row header'>
@@ -31,19 +30,35 @@
         <div class='row'>
         <div class='col-sm-12 panel panel-default linked-definitions'>
 			<div class='row'>
-				<div class="col-sm-12">
-					<h4>Linked From</h4>
-					@foreach ($definition->linkedFrom as $lnkdFrom)
-					<p>{{ $lnkdFrom->pivot->description." | ".$lnkdFrom->pivot->linked_from }}</p>
-					@endforeach
+				<div class="col-md-6 col-sm-12">
+					<h4>{{ trans('admin.current_linked_datasets') }}</h4>
+					<div class="row">
+						<div class="col-sm-12">
+							<h5>{{ trans('admin.linked_from') }}</h5>
+							@foreach ($definition->linkedFrom as $lnkdFrom)
+							<p>{{ $lnkdFrom->pivot->description." | ".$lnkdFrom->pivot->linked_from }}</p>
+							@endforeach
 
+						</div>
+						<div class="col-sm-12">
+							<h5>{{ trans('admin.linked_to') }}</h5>
+							@foreach ($definition->linkedTo as $lnkdTo)
+							<p>{{ $lnkdTo->pivot->description." | ".$lnkdTo->pivot->linked_to }}</p>
+							@endforeach
+						</div>
+					</div>
 				</div>
-				<div class="col-sm-12">
-					<h4>Linked To</h4>
-					@foreach ($definition->linkedTo as $lnkdTo)
-					<p>{{ $lnkdTo->pivot->description." | ".$lnkdTo->pivot->linked_to }}</p>
-					@endforeach
-				</div>
+				<div class="col-md-6 col-sm-12">
+					<h4>{{ trans('admin.update_linked_datasets') }}</h4>
+					<ul id="linked-to-datasets"> 
+						<li>
+							<input class="form-control" name="linkedTo0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
+							<textarea class="form-control" name="linkedToDesc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
+							<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
+							<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
+						</li>
+					</ul>
+				 </div>			
 			</div>
         </div>		
         <div class='col-sm-12 panel panel-default users-information'>
@@ -104,9 +119,9 @@
                         </label>
                         <div class="col-sm-10">
                             @if($object->type == 'string')
-                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{{ $source_definition->{$parameter} }}}'>
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'text')
-                                <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}">{{{ $source_definition->{$parameter} }}}</textarea>
+                                <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}">{{ $source_definition->{$parameter} }}</textarea>
                             @elseif($object->type == 'integer')
                                 <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'date')
@@ -322,4 +337,50 @@
             </div>
         </div>
     </script>
+	<script>
+	$(function () {
+		
+		window.count = 0;
+		
+		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
+			event.preventDefault();
+			window.count++;
+			var linkedToID= "linkedTo" + window.count;
+			var linkedToDescID= "linkedToDesc" + window.count;
+			var btnAddID = "add" + window.count;
+			var btnDelID = "del" + window.count;
+			var ul = $("#linked-to-datasets");
+			var li = $("<li></li>")
+				.append($("<input class='form-control' name='" + linkedToID+ "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+						+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescID+"'></textarea>"
+					+ "<button class='btn btn-default' id='" + btnAddID + "' >{{ trans('admin.add_link') }}</button>"
+					+ "<button class='btn btn-default' id='" + btnDelID + "' >{{ trans('admin.delete_link') }}</button>"));
+			li.appendTo(ul);
+		});
+
+		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
+			event.preventDefault();
+			if (window.count == 0) {
+				alert("{{ trans('admin.linked_datasets_alert') }}");
+				return;
+			}
+			var li = $(this).parent();
+			li.remove();
+			window.count--;
+		});
+		
+		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedTo']", function () {
+			$(this).autocomplete({
+				source: "/search/autocomplete",
+				minLength: 0,
+				select: function(event, ui) {
+					$(this).val(ui.item.value);
+				}
+			});
+
+			$(this).autocomplete("search");
+		});
+		
+	 });	
+	</script>
 @stop
