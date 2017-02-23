@@ -63,7 +63,7 @@ Route::any('/upload-file', function () {
     if(isset($file_xslt)){
         Input::file('fileupload_xslt')->move(
             app_path() . '/storage/app/',
-            $file . '_' . time() . '.' . Input::file('fileupload_xslt')->getClientOriginalExtension()
+            $file_xslt . '_' . date('Y-m-d'). '.' . Input::file('fileupload_xslt')->getClientOriginalExtension()
         );
     }
 

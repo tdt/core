@@ -339,7 +339,7 @@ class DefinitionController extends ApiController
             $file2=$input['fileupload_xslt'];
             $file3=explode("\\", $file2);
 
-            $input['xslt_file'] =$file3[2] . '_' . time();
+            $input['xslt_file'] =$file3[2] . '_' . date('Y-m-d');
 
 
         }

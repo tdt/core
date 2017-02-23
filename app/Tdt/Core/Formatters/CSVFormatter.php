@@ -33,8 +33,6 @@ class CSVFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-//        Log::info('CSV');
-//        Log::info($dataObj->data );
 
         // Check if its a result of a SPARQL select query
         if ($dataObj->source_definition['type'] == 'SPARQL' && $dataObj->source_definition['query_type'] == 'select') {
@@ -43,26 +41,15 @@ class CSVFormatter implements IFormatter
 
         //XML format
         if (!is_array($dataObj->data)) {
-           // \App::abort(400, "You can only request a CSV formatter on a tabular data structure.");
 
-//           $formatter = Formatter::make($dataObj->data , Formatter::XML);
-//
-//            $csv= $formatter->toCsv();
-//
-            Log::info('CSV');
-            Log::info($dataObj->data);
-
-
-            // Carga el fichero XML origen
-//            $xml = new DOMDocument;
-//            $xml->load('prueba.xml');
+            $name_xslt_file=$dataObj->source_definition['xslt_file'];
 
             $xml = new DOMDocument();
             $xml->loadXML($dataObj->data );
 
-            //TODO enlazar con fichero subido xslt
             $xsl = new DOMDocument;
-            $xsl->load('prueba.xslt');
+            $xsl->load(app_path() . '/storage/app/'.$name_xslt_file .'.xslt');
+
 
             // Configura el procesador
             $proc = new XSLTProcessor;

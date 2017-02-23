@@ -561,12 +561,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
         // Get the formats based on the source definition meta-data
         $format_helper = new FormatHelper();
 
-
-        Log::info('aquiee');
         $formats = $format_helper->getFormatsForType($source_definition->toArray());
-
-        Log::info('aquiee');
-        Log::info($formats);
 
         $properties['formats'] = $formats;
         $properties['identifier'] = $identifier;

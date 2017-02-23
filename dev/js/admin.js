@@ -186,9 +186,6 @@ $('.btn-add-dataset').on('click', function(e){
         var fileupload_xslt = tab_pane.find('#fileupload_xslt')[0].files[0];
         fd.append("fileupload_xslt", fileupload_xslt);
 
-        console.log(file);
-        console.log(fileupload_xslt);
-
         // Ajax call: upload file
         $.ajax({
             async: true,
