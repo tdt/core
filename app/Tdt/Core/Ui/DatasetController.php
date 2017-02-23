@@ -178,6 +178,7 @@ class DatasetController extends UiController
             unset($parameters_required['username']);
             unset($parameters_required['user_id']);
             unset($parameters_optional['job_id']);
+            unset($parameters_optional['xslt_file']);
 
             // Translate the parameters
             $parameters_required = $this->translateParameters($parameters_required, $mediatype);
@@ -300,6 +301,7 @@ class DatasetController extends UiController
             unset($parameters_optional['username']);
             unset($parameters_optional['user_id']);
             unset($parameters_optional['job_id']);
+            unset($parameters_optional['xslt_file']);
 
             // Get dataset updates information
             $updates_info = \DB::table('definitions_updates')
