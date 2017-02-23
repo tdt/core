@@ -9,7 +9,6 @@ use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
 use Tdt\Core\Formatters\FormatHelper;
 use EasyRdf\RdfNamespace;
-use Log;
 
 /**
  *  DatasetController
@@ -63,9 +62,6 @@ class DatasetController extends ApiController
             // Get definition
             $definition = $this->definition->getByIdentifier($uri);
 
-            Log::info('definition:');
-            Log::info($definition);
-
             if ($definition) {
                 // Get source definition
                 $source_definition = $this->definition->getDefinitionSource(
@@ -73,10 +69,7 @@ class DatasetController extends ApiController
                     $definition['source_type']
                 );
 
-
                 $source_definition['xslt_file'] = $definition['xslt_file'];
-                Log::info('$source_definition:');
-                Log::info($source_definition);
 
                 // when requesting data, the formatter should notice the linked job,
                 // and treat it as an elasticsearch data type.

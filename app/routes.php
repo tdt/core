@@ -6,8 +6,6 @@
 |--------------------------------------------------------------------------
 */
 
-use Log;
-
 /**
  * Admin routes
  */
@@ -54,7 +52,6 @@ Route::any('/upload-file', function () {
         '/ /'           =>   '_', // nonbreaking space (equiv. to 0x160)
     ];
 
-
     $file = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload')->getClientOriginalName()));
 //    $file_xslt = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload_xslt')->getClientOriginalName()));
 //
@@ -92,7 +89,7 @@ App::after(function ($request, $response) {
 App::error(function ($exception, $code) {
 
     // Log error
-    Log::error($exception);
+    \Log::error($exception);
 
     // Check Accept-header
     $accept_header = \Request::header('Accept');
