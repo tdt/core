@@ -332,15 +332,16 @@ class DefinitionController extends ApiController
 //            }
         }
 
-        $input['xslt_file'] = 1;
 
-        //TODO controlar la subida del segundo fichero fileupload_xslt y no como esta ahora,
         // Add uploaded file XSLT and change xslt_file.
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
 
-            $input['xslt_file'] = 'file://' . $input['fileupload_xslt'];
+            $file2=$input['fileupload_xslt'];
+            $file3=explode("\\", $file2);
 
-            //TODO declarar fileupload_xslt y comprobar que funciona!!!!!
+            $input['xslt_file'] =$file3[2] . '_' . time();
+
+
         }
 
         // Check if dataset should be indexed

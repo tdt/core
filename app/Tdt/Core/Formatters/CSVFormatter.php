@@ -13,6 +13,7 @@ namespace Tdt\Core\Formatters;
 
 use DOMDocument;
 use Log;
+use File;
 use XSLTProcessor;
 
 //use SoapBox\Formatter\Formatter;
@@ -48,8 +49,8 @@ class CSVFormatter implements IFormatter
 //
 //            $csv= $formatter->toCsv();
 //
-//            Log::info('CSV');
-//            Log::info($csv);
+            Log::info('CSV');
+            Log::info($dataObj->data);
 
 
             // Carga el fichero XML origen
