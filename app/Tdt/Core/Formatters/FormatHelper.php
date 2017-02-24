@@ -44,7 +44,13 @@ class FormatHelper
                     $formats['KML'] = 'kml';
                     $formats['GeoJSON'] = 'geojson';
                     $formats['WKT'] = 'WKT';
-                } else {
+                }
+                elseif(isset($source_definition['xslt_file'])){
+                    $formats['CSV'] = 'csv';
+                    $formats['XML'] = 'xml';
+                }
+
+                else {
                     $formats['XML'] = 'xml';
                 }
                 break;

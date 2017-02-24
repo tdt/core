@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-
     <form class="form-horizontal edit-dataset" role="form" data-mediatype='{{ strtolower($source_definition->type) }}'
         data-identifier='{{ $definition->collection_uri . '/' . $definition->resource_name }}'>
         <div class='row header'>
@@ -18,7 +17,7 @@
             </div>
         </div>
 
-        <br/>
+        <br/>	
 
         <div class='row'>
             <div class="col-sm-12">
@@ -26,9 +25,67 @@
                     <i class='fa fa-2x fa-exclamation-circle'></i> <span class='text'></span>
                 </div>
             </div>
-        </div>
+        </div>		
 
         <div class='row'>
+        <div class='col-sm-12 panel panel-default linked-definitions'>
+			<div class='row'>
+				<div class="col-md-6 col-sm-12">
+					<h4>{{ trans('admin.current_linked_datasets') }}</h4>
+					<div class="row">
+						<div class="col-sm-12">
+							@if($definition->linkedFrom->count())
+							@foreach ($definition->linkedFrom as $lnkdFrom)
+							<p><strong>{{ $lnkdFrom->pivot->title_from }}</strong> <i>( {{ $lnkdFrom->pivot->description }} )</i></p>
+							@endforeach
+							@else
+							<p><i>This dataset is not linked from any other dataset.</i></p>
+							@endif
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<h4>{{ trans('admin.update_linked_datasets') }}</h4>
+					<ul id="linked-to-datasets">
+						@if($definition->linkedTo->count())
+						@foreach ($definition->linkedTo as $key => $lnkdTo)
+						<li>
+							<input class="form-control" name="linkedto{{ $key }}" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}" value="{{ $lnkdTo->pivot->title_to }}" />
+							<input type="hidden" name="linkedto_id{{ $key }}" value="{{ $lnkdTo->pivot->linked_to }}" />
+							<textarea class="form-control" name="linkedto_desc{{ $key }}" placeholder="{{ trans('admin.linked_datasets_provide_context') }}" value="{{ $lnkdTo->pivot->description }}">{{ $lnkdTo->pivot->description }}</textarea>                
+							<button class="btn btn-default" id="add{{ $key }}">{{ trans('admin.add_link') }}</button>
+							<button class="btn btn-default" id="del{{ $key }}">{{ trans('admin.delete_link') }}</button>
+						</li>
+						@endforeach
+						@else
+						<li>
+							<input class="form-control" name="linkedto0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
+							<input type="hidden" name="linkedto_id0" />
+							<textarea class="form-control" name="linkedto_desc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
+							<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
+							<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
+						</li>						
+						@endif
+					</ul>
+				 </div>			
+			</div>
+        </div>		
+        <div class='col-sm-12 panel panel-default users-information'>
+			<div class='row'>
+				<div class="col-sm-12 col-md-2">
+					<h4>{{ trans('admin.created_by') }}</h4>
+					<p><i>{{ $definition['username'] }}</i> {{ date("M j,Y H:i", strtotime($definition['created_at'])) }}</p>
+				</div>
+				@if(!empty($updates_info) && count($updates_info) > 0)
+				<div class="col-sm-12 col-md-10">
+				<h4>{{ trans('admin.updated_by') }}</h4>
+				@foreach($updates_info as $update)
+				<p><i>{{ $update->username }}</i> {{ date("M j,Y H:i", strtotime($update->updated_at)) }}</p>
+				@endforeach
+				</div>
+				@endif
+			</div>
+        </div>		
         <div class="col-sm-6 panel panel-default dataset-parameters">
             @if(!empty($parameters_optional))
                 <div class="form-group">
@@ -71,9 +128,9 @@
                         </label>
                         <div class="col-sm-10">
                             @if($object->type == 'string')
-                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{{ $source_definition->{$parameter} }}}'>
+                                <input type="text" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'text')
-                                <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}">{{{ $source_definition->{$parameter} }}}</textarea>
+                                <textarea class="form-control" rows=10 id="input_{{ $parameter }}" name="{{ $parameter }}">{{ $source_definition->{$parameter} }}</textarea>
                             @elseif($object->type == 'integer')
                                 <input type="number" class="form-control" id="input_{{ $parameter }}" name="{{ $parameter }}" placeholder="" value='{{ $source_definition->{$parameter} }}'>
                             @elseif($object->type == 'date')
@@ -88,6 +145,9 @@
                                     @endforeach
                                 </select>
                             @endif
+							@if (in_array(strtolower($source_definition->type), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
+								<input type="file" class="form-control" id="fileupload" name="fileupload" />
+							@endif							
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
@@ -286,4 +346,71 @@
             </div>
         </div>
     </script>
+	<script>
+	$(function () {
+		
+		@if($definition->linkedTo->count())
+		window.count = {{ $definition->linkedTo->count() - 1 }};
+		@else
+		window.count = 0;
+		@endif
+		
+		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
+			event.preventDefault();
+			window.count++;
+			var linkedToNum = "linkedto" + window.count;
+			var linkedToDescNum = "linkedto_desc" + window.count;
+			var linkedToIDNum = "linkedto_id" + window.count;
+			var btnAddNum = "add" + window.count;
+			var btnDelNum = "del" + window.count;
+			var ul = $("#linked-to-datasets");
+			var li = $("<li></li>")
+				.append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+					+ "<input type='hidden' name='" + linkedToIDNum + "' />"
+					+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
+					+ "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
+					+ "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
+			li.appendTo(ul);
+		});
+
+		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
+			event.preventDefault();
+			if (window.count == 0) {
+				var li = $(this).parent();
+				li.remove();
+				var linkedToNum = "linkedto" + window.count;
+				var linkedToDescNum = "linkedto_desc" + window.count;
+				var linkedToIDNum = "linkedto_id" + window.count;
+				var btnAddNum = "add" + window.count;
+				var btnDelNum = "del" + window.count;
+				var ul = $("#linked-to-datasets");
+				var linew = $("<li></li>")
+					.append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+						+ "<input type='hidden' name='" + linkedToIDNum + "' />"
+						+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
+						+ "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
+						+ "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
+				linew.appendTo(ul);
+				return;
+			}
+			var li = $(this).parent();
+			li.remove();
+			window.count--;
+		});
+		
+		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
+			$(this).autocomplete({
+				source: "/search/autocomplete",
+				minLength: 0,
+				select: function(event, ui) {
+					$(this).val(ui.item.value);
+					$(this).closest('li').find('input[type=hidden]').val(ui.item.id);
+				}
+			});
+
+			$(this).autocomplete("search");
+		});
+		
+	 });	
+	</script>
 @stop

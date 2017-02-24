@@ -2,12 +2,15 @@
 
 /**
  * Definition model
+ *
  * @copyright (C) 2011, 2014 by OKFN Belgium vzw/asbl
  * @license AGPLv3
  * @author Jan Vansteenlandt <jan@okfn.be>
  */
 class Definition extends Eloquent
 {
+    /*protected $hidden = array('user_id', 'username');*/
+
     protected $fillable = array(
         'title',
         'description',
@@ -21,6 +24,12 @@ class Definition extends Eloquent
         'theme',
         'date',
         'contact_point',
+        'draft_flag',
+        'job_id',
+        'original_file',
+        'user_id',
+        'username',
+        'xslt_file',
     );
 
     /**
@@ -56,4 +65,22 @@ class Definition extends Eloquent
     {
         return $this->hasMany('Facet');
     }
+	
+	/**
+     * Return "linked from" definitions from pivot table "link_definitions" for this model.
+    */	
+	public function linkedFrom()
+	{
+		return $this->belongsToMany('Definition', 'linked_definitions', 
+		  'linked_to', 'linked_from')->withPivot('description','title_from');
+	}
+
+	/**
+     * Return "linked to" definitions from pivot table "link_definitions" for this model.
+    */
+	public function linkedTo()
+	{
+		return $this->belongsToMany('Definition', 'linked_definitions', 
+		  'linked_from', 'linked_to')->withPivot('description','title_to');
+	}		
 }
