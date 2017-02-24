@@ -19,6 +19,8 @@ class CreateLinkDefinitionsTable extends Migration {
 			$table->foreign('linked_to')->references('id')->on('definitions')->onDelete('cascade');
 			$table->foreign('linked_from')->references('id')->on('definitions')->onDelete('cascade');
 			
+			$table->string('title_to', 255)->nullable();
+			$table->string('title_from', 255)->nullable();
 			$table->string('description', 255)->nullable();
 		});
 	}

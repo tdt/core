@@ -122,6 +122,24 @@ $('.btn-add-dataset').on('click', function(e){
         }
     });
 
+	// Loop through "Linked definitions" box fields
+	var linked_definitions = $('.linked-definitions');
+    $('input, textarea', linked_definitions).each(function(){
+        if($(this).attr('name')){
+            if($(this).attr('type') == 'checkbox'){
+                data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
+            }else{
+                if (data[$(this).attr('name')] == 'profile') {
+                    if ($(this).prop('checked')) {
+                        data[$(this).attr('name')] = $(this).val();
+                    }
+                } else {
+                    data[$(this).attr('name')] = $(this).val();
+                }
+            }
+        }
+    });
+
     // Check if new dataset will be indexed as elasticsearch
     data["to_be_indexed"] = 0;
     if (tab_pane.find('.indexed').is(":checked")) {

@@ -71,7 +71,7 @@ class Definition extends Eloquent
 	public function linkedFrom()
 	{
 		return $this->belongsToMany('Definition', 'linked_definitions', 
-		  'linked_to', 'linked_from')->withPivot('description');
+		  'linked_to', 'linked_from')->withPivot('description','title_from');
 	}
 
 	/**
@@ -80,6 +80,6 @@ class Definition extends Eloquent
 	public function linkedTo()
 	{
 		return $this->belongsToMany('Definition', 'linked_definitions', 
-		  'linked_from', 'linked_to')->withPivot('description');
+		  'linked_from', 'linked_to')->withPivot('description','title_to');
 	}		
 }
