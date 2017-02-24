@@ -115,7 +115,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 			$linked_definitions_list = array();
 
 			foreach($linked_to_codes as $key => $value) {
-				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value], 'title_to' => $input['linkedto'.$value], 'title_from' => $source['title']]; 
+				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value]]; 
 			}
 
 			$definition->linkedTo()->sync($linked_definitions_list);
@@ -220,7 +220,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 			$linked_definitions_list = array();
 
 			foreach($linked_to_codes as $key => $value) {
-				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value], 'title_to' => $input['linkedto'.$value], 'title_from' => $source['title']]; 
+				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value]]; 
 			}
 
 			$definition_model->linkedTo()->sync($linked_definitions_list);
