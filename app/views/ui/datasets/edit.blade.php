@@ -34,30 +34,38 @@
 					<h4>{{ trans('admin.current_linked_datasets') }}</h4>
 					<div class="row">
 						<div class="col-sm-12">
-							<h5>{{ trans('admin.linked_from') }}</h5>
+							@if($definition->linkedFrom->count())
 							@foreach ($definition->linkedFrom as $lnkdFrom)
-							<p>{{ $lnkdFrom->pivot->description." | ".$lnkdFrom->pivot->linked_from }}</p>
+							<p><strong>{{ $lnkdFrom->pivot->title_from }}</strong> <i>( {{ $lnkdFrom->pivot->description }} )</i></p>
 							@endforeach
-
-						</div>
-						<div class="col-sm-12">
-							<h5>{{ trans('admin.linked_to') }}</h5>
-							@foreach ($definition->linkedTo as $lnkdTo)
-							<p>{{ $lnkdTo->pivot->description." | ".$lnkdTo->pivot->linked_to }}</p>
-							@endforeach
+							@else
+							<p><i>This dataset is not linked from any other dataset.</i></p>
+							@endif
 						</div>
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-12">
 					<h4>{{ trans('admin.update_linked_datasets') }}</h4>
-					<ul id="linked-to-datasets"> 
+					<ul id="linked-to-datasets">
+						@if($definition->linkedTo->count())
+						@foreach ($definition->linkedTo as $key => $lnkdTo)
+						<li>
+							<input class="form-control" name="linkedto{{ $key }}" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}" value="{{ $lnkdTo->pivot->title_to }}" />
+							<input type="hidden" name="linkedto_id{{ $key }}" value="{{ $lnkdTo->pivot->linked_to }}" />
+							<textarea class="form-control" name="linkedto_desc{{ $key }}" placeholder="{{ trans('admin.linked_datasets_provide_context') }}" value="{{ $lnkdTo->pivot->description }}">{{ $lnkdTo->pivot->description }}</textarea>                
+							<button class="btn btn-default" id="add{{ $key }}">{{ trans('admin.add_link') }}</button>
+							<button class="btn btn-default" id="del{{ $key }}">{{ trans('admin.delete_link') }}</button>
+						</li>
+						@endforeach
+						@else
 						<li>
 							<input class="form-control" name="linkedto0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
 							<input type="hidden" name="linkedto_id0" />
 							<textarea class="form-control" name="linkedto_desc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
 							<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
 							<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
-						</li>
+						</li>						
+						@endif
 					</ul>
 				 </div>			
 			</div>
@@ -341,7 +349,11 @@
 	<script>
 	$(function () {
 		
+		@if($definition->linkedTo->count())
+		window.count = {{ $definition->linkedTo->count() - 1 }};
+		@else
 		window.count = 0;
+		@endif
 		
 		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
 			event.preventDefault();
@@ -364,7 +376,21 @@
 		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
 			event.preventDefault();
 			if (window.count == 0) {
-				alert("{{ trans('admin.linked_datasets_alert') }}");
+				var li = $(this).parent();
+				li.remove();
+				var linkedToNum = "linkedto" + window.count;
+				var linkedToDescNum = "linkedto_desc" + window.count;
+				var linkedToIDNum = "linkedto_id" + window.count;
+				var btnAddNum = "add" + window.count;
+				var btnDelNum = "del" + window.count;
+				var ul = $("#linked-to-datasets");
+				var linew = $("<li></li>")
+					.append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+						+ "<input type='hidden' name='" + linkedToIDNum + "' />"
+						+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
+						+ "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
+						+ "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
+				linew.appendTo(ul);
 				return;
 			}
 			var li = $(this).parent();

@@ -110,12 +110,12 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 				$linked_to_codes[] = preg_replace('/\D/', '', $key);
 			}
 		}
-		
+
 		if (!empty($linked_to_codes)){
 			$linked_definitions_list = array();
 
 			foreach($linked_to_codes as $key => $value) {
-				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value]]; 
+				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value], 'title_to' => $input['linkedto'.$value], 'title_from' => $source['title']]; 
 			}
 
 			$definition->linkedTo()->sync($linked_definitions_list);
@@ -220,10 +220,12 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 			$linked_definitions_list = array();
 
 			foreach($linked_to_codes as $key => $value) {
-				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value]]; 
+				$linked_definitions_list[$input['linkedto_id'.$value]] = ['description' => $input['linkedto_desc'.$value], 'title_to' => $input['linkedto'.$value], 'title_from' => $source['title']]; 
 			}
 
 			$definition_model->linkedTo()->sync($linked_definitions_list);
+		} else {
+			$definition_model->linkedTo()->detach();
 		}
 		// End Update "linked to" datasets
 
@@ -248,6 +250,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 $attribution->delete();
             }
 
+			// Delete "links" to/from this dataset
+			$definition_model->linkedFrom()->detach();
+			$definition_model->linkedTo()->detach();
+			
             return $definition->delete();
         }
     }
