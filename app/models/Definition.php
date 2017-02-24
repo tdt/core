@@ -29,6 +29,7 @@ class Definition extends Eloquent
         'original_file',
         'user_id',
         'username',
+		'xslt_file',
     );
 
     /**
