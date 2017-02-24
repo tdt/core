@@ -122,6 +122,24 @@ $('.btn-add-dataset').on('click', function(e){
         }
     });
 
+	// Loop through "Linked definitions" box fields
+	var linked_definitions = $('.linked-definitions');
+    $('input, textarea', linked_definitions).each(function(){
+        if($(this).attr('name')){
+            if($(this).attr('type') == 'checkbox'){
+                data[$(this).attr('name')] = $(this).prop('checked') ? 1 : 0;
+            }else{
+                if (data[$(this).attr('name')] == 'profile') {
+                    if ($(this).prop('checked')) {
+                        data[$(this).attr('name')] = $(this).val();
+                    }
+                } else {
+                    data[$(this).attr('name')] = $(this).val();
+                }
+            }
+        }
+    });
+
     // Check if new dataset will be indexed as elasticsearch
     data["to_be_indexed"] = 0;
     if (tab_pane.find('.indexed').is(":checked")) {
@@ -174,7 +192,7 @@ $('.btn-add-dataset').on('click', function(e){
 		})				
 	}
     //upload xml with xslt file
-	else if( tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0 ){
+    else if( tab_pane.find("#fileupload_xslt").length &&  (tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0) ){
 
         // Upload dataset file
         var file = tab_pane.find('input[type=file]')[0].files[0];
@@ -182,7 +200,7 @@ $('.btn-add-dataset').on('click', function(e){
         fd.append("fileupload", file);
 
 
-        // test fileupload_xslt
+        // Upload xslt file
         var fileupload_xslt = tab_pane.find('#fileupload_xslt')[0].files[0];
         fd.append("fileupload_xslt", fileupload_xslt);
 
