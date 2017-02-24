@@ -322,14 +322,6 @@ class DefinitionController extends ApiController
         if (isset($input['fileupload']) && $input['fileupload'] != '') {
 
             $input['uri'] = 'file://' . $input['fileupload'];
-
-//            $extension = File::extension($input['fileupload']);
-//            Log::info('extension:');
-//            Log::info($extension);
-//
-//            if($extension=='xslt'){
-//                $input['xslt_file'] = 1;
-//            }
         }
 
 
