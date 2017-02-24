@@ -71,7 +71,10 @@ class DatasetController extends ApiController
                     $definition['source_type']
                 );
 
-                $source_definition['xslt_file'] = $definition['xslt_file'];
+
+                if($definition['xslt_file']) {
+                    $source_definition['xslt_file'] = $definition['xslt_file'];
+                }
 
                 // when requesting data, the formatter should notice the linked job,
                 // and treat it as an elasticsearch data type.
