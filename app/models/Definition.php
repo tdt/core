@@ -64,20 +64,22 @@ class Definition extends Eloquent
     {
         return $this->hasMany('Facet');
     }
-
-    /**
+	
+	/**
      * Return "linked from" definitions from pivot table "link_definitions" for this model.
-     */
-    public function linkedFrom()
-    {
-        return $this->belongsToMany('Definition', 'linked_definitions', 'linked_to', 'linked_from')->withPivot('description');
-    }
+    */	
+	public function linkedFrom()
+	{
+		return $this->belongsToMany('Definition', 'linked_definitions', 
+		  'linked_to', 'linked_from')->withPivot('description','title_from');
+	}
 
-    /**
+	/**
      * Return "linked to" definitions from pivot table "link_definitions" for this model.
-     */
-    public function linkedTo()
-    {
-        return $this->belongsToMany('Definition', 'linked_definitions', 'linked_from', 'linked_to')->withPivot('description');
-    }
+    */
+	public function linkedTo()
+	{
+		return $this->belongsToMany('Definition', 'linked_definitions', 
+		  'linked_from', 'linked_to')->withPivot('description','title_to');
+	}		
 }
