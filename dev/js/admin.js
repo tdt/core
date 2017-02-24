@@ -192,7 +192,7 @@ $('.btn-add-dataset').on('click', function(e){
 		})				
 	}
     //upload xml with xslt file
-    else if( tab_pane.find("#fileupload_xslt").length &&  tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0 ){
+    else if( tab_pane.find("#fileupload_xslt").length &&  (tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0) ){
 
         // Upload dataset file
         var file = tab_pane.find('input[type=file]')[0].files[0];
@@ -200,7 +200,7 @@ $('.btn-add-dataset').on('click', function(e){
         fd.append("fileupload", file);
 
 
-        // test fileupload_xslt
+        // Upload xslt file
         var fileupload_xslt = tab_pane.find('#fileupload_xslt')[0].files[0];
         fd.append("fileupload_xslt", fileupload_xslt);
 
