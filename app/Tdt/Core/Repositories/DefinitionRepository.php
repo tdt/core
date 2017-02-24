@@ -105,17 +105,17 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Create "linked to" datasets
         $linked_to_codes = array();
-        foreach($input as $key => $value) {
+        foreach ($input as $key => $value) {
             if (strpos($key, 'linkedto_id') === 0 && ! empty($value)) {
                 $linked_to_codes[] = preg_replace('/\D/', '', $key);
             }
         }
 
-        if (! empty($linked_to_codes)){
+        if (! empty($linked_to_codes)) {
             $linked_definitions_list = array();
 
-            foreach($linked_to_codes as $key => $value) {
-                $linked_definitions_list[$input['linkedto_id' . $value]] = ['description' => $input['linkedto_desc' . $value], 'title_to' => $input['linkedto' . $value], 'title_from' => $source['title']];
+            foreach ($linked_to_codes as $key => $value) {
+                $linked_definitions_list[$input['linkedto_id' . $value]] = ['description' => $input['linkedto_desc' . $value]];
             }
 
             $definition->linkedTo()->sync($linked_definitions_list);
@@ -210,17 +210,17 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
 
         // Update "linked to" datasets
         $linked_to_codes = array();
-        foreach($input as $key => $value) {
+        foreach ($input as $key => $value) {
             if (strpos($key, 'linkedto_id') === 0 && ! empty($value)) {
                 $linked_to_codes[] = preg_replace('/\D/', '', $key);
             }
         }
 
-        if (! empty($linked_to_codes)){
+        if (! empty($linked_to_codes)) {
             $linked_definitions_list = array();
 
-            foreach($linked_to_codes as $key => $value) {
-                $linked_definitions_list[$input['linkedto_id' . $value]] = ['description' => $input['linkedto_desc' . $value], 'title_to' => $input['linkedto' . $value], 'title_from' => $source['title']];
+            foreach ($linked_to_codes as $key => $value) {
+                $linked_definitions_list[$input['linkedto_id' . $value]] = ['description' => $input['linkedto_desc' . $value]];
             }
 
             $definition_model->linkedTo()->sync($linked_definitions_list);

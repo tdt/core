@@ -36,7 +36,7 @@
 						<div class="col-sm-12">
 							@if($definition->linkedFrom->count())
 							@foreach ($definition->linkedFrom as $lnkdFrom)
-							<p><strong>{{ $lnkdFrom->pivot->title_from }}</strong> <i>( {{ $lnkdFrom->pivot->description }} )</i></p>
+							<p><a href="/{{ $lnkdFrom->collection_uri }}/{{ $lnkdFrom->resource_name }}" target="_blank"><strong>{{ $lnkdFrom->title }}</strong> <i>( {{ $lnkdFrom->pivot->description }} )</i></a></p>
 							@endforeach
 							@else
 							<p><i>This dataset is not linked from any other dataset.</i></p>
@@ -50,7 +50,7 @@
 						@if($definition->linkedTo->count())
 						@foreach ($definition->linkedTo as $key => $lnkdTo)
 						<li>
-							<input class="form-control" name="linkedto{{ $key }}" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}" value="{{ $lnkdTo->pivot->title_to }}" />
+							<input class="form-control" name="linkedto{{ $key }}" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}" value="{{ $lnkdTo->title }}" />
 							<input type="hidden" name="linkedto_id{{ $key }}" value="{{ $lnkdTo->pivot->linked_to }}" />
 							<textarea class="form-control" name="linkedto_desc{{ $key }}" placeholder="{{ trans('admin.linked_datasets_provide_context') }}" value="{{ $lnkdTo->pivot->description }}">{{ $lnkdTo->pivot->description }}</textarea>                
 							<button class="btn btn-default" id="add{{ $key }}">{{ trans('admin.add_link') }}</button>
