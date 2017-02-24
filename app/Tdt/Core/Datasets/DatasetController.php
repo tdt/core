@@ -9,7 +9,6 @@ use Tdt\Core\Pager;
 use Tdt\Core\ApiController;
 use Tdt\Core\Formatters\FormatHelper;
 use EasyRdf\RdfNamespace;
-use Log;
 
 /**
  *  DatasetController
@@ -62,7 +61,6 @@ class DatasetController extends ApiController
         } else {
             // Get definition
             $definition = $this->definition->getByIdentifier($uri);
-
 
             if ($definition) {
                 // Get source definition
