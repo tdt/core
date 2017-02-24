@@ -250,6 +250,10 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
                 $attribution->delete();
             }
 
+			// Delete "links" to/from this dataset
+			$definition_model->linkedFrom()->detach();
+			$definition_model->linkedTo()->detach();
+			
             return $definition->delete();
         }
     }
