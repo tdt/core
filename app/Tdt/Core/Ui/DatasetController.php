@@ -407,30 +407,35 @@ class DatasetController extends UiController
 
         return $translatedParameters;
     }
-	
+
     /**
      * Autocomplete endpoint "Linking Datasets"
      *
-     * @return json
-     */	
-	public function autocompleteLinkedDatasets(){
-		$term = \Input::get('term');
-				
-		$results = array();
-		
-		$queries = \DB::table('definitions')
-			->where('title', 'LIKE', '%' . $term . '%')
+     * @return Response
+     */
+    public function autocompleteLinkedDatasets()
+    {
+        $term = \Input::get('term');
+
+        $results = \DB::table('definitions')
+            ->where('title', 'LIKE', '%' . $term . '%')
             ->orWhere('description', 'LIKE', '%' . $term . '%')
             ->orWhere('resource_name', 'LIKE', '%' . $term . '%')
             ->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
-			->get();
-		
-		foreach ($queries as $query)
-		{
-			$results[] = [ 'id' => $query->id, 'value' => $query->title ];
-		}
-		
-		return \Response::json($results);
-	}		
-	
+            ->get();
+
+        $matchingDatasets = [];
+
+        foreach ($results as $result) {
+            $resourceName = $result->collection_uri . '/' . $result->resource_name;
+
+            if (! empty($result->title)) {
+                $resourceName .= ' - ' . $result->title;
+            }
+
+            $matchingDatasets[] = ['id' => $result->id, 'value' => $resourceName];
+        }
+
+        return \Response::json($matchingDatasets);
+    }
 }

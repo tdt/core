@@ -14,7 +14,7 @@ class FormatHelper
     /**
      * Return a list of the available formats that the data structure can be formatted into
      *
-     * @param Tdt\Core\Datasets\Data $data
+     * @param  Tdt\Core\Datasets\Data $data
      * @return array
      */
     public function getAvailableFormats($data)
@@ -44,13 +44,10 @@ class FormatHelper
                     $formats['KML'] = 'kml';
                     $formats['GeoJSON'] = 'geojson';
                     $formats['WKT'] = 'WKT';
-                }
-                elseif(isset($source_definition['xslt_file'])){
+                } elseif (isset($source_definition['xslt_file'])) {
                     $formats['CSV'] = 'csv';
                     $formats['XML'] = 'xml';
-                }
-
-                else {
+                } else {
                     $formats['XML'] = 'xml';
                 }
                 break;
