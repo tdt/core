@@ -9,7 +9,6 @@ use Tdt\Core\ContentNegotiator;
 use Tdt\Core\ApiController;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Config;
-use Log;
 use File;
 
 /**
@@ -317,14 +316,11 @@ class DefinitionController extends ApiController
         $input['collection_uri'] = @$matches[1];
         $input['resource_name'] = @$matches[2];
 
-
         // Add uploaded file and change uri.
         if (isset($input['fileupload']) && $input['fileupload'] != '') {
-
             $input['uri'] = 'file://' . $input['fileupload'];
         }
-
-
+      
         // Add uploaded file XSLT and change xslt_file.
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
 
@@ -332,15 +328,13 @@ class DefinitionController extends ApiController
             $file3=explode("\\", $file2);
 
             $input['xslt_file'] =$file3[2] . '_' . date('Y-m-d');
-
-
         }
 
         // Check if dataset should be indexed
         if (isset($input['to_be_indexed']) && $input['to_be_indexed'] == 1) {
             $input['es_type'] = $input['collection_uri'] . '_' . $input['resource_name'];
 
-            //if a new job is stored and it needs to be indexed, set the draft flag to true
+            // if a new job is stored and it needs to be indexed, set the draft flag to true
             $input['draft_flag'] = 1;
         }
 
