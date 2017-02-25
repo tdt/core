@@ -400,7 +400,7 @@
 		
 		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
 			$(this).autocomplete({
-				source: "/search/autocomplete",
+				source: "/search/autocomplete?currentdef_id={{ $definition->id }}",
 				minLength: 0,
 				select: function(event, ui) {
 					$(this).val(ui.item.value);
