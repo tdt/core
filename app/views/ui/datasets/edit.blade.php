@@ -151,6 +151,13 @@
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
+                                @if (in_array(strtolower($source_definition->type), array("xml")) && $parameter == 'uri')
+                                    <input type="file" class="form-control" id="fileupload_xslt" name="fileupload_xslt" />
+                                    <div class='help-block'>
+                                        {{ $object->description_xslt }}
+                                    </div>
+
+                                @endif
                         </div>
                     </div>
                 @endforeach
@@ -355,23 +362,40 @@
         window.count = 0;
         @endif
 
-        $("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
-            event.preventDefault();
-            window.count++;
-            var linkedToNum = "linkedto" + window.count;
-            var linkedToDescNum = "linkedto_desc" + window.count;
-            var linkedToIDNum = "linkedto_id" + window.count;
-            var btnAddNum = "add" + window.count;
-            var btnDelNum = "del" + window.count;
-            var ul = $("#linked-to-datasets");
-            var li = $("<li></li>")
-                .append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
-                    + "<input type='hidden' name='" + linkedToIDNum + "' />"
-                    + "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
-                    + "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
-                    + "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
-            li.appendTo(ul);
-        });
+		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
+			event.preventDefault();
+			if (window.count == 0) {
+				var li = $(this).parent();
+				li.remove();
+				var linkedToNum = "linkedto" + window.count;
+				var linkedToDescNum = "linkedto_desc" + window.count;
+				var linkedToIDNum = "linkedto_id" + window.count;
+				var btnAddNum = "add" + window.count;
+				var btnDelNum = "del" + window.count;
+				var ul = $("#linked-to-datasets");
+				var linew = $("<li></li>")
+					.append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
+						+ "<input type='hidden' name='" + linkedToIDNum + "' />"
+						+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
+						+ "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
+						+ "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
+				linew.appendTo(ul);
+				return;
+			}
+			var li = $(this).parent();
+			li.remove();
+			window.count--;
+		});
+		
+		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
+			$(this).autocomplete({
+				source: "/search/autocomplete?currentdef_id={{ $definition->id }}",
+				minLength: 0,
+				select: function(event, ui) {
+					$(this).val(ui.item.value);
+					$(this).closest('li').find('input[type=hidden]').val(ui.item.id);
+				}
+			});
 
         $("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
             event.preventDefault();

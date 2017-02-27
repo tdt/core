@@ -366,7 +366,62 @@ $('.btn-edit-dataset').on('click', function(e){
 				}
 			}
 		})			
-	} else {
+	}
+    //upload xml with xslt file
+    else if( tab_pane.find("#fileupload_xslt").length &&  (tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0) ){
+
+        // Upload dataset file
+        var file = tab_pane.find('input[type=file]')[0].files[0];
+        var fd = new FormData();
+        fd.append("fileupload", file);
+
+
+        // Upload xslt file
+        var fileupload_xslt = tab_pane.find('#fileupload_xslt')[0].files[0];
+        fd.append("fileupload_xslt", fileupload_xslt);
+
+        // Ajax call: upload file
+        $.ajax({
+            async: true,
+            type: "POST",
+            contentType: false,
+            url: baseURL + 'upload-file',
+            data: fd,
+            processData: false,
+            success: function (data1) {
+                data["fileupload"] = data1;
+                // Ajax call: add dataset
+                $.ajax({
+                    url: baseURL + "api/definitions/" + collection,
+                    data: JSON.stringify(data),
+                    method: "PUT",
+                    headers: {
+                        'Accept' : 'application/json',
+                        'Content-Type': 'application/tdt.definition+json',
+                        'Authorization': authHeader
+                    },
+                    success: function(e){
+                        // Done, redirect to datets page
+                        window.location = baseURL + 'api/admin/datasets';
+                    },
+                    error: function(e){
+                        if(e.status != 405){
+                            var error = JSON.parse(e.responseText);
+                            if(error.error && error.error.message){
+                                $('.error .text', tab_pane).html(error.error.message);
+                                $('.error', tab_pane).removeClass('hide').show().focus();
+                            }
+                        }else{
+                            // Ajax followed location header -> ignore
+                            window.location = baseURL + 'api/admin/datasets';
+                        }
+                    }
+                });
+            },
+            timeout: 10000
+        });
+    }
+	else {
 		// Upload dataset file	
 		var file = form.find('input[type=file]')[0].files[0];
 		var fd = new FormData();

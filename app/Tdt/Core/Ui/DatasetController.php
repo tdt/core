@@ -333,8 +333,6 @@ class DatasetController extends UiController
      */
     public function getDelete($id)
     {
-        //\App::abort(400, "Deleting dataset.");
-
         // Set permission
         Auth::requirePermissions('admin.dataset.delete');
 
@@ -411,31 +409,36 @@ class DatasetController extends UiController
     /**
      * Autocomplete endpoint "Linking Datasets"
      *
-     * @return Response
-     */
-    public function autocompleteLinkedDatasets()
-    {
-        $term = \Input::get('term');
-
-        $results = \DB::table('definitions')
-            ->where('title', 'LIKE', '%' . $term . '%')
-            ->orWhere('description', 'LIKE', '%' . $term . '%')
-            ->orWhere('resource_name', 'LIKE', '%' . $term . '%')
-            ->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
-            ->get();
-
-        $matchingDatasets = [];
-
-        foreach ($results as $result) {
-            $resourceName = $result->collection_uri . '/' . $result->resource_name;
-
-            if (! empty($result->title)) {
-                $resourceName .= ' - ' . $result->title;
-            }
-
-            $matchingDatasets[] = ['id' => $result->id, 'value' => $resourceName];
-        }
-
-        return \Response::json($matchingDatasets);
-    }
+     * @return json
+     */	
+	public function autocompleteLinkedDatasets(){
+		$term = \Input::get('term');
+		$currentdef_id = \Input::get('currentdef_id');
+				
+		$results = array();
+		
+		if (isset($currentdef_id)) { // Editing an existing dataset		
+			$queries = \DB::table('definitions')
+				->where('title', 'LIKE', '%' . $term . '%')
+				->orWhere('description', 'LIKE', '%' . $term . '%')
+				->orWhere('resource_name', 'LIKE', '%' . $term . '%')
+				->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
+				->having('id', '!=', $currentdef_id)
+				->get();
+		} else { // Creating a new dataset						
+			$queries = \DB::table('definitions')
+				->where('title', 'LIKE', '%' . $term . '%')
+				->orWhere('description', 'LIKE', '%' . $term . '%')
+				->orWhere('resource_name', 'LIKE', '%' . $term . '%')
+				->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
+				->get();			
+		}
+		
+		foreach ($queries as $query)
+		{
+			$results[] = [ 'id' => $query->id, 'value' => $query->title ];
+		}
+		
+		return \Response::json($results);
+	}		
 }
