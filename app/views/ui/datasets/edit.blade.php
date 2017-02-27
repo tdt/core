@@ -151,6 +151,13 @@
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
+                                @if (in_array(strtolower($source_definition->type), array("xml")) && $parameter == 'uri')
+                                    <input type="file" class="form-control" id="fileupload_xslt" name="fileupload_xslt" />
+                                    <div class='help-block'>
+                                        {{ $object->description_xslt }}
+                                    </div>
+
+                                @endif
                         </div>
                     </div>
                 @endforeach
