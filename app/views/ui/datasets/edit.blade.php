@@ -151,6 +151,13 @@
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
+                                @if (in_array(strtolower($source_definition->type), array("xml")) && $parameter == 'uri')
+                                    <input type="file" class="form-control" id="fileupload_xslt" name="fileupload_xslt" />
+                                    <div class='help-block'>
+                                        {{ $object->description_xslt }}
+                                    </div>
+
+                                @endif
                         </div>
                     </div>
                 @endforeach
@@ -400,7 +407,7 @@
 		
 		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
 			$(this).autocomplete({
-				source: "/search/autocomplete",
+				source: "/search/autocomplete?currentdef_id={{ $definition->id }}",
 				minLength: 0,
 				select: function(event, ui) {
 					$(this).val(ui.item.value);

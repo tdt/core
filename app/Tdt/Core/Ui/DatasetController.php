@@ -333,8 +333,6 @@ class DatasetController extends UiController
      */
     public function getDelete($id)
     {
-        //\App::abort(400, "Deleting dataset.");
-
         // Set permission
         Auth::requirePermissions('admin.dataset.delete');
 
@@ -415,15 +413,26 @@ class DatasetController extends UiController
      */	
 	public function autocompleteLinkedDatasets(){
 		$term = \Input::get('term');
+		$currentdef_id = \Input::get('currentdef_id');
 				
 		$results = array();
 		
-		$queries = \DB::table('definitions')
-			->where('title', 'LIKE', '%' . $term . '%')
-            ->orWhere('description', 'LIKE', '%' . $term . '%')
-            ->orWhere('resource_name', 'LIKE', '%' . $term . '%')
-            ->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
-			->get();
+		if (isset($currentdef_id)) { // Editing an existing dataset		
+			$queries = \DB::table('definitions')
+				->where('title', 'LIKE', '%' . $term . '%')
+				->orWhere('description', 'LIKE', '%' . $term . '%')
+				->orWhere('resource_name', 'LIKE', '%' . $term . '%')
+				->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
+				->having('id', '!=', $currentdef_id)
+				->get();
+		} else { // Creating a new dataset						
+			$queries = \DB::table('definitions')
+				->where('title', 'LIKE', '%' . $term . '%')
+				->orWhere('description', 'LIKE', '%' . $term . '%')
+				->orWhere('resource_name', 'LIKE', '%' . $term . '%')
+				->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
+				->get();			
+		}
 		
 		foreach ($queries as $query)
 		{

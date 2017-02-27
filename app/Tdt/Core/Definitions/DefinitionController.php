@@ -412,6 +412,7 @@ class DefinitionController extends ApiController
 
         $input['user_id'] = $definition['user_id'];
         $input['username'] = $definition['username'];
+        $input['xslt_file'] = $definition['xslt_file'];
 
         // Keep associated job
         $input['job_id'] = $definition['job_id'];
@@ -426,6 +427,15 @@ class DefinitionController extends ApiController
         // TODO: Validate file extension based on selected dataset/definition.
         if (isset($input['fileupload']) && $input['fileupload'] != '') {
             $input['uri'] = 'file://' . $input['fileupload'];
+        }
+
+        //Add uploaded xslt file
+        if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
+
+            $file2=$input['fileupload_xslt'];
+            $file3=explode("\\", $file2);
+
+            $input['xslt_file'] =$file3[2] . '_' . date('Y-m-d');
         }
 
         // Validate the input
