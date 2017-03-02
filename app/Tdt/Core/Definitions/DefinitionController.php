@@ -147,6 +147,10 @@ class DefinitionController extends ApiController
         } elseif ($params['extract']['type'] == 'xml') {
             $params['extract']['array_level'] = $input['array_level'];
             $params['extract']['encoding'] = 'UTF-8';
+        } elseif ($params['extract']['type'] == 'xls') {
+            $params['extract']['has_header_row'] = $input['has_header_row'];
+            $params['extract']['start_row'] = $input['start_row'];
+            $params['extract']['sheet'] = $input['sheet'];
         }
 
         // Load class construction (always elasticsearch)
@@ -430,7 +434,6 @@ class DefinitionController extends ApiController
 
         //Add uploaded xslt file
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
-
             $file2 = $input['fileupload_xslt'];
             $file3 = explode('\\', $file2);
 

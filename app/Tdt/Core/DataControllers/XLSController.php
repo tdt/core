@@ -188,7 +188,6 @@ class XLSController extends ADataController
             $data_result->preferred_formats = $this->getPreferredFormats();
 
             return $data_result;
-
         } catch (Exception $ex) {
             App::abort(500, "Failed to retrieve data from the XLS file on location $uri.");
         }
@@ -204,10 +203,11 @@ class XLSController extends ADataController
 
     /**
      * Create an Excel PHP Reader object from the Excel sheet.
+     *
+     * @return Reader
      */
     public static function loadExcel($file, $type, $sheet)
     {
-
         if ($type == 'xls') {
             $reader = IOFactory::createReader('Excel5');
         } elseif ($type == 'xlsx') {
