@@ -368,16 +368,16 @@ $('.btn-edit-dataset').on('click', function(e){
 		})			
 	}
     //upload xml with xslt file
-    else if( tab_pane.find("#fileupload_xslt").length &&  (tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0) ){
+    else if( form.find("#fileupload_xslt").length &&  (form.find("#fileupload_xslt").length != 0 || form.find("#fileupload_xslt")[0].files.length != 0) ){
 
         // Upload dataset file
-        var file = tab_pane.find('input[type=file]')[0].files[0];
+        var file = form.find('input[type=file]')[0].files[0];
         var fd = new FormData();
         fd.append("fileupload", file);
 
 
         // Upload xslt file
-        var fileupload_xslt = tab_pane.find('#fileupload_xslt')[0].files[0];
+        var fileupload_xslt = form.find('#fileupload_xslt')[0].files[0];
         fd.append("fileupload_xslt", fileupload_xslt);
 
         // Ajax call: upload file
@@ -390,14 +390,13 @@ $('.btn-edit-dataset').on('click', function(e){
             processData: false,
             success: function (data1) {
                 data["fileupload"] = data1;
-                // Ajax call: add dataset
+                // Ajax call: edit dataset
                 $.ajax({
-                    url: baseURL + "api/definitions/" + collection,
+                    url: baseURL + "api/definitions/" + identifier,
                     data: JSON.stringify(data),
-                    method: "PUT",
+                    method: "POST",
                     headers: {
                         'Accept' : 'application/json',
-                        'Content-Type': 'application/tdt.definition+json',
                         'Authorization': authHeader
                     },
                     success: function(e){
@@ -408,8 +407,8 @@ $('.btn-edit-dataset').on('click', function(e){
                         if(e.status != 405){
                             var error = JSON.parse(e.responseText);
                             if(error.error && error.error.message){
-                                $('.error .text', tab_pane).html(error.error.message);
-                                $('.error', tab_pane).removeClass('hide').show().focus();
+                                $('.error .text').html(error.error.message);
+                                $('.error').removeClass('hide').show().focus();
                             }
                         }else{
                             // Ajax followed location header -> ignore
