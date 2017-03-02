@@ -63,28 +63,28 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<h3>2. {{ trans('admin.link_datasets') }}</h3>
-					
+
 					<div class='row'>
 						<div class='col-sm-4 col-sm-offset-4  panel panel-default linked-definitions'>
 							<div class='row'>
 								<div class="col-sm-12">
 									<h4>{{ trans('admin.link_datasets_select_to') }}</h4>
-									<ul id="linked-to-datasets"> 
+									<ul id="linked-to-datasets">
 										<li>
 											<input class="form-control" name="linkedto0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
 											<input type="hidden" name="linkedto_id0" />
-											<textarea class="form-control" name="linkedto_desc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>                
+											<textarea class="form-control" name="linkedto_desc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>
 											<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
 											<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
 										</li>
 									</ul>
-								 </div>			
+								 </div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
 
         <h3>3. {{ trans('admin.select_type') }}</h3>
 
@@ -166,7 +166,7 @@
                                                 @endforeach
                                             </select>
                                         @endif
-                                        @if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json")) && $parameter == 'uri')
+                                        @if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json", "shp")) && $parameter == 'uri')
                                             <input type="file" class="form-control" id="fileupload" name="fileupload" />
                                                 <div class='help-block'>
                                                     {{ $object->description }}
@@ -422,9 +422,9 @@
                       </div>
                 </div>
             @endforeach
-        </div>		
+        </div>
     </form>
-	
+
     <script type="text/x-template" id="person">
         <div class="attribution-person" data-role="#OPTION#">
             <div class="form-group" style="margin-bottom: 0">
@@ -466,11 +466,11 @@
         });
 
     });
-	
+
 	$(function () {
-		
+
 		window.count = 0;
-		
+
 		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
 			event.preventDefault();
 			window.count++;
@@ -499,7 +499,7 @@
 			li.remove();
 			window.count--;
 		});
-		
+
 		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
 			$(this).autocomplete({
 				source: "/search/autocomplete",
@@ -512,7 +512,7 @@
 
 			$(this).autocomplete("search");
 		});
-		
-	 });	
+
+	 });
     </script>
 @stop

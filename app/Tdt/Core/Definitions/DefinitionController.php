@@ -10,6 +10,7 @@ use Tdt\Core\ApiController;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Config;
 use File;
+use ZipArchive;
 
 /**
  * DefinitionController
@@ -351,6 +352,7 @@ class DefinitionController extends ApiController
         }
 
         // Create the new definition
+        $input = $this->processZip($input);
         $definition = $this->definitions->store($input);
 
         // Check if dataset should be indexed: create job and link with previously created definition.
@@ -375,6 +377,57 @@ class DefinitionController extends ApiController
         );
 
         return $response;
+    }
+
+    /**
+     * Check for any zip files as a URI for SHP data sources
+     *
+     * @param  array $input
+     * @return array
+     */
+    private function processZip($input)
+    {
+        if (strtolower($input['original-dataset-type']) == 'shp') {
+            // Check for a zip file as a URI
+            if (ends_with($input['uri'], '.zip')) {
+                $uri = $input['uri'];
+                $uri = str_replace('file://', '', $uri);
+
+                $zip = new ZipArchive;
+                $success = $zip->open($uri);
+
+                if ($success === true) {
+                    $path = storage_path() . '/app/' . str_random(5);
+
+                    mkdir($path);
+
+                    $zip->extractTo($path);
+                    $zip->close();
+
+                    // Get the shp file in the new directory
+                    $files = scandir($path);
+                    $shp_file = '';
+
+                    foreach ($files as $file) {
+                        if (strlen($file) > 4) {
+                            chmod($path . '/' . $file, 0655);
+                        }
+
+                        if (ends_with($file, '.shp')) {
+                            $shp_file = $file;
+                        }
+                    }
+
+                    if (! empty($shp_file)) {
+                        $input['uri'] = $path . '/' . $shp_file;
+                    } else {
+                        throw new \Exception('No shape file was found in the zip archive.');
+                    }
+                }
+            }
+        }
+
+        return $input;
     }
 
     /**
@@ -448,6 +501,7 @@ class DefinitionController extends ApiController
             \App::abort(400, $message);
         }
 
+        $input = $this->processZip($input);
         $this->definitions->update($uri, $input);
 
         // Dataset updates control
