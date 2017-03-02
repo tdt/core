@@ -3,7 +3,6 @@
 namespace Tdt\Core\Tests\Repositories;
 
 use Tdt\Core\Tests\TestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 class XlsDefinitionRepositoryTest extends TestCase
 {
@@ -20,10 +19,8 @@ class XlsDefinitionRepositoryTest extends TestCase
 
     public function testPut()
     {
-
         // Publish each XLS file in the test csv data folder.
         foreach ($this->test_data as $entry) {
-
             $file = $entry['file'];
             $extension = $entry['extension'];
             $sheet = $entry['sheet'];
@@ -39,6 +36,7 @@ class XlsDefinitionRepositoryTest extends TestCase
             // Test the XlsDefinitionRepository
             $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
 
+            \Log::info($input);
             $xls_definition = $xls_repository->store($input);
 
             // Check for properties
