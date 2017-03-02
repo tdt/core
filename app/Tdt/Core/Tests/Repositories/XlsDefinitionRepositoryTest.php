@@ -36,7 +36,6 @@ class XlsDefinitionRepositoryTest extends TestCase
             // Test the XlsDefinitionRepository
             $xls_repository = \App::make('Tdt\Core\Repositories\Interfaces\XlsDefinitionRepositoryInterface');
 
-            \Log::info($input);
             $xls_definition = $xls_repository->store($input);
 
             // Check for properties
@@ -56,7 +55,6 @@ class XlsDefinitionRepositoryTest extends TestCase
         $this->assertEquals(count($this->test_data), count($all));
 
         foreach ($all as $xls_definition) {
-
             // Test the getById
             $xls_definition_clone = $xls_repository->getById($xls_definition['id']);
 
@@ -65,7 +63,6 @@ class XlsDefinitionRepositoryTest extends TestCase
 
         // Test against the properties we've stored
         foreach ($this->test_data as $entry) {
-
             $file = $entry['file'];
             $extension = $entry['extension'];
             $sheet = $entry['sheet'];
@@ -86,7 +83,6 @@ class XlsDefinitionRepositoryTest extends TestCase
         $all = $xls_repository->getAll();
 
         foreach ($all as $xls_definition) {
-
             $updated_description = 'An updated description for object with description: ' . $xls_definition['description'];
 
             $updated_definition = $xls_repository->update($xls_definition['id'], array('description' => $updated_description));
@@ -103,7 +99,6 @@ class XlsDefinitionRepositoryTest extends TestCase
         $all = $xls_repository->getAll();
 
         foreach ($all as $xls_definition) {
-
             $result = $xls_repository->delete($xls_definition['id']);
 
             $this->assertTrue($result);
