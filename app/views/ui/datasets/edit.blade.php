@@ -35,11 +35,11 @@
                     <div class="row">
                         <div class="col-sm-12">
                             @if($definition->linkedFrom->count())
-                                @foreach ($definition->linkedFrom as $lnkdFrom)
-                                <p><a href="/api/admin/datasets/edit/{{ $lnkdFrom->id }}" target="_blank"><strong>{{ $lnkdFrom->collection_uri }}/{{ $lnkdFrom->resource_name }}</strong></a></p>
-                                @endforeach
+                            @foreach ($definition->linkedFrom as $lnkdFrom)
+                            <p><a href="/{{ $lnkdFrom->collection_uri }}/{{ $lnkdFrom->resource_name }}" target="_blank"><strong>{{ $lnkdFrom->title }}</strong> <i>( {{ $lnkdFrom->pivot->description }} )</i></a></p>
+                            @endforeach
                             @else
-                                <p><i>This dataset is not linked from any other dataset.</i></p>
+                            <p><i>This dataset is not linked from any other dataset.</i></p>
                             @endif
                         </div>
                     </div>
@@ -151,6 +151,13 @@
                             <div class='help-block'>
                                 {{ $object->description }}
                             </div>
+                                @if (in_array(strtolower($source_definition->type), array("xml")) && $parameter == 'uri')
+                                    <input type="file" class="form-control" id="fileupload_xslt" name="fileupload_xslt" />
+                                    <div class='help-block'>
+                                        {{ $object->description_xslt }}
+                                    </div>
+
+                                @endif
                         </div>
                     </div>
                 @endforeach
