@@ -189,7 +189,7 @@ $('.btn-add-dataset').on('click', function(e){
 					window.location = baseURL + 'api/admin/datasets';
 				}
 			}
-		})				
+		})
 	}
     //upload xml with xslt file
     else if( tab_pane.find("#fileupload_xslt").length &&  (tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0) ){
@@ -247,7 +247,7 @@ $('.btn-add-dataset').on('click', function(e){
     }
 
 	else {
-		// Upload dataset file		
+		// Upload dataset file
 		var file = tab_pane.find('input[type=file]')[0].files[0];
 		var fd = new FormData();
 		fd.append("fileupload", file);
@@ -337,7 +337,7 @@ $('.btn-edit-dataset').on('click', function(e){
             })
         }
     });
-	
+
 	// Check uri source (fileupload field)
 	if( form.find("#fileupload").length == 0 || form.find("#fileupload")[0].files.length == 0 ){
 		// Ajax call: no file selected
@@ -365,11 +365,8 @@ $('.btn-edit-dataset').on('click', function(e){
 					window.location = baseURL + 'api/admin/datasets';
 				}
 			}
-		})			
-	}
-    //upload xml with xslt file
-    else if( form.find("#fileupload_xslt").length &&  (form.find("#fileupload_xslt").length != 0 || form.find("#fileupload_xslt")[0].files.length != 0) ){
-
+		})
+	} else if( tab_pane.find("#fileupload_xslt").length &&  (tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0) ){
         // Upload dataset file
         var file = form.find('input[type=file]')[0].files[0];
         var fd = new FormData();
@@ -421,11 +418,11 @@ $('.btn-edit-dataset').on('click', function(e){
         });
     }
 	else {
-		// Upload dataset file	
+		// Upload dataset file
 		var file = form.find('input[type=file]')[0].files[0];
 		var fd = new FormData();
 		fd.append("fileupload", file);
-		
+
 		// Ajax call: upload file
 		$.ajax({
 			async: true,
@@ -465,8 +462,8 @@ $('.btn-edit-dataset').on('click', function(e){
 			},
 			timeout: 10000
 		});
-	} 	
-	
+	}
+
 });
 
 // Load google maps for GeoDCAT
