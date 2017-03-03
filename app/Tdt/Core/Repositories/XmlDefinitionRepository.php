@@ -8,7 +8,7 @@ class XmlDefinitionRepository extends BaseDefinitionRepository implements XmlDef
 {
 
     protected $rules = array(
-        'uri' => 'uri|required',
+        'uri' => 'uri|required|xml',
         'description' => 'required',
     );
 

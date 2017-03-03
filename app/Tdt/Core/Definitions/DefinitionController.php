@@ -387,7 +387,17 @@ class DefinitionController extends ApiController
      */
     private function processZip($input)
     {
-        if (strtolower($input['original-dataset-type']) == 'shp') {
+        $datasetType = @$input['original-dataset-type'];
+
+        if (empty($input['original-dataset-type'])) {
+            $definition = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface')->getByIdentifier($input['collection_uri'] . '/' . $input['resource_name']);
+
+            $datasetType = $definition['source_type'];
+        }
+
+        $datasetType = strtolower($datasetType);
+
+        if ($datasetType == 'shp') {
             // Check for a zip file as a URI
             if (ends_with($input['uri'], '.zip')) {
                 $uri = $input['uri'];
