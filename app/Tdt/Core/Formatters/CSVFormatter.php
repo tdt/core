@@ -48,10 +48,10 @@ class CSVFormatter implements IFormatter
             $xml->loadXML($dataObj->data );
 
             $xsl = new DOMDocument;
-            $xsl->load(app_path() . '/storage/app/'.$name_xslt_file .'.xslt');
+            $xsl->load($name_xslt_file);
 
 
-            // Configura el procesador
+            // Processor
             $proc = new XSLTProcessor;
             $proc->importStyleSheet($xsl); // adjunta las reglas XSL
 
