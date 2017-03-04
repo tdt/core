@@ -157,6 +157,7 @@ class DefinitionController extends ApiController
             $params['extract']['port'] = @$input['mysql_port'];
             $params['extract']['query'] = $input['query'];
             $params['extract']['username'] = $input['mysql_username'];
+            $params['extract']['password'] = $input['mysql_password'];
             $params['extract']['collation'] = @$input['collation'];
         }
 
@@ -253,6 +254,7 @@ class DefinitionController extends ApiController
             $params['extract']['port'] = @$input['mysql_port'];
             $params['extract']['query'] = $input['query'];
             $params['extract']['username'] = $input['mysql_username'];
+            $params['extract']['password'] = $input['mysql_password'];
             $params['extract']['collation'] = @$input['collation'];
         }
 
