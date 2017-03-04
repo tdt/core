@@ -152,6 +152,8 @@
                                 {{ $object->description }}
                             </div>
                                 @if (in_array(strtolower($source_definition->type), array("xml")) && $parameter == 'uri')
+                                    <br>
+                                    <input type="text" class="form-control" id="input_{{ $parameter }}_xslt" name="{{ $parameter }}_xslt" placeholder="" value='{{ $definition->xslt_file }}'>
                                     <input type="file" class="form-control" id="fileupload_xslt" name="fileupload_xslt" />
                                     <div class='help-block'>
                                         {{ $object->description_xslt }}
