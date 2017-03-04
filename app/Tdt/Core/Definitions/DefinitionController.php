@@ -325,11 +325,9 @@ class DefinitionController extends ApiController
         if (isset($input['fileupload']) && $input['fileupload'] != '') {
             $input['uri'] = 'file://' . $input['fileupload'];
         }
-
+      
         // Add uploaded file XSLT and change xslt_file.
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
-            $file2 = $input['fileupload_xslt'];
-            $file3 = explode('\\', $file2);
 
             $file2=$input['fileupload_xslt'];
             $file3=explode("\\", $file2);
@@ -500,8 +498,6 @@ class DefinitionController extends ApiController
 
         //Add uploaded xslt file
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
-            $file2 = $input['fileupload_xslt'];
-            $file3 = explode('\\', $file2);
 
             $file2=$input['fileupload_xslt'];
             $file3=explode("\\", $file2);
