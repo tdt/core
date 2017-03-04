@@ -405,7 +405,7 @@ class DatasetController extends UiController
 
         return $translatedParameters;
     }
-	
+
     /**
      * Autocomplete endpoint "Linking Datasets"
      *
@@ -441,5 +441,4 @@ class DatasetController extends UiController
 		
 		return \Response::json($results);
 	}		
-	
 }
