@@ -40,7 +40,7 @@ class XLSController extends ADataController
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Disregard the paging when rest parameters are given
-        if (!empty($rest_parameters)) {
+        if (! empty($rest_parameters)) {
             $limit = PHP_INT_MAX;
             $offset = 0;
         }
@@ -85,7 +85,7 @@ class XLSController extends ADataController
         $columns = $parsed_columns;
 
         if (empty($columns)) {
-            \App::abort(500, "Cannot find the columns from the XLS definition.");
+            \App::abort(500, 'Cannot find the columns from the XLS definition.');
         }
 
         // Create aliases for the columns
@@ -93,7 +93,7 @@ class XLSController extends ADataController
         $pk = null;
 
         foreach ($columns as $column) {
-            if (!empty($column['is_pk'])) {
+            if (! empty($column['is_pk'])) {
                 $pk = $column['column_name_alias'];
             }
         }
@@ -105,14 +105,14 @@ class XLSController extends ADataController
         $tmp_path = sys_get_temp_dir();
 
         if (empty($tmp_path)) {
-            \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
+            \App::abort(500, 'The temp directory, retrieved by the operating system, could not be retrieved.');
         }
 
         try {
-            if (substr($uri, 0, 4) == "http") {
+            if (substr($uri, 0, 4) == 'http') {
                 $tmpFile = uniqid();
-                file_put_contents($tmp_path . "/" . $tmpFile, file_get_contents($uri));
-                $php_obj = self::loadExcel($tmp_path . "/" . $tmpFile, $this->getFileExtension($uri), $sheet);
+                file_put_contents($tmp_path . '/' . $tmpFile, file_get_contents($uri));
+                $php_obj = self::loadExcel($tmp_path . '/' . $tmpFile, $this->getFileExtension($uri), $sheet);
 
             } else {
                 $php_obj = self::loadExcel($uri, $this->getFileExtension($uri), $sheet);
@@ -166,7 +166,7 @@ class XLSController extends ADataController
                         } else {
                             if (empty($row_objects[$rowobject->$pk])) {
                                 $row_objects[$rowobject->$pk] = $rowobject;
-                            } elseif (!empty($row_objects[$rowobject->$pk])) {
+                            } elseif (! empty($row_objects[$rowobject->$pk])) {
                                 $double = $rowobject->$pk;
                                 \Log::info("The primary key $double has been used already for another record!");
                             } else {
@@ -188,7 +188,6 @@ class XLSController extends ADataController
             $data_result->preferred_formats = $this->getPreferredFormats();
 
             return $data_result;
-
         } catch (Exception $ex) {
             App::abort(500, "Failed to retrieve data from the XLS file on location $uri.");
         }
@@ -204,22 +203,24 @@ class XLSController extends ADataController
 
     /**
      * Create an Excel PHP Reader object from the Excel sheet.
+     *
+     * @return Reader
      */
     public static function loadExcel($file, $type, $sheet)
     {
-
-        if ($type == "xls") {
+        if ($type == 'xls') {
             $reader = IOFactory::createReader('Excel5');
-        } elseif ($type == "xlsx") {
+        } elseif ($type == 'xlsx') {
             $reader = IOFactory::createReader('Excel2007');
         } else {
-            \App::abort(500, "The given file is not supported, supported file are xls or xlsx files.");
+            \App::abort(500, 'The given file is not supported, supported file are xls or xlsx files.');
         }
 
         $reader->setReadDataOnly(true);
+        $file = str_replace('file://', '', $file);
         $sheet_info = $reader->listWorkSheetinfo($file);
 
-        if (empty($sheet) && !empty($sheet_info)) {
+        if (empty($sheet) && ! empty($sheet_info)) {
             $first_sheet_info = $sheet_info[0];
 
             $sheet = $first_sheet_info['worksheetName'];
@@ -236,7 +237,7 @@ class XLSController extends ADataController
 
         if (empty(self::$sheet)) {
             if (empty($sheet)) {
-                \App::abort(404, "No sheets were found in the XLS file.");
+                \App::abort(404, 'No sheets were found in the XLS file.');
             } else {
                 \App::abort(404, "The sheet provided ($sheet) has not been found.");
             }
@@ -258,7 +259,7 @@ class XLSController extends ADataController
         foreach ($columns as $column) {
             $value = @$data[$column['index']];
 
-            if (!is_null($value)) {
+            if (! is_null($value)) {
                 $result[$column['column_name_alias']] = $data[$column['index']];
             } else {
                 $index = $column['index'];
@@ -280,7 +281,7 @@ class XLSController extends ADataController
 
         $aliases = array();
 
-        if (!empty($columns_info)) {
+        if (! empty($columns_info)) {
             foreach ($columns_info as $column_info) {
                 $aliases[$column_info['index']] = $column_info['column_name_alias'];
             }
@@ -290,18 +291,18 @@ class XLSController extends ADataController
         $tmp_dir = sys_get_temp_dir();
 
         if (empty($columns)) {
-            if (!is_dir($tmp_dir)) {
+            if (! is_dir($tmp_dir)) {
                 mkdir($tmp_dir);
             }
 
-            $is_uri = (substr($input['uri'], 0, 4) == "http");
+            $is_uri = (substr($input['uri'], 0, 4) == 'http');
 
             try {
                 if ($is_uri) {
                     $tmp_file = uniqid();
 
-                    file_put_contents($tmp_dir. "/" . $tmp_file, file_get_contents($input['uri']));
-                    $php_obj = self::loadExcel($tmp_dir ."/" . $tmp_file, self::getFileExtension($input['uri']), $input['sheet']);
+                    file_put_contents($tmp_dir . '/' . $tmp_file, file_get_contents($input['uri']));
+                    $php_obj = self::loadExcel($tmp_dir . '/' . $tmp_file, self::getFileExtension($input['uri']), $input['sheet']);
                 } else {
                     $php_obj = self::loadExcel($input['uri'], self::getFileExtension($input['uri']), $input['sheet']);
                 }
@@ -312,7 +313,6 @@ class XLSController extends ADataController
                 $uri = $input['uri'];
                 \App::abort(404, "Something went wrong whilst retrieving the Excel file from uri $uri.");
             }
-
 
             if (is_null($worksheet)) {
                 \App::abort(404, "The sheet with name, self::$sheet, has not been found in the Excel file.");
@@ -331,7 +331,7 @@ class XLSController extends ADataController
                     foreach ($cell_iterator as $cell) {
                         $column_name = '';
 
-                        if ($cell->getValue() != "") {
+                        if ($cell->getValue() != '') {
                             $column_name = trim($cell->getCalculatedValue());
 
                         } else {
@@ -371,7 +371,7 @@ class XLSController extends ADataController
             $php_obj->disconnectWorksheets();
 
             if ($is_uri) {
-                unlink($tmp_dir . "/" . $tmp_file);
+                unlink($tmp_dir . '/' . $tmp_file);
             }
         }
 

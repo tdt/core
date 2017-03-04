@@ -10,6 +10,7 @@ use Tdt\Core\ApiController;
 use Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface;
 use Config;
 use File;
+use ZipArchive;
 
 /**
  * DefinitionController
@@ -147,6 +148,10 @@ class DefinitionController extends ApiController
         } elseif ($params['extract']['type'] == 'xml') {
             $params['extract']['array_level'] = $input['array_level'];
             $params['extract']['encoding'] = 'UTF-8';
+        } elseif ($params['extract']['type'] == 'xls') {
+            $params['extract']['has_header_row'] = $input['has_header_row'];
+            $params['extract']['start_row'] = $input['start_row'];
+            $params['extract']['sheet'] = $input['sheet'];
         }
 
         // Load class construction (always elasticsearch)
@@ -320,9 +325,11 @@ class DefinitionController extends ApiController
         if (isset($input['fileupload']) && $input['fileupload'] != '') {
             $input['uri'] = 'file://' . $input['fileupload'];
         }
-      
+
         // Add uploaded file XSLT and change xslt_file.
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
+            $file2 = $input['fileupload_xslt'];
+            $file3 = explode('\\', $file2);
 
             $file2=$input['fileupload_xslt'];
             $file3=explode("\\", $file2);
@@ -348,6 +355,7 @@ class DefinitionController extends ApiController
         }
 
         // Create the new definition
+        $input = $this->processZip($input);
         $definition = $this->definitions->store($input);
 
         // Check if dataset should be indexed: create job and link with previously created definition.
@@ -372,6 +380,67 @@ class DefinitionController extends ApiController
         );
 
         return $response;
+    }
+
+    /**
+     * Check for any zip files as a URI for SHP data sources
+     *
+     * @param  array $input
+     * @return array
+     */
+    private function processZip($input)
+    {
+        $datasetType = @$input['original-dataset-type'];
+
+        if (empty($input['original-dataset-type'])) {
+            $definition = \App::make('Tdt\Core\Repositories\Interfaces\DefinitionRepositoryInterface')->getByIdentifier($input['collection_uri'] . '/' . $input['resource_name']);
+
+            $datasetType = $definition['source_type'];
+        }
+
+        $datasetType = strtolower($datasetType);
+
+        if ($datasetType == 'shp') {
+            // Check for a zip file as a URI
+            if (ends_with($input['uri'], '.zip')) {
+                $uri = $input['uri'];
+                $uri = str_replace('file://', '', $uri);
+
+                $zip = new ZipArchive;
+                $success = $zip->open($uri);
+
+                if ($success === true) {
+                    $path = storage_path() . '/app/' . str_random(5);
+
+                    mkdir($path);
+
+                    $zip->extractTo($path);
+                    $zip->close();
+
+                    // Get the shp file in the new directory
+                    $files = scandir($path);
+                    $shp_file = '';
+
+                    foreach ($files as $file) {
+                        if (strlen($file) > 4) {
+                            chmod($path . '/' . $file, 0655);
+                        }
+
+                        if (ends_with($file, '.shp')) {
+                            $shp_file = $file;
+                        }
+                    }
+
+                    if (! empty($shp_file)) {
+                        $input['uri'] = $path . '/' . $shp_file;
+                    } else {
+                        throw new \Exception('No shape file was found in the zip archive.');
+                    }
+                }
+            }
+        }
+
+        return $input;
     }
 
     /**
@@ -431,6 +500,8 @@ class DefinitionController extends ApiController
 
         //Add uploaded xslt file
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
+            $file2 = $input['fileupload_xslt'];
+            $file3 = explode('\\', $file2);
 
             $file2=$input['fileupload_xslt'];
             $file3=explode("\\", $file2);
@@ -446,6 +517,7 @@ class DefinitionController extends ApiController
             \App::abort(400, $message);
         }
 
+        $input = $this->processZip($input);
         $this->definitions->update($uri, $input);
 
         // Dataset updates control

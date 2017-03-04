@@ -25,7 +25,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
 
         $columns = array();
 
-        if (!empty($input['columns'])) {
+        if (! empty($input['columns'])) {
             $columns = $input['columns'];
         }
 
@@ -37,11 +37,11 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
 
         $geo = array();
 
-        if (!empty($input['geo'])) {
+        if (! empty($input['geo'])) {
             $geo = $input['geo'];
         }
 
-        if (!empty($geo) || !empty($extracted_geo)) {
+        if (! empty($geo) || ! empty($extracted_geo)) {
             $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
         }
 
@@ -59,7 +59,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
         // Store the columns and optional geo meta-data
         $this->tabular_repository->storeBulk($tabular_definition->id, $model_name, $columns);
 
-        if (!empty($geo)) {
+        if (! empty($geo)) {
             $this->geo_repository->storeBulk($tabular_definition->id, $model_name, $geo);
         }
 
@@ -92,13 +92,13 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
 
         $geo = array();
 
-        if (!empty($input['geo'])) {
+        if (! empty($input['geo'])) {
             $geo = $input['geo'];
         }
 
-        if (!empty($geo) || !empty($extracted_geo)) {
+        if (! empty($geo) || ! empty($extracted_geo)) {
             $geo = $this->geo_repository->validateBulk($extracted_geo, $geo);
-        } elseif (!isset($geo)) {
+        } elseif (! isset($geo)) {
             $geo = $this->geo_repository->getGeoProperties($tabular_id, $model_name);
         }
 
@@ -115,14 +115,14 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
         // Check for a primary key, and add it to the columns
         $pk = @$input['pk'];
 
-        if (!is_null($pk) && is_numeric($pk) && $pk >= 0 && $pk < count($columns)) {
+        if (! is_null($pk) && is_numeric($pk) && $pk >= 0 && $pk < count($columns)) {
             $columns[$pk]['is_pk'] = 1;
         }
 
         // Store the columns and geo meta-data
         $this->tabular_repository->storeBulk($tabular_id, $model_name, $columns);
 
-        if (!empty($geo)) {
+        if (! empty($geo)) {
             $this->geo_repository->storeBulk($tabular_id, $model_name, $geo);
         }
 
@@ -141,7 +141,7 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
      *
      *   column: index, is_pk, column_name, column_name_alias
      *
-     * @param array $input
+     * @param  array $input
      * @return array columns
      */
     abstract protected function extractColumns($input);
@@ -149,8 +149,8 @@ abstract class TabularBaseRepository extends BaseDefinitionRepository
     /**
      * Process the columns and return geo properties
      *
-     * @param array $input
-     * @param array $columns
+     * @param  array $input
+     * @param  array $columns
      * @return array geo properties
      */
     protected function extractGeoProperties($input, $columns)

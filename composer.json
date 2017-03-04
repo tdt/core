@@ -34,7 +34,7 @@
         "tdt/input": "dev-master"
     },
     "require-dev": {
-        "mockery/mockery": "dev-master@dev"
+        "mockery/mockery": "0.9.7"
     },
     "scripts": {
         "post-install-cmd": [
