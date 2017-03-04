@@ -139,19 +139,25 @@ class DefinitionController extends ApiController
         // Extract class construction
         $params = [];
         $params['extract']['type'] = $input['original-dataset-type'];
-        $params['extract']['uri'] = $input['uri'];
 
         if ($params['extract']['type'] == 'csv') {
             $params['extract']['delimiter'] = $input['delimiter'];
             $params['extract']['has_header_row'] = $input['has_header_row'];
             $params['extract']['encoding'] = 'UTF-8';
+            $params['extract']['uri'] = $input['uri'];
         } elseif ($params['extract']['type'] == 'xml') {
             $params['extract']['array_level'] = $input['array_level'];
             $params['extract']['encoding'] = 'UTF-8';
-        } elseif ($params['extract']['type'] == 'xls') {
-            $params['extract']['has_header_row'] = $input['has_header_row'];
-            $params['extract']['start_row'] = $input['start_row'];
-            $params['extract']['sheet'] = $input['sheet'];
+            $params['extract']['uri'] = $input['uri'];
+        } elseif ($params['extract']['type'] == 'json') {
+            $params['extract']['uri'] = $input['uri'];
+        } elseif ($params['extract']['type'] = 'mysql') {
+            $params['extract']['database'] = $input['database'];
+            $params['extract']['host'] = $input['mysql_host'];
+            $params['extract']['port'] = @$input['mysql_port'];
+            $params['extract']['query'] = $input['query'];
+            $params['extract']['username'] = $input['mysql_username'];
+            $params['extract']['collation'] = @$input['collation'];
         }
 
         // Load class construction (always elasticsearch)
@@ -229,17 +235,25 @@ class DefinitionController extends ApiController
         // Extract class construction
         $params = [];
         $params['extract']['type'] = $input['original-dataset-type'];
-        $params['extract']['uri'] = $input['uri'];
 
         if ($params['extract']['type'] == 'csv') {
             $params['extract']['delimiter'] = $input['delimiter'];
             $params['extract']['has_header_row'] = $input['has_header_row'];
             $params['extract']['encoding'] = 'UTF-8';
+            $params['extract']['uri'] = $input['uri'];
         } elseif ($params['extract']['type'] == 'xml') {
             $params['extract']['array_level'] = $input['array_level'];
             $params['extract']['encoding'] = 'UTF-8';
+            $params['extract']['uri'] = $input['uri'];
         } elseif ($params['extract']['type'] == 'json') {
-            /* No extra fields */
+            $params['extract']['uri'] = $input['uri'];
+        } elseif ($params['extract']['type'] = 'mysql') {
+            $params['extract']['database'] = $input['database'];
+            $params['extract']['host'] = $input['mysql_host'];
+            $params['extract']['port'] = @$input['mysql_port'];
+            $params['extract']['query'] = $input['query'];
+            $params['extract']['username'] = $input['mysql_username'];
+            $params['extract']['collation'] = @$input['collation'];
         }
 
         $params['load']['type'] = 'elasticsearch';
@@ -325,14 +339,13 @@ class DefinitionController extends ApiController
         if (isset($input['fileupload']) && $input['fileupload'] != '') {
             $input['uri'] = 'file://' . $input['fileupload'];
         }
-      
+
         // Add uploaded file XSLT and change xslt_file.
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
+            $file2 = $input['fileupload_xslt'];
+            $file3 = explode('\\', $file2);
 
-            $file2=$input['fileupload_xslt'];
-            $file3=explode("\\", $file2);
-
-            $input['xslt_file'] ='file://' . app_path() . '/storage/app/'. $file3[2] . '_' . date('Y-m-d') .'.xslt';
+            $input['xslt_file'] = 'file://' . app_path() . '/storage/app/' . $file3[2] . '_' . date('Y-m-d') . '.xslt';
         }
 
         // Check if dataset should be indexed
@@ -499,10 +512,10 @@ class DefinitionController extends ApiController
         //Add uploaded xslt file
         if (isset($input['fileupload_xslt']) && $input['fileupload_xslt'] != '') {
 
-            $file2=$input['fileupload_xslt'];
-            $file3=explode("\\", $file2);
+            $file2 = $input['fileupload_xslt'];
+            $file3 = explode('\\', $file2);
 
-            $input['xslt_file'] ='file://' . app_path() . '/storage/app/' .$file3[2] . '_' . date('Y-m-d').'.xslt';
+            $input['xslt_file'] = 'file://' . app_path() . '/storage/app/' . $file3[2] . '_' . date('Y-m-d') . '.xslt';
         }
 
         // Validate the input

@@ -365,7 +365,7 @@
                             </div>
                         @endif
 
-                         @if (in_array(strtolower($mediatype), array("csv", "xls", "json","shp")))
+                         @if (in_array(strtolower($mediatype), array("mysql", "csv", "xls", "json","shp")))
                             <hr>
                             <div class="submenu">
                                 <label class="checkbox">
