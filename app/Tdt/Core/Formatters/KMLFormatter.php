@@ -2,8 +2,6 @@
 
 namespace Tdt\Core\Formatters;
 
-use Tdt\Core\Formatters\GeoJSONFormatter;
-
 /**
  * KML Formatter
  *
@@ -32,25 +30,25 @@ class KMLFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         // Check if the original data is not GeoJSON
-        if ($dataObj->source_definition['type'] == 'XML' && !empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
+        if ($dataObj->source_definition['type'] == 'XML' && ! empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
             return $dataObj->data;
         }
 
         self::$definition = $dataObj->definition;
-        self::$map_property = $dataObj->source_definition['map_property'];
+        self::$map_property = @$dataObj->source_definition['map_property'];
 
         // Build the body
         // KML header
         $body = '<?xml version="1.0" encoding="UTF-8" ?>';
         $body .= '<kml xmlns="http://www.opengis.net/kml/2.2">';
 
-        $body .= "<Document>";
+        $body .= '<Document>';
         // Add the document
         $body .= self::getPlacemarks($dataObj);
-        $body .= "</Document>";
+        $body .= '</Document>';
 
         // Close tags
-        $body .= "</kml>";
+        $body .= '</kml>';
 
         return $body;
     }
@@ -71,18 +69,18 @@ class KMLFormatter implements IFormatter
 
     private static function xmlgetelement($value)
     {
-        $result = "<![CDATA[";
-        $result .= "]]>";
+        $result = '<![CDATA[';
+        $result .= ']]>';
         return $result;
     }
 
     private static function getExtendedDataElement($values)
     {
-        $result = "<ExtendedData>";
+        $result = '<ExtendedData>';
         $ignore = ['parts', 'points', 'point'];
 
         foreach ($values as $key => $val) {
-            if (!in_array($key, $ignore)) {
+            if (! in_array($key, $ignore)) {
                 $result .= '<Data name="' . $key . '">';
                 $result .= '<displayName>' . $key . '</displayName>';
                 $result .= '<value>' . $val . '</value>';
@@ -90,7 +88,7 @@ class KMLFormatter implements IFormatter
             }
         }
 
-        $result .= "</ExtendedData>";
+        $result .= '</ExtendedData>';
         return $result;
     }
 
@@ -106,11 +104,11 @@ class KMLFormatter implements IFormatter
 
             $coords = array();
 
-            if (!empty($array)) {
-                $coordskey = GeoHelper::keyExists("coords", $array);
+            if (! empty($array)) {
+                $coordskey = GeoHelper::keyExists('coords', $array);
 
-                if (!$coordskey) {
-                    $coordskey = GeoHelper::keyExists("coordinates", $array);
+                if (! $coordskey) {
+                    $coordskey = GeoHelper::keyExists('coordinates', $array);
                 }
 
                 if ($lat_long) {
@@ -118,12 +116,12 @@ class KMLFormatter implements IFormatter
                     $extendeddata = self::getExtendedDataElement($array);
                 } elseif ($coordskey) {
                     if (is_array($array[$coordskey])) {
-                        if (!empty($array[$coordskey]['@text'])) {
+                        if (! empty($array[$coordskey]['@text'])) {
                             $array[$coordskey] = $array[$coordskey]['@text'];
                         }
                     }
 
-                    $coords = explode(";", $array[$coordskey]);
+                    $coords = explode(';', $array[$coordskey]);
                     unset($array[$coordskey]);
                     $name = self::xmlgetelement($array);
                     $extendeddata = self::getExtendedDataElement($array);
@@ -134,17 +132,17 @@ class KMLFormatter implements IFormatter
                 if ($lat_long || count($coords) != 0) {
                     $name = htmlspecialchars($key);
 
-                    if (!empty(self::$map_property) && !empty($array[self::$map_property])) {
+                    if (! empty(self::$map_property) && ! empty($array[self::$map_property])) {
                         $name = $array[self::$map_property];
                     }
 
                     $description = '';
 
-                    if (!empty($key) && is_numeric($key)) {
-                        $description = "<![CDATA[<a href='" . \URL::to(self::$definition['collection_uri'] . '/' . self::$definition['resource_name']) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to(self::$definition['collection_uri'] . '/' . self::$definition['resource_name']) . '/' .  htmlspecialchars($key) ."</a>]]>";
+                    if (! empty($key) && is_numeric($key)) {
+                        $description = "<![CDATA[<a href='" . \URL::to(self::$definition['collection_uri'] . '/' . self::$definition['resource_name']) . '/' . htmlspecialchars($key) . ".map'>" . \URL::to(self::$definition['collection_uri'] . '/' . self::$definition['resource_name']) . '/' . htmlspecialchars($key) . '</a>]]>';
                     }
 
-                    echo "<Placemark><name>" . $name . "</name><Description>" . $description . "</Description>";
+                    echo '<Placemark><name>' . $name . '</name><Description>' . $description . '</Description>';
 
                     echo $extendeddata;
 
@@ -153,7 +151,7 @@ class KMLFormatter implements IFormatter
                         $lat_val = $array[$lat_long[0]];
                         $lon_val = $array[$lat_long[1]];
 
-                        if (!empty($lat_long[2]) && !empty($array[$lat_long[2]])) {
+                        if (! empty($lat_long[2]) && ! empty($array[$lat_long[2]])) {
                             $z_val = $array[$lat_long[2]];
 
                             if (is_array($lat_val)) {
@@ -169,7 +167,7 @@ class KMLFormatter implements IFormatter
                             }
 
                             if ($lat_val != 0 || $lon_val != 0) {
-                                echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "," . $z_val . "</coordinates></Point>";
+                                echo '<Point><coordinates>' . $lon_val . ',' . $lat_val . ',' . $z_val . '</coordinates></Point>';
                             }
                         } else {
                             if (is_array($lat_val)) {
@@ -181,23 +179,23 @@ class KMLFormatter implements IFormatter
                             }
 
                             if ($lat_val != 0 || $lon_val != 0) {
-                                echo "<Point><coordinates>" . $lon_val . "," . $lat_val . "</coordinates></Point>";
+                                echo '<Point><coordinates>' . $lon_val . ',' . $lat_val . '</coordinates></Point>';
                             }
                         }
                     }
 
-                    if (count($coords)  > 0) {
-                        if (count($coords)  == 1) {
-                            echo "<Polygon><outerBoundaryIs><LinearRing><coordinates>" . $coords[0] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                    if (count($coords) > 0) {
+                        if (count($coords) == 1) {
+                            echo '<Polygon><outerBoundaryIs><LinearRing><coordinates>' . $coords[0] . '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
                         } else {
-                            echo "<MultiGeometry>";
+                            echo '<MultiGeometry>';
                             foreach ($coords as $coord) {
-                                echo "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
+                                echo '<LineString><coordinates>' . $coord . '</coordinates></LineString>';
                             }
-                            echo "</MultiGeometry>";
+                            echo '</MultiGeometry>';
                         }
                     }
-                    echo "</Placemark>";
+                    echo '</Placemark>';
                 }
             }
         }
@@ -209,7 +207,7 @@ class KMLFormatter implements IFormatter
      */
     private static function getArray($dataObj, $geo)
     {
-        $body = "";
+        $body = '';
 
         $data = $dataObj->data;
 
@@ -227,33 +225,33 @@ class KMLFormatter implements IFormatter
             // We assume that if longitude exists, latitude does as well if the geometry is a single point
             // A point can either be a single column value, or split up in a latitude and longitude
             $geo_type = 'point';
-            $is_point = (count($geo) > 1) || !empty($geo['point']);
+            $is_point = (count($geo) > 1) || ! empty($geo['point']);
 
-            if (!$is_point) {
+            if (! $is_point) {
                 $geo_type = key($geo);
                 $column_name = $geo[$geo_type];
             }
 
-            if (!empty($entry)) {
+            if (! empty($entry)) {
                 $name = htmlspecialchars($key);
 
-                if (!empty($entry['name'])) {
+                if (! empty($entry['name'])) {
                     $name = $entry['name'];
                 }
 
-                if (!empty(self::$map_property) && !empty($entry[self::$map_property])) {
+                if (! empty(self::$map_property) && ! empty($entry[self::$map_property])) {
                     $name = $entry[self::$map_property];
                 }
 
                 $extendeddata = self::getExtendedDataElement($entry);
 
-                $description = "";
+                $description = '';
 
-                if (!empty($key) && is_numeric($key)) {
-                    $description = "<![CDATA[<a href='" . \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key)  . ".map'>". \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' .  htmlspecialchars($key) ."</a>]]>";
+                if (! empty($key) && is_numeric($key)) {
+                    $description = "<![CDATA[<a href='" . \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' . htmlspecialchars($key) . ".map'>" . \URL::to($dataObj->definition['collection_uri'] . '/' . $dataObj->definition['resource_name']) . '/' . htmlspecialchars($key) . '</a>]]>';
                 }
 
-                $body .= "<Placemark><name>" . $name . "</name><description>" . $description . "</description>";
+                $body .= '<Placemark><name>' . $name . '</name><description>' . $description . '</description>';
                 $body .= $extendeddata;
 
                 if ($is_point) {
@@ -265,40 +263,40 @@ class KMLFormatter implements IFormatter
                         $point = $entry[$geo['point']];
                     }
 
-                    $body .= "<Point><coordinates>" . $point . "</coordinates></Point>";
+                    $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
                 } else {
                     switch ($geo_type) {
                         case 'polylinez':
-                            $body .= "<MultiGeometry>";
+                            $body .= '<MultiGeometry>';
 
                             foreach (explode(';', $entry[$geo['polylinez']]) as $coord) {
-                                $body .= "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
+                                $body .= '<LineString><coordinates>' . $coord . '</coordinates></LineString>';
                             }
-                            $body .= "</MultiGeometry>";
+                            $body .= '</MultiGeometry>';
                             break;
                         case 'polyline':
-                            $body .= "<MultiGeometry>";
+                            $body .= '<MultiGeometry>';
 
                             foreach (explode(';', $entry[$geo['polyline']]) as $coord) {
-                                $body .= "<LineString><coordinates>" . $coord . "</coordinates></LineString>";
+                                $body .= '<LineString><coordinates>' . $coord . '</coordinates></LineString>';
                             }
-                            $body .= "</MultiGeometry>";
+                            $body .= '</MultiGeometry>';
                             break;
                         case 'polygonz':
-                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygonz']] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            $body .= '<Polygon><outerBoundaryIs><LinearRing><coordinates>' . $entry[$geo['polygonz']] . '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
                             break;
                         case 'polygon':
-                            $body .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>". $entry[$geo['polygon']] . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+                            $body .= '<Polygon><outerBoundaryIs><LinearRing><coordinates>' . $entry[$geo['polygon']] . '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
                             break;
                         case 'multipoinz':
-                            $body .= "<MultiGeometry>";
+                            $body .= '<MultiGeometry>';
                             foreach (explode(';', $entry[$geo['multipointz']]) as $point) {
                                 $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
                             }
                             $body .= '</MultiGeometry>';
                             break;
                         case 'multipoint':
-                            $body .= "<MultiGeometry>";
+                            $body .= '<MultiGeometry>';
                             foreach (explode(';', $entry[$geo['multipoint']]) as $point) {
                                 $body .= '<Point><coordinates>' . $point . '</coordinates></Point>';
                             }
@@ -309,7 +307,7 @@ class KMLFormatter implements IFormatter
                             break;
                     }
                 }
-                $body .= "</Placemark>";
+                $body .= '</Placemark>';
             }
         }
 
@@ -318,6 +316,6 @@ class KMLFormatter implements IFormatter
 
     public static function getDocumentation()
     {
-        return "Returns a KML file with geo properties of the data.";
+        return 'Returns a KML file with geo properties of the data.';
     }
 }

@@ -31,7 +31,8 @@
         "phayes/geophp" : "dev-master",
         "ml/json-ld": "1.*",
         "ruflin/elastica" : "3.1.*",
-        "tdt/input": "dev-master"
+        "tdt/input": "dev-master",
+        "doctrine/dbal" : "2.5.12"
     },
     "require-dev": {
         "mockery/mockery": "0.9.7"
