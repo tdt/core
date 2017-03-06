@@ -26,6 +26,7 @@ return array(
     "minute"                     => "minute(s)",
     "cache_help"                 => "How long should this dataset be cached? Fill out '0' or '-1' to disable caching for this resource (not recommended).",
     "dcat_header"                => "Describe your data",
+    "index_header"               => "For large datasets it’s recommended that you index the data in Elasticsearch, this way the data becomes more usable for your end users",
     "geodcat_header"             => "Locate the relevant area",
     "edit_dataset"               => "Edit a dataset",
     "parameters"                 => "Parameters",
@@ -65,5 +66,16 @@ return array(
     "menu_settings"              => "General",
     "menu_datasets"              => "Datasets",
     "menu_users"                 => "Users",
-    "menu_groups"                => "Groups"
+    "menu_groups"                => "Groups",
+	"created_by"				 => "Created by",
+	"updated_by"				 => "Updated by",
+	"link_datasets"				 => "Link to other datasets (optional)",
+	"link_datasets_select_to"	 => "Search and select datasets to be linked to",
+	"current_linked_datasets"	 => "Currently linked from",
+	"update_linked_datasets"	 => "Update 'linked to' datasets",
+	"linked_datasets_type_to_search" => "Type to search and select a dataset...",
+	"linked_datasets_provide_context" => "Provide some context as to why this dataset is related...",
+	"add_link" 					 => "Add link",
+	"delete_link" 				 => "Delete link",
+	"linked_datasets_alert"		 => "Can't delete default dataset input textbox!"
 );

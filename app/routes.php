@@ -30,6 +30,51 @@ Route::group(array('prefix' => 'api/admin'), function () {
     Route::any('{all}', 'Tdt\\Core\\Ui\\UiController@handleRequest')->where('all', '.*');
 });
 
+Route::any('/upload-file', function () {
+    $utf8 = [
+        '/[áàâãªä]/u'   =>   'a',
+        '/[ÁÀÂÃÄ]/u'    =>   'A',
+        '/[ÍÌÎÏ]/u'     =>   'I',
+        '/[íìîï]/u'     =>   'i',
+        '/[éèêë]/u'     =>   'e',
+        '/[ÉÈÊË]/u'     =>   'E',
+        '/[óòôõºö]/u'   =>   'o',
+        '/[ÓÒÔÕÖ]/u'    =>   'O',
+        '/[úùûü]/u'     =>   'u',
+        '/[ÚÙÛÜ]/u'     =>   'U',
+        '/ç/'           =>   'c',
+        '/Ç/'           =>   'C',
+        '/ñ/'           =>   'n',
+        '/Ñ/'           =>   'N',
+        '/–/'           =>   '-', // UTF-8 hyphen to "normal" hyphen
+        '/[’‘‹›‚]/u'    =>   '_', // Literally a single quote
+        '/[“”«»„]/u'    =>   '_', // Double quote
+        '/ /'           =>   '_', // nonbreaking space (equiv. to 0x160)
+    ];
+
+    $file = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload')->getClientOriginalName()));
+
+    $file_xslt_upload=Input::file('fileupload_xslt');
+
+    if(isset($file_xslt_upload)) {
+        $file_xslt = strtolower(preg_replace(array_keys($utf8), array_values($utf8), Input::file('fileupload_xslt')->getClientOriginalName()));
+    }
+    if(isset($file_xslt)){
+        Input::file('fileupload_xslt')->move(
+            app_path() . '/storage/app/',
+            $file_xslt . '_' . date('Y-m-d'). '.' . Input::file('fileupload_xslt')->getClientOriginalExtension()
+        );
+    }
+
+    return Input::file('fileupload')->move(
+        app_path() . '/storage/app/',
+        $file . '_' . time() . '.' . Input::file('fileupload')->getClientOriginalExtension()
+    );
+});
+
+/* Autocomplete endpoint "Linking Datasets" */
+Route::get('/search/autocomplete', 'Tdt\\Core\\Ui\\DatasetController@autocompleteLinkedDatasets');
+
 /*
  * IMPORTANT!
  * The catch-all route to catch all other request is added last to allow packages to still have their own routes
@@ -51,7 +96,7 @@ App::after(function ($request, $response) {
 App::error(function ($exception, $code) {
 
     // Log error
-    Log::error($exception);
+    \Log::error($exception);
 
     // Check Accept-header
     $accept_header = \Request::header('Accept');
@@ -106,7 +151,7 @@ App::error(function ($exception, $code) {
 App::finish(function ($request, $response) {
     $tracker_id = \Config::get('tracker.id');
 
-    if (!empty($tracker_id)) {
+    if (! empty($tracker_id)) {
         $tracker = \App::make('Tdt\Core\Analytics\TrackerInterface');
         $tracker->track($request, $tracker_id);
     }

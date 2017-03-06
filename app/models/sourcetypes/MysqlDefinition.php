@@ -12,7 +12,7 @@ class MysqlDefinition extends SourceType
 
     protected $table = 'mysqldefinitions';
 
-    protected $fillable = array('host', 'port', 'database', 'username', 'password', 'collation', 'query', 'description');
+    protected $fillable = array('mysql_host', 'mysql_port', 'database', 'mysql_username', 'mysql_password', 'collation', 'query', 'description');
 
     /**
      * Relationship with the TabularColumns model.
@@ -39,7 +39,6 @@ class MysqlDefinition extends SourceType
     {
 
         if ($name == 'pk') {
-
             // Retrieve the primary key from the columns
             // Get the related columns
             $columns = $this->tabularColumns()->getResults();

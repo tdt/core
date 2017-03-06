@@ -8,7 +8,7 @@ class XmlDefinitionRepository extends BaseDefinitionRepository implements XmlDef
 {
 
     protected $rules = array(
-        'uri' => 'uri|required',
+        'uri' => 'uri|required|xml',
         'description' => 'required',
     );
 
@@ -27,6 +27,7 @@ class XmlDefinitionRepository extends BaseDefinitionRepository implements XmlDef
                 'required' => true,
                 'name' => 'URI',
                 'description' => 'The location of the XML file, this should either be a URL or a local file location.',
+                'description_xslt' => '(OPTIONAL) The location of the XSLT file, this should either be a URL or a local file location.',
                 'type' => 'string',
             ),
             'title' => array(

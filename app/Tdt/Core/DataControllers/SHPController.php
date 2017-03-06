@@ -27,15 +27,15 @@ class SHPController extends ADataController
     private $geo_property;
 
     private static $RECORD_TYPES = [
-        0 => "Null Shape",
-        1 => "Point",
-        3 => "PolyLine",
-        5 => "Polygon",
-        8 => "MultiPoint",
-        11 => "PointZ",
-        13 => "PolyLineZ",
-        15 => "PolygonZ",
-        18 => "MultiPointZ"
+        0 => 'Null Shape',
+        1 => 'Point',
+        3 => 'PolyLine',
+        5 => 'Polygon',
+        8 => 'MultiPoint',
+        11 => 'PointZ',
+        13 => 'PolyLineZ',
+        15 => 'PolygonZ',
+        18 => 'MultiPointZ'
     ];
 
     public function __construct(
@@ -57,7 +57,7 @@ class SHPController extends ADataController
         list($limit, $offset) = Pager::calculateLimitAndOffset();
 
         // Disregard the paging when rest parameters are given
-        if (!empty($rest_parameters)) {
+        if (! empty($rest_parameters)) {
             $limit = PHP_INT_MAX;
             $offset = 0;
         }
@@ -74,7 +74,7 @@ class SHPController extends ADataController
 
         if (empty($tmp_path)) {
             // If this occurs then the server is not configured correctly, thus a 500 error is thrown
-            \App::abort(500, "The temp directory, retrieved by the operating system, could not be retrieved.");
+            \App::abort(500, 'The temp directory, retrieved by the operating system, could not be retrieved.');
         }
 
         // Get the columns
@@ -89,8 +89,8 @@ class SHPController extends ADataController
             $geo[$geo_prop['property']] = $geo_prop['path'];
         }
 
-        if (!$columns) {
-            \App::abort(500, "Cannot find the columns of the SHP definition.");
+        if (! $columns) {
+            \App::abort(500, 'Cannot find the columns of the SHP definition.');
         }
 
         try {
@@ -98,19 +98,19 @@ class SHPController extends ADataController
             $arrayOfRowObjects = array();
 
             // Prepare the options to read the SHP file
-            $is_url = (substr($uri, 0, 4) == "http");
+            $is_url = (substr($uri, 0, 4) == 'http');
 
             // If the shape files are located on an HTTP address, fetch them and store them locally
             if ($is_url) {
                 $tmp_file_name = uniqid();
-                $tmp_file = $tmp_path . "/" . $tmp_file_name;
+                $tmp_file = $tmp_path . '/' . $tmp_file_name;
 
-                file_put_contents($tmp_file . ".shp", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shp"));
-                file_put_contents($tmp_file . ".dbf", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".dbf"));
-                file_put_contents($tmp_file . ".shx", file_get_contents(substr($uri, 0, strlen($uri) - 4) . ".shx"));
+                file_put_contents($tmp_file . '.shp', file_get_contents(substr($uri, 0, strlen($uri) - 4) . '.shp'));
+                file_put_contents($tmp_file . '.dbf', file_get_contents(substr($uri, 0, strlen($uri) - 4) . '.dbf'));
+                file_put_contents($tmp_file . '.shx', file_get_contents(substr($uri, 0, strlen($uri) - 4) . '.shx'));
 
                 // Along this file the class will use file.shx and file.dbf
-                $shape_file = new ShapeFile($tmp_file . ".shp");
+                $shape_file = new ShapeFile($tmp_file . '.shp');
             } else {
                 $shape_file = new ShapeFile($uri); // along this file the class will use file.shx and file.dbf
             }
@@ -146,7 +146,7 @@ class SHPController extends ADataController
                     $projCode = $projection['projection'];
 
                     if (empty($projCode)) {
-                        \App::abort(400, "Could not find a supported EPSG code.");
+                        \App::abort(400, 'Could not find a supported EPSG code.');
                     }
 
                     $this->proj4 = new Proj4php();
@@ -219,8 +219,8 @@ class SHPController extends ADataController
         $x = $shp_data['x'];
         $y = $shp_data['y'];
 
-        if (!empty($x) && !empty($y)) {
-            if (!empty($this->epsg) && $this->epsg != 4326) {
+        if (! empty($x) && ! empty($y)) {
+            if (! empty($this->epsg) && $this->epsg != 4326) {
                 $pointSrc = new Point($x, $y);
 
                 $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -242,8 +242,8 @@ class SHPController extends ADataController
         $y = $shp_data['y'];
         $z = $shp_data['z'];
 
-        if (!empty($x) && !empty($y) && !empty($z)) {
-            if (!empty($this->epsg) && $this->epsg != 4326) {
+        if (! empty($x) && ! empty($y) && ! empty($z)) {
+            if (! empty($this->epsg) && $this->epsg != 4326) {
                 $pointSrc = new Point($x, $y, $z);
 
                 $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -272,7 +272,7 @@ class SHPController extends ADataController
                 $y = $point['y'];
 
                 // Translate the coordinates to WSG84 geo coordinates
-                if (!empty($this->epsg)) {
+                if (! empty($this->epsg)) {
                     $pointSrc = new Point($x, $y);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -282,7 +282,7 @@ class SHPController extends ADataController
 
                 $points[] = $x . ',' . $y;
             }
-            array_push($parts, implode(" ", $points));
+            array_push($parts, implode(' ', $points));
         }
 
         return implode(';', $parts);
@@ -301,7 +301,7 @@ class SHPController extends ADataController
                 $z = $point['z'];
 
                 // Translate the coordinates to WSG84 geo coordinates
-                if (!empty($this->epsg)) {
+                if (! empty($this->epsg)) {
                     $pointSrc = new Point($x, $y, $z);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -311,7 +311,7 @@ class SHPController extends ADataController
 
                 $points[] = $x . ',' . $y . ',' . $z;
             }
-            array_push($parts, implode(" ", $points));
+            array_push($parts, implode(' ', $points));
         }
 
         return implode(';', $parts);
@@ -332,7 +332,7 @@ class SHPController extends ADataController
                 $y = $point['y'];
 
                     // Translate the coordinates to WSG84 geo coordinates
-                if (!empty($this->epsg)) {
+                if (! empty($this->epsg)) {
                     $pointSrc = new Point($x, $y);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -343,7 +343,7 @@ class SHPController extends ADataController
                 $points[] = $x . ',' . $y;
             }
 
-            array_push($parts, implode(" ", $points));
+            array_push($parts, implode(' ', $points));
         }
 
         return $parts = implode(';', $parts);
@@ -365,7 +365,7 @@ class SHPController extends ADataController
                 $z = $point['z'];
 
                 // Translate the coordinates to WSG84 geo coordinates
-                if (!empty($this->epsg)) {
+                if (! empty($this->epsg)) {
                     $pointSrc = new Point($x, $y, $z);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -376,7 +376,7 @@ class SHPController extends ADataController
 
                 $points[] = $x . ',' . $y . ',' . $z;
             }
-            array_push($parts, implode(" ", $points));
+            array_push($parts, implode(' ', $points));
         }
 
         return $parts = implode(';', $parts);
@@ -388,8 +388,8 @@ class SHPController extends ADataController
             $x = $point['x'];
             $y = $point['y'];
 
-            if (!empty($x) && !empty($y)) {
-                if (!empty($this->epsg)) {
+            if (! empty($x) && ! empty($y)) {
+                if (! empty($this->epsg)) {
                     $pointSrc = new Point($x, $y);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -412,8 +412,8 @@ class SHPController extends ADataController
             $y = $point['y'];
             $z = $point['z'];
 
-            if (!empty($x) && !empty($y) && !empty($z)) {
-                if (!empty($this->epsg)) {
+            if (! empty($x) && ! empty($y) && ! empty($z)) {
+                if (! empty($this->epsg)) {
                     $pointSrc = new Point($x, $y, $z);
 
                     $pointDest = $this->proj4->transform($this->projSrc, $this->projDest, $pointSrc);
@@ -435,7 +435,7 @@ class SHPController extends ADataController
      */
     public static function parseColumns($options)
     {
-        $is_url = (substr($options['uri'], 0, 4) == "http");
+        $is_url = (substr($options['uri'], 0, 4) == 'http');
         $tmp_dir = sys_get_temp_dir();
         $columns = array();
 
@@ -446,14 +446,14 @@ class SHPController extends ADataController
                 // This remains untested
                 $tmp_file = uniqid();
 
-                file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shp"));
-                file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".dbf"));
-                file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
+                file_put_contents($tmp_dir . '/' . $tmp_file . '.shp', file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . '.shp'));
+                file_put_contents($tmp_dir . '/' . $tmp_file . '.dbf', file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . '.dbf'));
+                file_put_contents($tmp_dir . '/' . $tmp_file . '.shx', file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . '.shx'));
 
                 // Along this file the class will use file.shx and file.dbf
-                $shape_file = new Shapefile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+                $shape_file = new Shapefile($tmp_dir . '/' . $tmp_file . '.shp', array('noparts' => false));
             } else {
-               // along this file the class will use file.shx and file.dbf
+                // along this file the class will use file.shx and file.dbf
                 $shape_file = new Shapefile($options['uri'], array('noparts' => false));
             }
         } catch (Exception $e) {
@@ -463,7 +463,7 @@ class SHPController extends ADataController
         $record = $shape_file->getRecord();
 
         // Read meta data
-        if (!$record) {
+        if (! $record) {
             $uri = $options['uri'];
             \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $uri, make sure the corresponding dbf and shx files are at the same location.");
         }
@@ -517,7 +517,6 @@ class SHPController extends ADataController
         return $columns;
     }
 
-
     /**
      * Parse the geo column names out of a SHP file.
      */
@@ -530,18 +529,18 @@ class SHPController extends ADataController
             $aliases[$column['column_name']] = $column['column_name_alias'];
         }
 
-        $is_url = (substr($options['uri'], 0, 4) == "http");
+        $is_url = (substr($options['uri'], 0, 4) == 'http');
         $tmp_dir = sys_get_temp_dir();
         $geo_properties = array();
 
         if ($is_url) {
             // This remains untested
             $tmp_file = uniqid();
-            file_put_contents($tmp_dir . '/' . $tmp_file . ".shp", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shp"));
-            file_put_contents($tmp_dir . '/' . $tmp_file . ".dbf", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".dbf"));
-            file_put_contents($tmp_dir . '/' . $tmp_file . ".shx", file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . ".shx"));
+            file_put_contents($tmp_dir . '/' . $tmp_file . '.shp', file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . '.shp'));
+            file_put_contents($tmp_dir . '/' . $tmp_file . '.dbf', file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . '.dbf'));
+            file_put_contents($tmp_dir . '/' . $tmp_file . '.shx', file_get_contents(substr($options['uri'], 0, strlen($options['uri']) - 4) . '.shx'));
 
-            $shape_file = new ShapeFile($tmp_dir . '/' . $tmp_file . ".shp", array('noparts' => false));
+            $shape_file = new ShapeFile($tmp_dir . '/' . $tmp_file . '.shp', array('noparts' => false));
         } else {
             $shape_file = new ShapeFile($options['uri'], array('noparts' => false));
         }
@@ -549,7 +548,7 @@ class SHPController extends ADataController
         $record = $shape_file->getRecord();
 
         // read meta data
-        if (!$record) {
+        if (! $record) {
             $uri = $options['uri'];
             \App::abort(400, "We failed to retrieve a record from the provided shape file on uri $uri, make sure the corresponding dbf and shx files are at the same location.");
         }
