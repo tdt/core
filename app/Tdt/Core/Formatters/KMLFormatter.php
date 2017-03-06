@@ -30,7 +30,7 @@ class KMLFormatter implements IFormatter
     public static function getBody($dataObj)
     {
         // Check if the original data is not GeoJSON
-        if ($dataObj->source_definition['type'] == 'XML' && ! empty($dataObj->geo_formatted) && $dataObj->geo_formatted) {
+        if (($dataObj->source_definition['type'] == 'KML' || $dataObj->source_definition['type'] == 'XML') && ! empty($dataObj->source_definition['geo_formatted']) && $dataObj->source_definition['geo_formatted'] == 1) {
             return $dataObj->data;
         }
 
