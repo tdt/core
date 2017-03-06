@@ -17,7 +17,7 @@
     </div>
 
     <br/>
-    <form class="form-horizontal add-dataset" action="/upload-file" method="post" role="form" enctype="multipart/form-data">
+    <form class="form-horizontal add-dataset" role="form">
         <div class='identifier'>
             <div class='row'>
                 <div class='col-sm-offset-2 col-sm-8'>
@@ -59,34 +59,7 @@
             </div>
         </div>
 
-		<div class="linked-datasets">
-			<div class="row">
-				<div class="col-sm-12">
-					<h3>2. {{ trans('admin.link_datasets') }}</h3>
-
-					<div class='row'>
-						<div class='col-sm-4 col-sm-offset-4  panel panel-default linked-definitions'>
-							<div class='row'>
-								<div class="col-sm-12">
-									<h4>{{ trans('admin.link_datasets_select_to') }}</h4>
-									<ul id="linked-to-datasets">
-										<li>
-											<input class="form-control" name="linkedto0" placeholder="{{ trans('admin.linked_datasets_type_to_search') }}"/>
-											<input type="hidden" name="linkedto_id0" />
-											<textarea class="form-control" name="linkedto_desc0" placeholder="{{ trans('admin.linked_datasets_provide_context') }}"></textarea>
-											<button class="btn btn-default" id="add0">{{ trans('admin.add_link') }}</button>
-											<button class="btn btn-default" id="del0">{{ trans('admin.delete_link') }}</button>
-										</li>
-									</ul>
-								 </div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-        <h3>3. {{ trans('admin.select_type') }}</h3>
+        <h3>2. {{ trans('admin.select_type') }}</h3>
 
         <ul class="nav nav-tabs">
             @foreach($mediatypes as $mediatype => $type)
@@ -166,21 +139,9 @@
                                                 @endforeach
                                             </select>
                                         @endif
-                                        @if (in_array(strtolower($mediatype), array("csv", "xml", "xls", "json", "shp")) && $parameter == 'uri')
-                                            <input type="file" class="form-control" id="fileupload" name="fileupload" />
-                                                <div class='help-block'>
-                                                    {{ $object->description }}
-                                                </div>
-                                                @if (in_array(strtolower($mediatype), array("xml")) && $parameter == 'uri')
-                                                        <input type="file" class="form-control" id="fileupload_xslt" name="fileupload_xslt" />
-                                                        <div class='help-block'>
-                                                            {{ $object->description_xslt }}
-                                                        </div>
-
-                                                @endif
-
-                                        @endif
-
+                                        <div class='help-block'>
+                                            {{ $object->description }}
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -364,67 +325,11 @@
                                 </div>
                             </div>
                         @endif
-
-                         @if (in_array(strtolower($mediatype), array("mysql", "csv", "xls", "json","shp")))
-                            <hr>
-                            <div class="submenu">
-                                <label class="checkbox">
-                                    <input type="checkbox" name="to_be_indexed" value="1" class="form-control indexed"> Should we index this dataset <br><br><h4><i class='fa fa-info-circle'></i> {{ trans('admin.index_header') }}</h4>
-                                </label>
-                            </div>
-                            <br>
-                            <div class="elasticsearchdata" style="display:none;">
-                                    <form class='form form-horizontal'>
-                                        <div class="form-group">
-                                            <label for="schedule" class="col-sm-2 control-label">
-                                                Schedule
-                                            </label>
-                                            <div class="col-sm-10 col-lg-5">
-                                                <select class="form-control" id="schedule" name="schedule">
-                                                    <option value="once">once</option>
-                                                    <option value="half-daily">half-daily</option>
-                                                    <option value="daily">daily</option>
-                                                    <option value="weekly">weekly</option>
-                                                    <option value="monthly">monthly</option>
-                                                </select>
-                                                <div class='help-block'>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                <div class="form-group">
-                                    <input type="hidden" id="es_host_display" name="host_display" value="http://tdt.dev/">
-                                    <input type="hidden" id="es_index_display" name="index_display" value="datatank">
-                                    <input type="hidden" id="input_host" name="host" value="http://tdt.dev/">
-                                    <input type="hidden" id="input_es_index" name="es_index" value="datatank">
-                                    <input type="hidden" id="input_es_type" name="es_type" value="">
-                                    <input type="hidden" id="input_port" name="port" value="9200">
-                                    <input type="hidden" id="input_username" name="username">
-                                    <input type="hidden" id="input_password" name="password">
-                                    <input type="hidden" id="input_cache_minutes" name="cache_minutes" value="5">
-                                    <hr/>
-                                </div>
-                            </div>
-                            <script type="text/javascript">
-                                $('input[type="checkbox"]').change(function () {
-                                    if($(this).hasClass("indexed") ){
-                                        if ($(this).is(":checked")) {
-                                            $(".tab-pane.active").find(".elasticsearchdata").show();
-                                        } else {
-                                            $(".tab-pane.active").find(".elasticsearchdata").hide();
-                                        }
-                                    }else{
-                                        //nothing
-                                    }
-                                });
-                            </script>
-                             @endif
-                      </div>
+                    </div>
                 </div>
             @endforeach
         </div>
     </form>
-
     <script type="text/x-template" id="person">
         <div class="attribution-person" data-role="#OPTION#">
             <div class="form-group" style="margin-bottom: 0">
@@ -453,66 +358,5 @@
                 </div>
             </div>
         </div>
-    </script>
-    <script>
-    $(document).ready(function() {
-
-        $("input:file").change(function (){
-            if($(this).val().length > 0) {
-                $(".tab-pane.active").find("#input_uri").hide();
-            } else{
-                $(".tab-pane.active").find("#input_uri").show();
-            }
-        });
-
-    });
-
-	$(function () {
-
-		window.count = 0;
-
-		$("#linked-to-datasets").on("click", "button[id^='add']", function ( event ) {
-			event.preventDefault();
-			window.count++;
-			var linkedToNum = "linkedto" + window.count;
-			var linkedToDescNum = "linkedto_desc" + window.count;
-			var linkedToIDNum = "linkedto_id" + window.count;
-			var btnAddNum = "add" + window.count;
-			var btnDelNum = "del" + window.count;
-			var ul = $("#linked-to-datasets");
-			var li = $("<li></li>")
-				.append($("<input class='form-control' name='" + linkedToNum + "' placeholder='{{ trans('admin.linked_datasets_type_to_search') }}' />"
-					+ "<input type='hidden' name='" + linkedToIDNum + "' />"
-					+ "<textarea class='form-control' placeholder='{{ trans('admin.linked_datasets_provide_context') }}' name='" + linkedToDescNum+"'></textarea>"
-					+ "<button class='btn btn-default' id='" + btnAddNum + "' >{{ trans('admin.add_link') }}</button>"
-					+ "<button class='btn btn-default' id='" + btnDelNum + "' >{{ trans('admin.delete_link') }}</button>"));
-			li.appendTo(ul);
-		});
-
-		$("#linked-to-datasets").on("click", "button[id^='del']", function ( event ) {
-			event.preventDefault();
-			if (window.count == 0) {
-				alert("{{ trans('admin.linked_datasets_alert') }}");
-				return;
-			}
-			var li = $(this).parent();
-			li.remove();
-			window.count--;
-		});
-
-		$("#linked-to-datasets").on("focus.autocomplete", "input:text[name^='linkedto']", function () {
-			$(this).autocomplete({
-				source: "/search/autocomplete",
-				minLength: 0,
-				select: function(event, ui) {
-					$(this).val(ui.item.value);
-					$(this).closest('li').find('input[type=hidden]').val(ui.item.id);
-				}
-			});
-
-			$(this).autocomplete("search");
-		});
-
-	 });
     </script>
 @stop

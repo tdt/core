@@ -1,6 +1,6 @@
 <template>
     <div class="panel dataset panel-default" v-on:click="visit">
-        <div class="panel-body"  v-if="dataset.draft_flag!=1">
+        <div class="panel-body">
             <div class='icon'>
                     <i class='fa fa-lg {{icon}}'></i>
             </div>

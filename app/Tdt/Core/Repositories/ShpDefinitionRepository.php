@@ -58,7 +58,7 @@ class ShpDefinitionRepository extends TabularBaseRepository implements ShpDefini
                 'required' => false,
                 'name' => 'EPSG code',
                 'description' => 'This parameter holds the EPSG code in which the geometric properties in the shape file are encoded.',
-                'default_value' => '4326',
+                'default_value' => "4326",
                 'type' => 'list',
                 'list' => 'api/geoprojections',
                 'list_option' => 'epsg',

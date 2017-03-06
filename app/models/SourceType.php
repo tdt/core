@@ -10,8 +10,7 @@
 class SourceType extends Eloquent
 {
 
-	protected $appends = array('type', 'cache');
-    /*protected $appends = array('type', 'cache', 'jobid', 'username', 'userid');*/
+    protected $appends = array('type', 'cache');
 
     /**
      * Relationship with the Definition model.
@@ -20,39 +19,6 @@ class SourceType extends Eloquent
     {
         return $this->morphOne('Definition', 'source');
     }
-	
-	/*
-    public function getJobidAttribute()
-    {
-        if (!empty($this->definition)) {
-            return $this->definition->job_id;
-        }
-
-        return null;		      
-    }
-	
-    public function getUsernameAttribute()
-    {
-        if (!empty($this->definition)) {
-            return $this->definition->username;
-        }
-		
-		$user = \Sentry::getUser();	
-
-        return $user->email;
-    }	
-	
-    public function getUseridAttribute()
-    {
-        if (!empty($this->definition)) {
-            return $this->definition->user_id;
-        }
-		
-		$user = \Sentry::getUser();		
-
-        return $user->id;
-    }
-	*/
 
     public function getTypeAttribute()
     {

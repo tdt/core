@@ -18,13 +18,13 @@ class CustomValidator extends \Illuminate\Validation\Validator
         try {
             $url_pieces = parse_url($value);
 
-            if (! filter_var($value, FILTER_VALIDATE_URL) === false && ($url_pieces['scheme'] == 'http' || $url_pieces['scheme'] == 'https')) {
+            if (!filter_var($value, FILTER_VALIDATE_URL) === false && ($url_pieces['scheme'] == 'http' || $url_pieces['scheme'] == 'https')) {
                 $status = $this->getHeadInfo($value);
                 return $status == 200;
             } else {
-                $data = @ file_get_contents($value);
+                $data =@ file_get_contents($value);
 
-                return ! empty($data);
+                return !empty($data);
             }
         } catch (\Exception $ex) {
             return false;
@@ -49,7 +49,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
         $status = curl_getinfo($c);
         curl_close($c);
 
-        if (! empty($status['http_code'])) {
+        if (!empty($status['http_code'])) {
             return $status['http_code'];
         } else {
             return 500;
@@ -65,7 +65,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
         curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($c, CURLOPT_MAXREDIRS, 10);
-        $follow_allowed = ( ini_get('open_basedir') || ini_get('safe_mode')) ? false : true;
+        $follow_allowed = ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
 
         if ($follow_allowed) {
             curl_setopt($c, CURLOPT_FOLLOWLOCATION, 1);
@@ -84,49 +84,15 @@ class CustomValidator extends \Illuminate\Validation\Validator
     }
 
     /**
-     * Validate an XML string
-     *
-     * @param  string $attribute
-     * @param  string $value
-     * @param  array  $parameters
-     * @return bool
-     */
-    public function validateXml($attribute, $value, $parameters)
-    {
-        $xml_string = '';
-
-        if (substr($value, 0, 4) == 'http') {
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $value);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-            $xml_string = curl_exec($curl);
-
-            curl_close($curl);
-        } else {
-            $xml_string = file_get_contents($value);
-        }
-
-        try {
-            if (simplexml_load_string($xml_string)) {
-                return true;
-            }
-        } catch (\Exception $ex) {
-        }
-
-        return false;
-    }
-
-    /**
      * Check if the given value is a proper file that can be opened with fopen().
      */
     public function validateFile($attribute, $value, $parameters)
     {
         try {
             $ssl_options = array(
-                            'ssl' => array(
-                                'verify_peer' => false,
-                                'verify_peer_name' => false,
+                            "ssl"=>array(
+                                "verify_peer"=>false,
+                                "verify_peer_name"=>false,
                                 ),
                             );
 
@@ -145,12 +111,12 @@ class CustomValidator extends \Illuminate\Validation\Validator
         try {
             $data = [];
 
-            if (! filter_var($value, FILTER_VALIDATE_URL) === false) {
+            if (!filter_var($value, FILTER_VALIDATE_URL) === false) {
                 $ch = curl_init();
                 $data = $this->getRemoteData($value);
                 curl_close($ch);
             } else {
-                $data = @ file_get_contents($value);
+                $data =@ file_get_contents($value);
             }
 
             if (empty($data)) {
@@ -169,7 +135,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
     public function validateInstalled($attribute, $value, $parameters)
     {
         try {
-            $class_file = app_path() . '/../installed/' . $value;
+            $class_file = app_path() . '/../installed/' .  $value;
 
             return file_exists($class_file);
 

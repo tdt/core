@@ -252,7 +252,6 @@ class HTMLFormatter implements IFormatter
         ->with('definition', $dataObj->definition)
         ->with('paging', $dataObj->paging)
         ->with('source_definition', $dataObj->source_definition)
-		->with('updates_info', $dataObj->updates_info)
         ->with('formats', $dataObj->formats)
         ->with('dataset_link', $dataset_link)
         ->with('prev_link', $prev_link)

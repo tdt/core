@@ -5,8 +5,11 @@ namespace Tdt\Core\DataControllers;
 use Tdt\Core\Datasets\Data;
 use Tdt\Core\Pager;
 use Elastica\Client;
+use Elastica\Document;
+use Elastica\Query\Term;
 use Elastica\Search;
 use Elastica\Query;
+use Elastica\Exception\ResponseException;
 use Elastica\Query\SimpleQueryString;
 use Elastica\Query\MatchAll;
 
@@ -79,9 +82,9 @@ class ELASTICSEARCHController extends ADataController
     public static function getParameters()
     {
         $query_params = [
-            'query' => [
-                'required' => false,
-                'description' => 'A value that will be used to perform a full text-search on the data.'
+            "query" => [
+                "required" => false,
+                "description" => "A value that will be used to perform a full text-search on the data."
             ]
         ];
 

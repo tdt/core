@@ -69,26 +69,6 @@ class DatasetController extends ApiController
                     $definition['source_type']
                 );
 
-
-                if($definition['xslt_file']) {
-                    $source_definition['xslt_file'] = $definition['xslt_file'];
-                }
-
-                // when requesting data, the formatter should notice the linked job,
-                // and treat it as an elasticsearch data type.
-                if (! is_null(@$definition['job_id'])) {
-                    // Get the job from the definition
-                    $job = \Job::find($definition['job_id']);
-
-                    $source_definition['type'] = 'ELASTICSEARCH';
-                    $source_definition['host'] = $job->loader->host;
-                    $source_definition['port'] = $job->loader->port;
-                    $source_definition['username'] = empty($job->loader->username) ? '' : $job->loader->username;
-                    $source_definition['password'] = empty($job->loader->password) ? '' : $job->loader->password;
-                    $source_definition['es_type'] = $job->loader->es_type;
-                    $source_definition['es_index'] = $job->loader->es_index;
-                }
-
                 if ($source_definition) {
                     $source_type = $source_definition['type'];
 
@@ -119,18 +99,18 @@ class DatasetController extends ApiController
                     // Retrieve dataobject from datacontroller
                     $data = $data_controller->readData($source_definition, $rest_parameters);
 
-//                    // If the source type is XML, just return the XML contents, don't transform
-//                    if (strtolower($source_type) == 'xml' && $extension == 'xml') {
-//                        return $this->createXMLResponse($data->data);
-//                    } elseif (strtolower($source_type) == 'xml' && $extension == 'kml' && $data->geo_formatted) {
-//                        return $this->createXMLResponse($data->data);
-//                    } elseif (! $data->is_semantic && $extension == 'xml' && $source_type != 'xml') {
-//                        \App::abort(406, 'The requested format for the datasource is not available.');
-//                    } elseif (strtolower($source_type) == 'xml' && ! $data->geo_formatted && ! empty($extension) && $extension != 'xml') {
-//                        \App::abort(406, 'The requested format for the datasource is not available.');
-//                    } elseif (strtolower($source_type) == 'xml' && $data->geo_formatted && ! empty($extension) && ! in_array($extension, $data->preferred_formats)) {
-//                        \App::abort(406, 'The requested format for the datasource is not available.');
-//                    }
+                    // If the source type is XML, just return the XML contents, don't transform
+                    if (strtolower($source_type) == 'xml' && $extension == 'xml') {
+                        return $this->createXMLResponse($data->data);
+                    } elseif (strtolower($source_type) == 'xml' && $extension == 'kml' && $data->geo_formatted) {
+                        return $this->createXMLResponse($data->data);
+                    } elseif (! $data->is_semantic && $extension == 'xml' && $source_type != 'xml') {
+                        \App::abort(406, 'The requested format for the datasource is not available.');
+                    } elseif (strtolower($source_type) == 'xml' && ! $data->geo_formatted && ! empty($extension) && $extension != 'xml') {
+                        \App::abort(406, 'The requested format for the datasource is not available.');
+                    } elseif (strtolower($source_type) == 'xml' && $data->geo_formatted && ! empty($extension) && ! in_array($extension, $data->preferred_formats)) {
+                        \App::abort(406, 'The requested format for the datasource is not available.');
+                    }
 
                     $data->rest_parameters = $rest_parameters;
 
@@ -188,14 +168,6 @@ class DatasetController extends ApiController
 
                     // Add source definition to the object
                     $data->source_definition = $source_definition;
-
-					// Add dataset updates information to the object
-					$data->updates_info = \DB::table('definitions_updates')
-					->where('definition_id', $definition['id'])
-					->select('username','updated_at')
-					->orderBy('updated_at', 'desc')
-					->limit(10)
-					->get();
 
                     // Add the available, supported formats to the object
                     $format_helper = new FormatHelper();

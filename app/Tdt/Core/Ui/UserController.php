@@ -54,9 +54,6 @@ class UserController extends UiController
             $user = \Sentry::findUserById($id);
 
             if ($user->id > 2) {
-				// Dataset control version: flag user_deleted = 1
-				\DB::table('definitions_updates')->where('user_id', $user->id)->update(['user_deleted' => 1]);
-				
                 // Delete the user
                 $user->delete();
             }

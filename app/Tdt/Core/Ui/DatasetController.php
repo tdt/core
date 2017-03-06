@@ -14,6 +14,7 @@ use Tdt\Core\Auth\Auth;
 
 class DatasetController extends UiController
 {
+
     /**
      * Admin.dataset.view
      */
@@ -22,45 +23,12 @@ class DatasetController extends UiController
         // Set permission
         Auth::requirePermissions('admin.dataset.view');
 
-        // Check user id
-        $user = \Sentry::getUser();
-
-        // Get created definitions
-        $definitions = \Definition::where('user_id', $user->id)->get();
-
-        // Get updated definitions
-        $updatedDefinitions = \DB::table('definitions_updates')
-            ->where('definitions_updates.user_id', $user->id)
-            ->select('definitions_updates.definition_id')
-            ->get();
-
-        $updatedDefinitionIds = [];
-
-        foreach ($updatedDefinitions as $updatedDefinition) {
-            $updatedDefinitionIds[] = $updatedDefinition->definition_id;
-        }
-
-        $definitions_updated = null;
-
-        if (! empty($updatedDefinitionIds)) {
-            $definitions_updated = \Definition::whereIn('id', $updatedDefinitionIds)
-                    ->get();
-        }
-
-        // Get other definitions
-        $otherDefinitionsQuery = \Definition::where('user_id', '!=', $user->id);
-
-        if (! empty($updatedDefinitionIds)) {
-            $otherDefinitionsQuery->whereNotIn('id', $updatedDefinitionIds);
-        }
-
-        $definitions_others = $otherDefinitionsQuery->get();
+        // Get all definitions
+        $definitions = \Definition::all();
 
         return \View::make('ui.datasets.list')
-                    ->with('title', 'Dataset management (Created/Updated/Others) | The Datatank')
-                    ->with('definitions', $definitions)
-                    ->with('definitions_updated', $definitions_updated)
-                    ->with('definitions_others', $definitions_others);
+                    ->with('title', 'Dataset management | The Datatank')
+                    ->with('definitions', $definitions);
     }
 
     /**
@@ -92,7 +60,7 @@ class DatasetController extends UiController
                 // Filter array type parameters
                 if (empty($object->parameters)) {
                     // Filter Dublin core parameters
-                    if (! empty($object->group) && $object->group == 'dc') {
+                    if (!empty($object->group) && $object->group == 'dc') {
                         // Fetch autocomplete DC fields
                         if ($object->type == 'list') {
                             $uri = $object->list;
@@ -103,7 +71,7 @@ class DatasetController extends UiController
                                 $data_set = array();
 
                                 foreach ($data as $o) {
-                                    if (! empty($o->{$object->list_option})) {
+                                    if (!empty($o->{$object->list_option})) {
                                         $data_set[] = $o->{$object->list_option};
                                     }
                                 }
@@ -117,7 +85,7 @@ class DatasetController extends UiController
 
                         $parameters_dc[$parameter] = $object;
 
-                    } elseif (! empty($object->group) && $object->group == 'geodcat') {
+                    } elseif (!empty($object->group) && $object->group == 'geodcat') {
                         // Filter Geo params
                         $parameters_geodcat[$parameter] = $object;
                     } else {
@@ -133,7 +101,7 @@ class DatasetController extends UiController
                                 $data_set = array();
 
                                 foreach ($data as $o) {
-                                    if (! empty($o->{$object->list_option})) {
+                                    if (!empty($o->{$object->list_option})) {
                                         $data_set[] = $o->{$object->list_option};
                                     }
                                 }
@@ -174,11 +142,6 @@ class DatasetController extends UiController
 
             // TODO special treatment for caching
             unset($parameters_optional['draft']);
-            unset($parameters_optional['draft_flag']);
-            unset($parameters_required['username']);
-            unset($parameters_required['user_id']);
-            unset($parameters_optional['job_id']);
-            unset($parameters_optional['xslt_file']);
 
             // Translate the parameters
             $parameters_required = $this->translateParameters($parameters_required, $mediatype);
@@ -202,6 +165,7 @@ class DatasetController extends UiController
 
         return \Response::make($view);
     }
+
 
     /**
      * Admin.dataset.update
@@ -236,7 +200,7 @@ class DatasetController extends UiController
                 // Filter array type parameters
                 if (empty($object->parameters)) {
                     // Filter Dublin core parameters
-                    if (! empty($object->group) && $object->group == 'dc') {
+                    if (!empty($object->group) && $object->group == 'dc') {
                         // Fetch autocomplete DC fields
                         if ($object->type == 'list') {
                             $uri = $object->list;
@@ -247,7 +211,7 @@ class DatasetController extends UiController
                                 $data_set = array();
 
                                 foreach ($data as $o) {
-                                    if (! empty($o->{$object->list_option})) {
+                                    if (!empty($o->{$object->list_option})) {
                                         $data_set[] = $o->{$object->list_option};
                                     }
                                 }
@@ -260,7 +224,7 @@ class DatasetController extends UiController
                         }
 
                         $parameters_dc[$parameter] = $object;
-                    } elseif (! empty($object->group) && $object->group == 'geodcat') {
+                    } elseif (!empty($object->group) && $object->group == 'geodcat') {
                         // Filter Geo params
                         $parameters_geodcat[$parameter] = $object;
                     } else {
@@ -277,7 +241,7 @@ class DatasetController extends UiController
                                 $data_set = array();
 
                                 foreach ($data as $o) {
-                                    if (! empty($o->{$object->list_option})) {
+                                    if (!empty($o->{$object->list_option})) {
                                         $data_set[] = $o->{$object->list_option};
                                     }
                                 }
@@ -297,19 +261,6 @@ class DatasetController extends UiController
             // Filter on unnecessary optional parameters
             unset($parameters_optional['cache_minutes']);
             unset($parameters_optional['draft']);
-            unset($parameters_optional['draft_flag']);
-            unset($parameters_optional['username']);
-            unset($parameters_optional['user_id']);
-            unset($parameters_optional['job_id']);
-            unset($parameters_optional['xslt_file']);
-
-            // Get dataset updates information
-            $updates_info = \DB::table('definitions_updates')
-            ->where('definition_id', $id)
-            ->select('username','updated_at')
-            ->orderBy('updated_at', 'desc')
-            ->limit(10)
-            ->get();
 
             return \View::make('ui.datasets.edit')
                         ->with('title', 'Edit a dataset | The Datatank')
@@ -319,8 +270,7 @@ class DatasetController extends UiController
                         ->with('parameters_optional', $parameters_optional)
                         ->with('parameters_dc', $parameters_dc)
                         ->with('parameters_geodcat', $parameters_geodcat)
-                        ->with('source_definition', $source_definition)
-                        ->with('updates_info', $updates_info);
+                        ->with('source_definition', $source_definition);
 
             return \Response::make($view);
         } else {
@@ -333,15 +283,13 @@ class DatasetController extends UiController
      */
     public function getDelete($id)
     {
+
         // Set permission
         Auth::requirePermissions('admin.dataset.delete');
 
         if (is_numeric($id)) {
             $definition = \Definition::find($id);
             if ($definition) {
-                // Delete definition updates
-                \DB::table('definitions_updates')->where('definition_id', $id)->delete();
-
                 // Delete it (with cascade)
                 $definition->delete();
             }
@@ -405,40 +353,4 @@ class DatasetController extends UiController
 
         return $translatedParameters;
     }
-
-    /**
-     * Autocomplete endpoint "Linking Datasets"
-     *
-     * @return json
-     */	
-	public function autocompleteLinkedDatasets(){
-		$term = \Input::get('term');
-		$currentdef_id = \Input::get('currentdef_id');
-				
-		$results = array();
-		
-		if (isset($currentdef_id)) { // Editing an existing dataset		
-			$queries = \DB::table('definitions')
-				->where('title', 'LIKE', '%' . $term . '%')
-				->orWhere('description', 'LIKE', '%' . $term . '%')
-				->orWhere('resource_name', 'LIKE', '%' . $term . '%')
-				->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
-				->having('id', '!=', $currentdef_id)
-				->get();
-		} else { // Creating a new dataset						
-			$queries = \DB::table('definitions')
-				->where('title', 'LIKE', '%' . $term . '%')
-				->orWhere('description', 'LIKE', '%' . $term . '%')
-				->orWhere('resource_name', 'LIKE', '%' . $term . '%')
-				->orWhere('collection_uri', 'LIKE', '%' . $term . '%')
-				->get();			
-		}
-		
-		foreach ($queries as $query)
-		{
-			$results[] = [ 'id' => $query->id, 'value' => $query->title ];
-		}
-		
-		return \Response::json($results);
-	}		
 }

@@ -10,14 +10,6 @@ namespace Tdt\Core\Formatters;
  * @author Pieter Colpaert   <pieter@irail.be>
  * @author Michiel Vancoillie <michiel@okfn.be>
  */
-
-use DOMDocument;
-use Log;
-use File;
-use XSLTProcessor;
-
-//use SoapBox\Formatter\Formatter;
-
 class CSVFormatter implements IFormatter
 {
     public static function createResponse($dataObj)
@@ -33,74 +25,53 @@ class CSVFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
-
         // Check if its a result of a SPARQL select query
         if ($dataObj->source_definition['type'] == 'SPARQL' && $dataObj->source_definition['query_type'] == 'select') {
             $dataObj->data = self::buildTableFromSparqlResult($dataObj->data);
         }
 
-        //XML format
         if (!is_array($dataObj->data)) {
-
-            $name_xslt_file=$dataObj->source_definition['xslt_file'];
-
-            $xml = new DOMDocument();
-            $xml->loadXML($dataObj->data );
-
-            $xsl = new DOMDocument;
-            $xsl->load($name_xslt_file);
-
-
-            // Processor
-            $proc = new XSLTProcessor;
-            $proc->importStyleSheet($xsl); // adjunta las reglas XSL
-
-           $csv= $proc->transformToXML($xml);
-
-// custom error handler
-
-        }else{
+            \App::abort(400, "You can only request a CSV formatter on a tabular data structure.");
+        }
 
         // Build the body
         $body = '';
 
         $header_printed = false;
-            foreach ($dataObj->data as $row) {
-                if (is_object($row)) {
-                    $row = get_object_vars($row);
-                } elseif (!is_array($row)) {
-                    $body .= $row . "\n";
-                    continue;
-                }
+        foreach ($dataObj->data as $row) {
+            if (is_object($row)) {
+                $row = get_object_vars($row);
+            } elseif (!is_array($row)) {
+                $body .= $row . "\n";
+                continue;
+            }
 
-                // Print header
-                if (!$header_printed) {
-                    $i = 0;
-                    foreach ($row as $key => $value) {
-                        $body .= CSVFormatter::enclose($key);
-                        $body .= sizeof($row)-1 != $i ? ";" : "\n";
-                        $i++;
-                    }
-                    $header_printed = true;
-                }
-
+            // Print header
+            if (!$header_printed) {
                 $i = 0;
-                foreach ($row as $element) {
-                    if (is_object($element)) {
-                        \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
-                    } elseif (is_array($element)) {
-                        \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
-                    } else {
-                        $body .= CSVFormatter::enclose($element);
-                    }
+                foreach ($row as $key => $value) {
+                    $body .= CSVFormatter::enclose($key);
                     $body .= sizeof($row)-1 != $i ? ";" : "\n";
                     $i++;
                 }
+                $header_printed = true;
             }
-            $csv=$body;
+
+            $i = 0;
+            foreach ($row as $element) {
+                if (is_object($element)) {
+                    \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
+                } elseif (is_array($element)) {
+                    \App::abort(400, "You can only request a CSV formatter on a tabular datastructure.");
+                } else {
+                    $body .= CSVFormatter::enclose($element);
+                }
+                $body .= sizeof($row)-1 != $i ? ";" : "\n";
+                $i++;
+            }
         }
 
-        return $csv;
+        return $body;
     }
 
     public static function getDocumentation()
