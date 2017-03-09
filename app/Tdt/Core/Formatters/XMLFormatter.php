@@ -2,8 +2,8 @@
 
 namespace Tdt\Core\Formatters;
 
-define("NUMBER_TAG_PREFIX", "_");
-define("DEFAULT_ROOTNAME", "data");
+define('NUMBER_TAG_PREFIX', '_');
+define('DEFAULT_ROOTNAME', 'data');
 
 /**
  * XML Formatter
@@ -37,6 +37,11 @@ class XMLFormatter implements IFormatter
 
     public static function getBody($dataObj)
     {
+        // Check if the original data is not GeoJSON
+        if ($dataObj->source_definition['type'] == 'KML' || $dataObj->source_definition['type'] == 'XML') {
+            return $dataObj->data;
+        }
+
         // Rootname equals resource name
         $rootname = 'root';
 
@@ -45,7 +50,7 @@ class XMLFormatter implements IFormatter
 
             // Check if a configuration is given
             $conf = array();
-            if (!empty($dataObj->semantic->conf)) {
+            if (! empty($dataObj->semantic->conf)) {
                 $conf = $dataObj->semantic->conf;
             }
 
@@ -111,14 +116,14 @@ class XMLFormatter implements IFormatter
                 self::$isRootElement = false;
 
                 foreach (self::$prefixes as $prefix => $uri) {
-                    $object .= " xmlns:" . $prefix . "=\"$uri\"";
+                    $object .= ' xmlns:' . $prefix . "=\"$uri\"";
                 }
             }
 
-            $object .=">";
+            $object .= '>';
 
             // Check for attributes
-            if (!empty($data['@attributes'])) {
+            if (! empty($data['@attributes'])) {
 
                 $attributes = $data['@attributes'];
 
@@ -131,7 +136,7 @@ class XMLFormatter implements IFormatter
 
                         $name = self::getFullName($name);
 
-                        $object .= " " . $name . '=' . '"' . htmlspecialchars($value) . '"';
+                        $object .= ' ' . $name . '=' . '"' . htmlspecialchars($value) . '"';
                     }
 
                     $object .= '>';
@@ -206,8 +211,6 @@ class XMLFormatter implements IFormatter
             $object .= "</$xml_tag>";
         }
 
-
-
         return $object;
     }
 
@@ -230,6 +233,6 @@ class XMLFormatter implements IFormatter
 
     public static function getDocumentation()
     {
-        return "Prints plain old XML. Watch out for tags starting with an integer: an underscore will be added.";
+        return 'Prints plain old XML. Watch out for tags starting with an integer: an underscore will be added.';
     }
 }
