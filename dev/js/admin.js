@@ -366,15 +366,15 @@ $('.btn-edit-dataset').on('click', function(e){
 				}
 			}
 		})
-	} else if( tab_pane.find("#fileupload_xslt").length &&  (tab_pane.find("#fileupload_xslt").length != 0 || tab_pane.find("#fileupload_xslt")[0].files.length != 0) ){
+	} else if( form.find("#fileupload_xslt").length &&  (form.find("#fileupload_xslt").length != 0 || form.find("#fileupload_xslt")[0].files.length != 0) ){
         // Upload dataset file
-        var file = tab_pane.find('input[type=file]')[0].files[0];
+        var file = form.find('input[type=file]')[0].files[0];
         var fd = new FormData();
         fd.append("fileupload", file);
 
 
         // Upload xslt file
-        var fileupload_xslt = tab_pane.find('#fileupload_xslt')[0].files[0];
+        var fileupload_xslt = form.find('#fileupload_xslt')[0].files[0];
         fd.append("fileupload_xslt", fileupload_xslt);
 
         // Ajax call: upload file
