@@ -366,7 +366,7 @@ $('.btn-edit-dataset').on('click', function(e){
 				}
 			}
 		})
-	} else if( form.find("#fileupload_xslt").length &&  (form.find("#fileupload_xslt").length != 0 || form.find("#fileupload_xslt")[0].files.length != 0) ){
+	} else if(form.find("#fileupload_xslt").length &&  (form.find("#fileupload_xslt").length != 0 || form.find("#fileupload_xslt")[0].files.length != 0) ){
         // Upload dataset file
         var file = form.find('input[type=file]')[0].files[0];
         var fd = new FormData();
@@ -389,9 +389,9 @@ $('.btn-edit-dataset').on('click', function(e){
                 data["fileupload"] = data1;
                 // Ajax call: add dataset
                 $.ajax({
-                    url: baseURL + "api/definitions/" + collection,
+                    url: baseURL + "api/definitions/" + identifier,
                     data: JSON.stringify(data),
-                    method: "PUT",
+                    method: "POST",
                     headers: {
                         'Accept' : 'application/json',
                         'Content-Type': 'application/tdt.definition+json',
@@ -405,8 +405,8 @@ $('.btn-edit-dataset').on('click', function(e){
                         if(e.status != 405){
                             var error = JSON.parse(e.responseText);
                             if(error.error && error.error.message){
-                                $('.error .text', tab_pane).html(error.error.message);
-                                $('.error', tab_pane).removeClass('hide').show().focus();
+                                $('.error .text').html(error.error.message);
+                                $('.error').removeClass('hide').show().focus();
                             }
                         }else{
                             // Ajax followed location header -> ignore

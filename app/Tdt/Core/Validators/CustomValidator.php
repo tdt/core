@@ -27,6 +27,7 @@ class CustomValidator extends \Illuminate\Validation\Validator
                 return ! empty($data);
             }
         } catch (\Exception $ex) {
+            \Log::error($ex->getMessage());
             return false;
         }
     }

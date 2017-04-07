@@ -69,7 +69,6 @@ class DatasetController extends ApiController
                     $definition['source_type']
                 );
 
-
                 if($definition['xslt_file']) {
                     $source_definition['xslt_file'] = $definition['xslt_file'];
                 }
