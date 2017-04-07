@@ -496,6 +496,8 @@ class DefinitionController extends ApiController
         $input['username'] = $definition['username'];
         $input['xslt_file'] = $definition['xslt_file'];
 
+        \Log::info($input['xslt_file']);
+
         // Keep associated job
         $input['job_id'] = $definition['job_id'];
 
