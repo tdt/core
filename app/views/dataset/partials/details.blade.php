@@ -22,7 +22,7 @@
             @endforeach
         </div>
     </li>
-	
+
     @if(Sentry::check())
         <li class="list-group-item">
             <h5 class="list-group-item-heading">{{ trans('htmlview.created_by') }}</h5>
@@ -37,8 +37,8 @@
 			@endforeach
 			@endif
         </li>
-    @endif	
-	
+    @endif
+
     @if(!empty($source_definition['description']))
         <li class="list-group-item">
             <h5 class="list-group-item-heading">{{ trans('htmlview.description') }}</h5>
