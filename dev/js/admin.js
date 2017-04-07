@@ -341,7 +341,7 @@ $('.btn-edit-dataset').on('click', function(e){
 	// Check uri source (fileupload field)
     if(form.find("#fileupload_xslt").length &&  (form.find("#fileupload_xslt").length != 0 || form.find("#fileupload_xslt")[0].files.length != 0) ){
         // Upload dataset file
-        console.log("upload");
+
         var file = form.find('input[type=file]')[0].files[0];
         var fd = new FormData();
         fd.append("fileupload", file);
@@ -392,7 +392,6 @@ $('.btn-edit-dataset').on('click', function(e){
         });
     } else if(form.find("#fileupload").length == 0 || form.find("#fileupload")[0].files.length == 0 ){
 		// Ajax call: no file selected
-        console.log("no upload");
 		$.ajax({
 			url: baseURL + "api/definitions/" + identifier,
 			data: JSON.stringify(data),
@@ -424,7 +423,7 @@ $('.btn-edit-dataset').on('click', function(e){
 		var file = form.find('input[type=file]')[0].files[0];
 		var fd = new FormData();
 		fd.append("fileupload", file);
-        console.log("upload the normal file");
+
 		// Ajax call: upload file
 		$.ajax({
 			async: true,
