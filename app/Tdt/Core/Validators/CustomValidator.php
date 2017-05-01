@@ -20,7 +20,8 @@ class CustomValidator extends \Illuminate\Validation\Validator
 
             if (! filter_var($value, FILTER_VALIDATE_URL) === false && ($url_pieces['scheme'] == 'http' || $url_pieces['scheme'] == 'https')) {
                 $status = $this->getHeadInfo($value);
-                return $status == 200;
+
+                return $status < 400 && $status >= 200;
             } else {
                 $data = @ file_get_contents($value);
 
