@@ -4,8 +4,8 @@ namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Cache\Cache;
 use Tdt\Core\Datasets\Data;
-use Symfony\Component\HttpFoundation\Request;
-use Tdt\Core\utils\XMLSerializer;
+
+ini_set('default_socket_timeout', 5);
 
 /**
  * XML Controller
@@ -34,9 +34,9 @@ class XMLController extends ADataController
             $data = Cache::get($uri);
         } else {
             // Fetch the data
-            $data =@ file_get_contents($uri);
+            $data = @ file_get_contents($uri);
 
-            if (!empty($data)) {
+            if (! empty($data)) {
                 Cache::put($uri, $data, $source_definition['cache']);
             } else {
                 $uri = $source_definition['uri'];
@@ -49,7 +49,7 @@ class XMLController extends ADataController
         $data_result->semantic = $this->prefixes;
         $data_result->preferred_formats = $this->getPreferredFormats();
 
-        if (!empty($source_definition['geo_formatted']) && $source_definition['geo_formatted']) {
+        if (! empty($source_definition['geo_formatted']) && $source_definition['geo_formatted']) {
             $data_result->geo_formatted = true;
             $data_result->preferred_formats = array('geojson', 'map', 'php');
         }
