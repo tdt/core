@@ -33,8 +33,15 @@ class XMLController extends ADataController
         if (Cache::has($uri)) {
             $data = Cache::get($uri);
         } else {
+            $config = stream_context_create(array(
+            'http' => array(
+                'method' => 'GET',
+                'timeout' => 2,
+                )
+            ));
+
             // Fetch the data
-            $data = @ file_get_contents($uri);
+            $data = @ file_get_contents($uri, $config);
 
             if (! empty($data)) {
                 Cache::put($uri, $data, $source_definition['cache']);

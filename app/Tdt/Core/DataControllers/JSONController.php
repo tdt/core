@@ -4,10 +4,11 @@ namespace Tdt\Core\DataControllers;
 
 use Tdt\Core\Cache\Cache;
 use Tdt\Core\Datasets\Data;
-use Symfony\Component\HttpFoundation\Request;
 use ML\JsonLD\JsonLD;
 use ML\JsonLD\NQuads;
 use EasyRdf\Graph;
+
+ini_set('default_socket_timeout', 5);
 
 /**
  * JSON Controller
@@ -93,15 +94,22 @@ class JSONController extends ADataController
             return Cache::get($uri);
         }
 
-        if (!filter_var($uri, FILTER_VALIDATE_URL) === false) {
+        $config = stream_context_create(array(
+            'http' => array(
+                'method' => 'GET',
+                'timeout' => 2,
+                )
+            ));
+
+        if (! filter_var($uri, FILTER_VALIDATE_URL) === false) {
             $parts = parse_url($uri);
             if ($parts['scheme'] != 'file') {
                 $data = $this->getRemoteData($uri);
             } else {
-                $data =@ file_get_contents($uri);
+                $data = @ file_get_contents($uri, $config);
             }
         } else {
-            $data =@ file_get_contents($uri);
+            $data = @ file_get_contents($uri, $config);
         }
 
         if ($data) {
@@ -166,7 +174,7 @@ class JSONController extends ADataController
         curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($c, CURLOPT_MAXREDIRS, 10);
-        $follow_allowed= ( ini_get('open_basedir') || ini_get('safe_mode')) ? false:true;
+        $follow_allowed = ( ini_get('open_basedir') || ini_get('safe_mode')) ? false : true;
 
         if ($follow_allowed) {
             curl_setopt($c, CURLOPT_FOLLOWLOCATION, 1);
@@ -174,7 +182,7 @@ class JSONController extends ADataController
 
         curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 9);
         curl_setopt($c, CURLOPT_REFERER, $url);
-        curl_setopt($c, CURLOPT_TIMEOUT, 60);
+        curl_setopt($c, CURLOPT_TIMEOUT, 2);
         curl_setopt($c, CURLOPT_AUTOREFERER, true);
         curl_setopt($c, CURLOPT_ENCODING, 'gzip,deflate');
         $data = curl_exec($c);
@@ -189,7 +197,9 @@ class JSONController extends ADataController
         if ($status['http_code'] == 200) {
             return $data;
         } elseif ($status['http_code'] == 301 || $status['http_code'] == 302) {
-            \App::abort(400, "The JSON URL redirected us to a different URI.");
+            \App::abort(400, 'The JSON URL redirected us to a different URI.');
+        } elseif ($status > 300) {
+            \App::abort(400, 'The JSON source is not available at this moment.');
         }
 
         return $data;
@@ -197,7 +207,7 @@ class JSONController extends ADataController
 
     protected function remapBnode($name, $graph)
     {
-        if (!isset($this->bnodeMap[$name])) {
+        if (! isset($this->bnodeMap[$name])) {
             $this->bnodeMap[$name] = $graph->newBNodeId();
         }
         return $this->bnodeMap[$name];
