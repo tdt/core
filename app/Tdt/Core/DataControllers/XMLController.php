@@ -36,7 +36,7 @@ class XMLController extends ADataController
             $config = stream_context_create(array(
             'http' => array(
                 'method' => 'GET',
-                'timeout' => 60,
+                'timeout' => 2,
                 )
             ));
 
