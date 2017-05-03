@@ -106,10 +106,10 @@ class JSONController extends ADataController
             if ($parts['scheme'] != 'file') {
                 $data = $this->getRemoteData($uri);
             } else {
-                $data = @ file_get_contents($uri, $config);
+                $data = @ file_get_contents($uri, 0, $config);
             }
         } else {
-            $data = @ file_get_contents($uri, $config);
+            $data = @ file_get_contents($uri, 0, $config);
         }
 
         if ($data) {
