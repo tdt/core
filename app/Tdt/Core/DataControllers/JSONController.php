@@ -97,7 +97,7 @@ class JSONController extends ADataController
         $config = stream_context_create(array(
             'http' => array(
                 'method' => 'GET',
-                'timeout' => 2,
+                'timeout' => 35,
                 )
             ));
 
@@ -182,7 +182,7 @@ class JSONController extends ADataController
 
         curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 9);
         curl_setopt($c, CURLOPT_REFERER, $url);
-        curl_setopt($c, CURLOPT_TIMEOUT, 2);
+        curl_setopt($c, CURLOPT_TIMEOUT, 35);
         curl_setopt($c, CURLOPT_AUTOREFERER, true);
         curl_setopt($c, CURLOPT_ENCODING, 'gzip,deflate');
         $data = curl_exec($c);
