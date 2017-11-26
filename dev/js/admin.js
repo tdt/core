@@ -242,7 +242,7 @@ $('.btn-add-dataset').on('click', function(e){
                     }
                 });
             },
-            timeout: 10000
+            timeout: 30000
         });
     }
 
@@ -290,7 +290,7 @@ $('.btn-add-dataset').on('click', function(e){
 					}
 				});
 			},
-			timeout: 10000
+			timeout: 30000
 		});
 	}
 });
@@ -388,7 +388,7 @@ $('.btn-edit-dataset').on('click', function(e){
                     }
                 });
             },
-            timeout: 10000
+            timeout: 30000
         });
     } else if(form.find("#fileupload").length == 0 || form.find("#fileupload")[0].files.length == 0 ){
 		// Ajax call: no file selected
@@ -461,7 +461,7 @@ $('.btn-edit-dataset').on('click', function(e){
 					}
 				});
 			},
-			timeout: 10000
+			timeout: 30000
 		});
 	}
 
