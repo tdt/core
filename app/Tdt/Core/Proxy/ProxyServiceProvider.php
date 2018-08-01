@@ -1,4 +1,8 @@
-<?php namespace Tdt\Core\Proxy;
+<?php
+
+namespace Tdt\Core\Proxy;
+
+use Illuminate\Support\ServiceProvider;
 
 /**
  * See http://fideloper.com/laravel-4-trusted-proxies
