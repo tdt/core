@@ -11,10 +11,10 @@
  */
 
 // we read a .env file as would be the case with Laravel 5
-$env_file = dirname(__FILE__) . '/.env';
+/*$env_file = dirname(__FILE__) . '/.env';
 
 // parse this as properties defined in the .env file
-/*$properties = parse_ini_file($env_file);
+$properties = parse_ini_file($env_file);
 
 $proxy_url = $properties['PROXY_URL'];
 $proxy_schema = $properties['PROXY_SCHEMA'];
