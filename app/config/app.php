@@ -123,6 +123,7 @@ return array(
         'Tdt\Core\Repositories\DbServiceProvider',
         'Tdt\Core\Analytics\TrackerServiceProvider',
         'Tdt\Input\InputServiceProvider',
+        'Tdt\Core\Proxy\ProxyServiceProvider',
     ),
 
     /*
