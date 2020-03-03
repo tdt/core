@@ -245,7 +245,7 @@ class DatasetController extends ApiController
                     // Return the formatted response with content negotiation
                     return ContentNegotiator::getResponse($data, $extension);
                 } else {
-                    \App::abort(404, "The dataset or collection you were looking for could not be found (URI: $uri).");
+                    \App::abort(404, "The dataset or collection you were looking for could not be found (URI).");
                 }
             }
 
