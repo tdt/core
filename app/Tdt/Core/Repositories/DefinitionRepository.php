@@ -11,7 +11,7 @@ class DefinitionRepository extends BaseDefinitionRepository implements Definitio
     protected $dcat_rules = [
         'resource_name' => 'required',
         'collection_uri' => 'required|collectionuri',
-        'contact_point' => 'uri',
+        'contact_point' => 'required|email',
     ];
 
     protected $geodcat_rules = [
